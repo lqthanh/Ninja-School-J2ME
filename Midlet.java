@@ -377,43 +377,8 @@ public class Midlet extends MIDlet implements Runnable {
 
     public Midlet() {
         c = this;
-        byte[] var1;
-        byte var5 = (var1 = b("nexpire")) == null ? -1 : var1[0];
-        boolean var2 = false;
-        if (var5 == -1) {
-            int var3 = Calendar.getInstance().get(2);
-            if (Calendar.getInstance().get(1) != 2009) {
-                var2 = true;
-            }
-
-            if (var3 > 9 || var3 < 3) {
-                var2 = true;
-            }
-        }
-
-        if (var5 == 2) {
-            var2 = true;
-        }
-
-        /*if (var2) {
-            c(2);
-            Form var6;
-            (var6 = new Form("Tea Mobile")).append("Vui lòng chuyển ngày trên điện thoại về ngày 19-5-2009 rồi tải lại trò chơi này và mở ra thì mới chơi được, chơi xong cài lại ngày hiện tại vẫn chơi bình thường.");
-            var6.addCommand(new Command("Download", 4, 1));
-            var6.addCommand(new Command("Exit", 7, 1));
-            var6.setCommandListener(new a(this));
-            Display.getDisplay(this).setCurrent(var6);
-        } else { */
-        c(1);
         Display.getDisplay(this).setCurrent(b);
         b.s();
-        //}
-    }
-
-    private static void c(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte) var0;
-        a("nexpire", var1);
     }
 
     protected void destroyApp(boolean var1) {
