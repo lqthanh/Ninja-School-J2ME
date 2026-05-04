@@ -1,5 +1,4 @@
 
-import java.util.Calendar;
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Display;
@@ -69,27 +68,7 @@ public class Midlet extends MIDlet implements Runnable {
                     System.gc();
                 }
 
-                switch (var0) {
-                case 0:
-                    s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + "TamLongSon" + ".mid"), "audio/midi");
-                    break;
-                case 1:
-                    s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + "TruocKhiEmTonTai" + ".mid"), "audio/midi");
-                    break;
-                case 2:
-                    s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + "Cupid" + ".mid"), "audio/midi");
-                    break;
-                case 3: 
-                    s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + "GhostCityTokyo" + ".mid"), "audio/midi");
-                    break;
-                case 4:
-                    s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + "HesAPirate" + ".mid"), "audio/midi");
-                    break;
-                default:
-                    s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + var0 + ".mid"), "audio/midi");
-                    break;
-                }
-                
+                (s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + var0 + ".mid"), "audio/midi")).realize();                
                 ((VolumeControl) s.getControl("VolumeControl")).setLevel(100);
                 s.prefetch();
                 s.setLoopCount(1000);
