@@ -17,148 +17,34 @@ public class Midlet extends MIDlet implements Runnable {
     public static int d;
     public static boolean e;
     public static boolean f;
-    private static Image[] j;
-    private static final int[] k = new int[]{5, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 6, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 5, 5};
-    private static int l = 8;
-    private static Image m;
-    private static final int[] n = new int[]{2, 6, 3, 5, 6, 6, 6, 5, 6, 6, 6, 3, 3, 3, 2, 6, 4, 4, 5, 3, 6, 8, 8, 8, 8, 8, 8, 8, 8, 3, 8, 8, 8, 10, 8, 8, 8, 8, 8, 7, 8, 8, 8, 10, 8, 8, 8, 6, 6, 6, 6, 6, 5, 6, 6, 3, 5, 6, 3, 8, 6, 6, 6, 6, 6, 6, 5, 6, 6, 8, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 3, 3, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
-    private static int o = 12;
-    private static Image p;
-    private static final int[] q = new int[]{3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 4, 3, 3, 3, 6, 7, 7, 8, 5, 11, 11, 7, 6, 10, 6, 7, 5, 7, 6, 5, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 5, 4, 8, 6, 9, 7, 6, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 7, 8, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7, 8, 7, 7, 7, 8, 7, 8, 8, 8, 7, 7, 8, 7, 6, 7, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 7, 8, 7, 7, 8, 6, 6, 8, 8, 3, 6, 7, 6, 11, 9, 8, 7, 8, 7, 5, 6, 8, 7, 11, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 5, 5, 5, 6, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 10, 10, 10, 10, 10, 10, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 7, 7, 7, 7, 7, 9};
-    private static int r = 13;
     public static int g = 0;
 
     static {
-        try {
-            j = new Image[3];
-
-            for (int var0 = 0; var0 < 3; ++var0) {
-                j[var0] = Image.createImage("/fs" + var0 + ".png");
-            }
-        } catch (Exception var3) {
-        }
-
-        try {
-            m = Image.createImage("/fr.png");
-        } catch (Exception var2) {
-        }
-
-        try {
-            p = Image.createImage("/fb.png");
-        } catch (Exception var1) {
-        }
-
+        Font.init();
     }
 
     public static void a(Graphics var0, String var1, int var2, int var3, int var4) {
-        int var5 = var1.length();
-        if (var4 == 0) {
-            var4 = var2;
-        } else if (var4 == 1) {
-            var4 = var2 - a(var1);
-        } else {
-            var4 = var2 - (a(var1) >> 1);
-        }
-
-        for (int var6 = 0; var6 < var5; ++var6) {
-            if ((var2 = " 0123456789.,:!?()+-*/#$%abcdefghijklmnopqrstuvwxyzáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(var1.charAt(var6))) == -1) {
-                var2 = 0;
-            }
-
-            if (var2 > -1) {
-                var0.drawRegion(p, 0, var2 * r + 1, q[var2], r - 1, 0, var4, var3, 20);
-            }
-
-            var4 += q[var2];
-        }
-
+        Font.drawBold(var0, var1, var2, var3, var4);
     }
 
     public static void b(Graphics var0, String var1, int var2, int var3, int var4) {
-        int var5 = var1.length();
-        var4 = var2 - (c(var1) >> 1);
-
-        for (int var6 = 0; var6 < var5; ++var6) {
-            if ((var2 = " 0123456789.,:!?()-'/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđĐ".indexOf(var1.charAt(var6))) == -1) {
-                var2 = 0;
-            }
-
-            if (var2 > -1) {
-                var0.drawRegion(m, 0, var2 * o + 1, n[var2], o - 1, 0, var4, var3, 20);
-            }
-
-            var4 += n[var2];
-        }
-
+        Font.drawRegularCentered(var0, var1, var2, var3);
     }
 
     public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5) {
-        int var6 = var1.length();
-        if (var5 == 0) {
-            var5 = var3;
-        } else if (var5 == 1) {
-            var5 = var3 - d(var1);
-        } else {
-            var5 = var3 - (d(var1) >> 1);
-        }
-
-        for (int var7 = 0; var7 < var6; ++var7) {
-            if ((var3 = "0123456789+-%$:abcdefghijklmnopqrstuvwxyz".indexOf(var1.charAt(var7))) == -1) {
-                var3 = 0;
-            }
-
-            if (var3 > -1) {
-                var0.drawRegion(j[var2], 0, var3 * l, k[var3], l, 0, var5, var4, 20);
-            }
-
-            var5 += k[var3] - 1;
-        }
-
+        Font.drawSmall(var0, var1, var2, var3, var4, var5);
     }
 
     public static int a(String var0) {
-        int var2 = 0;
-
-        for (int var3 = 0; var3 < var0.length(); ++var3) {
-            int var1;
-            if ((var1 = " 0123456789.,:!?()+-*/#$%abcdefghijklmnopqrstuvwxyzáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(var0.charAt(var3))) == -1) {
-                var1 = 0;
-            }
-
-            var2 += q[var1];
-        }
-
-        return var2;
+        return Font.getBoldWidth(var0);
     }
 
     private static int c(String var0) {
-        int var2 = 0;
-
-        for (int var3 = 0; var3 < var0.length(); ++var3) {
-            int var1;
-            if ((var1 = " 0123456789.,:!?()-'/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵđĐ".indexOf(var0.charAt(var3))) == -1) {
-                var1 = 0;
-            }
-
-            var2 += n[var1];
-        }
-
-        return var2;
+        return Font.getRegularWidth(var0);
     }
 
     private static int d(String var0) {
-        int var2 = 0;
-
-        for (int var3 = 0; var3 < var0.length(); ++var3) {
-            int var1;
-            if ((var1 = "0123456789+-%$:abcdefghijklmnopqrstuvwxyz".indexOf(var0.charAt(var3))) == -1) {
-                var1 = 0;
-            }
-
-            var2 += k[var1] + 1;
-        }
-
-        return var2;
+        return Font.getSmallWidth(var0);
     }
 
     public static byte[] b(String var0) {

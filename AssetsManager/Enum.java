@@ -2,6 +2,7 @@ package AssetsManager;
 
 public final class Enum {
 	public static final String PATH_BACKGROUND = "/assets/background/";
+	public static final String PATH_FONT = "/assets/font/";
 	public static final String PATH_SOUND = "/assets/sound/";
 
 	public static final String TYPE_MIME = "audio/midi";

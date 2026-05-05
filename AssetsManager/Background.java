@@ -3,7 +3,6 @@ package AssetsManager;
 import javax.microedition.lcdui.Image;
 
 public final class Background {
-
     private static final int LAYER_COUNT = 4;
 
     private Background() {
