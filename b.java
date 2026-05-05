@@ -1,3 +1,5 @@
+import AssetsManager.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import javax.microedition.lcdui.Canvas;
@@ -10637,7 +10639,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var3 = false;
                     if (aS[12]) {
                         if (ll == 0) {
-                            Midlet.h = false;
+                            Sound.disabled = false;
                         } else {
                             a = false;
                         }
@@ -10645,7 +10647,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         var3 = true;
                     } else if (aS[13]) {
                         if (ll == 0) {
-                            Midlet.h = true;
+                            Sound.disabled = true;
                         } else {
                             a = true;
                         }

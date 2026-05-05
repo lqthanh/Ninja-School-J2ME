@@ -1,3 +1,4 @@
+import AssetsManager.*;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Command;
@@ -5,15 +6,10 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import javax.microedition.media.Manager;
-import javax.microedition.media.MediaException;
-import javax.microedition.media.Player;
-import javax.microedition.media.control.VolumeControl;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.rms.RecordStore;
 
 public class Midlet extends MIDlet implements Runnable {
-
     static boolean a;
     static b b;
     static Midlet c;
@@ -31,9 +27,6 @@ public class Midlet extends MIDlet implements Runnable {
     private static final int[] q = new int[]{3, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 4, 3, 3, 3, 6, 7, 7, 8, 5, 11, 11, 7, 6, 10, 6, 7, 5, 7, 6, 5, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 5, 4, 8, 6, 9, 7, 6, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 7, 8, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7, 8, 7, 7, 7, 8, 7, 8, 8, 8, 7, 7, 8, 7, 6, 7, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 7, 8, 7, 7, 8, 6, 6, 8, 8, 3, 6, 7, 6, 11, 9, 8, 7, 8, 7, 5, 6, 8, 7, 11, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 5, 5, 5, 6, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 10, 10, 10, 10, 10, 10, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 7, 7, 7, 7, 7, 9};
     private static int r = 13;
     public static int g = 0;
-    private static Player s;
-    private static int t;
-    public static boolean h;
 
     static {
         try {
@@ -55,30 +48,6 @@ public class Midlet extends MIDlet implements Runnable {
         } catch (Exception var1) {
         }
 
-        t = -1;
-    }
-
-    private static void b(int var0) {
-        if (var0 != t) {
-            try {
-                if (s != null) {
-                    s.stop();
-                    s.deallocate();
-                    s = null;
-                    System.gc();
-                }
-
-                (s = Manager.createPlayer("".getClass().getResourceAsStream("/s/" + var0 + ".mid"), "audio/midi")).realize();                
-                ((VolumeControl) s.getControl("VolumeControl")).setLevel(100);
-                s.prefetch();
-                s.setLoopCount(1000);
-                t = var0;
-            } catch (Exception var1) {
-                var1.printStackTrace();
-                System.gc();
-                h = true;
-            }
-        }
     }
 
     public static void a(Graphics var0, String var1, int var2, int var3, int var4) {
@@ -361,15 +330,7 @@ public class Midlet extends MIDlet implements Runnable {
     }
 
     protected void destroyApp(boolean var1) {
-        if (s != null) {
-            try {
-                s.stop();
-            } catch (MediaException var2) {
-            }
-
-            s.deallocate();
-        }
-
+        Sound.stopAndRelease();
     }
 
     public final void c() {
@@ -531,33 +492,29 @@ public class Midlet extends MIDlet implements Runnable {
                 case 0:
                 case 1:
                 case 2:
-                    b(1);
+                    Sound.loadTrack(1);
                     break;
                 case 3:
                 case 4:
                 case 5:
                 case 6:
                 case 7:
-                    b(2);
+                    Sound.loadTrack(2);
                     break;
                 case 95:
                 case 96:
                 case 97:
-                    b(4);
+                    Sound.loadTrack(4);
                     break;
                 case 99:
-                    b(0);
+                    Sound.loadTrack(0);
                     break;
                 default:
-                    b(3);
+                    Sound.loadTrack(3);
             }
 
-            if (!h) {
-                try {
-                    s.start();
-                } catch (Exception var1) {
-                    var1.printStackTrace();
-                }
+            if (!Sound.isDisabled()) {
+                Sound.start();
             }
         } catch (Exception var3) {
             var3.printStackTrace();
