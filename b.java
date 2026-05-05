@@ -14439,7 +14439,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void a(String var0, String var1, int var2) {
-        (new Thread(new c(var1, var0, var2))).start();
+        if (var2 == 0) {
+            Z = 6;
+            return;
+        }
+
+        s(7);
+        a("Không thể mua. Xin hãy thử lại sau.");
+        Y = V;
+        e = 7;
     }
 
     public static void t() {
