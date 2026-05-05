@@ -401,21 +401,9 @@ public class Midlet extends MIDlet implements Runnable {
             int var4;
             try {
                 if (!b.a) {
-                    if (b.t == null) {
-                        b.t = new Image[4];
-
-                        for (var4 = 0; var4 < 4; ++var4) {
-                            b.t[var4] = Image.createImage("/bg" + var4 + g + ".png");
-                        }
-                    }
-
-                    if (b.u == null) {
-                        b.u = Image.createImage("/cl" + g + ".png");
-                    }
-
-                    if (b.v == null) {
-                        b.v = Image.createImage("/sun" + g + ".png");
-                    }
+                    b.t = Background.ensureLayers(b.t, g);
+                    b.u = Background.ensureCloud(b.u, g);
+                    b.v = Background.ensureSun(b.v, g);
                 }
             } catch (Exception var2) {
             }
