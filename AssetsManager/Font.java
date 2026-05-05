@@ -68,8 +68,16 @@ public final class Font {
         }
     }
 
-    public static void drawRegularCentered(Graphics g, String text, int x, int y) {
+    public static void drawRegular(Graphics g, String text, int x, int y, int align) {
         int drawX = x - (getRegularWidth(text) >> 1);
+        // if (align == 0) {
+        //     drawX = x;
+        // } else if (align == 1) {
+        //     drawX = x - getRegularWidth(text);
+        // } else {
+        //     drawX = x - (getRegularWidth(text) >> 1);
+        // }
+
         int length = text.length();
         for (int i = 0; i < length; i++) {
             int index = REGULAR_CHARS.indexOf(text.charAt(i));

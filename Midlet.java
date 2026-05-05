@@ -28,7 +28,7 @@ public class Midlet extends MIDlet implements Runnable {
     }
 
     public static void b(Graphics var0, String var1, int var2, int var3, int var4) {
-        Font.drawRegularCentered(var0, var1, var2, var3);
+        Font.drawRegular(var0, var1, var2, var3, var4);
     }
 
     public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5) {
