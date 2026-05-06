@@ -191,17 +191,10 @@ public class Midlet extends MIDlet implements Runnable {
         b.s();
     }
 
-    protected void destroyApp(boolean var1) {
-        Sound.stopAndRelease();
-    }
-
     public final void c() {
         b.b = false;
         System.gc();
         this.notifyDestroyed();
-    }
-
-    protected void pauseApp() {
     }
 
     public void run() {
@@ -378,6 +371,18 @@ public class Midlet extends MIDlet implements Runnable {
         b.e = d;
     }
 
+    // #region App
+
     protected void startApp() {
     }
+
+    protected void destroyApp(boolean var1) {
+        Sound.stopAndRelease();
+    }
+
+    protected void pauseApp() {
+    }
+
+    // #endregion
+
 }
