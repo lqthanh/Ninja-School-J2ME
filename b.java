@@ -1,4 +1,5 @@
 import assets.*;
+import save.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -1469,12 +1470,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var6[(var3 << 2) + 3] = (byte)var5[var3];
         }
 
-        Midlet.saveRecord("ninjasave", var6);
-        Midlet.markSaved();
+        Save.saveRecord("ninjasave", var6);
+        Save.markSaved();
     }
 
     public static void b() {
-        int[] var0 = a(Midlet.loadRecord("ninjasave"));
+        int[] var0 = a(Save.loadRecord("ninjasave"));
         int var2 = 0;
         ++var2;
         gL = var0[0];
@@ -3435,7 +3436,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         aY = 30;
         aZ = aU - 50;
         ba = bb = aY + aZ >> 1;
-        if (Midlet.isSaved()) {
+        if (Save.isSaved()) {
             aX = 1;
         }
 
@@ -6881,7 +6882,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         Midlet.b = new b();
         ad();
         b var0 = Midlet.b;
-        Midlet.setBackgroundIndex((Midlet.g = Midlet.getBackgroundIndex()) == 0 ? 1 : 0);
+        Save.setBackgroundIndex((Midlet.g = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         e = 13;
         ai();
         e = 4;
@@ -10135,14 +10136,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 gM = System.currentTimeMillis();
                                 x(99);
                             } else if (aX == 1) {
-                                if (!Midlet.isSaved()) {
+                                if (!Save.isSaved()) {
                                     break label2172;
                                 }
 
                                 eA = null;
                                 B();
                                 int[] var12;
-                                gL = (var12 = a(Midlet.loadRecord("ninjasave")))[0];
+                                gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
                                 w = var12[1];
                                 x = var12[2];
                                 eE = var12[3] == 1;
