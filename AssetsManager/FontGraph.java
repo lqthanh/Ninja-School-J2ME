@@ -3,7 +3,7 @@ package AssetsManager;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-public final class Font {
+public final class FontGraph {
     private static final String SMALL_CHARS = "0123456789+-%$:abcdefghijklmnopqrstuvwxyz";
     private static final int[] SMALL_WIDTHS = new int[]{5, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 6, 5, 5, 5, 5, 5, 5, 5, 5, 7, 5, 5, 5};
     private static final int SMALL_HEIGHT = 8;
@@ -40,7 +40,7 @@ public final class Font {
         }
     }
 
-    private Font() {
+    private FontGraph() {
     }
 
     public static void init() {

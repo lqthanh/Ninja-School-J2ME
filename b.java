@@ -4096,8 +4096,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.fillRect(24, 15, var1, 2);
             var0.setColor(19506);
             var0.fillRect(var1 + 24, 15, bo - var1, 2);
-            Midlet.a(var0, "lv:" + N, 2, bq, 7, 0);
-            Midlet.a(var0, dd + "$", 1, br, 7, 0);
+            FontGraph.drawSmall(var0, "lv:" + N, 2, bq, 7, 0);
+            FontGraph.drawSmall(var0, dd + "$", 1, br, 7, 0);
         }
     }
 
@@ -4108,12 +4108,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         if (!be) {
             var0.fillRect(0, bg, bh, 15);
-            Midlet.a(var0, o, 3, bg + 3, 0);
-            Midlet.a(var0, p, bh - 3, bg + 3, 1);
+            FontGraph.drawBold(var0, o, 3, bg + 3, 0);
+            FontGraph.drawBold(var0, p, bh - 3, bg + 3, 1);
         } else {
             var0.fillRect(0, bg + 33, bh, 15);
-            Midlet.a(var0, o, 3, bg + 36, 0);
-            Midlet.a(var0, p, bh - 3, bg + 36, 1);
+            FontGraph.drawBold(var0, o, 3, bg + 36, 0);
+            FontGraph.drawBold(var0, p, bh - 3, bg + 36, 1);
             var0.setColor(4352);
             var0.fillRect(bj, bg, bl, 1);
             var0.fillRect(bj, bg + 35, bl, 1);
@@ -4158,16 +4158,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.fillRect(bm, bn + 12, var1, 2);
             var0.setColor(204);
             var0.fillRect(bm, bn + 14, var1, bs - 2);
-            Midlet.a(var0, "" + dd, 1, bh - 18, bg + 6, 2);
+            FontGraph.drawSmall(var0, "" + dd, 1, bh - 18, bg + 6, 2);
             var1 = O * bp / aj[N - 1];
             var0.setColor(94373);
             var0.fillRect(31, bg + 31, var1, 1);
             var0.setColor(65535);
             var0.fillRect(31, bg + 32, var1, 1);
-            Midlet.a(var0, "" + N, 2, 26, bg + 11, 2);
+            FontGraph.drawSmall(var0, "" + N, 2, 26, bg + 11, 2);
             var0.drawImage(eC[fd], 43, bg + 16, 3);
-            Midlet.a(var0, "" + (W[0] + W[1] + W[2]), 2, bh - 29, bg + 19, 2);
-            Midlet.a(var0, "" + (W[3] + W[4] + W[5]), 2, bh - 9, bg + 19, 2);
+            FontGraph.drawSmall(var0, "" + (W[0] + W[1] + W[2]), 2, bh - 29, bg + 19, 2);
+            FontGraph.drawSmall(var0, "" + (W[3] + W[4] + W[5]), 2, bh - 9, bg + 19, 2);
         }
     }
 
@@ -4184,7 +4184,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (fV) {
             for(int var1 = 0; var1 < fW.length; ++var1) {
-                Midlet.a(var0, fW[var1], bC, fX + (var1 << 4), 2);
+                FontGraph.drawBold(var0, fW[var1], bC, fX + (var1 << 4), 2);
             }
         }
 
@@ -4216,11 +4216,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         for(int var3 = 0; var3 < iI; ++var3) {
-            Midlet.b(var0, iE[iC][var3], iK + (iJ >> 1), var1 + (var3 << 4), 2);
+            FontGraph.drawRegular(var0, iE[iC][var3], iK + (iJ >> 1), var1 + (var3 << 4), 2);
         }
 
         if (iI < iE[iC].length) {
-            Midlet.b(var0, iE[iC][iI].substring(0, iH), iK + (iJ >> 1), var1 + (iI << 4), 2);
+            FontGraph.drawRegular(var0, iE[iC][iI].substring(0, iH), iK + (iJ >> 1), var1 + (iI << 4), 2);
         }
 
         var0.setColor(0);
@@ -4230,7 +4230,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (x % 10 < 8) {
-            Midlet.a(var0, "Tiếp tục", bC, aU - 13, 2);
+            FontGraph.drawBold(var0, "Tiếp tục", bC, aU - 13, 2);
         }
 
     }
@@ -7577,7 +7577,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < 5; ++var2) {
                     if (dT[var2] != -1) {
-                        Midlet.a(var1, dO[var2], dU[var2], dP[var2], dQ[var2], 0);
+                        FontGraph.drawSmall(var1, dO[var2], dU[var2], dP[var2], dQ[var2], 0);
                     }
                 }
 
@@ -7602,7 +7602,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var6.setColor(10275899);
                     var6.fillRect(0, 19, aT, 1);
                     if (x % 10 > 2) {
-                        Midlet.a(var6, co, bC, 4, 2);
+                        FontGraph.drawBold(var6, co, bC, 4, 2);
                     }
                 }
 
@@ -7614,7 +7614,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 case 2:
                     var1.setColor(0);
                     var1.fillRect(0, 0, aT, 21);
-                    Midlet.a(var1, "Loading... " + T + "%", aT >> 1, 4, 2);
+                    FontGraph.drawBold(var1, "Loading... " + T + "%", aT >> 1, 4, 2);
                     return;
                 case 3:
                     var1.setClip(-1, -1, aT + 2, aU + 1);
@@ -7636,9 +7636,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1.fillRect(0, ba - 1, aT, 1);
                     var1.fillRect(0, bb + 1, aT, 1);
                     var1.drawImage(eA, aV, aY + bb >> 1, 3);
-                    Midlet.a(var1, "*", aV - 50 - x % 3, bd, 0);
-                    Midlet.a(var1, "/", aV + 50 + x % 3, bd, 1);
-                    Midlet.a(var1, aE[aX], aV, bd, 3);
+                    FontGraph.drawBold(var1, "*", aV - 50 - x % 3, bd, 0);
+                    FontGraph.drawBold(var1, "/", aV + 50 + x % 3, bd, 1);
+                    FontGraph.drawBold(var1, aE[aX], aV, bd, 3);
                     return;
                 case 4:
                     var1.setColor(0);
@@ -7669,15 +7669,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     if (!lk) {
                         var1.drawImage(lj, aV, aW - 30, 3);
                         if (ll == 0) {
-                            Midlet.a(var1, "Bật âm thanh?", aV, aW + 15, 2);
-                            Midlet.a(var1, "Bật", 4, aU - 14, 0);
-                            Midlet.a(var1, "Tắt", aT - 4, aU - 14, 1);
+                            FontGraph.drawBold(var1, "Bật âm thanh?", aV, aW + 15, 2);
+                            FontGraph.drawBold(var1, "Bật", 4, aU - 14, 0);
+                            FontGraph.drawBold(var1, "Tắt", aT - 4, aU - 14, 1);
                             break;
                         }
 
-                        Midlet.a(var1, "Chất lượng hình ảnh?", aV, aW + 15, 2);
-                        Midlet.a(var1, "Cao", 4, aU - 14, 0);
-                        Midlet.a(var1, "Thấp", aT - 4, aU - 14, 1);
+                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", aV, aW + 15, 2);
+                        FontGraph.drawBold(var1, "Cao", 4, aU - 14, 0);
+                        FontGraph.drawBold(var1, "Thấp", aT - 4, aU - 14, 1);
                     }
 
                     return;
@@ -10807,14 +10807,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
         jk[var0] = var2;
         jl[var0] = var3;
         int[] var10000 = jk;
-        var10000[var0] -= Midlet.a(var1) >> 1;
-        jm[var0] = Midlet.a(var1);
+        var10000[var0] -= FontGraph.getBoldWidth(var1) >> 1;
+        jm[var0] = FontGraph.getBoldWidth(var1);
     }
 
     private static void i(Graphics var0) {
         for(int var1 = 0; var1 < jn; ++var1) {
             if (jk[var1] + jm[var1] >= fO && jk[var1] <= fO + r && jl[var1] >= fP && jl[var1] - 14 <= fP + s) {
-                Midlet.a(var0, jj[var1], jk[var1], jl[var1], 0);
+                FontGraph.drawBold(var0, jj[var1], jk[var1], jl[var1], 0);
             }
         }
 
@@ -13642,16 +13642,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         var0.fillRect(bC - 64, V - 19, 129, 102);
         var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, "Mua", 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        FontGraph.drawBold(var0, "Mua", 3, aU - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
         var0.setColor(12281361);
         var0.drawRect(bC - 63, V - 18, 126, 99);
         var0.setColor(6562304);
         var0.fillRect(bC - 61, V - 16, 123, 97);
         if (kr == 0) {
-            Midlet.a(var0, "Tiền: " + dd + "$", bC, V - 8, 2);
+            FontGraph.drawBold(var0, "Tiền: " + dd + "$", bC, V - 8, 2);
         } else {
-            Midlet.a(var0, kt[kq][ko], bC, V - 8, 2);
+            FontGraph.drawBold(var0, kt[kq][ko], bC, V - 8, 2);
         }
 
         int var1;
@@ -13682,9 +13682,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (kr == 0) {
-            Midlet.a(var0, kt[kq][ko] + "-" + kv[kq][ko] + "$", bC, V + 58, 2);
+            FontGraph.drawBold(var0, kt[kq][ko] + "-" + kv[kq][ko] + "$", bC, V + 58, 2);
         } else {
-            Midlet.a(var0, ku[kq][ko], bC, V + 58, 2);
+            FontGraph.drawBold(var0, ku[kq][ko], bC, V + 58, 2);
         }
 
         var0.drawImage(kG[0], bC - 64, V - 19, 20);
@@ -13718,13 +13718,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         var0.fillRect(bC - 64, kz - 19, 129, 102);
         var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, "Sử dụng", 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        FontGraph.drawBold(var0, "Sử dụng", 3, aU - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
         var0.setColor(12281361);
         var0.drawRect(bC - 63, kz - 18, 126, 99);
         var0.setColor(6562304);
         var0.fillRect(bC - 61, kz - 16, 123, 97);
-        Midlet.a(var0, "Sử dụng Item", bC, kz - 8, 2);
+        FontGraph.drawBold(var0, "Sử dụng Item", bC, kz - 8, 2);
 
         for(int var1 = 0; var1 < 3; ++var1) {
             var0.setColor(0);
@@ -13739,8 +13739,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         var0.setColor(kD[kC]);
         var0.drawRect(kA - 10 + kB * 20, kz + 10, 20, 20);
-        Midlet.a(var0, kE[kB], bC, kz + 40, 2);
-        Midlet.a(var0, "Số lượng: " + W[kB], bC, kz + 55, 2);
+        FontGraph.drawBold(var0, kE[kB], bC, kz + 40, 2);
+        FontGraph.drawBold(var0, "Số lượng: " + W[kB], bC, kz + 55, 2);
         var0.drawImage(kG[0], bC - 64, kz - 19, 20);
         var0.drawImage(kG[1], bC + 65, kz - 19, 24);
         var0.drawImage(kG[2], bC - 64, kz + 83, 36);
@@ -13769,15 +13769,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         var0.fillRect(bC - 64, kH - 19, 129, 102);
         var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, "Chọn", 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        FontGraph.drawBold(var0, "Chọn", 3, aU - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
         var0.setColor(12281361);
         var0.drawRect(bC - 63, kH - 18, 126, 99);
         var0.setColor(6562304);
         var0.fillRect(bC - 61, kH - 16, 123, 97);
 
         for(int var1 = 0; var1 < 4; ++var1) {
-            Midlet.a(var0, kK[var1], aV - 30, kH + var1 * 18, 0);
+            FontGraph.drawBold(var0, kK[var1], aV - 30, kH + var1 * 18, 0);
         }
 
         var0.drawImage(eC[0], aV - 55 + kJ % 2, kH + kI * 18 - kJ % 2, 0);
@@ -13849,8 +13849,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         var0.fillRect(0, 0, r, s);
         var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, li, 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        FontGraph.drawBold(var0, li, 3, aU - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
         var0.setClip(0, 0, r, s);
         var0.translate(-ld, -le);
         var0.drawImage(kR, 0, 0, 0);
@@ -13872,7 +13872,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.fillRect(aV - 60, s - 35, 120, 33);
             var0.setColor(12281361);
             var0.drawRect(aV - 59, s - 34, 117, 30);
-            Midlet.a(var0, kL[kV], aV, s - 25, 2);
+            FontGraph.drawBold(var0, kL[kV], aV, s - 25, 2);
             var0.drawImage(kG[0], aV - 60, s - 35, 20);
             var0.drawImage(kG[1], aV + 60, s - 35, 24);
             var0.drawImage(kG[2], aV - 60, s - 2, 36);
@@ -13976,15 +13976,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         var0.fillRect(bC - 64, Y - 19, 129, 102);
         var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, lp, 3, aU - 13, 0);
-        Midlet.a(var0, lq, aT - 3, aU - 13, 1);
+        FontGraph.drawBold(var0, lp, 3, aU - 13, 0);
+        FontGraph.drawBold(var0, lq, aT - 3, aU - 13, 1);
         var0.setColor(12281361);
         var0.drawRect(bC - 63, Y - 18, 126, 99);
         var0.setColor(6562304);
         var0.fillRect(bC - 61, Y - 16, 123, 97);
 
         for(int var1 = 0; var1 < lr.length; ++var1) {
-            Midlet.a(var0, lr[var1], aV, Y + var1 * 18, 2);
+            FontGraph.drawBold(var0, lr[var1], aV, Y + var1 * 18, 2);
         }
 
         var0.drawImage(kG[0], bC - 64, Y - 19, 20);

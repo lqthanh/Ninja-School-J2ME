@@ -20,31 +20,7 @@ public class Midlet extends MIDlet implements Runnable {
     public static int g = 0;
 
     static {
-        Font.init();
-    }
-
-    public static void a(Graphics var0, String var1, int var2, int var3, int var4) {
-        Font.drawBold(var0, var1, var2, var3, var4);
-    }
-
-    public static void b(Graphics var0, String var1, int var2, int var3, int var4) {
-        Font.drawRegular(var0, var1, var2, var3, var4);
-    }
-
-    public static void a(Graphics var0, String var1, int var2, int var3, int var4, int var5) {
-        Font.drawSmall(var0, var1, var2, var3, var4, var5);
-    }
-
-    public static int a(String var0) {
-        return Font.getBoldWidth(var0);
-    }
-
-    private static int c(String var0) {
-        return Font.getRegularWidth(var0);
-    }
-
-    private static int d(String var0) {
-        return Font.getSmallWidth(var0);
+        FontGraph.init();
     }
 
     public static byte[] b(String var0) {
@@ -109,7 +85,7 @@ public class Midlet extends MIDlet implements Runnable {
             int var6 = 0;
 
             while (true) {
-                while (a(var4) < var1) {
+                while (FontGraph.getBoldWidth(var4) < var1) {
                     var4 = var4 + var0.charAt(var6);
                     ++var6;
                     if (var0.charAt(var6) == '\n') {
@@ -166,7 +142,7 @@ public class Midlet extends MIDlet implements Runnable {
         int var6 = 0;
 
         while (true) {
-            while (c(var4) < var1) {
+            while (FontGraph.getRegularWidth(var4) < var1) {
                 var4 = var4 + var0.charAt(var6);
                 ++var6;
                 if (var6 == var3 - 1) {
