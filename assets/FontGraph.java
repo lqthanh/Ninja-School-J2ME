@@ -1,5 +1,6 @@
 package assets;
 
+import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -110,6 +111,117 @@ public final class FontGraph {
             g.drawRegion(smallFonts[fontIndex], 0, index * SMALL_HEIGHT, SMALL_WIDTHS[index], SMALL_HEIGHT, 0, drawX, y, 20);
             drawX += SMALL_WIDTHS[index] - 1;
         }
+    }
+
+    public static String[] wrapBoldText(String text, int maxWidth) {
+        Vector lines = new Vector();
+        int length;
+        if ((length = text.length()) <= 1) {
+            return new String[]{text};
+        } else {
+            String currentLine = "";
+            int lineStart = 0;
+            int cursor = 0;
+
+            while (true) {
+                while (getBoldWidth(currentLine) < maxWidth) {
+                    currentLine = currentLine + text.charAt(cursor);
+                    ++cursor;
+                    if (text.charAt(cursor) == '\n') {
+                        break;
+                    }
+
+                    if (cursor >= length - 1) {
+                        cursor = length - 1;
+                        break;
+                    }
+                }
+
+                if (cursor != length - 1 && text.charAt(cursor + 1) != ' ') {
+                    int wordEnd;
+                    for (wordEnd = cursor; text.charAt(cursor + 1) != '\n' && (text.charAt(cursor + 1) != ' ' || text.charAt(cursor) == ' ') && cursor != lineStart; --cursor) {
+                    }
+
+                    if (cursor == lineStart) {
+                        cursor = wordEnd;
+                    }
+                }
+
+                lines.addElement(text.substring(lineStart, cursor + 1));
+                if (cursor == length - 1) {
+                    break;
+                }
+
+                for (lineStart = cursor + 1; lineStart != length - 1 && text.charAt(lineStart) == ' '; ++lineStart) {
+                }
+
+                if (lineStart == length - 1) {
+                    break;
+                }
+
+                cursor = lineStart;
+                currentLine = "";
+            }
+
+            String[] result = new String[lines.size()];
+
+            for (int i = 0; i < lines.size(); ++i) {
+                result[i] = (String) lines.elementAt(i);
+            }
+
+            return result;
+        }
+    }
+
+    public static String[] wrapRegularText(String text, int maxWidth) {
+        Vector lines = new Vector();
+        int length = text.length();
+        String currentLine = "";
+        int lineStart = 0;
+        int cursor = 0;
+
+        while (true) {
+            while (getRegularWidth(currentLine) < maxWidth) {
+                currentLine = currentLine + text.charAt(cursor);
+                ++cursor;
+                if (cursor == length - 1) {
+                    break;
+                }
+            }
+
+            if (cursor != length - 1 && text.charAt(cursor + 1) != ' ') {
+                int wordEnd;
+                for (wordEnd = cursor; (text.charAt(cursor + 1) != ' ' || text.charAt(cursor) == ' ') && cursor != lineStart; --cursor) {
+                }
+
+                if (cursor == lineStart) {
+                    cursor = wordEnd;
+                }
+            }
+
+            lines.addElement(text.substring(lineStart, cursor + 1));
+            if (cursor == length - 1) {
+                break;
+            }
+
+            for (lineStart = cursor + 1; lineStart != length - 1 && text.charAt(lineStart) == ' '; ++lineStart) {
+            }
+
+            if (lineStart == length - 1) {
+                break;
+            }
+
+            cursor = lineStart;
+            currentLine = "";
+        }
+
+        String[] result = new String[lines.size()];
+
+        for (int i = 0; i < lines.size(); ++i) {
+            result[i] = (String) lines.elementAt(i);
+        }
+
+        return result;
     }
 
     public static int getBoldWidth(String text) {

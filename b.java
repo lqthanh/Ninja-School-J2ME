@@ -4380,7 +4380,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         for(var1 = 0; var1 < iB; ++var1) {
-            iE[var1] = Midlet.b(var0[var1], iJ - 20);
+            iE[var1] = FontGraph.wrapRegularText(var0[var1], iJ - 20);
         }
 
         if ((iK = iF - (iJ >> 1) - fO) < 2) {
@@ -5860,7 +5860,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             break;
                         case 15:
                             fV = true;
-                            fW = Midlet.a(aG[az[fT][fU]], r - 40);
+                            fW = FontGraph.wrapBoldText(aG[az[fT][fU]], r - 40);
                             if ((fY = (bt >> 1) - (fW.length << 3)) < 3) {
                                 fY = 2;
                             }
@@ -10909,7 +10909,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
             System.gc();
         } catch (Exception var0) {
-            Midlet.c.c();
+            Midlet.c.shutdownApp();
         }
     }
 
@@ -11259,7 +11259,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
             }
         } catch (Exception var2) {
-            Midlet.c.c();
+            Midlet.c.shutdownApp();
         }
 
         ah();
@@ -13903,7 +13903,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static void a(String var0) {
-        lr = Midlet.a(var0, 100);
+        lr = FontGraph.wrapBoldText(var0, 100);
         Y = bD - lr.length * 9;
     }
 

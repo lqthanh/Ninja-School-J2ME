@@ -1,6 +1,5 @@
 import assets.*;
 
-import java.util.Vector;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Form;
@@ -27,123 +26,6 @@ public class Midlet extends MIDlet implements Runnable {
         c = this;
         Display.getDisplay(this).setCurrent(b);
         b.s();
-    }
-
-    public static String[] a(String var0, int var1) {
-        Vector var2 = new Vector();
-        int var3;
-        if ((var3 = var0.length()) <= 1) {
-            return new String[]{var0};
-        } else {
-            String var4 = "";
-            int var5 = 0;
-            int var6 = 0;
-
-            while (true) {
-                while (FontGraph.getBoldWidth(var4) < var1) {
-                    var4 = var4 + var0.charAt(var6);
-                    ++var6;
-                    if (var0.charAt(var6) == '\n') {
-                        break;
-                    }
-
-                    if (var6 >= var3 - 1) {
-                        var6 = var3 - 1;
-                        break;
-                    }
-                }
-
-                if (var6 != var3 - 1 && var0.charAt(var6 + 1) != ' ') {
-                    int var8;
-                    for (var8 = var6; var0.charAt(var6 + 1) != '\n' && (var0.charAt(var6 + 1) != ' ' || var0.charAt(var6) == ' ') && var6 != var5; --var6) {
-                    }
-
-                    if (var6 == var5) {
-                        var6 = var8;
-                    }
-                }
-
-                var2.addElement(var0.substring(var5, var6 + 1));
-                if (var6 == var3 - 1) {
-                    break;
-                }
-
-                for (var5 = var6 + 1; var5 != var3 - 1 && var0.charAt(var5) == ' '; ++var5) {
-                }
-
-                if (var5 == var3 - 1) {
-                    break;
-                }
-
-                var6 = var5;
-                var4 = "";
-            }
-
-            String[] var9 = new String[var2.size()];
-
-            for (int var7 = 0; var7 < var2.size(); ++var7) {
-                var9[var7] = (String) var2.elementAt(var7);
-            }
-
-            return var9;
-        }
-    }
-
-    public static String[] b(String var0, int var1) {
-        Vector var2 = new Vector();
-        int var3 = var0.length();
-        String var4 = "";
-        int var5 = 0;
-        int var6 = 0;
-
-        while (true) {
-            while (FontGraph.getRegularWidth(var4) < var1) {
-                var4 = var4 + var0.charAt(var6);
-                ++var6;
-                if (var6 == var3 - 1) {
-                    break;
-                }
-            }
-
-            if (var6 != var3 - 1 && var0.charAt(var6 + 1) != ' ') {
-                int var8;
-                for (var8 = var6; (var0.charAt(var6 + 1) != ' ' || var0.charAt(var6) == ' ') && var6 != var5; --var6) {
-                }
-
-                if (var6 == var5) {
-                    var6 = var8;
-                }
-            }
-
-            var2.addElement(var0.substring(var5, var6 + 1));
-            if (var6 == var3 - 1) {
-                break;
-            }
-
-            for (var5 = var6 + 1; var5 != var3 - 1 && var0.charAt(var5) == ' '; ++var5) {
-            }
-
-            if (var5 == var3 - 1) {
-                break;
-            }
-
-            var6 = var5;
-            var4 = "";
-        }
-
-        String[] var9 = new String[var2.size()];
-
-        for (int var7 = 0; var7 < var2.size(); ++var7) {
-            var9[var7] = (String) var2.elementAt(var7);
-        }
-
-        return var9;
-    }
-
-    public final void c() {
-        b.b = false;
-        System.gc();
-        this.notifyDestroyed();
     }
 
     public void run() {
@@ -310,7 +192,7 @@ public class Midlet extends MIDlet implements Runnable {
             }
         } catch (Exception var3) {
             var3.printStackTrace();
-            c.c();
+            c.shutdownApp();
         }
 
         while (b.T < 90) {
@@ -388,6 +270,12 @@ public class Midlet extends MIDlet implements Runnable {
 
     protected void destroyApp(boolean var1) {
         Sound.stopAndRelease();
+    }
+
+    public final void shutdownApp() {
+        b.b = false;
+        System.gc();
+        this.notifyDestroyed();
     }
 
     // #endregion
