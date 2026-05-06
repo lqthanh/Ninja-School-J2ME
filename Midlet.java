@@ -23,57 +23,6 @@ public class Midlet extends MIDlet implements Runnable {
         FontGraph.init();
     }
 
-    public static byte[] b(String var0) {
-        try {
-            RecordStore var3;
-            byte[] var1 = (var3 = RecordStore.openRecordStore(var0, false)).getRecord(1);
-            var3.closeRecordStore();
-            return var1;
-        } catch (Exception var2) {
-            return null;
-        }
-    }
-
-    public static int a() {
-        byte[] var0;
-        return (var0 = b("bg")) == null ? 0 : var0[0];
-    }
-
-    public static void a(String var0, byte[] var1) {
-        try {
-            RecordStore var3;
-            if ((var3 = RecordStore.openRecordStore(var0, true)).getNumRecords() > 0) {
-                var3.setRecord(1, var1, 0, var1.length);
-            } else {
-                var3.addRecord(var1, 0, var1.length);
-            }
-
-            var3.closeRecordStore();
-        } catch (Exception var2) {
-        }
-    }
-
-    public static void a(boolean var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = 1;
-        a("saved", var1);
-    }
-
-    public static boolean b() {
-        byte[] var0;
-        if ((var0 = b("saved")) == null) {
-            return false;
-        } else {
-            return var0[0] == 1;
-        }
-    }
-
-    public static void a(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte) var0;
-        a("bg", var1);
-    }
-
     public static String[] a(String var0, int var1) {
         Vector var2 = new Vector();
         int var3;
@@ -371,6 +320,64 @@ public class Midlet extends MIDlet implements Runnable {
         b.e = d;
     }
 
+    // =====================================================================================
+    // #region RecordStore
+
+    public static byte[] loadRecord(String recordName) {
+        try {
+            RecordStore store;
+            byte[] data = (store = RecordStore.openRecordStore(recordName, false)).getRecord(1);
+            store.closeRecordStore();
+            return data;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static void saveRecord(String recordName, byte[] data) {
+        try {
+            RecordStore store;
+            if ((store = RecordStore.openRecordStore(recordName, true)).getNumRecords() > 0) {
+                store.setRecord(1, data, 0, data.length);
+            } else {
+                store.addRecord(data, 0, data.length);
+            }
+
+            store.closeRecordStore();
+        } catch (Exception ex) {
+        }
+    }
+
+    public static void setBackgroundIndex(int backgroundIndex) {
+        byte[] data = new byte[1];
+        data[0] = (byte) backgroundIndex;
+        saveRecord("bg", data);
+    }
+
+    public static int getBackgroundIndex() {
+        byte[] data;
+        return (data = loadRecord("bg")) == null ? 0 : data[0];
+    }
+
+    public static void markSaved() {
+        byte[] data = new byte[1];
+        data[0] = 1;
+        saveRecord("saved", data);
+    }
+
+    public static boolean isSaved() {
+        byte[] data;
+        if ((data = loadRecord("saved")) == null) {
+            return false;
+        } else {
+            return data[0] == 1;
+        }
+    }
+
+    // #endregion
+    // =====================================================================================
+
+    // =====================================================================================
     // #region App
 
     protected void startApp() {
@@ -384,5 +391,6 @@ public class Midlet extends MIDlet implements Runnable {
     }
 
     // #endregion
+    // =====================================================================================
 
 }
