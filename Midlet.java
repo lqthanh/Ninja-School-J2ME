@@ -23,6 +23,12 @@ public class Midlet extends MIDlet implements Runnable {
         FontGraph.init();
     }
 
+    public Midlet() {
+        c = this;
+        Display.getDisplay(this).setCurrent(b);
+        b.s();
+    }
+
     public static String[] a(String var0, int var1) {
         Vector var2 = new Vector();
         int var3;
@@ -132,12 +138,6 @@ public class Midlet extends MIDlet implements Runnable {
         }
 
         return var9;
-    }
-
-    public Midlet() {
-        c = this;
-        Display.getDisplay(this).setCurrent(b);
-        b.s();
     }
 
     public final void c() {
