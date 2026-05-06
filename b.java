@@ -1,4 +1,4 @@
-import AssetsManager.*;
+import assets.*;
 
 import java.io.IOException;
 import java.io.InputStream;

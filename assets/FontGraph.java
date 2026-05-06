@@ -1,4 +1,4 @@
-package AssetsManager;
+package assets;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;

@@ -1,4 +1,4 @@
-import AssetsManager.*;
+import assets.*;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Command;

@@ -1,4 +1,4 @@
-package AssetsManager;
+package assets;
 
 import java.io.InputStream;
 import javax.microedition.media.Manager;

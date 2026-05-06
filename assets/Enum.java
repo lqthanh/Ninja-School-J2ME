@@ -1,4 +1,4 @@
-package AssetsManager;
+package assets;
 
 public final class Enum {
 	public static final String PATH_BACKGROUND = "/assets/background/";
