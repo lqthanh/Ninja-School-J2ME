@@ -383,11 +383,11 @@ public class Midlet extends MIDlet implements Runnable {
     protected void startApp() {
     }
 
-    protected void destroyApp(boolean var1) {
-        Sound.stopAndRelease();
+    protected void pauseApp() {
     }
 
-    protected void pauseApp() {
+    protected void destroyApp(boolean var1) {
+        Sound.stopAndRelease();
     }
 
     // #endregion
