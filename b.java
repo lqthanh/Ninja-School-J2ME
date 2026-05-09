@@ -1790,12 +1790,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void u(int var0) {
         if ((O += var0) > aj[N - 1]) {
             O = 0;
-            if (Midlet.a && N == 6) {
-                s(6);
-                a("Xin đăng ký để có thể lên cấp 7!");
-                e = 7;
-                return;
-            }
 
             ++N;
             F += ai[N - 2];
@@ -3209,9 +3203,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void x(int var0) {
         e = 2;
         w = var0;
-        Midlet.d = 1;
+        Midlet.nextGameState = 1;
         aj();
-        (new Thread(Midlet.c)).start();
+        (new Thread(Midlet.instance)).start();
     }
 
     public static final void f(int var0) {
@@ -3423,7 +3417,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void K() {
         e = 2;
         aj();
-        Midlet.d = 3;
+        Midlet.nextGameState = 3;
         w = 99;
 
         try {
@@ -3440,12 +3434,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             aX = 1;
         }
 
-        String var0;
-        if ((var0 = System.getProperty("microedition.platform")).endsWith("JAVASDK") || var0.endsWith("wtk")) {
-            Midlet.a = true;
-        }
-
-        (new Thread(Midlet.c)).start();
+        (new Thread(Midlet.instance)).start();
     }
 
     public static void h(int var0) {
@@ -5878,7 +5867,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             fp = fe = ju;
                             fq = ff = jv;
                             B();
-                            Midlet.f = true;
+                            Midlet.pendingSave = true;
                             x(az[fT][fU]);
                             return true;
                         case 18:
@@ -6872,7 +6861,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
             }
         } else if (id == 10) {
-            Display.getDisplay(Midlet.c).setCurrent(Midlet.b);
+            Display.getDisplay(Midlet.instance).setCurrent(Midlet.b);
             id = 0;
         }
 
@@ -6882,7 +6871,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         Midlet.b = new b();
         ad();
         b var0 = Midlet.b;
-        Save.setBackgroundIndex((Midlet.g = Save.getBackgroundIndex()) == 0 ? 1 : 0);
+        Save.setBackgroundIndex((Midlet.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         e = 13;
         ai();
         e = 4;
@@ -7051,7 +7040,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 (var3 = new TextBox("Type anything:", "", 50, 0)).addCommand(new Command("OK", 4, 0));
                 var3.addCommand(new Command("Back", 2, 0));
                 var3.setCommandListener(this);
-                Display.getDisplay(Midlet.c).setCurrent(var3);
+                Display.getDisplay(Midlet.instance).setCurrent(var3);
             } else if (bv.equals("99999")) {
                 a(aG(), "sms://", 0);
                 e = 13;
@@ -7813,7 +7802,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             B();
                             fp = fe = js - 1;
                             fq = ff = jt;
-                            Midlet.f = true;
+                            Midlet.pendingSave = true;
                             x(jo);
                             break;
                         }
@@ -7832,14 +7821,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             if (jq != -1 && ff > jA) {
                                 fp = fe = jw;
                                 fq = ff = jx;
-                                Midlet.f = true;
+                                Midlet.pendingSave = true;
                                 x(jq);
                                 break;
                             }
 
                             fp = fe = ju;
                             fq = ff = jv;
-                            Midlet.f = true;
+                            Midlet.pendingSave = true;
                             x(jp);
                             break;
                         }
@@ -7847,7 +7836,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         B();
                         fp = fe = jy;
                         fq = ff = jz;
-                        Midlet.f = true;
+                        Midlet.pendingSave = true;
                         x(jr);
                         B = 4;
                         break;
@@ -10132,7 +10121,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             if (aX == 0) {
                                 eA = null;
                                 B();
-                                Midlet.f = true;
+                                Midlet.pendingSave = true;
                                 gM = System.currentTimeMillis();
                                 x(99);
                             } else if (aX == 1) {
@@ -10158,7 +10147,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 ij = var12[12];
                                 y = var12[13];
                                 eW = var12[14] == 1;
-                                Midlet.e = true;
+                                Midlet.pendingLoadSave = true;
                                 gM = System.currentTimeMillis();
                                 x(w);
                             } else if (aX == 2) {
@@ -10166,16 +10155,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 B();
                                 e = 2;
                                 aj();
-                                Midlet.d = 11;
+                                Midlet.nextGameState = 11;
                                 w = 101;
-                                (new Thread(Midlet.c)).start();
+                                (new Thread(Midlet.instance)).start();
                             } else if (aX == 3) {
                                 try {
-                                    Midlet.c.platformRequest("https://www.facebook.com/duriustudio");
+                                    Midlet.instance.platformRequest("https://www.facebook.com/duriustudio");
                                 } catch (Exception var10) {
                                 }
                             } else if (aX == 4) {
-                                Midlet.c.notifyDestroyed();
+                                Midlet.instance.notifyDestroyed();
                             }
 
                             aS[5] = false;
@@ -10434,7 +10423,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     B();
                                     fp = fe = kP[kV] * 24;
                                     fq = ff = kQ[kV] * 24;
-                                    Midlet.f = true;
+                                    Midlet.pendingSave = true;
                                     x(kV);
                                 }
                                 break;
@@ -10667,7 +10656,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                             ll = 1;
                         } else {
-                            Midlet.a = !lK;
                             lk = true;
                         }
                     }
@@ -10710,7 +10698,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             break;
                         case 5:
                             if (aS[5] || aS[12]) {
-                                Midlet.c.notifyDestroyed();
+                                Midlet.instance.notifyDestroyed();
                             }
                             break;
                         case 6:
@@ -10721,7 +10709,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             break;
                         case 8:
                             if (aS[12]) {
-                                Midlet.c.notifyDestroyed();
+                                Midlet.instance.notifyDestroyed();
                             }
                     }
             }
@@ -10735,7 +10723,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         a();
-        Midlet.c.notifyDestroyed();
+        Midlet.instance.notifyDestroyed();
     }
 
     public static void o(int var0) {
@@ -10910,7 +10898,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
             System.gc();
         } catch (Exception var0) {
-            Midlet.c.shutdownApp();
+            Midlet.instance.shutdownApp();
         }
     }
 
@@ -11260,7 +11248,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
             }
         } catch (Exception var2) {
-            Midlet.c.shutdownApp();
+            Midlet.instance.shutdownApp();
         }
 
         ah();
@@ -14149,7 +14137,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void aw() {
         if (aS[12]) {
-            Midlet.c.notifyDestroyed();
+            Midlet.instance.notifyDestroyed();
         }
 
         Y(1);
@@ -14336,7 +14324,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (aS[13]) {
-            Midlet.c.notifyDestroyed();
+            Midlet.instance.notifyDestroyed();
         }
 
         if (aN) {
@@ -14528,7 +14516,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             a(aG() + " >> " + ((TextBox)var2).getString(), "sms://", 0);
         }
 
-        Display.getDisplay(Midlet.c).setCurrent(this);
+        Display.getDisplay(Midlet.instance).setCurrent(this);
         this.setFullScreenMode(true);
     }
 }

@@ -4,21 +4,20 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 
 public class Midlet extends MIDlet implements Runnable {
-    static boolean a;
     static b b;
-    static Midlet c;
-    private static boolean i = true;
-    public static int d;
-    public static boolean e;
-    public static boolean f;
-    public static int g = 0;
+    static Midlet instance;
+    private static boolean needsDefaultsInit = true;
+    public static int nextGameState;
+    public static boolean pendingLoadSave;
+    public static boolean pendingSave;
+    public static int backgroundIndex = 0;
 
     static {
         FontGraph.init();
     }
 
     public Midlet() {
-        c = this;
+        instance = this;
         Display.getDisplay(this).setCurrent(b);
         b.s();
     }
@@ -77,16 +76,16 @@ public class Midlet extends MIDlet implements Runnable {
             b.j();
             b.S = 95;
             Thread.yield();
-            b.j = (new int[]{5614318, 18})[g];
+            b.j = (new int[]{5614318, 18})[backgroundIndex];
 
-            int var4;
+            int verticalOffset;
             try {
                 if (!b.a) {
-                    b.t = Background.ensureLayers(b.t, g);
-                    b.u = Background.ensureCloud(b.u, g);
-                    b.v = Background.ensureSun(b.v, g);
+                    b.t = Background.ensureLayers(b.t, backgroundIndex);
+                    b.u = Background.ensureCloud(b.u, backgroundIndex);
+                    b.v = Background.ensureSun(b.v, backgroundIndex);
                 }
-            } catch (Exception var2) {
+            } catch (Exception ex) {
             }
 
             b.c = false;
@@ -97,19 +96,19 @@ public class Midlet extends MIDlet implements Runnable {
                 b.n = b.l - b.t[3].getHeight() - 10;
             }
 
-            if ((var4 = 2 * b.s / 3 - b.l) < 0) {
-                var4 = 0;
+            if ((verticalOffset = 2 * b.s / 3 - b.l) < 0) {
+                verticalOffset = 0;
             }
 
             if (b.w < 19) {
                 b.X[b.w] = true;
             }
 
-            b.q += var4;
-            b.k += var4;
-            b.l += var4;
-            b.m += var4;
-            b.n += var4;
+            b.q += verticalOffset;
+            b.k += verticalOffset;
+            b.l += verticalOffset;
+            b.m += verticalOffset;
+            b.n += verticalOffset;
             b.h = 3 * b.r / 4;
             b.i = b.q / 3;
             b.f = new int[2];
@@ -124,8 +123,8 @@ public class Midlet extends MIDlet implements Runnable {
             b.U = false;
             b.n(b.w);
             b.S = 100;
-            if (i) {
-                i = false;
+            if (needsDefaultsInit) {
+                needsDefaultsInit = false;
                 b.F = 20;
                 b.G = 10;
                 b.I = 200;
@@ -149,12 +148,12 @@ public class Midlet extends MIDlet implements Runnable {
 
             b.d();
             b.c();
-            if (e) {
+            if (pendingLoadSave) {
                 b.b();
-                e = false;
-            } else if (f) {
+                pendingLoadSave = false;
+            } else if (pendingSave) {
                 b.a();
-                f = false;
+                pendingSave = false;
             }
 
             switch (b.w) {
@@ -185,16 +184,16 @@ public class Midlet extends MIDlet implements Runnable {
             if (!Sound.isDisabled()) {
                 Sound.start();
             }
-        } catch (Exception var3) {
-            var3.printStackTrace();
-            c.shutdownApp();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            instance.shutdownApp();
         }
 
         while (b.T < 90) {
             Thread.yield();
         }
 
-        b.e = d;
+        b.e = nextGameState;
     }
 
     // =====================================================================================
