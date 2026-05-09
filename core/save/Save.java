@@ -3,6 +3,11 @@ package core.save;
 import javax.microedition.rms.RecordStore;
 
 public final class Save {
+    public static int backgroundIndex = 0;
+
+    public static boolean pendingLoad;
+    public static boolean pendingSave;
+
     private Save() {
     }
 

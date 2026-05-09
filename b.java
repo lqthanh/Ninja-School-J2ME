@@ -5867,7 +5867,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             fp = fe = ju;
                             fq = ff = jv;
                             B();
-                            Midlet.pendingSave = true;
+                            Save.pendingSave = true;
                             x(az[fT][fU]);
                             return true;
                         case 18:
@@ -6871,7 +6871,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         Midlet.b = new b();
         ad();
         b var0 = Midlet.b;
-        Save.setBackgroundIndex((Midlet.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
+        Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         e = 13;
         ai();
         e = 4;
@@ -7802,7 +7802,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             B();
                             fp = fe = js - 1;
                             fq = ff = jt;
-                            Midlet.pendingSave = true;
+                            Save.pendingSave = true;
                             x(jo);
                             break;
                         }
@@ -7821,14 +7821,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             if (jq != -1 && ff > jA) {
                                 fp = fe = jw;
                                 fq = ff = jx;
-                                Midlet.pendingSave = true;
+                                Save.pendingSave = true;
                                 x(jq);
                                 break;
                             }
 
                             fp = fe = ju;
                             fq = ff = jv;
-                            Midlet.pendingSave = true;
+                            Save.pendingSave = true;
                             x(jp);
                             break;
                         }
@@ -7836,7 +7836,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         B();
                         fp = fe = jy;
                         fq = ff = jz;
-                        Midlet.pendingSave = true;
+                        Save.pendingSave = true;
                         x(jr);
                         B = 4;
                         break;
@@ -10121,7 +10121,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             if (aX == 0) {
                                 eA = null;
                                 B();
-                                Midlet.pendingSave = true;
+                                Save.pendingSave = true;
                                 gM = System.currentTimeMillis();
                                 x(99);
                             } else if (aX == 1) {
@@ -10147,7 +10147,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 ij = var12[12];
                                 y = var12[13];
                                 eW = var12[14] == 1;
-                                Midlet.pendingLoadSave = true;
+                                Save.pendingLoad = true;
                                 gM = System.currentTimeMillis();
                                 x(w);
                             } else if (aX == 2) {
@@ -10423,7 +10423,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     B();
                                     fp = fe = kP[kV] * 24;
                                     fq = ff = kQ[kV] * 24;
-                                    Midlet.pendingSave = true;
+                                    Save.pendingSave = true;
                                     x(kV);
                                 }
                                 break;

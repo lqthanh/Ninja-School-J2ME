@@ -1,4 +1,5 @@
 import assets.*;
+import core.save.*;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
@@ -8,9 +9,6 @@ public class Midlet extends MIDlet implements Runnable {
     static Midlet instance;
     private static boolean needsDefaultsInit = true;
     public static int nextGameState;
-    public static boolean pendingLoadSave;
-    public static boolean pendingSave;
-    public static int backgroundIndex = 0;
 
     static {
         FontGraph.init();
@@ -76,14 +74,14 @@ public class Midlet extends MIDlet implements Runnable {
             b.j();
             b.S = 95;
             Thread.yield();
-            b.j = (new int[]{5614318, 18})[backgroundIndex];
+            b.j = (new int[]{5614318, 18})[Save.backgroundIndex];
 
             int verticalOffset;
             try {
                 if (!b.a) {
-                    b.t = Background.ensureLayers(b.t, backgroundIndex);
-                    b.u = Background.ensureCloud(b.u, backgroundIndex);
-                    b.v = Background.ensureSun(b.v, backgroundIndex);
+                    b.t = Background.ensureLayers(b.t, Save.backgroundIndex);
+                    b.u = Background.ensureCloud(b.u, Save.backgroundIndex);
+                    b.v = Background.ensureSun(b.v, Save.backgroundIndex);
                 }
             } catch (Exception ex) {
             }
@@ -148,12 +146,12 @@ public class Midlet extends MIDlet implements Runnable {
 
             b.d();
             b.c();
-            if (pendingLoadSave) {
+            if (Save.pendingLoad) {
                 b.b();
-                pendingLoadSave = false;
-            } else if (pendingSave) {
+                Save.pendingLoad = false;
+            } else if (Save.pendingSave) {
                 b.a();
-                pendingSave = false;
+                Save.pendingSave = false;
             }
 
             switch (b.w) {
