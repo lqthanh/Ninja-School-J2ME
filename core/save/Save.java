@@ -1,4 +1,4 @@
-package save;
+package core.save;
 
 import javax.microedition.rms.RecordStore;
 
