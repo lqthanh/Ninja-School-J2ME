@@ -114,7 +114,7 @@ public final class FontGraph {
     }
 
     public static String[] wrapBoldText(String text, int maxWidth) {
-        Vector lines = new Vector();
+        Vector<String> lines = new Vector<>();
         int length;
         if ((length = text.length()) <= 1) {
             return new String[]{text};
@@ -166,7 +166,7 @@ public final class FontGraph {
             String[] result = new String[lines.size()];
 
             for (int i = 0; i < lines.size(); ++i) {
-                result[i] = (String) lines.elementAt(i);
+                result[i] = lines.elementAt(i);
             }
 
             return result;
@@ -174,7 +174,7 @@ public final class FontGraph {
     }
 
     public static String[] wrapRegularText(String text, int maxWidth) {
-        Vector lines = new Vector();
+        Vector<String> lines = new Vector<>();
         int length = text.length();
         String currentLine = "";
         int lineStart = 0;
@@ -218,7 +218,7 @@ public final class FontGraph {
         String[] result = new String[lines.size()];
 
         for (int i = 0; i < lines.size(); ++i) {
-            result[i] = (String) lines.elementAt(i);
+            result[i] = lines.elementAt(i);
         }
 
         return result;
