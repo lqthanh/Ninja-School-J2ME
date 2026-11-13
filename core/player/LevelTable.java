@@ -7,6 +7,7 @@ package core.player;
  *  - EXP_TO_NEXT_LEVEL[level - 1]   : exp cần (vượt quá) để lên cấp tiếp theo
  *  - ATTACK_GAIN[newLevel - 2]      : sức đánh cộng thêm khi đạt newLevel
  *  - MAX_HP_GAIN[newLevel - 2]      : HP tối đa cộng thêm khi đạt newLevel
+ *  - MAX_MP_GAIN[newLevel - 2]      : MP tối đa cộng thêm khi đạt newLevel
  */
 public final class LevelTable {
     public static final int MIN_LEVEL = 1;
@@ -32,16 +33,24 @@ public final class LevelTable {
             300, 300, 300, 300, 300, 300, 300, 300, 300, 300,
             300, 300};
 
+    /** MP tối đa cộng thêm khi lên cấp, bằng 1/10 MAX_HP_GAIN. */
+    public static final int[] MAX_MP_GAIN = new int[]{
+            2, 2, 2, 2, 3, 3, 3, 4, 4, 5,
+            6, 7, 8, 8, 9, 9, 10, 12, 13, 15,
+            16, 17, 18, 19, 20, 21, 22, 25, 30, 30,
+            30, 30, 30, 30, 30, 30, 30, 30, 30, 30,
+            30, 30};
+
     /** Sát thương phi tiêu cộng thêm mỗi lần lên cấp. */
     public static final int DART_DAMAGE_GAIN = 2;
 
     /**
-     * Cấp tối đa mà cả 3 bảng còn dữ liệu.
+     * Cấp tối đa mà tất cả các bảng còn dữ liệu.
      * Bản gốc không chặn nên sẽ ArrayIndexOutOfBounds khi vượt cấp 43.
      */
     public static final int MAX_LEVEL = min(
             EXP_TO_NEXT_LEVEL.length,
-            min(ATTACK_GAIN.length, MAX_HP_GAIN.length) + 1);
+            min(ATTACK_GAIN.length, min(MAX_HP_GAIN.length, MAX_MP_GAIN.length)) + 1);
 
     private LevelTable() {
     }
@@ -56,6 +65,10 @@ public final class LevelTable {
 
     public static int maxHpGain(int newLevel) {
         return MAX_HP_GAIN[newLevel - 2];
+    }
+
+    public static int maxMpGain(int newLevel) {
+        return MAX_MP_GAIN[newLevel - 2];
     }
 
     private static int min(int a, int b) {

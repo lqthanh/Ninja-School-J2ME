@@ -6,8 +6,9 @@ package core.player;
  * Quy tắc gốc:
  *  - Khi exp tích luỹ VƯỢT (>) mốc của cấp hiện tại -> lên 1 cấp, exp về 0
  *    (phần exp dư bị bỏ, mỗi lần nhận exp chỉ lên tối đa 1 cấp).
- *  - Lên cấp: +sức đánh theo bảng, +2 phi tiêu, +HP tối đa theo bảng,
- *    hồi đầy HP và MP (MP tối đa không tăng).
+ *  - Lên cấp: +sức đánh theo bảng, +2 phi tiêu, +HP tối đa và +MP tối đa
+ *    theo bảng, hồi đầy HP và MP.
+ *    (Bản gốc không tăng MP tối đa; MAX_MP_GAIN là cơ chế mới.)
  *  - Bị trọng thương (chết): mất 1/2 exp hiện tại.
  */
 public final class Leveling {
@@ -47,6 +48,7 @@ public final class Leveling {
         PlayerStats.attack += LevelTable.attackGain(newLevel);
         PlayerStats.dartDamage += LevelTable.DART_DAMAGE_GAIN;
         PlayerStats.maxHp += LevelTable.maxHpGain(newLevel);
+        PlayerStats.maxMp += LevelTable.maxMpGain(newLevel);
         PlayerStats.hp = PlayerStats.maxHp;
         PlayerStats.mp = PlayerStats.maxMp;
     }
