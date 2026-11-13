@@ -1,4 +1,5 @@
 import assets.*;
+import core.player.*;
 import core.save.*;
 
 import javax.microedition.lcdui.Display;
@@ -123,12 +124,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.S = 100;
             if (needsDefaultsInit) {
                 needsDefaultsInit = false;
-                b.F = 20;
-                b.G = 10;
-                b.I = 200;
-                b.H = 200;
-                b.K = 150;
-                b.J = 150;
+                PlayerStats.initDefaults();
                 b.P = -1;
                 b.Q = 5;
                 b.L = 6;
@@ -140,8 +136,6 @@ public class Midlet extends MIDlet implements Runnable {
                 b.C = 0;
                 b.E = 0;
                 b.D = 0;
-                b.N = 1;
-                b.O = 0;
             }
 
             b.d();

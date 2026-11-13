@@ -1,4 +1,5 @@
 import assets.*;
+import core.player.*;
 import core.save.*;
 
 import java.io.IOException;
@@ -24,9 +25,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[][] af = new int[][]{{-5, -2}, {-2, -4}, {0, -5}, {-6, -6}, {-5, -2}, {-2, -4}, {0, -5}};
     private static int[][] ag = new int[][]{{5, 8}, {3, 3}, new int[2], {4, 4}, {5, 8}, {3, 3}, new int[2]};
     private static int[] ah = new int[]{1, -2, 1, 1, 1, -2, 1};
-    private static int[] ai = new int[]{3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
-    private static int[] aj = new int[]{50, 150, 240, 400, 600, 800, 1000, 1500, 2000, 3000, 5000, 7000, 9000, 12000, 15000, 19000, 26000, 32000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000};
-    private static int[] ak = new int[]{20, 20, 20, 20, 30, 30, 30, 40, 40, 50, 60, 70, 80, 80, 90, 90, 100, 120, 130, 150, 160, 170, 180, 190, 200, 210, 220, 250, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300};
     private static String[] al = new String[]{"Ma một mắt", 
             "ốc sên", 
             "Dơi quỷ", 
@@ -473,12 +471,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     public static int D;
     public static int E;
     private static int fn;
-    public static int F;
-    public static int G;
-    public static int H;
-    public static int I;
-    public static int J;
-    public static int K;
     public static int L;
     public static int M;
     private static int fo;
@@ -487,8 +479,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static boolean fr;
     private static int fs;
     private static int ft;
-    public static int N;
-    public static int O;
     private static boolean fu;
     private static boolean fv;
     private static boolean fw;
@@ -1305,12 +1295,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var1[var2++] = D;
         var1[var2++] = E;
         var1[var2++] = fn;
-        var1[var2++] = F;
-        var1[var2++] = G;
-        var1[var2++] = H;
-        var1[var2++] = I;
-        var1[var2++] = J;
-        var1[var2++] = K;
+        var1[var2++] = PlayerStats.attack;
+        var1[var2++] = PlayerStats.dartDamage;
+        var1[var2++] = PlayerStats.hp;
+        var1[var2++] = PlayerStats.maxHp;
+        var1[var2++] = PlayerStats.mp;
+        var1[var2++] = PlayerStats.maxMp;
         var1[var2++] = L;
         var1[var2++] = M;
         var1[var2++] = fo;
@@ -1318,8 +1308,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var1[var2++] = fq;
         var1[var2++] = fs;
         var1[var2++] = ft;
-        var1[var2++] = N;
-        var1[var2++] = O;
+        var1[var2++] = PlayerStats.level;
+        var1[var2++] = PlayerStats.exp;
         var1[var2++] = fu ? 1 : 0;
         var1[var2++] = fv ? 1 : 0;
         var1[var2++] = fw ? 1 : 0;
@@ -1554,12 +1544,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         D = var0[var2++];
         E = var0[var2++];
         fn = var0[var2++];
-        F = var0[var2++];
-        G = var0[var2++];
-        H = var0[var2++];
-        I = var0[var2++];
-        J = var0[var2++];
-        K = var0[var2++];
+        PlayerStats.attack = var0[var2++];
+        PlayerStats.dartDamage = var0[var2++];
+        PlayerStats.hp = var0[var2++];
+        PlayerStats.maxHp = var0[var2++];
+        PlayerStats.mp = var0[var2++];
+        PlayerStats.maxMp = var0[var2++];
         L = var0[var2++];
         M = var0[var2++];
         fo = var0[var2++];
@@ -1567,8 +1557,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
         fq = var0[var2++];
         fs = var0[var2++];
         ft = var0[var2++];
-        N = var0[var2++];
-        O = var0[var2++];
+        PlayerStats.level = var0[var2++];
+        PlayerStats.exp = var0[var2++];
         fu = var0[var2++] == 1;
         fv = var0[var2++] == 1;
         fw = var0[var2++] == 1;
@@ -1787,21 +1777,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static void u(int var0) {
-        if ((O += var0) > aj[N - 1]) {
-            O = 0;
-
-            ++N;
-            F += ai[N - 2];
-            G += 2;
-            H = I += ak[N - 2];
-            J = K;
+    private static void gainExp(int amount) {
+        if (Leveling.addExp(amount)) {
             a("level-up", 2, fe, ff - fh, 0, -2);
             s(6);
-            a("Chúc mừng! Bạn đạt được cấp " + N + '\n' + "HP: " + I + '\n' + "Sức đánh: " + (F + (F >> 2) * (y + 1)));
+            a("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
             e = 7;
         } else {
-            a("+" + var0, 2, fe, ff - fh, 0, -2);
+            a("+" + amount, 2, fe, ff - fh, 0, -2);
         }
 
         d = true;
@@ -1817,7 +1800,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             }
         }
 
-        int var0 = (var0 = F + x % (F >> 1)) + (var0 >> 1) * y;
+        int var0 = PlayerStats.rollMeleeDamage(x, y);
         if (fx) {
             var0 <<= 1;
         }
@@ -1938,7 +1921,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var1 = ff - go >> 3;
             a(gn + (gz << 3), go - 12, var0, var1 + (var0 - 8), true);
         } else {
-            var0 = F << 1;
+            var0 = PlayerStats.attack << 1;
             var1 = gz > 0 ? gn - 20 : gn - 40;
             int var2 = gz > 0 ? gn + 40 : gn + 20;
             int var3 = go - gu - 15;
@@ -2168,7 +2151,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 break;
             case 12:
                 eN = true;
-                F <<= 1;
+                PlayerStats.attack <<= 1;
                 P = -1;
                 fy = 0;
                 fz = 0;
@@ -2273,7 +2256,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 break;
             case 29:
                 eW = true;
-                G <<= 2;
+                PlayerStats.dartDamage <<= 2;
                 P = -1;
                 fC = 0;
                 b("đã học phi tiêu cấp 2");
@@ -2579,12 +2562,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void a(int var0, int var1) {
-        H -= var0;
+        boolean dead = PlayerStats.takeDamage(var0);
         fc = -1;
         d = true;
         ir = -1;
-        if (H <= 0) {
-            H = 0;
+        if (dead) {
             A = -7;
             z = var1 << 2;
             B = 6;
@@ -2626,7 +2608,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 cF[var0] = 0;
                 cq[var0] = 0;
                 cE[var0] = 1;
-                u(ad[cD[var0]]);
+                gainExp(ad[cD[var0]]);
                 a(cu[var0], cv[var0], -(cH[var0] << 2), -4, ab[cD[var0]] + x % 10);
                 if (x % 20 > 5) {
                     a(cu[var0], cv[var0], -(cH[var0] << 3), -5, ac[cD[var0]] << 2, (x + 1) % 2);
@@ -2670,7 +2652,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             gS = 7;
             hb = 10;
             gU = 0;
-            if (var0 <= G) {
+            if (var0 <= PlayerStats.dartDamage) {
                 gY = 0;
             } else {
                 gY = 2 + x % 5;
@@ -3822,11 +3804,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             eI = true;
             eQ = true;
             eP = true;
-            I = 1000;
-            H = 1000;
-            K = 2000;
-            J = 2000;
-            F = 25;
+            PlayerStats.setMaxHpMp(1000, 2000);
+            PlayerStats.attack = 25;
             B = 4;
             ha = 500;
             gZ = 500;
@@ -3846,15 +3825,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
             eP = false;
             eQ = false;
             fx = false;
-            H = 200;
-            I = 200;
-            J = 200;
-            K = 200;
+            PlayerStats.resetForNewGame();
             ha = 1000;
             gZ = 1000;
-            O = 0;
-            N = 1;
-            F = 20;
             fe = 864;
             ff = 336;
 
@@ -3931,7 +3904,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         int var1;
         boolean var6;
         label29: {
-            var1 = F;
+            var1 = PlayerStats.attack;
             int var10000 = dL[var0];
             int var4 = -dJ[var0];
             int var2 = var10000;
@@ -4072,21 +4045,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.drawRect(23, 8, bo + 1, 4);
             var0.drawRect(23, 14, bo + 1, 3);
             var0.setColor(16711680);
-            int var1 = H * bo / I;
+            int var1 = PlayerStats.hpBarWidth(bo);
             var0.fillRect(24, 3, var1, 3);
             var0.setColor(5570560);
             var0.fillRect(var1 + 24, 3, bo - var1, 3);
             var0.setColor(255);
-            var1 = J * bo / K;
+            var1 = PlayerStats.mpBarWidth(bo);
             var0.fillRect(24, 9, var1, 3);
             var0.setColor(5570560);
             var0.fillRect(var1 + 24, 9, bo - var1, 3);
             var0.setColor(7274435);
-            var1 = O * bo / aj[N - 1];
+            var1 = Leveling.expBarWidth(bo);
             var0.fillRect(24, 15, var1, 2);
             var0.setColor(19506);
             var0.fillRect(var1 + 24, 15, bo - var1, 2);
-            FontGraph.drawSmall(var0, "lv:" + N, 2, bq, 7, 0);
+            FontGraph.drawSmall(var0, "lv:" + PlayerStats.level, 2, bq, 7, 0);
             FontGraph.drawSmall(var0, dd + "$", 1, br, 7, 0);
         }
     }
@@ -4138,23 +4111,23 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.fillRect(bj, bg + 13, bl, 1);
             var0.drawImage(ef[0], 0, bg, 0);
             var0.drawImage(ef[1], 0 + bh, bg, 24);
-            int var1 = H * bo / I;
+            int var1 = PlayerStats.hpBarWidth(bo);
             var0.setColor(7798784);
             var0.fillRect(bm, bn, var1, 2);
             var0.setColor(13369344);
             var0.fillRect(bm, bn + 1, var1, 4);
-            var1 = J * bo / K;
+            var1 = PlayerStats.mpBarWidth(bo);
             var0.setColor(119);
             var0.fillRect(bm, bn + 12, var1, 2);
             var0.setColor(204);
             var0.fillRect(bm, bn + 14, var1, bs - 2);
             FontGraph.drawSmall(var0, "" + dd, 1, bh - 18, bg + 6, 2);
-            var1 = O * bp / aj[N - 1];
+            var1 = Leveling.expBarWidth(bp);
             var0.setColor(94373);
             var0.fillRect(31, bg + 31, var1, 1);
             var0.setColor(65535);
             var0.fillRect(31, bg + 32, var1, 1);
-            FontGraph.drawSmall(var0, "" + N, 2, 26, bg + 11, 2);
+            FontGraph.drawSmall(var0, "" + PlayerStats.level, 2, 26, bg + 11, 2);
             var0.drawImage(eC[fd], 43, bg + 16, 3);
             FontGraph.drawSmall(var0, "" + (W[0] + W[1] + W[2]), 2, bh - 29, bg + 19, 2);
             FontGraph.drawSmall(var0, "" + (W[3] + W[4] + W[5]), 2, bh - 9, bg + 19, 2);
@@ -4718,10 +4691,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 C = 7;
                 if (ff >= iP) {
                     B = 6;
-                    H = 0;
+                    PlayerStats.kill();
                 } else if (ff + 4 >= iP) {
                     B = 6;
-                    H = 0;
+                    PlayerStats.kill();
                 } else if (A > 4 && (i(fe, ff + 3) & 2) == 2) {
                     if (A > 12) {
                         B = 8;
@@ -4760,7 +4733,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         z = fm << 1;
                         A >>= 2;
                         ff = H(ff) + 12;
-                        if (J == 0 || !eP) {
+                        if (!PlayerStats.hasMp() || !eP) {
                             B = 12;
                         }
                     }
@@ -4876,7 +4849,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         A >>= 2;
                         ff = H(ff) + 12;
                         fc = -1;
-                        if (J == 0 || !eP) {
+                        if (!PlayerStats.hasMp() || !eP) {
                             B = 12;
                         }
                         break;
@@ -5134,13 +5107,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     fe = fp;
                     ff = fq;
                     B = 4;
-                    H = I / 3;
-                    J = K / 3;
+                    PlayerStats.revive();
                     A = 0;
                     z = 0;
                     E = 0;
                     D = 0;
-                    O >>= 1;
+                    Leveling.applyDeathPenalty();
                     d = true;
                     if (hc) {
                         hg = hh;
@@ -5197,7 +5169,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     B = 1;
                 }
 
-                if (++E > 6 && g(fe + fi, ff + 2, 8192) && g(fe - fi, ff + 2, 8192) && eL & J > 0) {
+                if (++E > 6 && g(fe + fi, ff + 2, 8192) && g(fe - fi, ff + 2, 8192) && eL & PlayerStats.hasMp()) {
                     B = 13;
                 }
             case 9:
@@ -5216,7 +5188,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 C = 7;
                 if (ff >= iP) {
-                    H = 0;
+                    PlayerStats.kill();
                     B = 6;
                     fc = -1;
                 } else if (g(fe, ff, 2)) {
@@ -5239,7 +5211,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     ff = I(ff);
                 } else if (g(fe, ff - fh - 5, 4096)) {
-                    H = 0;
+                    PlayerStats.kill();
                     B = 6;
                     fc = -1;
                 }
@@ -5257,8 +5229,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (x % 8 == 0) {
-                    if (--J <= 0) {
-                        J = 0;
+                    if (PlayerStats.drainMp(1)) {
                         B = 15;
                     }
 
@@ -5503,8 +5474,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (x % 3 == 0) {
             if (fw) {
-                if (--J <= 0) {
-                    J = 0;
+                if (PlayerStats.drainMp(1)) {
                     fw = false;
                 }
 
@@ -5512,8 +5482,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             }
 
             if (fx) {
-                if (--J <= 0) {
-                    J = 0;
+                if (PlayerStats.drainMp(1)) {
                     fx = false;
 
                     for(int var1 = 0; var1 < 4; ++var1) {
@@ -5571,7 +5540,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             if (D >= 30) {
                 B = 1;
                 D = 0;
-                if (J == 0) {
+                if (!PlayerStats.hasMp()) {
                     return;
                 }
 
@@ -5647,8 +5616,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (x % 8 == 0) {
-            if ((J -= 3) <= 0) {
-                J = 0;
+            if (PlayerStats.drainMp(3)) {
                 z = 0;
                 B = 12;
             }
@@ -6570,15 +6538,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
             if (cQ[var0] != 0) {
                 if (a(ff - (fh >> 1) - (cP[var0] - 7)) < 10 && a(fe - cO[var0]) < 10) {
                     if (cN[var0] == 0) {
-                        if ((H += cU[var0]) > I) {
-                            H = I;
-                        }
+                        PlayerStats.restoreHp(cU[var0]);
 
                         a("+" + cU[var0], 0, cO[var0], cP[var0] - 15, 0, -1);
                     } else {
-                        if ((J += cU[var0]) > K) {
-                            J = K;
-                        }
+                        PlayerStats.restoreMp(cU[var0]);
 
                         a("+" + cU[var0], 2, cO[var0], cP[var0] - 15, 0, -1);
                     }
@@ -7022,16 +6986,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 eV = true;
                 b("Learned All Skill");
             } else if (bv.equals("30538")) {
-                K = 500000;
-                J = 500000;
-                I = 500000;
-                H = 500000;
+                PlayerStats.setMaxHpMp(500000, 500000);
                 b("Unlimit HP MP");
             } else if (bv.equals("38305")) {
-                F = 10000;
+                PlayerStats.attack = 10000;
                 b("Unlimit Damage");
             } else if (bv.equals("1982")) {
-                u(100000);
+                gainExp(100000);
             } else if (bv.equals("1983")) {
                 dd += 50000;
                 b("Money+=50000");
@@ -7915,13 +7876,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     aS[7] = false;
                                 } else if (aS[10]) {
                                     aS[10] = false;
-                                    if (H < I) {
+                                    if (!PlayerStats.isHpFull()) {
                                         for(var13 = 0; var13 < 3; ++var13) {
                                             if (W[var13] > 0) {
                                                 var10002 = W[var13]--;
-                                                if ((H += kF[var13]) > I) {
-                                                    H = I;
-                                                }
+                                                PlayerStats.restoreHp(kF[var13]);
 
                                                 d = true;
                                                 break;
@@ -7930,13 +7889,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 } else if (aS[11]) {
                                     aS[11] = false;
-                                    if (J < K) {
+                                    if (!PlayerStats.isMpFull()) {
                                         for(var13 = 3; var13 < 6; ++var13) {
                                             if (W[var13] > 0) {
                                                 var10002 = W[var13]--;
-                                                if ((J += kF[var13]) > K) {
-                                                    J = K;
-                                                }
+                                                PlayerStats.restoreMp(kF[var13]);
 
                                                 d = true;
                                                 break;
@@ -8001,7 +7958,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                         a(lC, 1, lu[var4], lv[var4] - 40);
                                                     }
                                                 } else if (!eR && eQ) {
-                                                    if (N < 10) {
+                                                    if (PlayerStats.level < 10) {
                                                         a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, -1, lu[var4], lv[var4] - 40);
                                                     } else if (P == 7) {
                                                         if (fC < lE[7]) {
@@ -8016,7 +7973,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                         a(lC, 1, lu[var4], lv[var4] - 40);
                                                     }
                                                 } else if (eU && !eV) {
-                                                    if (N < 12) {
+                                                    if (PlayerStats.level < 12) {
                                                         a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, -1, lu[var4], lv[var4] - 40);
                                                     } else if (P == 11) {
                                                         if (fC < 20) {
@@ -8032,7 +7989,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                     }
                                                 } else {
                                                     if (!eX && eW) {
-                                                        if (N < 15) {
+                                                        if (PlayerStats.level < 15) {
                                                             a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, -1, lu[var4], lv[var4] - 40);
                                                         } else if (P == 13) {
                                                             if (fC < lE[13]) {
@@ -8137,7 +8094,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                         }
 
                                                         if (!eY && eX) {
-                                                            if (N < 16) {
+                                                            if (PlayerStats.level < 16) {
                                                                 a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, -1, lu[var4], lv[var4] - 40);
                                                             } else if (P == 14) {
                                                                 if (fC < lE[14]) {
@@ -8211,7 +8168,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                         a(lC, 1, lu[var4], lv[var4] - 40);
                                                     }
                                                 } else if (eO && !eQ) {
-                                                    if (N < 8) {
+                                                    if (PlayerStats.level < 8) {
                                                         a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, -1, lu[var4], lv[var4] - 40);
                                                     } else if (P == 6) {
                                                         if (!fA) {
@@ -8479,12 +8436,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     aS[5] = false;
                                 }
 
-                                if (aR[2] && J > 0 && A > -4 && (D == 0 && eJ || D == 1 && eV)) {
+                                if (aR[2] && PlayerStats.hasMp() && A > -4 && (D == 0 && eJ || D == 1 && eV)) {
                                     ++D;
                                     A = -7;
-                                    if ((J -= 3) < 0) {
-                                        J = 0;
-                                    }
+                                    PlayerStats.drainMp(3);
 
                                     d = true;
                                     e(-1, fe - -8, ff);
@@ -8928,7 +8883,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         if (jO[var4] != 5 && jO[var4] != 1 && a(jJ[var4] - cW[var13]) < jM[var4] && a(jK[var4] - (jL[var4] >> 1) - cX[var13]) < jL[var4]) {
                                             boolean var14;
                                             label2807: {
-                                                var5 = dc[var13] ? G << 1 : G;
+                                                var5 = dc[var13] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
                                                 if (jO[var4] == 2 || jO[var4] == 3 || jO[var4] == 4) {
                                                     if (jI[var4] == 9 && da[var13] * jX[var4] < 0) {
                                                         jO[var4] = 4;
@@ -8978,9 +8933,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     for(var4 = 0; var4 < cp; ++var4) {
                                         if (cE[var4] != 5 && cE[var4] != 1 && a(cu[var4] - cW[var13]) < 20 && a(cv[var4] - 15 - cX[var13]) < 20) {
                                             if (dc[var13]) {
-                                                a(var4, G << 1, cH[var13]);
+                                                a(var4, PlayerStats.dartDamage << 1, cH[var13]);
                                                 f(cu[var4], cv[var4] - 15, cH[var4]);
-                                                a("-" + (G << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
+                                                a("-" + (PlayerStats.dartDamage << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
                                                 cY[var13] = -1;
                                             } else {
                                                 cE[var4] = 4;
@@ -8998,16 +8953,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             da[var13] = -da[var13];
                                             db[var13] = -3;
                                         } else {
-                                            a(G, -fm);
+                                            a(PlayerStats.dartDamage, -fm);
                                             cY[var13] = -1;
                                         }
                                         break;
                                     }
 
                                     if (gN && a(gP - cW[var13]) < gV >> 1 && a(gQ - (gW >> 1) - cX[var13]) < gW >> 1) {
-                                        c(G, -gT);
+                                        c(PlayerStats.dartDamage, -gT);
                                         f(cW[var13], cX[var13], gT);
-                                        a("-" + G, 0, gP, gQ - gW, 0, -2);
+                                        a("-" + PlayerStats.dartDamage, 0, gP, gQ - gW, 0, -2);
                                         cY[var13] = -1;
                                     }
 
@@ -9024,7 +8979,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             dE[0] = dF[0] = 0;
                                             dD[0] = 5;
                                         } else {
-                                            d(G, -dJ[0]);
+                                            d(PlayerStats.dartDamage, -dJ[0]);
                                             cY[var13] = -1;
                                         }
                                     }
@@ -10464,21 +10419,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var10002 = W[kB]--;
                             kC = kD.length - 1;
                             if (kB <= 2) {
-                                if (H < I) {
-                                    H += kF[kB];
-                                }
-
-                                if (H > I) {
-                                    H = I;
-                                }
+                                PlayerStats.restoreHp(kF[kB]);
                             } else {
-                                if (J < K) {
-                                    J += kF[kB];
-                                }
-
-                                if (J > K) {
-                                    J = K;
-                                }
+                                PlayerStats.restoreMp(kF[kB]);
                             }
                         }
 
@@ -10538,7 +10481,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 break;
                             }
 
-                            if (N < km[ko]) {
+                            if (PlayerStats.level < km[ko]) {
                                 s(7);
                                 a("Bạn phải đạt cấp độ " + km[ko] + " mới có thể mua vũ khí này!");
                                 Y = V;
@@ -11452,7 +11395,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void L(int var0) {
-        u(ap[jI[var0]]);
+        gainExp(ap[jI[var0]]);
         int var1;
         if ((var1 = x % 20) > 15) {
             a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (x + 1) % 2);
