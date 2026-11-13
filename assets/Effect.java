@@ -1,5 +1,6 @@
 package assets;
 
+import java.io.IOException;
 import javax.microedition.lcdui.Image;
 
 /**
@@ -13,6 +14,11 @@ import javax.microedition.lcdui.Image;
  *  - slash{style}_{tier}.png (gốc: w{style}t{tier}.png)
  *      Đường kiếm của người chơi, 11 kiểu chém; tier = cấp kiếm (0..3).
  *      Kiểu nào không có ảnh cho cấp kiếm hiện tại thì dùng tier 0.
+ *  - heal.png            (gốc: e/b.png)        : dấu cộng khi hồi máu
+ *  - dust{dir}_{frame}   (gốc: e/d{dir}{frame}) : bụi, 2 hướng x 5 frame
+ *  - aura{n}             (gốc: e/l{n})          : vòng hào quang quanh nhân vật, 2 frame
+ *  - blood{n}            (gốc: e/sp{n})         : máu bắn, 3 frame
+ *  - water_splash{n}     (gốc: e/w{n})          : nước bắn, 3 frame
  */
 public final class Effect {
     public static final int PROJECTILE_TYPE_COUNT = 4;
@@ -28,6 +34,12 @@ public final class Effect {
 
     public static final int SLASH_STYLE_COUNT = 11;
     public static final int SLASH_DEFAULT_TIER = 0;
+
+    public static final int DUST_DIR_COUNT = 2;
+    public static final int DUST_FRAME_COUNT = 5;
+    public static final int AURA_FRAME_COUNT = 2;
+    public static final int BLOOD_FRAME_COUNT = 3;
+    public static final int WATER_SPLASH_FRAME_COUNT = 3;
 
     private Effect() {
     }
@@ -113,6 +125,34 @@ public final class Effect {
 
     private static Image loadSlash(int style, int tier) throws Exception {
         return Image.createImage(Enum.PATH_EFFECT + "slash" + style + "_" + tier + Enum.EXTENSION_PNG);
+    }
+
+    // #endregion
+    // =====================================================================================
+    // #region Particles
+
+    public static Image loadHeal() throws IOException {
+        return load("heal");
+    }
+
+    public static Image loadDust(int dir, int frame) throws IOException {
+        return load("dust" + dir + "_" + frame);
+    }
+
+    public static Image loadAura(int frame) throws IOException {
+        return load("aura" + frame);
+    }
+
+    public static Image loadBlood(int frame) throws IOException {
+        return load("blood" + frame);
+    }
+
+    public static Image loadWaterSplash(int frame) throws IOException {
+        return load("water_splash" + frame);
+    }
+
+    private static Image load(String name) throws IOException {
+        return Image.createImage(Enum.PATH_EFFECT + name + Enum.EXTENSION_PNG);
     }
 
     // #endregion

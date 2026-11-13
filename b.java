@@ -393,40 +393,40 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int dW;
     private static int dX;
     private static Image[][] enemyProjectiles;
-    private static Image[] dZ;
-    private static Image ea;
+    private static Image[] arrowIcons;
+    private static Image healSprite;
     public static Image[] t;
     private static Image[] motorbikeFrames;
     private static Image itemScroll;
-    private static Image[] ed;
+    private static Image[] heroBodies;
     private static Image itemCrate;
     public static Image u;
     public static Image v;
-    private static Image[] ef;
+    private static Image[] hudFrames;
     private static Image[] itemMoney;
-    private static Image eh;
+    private static Image markerIcon;
     private static Image[] npcDog;
-    private static Image[][] ej;
+    private static Image[][] dustSprites;
     private static Image[] dartFrames;
-    private static Image[] el;
-    private static Image[] em;
-    private static Image[] en;
-    private static Image[] eo;
-    private static Image[] ep;
-    private static Image[] eq;
-    private static Image[] er;
-    private static Image[][] es;
+    private static Image[] girlBodies;
+    private static Image[] girlHeads;
+    private static Image[] girlLegs;
+    private static Image[] heroHeads;
+    private static Image[] heroTransformHeads;
+    private static Image[] heroLegs;
+    private static Image[] auraSprites;
+    private static Image[][] classmateHeads;
     private static Image[][] ninjaBodies;
     private static Image[] ninjaLegs;
     private static Image[] boss0Sprites;
     private static Image[] itemPotions;
     private static Image[] boss1Sprites;
-    private static Image[] ey;
+    private static Image[] bloodSprites;
     private static Image[] boss2Sprites;
-    private static Image eA;
+    private static Image titleImage;
     private static Image[] slashEffects;
-    private static Image[] eC;
-    private static Image[] eD;
+    private static Image[] weaponIcons;
+    private static Image[] waterSplashSprites;
     public static int w;
     public static int x;
     private static boolean eE;
@@ -693,7 +693,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     static int S;
     private static int jB;
     static int T;
-    private static Image jC;
+    private static Image logoImage;
     private static int jD;
     private static int jE;
     public static boolean U;
@@ -741,7 +741,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static String[][] kt;
     private static String[][] ku;
     private static int[][] kv;
-    private static Image[] kw;
+    private static Image[] shopSwordIcons;
     private static String[][] kx;
     private static String[][] ky;
     private static int kz;
@@ -752,7 +752,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static String[] kE;
     static int[] W;
     private static int[] kF;
-    private static Image[] kG;
+    private static Image[] cornerIcons;
     private static int kH;
     private static int kI;
     private static int kJ;
@@ -765,7 +765,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[] kP;
     private static int[] kQ;
     private static Image kR;
-    private static Image kS;
+    private static Image crossIcon;
     private static int kT;
     private static int kU;
     private static int kV;
@@ -782,7 +782,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int lg;
     private static int lh;
     private static String li;
-    private static Image lj;
+    private static Image popupImage;
     private static boolean lk;
     private static int ll;
     public static int Y;
@@ -1688,23 +1688,23 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (fx) {
-            if (ep == null) {
-                ep = new Image[4];
+            if (heroTransformHeads == null) {
+                heroTransformHeads = new Image[4];
 
                 try {
-                    ep[0] = Image.createImage("/cp/ch0x.png");
-                    ep[1] = Image.createImage("/cp/ch1x.png");
+                    heroTransformHeads[0] = Actor.loadHeroTransformHead(0);
+                    heroTransformHeads[1] = Actor.loadHeroTransformHead(1);
                 } catch (Exception var3) {
                 }
 
-                ep[2] = ep[1];
-                ep[3] = ep[0];
+                heroTransformHeads[2] = heroTransformHeads[1];
+                heroTransformHeads[3] = heroTransformHeads[0];
             }
 
             for(var1 = 0; var1 < 4; ++var1) {
-                Image var6 = eo[var1];
-                eo[var1] = ep[var1];
-                ep[var1] = var6;
+                Image var6 = heroHeads[var1];
+                heroHeads[var1] = heroTransformHeads[var1];
+                heroTransformHeads[var1] = var6;
             }
         }
 
@@ -2327,7 +2327,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         monsterSprites = null;
         System.gc();
         C();
-        es = null;
+        classmateHeads = null;
         npcDog = null;
         enemyProjectiles = null;
         System.gc();
@@ -2681,12 +2681,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static void e() {
-        if (dZ == null) {
-            dZ = new Image[4];
+        if (arrowIcons == null) {
+            arrowIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    dZ[var0] = Image.createImage("/u/arr" + var0 + ".png");
+                    arrowIcons[var0] = Ui.loadArrow(var0);
                 } catch (Exception var1) {
                 }
             }
@@ -2704,7 +2704,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         bZ = new int[bT];
 
         try {
-            ea = Image.createImage("/e/b.png");
+            healSprite = Effect.loadHeal();
         } catch (Exception var0) {
         }
     }
@@ -2935,25 +2935,25 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static final void i() {
         fc = -1;
-        if (ed == null) {
+        if (heroBodies == null) {
             try {
-                ed = new Image[20];
+                heroBodies = new Image[20];
 
                 int var0;
                 for(var0 = 0; var0 < 20; ++var0) {
-                    ed[var0] = Image.createImage("/cp/cb" + var0 + ".png");
+                    heroBodies[var0] = Actor.loadHeroBody(var0);
                 }
 
-                eo = new Image[11];
+                heroHeads = new Image[11];
 
                 for(var0 = 0; var0 < 11; ++var0) {
-                    eo[var0] = Image.createImage("/cp/ch" + var0 + ".png");
+                    heroHeads[var0] = Actor.loadHeroHead(var0);
                 }
 
-                eq = new Image[10];
+                heroLegs = new Image[10];
 
                 for(var0 = 0; var0 < 10; ++var0) {
-                    eq[var0] = Image.createImage("/cp/cl" + var0 + ".png");
+                    heroLegs[var0] = Actor.loadHeroLegs(var0);
                 }
             } catch (Exception var1) {
             }
@@ -2980,16 +2980,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
         I();
         if (be) {
             try {
-                if (ef == null) {
-                    ef = new Image[2];
+                if (hudFrames == null) {
+                    hudFrames = new Image[2];
 
                     for(int var0 = 0; var0 < 2; ++var0) {
-                        ef[var0] = Image.createImage("/u/c" + var0 + ".png");
+                        hudFrames[var0] = Ui.loadHud(var0);
                     }
                 }
 
-                bj = ef[0].getWidth();
-                bk = ef[1].getWidth();
+                bj = hudFrames[0].getWidth();
+                bk = hudFrames[1].getWidth();
                 bl = r - bj - bk + 1;
                 bm = 78;
                 bn = bg + 7;
@@ -3003,16 +3003,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void I() {
         try {
-            if (eh == null) {
-                eh = Image.createImage("/u/co.png");
+            if (markerIcon == null) {
+                markerIcon = Ui.loadMarker();
             }
 
-            (eC = new Image[2])[1] = Image.createImage("/u/wpt1.png");
-            if (y == 0) {
-                eC[0] = Image.createImage("/u/wpt0.png");
-            } else {
-                eC[0] = Image.createImage("/u/wpt" + (y + 1) + ".png");
-            }
+            (weaponIcons = new Image[2])[1] = Ui.loadDartIcon();
+            weaponIcons[0] = Ui.loadSwordIcon(y);
         } catch (Exception var0) {
         }
     }
@@ -3051,13 +3047,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static final void l() {
         if (!a) {
-            if (ej == null) {
-                ej = new Image[2][5];
+            if (dustSprites == null) {
+                dustSprites = new Image[2][5];
 
                 for(int var0 = 0; var0 < 2; ++var0) {
                     for(int var1 = 0; var1 < 5; ++var1) {
                         try {
-                            ej[var0][var1] = Image.createImage("/e/d" + var0 + var1 + ".png");
+                            dustSprites[var0][var1] = Effect.loadDust(var0, var1);
                         } catch (IOException var2) {
                         }
                     }
@@ -3122,24 +3118,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (gm == var0) {
             ig = -1;
-            if (el == null) {
+            if (girlBodies == null) {
                 try {
-                    el = new Image[8];
+                    girlBodies = new Image[8];
 
                     for(var0 = 0; var0 < 8; ++var0) {
-                        el[var0] = Image.createImage("/cp/gb" + var0 + ".png");
+                        girlBodies[var0] = Actor.loadGirlBody(var0);
                     }
 
-                    em = new Image[3];
+                    girlHeads = new Image[3];
 
                     for(var0 = 0; var0 < 3; ++var0) {
-                        em[var0] = Image.createImage("/cp/gh" + var0 + ".png");
+                        girlHeads[var0] = Actor.loadGirlHead(var0);
                     }
 
-                    en = new Image[9];
+                    girlLegs = new Image[9];
 
                     for(var0 = 0; var0 < 9; ++var0) {
-                        en[var0] = Image.createImage("/cp/gl" + var0 + ".png");
+                        girlLegs[var0] = Actor.loadGirlLegs(var0);
                     }
                 } catch (Exception var1) {
                 }
@@ -3162,12 +3158,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static void o() {
-        if (er == null) {
-            er = new Image[2];
+        if (auraSprites == null) {
+            auraSprites = new Image[2];
 
             for(int var0 = 0; var0 < 2; ++var0) {
                 try {
-                    er[var0] = Image.createImage("/e/l" + var0 + ".png");
+                    auraSprites[var0] = Effect.loadAura(var0);
                 } catch (IOException var1) {
                 }
             }
@@ -3287,13 +3283,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void y(int var0) {
-        if (es == null) {
-            es = new Image[var0][2];
+        if (classmateHeads == null) {
+            classmateHeads = new Image[var0][2];
 
             for(int var1 = 0; var1 < var0; ++var1) {
                 for(int var2 = 0; var2 < 2; ++var2) {
                     try {
-                        es[var1][var2] = Image.createImage("/cp/f" + var1 + "h" + var2 + ".png");
+                        classmateHeads[var1][var2] = Actor.loadClassmateHead(var1, var2);
                     } catch (Exception var3) {
                     }
                 }
@@ -3328,7 +3324,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         w = 99;
 
         try {
-            eA = Image.createImage("/u/tt.png");
+            titleImage = Ui.loadTitle();
         } catch (Exception var1) {
         }
 
@@ -3554,12 +3550,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static final void q() {
-        if (ey == null) {
-            ey = new Image[3];
+        if (bloodSprites == null) {
+            bloodSprites = new Image[3];
 
             for(int var0 = 0; var0 < 3; ++var0) {
                 try {
-                    ey[var0] = Image.createImage("/e/sp" + var0 + ".png");
+                    bloodSprites[var0] = Effect.loadBlood(var0);
                 } catch (IOException var1) {
                 }
             }
@@ -3585,7 +3581,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 boss2Sprites[2] = Mob.loadBossPart(2, 2);
                 boss2Sprites[3] = boss2Sprites[1];
                 boss2Sprites[4] = Mob.loadBossPart(2, 3);
-                boss2Sprites[5] = Image.createImage("/cp/f2h0.png");
+                boss2Sprites[5] = Actor.loadClassmateHead(2, 0);
             } catch (Exception var1) {
             }
 
@@ -3759,11 +3755,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static final void r() {
         if (!a) {
-            eD = new Image[3];
+            waterSplashSprites = new Image[3];
 
             for(int var0 = 0; var0 < 3; ++var0) {
                 try {
-                    eD[var0] = Image.createImage("/e/w" + var0 + ".png");
+                    waterSplashSprites[var0] = Effect.loadWaterSplash(var0);
                 } catch (IOException var1) {
                 }
             }
@@ -3901,17 +3897,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (fm == 1) {
-            var0.drawImage(eo[ar[C][0][0]], fe + ar[C][0][1], ff - ar[C][0][2], 0);
-            var0.drawImage(eq[ar[C][1][0]], fe + ar[C][1][1], ff - ar[C][1][2], 0);
-            var0.drawImage(ed[ar[C][2][0]], fe + ar[C][2][1], ff - ar[C][2][2], 0);
+            var0.drawImage(heroHeads[ar[C][0][0]], fe + ar[C][0][1], ff - ar[C][0][2], 0);
+            var0.drawImage(heroLegs[ar[C][1][0]], fe + ar[C][1][1], ff - ar[C][1][2], 0);
+            var0.drawImage(heroBodies[ar[C][2][0]], fe + ar[C][2][1], ff - ar[C][2][2], 0);
             if (fc != -1) {
                 var0.drawImage(slashEffects[fc], fe - as[fc], ff - at[fc], 0);
                 return;
             }
         } else {
-            var0.drawRegion(eo[ar[C][0][0]], 0, 0, eo[ar[C][0][0]].getWidth(), eo[ar[C][0][0]].getHeight(), 2, fe - ar[C][0][1], ff - ar[C][0][2], 24);
-            var0.drawRegion(eq[ar[C][1][0]], 0, 0, eq[ar[C][1][0]].getWidth(), eq[ar[C][1][0]].getHeight(), 2, fe - ar[C][1][1], ff - ar[C][1][2], 24);
-            var0.drawRegion(ed[ar[C][2][0]], 0, 0, ed[ar[C][2][0]].getWidth(), ed[ar[C][2][0]].getHeight(), 2, fe - ar[C][2][1], ff - ar[C][2][2], 24);
+            var0.drawRegion(heroHeads[ar[C][0][0]], 0, 0, heroHeads[ar[C][0][0]].getWidth(), heroHeads[ar[C][0][0]].getHeight(), 2, fe - ar[C][0][1], ff - ar[C][0][2], 24);
+            var0.drawRegion(heroLegs[ar[C][1][0]], 0, 0, heroLegs[ar[C][1][0]].getWidth(), heroLegs[ar[C][1][0]].getHeight(), 2, fe - ar[C][1][1], ff - ar[C][1][2], 24);
+            var0.drawRegion(heroBodies[ar[C][2][0]], 0, 0, heroBodies[ar[C][2][0]].getWidth(), heroBodies[ar[C][2][0]].getHeight(), 2, fe - ar[C][2][1], ff - ar[C][2][2], 24);
             if (fc != -1) {
                 var0.drawRegion(slashEffects[fc], 0, 0, slashEffects[fc].getWidth(), slashEffects[fc].getHeight(), 2, fe + as[fc], ff - at[fc], 24);
             }
@@ -3922,7 +3918,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void c(Graphics var0) {
         if (!be) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-            var0.drawImage(eo[0], 0, 2, 0);
+            var0.drawImage(heroHeads[0], 0, 2, 0);
             var0.setColor(0);
             var0.drawRect(23, 2, bo + 1, 4);
             var0.drawRect(23, 8, bo + 1, 4);
@@ -3992,8 +3988,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.setColor(12281361);
             var0.fillRect(bj, bg + 25, bl, 1);
             var0.fillRect(bj, bg + 13, bl, 1);
-            var0.drawImage(ef[0], 0, bg, 0);
-            var0.drawImage(ef[1], 0 + bh, bg, 24);
+            var0.drawImage(hudFrames[0], 0, bg, 0);
+            var0.drawImage(hudFrames[1], 0 + bh, bg, 24);
             int var1 = PlayerStats.hpBarWidth(bo);
             var0.setColor(7798784);
             var0.fillRect(bm, bn, var1, 2);
@@ -4011,7 +4007,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.setColor(65535);
             var0.fillRect(31, bg + 32, var1, 1);
             FontGraph.drawSmall(var0, "" + PlayerStats.level, 2, 26, bg + 11, 2);
-            var0.drawImage(eC[fd], 43, bg + 16, 3);
+            var0.drawImage(weaponIcons[fd], 43, bg + 16, 3);
             FontGraph.drawSmall(var0, "" + (W[0] + W[1] + W[2]), 2, bh - 29, bg + 19, 2);
             FontGraph.drawSmall(var0, "" + (W[3] + W[4] + W[5]), 2, bh - 9, bg + 19, 2);
         }
@@ -4072,7 +4068,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.setColor(0);
         var0.fillRect(0, bg + 33, bh, 15);
         if (var2 && iF > fO + 10 && iF < fO + r - 10) {
-            var0.drawImage(eh, iF - fO, iG - fP + 2, 17);
+            var0.drawImage(markerIcon, iF - fO, iG - fP + 2, 17);
         }
 
         if (x % 10 < 8) {
@@ -4085,16 +4081,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
         for(int var1 = 0; var1 < du; ++var1) {
             if (dz[var1] + fi >= fO && dz[var1] - fi <= fO + r && dA[var1] >= fP && dA[var1] - fh <= fP + s) {
                 if (dJ[var1] == 1) {
-                    var0.drawImage(es[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
-                    var0.drawImage(eq[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
-                    var0.drawImage(ed[aI[dG[var1]][2][0]], dz[var1] + aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 0);
+                    var0.drawImage(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
+                    var0.drawImage(heroLegs[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
+                    var0.drawImage(heroBodies[aI[dG[var1]][2][0]], dz[var1] + aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 0);
                     if (dI[var1] != -1) {
                         var0.drawImage(slashEffects[dI[var1]], dz[var1] - as[dI[var1]], dA[var1] - at[dI[var1]], 0);
                     }
                 } else {
-                    var0.drawRegion(es[dH[var1]][aI[dG[var1]][0][0]], 0, 0, es[dH[var1]][aI[dG[var1]][0][0]].getWidth(), es[dH[var1]][aI[dG[var1]][0][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 24);
-                    var0.drawRegion(eq[aI[dG[var1]][1][0]], 0, 0, eq[aI[dG[var1]][1][0]].getWidth(), eq[aI[dG[var1]][1][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 24);
-                    var0.drawRegion(ed[aI[dG[var1]][2][0]], 0, 0, ed[aI[dG[var1]][2][0]].getWidth(), ed[aI[dG[var1]][2][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 24);
+                    var0.drawRegion(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], 0, 0, classmateHeads[dH[var1]][aI[dG[var1]][0][0]].getWidth(), classmateHeads[dH[var1]][aI[dG[var1]][0][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 24);
+                    var0.drawRegion(heroLegs[aI[dG[var1]][1][0]], 0, 0, heroLegs[aI[dG[var1]][1][0]].getWidth(), heroLegs[aI[dG[var1]][1][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 24);
+                    var0.drawRegion(heroBodies[aI[dG[var1]][2][0]], 0, 0, heroBodies[aI[dG[var1]][2][0]].getWidth(), heroBodies[aI[dG[var1]][2][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 24);
                     if (dI[var1] != -1) {
                         var0.drawRegion(slashEffects[dI[var1]], 0, 0, slashEffects[dI[var1]].getWidth(), slashEffects[dI[var1]].getHeight(), 2, dz[var1] + as[dI[var1]], dA[var1] - at[dI[var1]], 24);
                     }
@@ -5369,9 +5365,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     fx = false;
 
                     for(int var1 = 0; var1 < 4; ++var1) {
-                        Image var3 = eo[var1];
-                        eo[var1] = ep[var1];
-                        ep[var1] = var3;
+                        Image var3 = heroHeads[var1];
+                        heroHeads[var1] = heroTransformHeads[var1];
+                        heroTransformHeads[var1] = var3;
                     }
                 }
 
@@ -5405,17 +5401,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (++D == 1) {
             f(fe, ff - 40);
             aL = 0;
-            if (ep == null) {
-                ep = new Image[4];
+            if (heroTransformHeads == null) {
+                heroTransformHeads = new Image[4];
 
                 try {
-                    ep[0] = Image.createImage("/cp/ch0x.png");
-                    ep[1] = Image.createImage("/cp/ch1x.png");
+                    heroTransformHeads[0] = Actor.loadHeroTransformHead(0);
+                    heroTransformHeads[1] = Actor.loadHeroTransformHead(1);
                 } catch (Exception var2) {
                 }
 
-                ep[2] = ep[1];
-                ep[3] = ep[0];
+                heroTransformHeads[2] = heroTransformHeads[1];
+                heroTransformHeads[3] = heroTransformHeads[0];
             }
         } else {
             Image var0;
@@ -5428,33 +5424,33 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 for(var1 = 0; var1 < 4; ++var1) {
-                    var0 = eo[var1];
-                    eo[var1] = ep[var1];
-                    ep[var1] = var0;
+                    var0 = heroHeads[var1];
+                    heroHeads[var1] = heroTransformHeads[var1];
+                    heroTransformHeads[var1] = var0;
                 }
 
                 fx = !fx;
             } else if (D <= 10) {
                 if (D % 5 == 0) {
                     for(var1 = 0; var1 < 4; ++var1) {
-                        var0 = eo[var1];
-                        eo[var1] = ep[var1];
-                        ep[var1] = var0;
+                        var0 = heroHeads[var1];
+                        heroHeads[var1] = heroTransformHeads[var1];
+                        heroTransformHeads[var1] = var0;
                     }
                 }
             } else if (D < 20) {
                 if (D % 3 == 0) {
                     for(var1 = 0; var1 < 4; ++var1) {
-                        var0 = eo[var1];
-                        eo[var1] = ep[var1];
-                        ep[var1] = var0;
+                        var0 = heroHeads[var1];
+                        heroHeads[var1] = heroTransformHeads[var1];
+                        heroTransformHeads[var1] = var0;
                     }
                 }
             } else if (D < 30 && D % 2 == 0) {
                 for(var1 = 0; var1 < 4; ++var1) {
-                    var0 = eo[var1];
-                    eo[var1] = ep[var1];
-                    ep[var1] = var0;
+                    var0 = heroHeads[var1];
+                    heroHeads[var1] = heroTransformHeads[var1];
+                    heroTransformHeads[var1] = var0;
                 }
             }
         }
@@ -5838,20 +5834,20 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             monsterSprites = null;
                             System.gc();
                             C();
-                            es = null;
+                            classmateHeads = null;
                             npcDog = null;
                             enemyProjectiles = null;
-                            ej = null;
+                            dustSprites = null;
                             dartFrames = null;
-                            er = null;
-                            ey = null;
-                            eD = null;
-                            dZ = null;
+                            auraSprites = null;
+                            bloodSprites = null;
+                            waterSplashSprites = null;
+                            arrowIcons = null;
                             System.gc();
-                            eq = null;
-                            ed = null;
-                            eo = null;
-                            ep = null;
+                            heroLegs = null;
+                            heroBodies = null;
+                            heroHeads = null;
+                            heroTransformHeads = null;
                             slashEffects = null;
                             System.gc();
                             K();
@@ -7308,16 +7304,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     if (dz[0] + fi >= fO && dz[0] - fi <= fO + r && dA[0] >= fP && dA[0] - fh <= fP + s) {
                         if (dJ[0] == 1) {
-                            var6.drawImage(es[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
-                            var6.drawImage(eq[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
-                            var6.drawImage(ed[aI[dG[0]][2][0]], dz[0] + aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 0);
+                            var6.drawImage(classmateHeads[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
+                            var6.drawImage(heroLegs[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
+                            var6.drawImage(heroBodies[aI[dG[0]][2][0]], dz[0] + aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 0);
                             if (dI[0] != -1) {
                                 var6.drawImage(slashEffects[dI[0]], dz[0] - as[dI[0]], dA[0] - at[dI[0]], 0);
                             }
                         } else {
-                            var6.drawRegion(es[dH[0]][aI[dG[0]][0][0]], 0, 0, es[dH[0]][aI[dG[0]][0][0]].getWidth(), es[dH[0]][aI[dG[0]][0][0]].getHeight(), 2, dz[0] - aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 24);
-                            var6.drawRegion(eq[aI[dG[0]][1][0]], 0, 0, eq[aI[dG[0]][1][0]].getWidth(), eq[aI[dG[0]][1][0]].getHeight(), 2, dz[0] - aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 24);
-                            var6.drawRegion(ed[aI[dG[0]][2][0]], 0, 0, ed[aI[dG[0]][2][0]].getWidth(), ed[aI[dG[0]][2][0]].getHeight(), 2, dz[0] - aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 24);
+                            var6.drawRegion(classmateHeads[dH[0]][aI[dG[0]][0][0]], 0, 0, classmateHeads[dH[0]][aI[dG[0]][0][0]].getWidth(), classmateHeads[dH[0]][aI[dG[0]][0][0]].getHeight(), 2, dz[0] - aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 24);
+                            var6.drawRegion(heroLegs[aI[dG[0]][1][0]], 0, 0, heroLegs[aI[dG[0]][1][0]].getWidth(), heroLegs[aI[dG[0]][1][0]].getHeight(), 2, dz[0] - aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 24);
+                            var6.drawRegion(heroBodies[aI[dG[0]][2][0]], 0, 0, heroBodies[aI[dG[0]][2][0]].getWidth(), heroBodies[aI[dG[0]][2][0]].getHeight(), 2, dz[0] - aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 24);
                             if (dI[0] != -1) {
                                 var6.drawRegion(slashEffects[dI[0]], 0, 0, slashEffects[dI[0]].getWidth(), slashEffects[dI[0]].getHeight(), 2, dz[0] + as[dI[0]], dA[0] - at[dI[0]], 24);
                             }
@@ -7326,21 +7322,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (dX != 0 && (var2 = dX % 3) < 2) {
-                    var6.drawImage(er[var2], dV, dW, 17);
+                    var6.drawImage(auraSprites[var2], dV, dW, 17);
                 }
 
                 if (gm == w) {
                     if (gz == 1) {
-                        var6.drawImage(em[aq[gs][0][0]], gn + aq[gs][0][1], go - aq[gs][0][2], 0);
-                        var6.drawImage(en[aq[gs][1][0]], gn + aq[gs][1][1], go - aq[gs][1][2], 0);
-                        var6.drawImage(el[aq[gs][2][0]], gn + aq[gs][2][1], go - aq[gs][2][2], 0);
+                        var6.drawImage(girlHeads[aq[gs][0][0]], gn + aq[gs][0][1], go - aq[gs][0][2], 0);
+                        var6.drawImage(girlLegs[aq[gs][1][0]], gn + aq[gs][1][1], go - aq[gs][1][2], 0);
+                        var6.drawImage(girlBodies[aq[gs][2][0]], gn + aq[gs][2][1], go - aq[gs][2][2], 0);
                         if (ig != -1) {
                             var6.drawImage(slashEffects[ig], gn - as[ig], go - at[ig], 0);
                         }
                     } else {
-                        var6.drawRegion(em[aq[gs][0][0]], 0, 0, em[aq[gs][0][0]].getWidth(), em[aq[gs][0][0]].getHeight(), 2, gn - aq[gs][0][1], go - aq[gs][0][2], 24);
-                        var6.drawRegion(en[aq[gs][1][0]], 0, 0, en[aq[gs][1][0]].getWidth(), en[aq[gs][1][0]].getHeight(), 2, gn - aq[gs][1][1], go - aq[gs][1][2], 24);
-                        var6.drawRegion(el[aq[gs][2][0]], 0, 0, el[aq[gs][2][0]].getWidth(), el[aq[gs][2][0]].getHeight(), 2, gn - aq[gs][2][1], go - aq[gs][2][2], 24);
+                        var6.drawRegion(girlHeads[aq[gs][0][0]], 0, 0, girlHeads[aq[gs][0][0]].getWidth(), girlHeads[aq[gs][0][0]].getHeight(), 2, gn - aq[gs][0][1], go - aq[gs][0][2], 24);
+                        var6.drawRegion(girlLegs[aq[gs][1][0]], 0, 0, girlLegs[aq[gs][1][0]].getWidth(), girlLegs[aq[gs][1][0]].getHeight(), 2, gn - aq[gs][1][1], go - aq[gs][1][2], 24);
+                        var6.drawRegion(girlBodies[aq[gs][2][0]], 0, 0, girlBodies[aq[gs][2][0]].getWidth(), girlBodies[aq[gs][2][0]].getHeight(), 2, gn - aq[gs][2][1], go - aq[gs][2][2], 24);
                         if (ig != -1) {
                             var6.drawRegion(slashEffects[ig], 0, 0, slashEffects[ig].getWidth(), slashEffects[ig].getHeight(), 2, gn + as[ig], go - at[ig], 24);
                         }
@@ -7357,9 +7353,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 for(var2 = 0; var2 < 2; ++var2) {
                     if (cc[var2] != -1) {
                         if (ce[var2] == 1) {
-                            var1.drawImage(ey[cd[var2]], ca[var2], cb[var2], 3);
+                            var1.drawImage(bloodSprites[cd[var2]], ca[var2], cb[var2], 3);
                         } else {
-                            var1.drawRegion(ey[cd[var2]], 0, 0, ey[cd[var2]].getWidth(), ey[cd[var2]].getHeight(), 2, ca[var2], cb[var2], 3);
+                            var1.drawRegion(bloodSprites[cd[var2]], 0, 0, bloodSprites[cd[var2]].getWidth(), bloodSprites[cd[var2]].getHeight(), 2, ca[var2], cb[var2], 3);
                         }
                     }
                 }
@@ -7368,7 +7364,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (!a) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (cl[var2] != -1) {
-                            var1.drawImage(ej[var2][cl[var2]], cj[var2], ck[var2], 3);
+                            var1.drawImage(dustSprites[var2][cl[var2]], cj[var2], ck[var2], 3);
                         }
                     }
                 }
@@ -7393,7 +7389,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < bT; ++var2) {
                     if (bW[var2] != 0) {
-                        var1.drawImage(ea, bU[var2], bV[var2], 3);
+                        var1.drawImage(healSprite, bU[var2], bV[var2], 3);
                     }
                 }
 
@@ -7401,7 +7397,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (!a) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (ch[var2] != -1) {
-                            var1.drawImage(eD[ci[var2]], cf[var2], cg[var2], 3);
+                            var1.drawImage(waterSplashSprites[ci[var2]], cf[var2], cg[var2], 3);
                         }
                     }
                 }
@@ -7416,7 +7412,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (gb == w) {
-                    var6.drawImage(dZ[ge], gf, gg, 3);
+                    var6.drawImage(arrowIcons[ge], gf, gg, 3);
                 }
 
                 c(var6);
@@ -7469,7 +7465,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1.setColor(10275899);
                     var1.fillRect(0, ba - 1, aT, 1);
                     var1.fillRect(0, bb + 1, aT, 1);
-                    var1.drawImage(eA, aV, aY + bb >> 1, 3);
+                    var1.drawImage(titleImage, aV, aY + bb >> 1, 3);
                     FontGraph.drawBold(var1, "*", aV - 50 - x % 3, bd, 0);
                     FontGraph.drawBold(var1, "/", aV + 50 + x % 3, bd, 1);
                     FontGraph.drawBold(var1, aE[aX], aV, bd, 3);
@@ -7477,8 +7473,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 case 4:
                     var1.setColor(0);
                     var1.fillRect(0, 0, aT, aU);
-                    if (jC != null && jE >= 0) {
-                        var1.drawRegion(jC, 0, jE * 51, 71, 51, 0, aT >> 1, aU >> 1, 3);
+                    if (logoImage != null && jE >= 0) {
+                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, aT >> 1, aU >> 1, 3);
                     }
 
                     return;
@@ -7501,7 +7497,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1.setColor(0);
                     var1.fillRect(0, 0, aT, aU);
                     if (!lk) {
-                        var1.drawImage(lj, aV, aW - 30, 3);
+                        var1.drawImage(popupImage, aV, aW - 30, 3);
                         if (ll == 0) {
                             FontGraph.drawBold(var1, "Bật âm thanh?", aV, aW + 15, 2);
                             FontGraph.drawBold(var1, "Bật", 4, aU - 14, 0);
@@ -9957,7 +9953,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         label2172: {
                             d();
                             if (aX == 0) {
-                                eA = null;
+                                titleImage = null;
                                 B();
                                 Save.pendingSave = true;
                                 gM = System.currentTimeMillis();
@@ -9967,7 +9963,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     break label2172;
                                 }
 
-                                eA = null;
+                                titleImage = null;
                                 B();
                                 int[] var12;
                                 gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
@@ -9989,7 +9985,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 gM = System.currentTimeMillis();
                                 x(w);
                             } else if (aX == 2) {
-                                eA = null;
+                                titleImage = null;
                                 B();
                                 e = 2;
                                 aj();
@@ -10071,7 +10067,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     if (jD > 51) {
-                        jC = null;
+                        logoImage = null;
                         at();
                         e = 10;
                     } else if (jD > 46) {
@@ -10090,7 +10086,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var3 = false;
                     if (aS[13]) {
                         var3 = true;
-                        kG = null;
+                        cornerIcons = null;
                         ah();
                         e = 1;
                         d = true;
@@ -10124,7 +10120,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                         if (kI == 2) {
                             if (B != 1) {
-                                kG = null;
+                                cornerIcons = null;
                                 ah();
                                 au();
                                 s(5);
@@ -10191,7 +10187,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     if (aS[13]) {
                         ar();
-                        kG = null;
+                        cornerIcons = null;
                         ah();
                         e = 1;
                         d();
@@ -10256,7 +10252,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 } else {
                                     dd -= ln;
                                     ar();
-                                    kG = null;
+                                    cornerIcons = null;
                                     ah();
                                     B();
                                     fp = fe = kP[kV] * 24;
@@ -10267,7 +10263,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 break;
                             case 5:
                             case 6:
-                                kG = null;
+                                cornerIcons = null;
                                 e = 1;
                         }
                     }
@@ -10391,8 +10387,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     if (aS[13]) {
-                        kG = null;
-                        kw = null;
+                        cornerIcons = null;
+                        shopSwordIcons = null;
                         System.gc();
                         ah();
                         d();
@@ -10448,7 +10444,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     break;
                 case 10:
                     if (lk) {
-                        lj = null;
+                        popupImage = null;
                         K();
                     }
 
@@ -10476,7 +10472,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         c();
                         if (ll == 0) {
                             try {
-                                lj = Image.createImage("/u/m2.png");
+                                popupImage = Ui.loadSmileys();
                             } catch (Exception var9) {
                             }
 
@@ -11082,7 +11078,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void ai() {
         try {
-            jC = Image.createImage("/u/lg.png");
+            logoImage = Ui.loadLogo();
         } catch (Exception var0) {
         }
     }
@@ -13286,22 +13282,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
         V = bD - 40;
         kn = bC - 50;
         tilesetImage = null;
-        kw = new Image[4];
+        shopSwordIcons = new Image[4];
 
         try {
-            kw[0] = Image.createImage("/u/wpt0.png");
-            kw[1] = Image.createImage("/u/wpt2.png");
-            kw[2] = Image.createImage("/u/wpt3.png");
-            kw[3] = Image.createImage("/u/wpt4.png");
+            for(int var4 = 0; var4 < Ui.SWORD_LEVEL_COUNT; ++var4) {
+                shopSwordIcons[var4] = Ui.loadSwordIcon(var4);
+            }
         } catch (Exception var3) {
         }
 
-        if (kG == null) {
-            kG = new Image[4];
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13348,7 +13343,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.fillRect(kn + 10 + var1 * 20, V + 32, 19, 20);
             var0.setColor(4856064);
             var0.drawRect(kn + 10 + var1 * 20, V + 32, 18, 20);
-            var0.drawImage(kw[var1], kn + 20 + var1 * 20, V + 42, 3);
+            var0.drawImage(shopSwordIcons[var1], kn + 20 + var1 * 20, V + 42, 3);
         }
 
         var0.setColor(ks[kp]);
@@ -13364,21 +13359,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
             FontGraph.drawBold(var0, ku[kq][ko], bC, V + 58, 2);
         }
 
-        var0.drawImage(kG[0], bC - 64, V - 19, 20);
-        var0.drawImage(kG[1], bC + 65, V - 19, 24);
-        var0.drawImage(kG[2], bC - 64, V + 83, 36);
-        var0.drawImage(kG[3], bC + 65, V + 83, 40);
+        var0.drawImage(cornerIcons[0], bC - 64, V - 19, 20);
+        var0.drawImage(cornerIcons[1], bC + 65, V - 19, 24);
+        var0.drawImage(cornerIcons[2], bC - 64, V + 83, 36);
+        var0.drawImage(cornerIcons[3], bC + 65, V + 83, 40);
     }
 
     private static void ao() {
         kz = bD - 40;
         kA = bC - 50;
-        if (kG == null) {
-            kG = new Image[4];
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13418,21 +13413,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var0.drawRect(kA - 10 + kB * 20, kz + 10, 20, 20);
         FontGraph.drawBold(var0, kE[kB], bC, kz + 40, 2);
         FontGraph.drawBold(var0, "Số lượng: " + W[kB], bC, kz + 55, 2);
-        var0.drawImage(kG[0], bC - 64, kz - 19, 20);
-        var0.drawImage(kG[1], bC + 65, kz - 19, 24);
-        var0.drawImage(kG[2], bC - 64, kz + 83, 36);
-        var0.drawImage(kG[3], bC + 65, kz + 83, 40);
+        var0.drawImage(cornerIcons[0], bC - 64, kz - 19, 20);
+        var0.drawImage(cornerIcons[1], bC + 65, kz - 19, 24);
+        var0.drawImage(cornerIcons[2], bC - 64, kz + 83, 36);
+        var0.drawImage(cornerIcons[3], bC + 65, kz + 83, 40);
     }
 
     private static void ap() {
         kH = bD - 40;
         tilesetImage = null;
-        if (kG == null) {
-            kG = new Image[4];
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13457,11 +13452,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
             FontGraph.drawBold(var0, kK[var1], aV - 30, kH + var1 * 18, 0);
         }
 
-        var0.drawImage(eC[0], aV - 55 + kJ % 2, kH + kI * 18 - kJ % 2, 0);
-        var0.drawImage(kG[0], bC - 64, kH - 19, 20);
-        var0.drawImage(kG[1], bC + 65, kH - 19, 24);
-        var0.drawImage(kG[2], bC - 64, kH + 83, 36);
-        var0.drawImage(kG[3], bC + 65, kH + 83, 40);
+        var0.drawImage(weaponIcons[0], aV - 55 + kJ % 2, kH + kI * 18 - kJ % 2, 0);
+        var0.drawImage(cornerIcons[0], bC - 64, kH - 19, 20);
+        var0.drawImage(cornerIcons[1], bC + 65, kH - 19, 24);
+        var0.drawImage(cornerIcons[2], bC - 64, kH + 83, 36);
+        var0.drawImage(cornerIcons[3], bC + 65, kH + 83, 40);
     }
 
     private static void aq() {
@@ -13471,7 +13466,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         try {
             kR = Image.createImage("/wm.png");
-            kS = Image.createImage("/u/x.png");
+            crossIcon = Ui.loadCross();
         } catch (Exception var0) {
         }
 
@@ -13517,7 +13512,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void ar() {
         kR = null;
-        kS = null;
+        crossIcon = null;
         System.gc();
     }
 
@@ -13534,15 +13529,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         for(int var1 = 0; var1 < 19; ++var1) {
             if (var1 == lh) {
-                var0.drawImage(eo[0], kN[var1] + 10, kO[var1], 3);
+                var0.drawImage(heroHeads[0], kN[var1] + 10, kO[var1], 3);
             }
 
             if (X[var1] && (var1 != kV || kW % 10 > 5)) {
-                var0.drawImage(kS, kN[var1], kO[var1], 3);
+                var0.drawImage(crossIcon, kN[var1], kO[var1], 3);
             }
         }
 
-        var0.drawImage(eC[0], kT, kU, 24);
+        var0.drawImage(weaponIcons[0], kT, kU, 24);
         if (kV != -1) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
             var0.setColor(6562304);
@@ -13550,10 +13545,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.setColor(12281361);
             var0.drawRect(aV - 59, s - 34, 117, 30);
             FontGraph.drawBold(var0, kL[kV], aV, s - 25, 2);
-            var0.drawImage(kG[0], aV - 60, s - 35, 20);
-            var0.drawImage(kG[1], aV + 60, s - 35, 24);
-            var0.drawImage(kG[2], aV - 60, s - 2, 36);
-            var0.drawImage(kG[3], aV + 60, s - 2, 40);
+            var0.drawImage(cornerIcons[0], aV - 60, s - 35, 20);
+            var0.drawImage(cornerIcons[1], aV + 60, s - 35, 24);
+            var0.drawImage(cornerIcons[2], aV - 60, s - 2, 36);
+            var0.drawImage(cornerIcons[3], aV + 60, s - 2, 40);
         }
 
     }
@@ -13574,7 +13569,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void at() {
         try {
-            lj = Image.createImage("/u/m.png");
+            popupImage = Ui.loadSoundIcon();
         } catch (Exception var0) {
         }
     }
@@ -13634,12 +13629,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void au() {
         lo = 0;
-        if (kG == null) {
-            kG = new Image[4];
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13664,10 +13659,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             FontGraph.drawBold(var0, lr[var1], aV, Y + var1 * 18, 2);
         }
 
-        var0.drawImage(kG[0], bC - 64, Y - 19, 20);
-        var0.drawImage(kG[1], bC + 65, Y - 19, 24);
-        var0.drawImage(kG[2], bC - 64, Y + 83, 36);
-        var0.drawImage(kG[3], bC + 65, Y + 83, 40);
+        var0.drawImage(cornerIcons[0], bC - 64, Y - 19, 20);
+        var0.drawImage(cornerIcons[1], bC + 65, Y - 19, 24);
+        var0.drawImage(cornerIcons[2], bC - 64, Y + 83, 36);
+        var0.drawImage(cornerIcons[3], bC + 65, Y + 83, 40);
     }
 
     private static void V(int var0) {

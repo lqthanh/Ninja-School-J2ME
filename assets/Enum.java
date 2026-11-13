@@ -2,6 +2,7 @@ package assets;
 
 public final class Enum {
 	public static final String PATH_BACKGROUND = "/assets/background/";
+	public static final String PATH_CHARACTER = "/assets/character/";
 	public static final String PATH_EFFECT = "/assets/effect/";
 	public static final String PATH_FONT = "/assets/font/";
 	public static final String PATH_ITEM = "/assets/item/";
@@ -10,6 +11,7 @@ public final class Enum {
 	public static final String PATH_NPC = "/assets/npc/";
 	public static final String PATH_SOUND = "/assets/sound/";
 	public static final String PATH_TILE = "/assets/tile/";
+	public static final String PATH_UI = "/assets/ui/";
 
 	public static final String TYPE_MIME = "audio/midi";
 
