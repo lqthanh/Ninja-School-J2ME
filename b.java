@@ -404,7 +404,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static Image[] ef;
     private static Image[] itemMoney;
     private static Image eh;
-    private static Image[] ei;
+    private static Image[] npcDog;
     private static Image[][] ej;
     private static Image[] ek;
     private static Image[] el;
@@ -415,13 +415,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static Image[] eq;
     private static Image[] er;
     private static Image[][] es;
-    private static Image[][] et;
-    private static Image[] eu;
-    private static Image[] ev;
+    private static Image[][] ninjaBodies;
+    private static Image[] ninjaLegs;
+    private static Image[] boss0Sprites;
     private static Image[] itemPotions;
-    private static Image[] ex;
+    private static Image[] boss1Sprites;
     private static Image[] ey;
-    private static Image[] ez;
+    private static Image[] boss2Sprites;
     private static Image eA;
     private static Image[] eB;
     private static Image[] eC;
@@ -704,7 +704,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int jD;
     private static int jE;
     public static boolean U;
-    private static Image[][][] jF;
+    private static Image[][][] monsterSprites;
     private static int jG;
     private static int jH;
     private static int[] jI;
@@ -799,7 +799,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static String lp;
     private static String lq;
     private static String[] lr;
-    private static Image[][] ls;
+    private static Image[][] npcSprites;
     private static int lt;
     private static int[] lu;
     private static int[] lv;
@@ -2336,26 +2336,26 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void B() {
-        ls = null;
+        npcSprites = null;
         System.gc();
         eb = null;
         itemCrate = null;
-        ev = null;
+        boss0Sprites = null;
         System.gc();
-        ex = null;
+        boss1Sprites = null;
         System.gc();
-        jF = null;
+        monsterSprites = null;
         System.gc();
         C();
         es = null;
-        ei = null;
+        npcDog = null;
         dY = null;
         System.gc();
     }
 
     private static void C() {
-        eu = null;
-        et = null;
+        ninjaLegs = null;
+        ninjaBodies = null;
         System.gc();
     }
 
@@ -3085,16 +3085,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     public static void e(int var0) {
         dn = false;
         if (var0 == 0) {
-            if (ei == null) {
-                ei = new Image[2];
-
-                for(var0 = 0; var0 < 2; ++var0) {
-                    try {
-                        ei[var0] = Image.createImage("/npc/d" + var0 + ".png");
-                    } catch (Exception var1) {
-                    }
-                }
-            }
+            npcDog = Npc.ensureDog(npcDog);
 
             dn = true;
             doSt = 348;
@@ -3499,24 +3490,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void L() {
         boolean var0 = false;
-        if (eu == null) {
+        if (ninjaLegs == null) {
             try {
-                eu = new Image[4];
-
-                int var3;
-                for(var3 = 0; var3 < 4; ++var3) {
-                    eu[var3] = Image.createImage("/mob/x" + var3 + ".png");
-                }
-
-                et = new Image[7][2];
-
-                for(var3 = 0; var3 < 7; ++var3) {
-                    if (dt[var3]) {
-                        for(int var1 = 0; var1 < 2; ++var1) {
-                            et[var3][var1] = Image.createImage("/mob/y" + var3 + var1 + ".png");
-                        }
-                    }
-                }
+                ninjaLegs = Mob.loadNinjaLegs();
+                ninjaBodies = Mob.loadNinjaBodies(dt);
             } catch (Exception var2) {
             }
         }
@@ -3573,19 +3550,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         int var1;
         if (var0 == 4) {
             gN = true;
-            if (ev == null) {
-                ev = new Image[5];
+            boss0Sprites = Mob.ensureBoss0(boss0Sprites);
 
-                for(var1 = 0; var1 < 5; ++var1) {
-                    try {
-                        ev[var1] = Image.createImage("/mob/b0" + var1 + ".png");
-                    } catch (Exception var3) {
-                    }
-                }
-            }
-
-            gV = ev[0].getWidth();
-            gW = ev[0].getHeight();
+            gV = boss0Sprites[0].getWidth();
+            gW = boss0Sprites[0].getHeight();
             gP = 55 * je + 12;
             gQ = 13 * je;
             gS = 1;
@@ -3595,19 +3563,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (var0 == 5) {
             gN = true;
-            if (ev == null) {
-                ev = new Image[5];
+            boss0Sprites = Mob.ensureBoss0(boss0Sprites);
 
-                for(var1 = 0; var1 < 5; ++var1) {
-                    try {
-                        ev[var1] = Image.createImage("/mob/b0" + var1 + ".png");
-                    } catch (Exception var2) {
-                    }
-                }
-            }
-
-            gV = ev[0].getWidth();
-            gW = ev[0].getHeight();
+            gV = boss0Sprites[0].getWidth();
+            gW = boss0Sprites[0].getHeight();
             gP = 8 * je + 12;
             gQ = 56 * je;
             gS = 1;
@@ -3638,14 +3597,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         hJ = false;
         if (var0 == 97 && !eF) {
             hJ = true;
-            ex = new Image[4];
-
-            for(var0 = 0; var0 < 4; ++var0) {
-                try {
-                    ex[var0] = Image.createImage("/mob/b1" + var0 + ".png");
-                } catch (IOException var1) {
-                }
-            }
+            boss1Sprites = Mob.loadBoss1();
 
             hP = 168;
             hQ = 226;
@@ -3683,16 +3635,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
         hi = false;
         if (var0 == 95 && !eH) {
             hi = true;
-            ez = new Image[6];
+            boss2Sprites = new Image[6];
 
             try {
-                ez[0] = Image.createImage("/mob/b20.png");
-                ez[1] = Image.createImage("/mob/b21.png");
-                ez[2] = Image.createImage("/mob/b22.png");
-                ez[3] = ez[1];
-                ez[4] = Image.createImage("/mob/b23.png");
-                ez[5] = Image.createImage("/cp/f2h0.png");
-            } catch (IOException var1) {
+                boss2Sprites[0] = Mob.loadBossPart(2, 0);
+                boss2Sprites[1] = Mob.loadBossPart(2, 1);
+                boss2Sprites[2] = Mob.loadBossPart(2, 2);
+                boss2Sprites[3] = boss2Sprites[1];
+                boss2Sprites[4] = Mob.loadBossPart(2, 3);
+                boss2Sprites[5] = Image.createImage("/cp/f2h0.png");
+            } catch (Exception var1) {
             }
 
             hp = 192;
@@ -5932,20 +5884,20 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             iQ = null;
                             iR = null;
                             System.gc();
-                            ls = null;
+                            npcSprites = null;
                             System.gc();
                             eb = null;
                             itemCrate = null;
                             itemMoney = null;
-                            ev = null;
+                            boss0Sprites = null;
                             System.gc();
-                            ex = null;
+                            boss1Sprites = null;
                             System.gc();
-                            jF = null;
+                            monsterSprites = null;
                             System.gc();
                             C();
                             es = null;
-                            ei = null;
+                            npcDog = null;
                             dY = null;
                             ej = null;
                             ek = null;
@@ -7222,15 +7174,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     r(var6);
                     if (hJ) {
                         if (hY < 0) {
-                            var6.drawImage(ex[0], hP, hQ, 33);
-                            var6.drawImage(ex[2], hR, hV, 33);
-                            var6.drawImage(ex[3], hU, hW, 33);
-                            var6.drawImage(ex[1], hS, hT, 33);
+                            var6.drawImage(boss1Sprites[0], hP, hQ, 33);
+                            var6.drawImage(boss1Sprites[2], hR, hV, 33);
+                            var6.drawImage(boss1Sprites[3], hU, hW, 33);
+                            var6.drawImage(boss1Sprites[1], hS, hT, 33);
                         } else {
-                            var6.drawRegion(ex[0], 0, 0, ex[0].getWidth(), ex[0].getHeight(), 2, hP, hQ, 33);
-                            var6.drawRegion(ex[2], 0, 0, ex[2].getWidth(), ex[2].getHeight(), 2, hR, hV, 33);
-                            var6.drawRegion(ex[3], 0, 0, ex[3].getWidth(), ex[3].getHeight(), 2, hU, hW, 33);
-                            var6.drawRegion(ex[1], 0, 0, ex[1].getWidth(), ex[1].getHeight(), 2, hS, hT, 33);
+                            var6.drawRegion(boss1Sprites[0], 0, 0, boss1Sprites[0].getWidth(), boss1Sprites[0].getHeight(), 2, hP, hQ, 33);
+                            var6.drawRegion(boss1Sprites[2], 0, 0, boss1Sprites[2].getWidth(), boss1Sprites[2].getHeight(), 2, hR, hV, 33);
+                            var6.drawRegion(boss1Sprites[3], 0, 0, boss1Sprites[3].getWidth(), boss1Sprites[3].getHeight(), 2, hU, hW, 33);
+                            var6.drawRegion(boss1Sprites[1], 0, 0, boss1Sprites[1].getWidth(), boss1Sprites[1].getHeight(), 2, hS, hT, 33);
                         }
 
                         if (ic != 0) {
@@ -7290,23 +7242,23 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             if (gT == 1) {
-                                var6.drawImage(ev[4], gP, gQ + 1, 33);
+                                var6.drawImage(boss0Sprites[4], gP, gQ + 1, 33);
                             } else {
-                                var6.drawRegion(ev[4], 0, 0, ev[4].getWidth(), ev[4].getHeight(), 2, gP, gQ + 1, 33);
+                                var6.drawRegion(boss0Sprites[4], 0, 0, boss0Sprites[4].getWidth(), boss0Sprites[4].getHeight(), 2, gP, gQ + 1, 33);
                             }
                         }
 
                         if (gT == 1) {
-                            var6.drawImage(ev[gU], gP, gQ + var8 + 1, 33);
+                            var6.drawImage(boss0Sprites[gU], gP, gQ + var8 + 1, 33);
                         } else {
-                            var6.drawRegion(ev[gU], 0, 0, ev[gU].getWidth(), ev[gU].getHeight(), 2, gP, gQ + var8 + 1, 33);
+                            var6.drawRegion(boss0Sprites[gU], 0, 0, boss0Sprites[gU].getWidth(), boss0Sprites[gU].getHeight(), 2, gP, gQ + var8 + 1, 33);
                         }
 
                         if (gS == 7) {
                             if (gT == 1) {
-                                var6.drawImage(ev[3], gP + 10, gQ - 25 + 1, 0);
+                                var6.drawImage(boss0Sprites[3], gP + 10, gQ - 25 + 1, 0);
                             } else {
-                                var6.drawRegion(ev[3], 0, 0, ev[3].getWidth(), ev[3].getHeight(), 2, gP - 10, gQ - 25 + 1, 24);
+                                var6.drawRegion(boss0Sprites[3], 0, 0, boss0Sprites[3].getWidth(), boss0Sprites[3].getHeight(), 2, gP - 10, gQ - 25 + 1, 24);
                             }
                         }
 
@@ -7325,11 +7277,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     if (hi) {
                         if (hs > 0) {
                             for(var2 = 0; var2 < 6; ++var2) {
-                                var1.drawImage(ez[var2], hD[var2], hE[var2], 33);
+                                var1.drawImage(boss2Sprites[var2], hD[var2], hE[var2], 33);
                             }
                         } else {
                             for(var2 = 0; var2 < 6; ++var2) {
-                                var1.drawRegion(ez[var2], 0, 0, ez[var2].getWidth(), ez[var2].getHeight(), 2, hD[var2], hE[var2], 33);
+                                var1.drawRegion(boss2Sprites[var2], 0, 0, boss2Sprites[var2].getWidth(), boss2Sprites[var2].getHeight(), 2, hD[var2], hE[var2], 33);
                             }
                         }
 
@@ -7348,7 +7300,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     for(var2 = 0; var2 < jG; ++var2) {
                         if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= fO - 10 && jJ[var2] <= fO + r + 10 && jK[var2] >= fP && jK[var2] <= fP + s + 20) {
-                            var1.drawImage(jF[kg[var2]][jX[var2] >= 0 ? 0 : 1][jW[var2]], jJ[var2], jK[var2], 33);
+                            var1.drawImage(monsterSprites[kg[var2]][jX[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][jW[var2]], jJ[var2], jK[var2], 33);
                             if (jN[var2] != 0) {
                                 var1.setColor(13073);
                                 var1.drawRect(jJ[var2] - (jM[var2] >> 1) - 1, jK[var2] - jL[var2] - 7, jM[var2] + 2, 4);
@@ -7366,11 +7318,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     for(var2 = 0; var2 < cp; ++var2) {
                         if (cE[var2] != 5 && cu[var2] + 15 >= fO && cu[var2] - 15 <= fO + r && cv[var2] >= fP && cv[var2] - 30 <= fP + s) {
                             if (cH[var2] == -1) {
-                                var1.drawImage(eu[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
-                                var1.drawImage(et[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
+                                var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
                             } else {
-                                var1.drawRegion(eu[cI[var2]], 0, 0, eu[cI[var2]].getWidth(), eu[cI[var2]].getHeight(), 2, cu[var2] - ah[cD[var2]], cv[var2], 33);
-                                var1.drawRegion(et[cD[var2]][cJ[var2]], 0, 0, et[cD[var2]][cJ[var2]].getWidth(), et[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - af[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawRegion(ninjaLegs[cI[var2]], 0, 0, ninjaLegs[cI[var2]].getWidth(), ninjaLegs[cI[var2]].getHeight(), 2, cu[var2] - ah[cD[var2]], cv[var2], 33);
+                                var1.drawRegion(ninjaBodies[cD[var2]][cJ[var2]], 0, 0, ninjaBodies[cD[var2]][cJ[var2]].getWidth(), ninjaBodies[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - af[cD[var2]][cJ[var2]], cx[var2], 33);
                             }
 
                             if (cq[var2] != 0) {
@@ -7389,9 +7341,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     if (dn && doSt + 15 >= fO && doSt - 15 <= fO + r && dp >= fP && dp - 10 <= fP + s) {
                     var2 = x % 8 > 3 ? 0 : 1;
                     if (dq > 0) {
-                        var6.drawImage(ei[var2], doSt, dp, 33);
+                        var6.drawImage(npcDog[var2], doSt, dp, 33);
                     } else {
-                        var6.drawRegion(ei[var2], 0, 0, ei[var2].getWidth(), ei[var2].getHeight(), 2, doSt, dp, 33);
+                        var6.drawRegion(npcDog[var2], 0, 0, npcDog[var2].getWidth(), npcDog[var2].getHeight(), 2, doSt, dp, 33);
                     }
                 }
 
@@ -11762,25 +11714,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (jG > 0) {
-            jF = new Image[kl.length][2][4];
+            monsterSprites = new Image[kl.length][][];
 
             for(var0 = 0; var0 < kl.length; ++var0) {
-                for(int var5 = 0; var5 < 2; ++var5) {
-                    for(var2 = 0; var2 < 4; ++var2) {
-                        try {
-                            jF[var0][var5][var2] = Image.createImage("/mob/m" + kl[var0] + var5 + var2 + ".png");
-                        } catch (Exception var3) {
-                        }
-
-                        if (jF[var0][var5][var2] == null && var5 == 1) {
-                            jF[var0][1][var2] = jF[var0][0][var2];
-                        }
-                    }
-
-                    if (jF[var0][var5][2] == null) {
-                        jF[var0][var5][2] = jF[var0][var5][1];
-                    }
-                }
+                monsterSprites[var0] = Mob.loadMonster(kl[var0]);
             }
         }
 
@@ -13924,21 +13861,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
     public static void t(int var0) {
         lt = 0;
         if (var0 == 0) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[0][0] = Image.createImage("/npc/00.png");
-                ls[0][1] = Image.createImage("/npc/01.png");
-                ls[1][0] = Image.createImage("/npc/10.png");
-                ls[1][1] = Image.createImage("/npc/11.png");
-                ls[2][0] = Image.createImage("/npc/20.png");
-                ls[2][1] = Image.createImage("/npc/21.png");
-                ls[3][0] = Image.createImage("/npc/30.png");
-                ls[3][1] = Image.createImage("/npc/31.png");
-                ls[4][0] = Image.createImage("/npc/40.png");
-                ls[4][1] = Image.createImage("/npc/41.png");
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 0);
+                Npc.loadSprite(npcSprites, 1);
+                Npc.loadSprite(npcSprites, 2);
+                Npc.loadSprite(npcSprites, 3);
+                Npc.loadSprite(npcSprites, 4);
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var7) {
             }
 
@@ -13954,11 +13885,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 1) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var6) {
             }
 
@@ -13968,11 +13898,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 2) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var5) {
             }
 
@@ -13982,11 +13911,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 5) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var4) {
             }
 
@@ -13996,11 +13924,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 6) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var3) {
             }
 
@@ -14010,11 +13937,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 99 || var0 == 101) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[4][0] = Image.createImage("/npc/40.png");
-                ls[4][1] = Image.createImage("/npc/41.png");
+                Npc.loadSprite(npcSprites, 4);
             } catch (Exception var2) {
             }
 
@@ -14024,15 +13950,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 94) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[0][0] = Image.createImage("/npc/00.png");
-                ls[0][1] = Image.createImage("/npc/01.png");
-                ls[4][0] = Image.createImage("/npc/40.png");
-                ls[4][1] = Image.createImage("/npc/41.png");
-                ls[2][0] = Image.createImage("/npc/20.png");
-                ls[2][1] = Image.createImage("/npc/21.png");
+                Npc.loadSprite(npcSprites, 0);
+                Npc.loadSprite(npcSprites, 4);
+                Npc.loadSprite(npcSprites, 2);
             } catch (Exception var1) {
             }
 
@@ -14060,8 +13983,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void r(Graphics var0) {
         for(int var1 = 0; var1 < lt; ++var1) {
             if (lu[var1] + 10 >= fO && lu[var1] - 10 <= fO + r && lv[var1] >= fP && lv[var1] - 32 <= fP + s) {
-                var0.drawImage(ls[lw[var1]][1], lu[var1], lv[var1], 33);
-                var0.drawImage(ls[lw[var1]][0], lu[var1], lv[var1] - lF[lw[var1]] + (x % (15 + lw[var1]) > 4 ? 0 : 1), 33);
+                var0.drawImage(npcSprites[lw[var1]][Npc.PART_LEGS], lu[var1], lv[var1], 33);
+                var0.drawImage(npcSprites[lw[var1]][Npc.PART_BODY], lu[var1], lv[var1] - lF[lw[var1]] + (x % (15 + lw[var1]) > 4 ? 0 : 1), 33);
             }
         }
 
