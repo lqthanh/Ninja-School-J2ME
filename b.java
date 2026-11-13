@@ -391,11 +391,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int dV;
     private static int dW;
     private static int dX;
-    private static Image[][] dY;
+    private static Image[][] enemyProjectiles;
     private static Image[] dZ;
     private static Image ea;
     public static Image[] t;
-    private static Image[] eb;
+    private static Image[] motorbikeFrames;
     private static Image itemScroll;
     private static Image[] ed;
     private static Image itemCrate;
@@ -406,7 +406,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static Image eh;
     private static Image[] npcDog;
     private static Image[][] ej;
-    private static Image[] ek;
+    private static Image[] dartFrames;
     private static Image[] el;
     private static Image[] em;
     private static Image[] en;
@@ -423,7 +423,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static Image[] ey;
     private static Image[] boss2Sprites;
     private static Image eA;
-    private static Image[] eB;
+    private static Image[] slashEffects;
     private static Image[] eC;
     private static Image[] eD;
     public static int w;
@@ -2260,20 +2260,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 P = -1;
                 fC = 0;
                 b("đã học phi tiêu cấp 2");
-                int var0 = 0;
-
-                while(true) {
-                    if (var0 >= 2) {
-                        break label58;
-                    }
-
-                    try {
-                        ek[var0] = Image.createImage("/c/pt" + (var0 + 2) + ".png");
-                    } catch (IOException var1) {
-                    }
-
-                    ++var0;
-                }
+                Effect.loadDarts(dartFrames, Effect.DART_LEVEL_2);
+                break label58;
             case 30:
                 P = 12;
                 fC = 0;
@@ -2338,7 +2326,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void B() {
         npcSprites = null;
         System.gc();
-        eb = null;
+        motorbikeFrames = null;
         itemCrate = null;
         boss0Sprites = null;
         System.gc();
@@ -2349,7 +2337,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         C();
         es = null;
         npcDog = null;
-        dY = null;
+        enemyProjectiles = null;
         System.gc();
     }
 
@@ -2683,18 +2671,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (var0 == 0) {
             bM = 0;
         } else {
-            if (dY == null) {
-                dY = new Image[4][2];
-
-                for(var0 = 0; var0 < 4; ++var0) {
-                    for(int var1 = 0; var1 < 2; ++var1) {
-                        try {
-                            dY[var0][var1] = Image.createImage("/c/ar" + var0 + var1 + ".png");
-                        } catch (IOException var2) {
-                        }
-                    }
-                }
-            }
+            enemyProjectiles = Effect.ensureProjectiles(enemyProjectiles);
 
             bM = 10;
             bN = new int[10];
@@ -2810,15 +2787,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void F() {
-        if (eb == null) {
-            eb = new Image[3];
-
-            try {
-                for(int var0 = 0; var0 < 3; ++var0) {
-                    eb[var0] = Image.createImage("/c/v" + var0 + ".png");
-                }
-            } catch (Exception var1) {
-            }
+        try {
+            motorbikeFrames = Effect.ensureMotorbike(motorbikeFrames);
+        } catch (Exception var1) {
         }
 
         ik = new int[ii];
@@ -3007,20 +2978,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void H() {
-        eB = new Image[11];
+        slashEffects = null;
         System.gc();
-
-        for(int var0 = 0; var0 < 11; ++var0) {
-            try {
-                eB[var0] = Image.createImage("/c/w" + var0 + "t" + y + ".png");
-            } catch (Exception var3) {
-                try {
-                    eB[var0] = Image.createImage("/c/w" + var0 + "t0.png");
-                } catch (IOException var2) {
-                    var2.printStackTrace();
-                }
-            }
-        }
+        slashEffects = Effect.loadSlashes(y);
 
     }
 
@@ -3120,19 +3080,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static final void m() {
         int var0;
-        if (ek == null) {
-            ek = new Image[2];
-
-            for(var0 = 0; var0 < 2; ++var0) {
-                try {
-                    if (eW) {
-                        ek[var0] = Image.createImage("/c/pt" + (var0 + 2) + ".png");
-                    } else {
-                        ek[var0] = Image.createImage("/c/pt" + var0 + ".png");
-                    }
-                } catch (IOException var1) {
-                }
-            }
+        if (dartFrames == null) {
+            dartFrames = Effect.createDartFrames();
+            Effect.loadDarts(dartFrames, eW ? Effect.DART_LEVEL_2 : Effect.DART_LEVEL_1);
         }
 
         cV = 10;
@@ -3963,7 +3913,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.drawImage(eq[ar[C][1][0]], fe + ar[C][1][1], ff - ar[C][1][2], 0);
             var0.drawImage(ed[ar[C][2][0]], fe + ar[C][2][1], ff - ar[C][2][2], 0);
             if (fc != -1) {
-                var0.drawImage(eB[fc], fe - as[fc], ff - at[fc], 0);
+                var0.drawImage(slashEffects[fc], fe - as[fc], ff - at[fc], 0);
                 return;
             }
         } else {
@@ -3971,7 +3921,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.drawRegion(eq[ar[C][1][0]], 0, 0, eq[ar[C][1][0]].getWidth(), eq[ar[C][1][0]].getHeight(), 2, fe - ar[C][1][1], ff - ar[C][1][2], 24);
             var0.drawRegion(ed[ar[C][2][0]], 0, 0, ed[ar[C][2][0]].getWidth(), ed[ar[C][2][0]].getHeight(), 2, fe - ar[C][2][1], ff - ar[C][2][2], 24);
             if (fc != -1) {
-                var0.drawRegion(eB[fc], 0, 0, eB[fc].getWidth(), eB[fc].getHeight(), 2, fe + as[fc], ff - at[fc], 24);
+                var0.drawRegion(slashEffects[fc], 0, 0, slashEffects[fc].getWidth(), slashEffects[fc].getHeight(), 2, fe + as[fc], ff - at[fc], 24);
             }
         }
 
@@ -4147,14 +4097,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var0.drawImage(eq[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
                     var0.drawImage(ed[aI[dG[var1]][2][0]], dz[var1] + aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 0);
                     if (dI[var1] != -1) {
-                        var0.drawImage(eB[dI[var1]], dz[var1] - as[dI[var1]], dA[var1] - at[dI[var1]], 0);
+                        var0.drawImage(slashEffects[dI[var1]], dz[var1] - as[dI[var1]], dA[var1] - at[dI[var1]], 0);
                     }
                 } else {
                     var0.drawRegion(es[dH[var1]][aI[dG[var1]][0][0]], 0, 0, es[dH[var1]][aI[dG[var1]][0][0]].getWidth(), es[dH[var1]][aI[dG[var1]][0][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 24);
                     var0.drawRegion(eq[aI[dG[var1]][1][0]], 0, 0, eq[aI[dG[var1]][1][0]].getWidth(), eq[aI[dG[var1]][1][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 24);
                     var0.drawRegion(ed[aI[dG[var1]][2][0]], 0, 0, ed[aI[dG[var1]][2][0]].getWidth(), ed[aI[dG[var1]][2][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 24);
                     if (dI[var1] != -1) {
-                        var0.drawRegion(eB[dI[var1]], 0, 0, eB[dI[var1]].getWidth(), eB[dI[var1]].getHeight(), 2, dz[var1] + as[dI[var1]], dA[var1] - at[dI[var1]], 24);
+                        var0.drawRegion(slashEffects[dI[var1]], 0, 0, slashEffects[dI[var1]].getWidth(), slashEffects[dI[var1]].getHeight(), 2, dz[var1] + as[dI[var1]], dA[var1] - at[dI[var1]], 24);
                     }
                 }
             }
@@ -5886,7 +5836,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             System.gc();
                             npcSprites = null;
                             System.gc();
-                            eb = null;
+                            motorbikeFrames = null;
                             itemCrate = null;
                             itemMoney = null;
                             boss0Sprites = null;
@@ -5898,9 +5848,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             C();
                             es = null;
                             npcDog = null;
-                            dY = null;
+                            enemyProjectiles = null;
                             ej = null;
-                            ek = null;
+                            dartFrames = null;
                             er = null;
                             ey = null;
                             eD = null;
@@ -5910,7 +5860,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             ed = null;
                             eo = null;
                             ep = null;
-                            eB = null;
+                            slashEffects = null;
                             System.gc();
                             K();
                             return true;
@@ -7209,9 +7159,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     for(var2 = 0; var2 < ii; ++var2) {
                         if (fO <= ik[var2] + 12 && fO + r >= ik[var2] - 12 && fP <= il[var2] && fP + s >= il[var2] - 24) {
                             if (im[var2] == 1) {
-                                var1.drawImage(eb[in[var2]], ik[var2], il[var2], 33);
+                                var1.drawImage(motorbikeFrames[in[var2]], ik[var2], il[var2], 33);
                             } else {
-                                var1.drawRegion(eb[in[var2]], 0, 0, eb[in[var2]].getWidth(), eb[in[var2]].getHeight(), 2, ik[var2], il[var2], 33);
+                                var1.drawRegion(motorbikeFrames[in[var2]], 0, 0, motorbikeFrames[in[var2]].getWidth(), motorbikeFrames[in[var2]].getHeight(), 2, ik[var2], il[var2], 33);
                             }
                         }
                     }
@@ -7370,14 +7320,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var6.drawImage(eq[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
                             var6.drawImage(ed[aI[dG[0]][2][0]], dz[0] + aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 0);
                             if (dI[0] != -1) {
-                                var6.drawImage(eB[dI[0]], dz[0] - as[dI[0]], dA[0] - at[dI[0]], 0);
+                                var6.drawImage(slashEffects[dI[0]], dz[0] - as[dI[0]], dA[0] - at[dI[0]], 0);
                             }
                         } else {
                             var6.drawRegion(es[dH[0]][aI[dG[0]][0][0]], 0, 0, es[dH[0]][aI[dG[0]][0][0]].getWidth(), es[dH[0]][aI[dG[0]][0][0]].getHeight(), 2, dz[0] - aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 24);
                             var6.drawRegion(eq[aI[dG[0]][1][0]], 0, 0, eq[aI[dG[0]][1][0]].getWidth(), eq[aI[dG[0]][1][0]].getHeight(), 2, dz[0] - aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 24);
                             var6.drawRegion(ed[aI[dG[0]][2][0]], 0, 0, ed[aI[dG[0]][2][0]].getWidth(), ed[aI[dG[0]][2][0]].getHeight(), 2, dz[0] - aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 24);
                             if (dI[0] != -1) {
-                                var6.drawRegion(eB[dI[0]], 0, 0, eB[dI[0]].getWidth(), eB[dI[0]].getHeight(), 2, dz[0] + as[dI[0]], dA[0] - at[dI[0]], 24);
+                                var6.drawRegion(slashEffects[dI[0]], 0, 0, slashEffects[dI[0]].getWidth(), slashEffects[dI[0]].getHeight(), 2, dz[0] + as[dI[0]], dA[0] - at[dI[0]], 24);
                             }
                         }
                     }
@@ -7393,14 +7343,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         var6.drawImage(en[aq[gs][1][0]], gn + aq[gs][1][1], go - aq[gs][1][2], 0);
                         var6.drawImage(el[aq[gs][2][0]], gn + aq[gs][2][1], go - aq[gs][2][2], 0);
                         if (ig != -1) {
-                            var6.drawImage(eB[ig], gn - as[ig], go - at[ig], 0);
+                            var6.drawImage(slashEffects[ig], gn - as[ig], go - at[ig], 0);
                         }
                     } else {
                         var6.drawRegion(em[aq[gs][0][0]], 0, 0, em[aq[gs][0][0]].getWidth(), em[aq[gs][0][0]].getHeight(), 2, gn - aq[gs][0][1], go - aq[gs][0][2], 24);
                         var6.drawRegion(en[aq[gs][1][0]], 0, 0, en[aq[gs][1][0]].getWidth(), en[aq[gs][1][0]].getHeight(), 2, gn - aq[gs][1][1], go - aq[gs][1][2], 24);
                         var6.drawRegion(el[aq[gs][2][0]], 0, 0, el[aq[gs][2][0]].getWidth(), el[aq[gs][2][0]].getHeight(), 2, gn - aq[gs][2][1], go - aq[gs][2][2], 24);
                         if (ig != -1) {
-                            var6.drawRegion(eB[ig], 0, 0, eB[ig].getWidth(), eB[ig].getHeight(), 2, gn + as[ig], go - at[ig], 24);
+                            var6.drawRegion(slashEffects[ig], 0, 0, slashEffects[ig].getWidth(), slashEffects[ig].getHeight(), 2, gn + as[ig], go - at[ig], 24);
                         }
                     }
                 }
@@ -7435,7 +7385,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < bM; ++var2) {
                     if (bP[var2] != -1) {
-                        var1.drawImage(dY[bS[var2]][bQ[var2] > 0 ? 0 : 1], bN[var2], bO[var2], 3);
+                        var1.drawImage(enemyProjectiles[bS[var2]][bQ[var2] > 0 ? Effect.PROJECTILE_DIR_RIGHT : Effect.PROJECTILE_DIR_LEFT], bN[var2], bO[var2], 3);
                     }
                 }
 
@@ -7443,7 +7393,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < cV; ++var2) {
                     if (cY[var2] != -1) {
-                        var1.drawImage(ek[cZ[var2]], cW[var2], cX[var2], 3);
+                        var1.drawImage(dartFrames[cZ[var2]], cW[var2], cX[var2], 3);
                     }
                 }
 
