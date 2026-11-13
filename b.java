@@ -764,7 +764,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[] kO;
     private static int[] kP;
     private static int[] kQ;
-    private static Image kR;
+    private static Image worldMapImage;
     private static Image crossIcon;
     private static int kT;
     private static int kU;
@@ -13465,7 +13465,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         kV = 0;
 
         try {
-            kR = Image.createImage("/wm.png");
+            worldMapImage = Ui.loadWorldMap();
             crossIcon = Ui.loadCross();
         } catch (Exception var0) {
         }
@@ -13511,7 +13511,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void ar() {
-        kR = null;
+        worldMapImage = null;
         crossIcon = null;
         System.gc();
     }
@@ -13525,7 +13525,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
         var0.setClip(0, 0, r, s);
         var0.translate(-ld, -le);
-        var0.drawImage(kR, 0, 0, 0);
+        var0.drawImage(worldMapImage, 0, 0, 0);
 
         for(int var1 = 0; var1 < 19; ++var1) {
             if (var1 == lh) {

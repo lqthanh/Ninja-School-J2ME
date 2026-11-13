@@ -17,6 +17,8 @@ import javax.microedition.lcdui.Image;
  *  - sword_icon{n}  (gốc: u/wpt0,2,3,4) : biểu tượng kiếm theo cấp kiếm 0..3
  *  - dart_icon      (gốc: u/wpt1)       : biểu tượng phi tiêu
  *  - cross          (gốc: u/x)          : dấu X đánh dấu trên bản đồ thế giới
+ *  - world_map      (gốc: wm)           : bản đồ thế giới 240x240
+ *  - icon           (gốc: icon)         : icon ứng dụng, khai báo trong META-INF/MANIFEST.MF (MIDlet-1)
  */
 public final class Ui {
     public static final int ARROW_RIGHT = 0;
@@ -80,6 +82,10 @@ public final class Ui {
 
     public static Image loadCross() throws IOException {
         return load("cross");
+    }
+
+    public static Image loadWorldMap() throws IOException {
+        return load("world_map");
     }
 
     private static Image load(String name) throws IOException {
