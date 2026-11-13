@@ -1781,7 +1781,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (Leveling.addExp(amount)) {
             a("level-up", 2, fe, ff - fh, 0, -2);
             s(6);
-            a("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
+            a("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
             e = 7;
         } else {
             a("+" + amount, 2, fe, ff - fh, 0, -2);
