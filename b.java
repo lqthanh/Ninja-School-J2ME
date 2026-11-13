@@ -396,13 +396,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static Image ea;
     public static Image[] t;
     private static Image[] eb;
-    private static Image ec;
+    private static Image itemScroll;
     private static Image[] ed;
-    private static Image ee;
+    private static Image itemCrate;
     public static Image u;
     public static Image v;
     private static Image[] ef;
-    private static Image[] eg;
+    private static Image[] itemMoney;
     private static Image eh;
     private static Image[] ei;
     private static Image[][] ej;
@@ -418,7 +418,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static Image[][] et;
     private static Image[] eu;
     private static Image[] ev;
-    private static Image[] ew;
+    private static Image[] itemPotions;
     private static Image[] ex;
     private static Image[] ey;
     private static Image[] ez;
@@ -1746,11 +1746,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
             dh[var5] = 1;
             dl[var5] = var4;
             if (var4 < 160) {
-                dm[var5] = 0;
+                dm[var5] = Item.MONEY_GOLD;
             } else if (var4 < 600) {
-                dm[var5] = 1;
+                dm[var5] = Item.MONEY_BLUE_GEM;
             } else {
-                dm[var5] = 2;
+                dm[var5] = Item.MONEY_RED_GEM;
             }
         }
     }
@@ -2339,7 +2339,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ls = null;
         System.gc();
         eb = null;
-        ee = null;
+        itemCrate = null;
         ev = null;
         System.gc();
         ex = null;
@@ -2838,7 +2838,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void g() {
         try {
-            ec = Image.createImage("/i/bk.png");
+            itemScroll = Item.loadScroll();
         } catch (Exception var0) {
         }
     }
@@ -2878,11 +2878,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void G() {
-        if (ee == null) {
-            try {
-                ee = Image.createImage("/i/b.png");
-            } catch (Exception var0) {
-            }
+        try {
+            itemCrate = Item.ensureCrate(itemCrate);
+        } catch (Exception var0) {
         }
 
         is = new int[iq];
@@ -3069,15 +3067,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void k() {
         de = 5;
-        if (eg == null) {
-            try {
-                eg = new Image[3];
-
-                for(int var0 = 0; var0 < 3; ++var0) {
-                    eg[var0] = Image.createImage("/i/dm" + var0 + ".png");
-                }
-            } catch (Exception var1) {
-            }
+        try {
+            itemMoney = Item.ensureMoney(itemMoney);
+        } catch (Exception var1) {
         }
 
         df = new int[de];
@@ -3627,12 +3619,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void p() {
         cM = 5;
-        if (ew == null) {
-            try {
-                (ew = new Image[2])[0] = Image.createImage("/i/pt0.png");
-                ew[1] = Image.createImage("/i/pt1.png");
-            } catch (Exception var0) {
-            }
+        try {
+            itemPotions = Item.ensurePotions(itemPotions);
+        } catch (Exception var0) {
         }
 
         cO = new int[cM];
@@ -5946,8 +5935,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             ls = null;
                             System.gc();
                             eb = null;
-                            ee = null;
-                            eg = null;
+                            itemCrate = null;
+                            itemMoney = null;
                             ev = null;
                             System.gc();
                             ex = null;
@@ -7259,7 +7248,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     for(var2 = 0; var2 < iq; ++var2) {
                         if (fO <= is[var2] + 12 && fO + r >= is[var2] - 12 && fP <= it[var2] && fP + s >= it[var2] - 24) {
-                            var1.drawImage(ee, is[var2], it[var2], 33);
+                            var1.drawImage(itemCrate, is[var2], it[var2], 33);
                         }
                     }
 
@@ -7279,7 +7268,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     for(var2 = 0; var2 < de; ++var2) {
                         if (dh[var2] != 0 && df[var2] >= fO - 10 && df[var2] <= fO + r + 10 && dg[var2] >= fP && dg[var2] <= fP + s + 20) {
-                            var1.drawRegion(eg[dm[var2]], 0, dk[var2] * 15, 8, 15, 0, df[var2], dg[var2], 33);
+                            var1.drawRegion(itemMoney[dm[var2]], 0, dk[var2] * Item.FRAME_HEIGHT, Item.MONEY_WIDTH, Item.FRAME_HEIGHT, 0, df[var2], dg[var2], 33);
                         }
                     }
 
@@ -7287,7 +7276,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     for(var2 = 0; var2 < cM; ++var2) {
                         if (cQ[var2] != 0 && cO[var2] >= fO - 10 && cO[var2] <= fO + r + 10 && cP[var2] >= fP && cP[var2] <= fP + s + 20) {
-                            var1.drawRegion(ew[cN[var2]], 0, cT[var2] * 15, 13, 15, 0, cO[var2], cP[var2], 33);
+                            var1.drawRegion(itemPotions[cN[var2]], 0, cT[var2] * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, cO[var2], cP[var2], 33);
                         }
                     }
 
@@ -7466,7 +7455,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 b(var6);
                 if (fH != 0) {
-                    var6.drawImage(ec, fF, fG, 33);
+                    var6.drawImage(itemScroll, fF, fG, 33);
                 }
 
                 var1 = var6;
@@ -13594,8 +13583,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.setColor(4856064);
             var0.drawRect(kn - 10 + var1 * 20, V + 10, 20, 20);
             var0.drawRect(kn + 50 + var1 * 20, V + 10, 20, 20);
-            var0.drawRegion(ew[0], 0, var1 * 15, 13, 15, 0, kn + var1 * 20, V + 20, 3);
-            var0.drawRegion(ew[1], 0, var1 * 15, 13, 15, 0, kn + 60 + var1 * 20, V + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kn + var1 * 20, V + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kn + 60 + var1 * 20, V + 20, 3);
         }
 
         for(var1 = 0; var1 < 4; ++var1) {
@@ -13665,8 +13654,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var0.setColor(4856064);
             var0.drawRect(kA - 10 + var1 * 20, kz + 10, 20, 20);
             var0.drawRect(kA + 50 + var1 * 20, kz + 10, 20, 20);
-            var0.drawRegion(ew[0], 0, var1 * 15, 13, 15, 0, kA + var1 * 20, kz + 20, 3);
-            var0.drawRegion(ew[1], 0, var1 * 15, 13, 15, 0, kA + 60 + var1 * 20, kz + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kA + var1 * 20, kz + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kA + 60 + var1 * 20, kz + 20, 3);
         }
 
         var0.setColor(kD[kC]);
