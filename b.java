@@ -66,7 +66,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static String[] aE = new String[]{"Chơi mới", 
             "Chơi tiếp", 
             "Chỉ dẫn", 
-            "About Us", 
+            "Game khác", 
             "Thoát"};
     private static String[][] aF = new String[][]{{"Rừng trúc đây rồi!", 
             "Hôm nay ta phải hạ được con quái vật đó!", 
@@ -10115,7 +10115,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 (new Thread(Midlet.instance)).start();
                             } else if (aX == 3) {
                                 try {
-                                    Midlet.instance.platformRequest("https://www.facebook.com/duriustudio");
+                                    Midlet.instance.platformRequest("http://wap.teamobi.com/");
                                 } catch (Exception var10) {
                                 }
                             } else if (aX == 4) {
