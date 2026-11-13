@@ -1,4 +1,5 @@
 import assets.*;
+import core.map.*;
 import core.player.*;
 import core.save.*;
 
@@ -656,25 +657,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int iJ;
     private static int iK;
     private static String iL;
-    private static int iM;
-    private static int iN;
-    private static int iO;
-    private static int iP;
-    private static byte[] iQ;
-    private static int[] iR;
-    private static boolean[] iS;
-    private static Image iT;
-    private static Image iU;
-    private static Image iV;
-    private static Image[] iW;
+    private static Image tilesetImage;
+    private static Image waterfallImage;
+    private static Image waterSurfaceImage;
+    private static Image[] houseImages;
     private static int iX;
     private static int[] iY;
     private static int[] iZ;
     private static int[] ja;
     private static int[] jb;
     private static int[] jc;
-    private static Image jd;
-    private static int je;
+    private static Image bushImage;
     private static int jf;
     private static int jg;
     private static int jh;
@@ -912,7 +905,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ir = -1;
         iz = false;
         iL = "oplj";
-        je = 24;
         S = 0;
         jB = 0;
         T = 0;
@@ -2382,14 +2374,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void E() {
         if (gk) {
-            if (ff <= go - 24 && g(gn, go - 1, 2)) {
+            if (ff <= go - 24 && GameMap.hasFlag(gn, go - 1, TileFlags.SOLID)) {
                 gr = 3;
                 gp = 0;
                 gq = -7;
                 return;
             }
 
-            if (ff <= go - 24 && g(gn, go - 25, 2)) {
+            if (ff <= go - 24 && GameMap.hasFlag(gn, go - 25, TileFlags.SOLID)) {
                 gr = 3;
                 gp = 0;
                 gq = -10;
@@ -2415,29 +2407,29 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     gr = 1;
                 } else if (ff >= go) {
                     if (ff > go) {
-                        if (g(gn + gz * gt, go, 2)) {
+                        if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
                             gz = fe > gn ? 1 : -1;
                             gr = 2;
                             gp = gz * Q;
                             return;
                         }
 
-                        if (g(gn + gz * 48, go + 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 48, go + 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 7;
                             gq = -5;
                             return;
                         }
 
-                        for(var0 = 1; var0 <= 5 && go + var0 * 24 < iP && !g(gn + gz * 24, go + var0 * 24, 64); ++var0) {
-                            if (g(gn + gz * 24, go + var0 * 24, 2)) {
+                        for(var0 = 1; var0 <= 5 && go + var0 * 24 < GameMap.pixelHeight && !GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.WATER); ++var0) {
+                            if (GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz << 2;
                                 gq = -4;
                                 return;
                             }
 
-                            if (g(gn + gz * 48, go + var0 * 24, 2)) {
+                            if (GameMap.hasFlag(gn + gz * 48, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz * 6;
                                 gq = -4;
@@ -2445,34 +2437,34 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
                         }
 
-                        if (g(gn + gz * 24, go - 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 24, go - 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 5;
                             gq = -7;
                             return;
                         }
 
-                        if (g(gn + gz * 48, go - 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 48, go - 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 6;
                             gq = -8;
                             return;
                         }
 
-                        if (g(gn + gz * 24, go - 48, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 24, go - 48, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 5;
                             gq = -11;
                             return;
                         }
-                    } else if (g(gn + gz * gt, go, 2)) {
+                    } else if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
                         gz = fe + (fm << 5) > gn ? 1 : -1;
                         gr = 2;
                         gp = gz * Q;
                         return;
                     }
                 } else {
-                    if (g(gn + gz * 48, go - 24, 2)) {
+                    if (GameMap.hasFlag(gn + gz * 48, go - 24, TileFlags.SOLID)) {
                         gr = 3;
                         gp = gz * 5;
                         gq = -8;
@@ -2480,7 +2472,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     for(var0 = 1; var0 <= 3; ++var0) {
-                        if (g(gn + gz * 24, go - var0 * 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 24, go - var0 * 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 6;
                             gq = -5 - var0 * 3;
@@ -2488,8 +2480,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (!g(gn + gz * 48, go - 2, 64)) {
-                        if (go + 24 >= iP || g(gn + gz * 48, go + 24, 2)) {
+                    if (!GameMap.hasFlag(gn + gz * 48, go - 2, TileFlags.WATER)) {
+                        if (go + 24 >= GameMap.pixelHeight || GameMap.hasFlag(gn + gz * 48, go + 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 7;
                             gq = -4;
@@ -2503,18 +2495,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 return;
                             }
 
-                            if (go + var0 * 24 >= iP || g(gn + gz * 24, go + var0 * 24, 64)) {
+                            if (go + var0 * 24 >= GameMap.pixelHeight || GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.WATER)) {
                                 break;
                             }
 
-                            if (g(gn + gz * 48, go + var0 * 24, 2)) {
+                            if (GameMap.hasFlag(gn + gz * 48, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz * 6;
                                 gq = -4;
                                 return;
                             }
 
-                            if (g(gn + gz * 24, go + var0 * 24, 2)) {
+                            if (GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz << 2;
                                 gq = -4;
@@ -2529,7 +2521,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 gz = fe + (fm << 5) > gn ? 1 : -1;
                 var0 = fe > gn ? fO - 24 : fO + r + 24;
                 var1 = ff - 20;
-                if (!g(var0, var1, 8192)) {
+                if (!GameMap.hasFlag(var0, var1, TileFlags.DIGGABLE)) {
                     gn = var0;
                     go = var1;
                     gr = 4;
@@ -2538,7 +2530,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     return;
                 }
 
-                if (g(gn + gz * gt, go, 2)) {
+                if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
                     gz = fe > gn ? 1 : -1;
                     gr = 2;
                     gp = gz * 12;
@@ -2801,8 +2793,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void b(int var0, int var1, int var2) {
-        ik[var0] = var1 * je + 12;
-        il[var0] = var2 * je;
+        ik[var0] = var1 * GameMap.TILE_SIZE + 12;
+        il[var0] = var2 * GameMap.TILE_SIZE;
         in[var0] = 0;
         im[var0] = 1;
     }
@@ -2864,8 +2856,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void c(int var0, int var1, int var2) {
-        is[var0] = var1 * je + 12;
-        it[var0] = var2 * je + 24;
+        is[var0] = var1 * GameMap.TILE_SIZE + 12;
+        it[var0] = var2 * GameMap.TILE_SIZE + 24;
         iu[var0] = 1;
     }
 
@@ -2898,14 +2890,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
         bD = s >> 1;
         bE = 3 * s / 4;
         bF = r / 6;
-        by = r / je + 2;
-        bz = s / je + 2;
+        by = r / GameMap.TILE_SIZE + 2;
+        bz = s / GameMap.TILE_SIZE + 2;
         if (r % 24 != 0) {
             ++by;
         }
 
-        fQ = (iM - 1) * je - r;
-        fR = (iN - 1) * je - s;
+        fQ = (GameMap.width - 1) * GameMap.TILE_SIZE - r;
+        fR = (GameMap.height - 1) * GameMap.TILE_SIZE - s;
         fO = fI = fe - bC + bF * fm;
         fP = fJ = ff - bE;
         if (fO < 0) {
@@ -2924,19 +2916,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
             fP = fR;
         }
 
-        if ((bw = fO / je - 1) < 0) {
+        if ((bw = fO / GameMap.TILE_SIZE - 1) < 0) {
             bw = 0;
         }
 
-        bx = fP / je;
+        bx = fP / GameMap.TILE_SIZE;
         bA = bw + by;
         bB = bx + bz;
         if (bx < 0) {
             bx = 0;
         }
 
-        if (bB > iN - 1) {
-            bB = iN - 1;
+        if (bB > GameMap.height - 1) {
+            bB = GameMap.height - 1;
         }
 
     }
@@ -3504,8 +3496,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
             gV = boss0Sprites[0].getWidth();
             gW = boss0Sprites[0].getHeight();
-            gP = 55 * je + 12;
-            gQ = 13 * je;
+            gP = 55 * GameMap.TILE_SIZE + 12;
+            gQ = 13 * GameMap.TILE_SIZE;
             gS = 1;
             gT = -1;
             gU = 0;
@@ -3517,8 +3509,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
             gV = boss0Sprites[0].getWidth();
             gW = boss0Sprites[0].getHeight();
-            gP = 8 * je + 12;
-            gQ = 56 * je;
+            gP = 8 * GameMap.TILE_SIZE + 12;
+            gQ = 56 * GameMap.TILE_SIZE;
             gS = 1;
             gT = -1;
             gU = 0;
@@ -3753,13 +3745,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (var0 == 97 && eF) {
             for(var1 = 0; var1 <= 6; ++var1) {
-                i(24, var1, 0);
+                GameMap.clearFlags(24, var1);
             }
         }
 
         if (var0 == 96 && eG) {
             for(var1 = 0; var1 <= 11; ++var1) {
-                i(24, var1, 0);
+                GameMap.clearFlags(24, var1);
             }
         }
 
@@ -4473,16 +4465,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 C = (D >> 1) + 2;
                 if (fm == 1) {
-                    if (g(fe + fi, ff - fj, 4)) {
+                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
                         z = 0;
                         fe = I(fe + fi) - fi;
                     }
-                } else if (g(fe - fi - 1, ff - fj, 8)) {
+                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
                     z = 0;
-                    fe = I(fe - fi - 1) + je + fi;
+                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
                 }
 
-                if ((i(fe, ff - 1) & 64) == 64) {
+                if ((GameMap.flagsAtPixel(fe, ff - 1) & TileFlags.WATER) == TileFlags.WATER) {
                     fe += z >> 1;
                 } else {
                     fe += z;
@@ -4500,7 +4492,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (ir != -1) {
                     if (a(fe - is[ir]) >= 20) {
                         ir = -1;
-                        if (g(fe, ff, 2)) {
+                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                             B = 1;
                         } else {
                             B = 4;
@@ -4509,7 +4501,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             E = 0;
                         }
                     }
-                } else if ((i(fe, ff) & 2) != 2) {
+                } else if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                     B = 4;
                     z = 3 * fm;
                     E = 0;
@@ -4558,11 +4550,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (fm == 1) {
-                    if ((i(fe + fi, ff) & 4) == 4) {
+                    if ((GameMap.flagsAtPixel(fe + fi, ff) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                         fe = I(fe + fi) - fi;
                         z = 0;
                     }
-                } else if ((i(fe - fi, ff) & 8) == 8) {
+                } else if ((GameMap.flagsAtPixel(fe - fi, ff) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     fe = I(fe + 24 - fi) + fi;
                     z = 0;
                 }
@@ -4580,13 +4572,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 C = 7;
-                if (ff >= iP) {
+                if (ff >= GameMap.pixelHeight) {
                     B = 6;
                     PlayerStats.kill();
-                } else if (ff + 4 >= iP) {
+                } else if (ff + 4 >= GameMap.pixelHeight) {
                     B = 6;
                     PlayerStats.kill();
-                } else if (A > 4 && (i(fe, ff + 3) & 2) == 2) {
+                } else if (A > 4 && (GameMap.flagsAtPixel(fe, ff + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
                     if (A > 12) {
                         B = 8;
                     } else {
@@ -4617,7 +4609,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         b("Hit: " + fC);
                     }
                 } else {
-                    if (g(fe, ff, 64) && ff % je > 8) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
                         g(fe, H(ff) + 8);
                         ff = H(ff) + 8;
                         B = 11;
@@ -4629,7 +4621,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (g(fe, ff, 4096)) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
                         B = 12;
                     }
 
@@ -4656,11 +4648,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     if (fm == 1) {
-                        if ((i(fe + fi, ff) & 4) == 4) {
+                        if ((GameMap.flagsAtPixel(fe + fi, ff) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                             fe = I(fe + fi) - fi;
                             z = 0;
                         }
-                    } else if ((i(fe - fi, ff) & 8) == 8) {
+                    } else if ((GameMap.flagsAtPixel(fe - fi, ff) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                         fe = I(fe + 24 - fi) + fi;
                         z = 0;
                     }
@@ -4676,10 +4668,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             case 5:
                 ++D;
                 if (fm == 1) {
-                    if ((i(fe + fi, ff - fj) & 4) == 4) {
+                    if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                         z = 0;
                     }
-                } else if ((i(fe - fi, ff - fj) & 8) == 8) {
+                } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     z = 0;
                 }
 
@@ -4690,7 +4682,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (A == 0) {
-                    if (ir == -1 && (i(fe, ff) & 2) != 2) {
+                    if (ir == -1 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                         B = 4;
                         fc = -1;
                         z = (Q >> 1) * fm;
@@ -4700,7 +4692,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     if (ir != -1 && a(fe - is[ir]) >= 20) {
                         ir = -1;
-                        if (g(fe, ff, 2)) {
+                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                             B = 1;
                         } else {
                             B = 4;
@@ -4723,7 +4715,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         A = 3;
                     }
 
-                    if (A > 2 && (i(fe, ff + 3) & 2) == 2) {
+                    if (A > 2 && (GameMap.flagsAtPixel(fe, ff + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
                         A = 0;
                         z = 0;
                         ff = I(ff + 3);
@@ -4733,7 +4725,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (g(fe, ff, 64) && ff % je > 8) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
                         g(fe, H(ff) + 8);
                         B = 11;
                         z = fm << 1;
@@ -4746,7 +4738,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         break;
                     }
 
-                    if (g(fe, ff, 4096)) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
                         B = 12;
                         fc = -1;
                         break;
@@ -4994,7 +4986,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 ++A;
                 ff += A;
                 C = 21;
-                if (ff >= iP || ff > fP + s + fh || g(fe, ff - fh, 4096)) {
+                if (ff >= GameMap.pixelHeight || ff > fP + s + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
                     fe = fp;
                     ff = fq;
                     B = 4;
@@ -5019,11 +5011,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
                 break;
             case 7:
-                if ((i(fe + fi, ff - fj) & 4) == 4) {
+                if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                     z = -z;
                 }
 
-                if ((i(fe - fi, ff - fj) & 8) == 8) {
+                if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     z = -z;
                 }
 
@@ -5060,7 +5052,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     B = 1;
                 }
 
-                if (++E > 6 && g(fe + fi, ff + 2, 8192) && g(fe - fi, ff + 2, 8192) && eL & PlayerStats.hasMp()) {
+                if (++E > 6 && GameMap.hasFlag(fe + fi, ff + 2, TileFlags.DIGGABLE) && GameMap.hasFlag(fe - fi, ff + 2, TileFlags.DIGGABLE) && eL & PlayerStats.hasMp()) {
                     B = 13;
                 }
             case 9:
@@ -5078,13 +5070,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 C = 7;
-                if (ff >= iP) {
+                if (ff >= GameMap.pixelHeight) {
                     PlayerStats.kill();
                     B = 6;
                     fc = -1;
-                } else if (g(fe, ff, 2)) {
+                } else if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                     ff = H(ff);
-                    if (g(fe, ff - 2, 64)) {
+                    if (GameMap.hasFlag(fe, ff - 2, TileFlags.WATER)) {
                         B = 1;
                         A = 0;
                         z = 0;
@@ -5101,7 +5093,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     ff = I(ff);
-                } else if (g(fe, ff - fh - 5, 4096)) {
+                } else if (GameMap.hasFlag(fe, ff - fh - 5, TileFlags.DEEP_WATER)) {
                     PlayerStats.kill();
                     B = 6;
                     fc = -1;
@@ -5144,13 +5136,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (fm == 1) {
-                    if (g(fe + fi, ff - fj, 4)) {
+                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
                         z = 0;
                         fe = I(fe + fi) - fi;
                     }
-                } else if (g(fe - fi - 1, ff - fj, 8)) {
+                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
                     z = 0;
-                    fe = I(fe - fi - 1) + je + fi;
+                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
                 }
 
                 fe += z;
@@ -5162,7 +5154,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     B = 17;
                 }
 
-                if ((i(fe, ff) & 2) != 2) {
+                if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                     B = 12;
                     z = fm << 2;
                     E = 0;
@@ -5205,16 +5197,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (fm == 1) {
-                    if (g(fe + fi, ff - fj, 4)) {
+                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
                         z = 0;
                         fe = I(fe + fi) - fi;
                     }
-                } else if (g(fe - fi - 1, ff - fj, 8)) {
+                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
                     z = 0;
-                    fe = I(fe - fi - 1) + je + fi;
+                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
                 }
 
-                if ((i(fe, ff - 1) & 64) == 64) {
+                if ((GameMap.flagsAtPixel(fe, ff - 1) & TileFlags.WATER) == TileFlags.WATER) {
                     fe += z >> 1;
                 } else {
                     fe += z;
@@ -5234,7 +5226,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (ir != -1) {
                     if (a(fe - is[ir]) >= 20) {
                         ir = -1;
-                        if (g(fe, ff, 2)) {
+                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                             B = 18;
                         } else {
                             B = 20;
@@ -5243,7 +5235,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             E = 0;
                         }
                     }
-                } else if ((i(fe, ff) & 2) != 2) {
+                } else if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                     B = 20;
                     z = 3 * fm;
                     E = 0;
@@ -5260,10 +5252,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             case 20:
                 try {
                     if (fm == 1) {
-                        if ((i(fe + fi, ff - fj) & 4) == 4) {
+                        if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                             z = 0;
                         }
-                    } else if ((i(fe - fi, ff - fj) & 8) == 8) {
+                    } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                         z = 0;
                     }
 
@@ -5285,7 +5277,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         e(fm, fe - (fm << 4), ff - 5);
                     }
 
-                    if (A > 4 && (i(fe, ff) & 2) == 2) {
+                    if (A > 4 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) == TileFlags.SOLID) {
                         if (A < 8) {
                             B = 18;
                             A = 0;
@@ -5300,13 +5292,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (g(fe, ff, 64) && ff % je > 8) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
                         g(fe, H(ff) + 8);
                     }
 
                     ik[ij] = fe;
                     il[ij] = ff;
-                    if (g(fe, ff, 4096)) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
                         io[ij] = 1;
                         ij = -1;
                         B = 12;
@@ -5320,10 +5312,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 break;
             case 21:
                 if (fm == 1) {
-                    if ((i(fe + fi, ff - fj) & 4) == 4) {
+                    if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                         z = 0;
                     }
-                } else if ((i(fe - fi, ff - fj) & 8) == 8) {
+                } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     z = 0;
                 }
 
@@ -5391,19 +5383,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static final void S() {
         if (!a) {
-            if (g(fe, ff + 1, 2048)) {
-                h(fe, ff + 1, 1024);
-                h(fe, ff - 2, 1024);
+            if (GameMap.hasFlag(fe, ff + 1, TileFlags.BRIDGE)) {
+                GameMap.pressBridge(fe, ff + 1);
+                GameMap.pressBridge(fe, ff - 2);
             }
 
-            if (g(fe - je, ff + 1, 1024)) {
-                j(fe - je, ff + 1, 1024);
-                j(fe - je, ff - 2, 1024);
+            if (GameMap.hasFlag(fe - GameMap.TILE_SIZE, ff + 1, TileFlags.BRIDGE_PRESSED)) {
+                GameMap.releaseBridge(fe - GameMap.TILE_SIZE, ff + 1);
+                GameMap.releaseBridge(fe - GameMap.TILE_SIZE, ff - 2);
             }
 
-            if (g(fe + je, ff + 1, 1024)) {
-                j(fe + je, ff + 1, 1024);
-                j(fe + je, ff - 2, 1024);
+            if (GameMap.hasFlag(fe + GameMap.TILE_SIZE, ff + 1, TileFlags.BRIDGE_PRESSED)) {
+                GameMap.releaseBridge(fe + GameMap.TILE_SIZE, ff + 1);
+                GameMap.releaseBridge(fe + GameMap.TILE_SIZE, ff - 2);
             }
 
         }
@@ -5482,13 +5474,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         C = D + 2;
         if (fm == 1) {
-            if (g(fe + fi, ff - 1, 4)) {
+            if (GameMap.hasFlag(fe + fi, ff - 1, TileFlags.WALL_LEFT_SIDE)) {
                 z = 0;
                 fe = I(fe + fi) - fi;
             }
-        } else if (g(fe - fi - 1, ff - 1, 8)) {
+        } else if (GameMap.hasFlag(fe - fi - 1, ff - 1, TileFlags.WALL_RIGHT_SIDE)) {
             z = 0;
-            fe = I(fe - fi - 1) + je + fi;
+            fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
         }
 
         fe += z;
@@ -5753,7 +5745,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             break;
                         case 22:
                             for(var0 = 0; var0 <= 6; ++var0) {
-                                i(24, var0, 0);
+                                GameMap.clearFlags(24, var0);
                             }
 
                             eF = true;
@@ -5792,7 +5784,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             break;
                         case 26:
                             for(var0 = 0; var0 <= 10; ++var0) {
-                                i(24, var0, 0);
+                                GameMap.clearFlags(24, var0);
                             }
 
                             eG = true;
@@ -5827,12 +5819,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         case 29:
                             d();
                             c();
-                            iT = null;
-                            iU = null;
-                            iV = null;
-                            iW = null;
-                            iQ = null;
-                            iR = null;
+                            tilesetImage = null;
+                            waterfallImage = null;
+                            waterSurfaceImage = null;
+                            houseImages = null;
+                            GameMap.tiles = null;
+                            GameMap.flags = null;
                             System.gc();
                             npcSprites = null;
                             System.gc();
@@ -5960,8 +5952,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     dk[var0] = 2;
                 }
 
-                if (dg[var0] >= 0 && dg[var0] < iP && df[var0] < iO && df[var0] >= 0) {
-                    if (dj[var0] > 2 && (i(df[var0], dg[var0]) & 2) == 2) {
+                if (dg[var0] >= 0 && dg[var0] < GameMap.pixelHeight && df[var0] < GameMap.pixelWidth && df[var0] >= 0) {
+                    if (dj[var0] > 2 && (GameMap.flagsAtPixel(df[var0], dg[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                         dg[var0] = H(dg[var0]);
                         if (dj[var0] > 2) {
                             dj[var0] = -(dj[var0] >> 1);
@@ -6252,7 +6244,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     var10002 = cB[var0]++;
-                    if (cv[var0] <= fP + s + 32 && cv[var0] < iP) {
+                    if (cv[var0] <= fP + s + 32 && cv[var0] < GameMap.pixelHeight) {
                         continue;
                     }
 
@@ -6464,8 +6456,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     cQ[var0] = 0;
                 }
 
-                if (cP[var0] < iP && cP[var0] >= 0 && cO[var0] < iO && cO[var0] >= 0) {
-                    if (cS[var0] > 2 && (i(cO[var0], cP[var0]) & 2) == 2) {
+                if (cP[var0] < GameMap.pixelHeight && cP[var0] >= 0 && cO[var0] < GameMap.pixelWidth && cO[var0] >= 0) {
+                    if (cS[var0] > 2 && (GameMap.flagsAtPixel(cO[var0], cP[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                         cP[var0] = H(cP[var0]);
                         if (cS[var0] > 2) {
                             cS[var0] = -(cS[var0] >> 1);
@@ -7109,8 +7101,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     for(var2 = 0; var2 < iX; ++var2) {
                         if (iZ[var2] + jb[var2] >= fO && iZ[var2] - jb[var2] <= fO + r && ja[var2] >= fP && ja[var2] - jc[var2] <= fP + s) {
                             jg = (jf = iZ[var2] - fO) - bC;
-                            jh = (ji = (je - 2) * jg / je) + bC;
-                            var1.drawImage(iW[iY[var2]], fO + jh, ja[var2], 33);
+                            jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + bC;
+                            var1.drawImage(houseImages[iY[var2]], fO + jh, ja[var2], 33);
                         }
                     }
 
@@ -7658,12 +7650,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             x(jo);
                             break;
                         }
-                    } else if (fe >= iO - 24) {
+                    } else if (fe >= GameMap.pixelWidth - 24) {
                         if (jp != -1) {
                             if (!eZ && jp == 95) {
                                 s(6);
                                 a("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
-                                fe = iO - 60;
+                                fe = GameMap.pixelWidth - 60;
                                 B = 4;
                                 e = 7;
                                 break;
@@ -7684,7 +7676,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             x(jp);
                             break;
                         }
-                    } else if (ff + A >= iP && B != 6 && jr != -1) {
+                    } else if (ff + A >= GameMap.pixelHeight && B != 6 && jr != -1) {
                         B();
                         fp = fe = jy;
                         fq = ff = jz;
@@ -8568,19 +8560,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if ((bw = fO / je - 1) < 0) {
+                    if ((bw = fO / GameMap.TILE_SIZE - 1) < 0) {
                         bw = 0;
                     }
 
-                    bx = fP / je;
+                    bx = fP / GameMap.TILE_SIZE;
                     bA = bw + by;
                     bB = bx + bz;
                     if (bx < 0) {
                         bx = 0;
                     }
 
-                    if (bB > iN - 1) {
-                        bB = iN - 1;
+                    if (bB > GameMap.height - 1) {
+                        bB = GameMap.height - 1;
                     }
 
                     int[] var10000;
@@ -8597,12 +8589,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     iu[var13] = 1;
                                 }
 
-                                if (!g(is[var13] - 12, it[var13] + 1, 2) && !g(is[var13] + 12, it[var13] + 1, 2)) {
+                                if (!GameMap.hasFlag(is[var13] - 12, it[var13] + 1, TileFlags.SOLID) && !GameMap.hasFlag(is[var13] + 12, it[var13] + 1, TileFlags.SOLID)) {
                                     iu[var13] = 4;
                                     iw[var13] = 2;
                                 }
 
-                                if (g(is[var13] + 12, it[var13] - 2, 4) || g(is[var13] - 12, it[var13] - 2, 8)) {
+                                if (GameMap.hasFlag(is[var13] + 12, it[var13] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13] - 2, TileFlags.WALL_RIGHT_SIDE)) {
                                     is[var13] = I(is[var13]) + 12;
                                 }
                                 break;
@@ -8613,8 +8605,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     var10002 = iw[var13]++;
                                 }
 
-                                if (!g(is[var13] + 12, it[var13], 2) && !g(is[var13] - 12, it[var13], 2)) {
-                                    if (g(is[var13], it[var13] - je, 64)) {
+                                if (!GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.SOLID) && !GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.SOLID)) {
+                                    if (GameMap.hasFlag(is[var13], it[var13] - GameMap.TILE_SIZE, TileFlags.WATER)) {
                                         it[var13] = H(it[var13]) + 1;
                                         g(is[var13], it[var13] - 13);
                                         g(is[var13] + 1, it[var13] - 10);
@@ -8651,7 +8643,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         fe += iy[var13];
                                     }
 
-                                    if (g(is[var13] + 12, it[var13], 4) || g(is[var13] - 12, it[var13], 8)) {
+                                    if (GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.WALL_RIGHT_SIDE)) {
                                         iy[var13] = -iy[var13];
                                     }
                                 }
@@ -8676,7 +8668,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 var10002 = ip[var13]++;
                             }
 
-                            if (il[var13] >= iP || g(ik[var13], il[var13], 2)) {
+                            if (il[var13] >= GameMap.pixelHeight || GameMap.hasFlag(ik[var13], il[var13], TileFlags.SOLID)) {
                                 ip[var13] = 0;
                                 io[var13] = 0;
                                 il[var13] = H(il[var13]);
@@ -8756,12 +8748,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var10000 = cX;
                             var10000[var13] += db[var13];
                             if (cW[var13] >= fO && cW[var13] <= fO + r && cX[var13] >= fP && cX[var13] <= fP + s) {
-                                if (da[var13] > 0 && (i(cW[var13], cX[var13]) & 4) == 4) {
+                                if (da[var13] > 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                     cY[var13] = 2;
                                     cW[var13] = I(cW[var13]);
-                                } else if (da[var13] < 0 && (i(cW[var13], cX[var13]) & 8) == 8) {
+                                } else if (da[var13] < 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                     cY[var13] = 2;
-                                    cW[var13] = I(cW[var13]) + je;
+                                    cW[var13] = I(cW[var13]) + GameMap.TILE_SIZE;
                                 }
 
                                 var10002 = cZ[var13]++;
@@ -8960,27 +8952,27 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                                     gs = (gA >> 1) + 2;
                                     if (gz == 1) {
-                                        if (g(gn + gv, go - gw, 4)) {
+                                        if (GameMap.hasFlag(gn + gv, go - gw, TileFlags.WALL_LEFT_SIDE)) {
                                             gp = 0;
                                             gn = I(gn + gv) - gv;
                                         }
-                                    } else if (g(gn - gv - 1, go - gw, 8)) {
+                                    } else if (GameMap.hasFlag(gn - gv - 1, go - gw, TileFlags.WALL_RIGHT_SIDE)) {
                                         gp = 0;
-                                        gn = I(gn - gv - 1) + je + gv;
+                                        gn = I(gn - gv - 1) + GameMap.TILE_SIZE + gv;
                                     }
 
                                     if ((gn += gp) < 0) {
                                         gn = 0;
                                     }
 
-                                    if (gn >= iO) {
-                                        gn = iO - 1;
+                                    if (gn >= GameMap.pixelWidth) {
+                                        gn = GameMap.pixelWidth - 1;
                                     }
 
                                     if (ir != -1) {
                                         if (a(gn - is[ir]) >= 20) {
                                             ir = -1;
-                                            if (g(gn, go, 2)) {
+                                            if (GameMap.hasFlag(gn, go, TileFlags.SOLID)) {
                                                 gr = 1;
                                             } else {
                                                 gr = 4;
@@ -8989,7 +8981,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                 gB = 0;
                                             }
                                         }
-                                    } else if ((i(gn + gz * gt, go) & 2) != 2) {
+                                    } else if ((GameMap.flagsAtPixel(gn + gz * gt, go) & TileFlags.SOLID) != TileFlags.SOLID) {
                                         gr = 1;
                                         gs = 0;
                                         gp = 0;
@@ -9010,10 +9002,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
 
                                     if (gz == 1) {
-                                        if ((i(gn + gv, go - gw) & 4) == 4) {
+                                        if ((GameMap.flagsAtPixel(gn + gv, go - gw) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                             gp = 0;
                                         }
-                                    } else if ((i(gn - gv, go - gw) & 8) == 8) {
+                                    } else if ((GameMap.flagsAtPixel(gn - gv, go - gw) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                         gp = 0;
                                     }
 
@@ -9026,8 +9018,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         gn = 0;
                                     }
 
-                                    if (gn >= iO) {
-                                        gn = iO - 1;
+                                    if (gn >= GameMap.pixelWidth) {
+                                        gn = GameMap.pixelWidth - 1;
                                     }
 
                                     go += gq;
@@ -9054,10 +9046,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     break;
                                 case 4:
                                     if (gz == 1) {
-                                        if ((i(gn + gt, go) & 4) == 4) {
+                                        if ((GameMap.flagsAtPixel(gn + gt, go) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                             gp = 0;
                                         }
-                                    } else if ((i(gn - gt, go) & 8) == 8) {
+                                    } else if ((GameMap.flagsAtPixel(gn - gt, go) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                         gp = 0;
                                     }
 
@@ -9066,8 +9058,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         gn = 0;
                                     }
 
-                                    if (gn >= iO) {
-                                        gn = iO - 1;
+                                    if (gn >= GameMap.pixelWidth) {
+                                        gn = GameMap.pixelWidth - 1;
                                     }
 
                                     go += gq;
@@ -9084,13 +9076,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
 
                                     gs = 8;
-                                    if (go >= iP) {
-                                        go = iP - 1;
+                                    if (go >= GameMap.pixelHeight) {
+                                        go = GameMap.pixelHeight - 1;
                                         gr = 3;
                                         gq = -20;
                                     }
 
-                                    if (gq > 4 && (i(gn, go) & 2) == 2) {
+                                    if (gq > 4 && (GameMap.flagsAtPixel(gn, go) & TileFlags.SOLID) == TileFlags.SOLID) {
                                         gr = 1;
                                         gq = 0;
                                         gp = 0;
@@ -9101,7 +9093,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         e(1, gn - 8, go);
                                     }
 
-                                    if (g(gn, go, 64) && g(gn, go + 24, 4096) && go % je > 8) {
+                                    if (GameMap.hasFlag(gn, go, TileFlags.WATER) && GameMap.hasFlag(gn, go + 24, TileFlags.DEEP_WATER) && go % GameMap.TILE_SIZE > 8) {
                                         g(gn, H(go) + 8);
                                         gr = 3;
                                         gp = (gz = fe > gn ? 1 : -1) << 2;
@@ -9157,11 +9149,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 default:
                                     break;
                                 case 7:
-                                    if ((i(gn + gv, go - gw) & 4) == 4) {
+                                    if ((GameMap.flagsAtPixel(gn + gv, go - gw) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                         gp = -gp;
                                     }
 
-                                    if ((i(gn - gv, go - gw) & 8) == 8) {
+                                    if ((GameMap.flagsAtPixel(gn - gv, go - gw) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                         gp = -gp;
                                     }
 
@@ -9243,7 +9235,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 N();
                             }
 
-                            if (!g(gP + (gT << 4), gQ + 1, 2)) {
+                            if (!GameMap.hasFlag(gP + (gT << 4), gQ + 1, TileFlags.SOLID)) {
                                 gS = 1;
                                 gX = 0;
                             } else {
@@ -9264,7 +9256,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         default:
                             break;
                         case 5:
-                            if (!g(gP + (gT << 4), gQ + 1, 2)) {
+                            if (!GameMap.hasFlag(gP + (gT << 4), gQ + 1, TileFlags.SOLID)) {
                                 gS = 1;
                                 gX = 0;
                             } else {
@@ -9298,7 +9290,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 ++gR;
                             }
 
-                            if (gQ > fP + s + gW || gQ >= iP + gW) {
+                            if (gQ > fP + s + gW || gQ >= GameMap.pixelHeight + gW) {
                                 gX = 0;
                                 gS = 22;
                             }
@@ -9643,9 +9635,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 }
 
                                 dG[0] = 7;
-                                if (dA[0] >= iP) {
+                                if (dA[0] >= GameMap.pixelHeight) {
                                     dD[0] = 6;
-                                } else if ((i(dz[0], dA[0]) & 2) == 2) {
+                                } else if ((GameMap.flagsAtPixel(dz[0], dA[0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                                     dD[0] = 1;
                                     dE[0] = dF[0] = 0;
                                     dB[0] = dC[0] = 0;
@@ -10046,19 +10038,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         fL = -fL;
                     }
 
-                    if ((bw = fO / je - 1) < 0) {
+                    if ((bw = fO / GameMap.TILE_SIZE - 1) < 0) {
                         bw = 0;
                     }
 
-                    bx = fP / je;
+                    bx = fP / GameMap.TILE_SIZE;
                     bA = bw + by;
                     bB = bx + bz;
                     if (bx < 0) {
                         bx = 0;
                     }
 
-                    if (bB > iN - 1) {
-                        bB = iN - 1;
+                    if (bB > GameMap.height - 1) {
+                        bB = GameMap.height - 1;
                     }
 
                     if (ba > aY) {
@@ -10653,15 +10645,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     public static void p(int var0) {
         iX = 0;
         if (var0 == 2) {
-            if (iW == null) {
-                iW = new Image[3];
-
-                try {
-                    iW[0] = Image.createImage("/t/h0.png");
-                    iW[1] = Image.createImage("/t/h1.png");
-                    iW[2] = Image.createImage("/t/h2.png");
-                } catch (Exception var2) {
-                }
+            try {
+                houseImages = Tile.ensureHouses(houseImages);
+            } catch (Exception var2) {
             }
 
             iX = 5;
@@ -10674,15 +10660,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (var0 == 16) {
-            if (iW == null) {
-                iW = new Image[3];
-
-                try {
-                    iW[0] = Image.createImage("/t/h0.png");
-                    iW[1] = Image.createImage("/t/h1.png");
-                    iW[2] = Image.createImage("/t/h2.png");
-                } catch (Exception var1) {
-                }
+            try {
+                houseImages = Tile.ensureHouses(houseImages);
+            } catch (Exception var1) {
             }
 
             iX = 5;
@@ -10698,10 +10678,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void b(int var0, int var1, int var2, int var3) {
         iY[var0] = var1;
-        iZ[var0] = var2 * je + 12;
-        ja[var0] = var3 * je;
-        jb[var0] = iW[var1].getWidth() >> 1;
-        jc[var0] = iW[var1].getHeight();
+        iZ[var0] = var2 * GameMap.TILE_SIZE + 12;
+        ja[var0] = var3 * GameMap.TILE_SIZE;
+        jb[var0] = houseImages[var1].getWidth() >> 1;
+        jc[var0] = houseImages[var1].getHeight();
     }
 
     private static void ag() {
@@ -10714,20 +10694,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void ah() {
         try {
-            if (iT == null) {
-                iT = Image.createImage("/t/t.png");
-            }
-
-            if (iU == null) {
-                iU = Image.createImage("/t/wtf.png");
-            }
-
-            if (iV == null) {
-                iV = Image.createImage("/t/wts.png");
-            }
-
-            if (jd == null && !a) {
-                jd = Image.createImage("/t/tb.png");
+            tilesetImage = Tile.ensureTileset(tilesetImage);
+            waterfallImage = Tile.ensureWaterfall(waterfallImage);
+            waterSurfaceImage = Tile.ensureWaterSurface(waterSurfaceImage);
+            if (!a) {
+                bushImage = Tile.ensureBush(bushImage);
             }
 
             System.gc();
@@ -10738,138 +10709,138 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void q(int var0) {
         var0 = var0;
-        iS = new boolean[200];
+        GameMap.resetUsedTiles();
         if (var0 == 101) {
             var0 = 99;
         }
 
         if (var0 == 0) {
-            iM = 80;
-            iN = 19;
+            GameMap.width = 80;
+            GameMap.height = 19;
             jo = 1;
-            js = 59 * je;
-            jt = 9 * je;
+            js = 59 * GameMap.TILE_SIZE;
+            jt = 9 * GameMap.TILE_SIZE;
             jp = 2;
             ju = 3;
-            jv = 12 * je;
+            jv = 12 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 1) {
-            iM = 60;
-            iN = 14;
+            GameMap.width = 60;
+            GameMap.height = 14;
             jo = 5;
-            js = 19 * je;
-            jt = 5 * je;
+            js = 19 * GameMap.TILE_SIZE;
+            jt = 5 * GameMap.TILE_SIZE;
             jp = 0;
             ju = 3;
-            jv = 16 * je;
+            jv = 16 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 2) {
-            iM = 60;
-            iN = 16;
+            GameMap.width = 60;
+            GameMap.height = 16;
             jo = 0;
-            js = 79 * je;
-            jt = 15 * je;
+            js = 79 * GameMap.TILE_SIZE;
+            jt = 15 * GameMap.TILE_SIZE;
             jp = 3;
             ju = 3;
-            jv = 9 * je;
+            jv = 9 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 3) {
-            iM = 120;
-            iN = 12;
+            GameMap.width = 120;
+            GameMap.height = 12;
             jo = 2;
-            js = 59 * je;
-            jt = 11 * je;
+            js = 59 * GameMap.TILE_SIZE;
+            jt = 11 * GameMap.TILE_SIZE;
             jp = 4;
             ju = 3;
             jv = 144;
             jq = -1;
             jr = -1;
         } else if (var0 == 4) {
-            iM = 80;
-            iN = 15;
+            GameMap.width = 80;
+            GameMap.height = 15;
             jo = 3;
-            js = 119 * je;
-            jt = 9 * je;
+            js = 119 * GameMap.TILE_SIZE;
+            jt = 9 * GameMap.TILE_SIZE;
             jp = -1;
             jq = -1;
             jr = 6;
-            jy = 26 * je;
+            jy = 26 * GameMap.TILE_SIZE;
             jz = 10;
         } else if (var0 == 5) {
-            iM = 20;
-            iN = 80;
+            GameMap.width = 20;
+            GameMap.height = 80;
             jo = -1;
             jp = 1;
             ju = 3;
-            jv = 9 * je;
-            jA = 40 * je;
+            jv = 9 * GameMap.TILE_SIZE;
+            jA = 40 * GameMap.TILE_SIZE;
             jq = 6;
             jw = 3;
-            jx = 5 * je;
+            jx = 5 * GameMap.TILE_SIZE;
             jr = -1;
         } else if (var0 == 6) {
-            iM = 250;
-            iN = 12;
+            GameMap.width = 250;
+            GameMap.height = 12;
             jo = 5;
-            js = 19 * je;
-            jt = 78 * je;
+            js = 19 * GameMap.TILE_SIZE;
+            jt = 78 * GameMap.TILE_SIZE;
             jp = 7;
-            ju = 1 * je;
-            jv = 7 * je;
+            ju = 1 * GameMap.TILE_SIZE;
+            jv = 7 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 7) {
-            iM = 80;
-            iN = 14;
+            GameMap.width = 80;
+            GameMap.height = 14;
             jo = 6;
-            js = 249 * je;
-            jt = 10 * je;
+            js = 249 * GameMap.TILE_SIZE;
+            jt = 10 * GameMap.TILE_SIZE;
             jp = 97;
-            ju = 1 * je;
-            jv = 3 * je;
+            ju = 1 * GameMap.TILE_SIZE;
+            jv = 3 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 97) {
-            iM = 25;
-            iN = 13;
+            GameMap.width = 25;
+            GameMap.height = 13;
             jo = 7;
-            js = 79 * je;
-            jt = 11 * je;
+            js = 79 * GameMap.TILE_SIZE;
+            jt = 11 * GameMap.TILE_SIZE;
             jp = 8;
-            ju = 1 * je;
-            jv = 12 * je;
+            ju = 1 * GameMap.TILE_SIZE;
+            jv = 12 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 8) {
-            iM = 80;
-            iN = 14;
+            GameMap.width = 80;
+            GameMap.height = 14;
             jo = 97;
-            js = 23 * je;
-            jt = 7 * je;
+            js = 23 * GameMap.TILE_SIZE;
+            jt = 7 * GameMap.TILE_SIZE;
             jp = 9;
-            ju = 1 * je;
-            jv = 11 * je;
+            ju = 1 * GameMap.TILE_SIZE;
+            jv = 11 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         } else if (var0 == 9) {
-            iM = 80;
-            iN = 14;
+            GameMap.width = 80;
+            GameMap.height = 14;
             jo = 8;
-            js = 79 * je;
-            jt = 9 * je;
+            js = 79 * GameMap.TILE_SIZE;
+            jt = 9 * GameMap.TILE_SIZE;
             jp = -1;
-            ju = 1 * je;
-            jv = 11 * je;
+            ju = 1 * GameMap.TILE_SIZE;
+            jv = 11 * GameMap.TILE_SIZE;
             jq = -1;
             jr = 10;
-            jy = 2 * je;
-            jz = 0 * je;
+            jy = 2 * GameMap.TILE_SIZE;
+            jz = 0 * GameMap.TILE_SIZE;
         } else if (var0 == 10) {
-            iM = 40;
-            iN = 40;
+            GameMap.width = 40;
+            GameMap.height = 40;
             jo = -1;
             jp = 11;
             ju = 24;
@@ -10877,8 +10848,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 11) {
-            iM = 90;
-            iN = 14;
+            GameMap.width = 90;
+            GameMap.height = 14;
             jo = 10;
             js = 936;
             jt = 720;
@@ -10888,8 +10859,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 96) {
-            iM = 25;
-            iN = 14;
+            GameMap.width = 25;
+            GameMap.height = 14;
             jo = 11;
             js = 2112;
             jt = 288;
@@ -10899,8 +10870,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 12) {
-            iM = 40;
-            iN = 25;
+            GameMap.width = 40;
+            GameMap.height = 25;
             jo = 96;
             js = 552;
             jt = 264;
@@ -10910,8 +10881,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 13) {
-            iM = 80;
-            iN = 14;
+            GameMap.width = 80;
+            GameMap.height = 14;
             jo = 12;
             js = 936;
             jt = 456;
@@ -10921,8 +10892,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 14) {
-            iM = 60;
-            iN = 16;
+            GameMap.width = 60;
+            GameMap.height = 16;
             jo = 13;
             js = 1896;
             jt = 264;
@@ -10932,8 +10903,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 15) {
-            iM = 40;
-            iN = 30;
+            GameMap.width = 40;
+            GameMap.height = 30;
             jo = 14;
             js = 1416;
             jt = 144;
@@ -10943,8 +10914,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 16) {
-            iM = 70;
-            iN = 15;
+            GameMap.width = 70;
+            GameMap.height = 15;
             jo = 15;
             js = 936;
             jt = 168;
@@ -10954,8 +10925,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 17) {
-            iM = 50;
-            iN = 20;
+            GameMap.width = 50;
+            GameMap.height = 20;
             jo = 16;
             js = 1656;
             jt = 144;
@@ -10965,8 +10936,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 18) {
-            iM = 70;
-            iN = 15;
+            GameMap.width = 70;
+            GameMap.height = 15;
             jo = 17;
             js = 1176;
             jt = 384;
@@ -10976,8 +10947,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 95) {
-            iM = 25;
-            iN = 14;
+            GameMap.width = 25;
+            GameMap.height = 14;
             jo = 18;
             js = 1632;
             jt = 312;
@@ -10985,102 +10956,28 @@ public final class b extends Canvas implements Runnable, CommandListener {
             jq = -1;
             jr = -1;
         } else if (var0 == 94) {
-            iM = 24;
-            iN = 14;
+            GameMap.width = 24;
+            GameMap.height = 14;
             jo = -1;
             jp = -1;
             jq = -1;
             jr = -1;
         } else if (var0 == 99) {
-            iM = 70;
-            iN = 15;
+            GameMap.width = 70;
+            GameMap.height = 15;
             jo = -1;
             jp = 4;
-            ju = 2 * je;
-            jv = 5 * je;
+            ju = 2 * GameMap.TILE_SIZE;
+            jv = 5 * GameMap.TILE_SIZE;
             jq = -1;
             jr = -1;
         }
 
-        iO = iM * je;
-        iP = iN * je;
+        GameMap.pixelWidth = GameMap.width * GameMap.TILE_SIZE;
+        GameMap.pixelHeight = GameMap.height * GameMap.TILE_SIZE;
 
         try {
-            InputStream var3 = "".getClass().getResourceAsStream("/m/" + var0);
-            iQ = new byte[iM * iN];
-            iR = new int[iM * iN];
-
-            for(int var1 = 0; var1 < iM * iN; ++var1) {
-                iQ[var1] = (byte)var3.read();
-                if (iQ[var1] != 0) {
-                    iS[iQ[var1] - 1] = true;
-                }
-
-                int[] var10000;
-                if (iQ[var1] == 1 || iQ[var1] == 2 || iQ[var1] == 3 || iQ[var1] == 4 || iQ[var1] == 5 || iQ[var1] == 6 || iQ[var1] == 7 || iQ[var1] == 36 || iQ[var1] == 37 || iQ[var1] == 54 || iQ[var1] == 91 || iQ[var1] == 92 || iQ[var1] == 93 || iQ[var1] == 94 || iQ[var1] == 73 || iQ[var1] == 74 || iQ[var1] == 97 || iQ[var1] == 98 || iQ[var1] == 120) {
-                    var10000 = iR;
-                    var10000[var1] |= 2;
-                }
-
-                if (iQ[var1] == 2 || iQ[var1] == 3 || iQ[var1] == 4 || iQ[var1] == 5 || iQ[var1] == 6 || iQ[var1] == 20 || iQ[var1] == 21 || iQ[var1] == 22 || iQ[var1] == 23 || iQ[var1] == 36 || iQ[var1] == 37 || iQ[var1] == 38 || iQ[var1] == 39) {
-                    var10000 = iR;
-                    var10000[var1] |= 8192;
-                }
-
-                if (iQ[var1] == 8 || iQ[var1] == 9 || iQ[var1] == 10 || iQ[var1] == 12 || iQ[var1] == 13 || iQ[var1] == 14 || iQ[var1] == 30) {
-                    var10000 = iR;
-                    var10000[var1] |= 16;
-                }
-
-                if (iQ[var1] == 17) {
-                    var10000 = iR;
-                    var10000[var1] |= 32;
-                }
-
-                if (iQ[var1] == 18) {
-                    var10000 = iR;
-                    var10000[var1] |= 128;
-                }
-
-                if (iQ[var1] == 37 || iQ[var1] == 38) {
-                    var10000 = iR;
-                    var10000[var1] |= 4;
-                }
-
-                if (iQ[var1] == 36 || iQ[var1] == 39) {
-                    var10000 = iR;
-                    var10000[var1] |= 8;
-                }
-
-                if (iQ[var1] == 19) {
-                    var10000 = iR;
-                    var10000[var1] |= 64;
-                    if ((iR[var1 - iM] & 8192) == 8192) {
-                        var10000 = iR;
-                        var10000[var1] |= 8192;
-                    }
-                }
-
-                if (iQ[var1] == 35) {
-                    var10000 = iR;
-                    var10000[var1] |= 4096;
-                }
-
-                if (iQ[var1] == 32) {
-                    var10000 = iR;
-                    var10000[var1] |= 256;
-                }
-
-                if (iQ[var1] == 7) {
-                    var10000 = iR;
-                    var10000[var1] |= 2048;
-                }
-
-                if (iQ[var1] == 33 || iQ[var1] == 34) {
-                    var10000 = iR;
-                    var10000[var1] |= 512;
-                }
-            }
+            GameMap.loadTiles(var0);
         } catch (Exception var2) {
             Midlet.instance.shutdownApp();
         }
@@ -11092,30 +10989,30 @@ public final class b extends Canvas implements Runnable, CommandListener {
         for(int var1 = bw; var1 < bA; ++var1) {
             for(int var2 = bx; var2 < bB; ++var2) {
                 int var3;
-                if ((var3 = iQ[var2 * iM + var1] - 1) != -1) {
-                    var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                if ((var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1) != -1) {
+                    var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
 
-                if ((h(var1, var2) & 32) == 32) {
-                    var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                } else if ((h(var1, var2) & 64) == 64) {
-                    if ((h(var1, var2 - 1) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2 - 1) & 8192) == 8192) {
-                        var0.drawRegion(iT, 0, 504, 24, 24, 0, var1 * je, var2 * je, 0);
+                if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                    var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
+                    if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
 
-                    var0.drawRegion(iV, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * je, var2 * je, 0);
+                    var0.drawRegion(waterSurfaceImage, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
 
-                if ((h(var1, var2) & 4096) == 4096) {
-                    if ((h(var1, var2 - 1) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2 - 1) & 8192) == 8192) {
-                        var0.drawRegion(iT, 0, 504, 24, 24, 0, var1 * je, var2 * je, 0);
+                if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
+                    if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
 
-                    var0.drawRegion(iT, 0, (iQ[var2 * iM + var1] - 1) * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                    var0.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
             }
         }
@@ -11125,24 +11022,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void k(Graphics var0) {
         for(int var1 = bw; var1 < bA; ++var1) {
             for(int var2 = bx; var2 < bB; ++var2) {
-                int var3 = iQ[var2 * iM + var1] - 1;
-                if ((h(var1, var2) & 16) == 16) {
-                    jg = (jf = var1 * je - fO) - bC;
-                    jh = (ji = (je - 2) * jg / je) + bC;
-                    var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, jh + fO, var2 * je, 0);
-                } else if ((h(var1, var2) & 256) != 256 && (h(var1, var2) & 512) != 512) {
-                    if ((h(var1, var2) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2) & 64) != 64 && (h(var1, var2) & 4096) != 4096) {
-                        if ((h(var1, var2) & 1024) == 1024) {
-                            var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, var1 * je, var2 * je + 1, 0);
+                int var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1;
+                if ((GameMap.flagsAt(var1, var2) & TileFlags.PARALLAX) == TileFlags.PARALLAX) {
+                    jg = (jf = var1 * GameMap.TILE_SIZE - fO) - bC;
+                    jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + bC;
+                    var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, jh + fO, var2 * GameMap.TILE_SIZE, 0);
+                } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) != TileFlags.FOREGROUND_BUSH && (GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) != TileFlags.FOREGROUND) {
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) != TileFlags.WATER && (GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) != TileFlags.DEEP_WATER) {
+                        if ((GameMap.flagsAt(var1, var2) & TileFlags.BRIDGE_PRESSED) == TileFlags.BRIDGE_PRESSED) {
+                            var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 1, 0);
                         } else if (var3 != -1) {
-                            var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                            var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                         }
-                    } else if ((h(var1, var2 - 1) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2 - 1) & 8192) == 8192) {
-                        var0.drawRegion(iT, 0, 504, 24, 24, 0, var1 * je, var2 * je, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
                 }
             }
@@ -11154,20 +11051,20 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (!a) {
             for(int var1 = bw; var1 < bA; ++var1) {
                 for(int var2 = bx; var2 < bB; ++var2) {
-                    if ((h(var1, var2) & 64) == 64) {
-                        var0.drawRegion(iV, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2) & 256) == 256) {
-                        jg = (jf = var1 * je - fO) - bC;
-                        jh = (ji = (je - 1) * jg / je) + bC;
-                        var0.drawImage(jd, jh + fO - 2 + (var1 + var2) % 5, var2 * je - 3 + var2 % 5, 0);
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
+                        var0.drawRegion(waterSurfaceImage, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) == TileFlags.FOREGROUND_BUSH) {
+                        jg = (jf = var1 * GameMap.TILE_SIZE - fO) - bC;
+                        jh = (ji = (GameMap.TILE_SIZE - 1) * jg / GameMap.TILE_SIZE) + bC;
+                        var0.drawImage(bushImage, jh + fO - 2 + (var1 + var2) % 5, var2 * GameMap.TILE_SIZE - 3 + var2 % 5, 0);
                     }
 
-                    if ((h(var1, var2) & 512) == 512) {
-                        var0.drawRegion(iT, 0, (iQ[var2 * iM + var1] - 1) * je, 24, 24, 0, var1 * je, var2 * je + 2, 0);
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) == TileFlags.FOREGROUND) {
+                        var0.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 2, 0);
                     }
 
-                    if ((h(var1, var2) & 4096) == 4096) {
-                        var0.drawRegion(iT, 0, (iQ[var2 * iM + var1] - 1) * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
+                        var0.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
                 }
             }
@@ -11175,40 +11072,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static int h(int var0, int var1) {
-        return iR[var1 * iM + var0];
-    }
-
-    private static int i(int var0, int var1) {
-        return iR[var1 / je * iM + var0 / je];
-    }
-
-    private static boolean g(int var0, int var1, int var2) {
-        return (iR[var1 / je * iM + var0 / je] & var2) == var2;
-    }
-
-    private static void h(int var0, int var1, int var2) {
-        int[] var10000 = iR;
-        int var10001 = var1 / je * iM + var0 / je;
-        var10000[var10001] |= 1024;
-    }
-
-    private static void i(int var0, int var1, int var2) {
-        iR[var1 * iM + 24] = 0;
-    }
-
-    private static void j(int var0, int var1, int var2) {
-        int[] var10000 = iR;
-        int var10001 = var1 / je * iM + var0 / je;
-        var10000[var10001] &= -1025;
-    }
-
     private static int H(int var0) {
-        return var0 / je * je;
+        return var0 / GameMap.TILE_SIZE * GameMap.TILE_SIZE;
     }
 
     private static int I(int var0) {
-        return var0 / je * je;
+        return var0 / GameMap.TILE_SIZE * GameMap.TILE_SIZE;
     }
 
     private static void ai() {
@@ -11701,13 +11570,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var10000 = jJ;
                     var10000[var0] += jU[var0];
                     jW[var0] = 2;
-                    if (jK[var0] < iP && jJ[var0] >= 0 && jJ[var0] < iO) {
-                        if ((jV[var0] == 0 || jV[var0] < 3 && jT[var0] > 7) && (i(jJ[var0], jK[var0]) & 2) == 2) {
+                    if (jK[var0] < GameMap.pixelHeight && jJ[var0] >= 0 && jJ[var0] < GameMap.pixelWidth) {
+                        if ((jV[var0] == 0 || jV[var0] < 3 && jT[var0] > 7) && (GameMap.flagsAtPixel(jJ[var0], jK[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                             jT[var0] = jT[var0] > 4 ? -4 : -jT[var0];
                             var10002 = jV[var0]++;
                         }
 
-                        if (g(jJ[var0], jK[var0], 64) && jK[var0] % je > 8) {
+                        if (GameMap.hasFlag(jJ[var0], jK[var0], TileFlags.WATER) && jK[var0] % GameMap.TILE_SIZE > 8) {
                             g(jJ[var0], H(jK[var0]) + 8);
                         }
                         break;
@@ -13225,8 +13094,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         for(var0 = 0; var0 < ki.length; ++var0) {
             for(int var1 = 0; var1 < ki[var0].length; ++var1) {
-                ki[var0][var1] = ki[var0][var1] * je + 12;
-                kj[var0][var1] *= je;
+                ki[var0][var1] = ki[var0][var1] * GameMap.TILE_SIZE + 12;
+                kj[var0][var1] *= GameMap.TILE_SIZE;
                 if (var0 == 8) {
                     int[] var10000 = kj[var0];
                     var10000[var1] -= 12;
@@ -13416,7 +13285,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static void an() {
         V = bD - 40;
         kn = bC - 50;
-        iT = null;
+        tilesetImage = null;
         kw = new Image[4];
 
         try {
@@ -13557,7 +13426,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void ap() {
         kH = bD - 40;
-        iT = null;
+        tilesetImage = null;
         if (kG == null) {
             kG = new Image[4];
 
@@ -13920,8 +13789,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void c(int var0, int var1, int var2, int var3) {
         lw[var0] = var1;
-        lu[var0] = var2 * je + 12;
-        lv[var0] = var3 * je;
+        lu[var0] = var2 * GameMap.TILE_SIZE + 12;
+        lv[var0] = var3 * GameMap.TILE_SIZE;
     }
 
     private static void av() {
