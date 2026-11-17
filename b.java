@@ -213,7 +213,7 @@ public final class b extends Canvas implements Runnable {
     private static int screenCenterX;
     private static int screenCenterY;
     private static int aX;
-    public static boolean d;
+    public static boolean hudDirty;
     private static int aY;
     private static int aZ;
     private static int ba;
@@ -221,25 +221,25 @@ public final class b extends Canvas implements Runnable {
     private static int bc;
     private static int bd;
     public static int state;
-    private static boolean be;
-    public static String o;
-    public static String p;
-    private static int bf;
-    private static int bg;
-    private static int bh;
-    private static int bi;
-    private static int bj;
-    private static int bk;
-    private static int bl;
-    private static int bm;
-    private static int bn;
-    private static int bo;
-    private static int bp;
-    private static int bq;
-    private static int br;
-    private static int bs;
-    private static int bt;
-    private static int bu;
+    private static boolean hudPanelVisible;
+    public static String leftSoftKeyLabel;
+    public static String rightSoftKeyLabel;
+    private static int hudX;
+    private static int hudY;
+    private static int hudWidth;
+    private static int hudHeight;
+    private static int hudLeftFrameWidth;
+    private static int hudRightFrameWidth;
+    private static int hudStripWidth;
+    private static int hudBarX;
+    private static int hudBarY;
+    private static int hudBarMaxWidth;
+    private static int hudExpBarMaxWidth;
+    private static int hudLevelX;
+    private static int hudMoneyX;
+    private static int hudMpBarHeight;
+    private static int letterboxMaxHeight;
+    private static int letterboxHeight;
     private static String bv;
     private static int firstVisibleCol;
     private static int firstVisibleRow;
@@ -328,7 +328,7 @@ public final class b extends Canvas implements Runnable {
     private static int[] da;
     private static int[] db;
     private static boolean[] dc;
-    private static int dd;
+    private static int money;
     private static int de;
     private static int[] df;
     private static int[] dg;
@@ -490,10 +490,10 @@ public final class b extends Canvas implements Runnable {
     private static int fU;
     public static int Q;
     public static int R;
-    private static boolean fV;
-    private static String[] fW;
-    private static int fX;
-    private static int fY;
+    private static boolean captionVisible;
+    private static String[] captionLines;
+    private static int captionY;
+    private static int captionTargetY;
     private static int fZ;
     private static boolean ga;
     private static int gb;
@@ -703,7 +703,7 @@ public final class b extends Canvas implements Runnable {
     private static int kC;
     private static int[] kD;
     private static String[] kE;
-    static int[] W;
+    static int[] potionCounts;
     private static int[] kF;
     private static Image[] cornerIcons;
     private static int gameMenuY;
@@ -823,7 +823,7 @@ public final class b extends Canvas implements Runnable {
         fu = true;
         fS = false;
         fU = 0;
-        fW = new String[]{""};
+        captionLines = new String[]{""};
         fZ = 0;
         gb = -1;
         gh = 1;
@@ -882,7 +882,7 @@ public final class b extends Canvas implements Runnable {
                 "Bình MP nhỏ", 
                 "Bình MP vừa", 
                 "Bình MP to"};
-        W = new int[]{5, 2, 1, 5, 2, 1};
+        potionCounts = new int[]{5, 2, 1, 5, 2, 1};
         kF = new int[]{100, 400, 1000, 100, 200, 300};
         gameMenuItems = new String[]{"Sử dụng item", 
                 "Xem bản đồ", 
@@ -1131,7 +1131,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[3] = eE ? 1 : 0;
         ++var2;
-        var1[4] = dd;
+        var1[4] = money;
         ++var2;
         var1[5] = dw ? 1 : 0;
         ++var2;
@@ -1158,8 +1158,8 @@ public final class b extends Canvas implements Runnable {
             var1[var2++] = X[var0] ? 1 : 0;
         }
 
-        for(var0 = 0; var0 < W.length; ++var0) {
-            var1[var2++] = W[var0];
+        for(var0 = 0; var0 < potionCounts.length; ++var0) {
+            var1[var2++] = potionCounts[var0];
         }
 
         var1[var2++] = eI ? 1 : 0;
@@ -1380,7 +1380,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         eE = var0[3] == 1;
         ++var2;
-        dd = var0[4];
+        money = var0[4];
         ++var2;
         dw = var0[5] == 1;
         ++var2;
@@ -1407,8 +1407,8 @@ public final class b extends Canvas implements Runnable {
             X[var1] = var0[var2++] == 1;
         }
 
-        for(var1 = 0; var1 < W.length; ++var1) {
-            W[var1] = var0[var2++];
+        for(var1 = 0; var1 < potionCounts.length; ++var1) {
+            potionCounts[var1] = var0[var2++];
         }
 
         eI = var0[var2++] == 1;
@@ -1691,7 +1691,7 @@ public final class b extends Canvas implements Runnable {
             a("+" + amount, 2, fe, ff - fh, 0, -2);
         }
 
-        d = true;
+        hudDirty = true;
     }
 
     private static void u() {
@@ -2084,8 +2084,8 @@ public final class b extends Canvas implements Runnable {
                 break;
             case 19:
                 eR = true;
-                dd += 5000;
-                d = true;
+                money += 5000;
+                hudDirty = true;
                 P = -1;
                 fy = 0;
                 fz = 0;
@@ -2442,7 +2442,7 @@ public final class b extends Canvas implements Runnable {
     private static void a(int var0, int var1) {
         boolean dead = PlayerStats.takeDamage(var0);
         fc = -1;
-        d = true;
+        hudDirty = true;
         ir = -1;
         if (dead) {
             A = -7;
@@ -2762,26 +2762,26 @@ public final class b extends Canvas implements Runnable {
     public static final void setupViewport() {
         viewWidth = screenWidth;
         if (screenHeight >= 208) {
-            be = true;
-            bi = 50;
-            viewHeight = screenHeight - bi;
-            bh = viewWidth;
-            bf = 0;
-            bg = viewHeight + 1;
+            hudPanelVisible = true;
+            hudHeight = 50;
+            viewHeight = screenHeight - hudHeight;
+            hudWidth = viewWidth;
+            hudX = 0;
+            hudY = viewHeight + 1;
         } else {
-            bi = 16;
-            viewHeight = screenHeight - bi;
-            be = false;
-            bi = 0;
-            bh = viewWidth;
-            bf = 0;
-            bg = viewHeight + 1;
-            bq = (bo = viewWidth / 3) + 29;
-            br = bo + 50;
+            hudHeight = 16;
+            viewHeight = screenHeight - hudHeight;
+            hudPanelVisible = false;
+            hudHeight = 0;
+            hudWidth = viewWidth;
+            hudX = 0;
+            hudY = viewHeight + 1;
+            hudLevelX = (hudBarMaxWidth = viewWidth / 3) + 29;
+            hudMoneyX = hudBarMaxWidth + 50;
         }
 
-        if ((bt = screenHeight / 6) < 48) {
-            bt = 48;
+        if ((letterboxMaxHeight = screenHeight / 6) < 48) {
+            letterboxMaxHeight = 48;
         }
 
         viewCenterX = viewWidth >> 1;
@@ -2874,9 +2874,9 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    public static void j() {
+    public static void setupHud() {
         I();
-        if (be) {
+        if (hudPanelVisible) {
             try {
                 if (hudFrames == null) {
                     hudFrames = new Image[2];
@@ -2886,14 +2886,14 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                bj = hudFrames[0].getWidth();
-                bk = hudFrames[1].getWidth();
-                bl = viewWidth - bj - bk + 1;
-                bm = 78;
-                bn = bg + 7;
-                bo = viewWidth - 134;
-                bp = viewWidth - 84;
-                bs = 5;
+                hudLeftFrameWidth = hudFrames[0].getWidth();
+                hudRightFrameWidth = hudFrames[1].getWidth();
+                hudStripWidth = viewWidth - hudLeftFrameWidth - hudRightFrameWidth + 1;
+                hudBarX = 78;
+                hudBarY = hudY + 7;
+                hudBarMaxWidth = viewWidth - 134;
+                hudExpBarMaxWidth = viewWidth - 84;
+                hudMpBarHeight = 5;
             } catch (IOException var1) {
             }
         }
@@ -3764,118 +3764,118 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void c(Graphics var0) {
-        if (!be) {
+    private static void drawHudOverlay(Graphics var0) {
+        if (!hudPanelVisible) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
             var0.drawImage(heroHeads[0], 0, 2, 0);
             var0.setColor(0);
-            var0.drawRect(23, 2, bo + 1, 4);
-            var0.drawRect(23, 8, bo + 1, 4);
-            var0.drawRect(23, 14, bo + 1, 3);
+            var0.drawRect(23, 2, hudBarMaxWidth + 1, 4);
+            var0.drawRect(23, 8, hudBarMaxWidth + 1, 4);
+            var0.drawRect(23, 14, hudBarMaxWidth + 1, 3);
             var0.setColor(16711680);
-            int var1 = PlayerStats.hpBarWidth(bo);
+            int var1 = PlayerStats.hpBarWidth(hudBarMaxWidth);
             var0.fillRect(24, 3, var1, 3);
             var0.setColor(5570560);
-            var0.fillRect(var1 + 24, 3, bo - var1, 3);
+            var0.fillRect(var1 + 24, 3, hudBarMaxWidth - var1, 3);
             var0.setColor(255);
-            var1 = PlayerStats.mpBarWidth(bo);
+            var1 = PlayerStats.mpBarWidth(hudBarMaxWidth);
             var0.fillRect(24, 9, var1, 3);
             var0.setColor(5570560);
-            var0.fillRect(var1 + 24, 9, bo - var1, 3);
+            var0.fillRect(var1 + 24, 9, hudBarMaxWidth - var1, 3);
             var0.setColor(7274435);
-            var1 = Leveling.expBarWidth(bo);
+            var1 = Leveling.expBarWidth(hudBarMaxWidth);
             var0.fillRect(24, 15, var1, 2);
             var0.setColor(19506);
-            var0.fillRect(var1 + 24, 15, bo - var1, 2);
-            FontGraph.drawSmall(var0, "lv:" + PlayerStats.level, 2, bq, 7, 0);
-            FontGraph.drawSmall(var0, dd + "$", 1, br, 7, 0);
+            var0.fillRect(var1 + 24, 15, hudBarMaxWidth - var1, 2);
+            FontGraph.drawSmall(var0, "lv:" + PlayerStats.level, 2, hudLevelX, 7, 0);
+            FontGraph.drawSmall(var0, money + "$", 1, hudMoneyX, 7, 0);
         }
     }
 
-    private static void d(Graphics var0) {
-        d = false;
+    private static void drawHudPanel(Graphics var0) {
+        hudDirty = false;
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, bg - 1, bh + 2, 100);
+        var0.setClip(-1, hudY - 1, hudWidth + 2, 100);
         var0.setColor(0);
-        if (!be) {
-            var0.fillRect(0, bg, bh, 15);
-            FontGraph.drawBold(var0, o, 3, bg + 3, 0);
-            FontGraph.drawBold(var0, p, bh - 3, bg + 3, 1);
+        if (!hudPanelVisible) {
+            var0.fillRect(0, hudY, hudWidth, 15);
+            FontGraph.drawBold(var0, leftSoftKeyLabel, 3, hudY + 3, 0);
+            FontGraph.drawBold(var0, rightSoftKeyLabel, hudWidth - 3, hudY + 3, 1);
         } else {
-            var0.fillRect(0, bg + 33, bh, 15);
-            FontGraph.drawBold(var0, o, 3, bg + 36, 0);
-            FontGraph.drawBold(var0, p, bh - 3, bg + 36, 1);
+            var0.fillRect(0, hudY + 33, hudWidth, 15);
+            FontGraph.drawBold(var0, leftSoftKeyLabel, 3, hudY + 36, 0);
+            FontGraph.drawBold(var0, rightSoftKeyLabel, hudWidth - 3, hudY + 36, 1);
             var0.setColor(4352);
-            var0.fillRect(bj, bg, bl, 1);
-            var0.fillRect(bj, bg + 35, bl, 1);
-            var0.fillRect(bj, bg + 33, bl, 1);
-            var0.fillRect(bj, bg + 30, bl, 1);
-            var0.fillRect(bj, bg + 28, bl, 1);
-            var0.fillRect(bj, bg + 26, bl, 1);
-            var0.fillRect(bj, bg + 12, bl, 1);
-            var0.fillRect(bj, bg + 24, bl, 1);
-            var0.fillRect(bj, bg + 18, bl, 1);
-            var0.fillRect(bj, bg + 16, bl, 1);
-            var0.fillRect(bj, bg + 2, bl, 1);
-            var0.fillRect(bj, bg + 4, bl, 1);
-            var0.fillRect(bj, bg + 6, bl, 1);
-            var0.fillRect(bj, bg + 14, bl, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 35, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 33, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 30, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 28, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 26, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 12, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 24, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 18, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 16, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 2, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 4, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 6, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 14, hudStripWidth, 1);
             var0.setColor(15649843);
-            var0.fillRect(bj, bg + 1, bl, 1);
-            var0.fillRect(bj, bg + 5, bl, 1);
-            var0.fillRect(bj, bg + 17, bl, 1);
-            var0.fillRect(bj, bg + 34, bl, 1);
-            var0.fillRect(bj, bg + 29, bl, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 1, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 5, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 17, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 34, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 29, hudStripWidth, 1);
             var0.setColor(16767871);
-            var0.fillRect(bj, bg + 3, bl, 1);
-            var0.fillRect(bj, bg + 15, bl, 1);
-            var0.fillRect(bj, bg + 27, bl, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 3, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 15, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 27, hudStripWidth, 1);
             var0.setColor(3355443);
-            var0.fillRect(bj, bg + 7, bl, 5);
-            var0.fillRect(bj, bg + 19, bl, 5);
-            var0.fillRect(bj, bg + 31, bl, 2);
+            var0.fillRect(hudLeftFrameWidth, hudY + 7, hudStripWidth, 5);
+            var0.fillRect(hudLeftFrameWidth, hudY + 19, hudStripWidth, 5);
+            var0.fillRect(hudLeftFrameWidth, hudY + 31, hudStripWidth, 2);
             var0.setColor(12281361);
-            var0.fillRect(bj, bg + 25, bl, 1);
-            var0.fillRect(bj, bg + 13, bl, 1);
-            var0.drawImage(hudFrames[0], 0, bg, 0);
-            var0.drawImage(hudFrames[1], 0 + bh, bg, 24);
-            int var1 = PlayerStats.hpBarWidth(bo);
+            var0.fillRect(hudLeftFrameWidth, hudY + 25, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 13, hudStripWidth, 1);
+            var0.drawImage(hudFrames[0], 0, hudY, 0);
+            var0.drawImage(hudFrames[1], 0 + hudWidth, hudY, 24);
+            int var1 = PlayerStats.hpBarWidth(hudBarMaxWidth);
             var0.setColor(7798784);
-            var0.fillRect(bm, bn, var1, 2);
+            var0.fillRect(hudBarX, hudBarY, var1, 2);
             var0.setColor(13369344);
-            var0.fillRect(bm, bn + 1, var1, 4);
-            var1 = PlayerStats.mpBarWidth(bo);
+            var0.fillRect(hudBarX, hudBarY + 1, var1, 4);
+            var1 = PlayerStats.mpBarWidth(hudBarMaxWidth);
             var0.setColor(119);
-            var0.fillRect(bm, bn + 12, var1, 2);
+            var0.fillRect(hudBarX, hudBarY + 12, var1, 2);
             var0.setColor(204);
-            var0.fillRect(bm, bn + 14, var1, bs - 2);
-            FontGraph.drawSmall(var0, "" + dd, 1, bh - 18, bg + 6, 2);
-            var1 = Leveling.expBarWidth(bp);
+            var0.fillRect(hudBarX, hudBarY + 14, var1, hudMpBarHeight - 2);
+            FontGraph.drawSmall(var0, "" + money, 1, hudWidth - 18, hudY + 6, 2);
+            var1 = Leveling.expBarWidth(hudExpBarMaxWidth);
             var0.setColor(94373);
-            var0.fillRect(31, bg + 31, var1, 1);
+            var0.fillRect(31, hudY + 31, var1, 1);
             var0.setColor(65535);
-            var0.fillRect(31, bg + 32, var1, 1);
-            FontGraph.drawSmall(var0, "" + PlayerStats.level, 2, 26, bg + 11, 2);
-            var0.drawImage(weaponIcons[fd], 43, bg + 16, 3);
-            FontGraph.drawSmall(var0, "" + (W[0] + W[1] + W[2]), 2, bh - 29, bg + 19, 2);
-            FontGraph.drawSmall(var0, "" + (W[3] + W[4] + W[5]), 2, bh - 9, bg + 19, 2);
+            var0.fillRect(31, hudY + 32, var1, 1);
+            FontGraph.drawSmall(var0, "" + PlayerStats.level, 2, 26, hudY + 11, 2);
+            var0.drawImage(weaponIcons[fd], 43, hudY + 16, 3);
+            FontGraph.drawSmall(var0, "" + (potionCounts[0] + potionCounts[1] + potionCounts[2]), 2, hudWidth - 29, hudY + 19, 2);
+            FontGraph.drawSmall(var0, "" + (potionCounts[3] + potionCounts[4] + potionCounts[5]), 2, hudWidth - 9, hudY + 19, 2);
         }
     }
 
-    private static void e(Graphics var0) {
+    private static void drawLetterbox(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
         var0.setColor(0);
-        var0.fillRect(0, 0, viewWidth, bu);
-        if (be) {
-            var0.fillRect(0, screenHeight - bu + 1, viewWidth, bu);
+        var0.fillRect(0, 0, viewWidth, letterboxHeight);
+        if (hudPanelVisible) {
+            var0.fillRect(0, screenHeight - letterboxHeight + 1, viewWidth, letterboxHeight);
         } else {
             var0.fillRect(0, screenHeight - 13, screenWidth, 13);
         }
 
-        if (fV) {
-            for(int var1 = 0; var1 < fW.length; ++var1) {
-                FontGraph.drawBold(var0, fW[var1], viewCenterX, fX + (var1 << 4), 2);
+        if (captionVisible) {
+            for(int var1 = 0; var1 < captionLines.length; ++var1) {
+                FontGraph.drawBold(var0, captionLines[var1], viewCenterX, captionY + (var1 << 4), 2);
             }
         }
 
@@ -3915,7 +3915,7 @@ public final class b extends Canvas implements Runnable {
         }
 
         var0.setColor(0);
-        var0.fillRect(0, bg + 33, bh, 15);
+        var0.fillRect(0, hudY + 33, hudWidth, 15);
         if (var2 && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + viewWidth - 10) {
             var0.drawImage(markerIcon, Dialogue.speakerX - cameraX, Dialogue.speakerY - cameraY + 2, 17);
         }
@@ -3964,7 +3964,7 @@ public final class b extends Canvas implements Runnable {
         b(var0);
         drawNpcs(var0);
         l(var0);
-        e(var0);
+        drawLetterbox(var0);
         if (Dialogue.visible) {
             drawDialogue(var0);
         }
@@ -4270,16 +4270,16 @@ public final class b extends Canvas implements Runnable {
 
                 for(var0 = 0; var0 < du; ++var0) {
                     if (dD[var0] == 1 && ff == dA[var0] && a(fe - dz[var0]) < 30 && fE == -1) {
-                        p = "Trò chuyện";
-                        d = true;
+                        rightSoftKeyLabel = "Trò chuyện";
+                        hudDirty = true;
                         fE = var0;
                         break;
                     }
                 }
 
                 if (gm == mapId && gr == 1 && ff == go && a(fe - gn) < 30) {
-                    p = "Nói chuyện";
-                    d = true;
+                    rightSoftKeyLabel = "Nói chuyện";
+                    hudDirty = true;
                     fB = true;
                 }
 
@@ -4291,8 +4291,8 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (ff == npcY[var0] && a(fe - npcX[var0]) < 30 && fD == -1) {
-                        p = "Giao tiếp";
-                        d = true;
+                        rightSoftKeyLabel = "Giao tiếp";
+                        hudDirty = true;
                         fD = var0;
                         break label788;
                     }
@@ -4387,7 +4387,7 @@ public final class b extends Canvas implements Runnable {
                     D = 0;
                     E = eI ? 1 : 0;
                     A = 1;
-                    d = true;
+                    hudDirty = true;
                 }
 
                 if (fn < 0) {
@@ -4841,7 +4841,7 @@ public final class b extends Canvas implements Runnable {
                     E = 0;
                     D = 0;
                     Leveling.applyDeathPenalty();
-                    d = true;
+                    hudDirty = true;
                     if (hc) {
                         hg = hh;
                     }
@@ -4961,7 +4961,7 @@ public final class b extends Canvas implements Runnable {
                         B = 15;
                     }
 
-                    d = true;
+                    hudDirty = true;
                 }
                 break;
             case 15:
@@ -5177,7 +5177,7 @@ public final class b extends Canvas implements Runnable {
                     D = 0;
                     E = eI ? 1 : 0;
                     A = 1;
-                    d = true;
+                    hudDirty = true;
                 }
 
                 if (fn < 0) {
@@ -5206,7 +5206,7 @@ public final class b extends Canvas implements Runnable {
                     fw = false;
                 }
 
-                d = true;
+                hudDirty = true;
             }
 
             if (fx) {
@@ -5220,7 +5220,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                d = true;
+                hudDirty = true;
             }
         }
 
@@ -5349,7 +5349,7 @@ public final class b extends Canvas implements Runnable {
                 B = 12;
             }
 
-            d = true;
+            hudDirty = true;
         }
 
         for(int var0 = 0; var0 < iq; ++var0) {
@@ -5372,9 +5372,9 @@ public final class b extends Canvas implements Runnable {
 
     private static boolean V() {
         if (!fS) {
-            if (bu > 1) {
-                bu >>= 1;
-                d = true;
+            if (letterboxHeight > 1) {
+                letterboxHeight >>= 1;
+                hudDirty = true;
             }
 
             return false;
@@ -5390,15 +5390,15 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
             } else {
-                if (bu < bt) {
-                    bu += (bt - bu >> 1) + 1;
+                if (letterboxHeight < letterboxMaxHeight) {
+                    letterboxHeight += (letterboxMaxHeight - letterboxHeight >> 1) + 1;
                 }
 
-                if (fV) {
-                    if (fX < fY) {
-                        fX += 2;
+                if (captionVisible) {
+                    if (captionY < captionTargetY) {
+                        captionY += 2;
                     } else {
-                        fX = fY;
+                        captionY = captionTargetY;
                     }
                 }
 
@@ -5416,12 +5416,12 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 3:
                             fS = false;
-                            d = true;
+                            hudDirty = true;
                             ++fU;
                             break;
                         case 4:
                             if (B == 1) {
-                                fV = false;
+                                captionVisible = false;
                                 var0 = 0;
                                 int var1 = 0;
                                 switch (aD[az[fT][fU]]) {
@@ -5545,13 +5545,13 @@ public final class b extends Canvas implements Runnable {
                             }
                             break;
                         case 15:
-                            fV = true;
-                            fW = FontGraph.wrapBoldText(cutsceneCaptions[az[fT][fU]], viewWidth - 40);
-                            if ((fY = (bt >> 1) - (fW.length << 3)) < 3) {
-                                fY = 2;
+                            captionVisible = true;
+                            captionLines = FontGraph.wrapBoldText(cutsceneCaptions[az[fT][fU]], viewWidth - 40);
+                            if ((captionTargetY = (letterboxMaxHeight >> 1) - (captionLines.length << 3)) < 3) {
+                                captionTargetY = 2;
                             }
 
-                            fX = -fW.length << 3;
+                            captionY = -captionLines.length << 3;
                             ++fU;
                             break;
                         case 16:
@@ -5761,8 +5761,8 @@ public final class b extends Canvas implements Runnable {
         for(int var0 = 0; var0 < de; ++var0) {
             if (dh[var0] != 0) {
                 if (a(ff - (fh >> 1) - (dg[var0] - 7)) < 10 && a(fe - df[var0]) < 10) {
-                    dd += dl[var0];
-                    d = true;
+                    money += dl[var0];
+                    hudDirty = true;
                     dh[var0] = 301;
                     a("+" + dl[var0], 1, df[var0], dg[var0] - 15, 0, -1);
                 }
@@ -5862,8 +5862,8 @@ public final class b extends Canvas implements Runnable {
                             dD[var0] = 2;
                             if (fE == var0) {
                                 fE = -1;
-                                p = " ";
-                                d = true;
+                                rightSoftKeyLabel = " ";
+                                hudDirty = true;
                             }
                         }
 
@@ -6267,7 +6267,7 @@ public final class b extends Canvas implements Runnable {
                         a("+" + cU[var0], 2, cO[var0], cP[var0] - 15, 0, -1);
                     }
 
-                    d = true;
+                    hudDirty = true;
                     cQ[var0] = 301;
                 }
 
@@ -6596,7 +6596,7 @@ public final class b extends Canvas implements Runnable {
             } else if (bv.equals("1982")) {
                 gainExp(100000);
             } else if (bv.equals("1983")) {
-                dd += 50000;
+                money += 50000;
                 b("Money+=50000");
             } else {
                 int var2;
@@ -6614,7 +6614,7 @@ public final class b extends Canvas implements Runnable {
                 }
             }
 
-            d = true;
+            hudDirty = true;
             bv = "";
         }
 
@@ -6842,7 +6842,7 @@ public final class b extends Canvas implements Runnable {
                         var6.setColor(16768477);
                         var2 = cameraX + 50;
                         var3 = cameraY + 15;
-                        if (!be) {
+                        if (!hudPanelVisible) {
                             var3 += 20;
                         }
 
@@ -6967,13 +6967,13 @@ public final class b extends Canvas implements Runnable {
                     var6.drawImage(arrowIcons[ge], gf, gg, 3);
                 }
 
-                c(var6);
-                if (d) {
-                    d(var6);
+                drawHudOverlay(var6);
+                if (hudDirty) {
+                    drawHudPanel(var6);
                 }
 
-                if (bu > 1) {
-                    e(var6);
+                if (letterboxHeight > 1) {
+                    drawLetterbox(var6);
                 }
 
                 if (cm) {
@@ -7172,7 +7172,7 @@ public final class b extends Canvas implements Runnable {
                             }
                         }
 
-                        d = true;
+                        hudDirty = true;
                     } else {
                         label2614: {
                             if (Input.pressed[Input.KEY_SOFT_LEFT]) {
@@ -7189,7 +7189,7 @@ public final class b extends Canvas implements Runnable {
                                     fd = 0;
                                 }
 
-                                d = true;
+                                hudDirty = true;
                                 Input.pressed[Input.KEY_NUM0] = false;
                             } else if (Input.pressed[Input.KEY_RIGHT]) {
                                 fo = 2;
@@ -7218,11 +7218,11 @@ public final class b extends Canvas implements Runnable {
                                     Input.pressed[Input.KEY_STAR] = false;
                                     if (!PlayerStats.isHpFull()) {
                                         for(var13 = 0; var13 < 3; ++var13) {
-                                            if (W[var13] > 0) {
-                                                var10002 = W[var13]--;
+                                            if (potionCounts[var13] > 0) {
+                                                var10002 = potionCounts[var13]--;
                                                 PlayerStats.restoreHp(kF[var13]);
 
-                                                d = true;
+                                                hudDirty = true;
                                                 break;
                                             }
                                         }
@@ -7231,11 +7231,11 @@ public final class b extends Canvas implements Runnable {
                                     Input.pressed[Input.KEY_POUND] = false;
                                     if (!PlayerStats.isMpFull()) {
                                         for(var13 = 3; var13 < 6; ++var13) {
-                                            if (W[var13] > 0) {
-                                                var10002 = W[var13]--;
+                                            if (potionCounts[var13] > 0) {
+                                                var10002 = potionCounts[var13]--;
                                                 PlayerStats.restoreMp(kF[var13]);
 
-                                                d = true;
+                                                hudDirty = true;
                                                 break;
                                             }
                                         }
@@ -7246,7 +7246,7 @@ public final class b extends Canvas implements Runnable {
                             if (B == 1) {
                                 if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                                     Input.clearPressed();
-                                    if (p.equals("Giao tiếp")) {
+                                    if (rightSoftKeyLabel.equals("Giao tiếp")) {
                                         var4 = fD;
                                         switch (npcTypes[var4]) {
                                             case 0:
@@ -7577,11 +7577,11 @@ public final class b extends Canvas implements Runnable {
                                         if (mapId == gb && var4 == gj) {
                                             gb = -1;
                                         }
-                                    } else if (p.equals("Trò chuyện")) {
+                                    } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
                                         Input.clearPressed();
                                         dJ[fE] = -fm;
                                         startDialogue(dv[fE], 0, dz[fE], dA[fE] - 44);
-                                    } else if (p.equals("Nói chuyện") && fB) {
+                                    } else if (rightSoftKeyLabel.equals("Nói chuyện") && fB) {
                                         if (gk) {
                                             startDialogue(girlLines[0], 0, gn, go - 44);
                                         } else if (eU) {
@@ -7622,8 +7622,8 @@ public final class b extends Canvas implements Runnable {
                                             D = 0;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         } else if (Input.held[Input.KEY_LEFT]) {
                                             if (fm == 1) {
                                                 fm = -1;
@@ -7634,8 +7634,8 @@ public final class b extends Canvas implements Runnable {
 
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         } else if (Input.held[Input.KEY_RIGHT]) {
                                             if (fm == -1) {
                                                 fm = 1;
@@ -7646,8 +7646,8 @@ public final class b extends Canvas implements Runnable {
 
                                             fE = -1;
                                             fD = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         } else if (Input.held[Input.KEY_DOWN]) {
                                             D = 0;
                                             E = 0;
@@ -7666,8 +7666,8 @@ public final class b extends Canvas implements Runnable {
                                             D = 0;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         } else if (Input.held[Input.KEY_NUM3]) {
                                             if (eI) {
                                                 A = -10;
@@ -7682,8 +7682,8 @@ public final class b extends Canvas implements Runnable {
                                             D = 0;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         }
 
                                         if (Input.pressed[Input.KEY_FIRE]) {
@@ -7694,8 +7694,8 @@ public final class b extends Canvas implements Runnable {
                                             Input.pressed[Input.KEY_FIRE] = false;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         }
                                     }
                                 }
@@ -7781,7 +7781,7 @@ public final class b extends Canvas implements Runnable {
                                     A = -7;
                                     PlayerStats.drainMp(3);
 
-                                    d = true;
+                                    hudDirty = true;
                                     e(-1, fe - -8, ff);
                                     e(1, fe - 8, ff);
                                     g(fe, ff);
@@ -9431,7 +9431,7 @@ public final class b extends Canvas implements Runnable {
                                 mapId = var12[1];
                                 tick = var12[2];
                                 eE = var12[3] == 1;
-                                dd = var12[4];
+                                money = var12[4];
                                 dw = var12[5] == 1;
                                 eF = var12[6] == 1;
                                 eG = var12[7] == 1;
@@ -9550,7 +9550,7 @@ public final class b extends Canvas implements Runnable {
                         cornerIcons = null;
                         ensureMapImages();
                         state = GameState.PLAYING;
-                        d = true;
+                        hudDirty = true;
                     } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
                         if (Input.pressed[Input.KEY_DOWN]) {
                             var3 = true;
@@ -9708,10 +9708,10 @@ public final class b extends Canvas implements Runnable {
                                 state = GameState.WORLD_MAP;
                                 break;
                             case MessageType.TRAVEL_CONFIRM:
-                                if (travelCost >= dd) {
+                                if (travelCost >= money) {
                                     showMessage(MessageType.NOT_ENOUGH_MONEY);
                                 } else {
-                                    dd -= travelCost;
+                                    money -= travelCost;
                                     ar();
                                     cornerIcons = null;
                                     ensureMapImages();
@@ -9747,7 +9747,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    d = true;
+                    hudDirty = true;
                     break;
                 case GameState.INVENTORY:
                     if (kC > 0) {
@@ -9755,8 +9755,8 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        if (W[kB] > 0) {
-                            var10002 = W[kB]--;
+                        if (potionCounts[kB] > 0) {
+                            var10002 = potionCounts[kB]--;
                             kC = kD.length - 1;
                             if (kB <= 2) {
                                 PlayerStats.restoreHp(kF[kB]);
@@ -9798,16 +9798,16 @@ public final class b extends Canvas implements Runnable {
                         if (kq == 0) {
                             if (kr == 0) {
                                 if (ko < 3) {
-                                    if (W[0] + W[1] + W[2] > 99) {
+                                    if (potionCounts[0] + potionCounts[1] + potionCounts[2] > 99) {
                                         break;
                                     }
-                                } else if (W[3] + W[4] + W[5] > 99) {
+                                } else if (potionCounts[3] + potionCounts[4] + potionCounts[5] > 99) {
                                     break;
                                 }
 
-                                if (dd >= kv[kq][ko]) {
-                                    var10002 = W[ko]++;
-                                    dd -= kv[kq][ko];
+                                if (money >= kv[kq][ko]) {
+                                    var10002 = potionCounts[ko]++;
+                                    money -= kv[kq][ko];
                                 }
                             } else {
                                 showPurchaseFailed();
@@ -9830,13 +9830,13 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             if (kr == 0) {
-                                if (dd >= kv[kq][ko]) {
-                                    dd -= kv[kq][ko];
+                                if (money >= kv[kq][ko]) {
+                                    money -= kv[kq][ko];
                                     y = ko;
                                     t();
                                 } else {
                                     showMessage(MessageType.SHOP_NOTICE);
-                                    setMessageText("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + dd + "$. Hãy đi tìm thêm.");
+                                    setMessageText("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + money + "$. Hãy đi tìm thêm.");
                                     messageY = shopY;
                                     state = GameState.MESSAGE;
                                 }
@@ -9855,7 +9855,7 @@ public final class b extends Canvas implements Runnable {
                         Input.clearPressed();
                         Input.clearHeld();
                         state = GameState.PLAYING;
-                        d = true;
+                        hudDirty = true;
                     } else {
                         if (Input.pressed[Input.KEY_UP]) {
                             Input.clearPressed();
@@ -12455,8 +12455,8 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawShop(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        d(var0);
-        c(var0);
+        drawHudPanel(var0);
+        drawHudOverlay(var0);
         var0.setClip(0, 0, screenWidth, screenHeight);
         var0.setColor(0);
         var0.fillRect(viewCenterX - 64, shopY - 19, 129, 102);
@@ -12468,7 +12468,7 @@ public final class b extends Canvas implements Runnable {
         var0.setColor(6562304);
         var0.fillRect(viewCenterX - 61, shopY - 16, 123, 97);
         if (kr == 0) {
-            FontGraph.drawBold(var0, "Tiền: " + dd + "$", viewCenterX, shopY - 8, 2);
+            FontGraph.drawBold(var0, "Tiền: " + money + "$", viewCenterX, shopY - 8, 2);
         } else {
             FontGraph.drawBold(var0, kt[kq][ko], viewCenterX, shopY - 8, 2);
         }
@@ -12531,8 +12531,8 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawInventory(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        d(var0);
-        c(var0);
+        drawHudPanel(var0);
+        drawHudOverlay(var0);
         var0.setClip(0, 0, screenWidth, screenHeight);
         var0.setColor(0);
         var0.fillRect(viewCenterX - 64, inventoryY - 19, 129, 102);
@@ -12559,7 +12559,7 @@ public final class b extends Canvas implements Runnable {
         var0.setColor(kD[kC]);
         var0.drawRect(inventoryX - 10 + kB * 20, inventoryY + 10, 20, 20);
         FontGraph.drawBold(var0, kE[kB], viewCenterX, inventoryY + 40, 2);
-        FontGraph.drawBold(var0, "Số lượng: " + W[kB], viewCenterX, inventoryY + 55, 2);
+        FontGraph.drawBold(var0, "Số lượng: " + potionCounts[kB], viewCenterX, inventoryY + 55, 2);
         var0.drawImage(cornerIcons[0], viewCenterX - 64, inventoryY - 19, 20);
         var0.drawImage(cornerIcons[1], viewCenterX + 65, inventoryY - 19, 24);
         var0.drawImage(cornerIcons[2], viewCenterX - 64, inventoryY + 83, 36);
@@ -12768,7 +12768,7 @@ public final class b extends Canvas implements Runnable {
             }
 
             travelCost = var2 = (var2 << 1) / 3;
-            setMessageText("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + dd + "$. Chuyển?");
+            setMessageText("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + money + "$. Chuyển?");
             messageLeftLabel = "Chuyển";
             messageRightLabel = "Không";
         }

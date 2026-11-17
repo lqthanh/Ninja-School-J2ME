@@ -75,7 +75,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.loadingTarget = 87;
             b.e();
             b.setupViewport();
-            b.j();
+            b.setupHud();
             b.loadingTarget = 95;
             Thread.yield();
             Sky.setup(Save.backgroundIndex, b.mapId, b.viewWidth, b.viewHeight, b.lowGraphics);
@@ -83,9 +83,9 @@ public class Midlet extends MIDlet implements Runnable {
                 b.X[b.mapId] = true;
             }
 
-            b.d = true;
-            b.o = "Menu";
-            b.p = " ";
+            b.hudDirty = true;
+            b.leftSoftKeyLabel = "Menu";
+            b.rightSoftKeyLabel = " ";
             b.U = false;
             b.n(b.mapId);
             b.loadingTarget = 100;
