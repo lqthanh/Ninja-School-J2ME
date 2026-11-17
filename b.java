@@ -435,7 +435,7 @@ public final class b extends Canvas implements Runnable {
     private static boolean fb;
     private static int fc;
     private static int fd;
-    public static int y;
+    public static int swordLevel;
     private static int fe;
     private static int ff;
     public static int z;
@@ -685,26 +685,30 @@ public final class b extends Canvas implements Runnable {
     private static int[][] kj;
     private static boolean[][] kk;
     private static int[] kl;
-    private static int[] km;
+    private static int[] swordLevelRequirements;
     static int shopY;
     private static int shopX;
-    private static int ko;
-    private static int kp;
-    private static int kq;
-    private static int kr;
-    private static int[] ks;
-    private static String[][] kt;
-    private static String[][] ku;
-    private static int[][] kv;
+    private static int shopCursor;
+    private static int shopBlink;
+    private static int shopRow;
+    /** Cửa hàng mua bằng tiền trong game. */
+    private static final int SHOP_MODE_MONEY = 0;
+    /** Cửa hàng tiền thật (SMS), giờ chỉ báo mua thất bại. */
+    private static final int SHOP_MODE_SMS = 1;
+    private static int shopMode;
+    private static int[] shopBlinkColors;
+    private static String[][] shopItemNames;
+    private static String[][] shopSmsPrices;
+    private static int[][] shopPrices;
     private static Image[] shopSwordIcons;
     private static int inventoryY;
     private static int inventoryX;
-    private static int kB;
-    private static int kC;
-    private static int[] kD;
-    private static String[] kE;
+    private static int inventoryCursor;
+    private static int inventoryBlink;
+    private static int[] inventoryBlinkColors;
+    private static String[] potionNames;
     static int[] potionCounts;
-    private static int[] kF;
+    private static int[] potionRestoreAmounts;
     private static Image[] cornerIcons;
     private static int gameMenuY;
     private static int gameMenuSelection;
@@ -843,9 +847,9 @@ public final class b extends Canvas implements Runnable {
         jB = 0;
         loadingProgress = 0;
         kl = null;
-        km = new int[]{0, 10, 15, 20};
-        ks = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
-        kt = new String[][]{{"Bình HP nhỏ", 
+        swordLevelRequirements = new int[]{0, 10, 15, 20};
+        shopBlinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
+        shopItemNames = new String[][]{{"Bình HP nhỏ", 
                 "Bình HP vừa", 
                 "Bình HP to", 
                 "Bình MP nhỏ", 
@@ -855,7 +859,7 @@ public final class b extends Canvas implements Runnable {
                 "Thủy linh kiếm", 
                 "Hỏa giác kiếm", 
                 "Long giao kiếm"}};
-        ku = new String[][]{{"2000vnđ / 50 bình", 
+        shopSmsPrices = new String[][]{{"2000vnđ / 50 bình", 
                 "3000vnđ / 50 bình", 
                 "3000vnđ / 30 bình", 
                 "2000vnđ / 50 bình", 
@@ -865,7 +869,7 @@ public final class b extends Canvas implements Runnable {
                 "3000vnđ", 
                 "3000vnđ", 
                 "5000vnđ"}};
-        kv = new int[][]{{200, 
+        shopPrices = new int[][]{{200, 
                 600, 
                 1500, 
                 200, 
@@ -875,15 +879,15 @@ public final class b extends Canvas implements Runnable {
                 12000, 
                 45000, 
                 182000}};
-        kD = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
-        kE = new String[]{"Bình HP nhỏ", 
+        inventoryBlinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
+        potionNames = new String[]{"Bình HP nhỏ", 
                 "Bình HP vừa", 
                 "Bình HP to", 
                 "Bình MP nhỏ", 
                 "Bình MP vừa", 
                 "Bình MP to"};
         potionCounts = new int[]{5, 2, 1, 5, 2, 1};
-        kF = new int[]{100, 400, 1000, 100, 200, 300};
+        potionRestoreAmounts = new int[]{100, 400, 1000, 100, 200, 300};
         gameMenuItems = new String[]{"Sử dụng item", 
                 "Xem bản đồ", 
                 "Lưu và thoát", 
@@ -1149,7 +1153,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[12] = ij;
         ++var2;
-        var1[13] = y;
+        var1[13] = swordLevel;
         ++var2;
         var1[14] = eW ? 1 : 0;
 
@@ -1398,7 +1402,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         ij = var0[12];
         ++var2;
-        y = var0[13];
+        swordLevel = var0[13];
         ++var2;
         eW = var0[14] == 1;
 
@@ -1685,7 +1689,7 @@ public final class b extends Canvas implements Runnable {
         if (Leveling.addExp(amount)) {
             a("level-up", 2, fe, ff - fh, 0, -2);
             showMessage(MessageType.LEVEL_UP);
-            setMessageText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
+            setMessageText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(swordLevel));
             state = GameState.MESSAGE;
         } else {
             a("+" + amount, 2, fe, ff - fh, 0, -2);
@@ -1704,7 +1708,7 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        int var0 = PlayerStats.rollMeleeDamage(tick, y);
+        int var0 = PlayerStats.rollMeleeDamage(tick, swordLevel);
         if (fx) {
             var0 <<= 1;
         }
@@ -2857,7 +2861,7 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        H();
+        reloadSlashEffects();
         fg = 22;
         fh = 32;
         fi = fg >> 1;
@@ -2867,15 +2871,15 @@ public final class b extends Canvas implements Runnable {
         fD = -1;
     }
 
-    private static void H() {
+    private static void reloadSlashEffects() {
         slashEffects = null;
         System.gc();
-        slashEffects = Effect.loadSlashes(y);
+        slashEffects = Effect.loadSlashes(swordLevel);
 
     }
 
     public static void setupHud() {
-        I();
+        loadHudIcons();
         if (hudPanelVisible) {
             try {
                 if (hudFrames == null) {
@@ -2899,14 +2903,14 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void I() {
+    private static void loadHudIcons() {
         try {
             if (markerIcon == null) {
                 markerIcon = Ui.loadMarker();
             }
 
             (weaponIcons = new Image[2])[1] = Ui.loadDartIcon();
-            weaponIcons[0] = Ui.loadSwordIcon(y);
+            weaponIcons[0] = Ui.loadSwordIcon(swordLevel);
         } catch (Exception var0) {
         }
     }
@@ -7220,7 +7224,7 @@ public final class b extends Canvas implements Runnable {
                                         for(var13 = 0; var13 < 3; ++var13) {
                                             if (potionCounts[var13] > 0) {
                                                 var10002 = potionCounts[var13]--;
-                                                PlayerStats.restoreHp(kF[var13]);
+                                                PlayerStats.restoreHp(potionRestoreAmounts[var13]);
 
                                                 hudDirty = true;
                                                 break;
@@ -7233,7 +7237,7 @@ public final class b extends Canvas implements Runnable {
                                         for(var13 = 3; var13 < 6; ++var13) {
                                             if (potionCounts[var13] > 0) {
                                                 var10002 = potionCounts[var13]--;
-                                                PlayerStats.restoreMp(kF[var13]);
+                                                PlayerStats.restoreMp(potionRestoreAmounts[var13]);
 
                                                 hudDirty = true;
                                                 break;
@@ -7551,14 +7555,14 @@ public final class b extends Canvas implements Runnable {
                                                     if (var4 == 6) {
                                                         openShop();
                                                         state = GameState.SHOP;
-                                                        kr = 0;
+                                                        shopMode = SHOP_MODE_MONEY;
                                                     }
                                                 }
 
                                                 if (mapId == 2 && var4 == 0) {
                                                     openShop();
                                                     state = GameState.SHOP;
-                                                    kr = 1;
+                                                    shopMode = SHOP_MODE_SMS;
                                                 }
 
                                                 if (mapId == 1 && var4 == 0) {
@@ -9440,7 +9444,7 @@ public final class b extends Canvas implements Runnable {
                                 gl = var12[10];
                                 gm = var12[11];
                                 ij = var12[12];
-                                y = var12[13];
+                                swordLevel = var12[13];
                                 eW = var12[14] == 1;
                                 Save.pendingLoad = true;
                                 gM = System.currentTimeMillis();
@@ -9750,18 +9754,18 @@ public final class b extends Canvas implements Runnable {
                     hudDirty = true;
                     break;
                 case GameState.INVENTORY:
-                    if (kC > 0) {
-                        --kC;
+                    if (inventoryBlink > 0) {
+                        --inventoryBlink;
                     }
 
                     if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        if (potionCounts[kB] > 0) {
-                            var10002 = potionCounts[kB]--;
-                            kC = kD.length - 1;
-                            if (kB <= 2) {
-                                PlayerStats.restoreHp(kF[kB]);
+                        if (potionCounts[inventoryCursor] > 0) {
+                            var10002 = potionCounts[inventoryCursor]--;
+                            inventoryBlink = inventoryBlinkColors.length - 1;
+                            if (inventoryCursor <= 2) {
+                                PlayerStats.restoreHp(potionRestoreAmounts[inventoryCursor]);
                             } else {
-                                PlayerStats.restoreMp(kF[kB]);
+                                PlayerStats.restoreMp(potionRestoreAmounts[inventoryCursor]);
                             }
                         }
 
@@ -9775,29 +9779,29 @@ public final class b extends Canvas implements Runnable {
                     } else {
                         if (Input.pressed[Input.KEY_LEFT]) {
                             Input.clearPressed();
-                            if (--kB < 0) {
-                                kB = 5;
+                            if (--inventoryCursor < 0) {
+                                inventoryCursor = 5;
                             }
                         }
 
                         if (Input.pressed[Input.KEY_RIGHT]) {
                             Input.clearPressed();
-                            if (++kB == 6) {
-                                kB = 0;
+                            if (++inventoryCursor == 6) {
+                                inventoryCursor = 0;
                             }
                         }
                     }
                     break;
                 case GameState.SHOP:
-                    if (kp > 0) {
-                        --kp;
+                    if (shopBlink > 0) {
+                        --shopBlink;
                     }
 
                     if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
                         Input.clearPressed();
-                        if (kq == 0) {
-                            if (kr == 0) {
-                                if (ko < 3) {
+                        if (shopRow == 0) {
+                            if (shopMode == SHOP_MODE_MONEY) {
+                                if (shopCursor < 3) {
                                     if (potionCounts[0] + potionCounts[1] + potionCounts[2] > 99) {
                                         break;
                                     }
@@ -9805,15 +9809,15 @@ public final class b extends Canvas implements Runnable {
                                     break;
                                 }
 
-                                if (money >= kv[kq][ko]) {
-                                    var10002 = potionCounts[ko]++;
-                                    money -= kv[kq][ko];
+                                if (money >= shopPrices[shopRow][shopCursor]) {
+                                    var10002 = potionCounts[shopCursor]++;
+                                    money -= shopPrices[shopRow][shopCursor];
                                 }
                             } else {
                                 showPurchaseFailed();
                             }
                         } else {
-                            if (y >= ko) {
+                            if (swordLevel >= shopCursor) {
                                 showMessage(MessageType.SHOP_NOTICE);
                                 setMessageText("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
                                 messageY = shopY;
@@ -9821,22 +9825,22 @@ public final class b extends Canvas implements Runnable {
                                 break;
                             }
 
-                            if (PlayerStats.level < km[ko]) {
+                            if (PlayerStats.level < swordLevelRequirements[shopCursor]) {
                                 showMessage(MessageType.SHOP_NOTICE);
-                                setMessageText("Bạn phải đạt cấp độ " + km[ko] + " mới có thể mua vũ khí này!");
+                                setMessageText("Bạn phải đạt cấp độ " + swordLevelRequirements[shopCursor] + " mới có thể mua vũ khí này!");
                                 messageY = shopY;
                                 state = GameState.MESSAGE;
                                 break;
                             }
 
-                            if (kr == 0) {
-                                if (money >= kv[kq][ko]) {
-                                    money -= kv[kq][ko];
-                                    y = ko;
-                                    t();
+                            if (shopMode == SHOP_MODE_MONEY) {
+                                if (money >= shopPrices[shopRow][shopCursor]) {
+                                    money -= shopPrices[shopRow][shopCursor];
+                                    swordLevel = shopCursor;
+                                    onSwordPurchased();
                                 } else {
                                     showMessage(MessageType.SHOP_NOTICE);
-                                    setMessageText("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + money + "$. Hãy đi tìm thêm.");
+                                    setMessageText("Không có đủ tiền: " + shopPrices[shopRow][shopCursor] + "$. Bạn chỉ có: " + money + "$. Hãy đi tìm thêm.");
                                     messageY = shopY;
                                     state = GameState.MESSAGE;
                                 }
@@ -9859,46 +9863,46 @@ public final class b extends Canvas implements Runnable {
                     } else {
                         if (Input.pressed[Input.KEY_UP]) {
                             Input.clearPressed();
-                            if (kq == 1) {
-                                kq = 0;
-                                ++ko;
+                            if (shopRow == 1) {
+                                shopRow = 0;
+                                ++shopCursor;
                             }
                         }
 
                         if (Input.pressed[Input.KEY_DOWN]) {
                             Input.clearPressed();
-                            if (kq == 0) {
-                                kq = 1;
-                                if (--ko < 0) {
-                                    ko = 0;
+                            if (shopRow == 0) {
+                                shopRow = 1;
+                                if (--shopCursor < 0) {
+                                    shopCursor = 0;
                                 }
 
-                                if (ko > 3) {
-                                    ko = 3;
+                                if (shopCursor > 3) {
+                                    shopCursor = 3;
                                 }
                             }
                         }
 
                         if (Input.pressed[Input.KEY_LEFT]) {
                             Input.clearPressed();
-                            if (--ko < 0) {
-                                if (kq == 0) {
-                                    ko = 5;
+                            if (--shopCursor < 0) {
+                                if (shopRow == 0) {
+                                    shopCursor = 5;
                                 } else {
-                                    ko = 3;
+                                    shopCursor = 3;
                                 }
                             }
                         }
 
                         if (Input.pressed[Input.KEY_RIGHT]) {
                             Input.clearPressed();
-                            ++ko;
-                            if (kq == 0 && ko == 6) {
-                                ko = 0;
+                            ++shopCursor;
+                            if (shopRow == 0 && shopCursor == 6) {
+                                shopCursor = 0;
                             }
 
-                            if (kq == 1 && ko == 4) {
-                                ko = 0;
+                            if (shopRow == 1 && shopCursor == 4) {
+                                shopCursor = 0;
                             }
                         }
                     }
@@ -12467,10 +12471,10 @@ public final class b extends Canvas implements Runnable {
         var0.drawRect(viewCenterX - 63, shopY - 18, 126, 99);
         var0.setColor(6562304);
         var0.fillRect(viewCenterX - 61, shopY - 16, 123, 97);
-        if (kr == 0) {
+        if (shopMode == SHOP_MODE_MONEY) {
             FontGraph.drawBold(var0, "Tiền: " + money + "$", viewCenterX, shopY - 8, 2);
         } else {
-            FontGraph.drawBold(var0, kt[kq][ko], viewCenterX, shopY - 8, 2);
+            FontGraph.drawBold(var0, shopItemNames[shopRow][shopCursor], viewCenterX, shopY - 8, 2);
         }
 
         int var1;
@@ -12493,17 +12497,17 @@ public final class b extends Canvas implements Runnable {
             var0.drawImage(shopSwordIcons[var1], shopX + 20 + var1 * 20, shopY + 42, 3);
         }
 
-        var0.setColor(ks[kp]);
-        if (kq == 0) {
-            var0.drawRect(shopX - 10 + ko * 20, shopY + 10, 19, 20);
+        var0.setColor(shopBlinkColors[shopBlink]);
+        if (shopRow == 0) {
+            var0.drawRect(shopX - 10 + shopCursor * 20, shopY + 10, 19, 20);
         } else {
-            var0.drawRect(shopX + 10 + ko * 20, shopY + 32, 19, 20);
+            var0.drawRect(shopX + 10 + shopCursor * 20, shopY + 32, 19, 20);
         }
 
-        if (kr == 0) {
-            FontGraph.drawBold(var0, kt[kq][ko] + "-" + kv[kq][ko] + "$", viewCenterX, shopY + 58, 2);
+        if (shopMode == SHOP_MODE_MONEY) {
+            FontGraph.drawBold(var0, shopItemNames[shopRow][shopCursor] + "-" + shopPrices[shopRow][shopCursor] + "$", viewCenterX, shopY + 58, 2);
         } else {
-            FontGraph.drawBold(var0, ku[kq][ko], viewCenterX, shopY + 58, 2);
+            FontGraph.drawBold(var0, shopSmsPrices[shopRow][shopCursor], viewCenterX, shopY + 58, 2);
         }
 
         var0.drawImage(cornerIcons[0], viewCenterX - 64, shopY - 19, 20);
@@ -12556,10 +12560,10 @@ public final class b extends Canvas implements Runnable {
             var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + 60 + var1 * 20, inventoryY + 20, 3);
         }
 
-        var0.setColor(kD[kC]);
-        var0.drawRect(inventoryX - 10 + kB * 20, inventoryY + 10, 20, 20);
-        FontGraph.drawBold(var0, kE[kB], viewCenterX, inventoryY + 40, 2);
-        FontGraph.drawBold(var0, "Số lượng: " + potionCounts[kB], viewCenterX, inventoryY + 55, 2);
+        var0.setColor(inventoryBlinkColors[inventoryBlink]);
+        var0.drawRect(inventoryX - 10 + inventoryCursor * 20, inventoryY + 10, 20, 20);
+        FontGraph.drawBold(var0, potionNames[inventoryCursor], viewCenterX, inventoryY + 40, 2);
+        FontGraph.drawBold(var0, "Số lượng: " + potionCounts[inventoryCursor], viewCenterX, inventoryY + 55, 2);
         var0.drawImage(cornerIcons[0], viewCenterX - 64, inventoryY - 19, 20);
         var0.drawImage(cornerIcons[1], viewCenterX + 65, inventoryY - 19, 24);
         var0.drawImage(cornerIcons[2], viewCenterX - 64, inventoryY + 83, 36);
@@ -12958,11 +12962,11 @@ public final class b extends Canvas implements Runnable {
         state = GameState.MESSAGE;
     }
 
-    public static void t() {
-        H();
-        I();
+    public static void onSwordPurchased() {
+        reloadSlashEffects();
+        loadHudIcons();
         showMessage(MessageType.SHOP_NOTICE);
-        setMessageText("Xin chúc mừng. Bạn đã có vũ khí mới: " + kt[kq][ko] + "!");
+        setMessageText("Xin chúc mừng. Bạn đã có vũ khí mới: " + shopItemNames[shopRow][shopCursor] + "!");
         messageY = shopY;
         state = GameState.MESSAGE;
     }
