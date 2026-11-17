@@ -7,17 +7,12 @@ import core.save.*;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import javax.microedition.lcdui.TextBox;
-import javax.microedition.rms.RecordStore;
 
-public final class b extends Canvas implements Runnable, CommandListener {
+public final class b extends Canvas implements Runnable {
     public static boolean a = true;
     private static int aa = 40;
     private static int[] ab = new int[]{150, 180, 180, 300, 350, 380, 500};
@@ -657,7 +652,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int iI;
     private static int iJ;
     private static int iK;
-    private static String iL;
     private static Image tilesetImage;
     private static Image waterfallImage;
     private static Image waterSurfaceImage;
@@ -743,8 +737,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static String[][] ku;
     private static int[][] kv;
     private static Image[] shopSwordIcons;
-    private static String[][] kx;
-    private static String[][] ky;
     private static int kz;
     private static int kA;
     private static int kB;
@@ -811,24 +803,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int lH;
     private static int lI;
     private static int lJ;
-    private static boolean lK;
-    private static String[] lL;
-    private static String[] lM;
-    public static int Z;
-    private static int lN;
-    private static int lO;
     private static Font lP;
-    private static Font lQ;
     private static int lR;
-    private String lS = "12345678";
-    private int lT;
-    private static String lU;
-    private static int[] lV;
-    private static int lW;
-    private int lX = 0;
-    private String lY = "";
-    private int lZ;
-    private int ma;
 
     static {
         aI = new int[ar.length][3][3];
@@ -905,7 +881,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ij = -1;
         ir = -1;
         iz = false;
-        iL = "oplj";
         S = 0;
         jB = 0;
         T = 0;
@@ -942,17 +917,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 12000, 
                 45000, 
                 182000}};
-        kx = new String[][]{{"BinhHP_Nho(50)", 
-                "BinhHP_Vua(50)", 
-                "BinhHP_To(30)", 
-                "BinhMP_Nho(50)", 
-                "BinhMP_Vua(30)", 
-                "BinhMP_To(50)"}, 
-            {"KiemTre", 
-                "ThuyLinhKiem", 
-                "HoaGiacKiem", 
-                "LongGiaoKiem"}};
-        ky = new String[][]{{"sms://", "sms://", "sms://", "sms://", "sms://", "sms://"}, {"sms://", "sms://", "sms://", "sms://"}};
         kD = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
         kE = new String[]{"Bình HP nhỏ", 
                 "Bình HP vừa", 
@@ -1187,19 +1151,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
         lE = new int[]{10, 2, 0, 0, 20, 0, 0, 8, 0, 10, 0, 0, 15, 18, 4, 0, 0, 0};
         lF = new int[]{7, 6, 6, 5, 2, 4};
         lG = -1;
-        lL = new String[]{"1. Tiep tuc", "2. Kich hoat", "3. Nhap ma kich hoat"};
-        lM = new String[]{"1. Kich hoat", "2. Nhap ma kich hoat"};
         lP = Font.getFont(0, 0, 0);
-        lQ = Font.getFont(0, 1, 0);
         lR = lP.getHeight() + 6;
-        lV = new int[9];
-        lW = 10;
-
-        for(var0 = 0; var0 < 9; ++var0) {
-            lV[var0] = (var0 << 1) + 1;
-            int[] var4 = lV;
-            var4[var0] += aV;
-        }
 
     }
 
@@ -6716,10 +6669,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ad();
         b var0 = Midlet.b;
         Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
-        e = 13;
         ai();
         e = 4;
-        lK = true;
         (new Thread(var0)).start();
     }
 
@@ -6732,123 +6683,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         aU = this.getHeight();
         aV = aT / 2;
         aW = aU / 2;
-        lK = aH() == 1;
-        this.ae();
-        this.lT = 100;
-        this.ay();
-        byte[] var2;
-        byte var10000 = (var2 = e("np")) == null ? -1 : var2[0];
-        lW = var10000;
-        if (var10000 == -1) {
-            W(lW = this.lT / 10);
-            f("TEAM PAY " + (int)(System.currentTimeMillis() % 8599L + 1000L) + "009" + "003");
-            X(0);
-        }
-
         c();
-        b var1 = this;
-        String var6;
-        if ((var6 = System.getProperty("phone.imei")) == null || var6.equals("")) {
-            var6 = System.getProperty("com.nokia.IMEI");
-        }
-
-        if (var6 != null && !var6.equals("")) {
-            this.lS = var6;
-        }
-
-        byte[] var3;
-        String var7 = (var3 = e("im")) == null ? null : new String(var3);
-        String var4 = var7;
-        if (var7 == null) {
-            var4 = var1.lS;
-            a("im", var4.getBytes());
-        } else if (!var4.equals(var1.lS)) {
-            lW = 2;
-            W(2);
-            f("TEAM PAY " + (int)(System.currentTimeMillis() % 8599L + 1000L) + "009" + "003");
-            X(0);
-        }
-
-        e = 13;
-        byte[] var5;
-        Z = (var5 = e("r")) == null ? 0 : var5[0];
-        lO = aV - (lP.stringWidth(lM[1]) >> 1);
-    }
-
-    private void ae() {
-        String var4 = System.getProperty("microedition.platform");
-        String var1 = "";
-        if (var4 == null) {
-            var4 = "TeaMobile";
-        }
-
-        if (lK) {
-            byte[] var2;
-            String var10000 = (var2 = e("lv")) == null ? null : new String(var2);
-            String var6 = var10000;
-            if (var10000 == null) {
-                X(0);
-                Y(0);
-                d(var4);
-                return;
-            }
-
-            if (!var6.equals(var4)) {
-                X(0);
-                Y(0);
-                d(var4);
-                return;
-            }
-
-            for(int var7 = 0; var7 < 4; ++var7) {
-                var1 = var1 + (char)(iL.charAt(var7) - 1);
-            }
-
-            var1 = var1 + 'a';
-            if (var4.toLowerCase().indexOf(var1) != -1) {
-                e = 13;
-                byte[] var5;
-                byte var9 = (var5 = e("bc")) == null ? 0 : var5[0];
-                byte var8 = var9;
-                if (var9 < iL.length() - 1) {
-                    E(var8 + 1);
-                    return;
-                }
-
-                var4 = (var5 = e("girl")) == null ? null : new String(var5);
-                var1 = null;
-
-                if (var1 == null) {
-                    b = !b;
-                } else if (var4 == null) {
-                    c(var1);
-                } else if (!var1.equals(var4)) {
-                    X(0);
-                    Y(0);
-                    c(var1);
-                    f("TEAM PAY " + (int)(System.currentTimeMillis() % 8599L + 1000L) + "009" + "003");
-                } else {
-                    E(0);
-                }
-            }
-        } else {
-            d(var4);
-        }
-
-    }
-
-    private static void E(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("bc", var1);
-    }
-
-    private static void c(String var0) {
-        a("girl", var0.getBytes());
-    }
-
-    private static void d(String var0) {
-        a("lv", var0.getBytes());
     }
 
     protected final void keyPressed(int var1) {
@@ -6876,15 +6711,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
             } else if (bv.equals("1983")) {
                 dd += 50000;
                 b("Money+=50000");
-            } else if (bv.equals("12456")) {
-                TextBox var3;
-                (var3 = new TextBox("Type anything:", "", 50, 0)).addCommand(new Command("OK", 4, 0));
-                var3.addCommand(new Command("Back", 2, 0));
-                var3.setCommandListener(this);
-                Display.getDisplay(Midlet.instance).setCurrent(var3);
-            } else if (bv.equals("99999")) {
-                a(aG(), "sms://", 0);
-                e = 13;
             } else {
                 int var2;
                 if (!bv.equals("1981")) {
@@ -7518,84 +7344,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 case 12:
                     h(var1);
                     return;
-                case 13:
-                    var1.setColor(15395562);
-                    var1.fillRect(0, 0, aT, aU);
-                    var1.setColor(11788624);
-                    var1.fillRect(0, 0, aT, lR);
-                    var1.fillRect(0, aU - lR, aT, lR);
-                    var1.setColor(16777215);
-                    var1.setFont(lQ);
-                    var1.drawString("Ninja School", aV, 3, 17);
-                    var1.setFont(lP);
-                    switch (Z) {
-                        case 0:
-                            this.t(var1);
-                            return;
-                        case 1:
-                            var1.setColor(lN % 10 > 5 ? 16777215 : 7171437);
-                            var1.drawString("Dang gui tin", aV, aW - lR, 17);
-                            var1.drawString("kich hoat...", aV, aW, 17);
-                            return;
-                        case 2:
-                            var1.setColor(7171437);
-                            var1.drawString("Gui tin kich hoat ton phi", aV, aW - (lR << 1), 17);
-                            var1.drawString("15.000đ. Ban se nhan", aV, aW - lR, 17);
-                            var1.drawString("duoc ma kich hoat trong", aV, aW, 17);
-                            var1.drawString("tin nhan tra loi.", aV, aW + lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("Dong y", 2, aU - lR + 3, 20);
-                            var1.drawString("Khong", aT - 2, aU - lR + 3, 24);
-                            return;
-                        case 3:
-                        default:
-                            break;
-                        case 4:
-                            this.s(var1);
-                            return;
-                        case 5:
-                            var1.setColor(7171437);
-                            var1.drawString("Da gui tin kich hoat.", aV, aW - (lR << 1), 17);
-                            var1.drawString("Xin thoat game va", aV, aW - lR, 17);
-                            var1.drawString("cho giay lat. Ban se", aV, aW, 17);
-                            var1.drawString("nhan duoc ma kich hoat.", aV, aW + lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("OK", 2, aU - lR + 3, 20);
-                            return;
-                        case 6:
-                            var1.setColor(7171437);
-                            var1.drawString("Khong the gui SMS", aV, aW - (lR << 1), 17);
-                            var1.drawString("Xin hay thu lai. Vao", aV, aW - lR, 17);
-                            var1.drawString("www.teamobi.com", aV, aW, 17);
-                            var1.drawString("de biet them thong tin.", aV, aW + lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("OK", 2, aU - lR + 3, 20);
-                            return;
-                        case 7:
-                            var1.setColor(0);
-                            var1.fillRect(0, 0, aT, aU);
-                            String var4 = this.lY;
-                            if (lN % 10 > 5) {
-                                var4 = var4 + "|";
-                            }
-
-                            var1.drawString(var4, aV - 20, aW - 40, 20);
-                            X(7);
-                            ai();
-                            e = 4;
-                            lK = aH() == 1;
-                            return;
-                        case 8:
-                            var1.setColor(7171437);
-                            var1.drawString("Xin vui long", aV, aW - (lR << 1), 17);
-                            var1.drawString("Bat Bluetooth", aV, aW - lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("OK", 2, aU - lR + 3, 20);
-                    }
                 default:
                     return;
             }
@@ -7622,12 +7370,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public final void run() {
-        if (!b) {
-            b = true;
-            e = 13;
-            Z = 8;
-        }
-
         while(b) {
             long var1 = System.currentTimeMillis();
             boolean var3;
@@ -10350,7 +10092,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     dd -= kv[kq][ko];
                                 }
                             } else {
-                                a("TEAM BUY 009003 " + kx[kq][ko], ky[kq][ko], ko + 1);
+                                showPurchaseFailed();
                             }
                         } else {
                             if (y >= ko) {
@@ -10383,7 +10125,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 break;
                             }
 
-                            a("TEAM BUY 009003 " + kx[kq][ko], ky[kq][ko], ko + 6);
+                            showPurchaseFailed();
                         }
                     }
 
@@ -10489,52 +10231,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 case 12:
                     Z();
                     break;
-                case 13:
-                    if (++lN > 10000) {
-                        lN = 0;
-                    }
-
-                    aT = this.getWidth();
-                    aU = this.getHeight();
-                    if (aN && aP > aU - 20) {
-                        if (aO < aV) {
-                            aS[12] = true;
-                        } else {
-                            aS[13] = true;
-                        }
-
-                        aN = false;
-                    }
-
-                    switch (Z) {
-                        case 0:
-                            this.aE();
-                        case 1:
-                        case 3:
-                        default:
-                            break;
-                        case 2:
-                            this.aD();
-                            break;
-                        case 4:
-                            this.ax();
-                            break;
-                        case 5:
-                            if (aS[5] || aS[12]) {
-                                Midlet.instance.notifyDestroyed();
-                            }
-                            break;
-                        case 6:
-                            aC();
-                            break;
-                        case 7:
-                            aw();
-                            break;
-                        case 8:
-                            if (aS[12]) {
-                                Midlet.instance.notifyDestroyed();
-                            }
-                    }
             }
 
             this.repaint();
@@ -13805,306 +13501,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void aw() {
-        if (aS[12]) {
-            Midlet.instance.notifyDestroyed();
-        }
-
-        Y(1);
-        int var10002 = lV[0]++;
-    }
-
-    private void ax() {
-        if (aS[2]) {
-            --this.ma;
-            if (this.ma < 0) {
-                this.ma = 1;
-            }
-
-            d();
-        }
-
-        if (aS[8]) {
-            ++this.ma;
-            if (this.ma > 1) {
-                this.ma = 0;
-            }
-
-            d();
-        }
-
-        if (aS[4]) {
-            --this.lZ;
-            if (this.lZ < 0) {
-                this.lZ = 4;
-            }
-
-            d();
-        }
-
-        if (aS[6]) {
-            ++this.lZ;
-            if (this.lZ > 4) {
-                this.lZ = 0;
-            }
-
-            d();
-        }
-
-        if (aS[5]) {
-            this.aB();
-            d();
-        }
-
-        int var2;
-        if (aS[12]) {
-            lV[5] = Integer.parseInt(lU.substring(9, 10));
-            lV[6] = Integer.parseInt(lU.substring(10, 11));
-            lV[7] = Integer.parseInt(lU.substring(11, 12));
-            lV[8] = Integer.parseInt(lU.substring(12, 13));
-            b var1 = this;
-            if (this.lY.length() < 4) {
-                Z = 0;
-            } else {
-                lV[1] = Integer.parseInt(this.lY.substring(0, 1));
-                lV[2] = Integer.parseInt(this.lY.substring(1, 2));
-                lV[3] = Integer.parseInt(this.lY.substring(2, 3));
-                lV[4] = Integer.parseInt(this.lY.substring(3, 4));
-                lV[8] = (lV[8] + lV[7]) % 10;
-                lV[7] = (lV[7] + lV[6]) % 10;
-                lV[6] = (lV[6] + lV[5]) % 10;
-                lV[5] = (lV[5] + lV[8]) % 10;
-
-                for(var2 = 1; var2 < 8; ++var2) {
-                    if (lV[var2 - 1] != lV[var2]) {
-                        var1.az();
-                    } else if (lV[var2] != lV[var2] + 1) {
-                        var1.aA();
-                    } else {
-                        d();
-                        var1.aD();
-                        var1.aA();
-                        aw();
-                        d();
-                    }
-                }
-            }
-
-            d();
-        }
-
-        if (aS[13]) {
-            this.ay();
-            d();
-        }
-
-        if (aN) {
-            for(int var4 = 0; var4 < 2; ++var4) {
-                for(var2 = 0; var2 < 5; ++var2) {
-                    if (aO > var2 * 20 + aV - 50 && aO < var2 * 20 + aV - 50 + 20 && aP > var4 * 25 + aW && aP < var4 * 25 + aW + 25) {
-                        this.lZ = var2;
-                        this.ma = var4;
-                        this.aB();
-                        aN = false;
-                    }
-                }
-            }
-        }
-
-    }
-
-    private void ay() {
-        if (this.lY.length() != 0) {
-            this.lY = this.lY.substring(0, this.lY.length() - 1);
-        }
-
-    }
-
-    private void az() {
-        d();
-        Z = 0;
-        aC();
-        d();
-    }
-
-    private void aA() {
-        d();
-        this.aD();
-        Z = 4;
-        this.az();
-        d();
-    }
-
-    private void aB() {
-        if (this.lY.length() < 4) {
-            this.lY = this.lY + (this.ma * 5 + this.lZ);
-        }
-
-    }
-
-    private static void aC() {
-        if (aS[5] || aS[12]) {
-            d();
-            Z = 0;
-        }
-
-    }
-
-    private void aD() {
-        if (aS[5] || aS[12]) {
-            String var1;
-            if ((var1 = aG()) == null || var1.equals("")) {
-                f(var1 = "TEAM PAY " + (System.currentTimeMillis() % 8000L + 1000L) + "009" + "003");
-            }
-
-            Z = 1;
-            a(var1, "sms://", 0);
-            d();
-        }
-
-        if (aS[13]) {
-            Z = 0;
-            d();
-        }
-
-    }
-
-    private void aE() {
-        if (aS[2]) {
-            --this.lX;
-            if (this.lX < 0) {
-                this.lX = lW == 0 ? 1 : 2;
-            }
-
-            d();
-        }
-
-        if (aS[8]) {
-            ++this.lX;
-            if (this.lX > (lW == 0 ? 1 : 2)) {
-                this.lX = 0;
-            }
-
-            d();
-        }
-
-        if (aS[5] || aS[12]) {
-            this.aF();
-            d();
-        }
-
-        if (aS[13]) {
-            Midlet.instance.notifyDestroyed();
-        }
-
-        if (aN) {
-            for(int var1 = 0; var1 < (lW == 0 ? 2 : 3); ++var1) {
-                if (aP > aW - 5 + var1 * lR && aP < aW - 5 + var1 * lR + lR) {
-                    if (this.lX != var1) {
-                        this.lX = var1;
-                    } else {
-                        this.aF();
-                    }
-
-                    aN = false;
-                    return;
-                }
-            }
-        }
-
-    }
-
-    private void aF() {
-        if (this.lX == 0 && lW > 0) {
-            W(--lW);
-            e = 4;
-            ai();
-            System.gc();
-        }
-
-        if (this.lX == 1 && lW > 0 || this.lX == 0 && lW == 0) {
-            Z = 2;
-        }
-
-        if (this.lX == 2 && lW > 0 || this.lX == 1 && lW == 0) {
-            lU = aG();
-            Z = 4;
-        }
-
-    }
-
-    private void s(Graphics var1) {
-        var1.setColor(7171437);
-        var1.drawString("Nhap ma kich hoat:", aV, aW - 60, 17);
-        var1.setColor(11788624);
-        var1.fillRect(this.lZ * 20 + aV - 50, this.ma * 25 + aW, 18, 23);
-        int var2 = 0;
-
-        for(int var3 = 0; var3 < 2; ++var3) {
-            for(int var4 = 0; var4 < 5; ++var4) {
-                var1.setColor(11788624);
-                var1.drawRect(var4 * 20 + aV - 50, var3 * 25 + aW, 18, 23);
-                var1.setColor(var4 == this.lZ && var3 == this.ma ? 16777215 : 7171437);
-                var1.drawString(String.valueOf(var2), var4 * 20 + aV - 50 + 10, var3 * 25 + aW + 3, 17);
-                ++var2;
-            }
-        }
-
-        String var5 = this.lY;
-        if (lN % 10 > 5) {
-            var5 = var5 + "|";
-        }
-
-        var1.setColor(7171437);
-        var1.drawString(var5, aV - 20, aW - 40, 20);
-        var1.setColor(16777215);
-        var1.setFont(lQ);
-        var1.drawString("OK", 2, aU - lR + 3, 20);
-        var1.drawString("Xoa", aT - 2, aU - lR + 3, 24);
-    }
-
-    private void t(Graphics var1) {
-        var1.setColor(7171437);
-        if (lV[1] == lV[5] && lV[2] == lV[6] && lV[3] == lV[7] && lV[4] == lV[8]) {
-            Z = 7;
-        }
-
-        var1.setColor(11788624);
-        var1.drawRect(3, aW - 8 + this.lX * lR, aT - 6, lR);
-        var1.drawRect(4, aW - 8 + this.lX * lR + 1, aT - 8, lR - 2);
-        var1.setColor(208472);
-        int var2;
-        if (lW > 0) {
-            var1.setFont(lQ);
-            var1.drawString("..:TEA MOBILE:..", aV, aW - (lR << 1), 17);
-            var1.setFont(lP);
-
-            for(var2 = 0; var2 < 3; ++var2) {
-                var1.setColor(7171437);
-                var1.drawString(lL[var2], lO, aW - 5 + var2 * lR, 20);
-            }
-        } else {
-            var1.drawString("Da het han dung thu", aV, aW - (lR << 1), 17);
-            var1.drawString("Moi ban kich hoat.", aV, aW - lR, 17);
-
-            for(var2 = 0; var2 < 2; ++var2) {
-                var1.setColor(7171437);
-                var1.drawString(lM[var2], lO, aW - 5 + var2 * lR, 20);
-            }
-        }
-
-        var1.setColor(16777215);
-        var1.setFont(lQ);
-        var1.drawString("Chon", 2, aU - lR + 3, 20);
-        var1.drawString("Thoat", aT - 2, aU - lR + 3, 24);
-    }
-
-    private static void a(String var0, String var1, int var2) {
-        if (var2 == 0) {
-            Z = 6;
-            return;
-        }
-
+    private static void showPurchaseFailed() {
         s(7);
         a("Không thể mua. Xin hãy thử lại sau.");
         Y = V;
@@ -14120,73 +13517,4 @@ public final class b extends Canvas implements Runnable, CommandListener {
         e = 7;
     }
 
-    private static byte[] e(String var0) {
-        var0 = "NINJASCHOOL" + var0;
-
-        try {
-            RecordStore var3;
-            byte[] var1 = (var3 = RecordStore.openRecordStore(var0, false)).getRecord(1);
-            var3.closeRecordStore();
-            return var1;
-        } catch (Exception var2) {
-            return null;
-        }
-    }
-
-    private static void a(String var0, byte[] var1) {
-        var0 = "NINJASCHOOL" + var0;
-
-        try {
-            RecordStore var3;
-            if ((var3 = RecordStore.openRecordStore(var0, true)).getNumRecords() > 0) {
-                var3.setRecord(1, var1, 0, var1.length);
-            } else {
-                var3.addRecord(var1, 0, var1.length);
-            }
-
-            var3.closeRecordStore();
-        } catch (Exception var2) {
-        }
-    }
-
-    private static void f(String var0) {
-        a("xxx", var0.getBytes());
-    }
-
-    private static String aG() {
-        byte[] var0;
-        return (var0 = e("xxx")) == null ? null : new String(var0);
-    }
-
-    private static void W(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("np", var1);
-    }
-
-    private static void X(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("r", var1);
-    }
-
-    private static void Y(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("g", var1);
-    }
-
-    private static int aH() {
-        byte[] var0;
-        return (var0 = e("g")) == null ? 0 : var0[0];
-    }
-
-    public final void commandAction(Command var1, Displayable var2) {
-        if (var1.getLabel().equals("OK")) {
-            a(aG() + " >> " + ((TextBox)var2).getString(), "sms://", 0);
-        }
-
-        Display.getDisplay(Midlet.instance).setCurrent(this);
-        this.setFullScreenMode(true);
-    }
 }
