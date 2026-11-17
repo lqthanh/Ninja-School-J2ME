@@ -58,13 +58,10 @@ public final class Quest {
     public static final int[] TARGET_MONSTER = new int[]{1, 7, 100, 100, 6, 100, 100, 13, 100, 15, 100, 100, 18, 17, 10, 100, 100, 100};
 
     /**
-     * Số lượng cần đạt. Lưu ý (giữ như bản gốc): {@link #AIR_HITS} đếm 20 đòn trúng nhưng
-     * code so cứng với 20, không đọc bảng này (giá trị ở đây là 0).
+     * Số lượng cần đạt: số quái phải giết, riêng {@link #AIR_HITS} là số đòn trúng trên không.
+     * 0 = nhiệm vụ không đếm số lượng.
      */
-    public static final int[] TARGET_COUNT = new int[]{10, 2, 0, 0, 20, 0, 0, 8, 0, 10, 0, 0, 15, 18, 4, 0, 0, 0};
-
-    /** Số đòn trúng trên không cần đạt của {@link #AIR_HITS}. */
-    public static final int AIR_HITS_TARGET = 20;
+    public static final int[] TARGET_COUNT = new int[]{10, 2, 0, 0, 20, 0, 0, 8, 0, 10, 0, 20, 15, 18, 4, 0, 0, 0};
 
     private Quest() {
     }

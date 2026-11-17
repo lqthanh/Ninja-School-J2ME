@@ -4423,7 +4423,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.AIR_HITS_TARGET) {
+                    if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
                         QuestState.progress = 0;
                         showNotice("Hit: " + QuestState.progress);
                     }
@@ -4538,7 +4538,7 @@ public final class b extends Canvas implements Runnable {
                         A = 0;
                         z = 0;
                         ff = I(ff + 3);
-                        if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.AIR_HITS_TARGET) {
+                        if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
                             QuestState.progress = 0;
                             showNotice("Hit: " + QuestState.progress);
                         }
@@ -7291,7 +7291,7 @@ public final class b extends Canvas implements Runnable {
                                                     if (PlayerStats.level < 12) {
                                                         startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (QuestState.current == Quest.AIR_HITS) {
-                                                        if (QuestState.progress < Quest.AIR_HITS_TARGET) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
                                                             startDialogue(questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             setNextNpcMarker(4);
