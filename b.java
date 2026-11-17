@@ -4,6 +4,7 @@ import core.app.*;
 import core.input.*;
 import core.map.*;
 import core.player.*;
+import core.quest.*;
 import core.render.*;
 import core.save.*;
 import core.ui.*;
@@ -26,7 +27,7 @@ public final class b extends Canvas implements Runnable {
     private static int[][] af = new int[][]{{-5, -2}, {-2, -4}, {0, -5}, {-6, -6}, {-5, -2}, {-2, -4}, {0, -5}};
     private static int[][] ag = new int[][]{{5, 8}, {3, 3}, new int[2], {4, 4}, {5, 8}, {3, 3}, new int[2]};
     private static int[] ah = new int[]{1, -2, 1, 1, 1, -2, 1};
-    private static String[] al = new String[]{"Ma một mắt", 
+    private static String[] monsterNames = new String[]{"Ma một mắt", 
             "ốc sên", 
             "Dơi quỷ", 
             "Quỷ một chân", 
@@ -54,12 +55,12 @@ public final class b extends Canvas implements Runnable {
     private static int[][][] ar = new int[][][]{{{0, -10, 32}, {1, -7, 7}, {1, -11, 15}}, {{0, -10, 33}, {1, -7, 7}, {1, -11, 16}}, {{1, -10, 33}, {2, -10, 11}, {2, -9, 16}}, {{1, -10, 32}, {3, -11, 9}, {3, -11, 16}}, {{1, -10, 34}, {4, -9, 9}, {4, -8, 16}}, {{1, -10, 34}, {5, -11, 11}, {5, -10, 17}}, {{1, -10, 33}, {6, -9, 9}, {6, -8, 16}}, {{0, -9, 36}, {7, -5, 15}, {7, -10, 21}}, {{4, -13, 26}, new int[3], new int[3]}, {{5, -13, 25}, new int[3], new int[3]}, {{6, -12, 26}, new int[3], new int[3]}, {{7, -13, 25}, new int[3], new int[3]}, {{0, -9, 35}, {8, -4, 13}, {8, -14, 27}}, {{0, -9, 32}, {9, -11, 9}, {10, -10, 18}}, {{2, -7, 34}, {9, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {9, -11, 9}, {12, -8, 15}}, {{2, -7, 33}, {9, -11, 9}, {13, -12, 16}}, {{0, -11, 32}, {9, -11, 9}, {14, -15, 19}}, {{2, -9, 33}, {9, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {9, -11, 9}, {16, -7, 23}}, {{2, -9, 33}, {9, -11, 9}, {17, -11, 19}}, {{3, -12, 34}, {8, -4, 13}, {8, -15, 25}}, {{0, -10, 28}, new int[3], {19, -8, 12}}, {{0, -9, 35}, {8, -4, 13}, {9, -9, 22}}, {{0, -10, 33}, new int[3], new int[3]}, {{9, -4, 24}, new int[3], new int[3]}, {{10, -4, 22}, new int[3], new int[3]}, {{0, -9, 32}, {8, -4, 9}, {10, -10, 18}}, {{2, -7, 34}, {8, -4, 9}, {11, -8, 16}}, {{2, -8, 33}, {8, -4, 9}, {12, -8, 15}}, {{2, -7, 33}, {8, -4, 9}, {13, -12, 16}}, {{0, -11, 32}, {7, -5, 9}, {14, -15, 19}}, {{2, -9, 33}, {7, -5, 9}, {15, -13, 20}}, {{2, -9, 32}, {7, -5, 9}, {16, -7, 23}}, {{2, -9, 33}, {7, -5, 9}, {17, -11, 19}}, {{0, -9, 32}, {2, -10, 11}, {10, -10, 18}}, {{2, -7, 34}, {3, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {4, -9, 9}, {12, -8, 15}}, {{2, -7, 33}, {5, -11, 11}, {13, -12, 16}}, {{0, -11, 32}, {2, -10, 11}, {14, -15, 19}}, {{2, -9, 33}, {3, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {4, -9, 9}, {16, -7, 23}}, {{2, -9, 33}, {5, -11, 11}, {17, -11, 19}}, {{1, -8, 38}, new int[3], {18, -8, 21}}, {{1, -8, 39}, new int[3], {18, -8, 22}}, {{1, -10, 43}, new int[3], {18, -11, 26}}};
     private static int[] as = new int[]{-2, -6, 22, 21, 19, 22, 10, -2, -2, 5, 19};
     private static int[] at = new int[]{9, 22, 25, 17, 26, 37, 36, 49, 50, 52, 36};
-    private static int[][] au = new int[][]{{2, 1, 1, 5, 3}, {2, 4, 3}, {2, 3}, {2, 1, 3}, {6, 3}, {2, 7, 3}, {2, 8, 3}, {2, 9, 3}, {2, 3}, {1, 3}, {2, 3}};
-    private static int[][] av = new int[][]{{0, 1, 2, 5, 0}, {3, 4, 0}, {6, 0}, {7, 8, 0}, {9, 0}, {10, 11, 0}, {12, 13, 0}, {14, 15, 0}, {16, 0}, {17, 0}, {18, 0}};
-    private static int[][] aw = new int[][]{{0, 360, 1128, 0, 0}, new int[3], new int[2], {0, 2784, 0}, {1248, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
+    private static int[][] mapEventConditions = new int[][]{{2, 1, 1, 5, 3}, {2, 4, 3}, {2, 3}, {2, 1, 3}, {6, 3}, {2, 7, 3}, {2, 8, 3}, {2, 9, 3}, {2, 3}, {1, 3}, {2, 3}};
+    private static int[][] mapEventCutscenes = new int[][]{{0, 1, 2, 5, 0}, {3, 4, 0}, {6, 0}, {7, 8, 0}, {9, 0}, {10, 11, 0}, {12, 13, 0}, {14, 15, 0}, {16, 0}, {17, 0}, {18, 0}};
+    private static int[][] mapEventParams = new int[][]{{0, 360, 1128, 0, 0}, new int[3], new int[2], {0, 2784, 0}, {1248, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
     private static int[][] ax = new int[][]{new int[5], new int[3], new int[2], new int[3], {408, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
     private static int[][] ay = new int[][]{{15, 1, 1, 2, 2, 1, 2, 4, 5, 3}, {6, 15, 1, 2, 1, 2, 1, 2, 1, 2, 4, 5, 3}, {6, 1, 2, 8, 11, 4, 7, 1, 2, 1, 2, 3}, {8, 9, 15, 12, 14, 10, 4, 16, 5, 1, 2, 3}, {7, 17}, {4, 1, 2, 17}, {8, 9, 15, 12, 14, 10, 4, 18, 4, 7, 3}, {1, 2, 4, 5, 3}, {6, 4, 19, 3}, {4, 20, 21, 3}, {4, 3}, {4, 22, 3}, {23, 4, 7, 4, 3}, {23, 25, 4, 7, 24, 26, 3}, {27, 4, 7, 4, 28, 3}, {4, 31, 32, 7, 4, 31, 4, 7, 4, 8, 17, 3}, {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 29, 3}, {4, 30, 3}, {15, 31, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 33, 17, 3}};
-    private static int[][] az = new int[][]{{1, -4, -1, -1, -4, -4, -4, 0, 20000, 0}, {0, 2, -4, -4, -5, -5, -5, -5, -5, -5, 1, 20000, 0}, {0, -5, -5, 0, 0, 2, 0, 55, 55, -4, -4, 0}, {0, 1, 0, 2, 3, 4, 3, 432, 20000, -4, -4, 0}, {0, 4}, {4, 55, 55, 0}, {0, 5, 3, 6, 7, 8, 5, 2, 6, 0, 0}, {-4, -4, 7, 20000, 0}, {0, 8, 0, 0}, {9, 0, 0, 0}, {10, 0}, {11, 0, 0}, {0, 12, 0, 13, 0}, {0, 0, 14, 0, 600, 0, 0}, {0, 15, 0, 16, 0, 0}, {17, 0, 0, 0, 55, 0, 56, 0, 57, 0, 94, 0}, {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 0, 0}, {54, 0, 0}, {4, 0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 0, 0, 0}};
+    private static int[][] cutsceneScripts = new int[][]{{1, -4, -1, -1, -4, -4, -4, 0, 20000, 0}, {0, 2, -4, -4, -5, -5, -5, -5, -5, -5, 1, 20000, 0}, {0, -5, -5, 0, 0, 2, 0, 55, 55, -4, -4, 0}, {0, 1, 0, 2, 3, 4, 3, 432, 20000, -4, -4, 0}, {0, 4}, {4, 55, 55, 0}, {0, 5, 3, 6, 7, 8, 5, 2, 6, 0, 0}, {-4, -4, 7, 20000, 0}, {0, 8, 0, 0}, {9, 0, 0, 0}, {10, 0}, {11, 0, 0}, {0, 12, 0, 13, 0}, {0, 0, 14, 0, 600, 0, 0}, {0, 15, 0, 16, 0, 0}, {17, 0, 0, 0, 55, 0, 56, 0, 57, 0, 94, 0}, {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 0, 0}, {54, 0, 0}, {4, 0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 0, 0, 0}};
     private static int[][] aA = new int[][]{{5, 26, 30, 33, 41, 48, 53, 57, 58, 60}, {5, 6, 8, 9, 18, 20, 30, 32, 39, 40, 60, 63, 67}, {5, 6, 7, 13, 14, 19, 21, 34, 35, 60, 79, 80}, {1, 2, 3, 20, 50, 80, 85, 90, 92, 93, 95, 0}, {5, 6}, {10, 12, 13, 50}, {1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21}, {5, 10, 20, 30, 32}, {5, 10, 15, 20}, {10, 15, 20, 25}, {20, 25}, {10, 12, 14}, {15, 30, 35, 45, 55}, {10, 12, 30, 40, 45, 50, 75}, {15, 30, 35, 45, 53, 55}, {10, 12, 13, 40, 50, 60, 70, 80, 90, 95, 100, 105}, {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47}, {10, 12, 14}, {10, 11, 60, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74}};
     private static int[][] aB = new int[][]{{1344, 288}, {816, 48}, {816, 192}, {744, 192}, {144, 264}, {1440, 96}, {1368, 288}, {1128, 288}, {840, 312}};
     private static int[] aC = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 4, 0, 3, 0, 6, 0, 2, 0, 5, 0, 4, 0, 1, 0, 3, 0, 0, 0, 5, 0, 4, 0, 3, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 3, 0, 0, 2, 1, 3, 2, 2};
@@ -285,9 +286,9 @@ public final class b extends Canvas implements Runnable {
     private static int[] cj;
     private static int[] ck;
     private static int[] cl;
-    private static boolean cm;
-    private static int cn;
-    private static String co;
+    private static boolean noticeVisible;
+    private static int noticeTimer;
+    private static String noticeText;
     private static int cp;
     private static int[] cq;
     private static int[] cr;
@@ -409,30 +410,6 @@ public final class b extends Canvas implements Runnable {
     private static Image[] waterSplashSprites;
     public static int mapId;
     public static int tick;
-    private static boolean eE;
-    private static boolean eF;
-    private static boolean eG;
-    private static boolean eH;
-    private static boolean eI;
-    private static boolean eJ;
-    private static boolean eK;
-    private static boolean eL;
-    private static boolean eM;
-    private static boolean eN;
-    private static boolean eO;
-    private static boolean eP;
-    private static boolean eQ;
-    private static boolean eR;
-    private static boolean eS;
-    private static boolean eT;
-    private static boolean eU;
-    private static boolean eV;
-    private static boolean eW;
-    private static boolean eX;
-    private static boolean eY;
-    private static boolean eZ;
-    private static boolean fa;
-    private static boolean fb;
     private static int fc;
     private static int fd;
     public static int swordLevel;
@@ -464,17 +441,12 @@ public final class b extends Canvas implements Runnable {
     private static boolean fv;
     private static boolean fw;
     private static boolean fx;
-    public static int P;
-    private static int fy;
-    private static int fz;
-    private static boolean fA;
     private static boolean fB;
-    private static int fC;
     private static int fD;
     private static int fE;
-    private static int fF;
-    private static int fG;
-    private static int fH;
+    private static int questItemX;
+    private static int questItemY;
+    private static int questItemState;
     private static int cameraTargetX;
     private static int cameraTargetY;
     private static int fK;
@@ -485,9 +457,9 @@ public final class b extends Canvas implements Runnable {
     private static int cameraY;
     private static int cameraMaxX;
     private static int cameraMaxY;
-    private static boolean fS;
-    private static int fT;
-    private static int fU;
+    private static boolean cutscenePlaying;
+    private static int cutsceneId;
+    private static int cutsceneStep;
     public static int Q;
     public static int R;
     private static boolean captionVisible;
@@ -496,15 +468,15 @@ public final class b extends Canvas implements Runnable {
     private static int captionTargetY;
     private static int fZ;
     private static boolean ga;
-    private static int gb;
-    private static int gc;
-    private static int gd;
+    private static int guideMarkerMap;
+    private static int guideMarkerX;
+    private static int guideMarkerY;
     private static int ge;
     private static int gf;
     private static int gg;
     private static int gh;
     private static int gi;
-    private static int gj;
+    private static int guideMarkerNpc;
     private static boolean gk;
     private static int gl;
     private static int gm;
@@ -602,9 +574,9 @@ public final class b extends Canvas implements Runnable {
     private static int ia;
     private static int ib;
     private static int ic;
-    private static int id;
-    private static boolean ie;
-    private static int ifSt;
+    private static int mapEventId;
+    private static boolean mapEventActive;
+    private static int mapEventStep;
     private static int ig;
     private static int ih;
     private static int ii;
@@ -760,13 +732,11 @@ public final class b extends Canvas implements Runnable {
     private static String[][] questReminderLines;
     private static String[][] idleLines;
     private static String[] questUnfinishedLines;
-    private static int[] lD;
-    private static int[] lE;
     private static int[] lF;
-    private static int lG;
-    private static int lH;
-    private static int lI;
-    private static int lJ;
+    private static int pendingMarkerMap;
+    private static int pendingMarkerX;
+    private static int pendingMarkerY;
+    private static int pendingMarkerNpc;
     private static Font lP;
     private static int lR;
 
@@ -804,32 +774,32 @@ public final class b extends Canvas implements Runnable {
         bJ = -19;
         bK = -12;
         bL = -26;
-        eI = false;
-        eJ = false;
-        eK = false;
-        eL = false;
-        eM = false;
-        eN = false;
-        eO = false;
-        eP = false;
-        eQ = false;
-        eR = false;
-        eS = false;
-        eT = false;
-        eU = false;
-        eV = false;
-        eW = false;
-        eX = false;
-        eY = false;
-        eZ = false;
-        fa = false;
-        fb = false;
+        Skills.lightness = false;
+        Skills.doubleJump = false;
+        Skills.darts = false;
+        Skills.burrow = false;
+        Skills.motorbikeLicense = false;
+        Skills.doubleStrength = false;
+        Skills.dive = false;
+        Skills.runOnWater = false;
+        Skills.transform = false;
+        Story.goldenBatQuestDone = false;
+        Story.tonikuQuestDone = false;
+        Story.girlWaiting = false;
+        Story.girlOutingDone = false;
+        Skills.tripleJump = false;
+        Skills.dartsLevel2 = false;
+        Skills.sprint = false;
+        Skills.standOnWater = false;
+        Skills.hide = false;
+        Story.gameCompleted = false;
+        Story.sakuraEscorting = false;
         fu = true;
-        fS = false;
-        fU = 0;
+        cutscenePlaying = false;
+        cutsceneStep = 0;
         captionLines = new String[]{""};
         fZ = 0;
-        gb = -1;
+        guideMarkerMap = -1;
         gh = 1;
         gk = false;
         gm = -1;
@@ -839,7 +809,7 @@ public final class b extends Canvas implements Runnable {
         hK = 20;
         hL = 60;
         hO = 50;
-        id = 10;
+        mapEventId = 10;
         ij = -1;
         ir = -1;
         Dialogue.visible = false;
@@ -1109,10 +1079,8 @@ public final class b extends Canvas implements Runnable {
                 "..trước mắt hãy học những kỹ năng cũ đã nhé..."}};
         var10000 = new String[]{"Ngươi không có đủ vàng."};
         questUnfinishedLines = new String[]{"Hãy hoàn thành nhiệm vụ được giao rồi quay lại gặp ta!"};
-        lD = new int[]{1, 7, 100, 100, 6, 100, 100, 13, 100, 15, 100, 100, 18, 17, 10, 100, 100, 100};
-        lE = new int[]{10, 2, 0, 0, 20, 0, 0, 8, 0, 10, 0, 0, 15, 18, 4, 0, 0, 0};
         lF = new int[]{7, 6, 6, 5, 2, 4};
-        lG = -1;
+        pendingMarkerMap = -1;
         lP = Font.getFont(0, 0, 0);
         lR = lP.getHeight() + 6;
 
@@ -1133,17 +1101,17 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[2] = tick;
         ++var2;
-        var1[3] = eE ? 1 : 0;
+        var1[3] = Story.prologueActive ? 1 : 0;
         ++var2;
         var1[4] = money;
         ++var2;
         var1[5] = dw ? 1 : 0;
         ++var2;
-        var1[6] = eF ? 1 : 0;
+        var1[6] = Story.riverMonsterDefeated ? 1 : 0;
         ++var2;
-        var1[7] = eG ? 1 : 0;
+        var1[7] = Story.tonikuDefeated ? 1 : 0;
         ++var2;
-        var1[8] = eH ? 1 : 0;
+        var1[8] = Story.sakuraFound ? 1 : 0;
         ++var2;
         var1[9] = gk ? 1 : 0;
         ++var2;
@@ -1155,7 +1123,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[13] = swordLevel;
         ++var2;
-        var1[14] = eW ? 1 : 0;
+        var1[14] = Skills.dartsLevel2 ? 1 : 0;
 
         int var0;
         for(var0 = 0; var0 < X.length; ++var0) {
@@ -1166,25 +1134,25 @@ public final class b extends Canvas implements Runnable {
             var1[var2++] = potionCounts[var0];
         }
 
-        var1[var2++] = eI ? 1 : 0;
-        var1[var2++] = eJ ? 1 : 0;
-        var1[var2++] = eK ? 1 : 0;
-        var1[var2++] = eL ? 1 : 0;
-        var1[var2++] = eM ? 1 : 0;
-        var1[var2++] = eN ? 1 : 0;
-        var1[var2++] = eO ? 1 : 0;
-        var1[var2++] = eP ? 1 : 0;
-        var1[var2++] = eQ ? 1 : 0;
-        var1[var2++] = eR ? 1 : 0;
-        var1[var2++] = eS ? 1 : 0;
-        var1[var2++] = eT ? 1 : 0;
-        var1[var2++] = eU ? 1 : 0;
-        var1[var2++] = eV ? 1 : 0;
-        var1[var2++] = eX ? 1 : 0;
-        var1[var2++] = eY ? 1 : 0;
-        var1[var2++] = eZ ? 1 : 0;
-        var1[var2++] = fa ? 1 : 0;
-        var1[var2++] = fb ? 1 : 0;
+        var1[var2++] = Skills.lightness ? 1 : 0;
+        var1[var2++] = Skills.doubleJump ? 1 : 0;
+        var1[var2++] = Skills.darts ? 1 : 0;
+        var1[var2++] = Skills.burrow ? 1 : 0;
+        var1[var2++] = Skills.motorbikeLicense ? 1 : 0;
+        var1[var2++] = Skills.doubleStrength ? 1 : 0;
+        var1[var2++] = Skills.dive ? 1 : 0;
+        var1[var2++] = Skills.runOnWater ? 1 : 0;
+        var1[var2++] = Skills.transform ? 1 : 0;
+        var1[var2++] = Story.goldenBatQuestDone ? 1 : 0;
+        var1[var2++] = Story.tonikuQuestDone ? 1 : 0;
+        var1[var2++] = Story.girlWaiting ? 1 : 0;
+        var1[var2++] = Story.girlOutingDone ? 1 : 0;
+        var1[var2++] = Skills.tripleJump ? 1 : 0;
+        var1[var2++] = Skills.sprint ? 1 : 0;
+        var1[var2++] = Skills.standOnWater ? 1 : 0;
+        var1[var2++] = Skills.hide ? 1 : 0;
+        var1[var2++] = Story.gameCompleted ? 1 : 0;
+        var1[var2++] = Story.sakuraEscorting ? 1 : 0;
         var1[var2++] = fc;
         var1[var2++] = fd;
         var1[var2++] = fe;
@@ -1222,18 +1190,18 @@ public final class b extends Canvas implements Runnable {
         var1[var2++] = fv ? 1 : 0;
         var1[var2++] = fw ? 1 : 0;
         var1[var2++] = fx ? 1 : 0;
-        var1[var2++] = P;
-        var1[var2++] = fy;
-        var1[var2++] = fz;
-        var1[var2++] = fA ? 1 : 0;
-        var1[var2++] = fC;
+        var1[var2++] = QuestState.current;
+        var1[var2++] = QuestState.dropMonster;
+        var1[var2++] = QuestState.dropChance;
+        var1[var2++] = QuestState.itemFound ? 1 : 0;
+        var1[var2++] = QuestState.progress;
         var1[var2++] = fD;
         var1[var2++] = fE;
         var1[var2++] = ig;
         var1[var2++] = ih;
-        var1[var2++] = fF;
-        var1[var2++] = fG;
-        var1[var2++] = fH;
+        var1[var2++] = questItemX;
+        var1[var2++] = questItemY;
+        var1[var2++] = questItemState;
         var1[var2++] = cameraTargetX;
         var1[var2++] = cameraTargetY;
         var1[var2++] = fK;
@@ -1244,18 +1212,18 @@ public final class b extends Canvas implements Runnable {
         var1[var2++] = cameraY;
         var1[var2++] = cameraMaxX;
         var1[var2++] = cameraMaxY;
-        var1[var2++] = ie ? 1 : 0;
-        var1[var2++] = id;
-        var1[var2++] = ifSt;
-        var1[var2++] = gb;
-        var1[var2++] = gc;
-        var1[var2++] = gd;
+        var1[var2++] = mapEventActive ? 1 : 0;
+        var1[var2++] = mapEventId;
+        var1[var2++] = mapEventStep;
+        var1[var2++] = guideMarkerMap;
+        var1[var2++] = guideMarkerX;
+        var1[var2++] = guideMarkerY;
         var1[var2++] = ge;
         var1[var2++] = gf;
         var1[var2++] = gg;
         var1[var2++] = gh;
         var1[var2++] = gi;
-        var1[var2++] = gj;
+        var1[var2++] = guideMarkerNpc;
         var1[var2++] = gn;
         var1[var2++] = go;
         var1[var2++] = gp;
@@ -1382,17 +1350,17 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         tick = var0[2];
         ++var2;
-        eE = var0[3] == 1;
+        Story.prologueActive = var0[3] == 1;
         ++var2;
         money = var0[4];
         ++var2;
         dw = var0[5] == 1;
         ++var2;
-        eF = var0[6] == 1;
+        Story.riverMonsterDefeated = var0[6] == 1;
         ++var2;
-        eG = var0[7] == 1;
+        Story.tonikuDefeated = var0[7] == 1;
         ++var2;
-        eH = var0[8] == 1;
+        Story.sakuraFound = var0[8] == 1;
         ++var2;
         gk = var0[9] == 1;
         ++var2;
@@ -1404,7 +1372,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         swordLevel = var0[13];
         ++var2;
-        eW = var0[14] == 1;
+        Skills.dartsLevel2 = var0[14] == 1;
 
         int var1;
         for(var1 = 0; var1 < X.length; ++var1) {
@@ -1415,25 +1383,25 @@ public final class b extends Canvas implements Runnable {
             potionCounts[var1] = var0[var2++];
         }
 
-        eI = var0[var2++] == 1;
-        eJ = var0[var2++] == 1;
-        eK = var0[var2++] == 1;
-        eL = var0[var2++] == 1;
-        eM = var0[var2++] == 1;
-        eN = var0[var2++] == 1;
-        eO = var0[var2++] == 1;
-        eP = var0[var2++] == 1;
-        eQ = var0[var2++] == 1;
-        eR = var0[var2++] == 1;
-        eS = var0[var2++] == 1;
-        eT = var0[var2++] == 1;
-        eU = var0[var2++] == 1;
-        eV = var0[var2++] == 1;
-        eX = var0[var2++] == 1;
-        eY = var0[var2++] == 1;
-        eZ = var0[var2++] == 1;
-        fa = var0[var2++] == 1;
-        fb = var0[var2++] == 1;
+        Skills.lightness = var0[var2++] == 1;
+        Skills.doubleJump = var0[var2++] == 1;
+        Skills.darts = var0[var2++] == 1;
+        Skills.burrow = var0[var2++] == 1;
+        Skills.motorbikeLicense = var0[var2++] == 1;
+        Skills.doubleStrength = var0[var2++] == 1;
+        Skills.dive = var0[var2++] == 1;
+        Skills.runOnWater = var0[var2++] == 1;
+        Skills.transform = var0[var2++] == 1;
+        Story.goldenBatQuestDone = var0[var2++] == 1;
+        Story.tonikuQuestDone = var0[var2++] == 1;
+        Story.girlWaiting = var0[var2++] == 1;
+        Story.girlOutingDone = var0[var2++] == 1;
+        Skills.tripleJump = var0[var2++] == 1;
+        Skills.sprint = var0[var2++] == 1;
+        Skills.standOnWater = var0[var2++] == 1;
+        Skills.hide = var0[var2++] == 1;
+        Story.gameCompleted = var0[var2++] == 1;
+        Story.sakuraEscorting = var0[var2++] == 1;
         fc = var0[var2++];
         fd = var0[var2++];
         fe = var0[var2++];
@@ -1471,18 +1439,18 @@ public final class b extends Canvas implements Runnable {
         fv = var0[var2++] == 1;
         fw = var0[var2++] == 1;
         fx = var0[var2++] == 1;
-        P = var0[var2++];
-        fy = var0[var2++];
-        fz = var0[var2++];
-        fA = var0[var2++] == 1;
-        fC = var0[var2++];
+        QuestState.current = var0[var2++];
+        QuestState.dropMonster = var0[var2++];
+        QuestState.dropChance = var0[var2++];
+        QuestState.itemFound = var0[var2++] == 1;
+        QuestState.progress = var0[var2++];
         fD = var0[var2++];
         fE = var0[var2++];
         ig = var0[var2++];
         ih = var0[var2++];
-        fF = var0[var2++];
-        fG = var0[var2++];
-        fH = var0[var2++];
+        questItemX = var0[var2++];
+        questItemY = var0[var2++];
+        questItemState = var0[var2++];
         cameraTargetX = var0[var2++];
         cameraTargetY = var0[var2++];
         fK = var0[var2++];
@@ -1493,18 +1461,18 @@ public final class b extends Canvas implements Runnable {
         cameraY = var0[var2++];
         cameraMaxX = var0[var2++];
         cameraMaxY = var0[var2++];
-        ie = var0[var2++] == 1;
-        id = var0[var2++];
-        ifSt = var0[var2++];
-        gb = var0[var2++];
-        gc = var0[var2++];
-        gd = var0[var2++];
+        mapEventActive = var0[var2++] == 1;
+        mapEventId = var0[var2++];
+        mapEventStep = var0[var2++];
+        guideMarkerMap = var0[var2++];
+        guideMarkerX = var0[var2++];
+        guideMarkerY = var0[var2++];
         ge = var0[var2++];
         gf = var0[var2++];
         gg = var0[var2++];
         gh = var0[var2++];
         gi = var0[var2++];
-        gj = var0[var2++];
+        guideMarkerNpc = var0[var2++];
         gn = var0[var2++];
         go = var0[var2++];
         gp = var0[var2++];
@@ -1699,12 +1667,12 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void u() {
-        if (P == 11 && A != 0) {
-            ++fC;
-            if (P >= 20) {
-                b("Thành công 20 hit!");
+        if (QuestState.current == Quest.AIR_HITS && A != 0) {
+            ++QuestState.progress;
+            if (QuestState.current >= 20) {
+                showNotice("Thành công 20 hit!");
             } else {
-                b("Hit: " + fC);
+                showNotice("Hit: " + QuestState.progress);
             }
         }
 
@@ -1991,51 +1959,51 @@ public final class b extends Canvas implements Runnable {
     private static void onDialogueFinished() {
         label58:
         switch (Dialogue.finishAction) {
-            case 3:
-                P = 0;
-                fC = 0;
-                b("NV: Giết 10 ốc sên");
+            case QuestAction.START_KILL_SNAILS:
+                QuestState.current = Quest.KILL_SNAILS;
+                QuestState.progress = 0;
+                showNotice("NV: Giết 10 ốc sên");
                 break;
-            case 4:
-                eI = true;
-                eJ = true;
-                P = -1;
-                fC = 0;
-                b("đã học phép khinh công");
+            case QuestAction.REWARD_LIGHTNESS:
+                Skills.lightness = true;
+                Skills.doubleJump = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã học phép khinh công");
                 break;
-            case 5:
-                P = 1;
-                fC = 0;
-                b("NV: đánh ngã 2 bù nhìn");
+            case QuestAction.START_KNOCK_DOWN_SCARECROWS:
+                QuestState.current = Quest.KNOCK_DOWN_SCARECROWS;
+                QuestState.progress = 0;
+                showNotice("NV: đánh ngã 2 bù nhìn");
                 break;
-            case 6:
-                eK = true;
-                P = -1;
-                fC = 0;
-                b("đã học ném phi tiêu");
-            case 7:
+            case QuestAction.REWARD_DARTS:
+                Skills.darts = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã học ném phi tiêu");
+            case QuestAction.UNUSED_7:
             default:
                 break;
-            case 8:
-                b((String)null);
+            case QuestAction.UNUSED_CLEAR_NOTICE:
+                showNotice((String)null);
                 break;
-            case 9:
-                P = 2;
-                fy = 103;
-                fz = 2;
-                fA = false;
-                b("NV: Tìm bí kíp");
+            case QuestAction.START_FIND_BURROW_SCROLL:
+                QuestState.current = Quest.FIND_BURROW_SCROLL;
+                QuestState.dropMonster = QuestState.DROP_MONSTER_BASE + 3;
+                QuestState.dropChance = 2;
+                QuestState.itemFound = false;
+                showNotice("NV: Tìm bí kíp");
                 break;
-            case 10:
-                eL = true;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("đã học thuật độn thổ");
+            case QuestAction.REWARD_BURROW:
+                Skills.burrow = true;
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("đã học thuật độn thổ");
                 break;
-            case 11:
-                P = 3;
+            case QuestAction.START_ESCORT_AYUMI_SISTER:
+                QuestState.current = Quest.ESCORT_AYUMI_SISTER;
                 gm = 3;
                 gn = 2808;
                 go = 216;
@@ -2043,161 +2011,163 @@ public final class b extends Canvas implements Runnable {
                 gr = 1;
                 gp = 5;
                 break;
-            case 12:
-                eN = true;
+            case QuestAction.REWARD_DOUBLE_STRENGTH:
+                Skills.doubleStrength = true;
                 PlayerStats.attack <<= 1;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("sức công nhân đôi!");
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("sức công nhân đôi!");
                 break;
-            case 13:
-                P = 4;
-                fC = 0;
-                b("NV: giết 20 con ong");
+            case QuestAction.START_KILL_BEES:
+                QuestState.current = Quest.KILL_BEES;
+                QuestState.progress = 0;
+                showNotice("NV: giết 20 con ong");
                 break;
-            case 14:
-                P = 5;
-                fA = false;
-                fC = 0;
-                fz = 10;
-                b("NV: giết heo rừng");
+            case QuestAction.START_KILL_WILD_BOAR:
+                QuestState.current = Quest.KILL_WILD_BOAR;
+                QuestState.itemFound = false;
+                QuestState.progress = 0;
+                QuestState.dropChance = 10;
+                showNotice("NV: giết heo rừng");
                 break;
-            case 15:
-                P = -1;
-                eO = true;
-                eP = true;
-                b("đã học chạy nước.");
+            case QuestAction.REWARD_WATER_SKILLS:
+                QuestState.current = Quest.NONE;
+                Skills.dive = true;
+                Skills.runOnWater = true;
+                // Thưởng gồm cả lặn nước (Skills.dive) nhưng thông báo chỉ ghi chạy nước (giữ như bản gốc).
+                showNotice("đã học chạy nước.");
                 break;
-            case 16:
-                P = 6;
-                fA = false;
-                fz = 10;
-                b("NV: vượt sông");
+            case QuestAction.START_CROSS_RIVER:
+                QuestState.current = Quest.CROSS_RIVER;
+                QuestState.itemFound = false;
+                QuestState.dropChance = 10;
+                showNotice("NV: vượt sông");
                 break;
-            case 17:
-                P = -1;
-                eQ = true;
-                b("đã học biến hình.");
+            case QuestAction.REWARD_TRANSFORM:
+                QuestState.current = Quest.NONE;
+                Skills.transform = true;
+                showNotice("đã học biến hình.");
                 break;
-            case 18:
-                P = 7;
-                fC = 0;
-                b("NV: giết 8 dơi vàng");
+            case QuestAction.START_KILL_GOLDEN_BATS:
+                QuestState.current = Quest.KILL_GOLDEN_BATS;
+                QuestState.progress = 0;
+                showNotice("NV: giết 8 dơi vàng");
                 break;
-            case 19:
-                eR = true;
+            case QuestAction.REWARD_MONEY:
+                Story.goldenBatQuestDone = true;
                 money += 5000;
                 hudDirty = true;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("Nhận được tiền 5000$");
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("Nhận được tiền 5000$");
                 break;
-            case 20:
-                P = 15;
-                fC = 0;
-                fA = false;
-                b("NV: tìm bí kíp");
+            case QuestAction.START_FIND_HIDE_SCROLL:
+                QuestState.current = Quest.FIND_HIDE_SCROLL;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
+                showNotice("NV: tìm bí kíp");
                 break;
-            case 21:
-                eZ = true;
-                P = -1;
-                fC = 0;
-                fA = false;
-                b("đã có thể ẩn thân");
+            case QuestAction.REWARD_HIDE:
+                Skills.hide = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
+                showNotice("đã có thể ẩn thân");
                 break;
-            case 22:
-                P = 8;
-                b("NV: tìm đánh Toniku");
+            case QuestAction.START_FIGHT_TONIKU:
+                QuestState.current = Quest.FIGHT_TONIKU;
+                showNotice("NV: tìm đánh Toniku");
                 break;
-            case 23:
-                P = -1;
-                eS = true;
-                b("Hoàn thành nhiệm vụ.");
+            case QuestAction.COMPLETE_FIGHT_TONIKU:
+                QuestState.current = Quest.NONE;
+                Story.tonikuQuestDone = true;
+                showNotice("Hoàn thành nhiệm vụ.");
                 break;
-            case 24:
-                P = 9;
-                fC = 0;
-                b("NV: giết 10 thổ dân");
+            case QuestAction.START_KILL_NATIVES:
+                QuestState.current = Quest.KILL_NATIVES;
+                QuestState.progress = 0;
+                showNotice("NV: giết 10 thổ dân");
                 break;
-            case 25:
-                eT = true;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("đến gặp cô bé!");
+            case QuestAction.REWARD_MEET_GIRL:
+                Story.girlWaiting = true;
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("đến gặp cô bé!");
                 break;
-            case 26:
-                P = 10;
-                fC = 0;
+            case QuestAction.START_GIRL_OUTING:
+                QuestState.current = Quest.GIRL_OUTING;
+                QuestState.progress = 0;
                 gk = true;
-                b("NV: dẫn cô bé đi chơi");
+                showNotice("NV: dẫn cô bé đi chơi");
                 break;
-            case 27:
-                P = -1;
-                eV = true;
-                fC = 0;
-                b("Học khinh công cấp 2");
+            case QuestAction.REWARD_TRIPLE_JUMP:
+                QuestState.current = Quest.NONE;
+                Skills.tripleJump = true;
+                QuestState.progress = 0;
+                showNotice("Học khinh công cấp 2");
                 break;
-            case 28:
-                P = 11;
-                fC = 0;
-                b("NV: 20 hit trên không");
+            case QuestAction.START_AIR_HITS:
+                QuestState.current = Quest.AIR_HITS;
+                QuestState.progress = 0;
+                showNotice("NV: 20 hit trên không");
                 break;
-            case 29:
-                eW = true;
+            case QuestAction.REWARD_DARTS_LEVEL_2:
+                Skills.dartsLevel2 = true;
                 PlayerStats.dartDamage <<= 2;
-                P = -1;
-                fC = 0;
-                b("đã học phi tiêu cấp 2");
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã học phi tiêu cấp 2");
                 Effect.loadDarts(dartFrames, Effect.DART_LEVEL_2);
                 break label58;
-            case 30:
-                P = 12;
-                fC = 0;
-                b("NV: đánh 15 quỷ hoa đỏ");
+            case QuestAction.START_KILL_FLOWER_DEMONS:
+                QuestState.current = Quest.KILL_FLOWER_DEMONS;
+                QuestState.progress = 0;
+                // Mục tiêu thực tế là "Quỷ hoa" (Quest.TARGET_MONSTER = 18), thông báo ghi "quỷ hoa đỏ" (giữ như bản gốc).
+                showNotice("NV: đánh 15 quỷ hoa đỏ");
                 break;
-            case 31:
-                eX = true;
-                P = -1;
-                fC = 0;
-                b("đã có thể chạy nhanh");
+            case QuestAction.REWARD_SPRINT:
+                Skills.sprint = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã có thể chạy nhanh");
                 break;
-            case 32:
-                P = 13;
-                fC = 0;
-                b("NV: Giết 18 bò cạp");
+            case QuestAction.START_KILL_SCORPIONS:
+                QuestState.current = Quest.KILL_SCORPIONS;
+                QuestState.progress = 0;
+                showNotice("NV: Giết 18 bò cạp");
                 break;
-            case 33:
-                eY = true;
-                P = -1;
-                fC = 0;
-                b("đã có thể đứng nước");
+            case QuestAction.REWARD_STAND_ON_WATER:
+                Skills.standOnWater = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã có thể đứng nước");
                 break;
-            case 34:
-                P = 14;
-                fC = 0;
-                b("NV: Giết 4 cá đỏ");
+            case QuestAction.START_KILL_RED_TIGER_FISH:
+                QuestState.current = Quest.KILL_RED_TIGER_FISH;
+                QuestState.progress = 0;
+                showNotice("NV: Giết 4 cá đỏ");
                 break;
-            case 35:
-                P = -1;
-                fC = 0;
-                fA = false;
+            case QuestAction.COMPLETE_RESCUE_SAKURA:
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
                 break;
-            case 36:
-                P = 16;
-                fC = 0;
-                fA = false;
-                b("NV: cứu Sakura");
+            case QuestAction.START_RESCUE_SAKURA:
+                QuestState.current = Quest.RESCUE_SAKURA;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
+                showNotice("NV: cứu Sakura");
         }
 
-        if (lG >= 0) {
-            a(lG, lH, lI, lJ);
-            lG = -1;
+        if (pendingMarkerMap >= 0) {
+            setGuideMarker(pendingMarkerMap, pendingMarkerX, pendingMarkerY, pendingMarkerNpc);
+            pendingMarkerMap = -1;
         }
 
     }
@@ -2522,8 +2492,8 @@ public final class b extends Canvas implements Runnable {
                 a(gP, gQ, -4, -8, 50);
                 a(gP, gQ, 5, -9, 50);
                 a(gP, gQ, 0, -10, 50);
-                if (P == 5) {
-                    e(gP, gQ);
+                if (QuestState.current == Quest.KILL_WILD_BOAR) {
+                    placeQuestItem(gP, gQ);
                 }
 
                 return true;
@@ -2972,7 +2942,7 @@ public final class b extends Canvas implements Runnable {
         int var0;
         if (dartFrames == null) {
             dartFrames = Effect.createDartFrames();
-            Effect.loadDarts(dartFrames, eW ? Effect.DART_LEVEL_2 : Effect.DART_LEVEL_1);
+            Effect.loadDarts(dartFrames, Skills.dartsLevel2 ? Effect.DART_LEVEL_2 : Effect.DART_LEVEL_1);
         }
 
         cV = 10;
@@ -3081,7 +3051,7 @@ public final class b extends Canvas implements Runnable {
             J();
             a(0, 0, 14, 17, 130, 11, 22, new String[]{"Chào, cậu là ai thế, mình chưa từng gặp bạn thì phải?", "Nói cậu nghe nhé, thầy cô trường này khó tính lắm đó.", "Cẩn thận với ông thầy Hiroyaki nhé. Đừng chọc giận ổng."});
             a(1, 1, 24, 17, 160, 15, 30, new String[]{"Mình là MinhXP, lớp trưởng lớp kiếm thuật.", "Kiếm là vũ khí lợi hại nhất của một ninja đấy bạn biết không?", "Khu vực luyện tập nằm ở bên trái. Hãy sang đấy tập luyện nhiều hơn nữa."});
-            if (eQ) {
+            if (Skills.transform) {
                 a(2, 6, 17, 12, 200, 7, 29, new String[]{"Thằng bên kia là sát thủ giả mạo.", "Ta đây mới là ninja sát thủ thứ thiệt đây!"});
             } else {
                 a(2, 2, 17, 12, 200, 7, 29, new String[]{"Chào, tao tên là Tonic, mày là thằng nào?", "Nhìn lão hiệu trưởng kìa, lão có một hũ rượu trông hấp dẫn quá!", "Nếu muốn rủ tao đi nhậu thì ok, còn không thì biến đi.", "À, nếu mày có thấy con chó của tao thì báo tao 1 tiếng nhé."});
@@ -3098,7 +3068,7 @@ public final class b extends Canvas implements Runnable {
             du = 3;
             J();
             a(0, 5, 35, 9, 40, 33, 36, new String[]{"Bạn có thể nhảy lên cây cầu này nếu đã học xong khinh công từ cô Ayumi xinh đẹp."});
-            if (eQ) {
+            if (Skills.transform) {
                 a(1, 6, 25, 10, 40, 22, 28, new String[]{"Ta đây là một ninja sát thủ!", 
                     "Ha ha ha!"});
             } else {
@@ -3118,7 +3088,7 @@ public final class b extends Canvas implements Runnable {
             a(0, 3, 16, 12, 60, 14, 21, new String[]{"Cậu nhìn thấy chiếc xe máy kia không?", 
                 "Phải có bằng lái từ thầy chủ nhiệm bạn mới có thể chạy được."});
             a(1, 4, 8, 12, 50, 2, 15, new String[]{"Thằng nhà quê kia, mày đi đâu đấy?"});
-            if (eQ) {
+            if (Skills.transform) {
                 a(2, 6, 29, 13, 200, 27, 40, new String[]{"Ninja sát thủ là ta - Thiên hạ vô địch!"});
             } else {
                 a(2, 2, 29, 13, 200, 27, 40, new String[]{"Mày có thấy con chó của tao ở đâu không?"});
@@ -3435,7 +3405,7 @@ public final class b extends Canvas implements Runnable {
 
     public static void j(int var0) {
         hJ = false;
-        if (var0 == 97 && !eF) {
+        if (var0 == 97 && !Story.riverMonsterDefeated) {
             hJ = true;
             boss1Sprites = Mob.loadBoss1();
 
@@ -3473,7 +3443,7 @@ public final class b extends Canvas implements Runnable {
 
     public static void k(int var0) {
         hi = false;
-        if (var0 == 95 && !eH) {
+        if (var0 == 95 && !Story.sakuraFound) {
             hi = true;
             boss2Sprites = new Image[6];
 
@@ -3513,7 +3483,7 @@ public final class b extends Canvas implements Runnable {
 
     public static void l(int var0) {
         hc = false;
-        if (var0 == 96 && !eG) {
+        if (var0 == 96 && !Story.tonikuDefeated) {
             hc = true;
             du = 1;
             J();
@@ -3542,21 +3512,21 @@ public final class b extends Canvas implements Runnable {
             fm = 1;
         }
 
-        if (var0 == 0 && P == 15 && fA) {
+        if (var0 == 0 && QuestState.current == Quest.FIND_HIDE_SCROLL && QuestState.itemFound) {
             gm = -1;
             gk = false;
         }
 
-        if (var0 == 0 && P == 16 && fb) {
-            fa = true;
+        if (var0 == 0 && QuestState.current == Quest.RESCUE_SAKURA && Story.sakuraEscorting) {
+            Story.gameCompleted = true;
             gm = 0;
             gk = true;
             fu = true;
-            P = -1;
+            QuestState.current = Quest.NONE;
             fe = 984;
             ff = 408;
         } else {
-            if (var0 == 95 && !eH) {
+            if (var0 == 95 && !Story.sakuraFound) {
                 gk = false;
                 gn = 599;
                 go = 264;
@@ -3567,44 +3537,44 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    public static void n(int var0) {
-        ie = false;
-        fS = false;
-        fH = 0;
-        if (var0 == 15 && P == 15) {
-            e(216, 432);
+    public static void onMapEntered(int var0) {
+        mapEventActive = false;
+        cutscenePlaying = false;
+        questItemState = 0;
+        if (var0 == 15 && QuestState.current == Quest.FIND_HIDE_SCROLL) {
+            placeQuestItem(216, 432);
         }
 
-        if (var0 == 8 && P == 6) {
-            e(72, 240);
+        if (var0 == 8 && QuestState.current == Quest.CROSS_RIVER) {
+            placeQuestItem(72, 240);
         }
 
         int var1;
-        if (var0 == 4 && eE) {
+        if (var0 == 4 && Story.prologueActive) {
             U = true;
-            eI = true;
-            eQ = true;
-            eP = true;
+            Skills.lightness = true;
+            Skills.transform = true;
+            Skills.runOnWater = true;
             PlayerStats.setMaxHpMp(1000, 2000);
             PlayerStats.attack = 25;
             B = 4;
             ha = 500;
             gZ = 500;
-            D(0);
+            startMapEvent(0);
         } else if (var0 == 99) {
-            eE = true;
+            Story.prologueActive = true;
             dw = true;
             fe = 108;
             ff = 312;
             fm = -1;
-            D(1);
+            startMapEvent(1);
         } else if (var0 == 94) {
-            D(10);
-        } else if (var0 == 0 && eE) {
+            startMapEvent(10);
+        } else if (var0 == 0 && Story.prologueActive) {
             U = false;
-            eI = false;
-            eP = false;
-            eQ = false;
+            Skills.lightness = false;
+            Skills.runOnWater = false;
+            Skills.transform = false;
             fx = false;
             PlayerStats.resetForNewGame();
             ha = 1000;
@@ -3620,34 +3590,34 @@ public final class b extends Canvas implements Runnable {
             fm = -1;
             dw = false;
             dx = false;
-            D(2);
-            eE = false;
-        } else if (var0 == 3 && P == 3 && !gk) {
-            D(3);
-        } else if (var0 == 0 && P == 3 && gk) {
-            D(4);
-        } else if (var0 == 97 && !eF) {
-            D(5);
-        } else if (var0 == 96 && !eG) {
-            D(6);
-        } else if (var0 == 95 && !eH) {
-            D(7);
+            startMapEvent(2);
+            Story.prologueActive = false;
+        } else if (var0 == 3 && QuestState.current == Quest.ESCORT_AYUMI_SISTER && !gk) {
+            startMapEvent(3);
+        } else if (var0 == 0 && QuestState.current == Quest.ESCORT_AYUMI_SISTER && gk) {
+            startMapEvent(4);
+        } else if (var0 == 97 && !Story.riverMonsterDefeated) {
+            startMapEvent(5);
+        } else if (var0 == 96 && !Story.tonikuDefeated) {
+            startMapEvent(6);
+        } else if (var0 == 95 && !Story.sakuraFound) {
+            startMapEvent(7);
         } else if (var0 == 101) {
-            D(8);
+            startMapEvent(8);
             cameraY = cameraTargetY = 336 - viewHeight;
             cameraTargetX = 24;
             cameraX = 24;
-        } else if (var0 == 9 && P == 10) {
-            D(9);
+        } else if (var0 == 9 && QuestState.current == Quest.GIRL_OUTING) {
+            startMapEvent(9);
         }
 
-        if (var0 == 97 && eF) {
+        if (var0 == 97 && Story.riverMonsterDefeated) {
             for(var1 = 0; var1 <= 6; ++var1) {
                 GameMap.clearFlags(24, var1);
             }
         }
 
-        if (var0 == 96 && eG) {
+        if (var0 == 96 && Story.tonikuDefeated) {
             for(var1 = 0; var1 <= 11; ++var1) {
                 GameMap.clearFlags(24, var1);
             }
@@ -4020,11 +3990,11 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void a(int var0, int var1, int var2, int var3) {
-        gb = var0;
-        gc = var1;
-        gd = var2;
-        gj = var3;
+    private static void setGuideMarker(int var0, int var1, int var2, int var3) {
+        guideMarkerMap = var0;
+        guideMarkerX = var1;
+        guideMarkerY = var2;
+        guideMarkerNpc = var3;
     }
 
     private static void c(int var0, int var1, int var2, int var3, int var4) {
@@ -4047,17 +4017,17 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void e(int var0, int var1) {
-        fF = var0;
-        fG = var1;
-        fH = 1;
+    private static void placeQuestItem(int var0, int var1) {
+        questItemX = var0;
+        questItemY = var1;
+        questItemState = 1;
     }
 
-    private static void C(int var0) {
+    private static void startCutscene(int var0) {
         fZ = 0;
-        fT = var0;
-        fU = 0;
-        fS = true;
+        cutsceneId = var0;
+        cutsceneStep = 0;
+        cutscenePlaying = true;
         ga = false;
         Input.clearHeld();
         Input.clearPressed();
@@ -4154,10 +4124,10 @@ public final class b extends Canvas implements Runnable {
         dW = var1;
     }
 
-    private static void b(String var0) {
-        co = var0;
-        cn = 0;
-        cm = true;
+    private static void showNotice(String var0) {
+        noticeText = var0;
+        noticeTimer = 0;
+        noticeVisible = true;
     }
 
     private static boolean f(int var0, int var1, int var2) {
@@ -4173,10 +4143,10 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void D(int var0) {
-        ifSt = 0;
-        id = var0;
-        ie = true;
+    private static void startMapEvent(int var0) {
+        mapEventStep = 0;
+        mapEventId = var0;
+        mapEventActive = true;
     }
 
     private static boolean g(int var0, int var1) {
@@ -4307,7 +4277,7 @@ public final class b extends Canvas implements Runnable {
                 if (++D >= 10) {
                     D = 0;
                     fo = 0;
-                    if (eX) {
+                    if (Skills.sprint) {
                         fo = fm << 1;
                     }
                 }
@@ -4374,7 +4344,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 ++A;
-                if (eI && !fx) {
+                if (Skills.lightness && !fx) {
                     if (A == -3) {
                         C = 8;
                     } else if (A == -2) {
@@ -4389,7 +4359,7 @@ public final class b extends Canvas implements Runnable {
                 if (A == 0) {
                     B = 4;
                     D = 0;
-                    E = eI ? 1 : 0;
+                    E = Skills.lightness ? 1 : 0;
                     A = 1;
                     hudDirty = true;
                 }
@@ -4441,7 +4411,7 @@ public final class b extends Canvas implements Runnable {
                     ff = I(ff + 3);
                     e(-1, fe - -8, ff);
                     e(1, fe - 8, ff);
-                    if (eM) {
+                    if (Skills.motorbikeLicense) {
                         for(var0 = 0; var0 < ii; ++var0) {
                             if (ff == il[var0] && a(fe - ik[var0]) < 16) {
                                 fe = ik[var0];
@@ -4453,9 +4423,9 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (P == 11 && fC < 20) {
-                        fC = 0;
-                        b("Hit: " + fC);
+                    if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.AIR_HITS_TARGET) {
+                        QuestState.progress = 0;
+                        showNotice("Hit: " + QuestState.progress);
                     }
                 } else {
                     if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
@@ -4465,7 +4435,7 @@ public final class b extends Canvas implements Runnable {
                         z = fm << 1;
                         A >>= 2;
                         ff = H(ff) + 12;
-                        if (!PlayerStats.hasMp() || !eP) {
+                        if (!PlayerStats.hasMp() || !Skills.runOnWater) {
                             B = 12;
                         }
                     }
@@ -4568,9 +4538,9 @@ public final class b extends Canvas implements Runnable {
                         A = 0;
                         z = 0;
                         ff = I(ff + 3);
-                        if (P == 11 && fC < 20) {
-                            fC = 0;
-                            b("Hit: " + fC);
+                        if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.AIR_HITS_TARGET) {
+                            QuestState.progress = 0;
+                            showNotice("Hit: " + QuestState.progress);
                         }
                     }
 
@@ -4581,7 +4551,7 @@ public final class b extends Canvas implements Runnable {
                         A >>= 2;
                         ff = H(ff) + 12;
                         fc = -1;
-                        if (!PlayerStats.hasMp() || !eP) {
+                        if (!PlayerStats.hasMp() || !Skills.runOnWater) {
                             B = 12;
                         }
                         break;
@@ -4901,7 +4871,7 @@ public final class b extends Canvas implements Runnable {
                     B = 1;
                 }
 
-                if (++E > 6 && GameMap.hasFlag(fe + fi, ff + 2, TileFlags.DIGGABLE) && GameMap.hasFlag(fe - fi, ff + 2, TileFlags.DIGGABLE) && eL & PlayerStats.hasMp()) {
+                if (++E > 6 && GameMap.hasFlag(fe + fi, ff + 2, TileFlags.DIGGABLE) && GameMap.hasFlag(fe - fi, ff + 2, TileFlags.DIGGABLE) && Skills.burrow & PlayerStats.hasMp()) {
                     B = 13;
                 }
             case 9:
@@ -4931,7 +4901,7 @@ public final class b extends Canvas implements Runnable {
                         z = 0;
                         E = 0;
                         D = 0;
-                    } else if (eO) {
+                    } else if (Skills.dive) {
                         B = 17;
                         A = 0;
                         z = 0;
@@ -5179,7 +5149,7 @@ public final class b extends Canvas implements Runnable {
                 if (++A == 0) {
                     B = 20;
                     D = 0;
-                    E = eI ? 1 : 0;
+                    E = Skills.lightness ? 1 : 0;
                     A = 1;
                     hudDirty = true;
                 }
@@ -5337,7 +5307,7 @@ public final class b extends Canvas implements Runnable {
             --z;
         } else if (z < 0) {
             ++z;
-        } else if (!eY) {
+        } else if (!Skills.standOnWater) {
             B = 12;
             fo = 0;
         } else {
@@ -5374,8 +5344,8 @@ public final class b extends Canvas implements Runnable {
         e(fm, fe - (fm << 3), ff);
     }
 
-    private static boolean V() {
-        if (!fS) {
+    private static boolean updateCutscene() {
+        if (!cutscenePlaying) {
             if (letterboxHeight > 1) {
                 letterboxHeight >>= 1;
                 hudDirty = true;
@@ -5406,40 +5376,40 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (++fZ >= aA[fT][fU]) {
-                    fZ = aA[fT][fU];
+                if (++fZ >= aA[cutsceneId][cutsceneStep]) {
+                    fZ = aA[cutsceneId][cutsceneStep];
                     int var0;
-                    switch (ay[fT][fU]) {
+                    switch (ay[cutsceneId][cutsceneStep]) {
                         case 1:
-                            Input.keyDown(az[fT][fU]);
-                            ++fU;
+                            Input.keyDown(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            ++cutsceneStep;
                             break;
                         case 2:
-                            Input.keyUp(az[fT][fU]);
-                            ++fU;
+                            Input.keyUp(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            ++cutsceneStep;
                             break;
                         case 3:
-                            fS = false;
+                            cutscenePlaying = false;
                             hudDirty = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 4:
                             if (B == 1) {
                                 captionVisible = false;
                                 var0 = 0;
                                 int var1 = 0;
-                                switch (aD[az[fT][fU]]) {
+                                switch (aD[cutsceneScripts[cutsceneId][cutsceneStep]]) {
                                     case 0:
                                         var0 = fe;
                                         var1 = ff;
                                         break;
                                     case 1:
-                                        var0 = npcX[aC[az[fT][fU]]];
-                                        var1 = npcY[aC[az[fT][fU]]];
+                                        var0 = npcX[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
+                                        var1 = npcY[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
                                         break;
                                     case 2:
-                                        var0 = dz[aC[az[fT][fU]]];
-                                        var1 = dA[aC[az[fT][fU]]];
+                                        var0 = dz[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
+                                        var1 = dA[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
                                         break;
                                     case 3:
                                     case 4:
@@ -5448,30 +5418,30 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 var1 -= 40;
-                                startDialogue(cutsceneLines[az[fT][fU]], Dialogue.NO_ACTION, var0, var1);
-                                ++fU;
+                                startDialogue(cutsceneLines[cutsceneScripts[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
+                                ++cutsceneStep;
                                 ga = true;
                             }
                             break;
                         case 5:
-                            a(mapId, az[fT][fU], ff - 50, -1);
-                            ++fU;
+                            setGuideMarker(mapId, cutsceneScripts[cutsceneId][cutsceneStep], ff - 50, -1);
+                            ++cutsceneStep;
                             break;
                         case 6:
-                            gb = -1;
-                            ++fU;
+                            guideMarkerMap = -1;
+                            ++cutsceneStep;
                             break;
                         case 7:
                             fu = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 8:
                             fu = false;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 9:
-                            cameraX = aB[az[fT][fU]][0] - viewCenterX;
-                            cameraY = aB[az[fT][fU]][1] - viewCenterY;
+                            cameraX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX;
+                            cameraY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY;
                             if (cameraX < 0) {
                                 cameraX = 0;
                             }
@@ -5490,11 +5460,11 @@ public final class b extends Canvas implements Runnable {
 
                             cameraTargetX = cameraX;
                             cameraTargetY = cameraY;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 10:
-                            cameraTargetX = aB[az[fT][fU]][0] - viewCenterX;
-                            cameraTargetY = aB[az[fT][fU]][1] - viewCenterY;
+                            cameraTargetX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX;
+                            cameraTargetY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5511,7 +5481,7 @@ public final class b extends Canvas implements Runnable {
                                 cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 11:
                             cameraTargetX = gP - viewCenterX;
@@ -5532,78 +5502,79 @@ public final class b extends Canvas implements Runnable {
                                 cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 12:
                             cameraTargetY = cameraY += 2;
-                            if (cameraY > aB[az[fT][fU]][1] - viewCenterY) {
-                                ++fU;
+                            if (cameraY > aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY) {
+                                ++cutsceneStep;
                             }
                         case 13:
                         default:
                             break;
                         case 14:
                             cameraTargetX = cameraX -= 2;
-                            if (cameraX < aB[az[fT][fU]][0] - viewCenterX) {
-                                ++fU;
+                            if (cameraX < aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX) {
+                                ++cutsceneStep;
                             }
                             break;
                         case 15:
                             captionVisible = true;
-                            captionLines = FontGraph.wrapBoldText(cutsceneCaptions[az[fT][fU]], viewWidth - 40);
+                            captionLines = FontGraph.wrapBoldText(cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], viewWidth - 40);
                             if ((captionTargetY = (letterboxMaxHeight >> 1) - (captionLines.length << 3)) < 3) {
                                 captionTargetY = 2;
                             }
 
                             captionY = -captionLines.length << 3;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 16:
                             dx = true;
-                            dy = az[fT][fU];
-                            ++fU;
+                            dy = cutsceneScripts[cutsceneId][cutsceneStep];
+                            ++cutsceneStep;
                             break;
                         case 17:
                             fp = fe = MapExits.rightSpawnX;
                             fq = ff = MapExits.rightSpawnY;
                             releaseMapResources();
                             Save.pendingSave = true;
-                            changeMap(az[fT][fU]);
+                            changeMap(cutsceneScripts[cutsceneId][cutsceneStep]);
                             return true;
                         case 18:
-                            V(az[fT][fU]);
-                            ++fU;
+                            setNextNpcMarker(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            ++cutsceneStep;
                             break;
                         case 19:
                             gk = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 20:
                             gk = false;
                             gm = 0;
                             gn = 1080;
                             go = 408;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 21:
-                            P = -1;
-                            eM = true;
-                            b("nhận bằng lái môtô");
-                            a(0, npcX[4], npcY[4] - 40, 4);
-                            ++fU;
+                            QuestState.current = Quest.NONE;
+                            // Thưởng nhiệm vụ ESCORT_AYUMI_SISTER được trao trong cutscene, không qua onDialogueFinished.
+                            Skills.motorbikeLicense = true;
+                            showNotice("nhận bằng lái môtô");
+                            setGuideMarker(0, npcX[4], npcY[4] - 40, 4);
+                            ++cutsceneStep;
                             break;
                         case 22:
                             for(var0 = 0; var0 <= 6; ++var0) {
                                 GameMap.clearFlags(24, var0);
                             }
 
-                            eF = true;
-                            ++fU;
+                            Story.riverMonsterDefeated = true;
+                            ++cutsceneStep;
                             break;
                         case 23:
                             fu = false;
-                            cameraTargetX = dz[az[fT][fU]] - viewCenterX;
-                            cameraTargetY = dA[az[fT][fU]] - viewCenterY;
+                            cameraTargetX = dz[cutsceneScripts[cutsceneId][cutsceneStep]] - viewCenterX;
+                            cameraTargetY = dA[cutsceneScripts[cutsceneId][cutsceneStep]] - viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5620,24 +5591,24 @@ public final class b extends Canvas implements Runnable {
                                 cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 24:
                             dx = true;
-                            dy = az[fT][fU];
-                            ++fU;
+                            dy = cutsceneScripts[cutsceneId][cutsceneStep];
+                            ++cutsceneStep;
                             break;
                         case 25:
                             he = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 26:
                             for(var0 = 0; var0 <= 10; ++var0) {
                                 GameMap.clearFlags(24, var0);
                             }
 
-                            eG = true;
-                            ++fU;
+                            Story.tonikuDefeated = true;
+                            ++cutsceneStep;
                             break;
                         case 27:
                             fu = false;
@@ -5659,11 +5630,11 @@ public final class b extends Canvas implements Runnable {
                                 cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 28:
                             hr = 1;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 29:
                             Input.clearPressed();
@@ -5706,16 +5677,16 @@ public final class b extends Canvas implements Runnable {
                             K();
                             return true;
                         case 30:
-                            P = -1;
-                            eT = false;
-                            eU = true;
+                            QuestState.current = Quest.NONE;
+                            Story.girlWaiting = false;
+                            Story.girlOutingDone = true;
                             gm = 0;
                             gn = 648;
                             go = 288;
                             gk = false;
-                            b("gặp cô Ayumi");
-                            a(0, 1032, 368, 4);
-                            ++fU;
+                            showNotice("gặp cô Ayumi");
+                            setGuideMarker(0, 1032, 368, 4);
+                            ++cutsceneStep;
                             break;
                         case 31:
                             fu = false;
@@ -5737,7 +5708,7 @@ public final class b extends Canvas implements Runnable {
                                 cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 32:
                             gk = true;
@@ -5745,12 +5716,12 @@ public final class b extends Canvas implements Runnable {
                             gp = -5;
                             gz = -1;
                             gK = 8;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 33:
-                            fb = true;
+                            Story.sakuraEscorting = true;
                             gk = true;
-                            ++fU;
+                            ++cutsceneStep;
                     }
                 }
             }
@@ -6039,8 +6010,8 @@ public final class b extends Canvas implements Runnable {
             tick = 0;
         }
 
-        ad();
-        if (!V()) {
+        updateMapEvent();
+        if (!updateCutscene()) {
             Y();
             R();
             Dialogue.typeTick();
@@ -6490,74 +6461,74 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void ad() {
-        if (ie) {
-            switch (au[id][ifSt]) {
+    private static void updateMapEvent() {
+        if (mapEventActive) {
+            switch (mapEventConditions[mapEventId][mapEventStep]) {
                 case 1:
-                    if (fe > aw[id][ifSt]) {
-                    C(av[id][ifSt]);
-                    ++ifSt;
+                    if (fe > mapEventParams[mapEventId][mapEventStep]) {
+                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                    ++mapEventStep;
                     return;
                 }
                 break;
                 case 2:
-                    C(av[id][ifSt]);
-                    ++ifSt;
+                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                    ++mapEventStep;
                     return;
                 case 3:
                 default:
                     return;
                 case 4:
                     if (fe > cameraX + viewWidth) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 6:
-                    if (fe < aw[id][ifSt] && fe > aw[id][ifSt] - 96 && ff == ax[id][ifSt]) {
-                    C(av[id][ifSt]);
-                    ++ifSt;
+                    if (fe < mapEventParams[mapEventId][mapEventStep] && fe > mapEventParams[mapEventId][mapEventStep] - 96 && ff == ax[mapEventId][mapEventStep]) {
+                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                    ++mapEventStep;
                 }
                 case 5:
                     if (gS == 22) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 7:
                     if (hX == 5) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 8:
                     if (hg < 10) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 9:
                     if (hr == 22) {
-                        C(av[id][ifSt]);
-                        eH = true;
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        Story.sakuraFound = true;
+                        ++mapEventStep;
                         return;
                     }
             }
-        } else if (id == 10) {
+        } else if (mapEventId == 10) {
             Display.getDisplay(Midlet.instance).setCurrent(Midlet.b);
-            id = 0;
+            mapEventId = 0;
         }
 
     }
 
     public static void s() {
         Midlet.b = new b();
-        ad();
+        updateMapEvent();
         b var0 = Midlet.b;
         Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         ai();
@@ -6580,41 +6551,41 @@ public final class b extends Canvas implements Runnable {
     protected final void keyPressed(int var1) {
         if (var1 == Input.CODE_POUND) {
             if (bv.equals("1984")) {
-                eI = true;
-                eJ = true;
-                eZ = true;
-                eL = true;
-                eO = true;
-                eM = true;
-                eK = true;
-                eP = true;
-                eQ = true;
-                eV = true;
-                b("Learned All Skill");
+                Skills.lightness = true;
+                Skills.doubleJump = true;
+                Skills.hide = true;
+                Skills.burrow = true;
+                Skills.dive = true;
+                Skills.motorbikeLicense = true;
+                Skills.darts = true;
+                Skills.runOnWater = true;
+                Skills.transform = true;
+                Skills.tripleJump = true;
+                showNotice("Learned All Skill");
             } else if (bv.equals("30538")) {
                 PlayerStats.setMaxHpMp(500000, 500000);
-                b("Unlimit HP MP");
+                showNotice("Unlimit HP MP");
             } else if (bv.equals("38305")) {
                 PlayerStats.attack = 10000;
-                b("Unlimit Damage");
+                showNotice("Unlimit Damage");
             } else if (bv.equals("1982")) {
                 gainExp(100000);
             } else if (bv.equals("1983")) {
                 money += 50000;
-                b("Money+=50000");
+                showNotice("Money+=50000");
             } else {
                 int var2;
                 if (!bv.equals("1981")) {
                     if (bv.equals("8463")) {
                         var2 = gL + (int)((System.currentTimeMillis() - gM) / 1000L);
-                        b(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
+                        showNotice(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
                     }
                 } else {
                     for(var2 = 0; var2 < 19; ++var2) {
                         X[var2] = true;
                     }
 
-                    b("Unlock all map!");
+                    showNotice("Unlock all map!");
                 }
             }
 
@@ -6627,14 +6598,14 @@ public final class b extends Canvas implements Runnable {
         }
 
         var1 = Input.normalizeKeyCode(var1);
-        if (!fS || var1 == Input.CODE_FIRE) {
+        if (!cutscenePlaying || var1 == Input.CODE_FIRE) {
             Input.keyDown(var1);
         }
     }
 
     protected final void keyReleased(int var1) {
         var1 = Input.normalizeKeyCode(var1);
-        if (!fS || var1 == Input.CODE_FIRE) {
+        if (!cutscenePlaying || var1 == Input.CODE_FIRE) {
             Input.keyUp(var1);
         }
     }
@@ -6900,8 +6871,8 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 b(var6);
-                if (fH != 0) {
-                    var6.drawImage(itemScroll, fF, fG, 33);
+                if (questItemState != 0) {
+                    var6.drawImage(itemScroll, questItemX, questItemY, 33);
                 }
 
                 var1 = var6;
@@ -6967,7 +6938,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (gb == mapId) {
+                if (guideMarkerMap == mapId) {
                     var6.drawImage(arrowIcons[ge], gf, gg, 3);
                 }
 
@@ -6980,7 +6951,7 @@ public final class b extends Canvas implements Runnable {
                     drawLetterbox(var6);
                 }
 
-                if (cm) {
+                if (noticeVisible) {
                     var6.translate(-var6.getTranslateX(), -var6.getTranslateY());
                     var6.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
                     var6.setColor(0);
@@ -6988,7 +6959,7 @@ public final class b extends Canvas implements Runnable {
                     var6.setColor(10275899);
                     var6.fillRect(0, 19, screenWidth, 1);
                     if (tick % 10 > 2) {
-                        FontGraph.drawBold(var6, co, viewCenterX, 4, 2);
+                        FontGraph.drawBold(var6, noticeText, viewCenterX, 4, 2);
                     }
                 }
 
@@ -7120,7 +7091,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     } else if (fe >= GameMap.pixelWidth - 24) {
                         if (MapExits.rightMap != MapExits.NONE) {
-                            if (!eZ && MapExits.rightMap == 95) {
+                            if (!Skills.hide && MapExits.rightMap == 95) {
                                 showMessage(MessageType.LEVEL_UP);
                                 setMessageText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
                                 fe = GameMap.pixelWidth - 60;
@@ -7154,9 +7125,9 @@ public final class b extends Canvas implements Runnable {
                         break;
                     }
 
-                    ad();
+                    updateMapEvent();
                     Dialogue.typeTick();
-                    if (V()) {
+                    if (updateCutscene()) {
                         break;
                     }
 
@@ -7186,7 +7157,7 @@ public final class b extends Canvas implements Runnable {
                                 Input.clearPressed();
                             } else if (Input.pressed[Input.KEY_NUM0]) {
                                 if (fd == 0) {
-                                    if (eK) {
+                                    if (Skills.darts) {
                                         fd = 1;
                                     }
                                 } else {
@@ -7203,7 +7174,7 @@ public final class b extends Canvas implements Runnable {
                                 Input.pressed[Input.KEY_LEFT] = false;
                             } else {
                                 if (Input.pressed[Input.KEY_NUM9]) {
-                                    if (eZ) {
+                                    if (Skills.hide) {
                                         fw = !fw;
                                     }
 
@@ -7212,7 +7183,7 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 if (Input.pressed[Input.KEY_NUM7]) {
-                                    if (B == 1 && eQ) {
+                                    if (B == 1 && Skills.transform) {
                                         B = 23;
                                         D = 0;
                                     }
@@ -7254,23 +7225,23 @@ public final class b extends Canvas implements Runnable {
                                         var4 = fD;
                                         switch (npcTypes[var4]) {
                                             case 0:
-                                                if (fb) {
+                                                if (Story.sakuraEscorting) {
                                                     startDialogue(idleLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                } else if (!eI) {
-                                                    V(2);
+                                                } else if (!Skills.lightness) {
+                                                    setNextNpcMarker(2);
                                                     startDialogue(questGiveLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
-                                                    if (eZ && !fa) {
-                                                        if (P == 16) {
-                                                            if (eH) {
-                                                                startDialogue(questRewardLines[14], 35, npcX[var4], npcY[var4] - 40);
+                                                    if (Skills.hide && !Story.gameCompleted) {
+                                                        if (QuestState.current == Quest.RESCUE_SAKURA) {
+                                                            if (Story.sakuraFound) {
+                                                                startDialogue(questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 startDialogue(questReminderLines[14], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            startDialogue(questGiveLines[22], 36, npcX[var4], npcY[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
@@ -7279,73 +7250,73 @@ public final class b extends Canvas implements Runnable {
                                                 }
                                                 break;
                                             case 1:
-                                                if (fb) {
+                                                if (Story.sakuraEscorting) {
                                                     startDialogue(idleLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                } else if (!eI) {
-                                                    if (P == 0) {
-                                                        if (fC < lE[0]) {
+                                                } else if (!Skills.lightness) {
+                                                    if (QuestState.current == Quest.KILL_SNAILS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
                                                             startDialogue(questReminderLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             var3 = true;
                                                             boolean var8 = true;
                                                             boolean var7 = true;
                                                             boolean var6 = false;
-                                                            lG = 0;
-                                                            lJ = 4;
-                                                            lH = 1044;
-                                                            lI = 240;
-                                                            startDialogue(questRewardLines[0], 4, npcX[var4], npcY[var4] - 40);
+                                                            pendingMarkerMap = 0;
+                                                            pendingMarkerNpc = 4;
+                                                            pendingMarkerX = 1044;
+                                                            pendingMarkerY = 240;
+                                                            startDialogue(questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[1], 3, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (!eR && eQ) {
+                                                } else if (!Story.goldenBatQuestDone && Skills.transform) {
                                                     if (PlayerStats.level < 10) {
                                                         startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                    } else if (P == 7) {
-                                                        if (fC < lE[7]) {
+                                                    } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
                                                             startDialogue(questReminderLines[6], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(2);
-                                                            startDialogue(questRewardLines[6], 19, npcX[var4], npcY[var4] - 40);
+                                                            setNextNpcMarker(2);
+                                                            startDialogue(questRewardLines[6], QuestAction.REWARD_MONEY, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[14], 18, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eU && !eV) {
+                                                } else if (Story.girlOutingDone && !Skills.tripleJump) {
                                                     if (PlayerStats.level < 12) {
                                                         startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                    } else if (P == 11) {
-                                                        if (fC < 20) {
+                                                    } else if (QuestState.current == Quest.AIR_HITS) {
+                                                        if (QuestState.progress < Quest.AIR_HITS_TARGET) {
                                                             startDialogue(questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(4);
-                                                            startDialogue(questRewardLines[9], 27, npcX[var4], npcY[var4] - 40);
+                                                            setNextNpcMarker(4);
+                                                            startDialogue(questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[17], 28, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[17], QuestAction.START_AIR_HITS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
-                                                    if (!eX && eW) {
+                                                    if (!Skills.sprint && Skills.dartsLevel2) {
                                                         if (PlayerStats.level < 15) {
                                                             startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                        } else if (P == 13) {
-                                                            if (fC < lE[13]) {
+                                                        } else if (QuestState.current == Quest.KILL_SCORPIONS) {
+                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
                                                                 startDialogue(questReminderLines[11], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                V(3);
-                                                                startDialogue(questRewardLines[11], 31, npcX[var4], npcY[var4] - 40);
+                                                                setNextNpcMarker(3);
+                                                                startDialogue(questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            startDialogue(questGiveLines[19], 32, npcX[var4], npcY[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
@@ -7354,45 +7325,45 @@ public final class b extends Canvas implements Runnable {
                                                 }
                                                 break;
                                             case 2:
-                                                if (fb) {
+                                                if (Story.sakuraEscorting) {
                                                     startDialogue(idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                } else if (!eI) {
-                                                    V(1);
+                                                } else if (!Skills.lightness) {
+                                                    setNextNpcMarker(1);
                                                     startDialogue(questGiveLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                } else if (eL && !eM) {
-                                                    if (P == 3) {
+                                                } else if (Skills.burrow && !Skills.motorbikeLicense) {
+                                                    if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
                                                         startDialogue(questGiveLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[10], 11, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eR && !eS) {
-                                                    if (P == 8) {
-                                                        if (eG) {
-                                                            V(2);
-                                                            startDialogue(questRewardLines[7], 23, npcX[var4], npcY[var4] - 40);
+                                                } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
+                                                    if (QuestState.current == Quest.FIGHT_TONIKU) {
+                                                        if (Story.tonikuDefeated) {
+                                                            setNextNpcMarker(2);
+                                                            startDialogue(questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             startDialogue(questReminderLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[15], 22, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
-                                                    if (eS && !eT) {
-                                                        if (P == 9) {
-                                                            if (fC < lE[9]) {
+                                                    if (Story.tonikuQuestDone && !Story.girlWaiting) {
+                                                        if (QuestState.current == Quest.KILL_NATIVES) {
+                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
                                                                 startDialogue(questReminderLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                V(3);
-                                                                startDialogue(questRewardLines[8], 25, npcX[var4], npcY[var4] - 40);
+                                                                setNextNpcMarker(3);
+                                                                startDialogue(questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            startDialogue(questGiveLines[16], 24, npcX[var4], npcY[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
@@ -7401,72 +7372,72 @@ public final class b extends Canvas implements Runnable {
                                                 }
                                                 break;
                                             case 3:
-                                                if (fb) {
+                                                if (Story.sakuraEscorting) {
                                                     startDialogue(idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
-                                                    if (eI && eK) {
-                                                        if (!eL) {
-                                                            if (P == 2) {
-                                                                if (!fA) {
+                                                    if (Skills.lightness && Skills.darts) {
+                                                        if (!Skills.burrow) {
+                                                            if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
+                                                                if (!QuestState.itemFound) {
                                                                     startDialogue(questReminderLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(2);
-                                                                    startDialogue(questRewardLines[2], 10, npcX[var4], npcY[var4] - 40);
+                                                                    setNextNpcMarker(2);
+                                                                    startDialogue(questRewardLines[2], QuestAction.REWARD_BURROW, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                startDialogue(questGiveLines[8], 9, npcX[var4], npcY[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        if (!eO && eN) {
-                                                            if (P == 5) {
-                                                                if (!fA) {
+                                                        if (!Skills.dive && Skills.doubleStrength) {
+                                                            if (QuestState.current == Quest.KILL_WILD_BOAR) {
+                                                                if (!QuestState.itemFound) {
                                                                     startDialogue(questReminderLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(4);
-                                                                    startDialogue(questRewardLines[4], 15, npcX[var4], npcY[var4] - 40);
+                                                                    setNextNpcMarker(4);
+                                                                    startDialogue(questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                startDialogue(questGiveLines[12], 14, npcX[var4], npcY[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        if (!eY && eX) {
+                                                        if (!Skills.standOnWater && Skills.sprint) {
                                                             if (PlayerStats.level < 16) {
                                                                 startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                            } else if (P == 14) {
-                                                                if (fC < lE[14]) {
+                                                            } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
+                                                                if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
                                                                     startDialogue(questReminderLines[12], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(3);
-                                                                    startDialogue(questRewardLines[12], 33, npcX[var4], npcY[var4] - 40);
+                                                                    setNextNpcMarker(3);
+                                                                    startDialogue(questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                startDialogue(questGiveLines[20], 34, npcX[var4], npcY[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        if (!eZ && eY) {
-                                                            if (P == 15) {
-                                                                if (!fA) {
+                                                        if (!Skills.hide && Skills.standOnWater) {
+                                                            if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
+                                                                if (!QuestState.itemFound) {
                                                                     startDialogue(questReminderLines[13], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(0);
-                                                                    startDialogue(questRewardLines[13], 21, npcX[var4], npcY[var4] - 40);
+                                                                    setNextNpcMarker(0);
+                                                                    startDialogue(questRewardLines[13], QuestAction.REWARD_HIDE, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                startDialogue(questGiveLines[21], 20, npcX[var4], npcY[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7479,66 +7450,66 @@ public final class b extends Canvas implements Runnable {
                                                 }
                                                 break;
                                             case 4:
-                                                if (fb) {
+                                                if (Story.sakuraEscorting) {
                                                     startDialogue(idleLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (mapId == 99) {
                                                     startDialogue(questGiveLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                } else if (!eI) {
+                                                } else if (!Skills.lightness) {
                                                     startDialogue(questGiveLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                } else if (!eK) {
-                                                    if (P == 1) {
-                                                        if (fC < lE[1]) {
+                                                } else if (!Skills.darts) {
+                                                    if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
                                                             startDialogue(questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(3);
-                                                            startDialogue(questRewardLines[1], 6, npcX[var4], npcY[var4] - 40);
+                                                            setNextNpcMarker(3);
+                                                            startDialogue(questRewardLines[1], QuestAction.REWARD_DARTS, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[6], 5, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eM && !eN) {
-                                                    if (P == 4) {
-                                                        if (fC < lE[4]) {
+                                                } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
+                                                    if (QuestState.current == Quest.KILL_BEES) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
                                                             startDialogue(questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(3);
-                                                            startDialogue(questRewardLines[3], 12, npcX[var4], npcY[var4] - 40);
+                                                            setNextNpcMarker(3);
+                                                            startDialogue(questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[11], 13, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[11], QuestAction.START_KILL_BEES, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eO && !eQ) {
+                                                } else if (Skills.dive && !Skills.transform) {
                                                     if (PlayerStats.level < 8) {
                                                         startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
-                                                    } else if (P == 6) {
-                                                        if (!fA) {
+                                                    } else if (QuestState.current == Quest.CROSS_RIVER) {
+                                                        if (!QuestState.itemFound) {
                                                             startDialogue(questReminderLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(1);
-                                                            startDialogue(questRewardLines[5], 17, npcX[var4], npcY[var4] - 40);
+                                                            setNextNpcMarker(1);
+                                                            startDialogue(questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        startDialogue(questGiveLines[13], 16, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
-                                                    if (!eW && eV) {
-                                                        if (P == 12) {
-                                                            if (fC < lE[12]) {
+                                                    if (!Skills.dartsLevel2 && Skills.tripleJump) {
+                                                        if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
+                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
                                                                 startDialogue(questReminderLines[10], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                V(1);
-                                                                startDialogue(questRewardLines[10], 29, npcX[var4], npcY[var4] - 40);
+                                                                setNextNpcMarker(1);
+                                                                startDialogue(questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            startDialogue(questGiveLines[18], 30, npcX[var4], npcY[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
@@ -7578,30 +7549,30 @@ public final class b extends Canvas implements Runnable {
                                                 }
                                         }
 
-                                        if (mapId == gb && var4 == gj) {
-                                            gb = -1;
+                                        if (mapId == guideMarkerMap && var4 == guideMarkerNpc) {
+                                            guideMarkerMap = -1;
                                         }
                                     } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
                                         Input.clearPressed();
                                         dJ[fE] = -fm;
-                                        startDialogue(dv[fE], 0, dz[fE], dA[fE] - 44);
+                                        startDialogue(dv[fE], QuestAction.TALK, dz[fE], dA[fE] - 44);
                                     } else if (rightSoftKeyLabel.equals("Nói chuyện") && fB) {
                                         if (gk) {
-                                            startDialogue(girlLines[0], 0, gn, go - 44);
-                                        } else if (eU) {
-                                            startDialogue(girlLines[2], 0, gn, go - 44);
+                                            startDialogue(girlLines[0], QuestAction.TALK, gn, go - 44);
+                                        } else if (Story.girlOutingDone) {
+                                            startDialogue(girlLines[2], QuestAction.TALK, gn, go - 44);
                                             gk = true;
-                                        } else if (eT) {
-                                            startDialogue(girlLines[3], 26, gn, go - 44);
-                                            eT = false;
+                                        } else if (Story.girlWaiting) {
+                                            startDialogue(girlLines[3], QuestAction.START_GIRL_OUTING, gn, go - 44);
+                                            Story.girlWaiting = false;
                                         } else {
-                                            startDialogue(girlLines[1], 0, gn, go - 44);
+                                            startDialogue(girlLines[1], QuestAction.TALK, gn, go - 44);
                                         }
                                     }
                                 } else {
                                     label2585: {
                                         if (Input.held[Input.KEY_UP]) {
-                                            if (eM) {
+                                            if (Skills.motorbikeLicense) {
                                                 for(var13 = 0; var13 < ii; ++var13) {
                                                     if (ff == il[var13] && a(fe - ik[var13]) < 20) {
                                                         fe = ik[var13];
@@ -7615,7 +7586,7 @@ public final class b extends Canvas implements Runnable {
                                                 }
                                             }
 
-                                            if (eI) {
+                                            if (Skills.lightness) {
                                                 A = -10;
                                             } else {
                                                 A = -8;
@@ -7657,7 +7628,7 @@ public final class b extends Canvas implements Runnable {
                                             E = 0;
                                             B = 8;
                                         } else if (Input.held[Input.KEY_NUM1]) {
-                                            if (eI) {
+                                            if (Skills.lightness) {
                                                 A = -10;
                                             } else {
                                                 A = -8;
@@ -7673,7 +7644,7 @@ public final class b extends Canvas implements Runnable {
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         } else if (Input.held[Input.KEY_NUM3]) {
-                                            if (eI) {
+                                            if (Skills.lightness) {
                                                 A = -10;
                                             } else {
                                                 A = -8;
@@ -7706,7 +7677,7 @@ public final class b extends Canvas implements Runnable {
                             } else if (B == 2) {
                                 if (Input.held[Input.KEY_UP]) {
                                     ir = -1;
-                                    if (eI) {
+                                    if (Skills.lightness) {
                                         A = -10;
                                     } else {
                                         A = -8;
@@ -7737,7 +7708,7 @@ public final class b extends Canvas implements Runnable {
                                 }
                             } else if (B == 11) {
                                 if (Input.held[Input.KEY_UP]) {
-                                    if (eI) {
+                                    if (Skills.lightness) {
                                         A = -10;
                                     } else {
                                         A = -8;
@@ -7780,7 +7751,7 @@ public final class b extends Canvas implements Runnable {
                                     Input.pressed[Input.KEY_FIRE] = false;
                                 }
 
-                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && A > -4 && (D == 0 && eJ || D == 1 && eV)) {
+                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && A > -4 && (D == 0 && Skills.doubleJump || D == 1 && Skills.tripleJump)) {
                                     ++D;
                                     A = -7;
                                     PlayerStats.drainMp(3);
@@ -7953,7 +7924,7 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 12) {
-                                if (Input.held[Input.KEY_UP] && eP) {
+                                if (Input.held[Input.KEY_UP] && Skills.runOnWater) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
@@ -8347,13 +8318,13 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     P();
-                    if (gb >= 0) {
-                        if (gc > cameraX + 10 && gc < cameraX + viewWidth - 10 && gd > cameraY + 10 && gd < cameraY + viewHeight - 10) {
+                    if (guideMarkerMap >= 0) {
+                        if (guideMarkerX > cameraX + 10 && guideMarkerX < cameraX + viewWidth - 10 && guideMarkerY > cameraY + 10 && guideMarkerY < cameraY + viewHeight - 10) {
                             ge = 2;
-                            gf = gc;
-                            gg = gd + gi;
-                        } else if (a(fe - gc) > a(ff - gd)) {
-                            if (fe > gc) {
+                            gf = guideMarkerX;
+                            gg = guideMarkerY + gi;
+                        } else if (a(fe - guideMarkerX) > a(ff - guideMarkerY)) {
+                            if (fe > guideMarkerX) {
                                 ge = 1;
                                 gf = cameraX + 20 + gi;
                             } else {
@@ -8361,14 +8332,14 @@ public final class b extends Canvas implements Runnable {
                                 gf = cameraX + viewWidth - 20 + gi;
                             }
 
-                            if ((gg = gd + 24) < cameraY + 10) {
+                            if ((gg = guideMarkerY + 24) < cameraY + 10) {
                                 gg = cameraY + 10;
                             }
 
                             if (gg > cameraY + viewHeight - 10) {
                                 gg = cameraY + viewHeight - 10;
                             }
-                        } else if (ff > gd) {
+                        } else if (ff > guideMarkerY) {
                             ge = 3;
                             gf = fe;
                             gg = cameraY + 20 + gi;
@@ -9368,24 +9339,24 @@ public final class b extends Canvas implements Runnable {
 
                 W();
                 ab();
-                if (fH != 0) {
-                    if (fH == 1) {
-                        if (a(ff - (fh >> 1) - (fG - 7)) < 10 && a(fe - fF) < 10) {
-                            fH = 2;
-                            fA = true;
-                            b("đã lấy được bí kíp");
+                if (questItemState != 0) {
+                    if (questItemState == 1) {
+                        if (a(ff - (fh >> 1) - (questItemY - 7)) < 10 && a(fe - questItemX) < 10) {
+                            questItemState = 2;
+                            QuestState.itemFound = true;
+                            showNotice("đã lấy được bí kíp");
                         }
                     } else {
-                        ++fH;
-                        fG -= 3;
-                        if (fH > 40) {
-                            fH = 0;
+                        ++questItemState;
+                        questItemY -= 3;
+                        if (questItemState > 40) {
+                            questItemState = 0;
                         }
                     }
                 }
 
-                if (cm && ++cn >= 150) {
-                    cm = false;
+                if (noticeVisible && ++noticeTimer >= 150) {
+                    noticeVisible = false;
                 }
                 break;
                 case GameState.LOADING:
@@ -9434,18 +9405,18 @@ public final class b extends Canvas implements Runnable {
                                 gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
                                 mapId = var12[1];
                                 tick = var12[2];
-                                eE = var12[3] == 1;
+                                Story.prologueActive = var12[3] == 1;
                                 money = var12[4];
                                 dw = var12[5] == 1;
-                                eF = var12[6] == 1;
-                                eG = var12[7] == 1;
-                                eH = var12[8] == 1;
+                                Story.riverMonsterDefeated = var12[6] == 1;
+                                Story.tonikuDefeated = var12[7] == 1;
+                                Story.sakuraFound = var12[8] == 1;
                                 gk = var12[9] == 1;
                                 gl = var12[10];
                                 gm = var12[11];
                                 ij = var12[12];
                                 swordLevel = var12[13];
-                                eW = var12[14] == 1;
+                                Skills.dartsLevel2 = var12[14] == 1;
                                 Save.pendingLoad = true;
                                 gM = System.currentTimeMillis();
                                 changeMap(mapId);
@@ -10314,13 +10285,13 @@ public final class b extends Canvas implements Runnable {
             a(jJ[var0], jK[var0], -(jX[var0] << 4), -3, var1);
         }
 
-        if (P != -1 && lD[P] == jI[var0]) {
-            ++fC;
-            b(al[lD[P]] + ": " + fC + "#" + lE[P]);
+        if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == jI[var0]) {
+            ++QuestState.progress;
+            showNotice(monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
         }
 
-        if (jI[var0] == fy - 100 && tick % 10 < fz) {
-            e(jJ[var0], jK[var0]);
+        if (jI[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
+            placeQuestItem(jJ[var0], jK[var0]);
             f(jJ[var0], jK[var0] - 28);
         }
 
@@ -12816,11 +12787,11 @@ public final class b extends Canvas implements Runnable {
         var0.drawImage(cornerIcons[3], viewCenterX + 65, messageY + 83, 40);
     }
 
-    private static void V(int var0) {
-        lG = mapId;
-        lJ = var0;
-        lH = npcX[var0];
-        lI = npcY[var0] - 44;
+    private static void setNextNpcMarker(int var0) {
+        pendingMarkerMap = mapId;
+        pendingMarkerNpc = var0;
+        pendingMarkerX = npcX[var0];
+        pendingMarkerY = npcY[var0] - 44;
     }
 
     public static void setupNpcs(int var0) {

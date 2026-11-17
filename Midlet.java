@@ -2,6 +2,7 @@ import assets.*;
 import core.app.*;
 import core.input.*;
 import core.player.*;
+import core.quest.*;
 import core.render.*;
 import core.save.*;
 
@@ -87,12 +88,12 @@ public class Midlet extends MIDlet implements Runnable {
             b.leftSoftKeyLabel = "Menu";
             b.rightSoftKeyLabel = " ";
             b.U = false;
-            b.n(b.mapId);
+            b.onMapEntered(b.mapId);
             b.loadingTarget = 100;
             if (needsDefaultsInit) {
                 needsDefaultsInit = false;
                 PlayerStats.initDefaults();
-                b.P = -1;
+                QuestState.current = Quest.NONE;
                 b.Q = 5;
                 b.L = 6;
                 b.M = 2;
