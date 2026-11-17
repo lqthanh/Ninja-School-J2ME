@@ -1,4 +1,5 @@
 import assets.*;
+import assets.Character;
 import core.map.*;
 import core.player.*;
 import core.save.*;
@@ -1692,8 +1693,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 heroTransformHeads = new Image[4];
 
                 try {
-                    heroTransformHeads[0] = Actor.loadHeroTransformHead(0);
-                    heroTransformHeads[1] = Actor.loadHeroTransformHead(1);
+                    heroTransformHeads[0] = Character.loadHeroTransformHead(0);
+                    heroTransformHeads[1] = Character.loadHeroTransformHead(1);
                 } catch (Exception var3) {
                 }
 
@@ -2941,19 +2942,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 int var0;
                 for(var0 = 0; var0 < 20; ++var0) {
-                    heroBodies[var0] = Actor.loadHeroBody(var0);
+                    heroBodies[var0] = Character.loadHeroBody(var0);
                 }
 
                 heroHeads = new Image[11];
 
                 for(var0 = 0; var0 < 11; ++var0) {
-                    heroHeads[var0] = Actor.loadHeroHead(var0);
+                    heroHeads[var0] = Character.loadHeroHead(var0);
                 }
 
                 heroLegs = new Image[10];
 
                 for(var0 = 0; var0 < 10; ++var0) {
-                    heroLegs[var0] = Actor.loadHeroLegs(var0);
+                    heroLegs[var0] = Character.loadHeroLegs(var0);
                 }
             } catch (Exception var1) {
             }
@@ -3123,19 +3124,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     girlBodies = new Image[8];
 
                     for(var0 = 0; var0 < 8; ++var0) {
-                        girlBodies[var0] = Actor.loadGirlBody(var0);
+                        girlBodies[var0] = Character.loadGirlBody(var0);
                     }
 
                     girlHeads = new Image[3];
 
                     for(var0 = 0; var0 < 3; ++var0) {
-                        girlHeads[var0] = Actor.loadGirlHead(var0);
+                        girlHeads[var0] = Character.loadGirlHead(var0);
                     }
 
                     girlLegs = new Image[9];
 
                     for(var0 = 0; var0 < 9; ++var0) {
-                        girlLegs[var0] = Actor.loadGirlLegs(var0);
+                        girlLegs[var0] = Character.loadGirlLegs(var0);
                     }
                 } catch (Exception var1) {
                 }
@@ -3289,7 +3290,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             for(int var1 = 0; var1 < var0; ++var1) {
                 for(int var2 = 0; var2 < 2; ++var2) {
                     try {
-                        classmateHeads[var1][var2] = Actor.loadClassmateHead(var1, var2);
+                        classmateHeads[var1][var2] = Character.loadClassmateHead(var1, var2);
                     } catch (Exception var3) {
                     }
                 }
@@ -3581,7 +3582,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 boss2Sprites[2] = Mob.loadBossPart(2, 2);
                 boss2Sprites[3] = boss2Sprites[1];
                 boss2Sprites[4] = Mob.loadBossPart(2, 3);
-                boss2Sprites[5] = Actor.loadClassmateHead(2, 0);
+                boss2Sprites[5] = Character.loadClassmateHead(2, 0);
             } catch (Exception var1) {
             }
 
@@ -5405,8 +5406,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 heroTransformHeads = new Image[4];
 
                 try {
-                    heroTransformHeads[0] = Actor.loadHeroTransformHead(0);
-                    heroTransformHeads[1] = Actor.loadHeroTransformHead(1);
+                    heroTransformHeads[0] = Character.loadHeroTransformHead(0);
+                    heroTransformHeads[1] = Character.loadHeroTransformHead(1);
                 } catch (Exception var2) {
                 }
 

@@ -13,7 +13,7 @@ import javax.microedition.lcdui.Image;
  *
  * hero_body0, hero_legs0, girl_body1 là ảnh trống 1x1 (frame không vẽ phần đó).
  */
-public final class Actor {
+public final class Character {
     public static final int HERO_BODY_COUNT = 20;
     public static final int HERO_HEAD_COUNT = 11;
     public static final int HERO_LEGS_COUNT = 10;
@@ -25,7 +25,7 @@ public final class Actor {
 
     public static final int CLASSMATE_HEAD_FRAME_COUNT = 2;
 
-    private Actor() {
+    private Character() {
     }
 
     public static Image loadHeroBody(int index) throws IOException {
