@@ -41,7 +41,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.setupNpcs(b.mapId);
             b.i();
             b.f(b.mapId);
-            b.g(b.mapId);
+            b.setupClassmates(b.mapId);
             b.e(b.mapId);
             b.loadingTarget = 65;
             Thread.yield();

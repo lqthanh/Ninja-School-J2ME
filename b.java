@@ -7,6 +7,7 @@ import core.player.*;
 import core.quest.*;
 import core.render.*;
 import core.save.*;
+import core.text.*;
 import core.ui.*;
 
 import java.io.IOException;
@@ -27,26 +28,6 @@ public final class b extends Canvas implements Runnable {
     private static int[][] af = new int[][]{{-5, -2}, {-2, -4}, {0, -5}, {-6, -6}, {-5, -2}, {-2, -4}, {0, -5}};
     private static int[][] ag = new int[][]{{5, 8}, {3, 3}, new int[2], {4, 4}, {5, 8}, {3, 3}, new int[2]};
     private static int[] ah = new int[]{1, -2, 1, 1, 1, -2, 1};
-    private static String[] monsterNames = new String[]{"Ma một mắt", 
-            "ốc sên", 
-            "Dơi quỷ", 
-            "Quỷ một chân", 
-            "Cóc xanh", 
-            "Nhện", 
-            "Ong bò vẽ", 
-            "Bù nhìn rơm", 
-            "Cá cọp", 
-            "Ninja gió", 
-            "Cá cọp đỏ", 
-            "Ma một mắt", 
-            "Rết sa mạc", 
-            "Dơi vàng", 
-            "Chuột", 
-            "Thổ dân", 
-            "Ong đỏ", 
-            "Bò cạp", 
-            "Quỷ hoa", 
-            "Quỷ tử hoa"};
     private static int[] am = new int[]{140, 70, 150, 120, 150, 150, 60, 1000, 250, 500, 4000, 500, 600, 1000, 1500, 2000, 1000, 3500, 1500, 5500};
     private static int[] an = new int[]{15, 10, 30, 25, 25, 25, 5, 10, 20, 40, 30, 40, 130, 30, 40, 100, 60, 160, 120, 200};
     private static int[] ao = new int[]{35, 20, 55, 40, 45, 50, 30, 130, 60, 65, 70, 75, 120, 85, 100, 120, 140, 160, 180, 200};
@@ -65,144 +46,6 @@ public final class b extends Canvas implements Runnable {
     private static int[][] aB = new int[][]{{1344, 288}, {816, 48}, {816, 192}, {744, 192}, {144, 264}, {1440, 96}, {1368, 288}, {1128, 288}, {840, 312}};
     private static int[] aC = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 4, 0, 3, 0, 6, 0, 2, 0, 5, 0, 4, 0, 1, 0, 3, 0, 0, 0, 5, 0, 4, 0, 3, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 3, 0, 0, 2, 1, 3, 2, 2};
     private static int[] aD = new int[]{0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 2, 0, 2, 3, 0, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 0, 4, 0, 1, 2, 1, 2, 0, 1, 2, 1, 2, 1, 2};
-    private static String[] aE = new String[]{"Chơi mới", 
-            "Chơi tiếp", 
-            "Chỉ dẫn", 
-            "Game khác", 
-            "Thoát"};
-    private static String[][] cutsceneLines = new String[][]{{"Rừng trúc đây rồi!", 
-            "Hôm nay ta phải hạ được con quái vật đó!", 
-            "Nó chắc quanh quẩn đây thôi!"}, 
-        {"Bọn quái vật nhãi nhép này làm gì được ta chứ!"}, 
-        {"Con quái vật hung hăng kia rồi!", 
-            "Ngươi phải đền tội vì những gì gây ra!"}, 
-        {"Này các con, sau bao năm tháng tập luyện...", 
-            "Đây là lúc các con thể hiện tài năng!", 
-            "Gần đây, trong khu rừng trúc...", 
-            "..xuất hiện 1 con quái vật to lớn..", 
-            "Nó thường phá phách, đe dọa dân làng.", 
-            "Các con biết phải làm gì rồi chứ?", 
-            "Đây là lúc các con chứng minh khả năng của mình.. ", 
-            "Đi đi. Và hãy cẩn thận đấy !!"}, 
-        {"Chết đi, con quái vật hung hăng kia !!!", 
-            "Hahahaha!"}, 
-        {"Chào mừng ngươi đến với trường đào tạo ninja Hirosaki.", 
-            "Ta là Okamesama, hiệu trưởng trường này.", 
-            "Tại đây chúng ta sẽ đào tạo các ngươi, trở thành những ninja chuyên nghiệp.", 
-            "Giáo viên chủ nhiêm của ngươi là thầy Takanashi", 
-            "Hãy đến gặp thầy để nhận bài tập.", 
-            "Có vấn đề gì, ngươi có thể hỏi những đồng môn của mình.", 
-            "Chúc ngươi sớm đạt được thành công nhé."}, 
-        {"Vâng, thưa thầy!"}, 
-        {"Con đường hoa đào đây rồi.", 
-            "Con bé ấy đâu rồi nhỉ?"}, 
-        {"Chào bạn! Bạn có phải là em gái cô Ayumi không?", 
-            "Thầy Takanashi bận nên nhờ mình đón bạn giúp.", 
-            "Đi theo mình nhé, chúng ta sẽ về trường!"}, 
-        {"Tốt lắm, con đã đưa cô bé về an toàn!", 
-            "Đây ta có món quà gì giá trị để tặng con..", 
-            "Đây là tấm bằng lái xe có chữ ký của ta. Kể từ nay con có thể sử dụng những chiếc xe máy rồi!", 
-            "Nhớ phải lái cẩn thận và đội mũ bảo hiểm, nếu không là CSGT phạt đó!"}, 
-        {"Thuỷ quái hạ nguồn sông Waramato, con quái trong truyền thuyết !", 
-            "Một khi nó chưa bị tiêu diệt, ta sẽ không đi tiếp!"}, 
-        {"Chết đi, con quái vật kia!", 
-            "Từ nay con sông này sẽ trở lại thanh bình rồi!", 
-            "Ta tiếp tục cuộc hành trình thôi!"}, 
-        {"Ngươi cũng lặn lội đến tận đây được à, khá đấy!", 
-            "Hãy bỏ ngôi trường ấy đi, theo ta lập căn cứ, ngươi sẽ có tất cả.", 
-            "Nếu không theo ta, ngươi sẽ hối hận đấy... HaHaHa!"}, 
-        {"Không đời nào, tên phản bội kia!"}, 
-        {"Ngươi khá lắm! Hãy đợi đấy, ta sẽ nhớ mối thù này!", 
-            "Hẹn gặp lại ngươi!!!"}, 
-        {"Chúng ta lại gặp nhau rồi!", 
-            "Ta cho ngươi một cơ hội lần cuối. hãy theo ta, hoặc là chết!"}, 
-        {"Haha. Tên phản bội kia, ta sẽ cho mi biết sức mạnh một ninja thực thụ!"}, 
-        {"Cuối cùng thì mi cũng đã phải dền tội!"}, 
-        {"Các con hãy cho biết làm cách nào để di chuyển!"}, 
-        {"Sử dụng phím mũi tên hoặc phím 2,4,6,8!"}, 
-        {"Làm thế nào để tấn công?, Kunio"}, 
-        {"Sử dụng phím 5 hoặc phím chọn giữa!"}, 
-        {"Làm thế nào để trò chuyện với bạn bè hoặc thầy cô?,Lee"}, 
-        {"Đứng gần người đó rồi bấm Giao Tiếp!"}, 
-        {"Làm thế nào để biết mình đang ở đâu! Katashi"}, 
-        {"Chọn menu/Xem bản đồ!"}, 
-        {"Làm thế nào khi hết HP hoặc MP! Toniku"}, 
-        {"Chọn menu/Sử dụng Item, chọn một bình HP/MP để sử dụng!"}, 
-        {"Uhm..Nếu không còn bình HP/MP nào thì sao? Minori"}, 
-        {"Gặp ông bán hàng mua tại trường, ở gần ký túc xá!"}, 
-        {"Tốt. Làm thế nào để di chuyển nhanh từ khu vực này đến khu vực khác?"}, 
-        {"Mở bản đồ, chọn 1 địa điểm để di chuyển đến!"}, 
-        {"Đúng rồi, Làm sao để sử dụng phi tiêu?,Ryuu"}, 
-        {"Bấm phím 1 sẽ chuyển sang chế độ phi tiêu.", 
-            "Bấm phím 1 lần nữa để quay lại đánh kiếm!"}, 
-        {"Tốt. Làm sao để sử dụng khinh công?"}, 
-        {"Học khinh công từ cô Ayumi. Bấm phím mũi tên lên hoặc phím 2 nhiều lần!"}, 
-        {"Uhm..Làm sao để độn thổ!"}, 
-        {"Học độn thổ từ thầy Honda. Bấm và giữ luôn phím xuống hoặc phím 8!"}, 
-        {"Khi nào mới có thể lái xe môtô?"}, 
-        {"Học lái xe từ thầy Takanashi, được cấp bằng lái", 
-            "Sau đó có thể nhảy lên chạy bất kỳ chiếc mô tô nào !"}, 
-        {"Làm sao để chạy trên mặt nước? huh ? Sadao"}, 
-        {"Học thuật chạy nước/ lặn nước từ thầy Honda! Sau đó có thể chạy trên mặt nước!"}, 
-        {"Làm sao để biến hình!"}, 
-        {"Bấm phím 7. Sau khi đã học phép biến hình từ thầy Hiroyaki"}, 
-        {"Làm sao để tàng hình!"}, 
-        {"Bấm phím 3. Sau khi đã học phép tàng hình từ thầy Honda"}, 
-        {"Tốt! Cho ta biết ai phát triển game này!"}, 
-        {"Nhóm TeaMobile!"}, 
-        {"Cụ thể là ai?"}, 
-        {"...Con không biết..."}, 
-        {"Hmm, có thể tìm thêm nhiều game hay khác ở đâu?"}, 
-        {"www.teamobi.com hay www.wap.teamobi.com"}, 
-        {"Tốt, các con có thể giải tán !"}, 
-        {"Chúng con chào thầy !"}, 
-        {"Cảm ơn, mi thật tốt bụng. Hẹn gặp lại!", 
-            "Quên mất, lúc nãy cô Ayumi dặn ta gặp cô ấy ngay.", 
-            "Hihi, gặp lại mi sau!"}, 
-        {"Sakura, bạn có sao không!"}, 
-        {"Mình không sao, bạn không bị thương chứ!"}, 
-        {"Mình cũng không sao! Tên Toniku chắc cũng không chạy xa được đâu , hắn cũng sớm bị bắt thôi!", 
-            "Chúng ta về thôi!"}, 
-        {"Toniku, ngươi đã biết tội chưa!"}, 
-        {"..vâng..con biết...."}, 
-        {"Theo nội quy của nhà trường. Ngươi phải rời khỏi ngôi trường này.", 
-            "Vĩnh viễn không được trở lại nữa.."}, 
-        {"......"}, 
-        {"Thưa thầy...", 
-            "Toniku vốn là học sinh giỏi của trường..", 
-            " Chỉ vì nghe lời xúi giục của bọn xấu nên mới hành động như thế...", 
-            "Đây là lần vi phạm đầu tiên, xin nhà trường tha thứ cho bạn ấy..."}, 
-        {"......"}, 
-        {"Xin các thầy hãy tha thứ cho bạn ấy ạ!"}, 
-        {"..thôi được rồi..", "Tội Toniku rất nặng, đáng lẽ ra phải bị đuổi học.", 
-            "Con đường để thành một nhẫn giả thật gian lao và chông gai..", 
-            "..ngươi phải luyện tập bằng khả năng và sức lực của mình", 
-            " sẽ không có con đường nào khác", 
-            " ... các con đều biết chữ Nhẫn gồm chữ Đao và chữ Tâm.", 
-            "..nếu Tâm không tịnh thì Đao sẽ bổ xuống!", 
-            "Các con hãy lấy Toniku mà làm gương ...", 
-            "Toniku, ngươi đã quá tham lam...", 
-            "..nhưng ta cũng thây nơi con người ngươi có tố chất tiềm tàng!", 
-            "Nên ta quyết định tha cho con lần này...", 
-            "Sẽ không có lần sau, Toniku, ngươi nhớ đấy!!"}, 
-        {"Vâng, con xin cảm ơn thầy!"}, 
-        {"Sẵn đây ta muốn nhắc nhở thêm các con..", 
-            "Hai tháng nữa là đến kỳ thi kết khoá cho Genin. Các con phải cố gắng tập luyện hơn nữa..", 
-            "..Mọi thứ chỉ mới bắt đầu thôi!"}, 
-        {"Vâng, chúng con xin nghe!"}};
-    private static String[] cutsceneCaptions = new String[]{"Trường đạo tạo Ninja Hirosaki, Mùa thu 1937", 
-            "2 ngày sau, tại rừng trúc...", 
-            "Chỉ dẫn: Dùng phím 5 để tấn công.", 
-            "6 tháng trước, tại trường Hirosaki...", 
-            "2 ngày sau, tại trường Hirosaki..."};
-    private static String[][] girlLines = new String[][]{{"Chúng ta đi thôi!"}, 
-        {"Muốn rủ ta đi chơi à!", 
-            "Ta chỉ chơi với những người cùng trình độ thôi.", 
-            "Ngươi hãy tập luyện đi, bao giờ khá hơn thì quay lại. Đừng ở đó tán gái nữa!"}, 
-        {"Muốn rủ ta cùng đi à?", 
-            "OK, nhưng chỉ một lúc thôi nhé, nếu không chị Ayumi mắng ta đó!"}, 
-        {"Ta muốn đến miếu Koujin chơi, mi có thể dẫn đường chứ!", 
-            "Nếu sợ, mi có thể ở nhà, ta sẽ tự đi. Haha!"}};
     private static int[][][] aI;
     private static int[] aJ;
     private static int[] aK;
@@ -347,7 +190,7 @@ public final class b extends Canvas implements Runnable {
     private static int ds;
     private static boolean[] dt;
     private static int du;
-    private static String[][] dv;
+    private static String[][] classmateLines;
     private static boolean dw;
     private static boolean dx;
     private static int dy;
@@ -726,12 +569,6 @@ public final class b extends Canvas implements Runnable {
     private static int[] npcX;
     private static int[] npcY;
     private static int[] npcTypes;
-    private static String[][] guardLines;
-    private static String[][] questGiveLines;
-    private static String[][] questRewardLines;
-    private static String[][] questReminderLines;
-    private static String[][] idleLines;
-    private static String[] questUnfinishedLines;
     private static int[] lF;
     private static int pendingMarkerMap;
     private static int pendingMarkerX;
@@ -888,197 +725,8 @@ public final class b extends Canvas implements Runnable {
         kP = new int[]{62, 52, 17, 4, 8, 12, 14, 5, 1, 2, 3, 2, 2, 2, 2, 1, 2, 3, 1};
         kQ = new int[]{17, 9, 12, 9, 10, 5, 9, 7, 12, 11, 4, 11, 8, 9, 7, 6, 11, 16, 8};
         li = "Chuyển đến";
-        String[] var10000 = new String[]{"Quy Sư Phụ", 
-                "Lâm Sư Phụ"};
-        guardLines = new String[][]{{"..."}, 
-            {"Đây là khu vực luyện tập, cứ yên tâm, nếu bị thương ta sẽ giúp đỡ.", 
-                "Đôi khi tập luyện với cái bù nhìn rơm đằng kia cũng mang lại nhiều bất ngờ đấy!"}, 
-            {"Thác nước này rất nguy hiểm, ta khuyên ngươi không nên xuống.", 
-                "Hãy quay lại đi, nếu có chuyện gì ta không cứu được ngươi đâu."}, 
-            {"Khu rừng trước mặt ngươi là nơi sống của bọn dơi quỷ, nhện độc và những sát thủ bị truy nã.", 
-                "Dù ngươi tài giỏi đến đâu cũng phải mất mạng khi đi ngang qua đó.", 
-                "Một số người có thể qua được bằng cách chạy thật nhanh qua.", 
-                "Nếu ngươi tự tin hãy dùng chiếc moto kia và liều một phen xem.", 
-                "Chúc ngươi may mắn."}};
-        questGiveLines = new String[][]{{"Con lại tìm ta có chuyện gì?", 
-                "Thầy chủ nhiệm Con là Takanashi, mau đến gặp thầy để nhận bài tập."}, 
-            {"Chào cậu bé, ta là Kagome Ayumi, giảng viên cao cấp bộ môn Khí.", 
-                "Khí là môn đầu tiên bất kỳ học sinh nào cũng phải học khi bước vào đây.", 
-                "Bài học đâu tiên là kỹ năng khinh công. Sau khi học xong con sẽ phi thân cao hơn  gấp đôi bình thường.", 
-                "Bây giờ ta phải kiểm tra sơ bộ con. Hãy chạy thẳng về tay trái đến khu luyện tập.", 
-                "đến đó giết đủ 10 con ốc sên đá, sau đó quay lại đây!"}, 
-            {"Chào con, con đã sẵn sàng luyện tập rồi chứ?", 
-                "Hãy đến gặp cô Ayumi để học môn đầu tiên.", 
-                "Cô ấy đứng đằng kia, chúc con học tốt nhé!", 
-                "à, nếu cô ấy có hỏi gì về ta, hãy nói tốt về ta nhé, ta sẽ thưởng."}, 
-            {"Ta già cả rồi, tựa như chiếc lá khô..", 
-                "Lại đây, ta sẽ truyền hết võ công cho con...", 
-                "Toyotomi,...tình yêu của ta,....em ở nơi nào"}, 
-            {"Trình độ nhà ngươi còn quá thấp. Hãy quay lại đây khi đã học xong khinh công."}, 
-            {"Ngươi còn chưa dùng shuriken thì làm sao học phép thuật được."}, 
-            {"Ta sẽ dạy ngươi dùng shuriken nếu ngươi có đủ khả năng.", 
-                "Gần cổng trường có vài cái bù nhìn rơm, hãy đánh gãy 2 cái.", 
-                "Nhanh lên, hãy chứng tỏ sức mạnh của mình đi."}, 
-            {"Ngươi còn không mau đi đi!"}, 
-            {"Ngươi muốn học thuật ư?", 
-                "Không như những môn khác, thuật đòi hỏi ngươi phải luyện tập hàng ngày..", 
-                "Hơn thế nữa, ngươi phải học theo những quyển bí kíp.", 
-                "Ta sẽ dạy cho ngươi môn độn thổ, nếu ngươi có thể tìm được 1 quyển bí kíp từ bọn quỷ một chân", 
-                "Bọn chúng thường xuất hiện ở thác nước, bên kia khu luyện tập.", 
-                "Đi đi, hãy kiên nhẫn với từng tên , ngươi sẽ tìm thấy thôi!"}, 
-            {"Nhanh lên con, cô bé ấy đang đứng chờ ở đường hoa đào đấy!", 
-                "Nếu chậm, cô Ayumi sẽ buồn lắm đó!"}, 
-            {"Con có thể giúp ta một chuyện được không?", 
-                "Cô Ayumi có nhờ ta đón giúp cô em gái. Nhưng đúng vào lúc ta phải họp cùng thầy hiệu trưởng.", 
-                "Ta rất tin tưởng ở con, con hãy đến đầu đường hoa đào, đón cô ấy nhé!", 
-                "Nhanh lên, ta sẽ thưởng cho con nếu con làm tốt."}, 
-            {"Để trở thành 1 ninja giỏi ngươi phải có thể lực tốt.", 
-                "Ngươi có biết chữ Nin là Nhẫn không!", 
-                "Trong Nhẫn thì có Lực và Tâm..", 
-                "..để trở thành ninja thực thụ thì ngươi phải có Tâm và Lực", 
-                "....mà ta nói, ngươi có hiểu gì không.", 
-                "Hãy giết 20 con ong, rồi quay về gặp ta. Lúc đó ta sẽ giúp ngươi."}, 
-            {"Ngươi đã bao giờ vượt sông Watamoro chưa? Đó là một con sông rộng và hung dữ với thuỷ quái và sóng to.", 
-                "Ta sẽ giúp ngươi 1 cách vượt sông rất dễ dàng, nhưng ngươi phải làm một việc...", 
-                "Trong khu rừng trúc, có 1 con heo rừng thành tinh rất hung hăng..", 
-                "Hãy giết nó, mang về đây 1 quyển bí kíp nói về thuật lặn nước, ta sẽ hướng dẫn ngươi luyện.", 
-                "Đi đi, và hãy cẩn thận tính mạng nhà ngươi."}, 
-            {"Ngươi đã học được kỹ năng chạy nước rồi!", 
-                "Nếu ngươi có thể qua bên kia con sông,đến khu nghĩa địa, nhặt quyển bí kíp Ninja biến hình..", 
-                "..ta sẽ truyền thụ kỹ năng biến hình cho ngươi.", 
-                "Hãy nhớ ngươi phải đối đầu với một con quái vật to lớn bên kia sông đấy!", 
-                "Đi đi, chúc ngươi may mắn."}, 
-            {"Con biết, ta đang nghiên cứu làm ra 1 thứ thuốc, để chữa trị vết thương...", 
-                "Tuy nhiên ta thiếu 1 loại nguyên liệu rất khó kiếm.", 
-                "Nếu con có thể tìm giúp ta 8 cánh dơi vàng, ta sẽ có đền đáp xứng đáng.", 
-                "Bọn dơi vàng có mặt ở những ngôi đền phía nam. Bọn chúng rất nhanh.", 
-                "Tuy thế, ta vẫn tin con có thể mang về cho ta.", "Chúc con may mắn!"}, 
-            {"Cô Ayumi nói cho con nghe rồi à...", 
-                "Nói ra thật đáng buồn, cũng như bao trường khác, trường ta luôn có những học sinh cá biệt...", 
-                "Toniku là một trong số đó, nó đã bỏ trường thành lập băng nhóm...", 
-                "Hiện đang tụ tập quậy phá ở 3 ngôi miếu phía nam trường...", 
-                "Con là một học sinh tốt, hãy đi tìm bọn chúng bắt về cho ta.", 
-                "Làm đi, rồi báo cáo kết quả với ta nhé!"}, 
-            {"Cô bé em gái cô Ayumi cũng xinh, y như cô ấy vậy, con có thấy thế không!", 
-                "Nếu con có thể vào khu rừng gỗ, đánh gục 10 tên Quỷ khố, ta sẽ mai mối cho, haha!", 
-                "Nhưng hãy cẩn thận, bọn quái vật trong khu rừng ấy rất đông và mạnh đấy!"}, 
-            {"Hiện tại khả năng con đã rất khá rồi, ta quyết định dạy những kỹ năng cấp cao cho con.", 
-                "Đầu tiên là khinh công cấp 2.", "Tuy nhiên, con phải chứng tỏ đã thành thạo khinh công cấp 1 trước...", 
-                "Hãy nhảy lên không tung, đánh được 20 đòn trước khi chạm đất!", 
-                "Không dễ phải không..."}, 
-            {"Shuriken , một trong những vũ khí cơ bản của Ninja, ta sẽ truyền cho ngươi bộ ám khí mới này", 
-                "Vẫn như các lần trước, ngươi phải cho ta thấy đã đủ sức học...", 
-                "Đến khu rừng chông tre. Nhổ gốc 15 con quỷ hoa đỏ rồi về đây, ta sẽ dạy cho.", 
-                "Cẩn thận tính mạng ngươi đấy."}, 
-            {"Mấy hôm nay ta nhận thấy con chạy còn rất chậm..", 
-                "Một ninja chậm chạp như con không thể làm việc lớn được.", 
-                "Hãy đến vách đá Ito, mang về cho ta 18 đuôi bò cạp..", 
-                "Ta sẽ dùng độc của chúng, điều chế cho con 1 loại thuốc tăng lực...", 
-                "Cẩn thận nọc độc bọn chúng nhé! Hãy dẫn cô bé Sakura đi, nó sẽ giúp con nhiều đấy."}, 
-            {"Ta không muốn nói nhiều. Một phần thưởng đặt biệt cho ngươi..", 
-                "..nếu ngươi có thể giết được 4 con cá đỏ!"}, 
-            {"Đây là kỹ năng cuối cùng của một ninja... kỹ thuật ẩn thân", 
-                "Kỹ năng này muốn học cũng không khó, tại một thung lũng phía nam..", 
-                "có một quyển bí kíp được giấu từ ngàn năm nay.", 
-                "Hãy tìm về, ta sẽ giúp con có được kỹ năng lợi hại này."}, 
-            {"Con còn nhớ tên phản đồ Toniku lần trước không!", 
-                "Sau khi bị con đánh, hắn đã bỏ chạy đến ngôi miếu phía đông bắc.", 
-                "Nó vừa bắt mất cô bé Sakura đi rồi.", 
-                "Ta đã sai tất cả đệ tử đi tìm nó, cứu cô bé về!", 
-                "Con cũng phải thế nhé! Cô bé ấy đang chờ con đấy!"}};
-        questRewardLines = new String[][]{{"Thể lực con rất tốt, ta sẽ dạy khinh công cho con...", 
-                "Hãy tập trung khí huyết, hít thở nhẹ, người con nhẹ dần, nhẹ dần tựa chiếc lá khô...", 
-                "Chúc mừng con! Hãy thử nhảy lên xem kết quả thế nào.", 
-                "à, suýt nữa ta quên, lúc nãy thầy Hiroyaki trên tầng 1 gọi con đấy."}, 
-            {"Tốt. Đây là cách phóng shuriken, hãy nhớ kỹ:", 
-                "Bấm phím 0 để chuyển sang phóng shuriken, bấm lần nữa để đánh kiếm.", 
-                "Nếu chăm chỉ tập luyện, phi tiêu sẽ là vũ khí lợi hại nhất của ngươi.", 
-                "Thầy Honda có việc cần gặp ngươi. Nhanh lại đó đi!"}, 
-            {"Giỏi lắm, đúng là quyển bí kíp này.", 
-                "Cứ luyện tập theo quyển bí kíp này: hãy đến khu vực có đất..", 
-                "Ngồi thấp xuống và tập trung, ngươi sẽ độn thổ được.", 
-                "Hãy luyện tập đi, chú ý MP ngươi sẽ bị giảm khi độn thổ đó.", 
-                "Còn chuyện này nữa, vừa nãy ta thấy thầy chủ nhiệm ngươi có vẻ mệt. Ngươi hãy nhanh ghé thăm!"}, 
-            {"Ngươi giỏi lắm, ta sẽ đã thông kinh mạch cho...", 
-                "úm ba la !! soda cacao cola!", "Ngươi có cảm nhận được luồn chân khí trong người không", 
-                "Đi đi, hãy dùng sức mạnh này để bảo vệ dân làng!"}, 
-            {"Quyển bí kíp đây rồi, khá lắm cậu bé.", 
-                "Ngươi đã có thể lặn nước được rồi. Hãy nhớ, tuy lặn được nhưng thanh trúc dùng để thở rất ngắn...", 
-                "Vì thế, đừng lặn sâu quá đó.", 
-                "Thầy Hiroyaki tìm ngươi. Hãy mau đến gặp đi."}, 
-            {"Ngươi có thể vượt qua con sông ấy ư?", 
-                "Ta sẽ giúp ngươi gọi được sức mạnh của dòng tộc mình: Xích Mao", 
-                "Bất kỳ khi nào, hãy ấn phím số 7, ngươi sẽ có được sức mạnh từ gốc cội của dòng tộc mình", 
-                "hãy thử xem, nhưng ngươi cần cẩn thận, vì thi triển thuật này,ngươi sẽ chóng mệt lắm đấy."}, 
-            {"Cảm ơn con nhiều lắm. Đây là phần thưởng cho con, 5000$", 
-                "Tuy không bao nhiêu nhưng con có thể dùng nó để mua HP, MP.", 
-                "À, trường ta đang có việc lớn đấy!", 
-                "Con hãy gặp thầy chủ nhiệm để hỏi xem có giúp được gì hay không!"}, 
-            {"Hắn bỏ trốn thoát rồi ư?", 
-                "Ta thật đau lòng khi có một đứa học trò như nó!", 
-                "Kể từ nay, ta cho phép con tấn công nó, không nương tay, bất kỳ khi nào gặp!"}, 
-            {"Ta biết chắc chắn thế nào con cũng giết được bọn quỷ khố hung hăng đó!", 
-                "Lúc nãy, ta đã nói chuyện với cô Ayumi rồi.", 
-                "Hãy lại bắt chuyện với cô bé ấy đi!"}, 
-            {"Tốt lắm. Con đã chứng tỏ được mình.", 
-                "Đây là kỹ năng khinh công cấp 2. Con đã có thể nhảy cao hơn trước rồi.", 
-                "Tiếp theo, hãy gặp thầy Hiroyaki, ông ta sẽ dạy con những kỹ năng mới!"}, 
-            {"Tốt. Đây là kỹ năng shuriken cấp 2.", 
-                "Sức tấn công từ shuriken của con đã tăng lên rất nhiều!", 
-                "Con phải siêng năng tập luyện mới có thể giữ được sức mạnh này. Nhớ đấy!"}, 
-            {"Khá lắm. Đây là phương thuốc chạy nhanh cho con!", 
-                "Hãy chạy 1 đoạn ngắn, sau đó tốc độ của con sẽ tăng nhanh..", 
-                "Hãy thử xem nào!"}, 
-            {"Giỏi. Kể từ nay con sẽ không bao giờ bị chìm dưới nước nữa!", 
-                "..đây là kỹ thuật đứng nước bí truyền của ninja. Ta chỉ dạy cho mình con đấy!"}, 
-            {"Ngươi có thể tìm được nó ư?", 
-                "Tốt lắm, từ nay con có thể sử dụng nó rồi đấy.", 
-                "Hãy nhấn phím số 9 để có thể ẩn thân. Kỹ năng này rất lợi hại..", 
-                "tuy nhiên nó sẽ tiêu thụ rất nhiều MP của con đấy!"}, 
-            {"Các con đều bình an vô sự, rất tốt!", 
-                "Những gì đã là quá khứ thì ta cho qua, nhưng hãy nhớ và không tái phạm", 
-                "Nào, ta cho các con nghỉ, điện thoại cũng có lúc phải nghì ngơi chứ, hehe. Nay , ta chúc mừng các con đã hoàn thành khóa học ninja sơ cấp: các con không còn là Chunin nữa !", 
-                "Nay ta tuyên bố thăng cấp cho các con là Genin !"}};
         String[][] var3 = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
-        questReminderLines = new String[][]{{"Nhanh lên, hãy sang khu luyện tập và giết 10 con ốc sên."}, 
-            {"Hãy đánh sập 2 bù nhìn rơm gần cổng trường. Nhanh lên!"}, 
-            {"Bọn quỷ một chân có mặt ở thác nước, bên kia khu luyện tập, mau giết chúng để tìm quyển bí kíp!"}, 
-            {"Hãy trở lại khi ngươi đã giết đủ 20 con ong."}, 
-            {"Con heo rừng rất nguy hiểm. Nhưng ta tin ngươi có thể giết được nó và cầm về cho ta quyển bí kíp. Đi đi!"}, 
-            {"Hãy đến khu nghĩa địa bên kia sông! Mang về quyển bí kíp. Nhanh lên!"}, 
-            {"Nhanh lên, hãy giết 8 con dơi vàng ở những ngôi miếu phía nam!"}, 
-            {"Hãy tìm tên Toniku, hắn trốn ở những ngôi miếu phía nam.", 
-                "Tìm gặp hắn quay lại báo cáo với ta nhé!"}, 
-            {"Hãy giết 10 con quỷ khố ở khu rừng gỗ!", 
-                "Xong việc ta sẽ giúp con cưa con bé em gái cô giáo Ayumi!"}, 
-            {"Để ta dạy kinh công cấp 2 cho con, con phải chứng tỏ được khả năng hiện tại.", 
-                "Hãy nhảy lên cao và chém được ít nhất 20 phát khi chưa chạm đất!", 
-                "Khá khó, nhưng ta tin con sẽ khẳng định được mình!"}, 
-            {"Hãy đến rừng chông tre. Giết 15 quỷ hoa đỏ rồi về đây, ta cho ngươi shuriken cấp 2!"}, 
-            {"Con hãy đến vách đá Ito, giết 18 con bò cạp, mang đuôi về cho ta!"}, 
-            {"Ta không muốn nói nhiều. Một phần thưởng đặt biệt cho ngươi..", 
-                "..nếu ngươi có thể giết được 4 con cá đỏ!"}, 
-            {"Để học kỹ năng ẩn thân, hãy đi tìm 1 quyển bí kíp...", 
-                "Cất giấu tại 1 thung lũng phía đông."}, 
-            {"Nhanh lên, cô bé ấy đã bị bắt từ mấy hôm rồi!"}};
-        idleLines = new String[][]{{"Ta đang bận, Con hãy đi tập luyện đi."}, 
-            {"Các ngươi phải cố gắng tập luyện để trở thành những Ninja tốt"}, 
-            {"Hằng ngày ngươi phải siêng năng tập thể lực, đó là nền tảng cho mọi hoạt động."}, 
-            {"Cô Ayumi xinh thật. Con có thấy thế không?"}, 
-            {"Ngươi biết không....à..à...mà ta định nói gì với ngươi nhỉ."}, 
-            {"Ta không còn gì để dạy con nữa...", 
-                "Nhưng con phải cố gắng tập luyện hàng ngày. Biết không!"}, 
-            {"Con cần phải để mắt tới cô bé Sakura nhé..", 
-                "Con bé ấy quậy lắm đấy!"}, 
-            {"Dù sau này có đi đâu, ngươi cũng phải trở thành 1 ninja tốt nhé!"}, 
-            {"Ta không còn gì để dạy con nữa!", 
-                "Hãy rèn luyện sức khỏe hàng ngày, biết không!"}, 
-            {"..à.. ừ.. ngươi muốn học phép à..", 
-                ".. để ta nghĩ ra thêm vài phép mới..", 
-                "..trước mắt hãy học những kỹ năng cũ đã nhé..."}};
-        var10000 = new String[]{"Ngươi không có đủ vàng."};
-        questUnfinishedLines = new String[]{"Hãy hoàn thành nhiệm vụ được giao rồi quay lại gặp ta!"};
         lF = new int[]{7, 6, 6, 5, 2, 4};
         pendingMarkerMap = -1;
         lP = Font.getFont(0, 0, 0);
@@ -3043,64 +2691,56 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    public static void g(int var0) {
+    public static void setupClassmates(int var0) {
         du = 0;
         dx = false;
         if (var0 == 0) {
             du = 7;
             J();
-            a(0, 0, 14, 17, 130, 11, 22, new String[]{"Chào, cậu là ai thế, mình chưa từng gặp bạn thì phải?", "Nói cậu nghe nhé, thầy cô trường này khó tính lắm đó.", "Cẩn thận với ông thầy Hiroyaki nhé. Đừng chọc giận ổng."});
-            a(1, 1, 24, 17, 160, 15, 30, new String[]{"Mình là MinhXP, lớp trưởng lớp kiếm thuật.", "Kiếm là vũ khí lợi hại nhất của một ninja đấy bạn biết không?", "Khu vực luyện tập nằm ở bên trái. Hãy sang đấy tập luyện nhiều hơn nữa."});
+            placeClassmate(0, 0, 14, 17, 130, 11, 22, DialogueText.schoolClassmate0);
+            placeClassmate(1, 1, 24, 17, 160, 15, 30, DialogueText.schoolClassmate1);
             if (Skills.transform) {
-                a(2, 6, 17, 12, 200, 7, 29, new String[]{"Thằng bên kia là sát thủ giả mạo.", "Ta đây mới là ninja sát thủ thứ thiệt đây!"});
+                placeClassmate(2, 6, 17, 12, 200, 7, 29, DialogueText.schoolClassmate2Assassin);
             } else {
-                a(2, 2, 17, 12, 200, 7, 29, new String[]{"Chào, tao tên là Tonic, mày là thằng nào?", "Nhìn lão hiệu trưởng kìa, lão có một hũ rượu trông hấp dẫn quá!", "Nếu muốn rủ tao đi nhậu thì ok, còn không thì biến đi.", "À, nếu mày có thấy con chó của tao thì báo tao 1 tiếng nhé."});
+                placeClassmate(2, 2, 17, 12, 200, 7, 29, DialogueText.schoolClassmate2);
             }
 
-            a(3, 3, 48, 17, 200, 44, 63, new String[]{"Hi, mình là Craze, trông bạn có vẻ hơi buồn thì phải?", "Bạn có thấy chán khi tối ngày quanh quẩn trong trường không?", "Đi về phía tay phải bạn sẽ đến được ngôi làng, ra đó để tìm niềm vui đi!"});
-            a(4, 4, 46, 12, 200, 40, 54, new String[]{"Thằng nhà quê kia, mày mau kiếm tiền đóng thuế thân cho tao.", "Tao cho mày 2 ngày, nếu không đưa tao 1000$ thì mày ăn chém đó."});
-            a(5, 5, 38, 17, 200, 34, 49, new String[]{"Xin chào, bạn là học sinh mới phải không?", "Nhìn thầy hiệu trưởng kìa, thầy vốn là một ninja sát thủ đấy.", "Thầy đã bỏ nghề sát thủ lâu rồi, nhưng tài năng vẫn còn đó", "Chúng ta có tập luyện cả đời cũng không bằng thầy đâu."});
-            a(6, 6, 58, 12, 200, 46, 60, new String[]{"Đừng hỏi ta là ai...", "Ta chỉ là một ninja sát thủ thôi, ngươi biết thế là được rồi.", "Biến đi cho ta luyện tập."});
+            placeClassmate(3, 3, 48, 17, 200, 44, 63, DialogueText.schoolClassmate3);
+            placeClassmate(4, 4, 46, 12, 200, 40, 54, DialogueText.schoolClassmate4);
+            placeClassmate(5, 5, 38, 17, 200, 34, 49, DialogueText.schoolClassmate5);
+            placeClassmate(6, 6, 58, 12, 200, 46, 60, DialogueText.schoolClassmate6);
             y(7);
         }
 
         if (var0 == 1) {
             du = 3;
             J();
-            a(0, 5, 35, 9, 40, 33, 36, new String[]{"Bạn có thể nhảy lên cây cầu này nếu đã học xong khinh công từ cô Ayumi xinh đẹp."});
+            placeClassmate(0, 5, 35, 9, 40, 33, 36, DialogueText.trainingClassmate0);
             if (Skills.transform) {
-                a(1, 6, 25, 10, 40, 22, 28, new String[]{"Ta đây là một ninja sát thủ!", 
-                    "Ha ha ha!"});
+                placeClassmate(1, 6, 25, 10, 40, 22, 28, DialogueText.trainingClassmate1Assassin);
             } else {
-                a(1, 2, 25, 10, 40, 22, 28, new String[]{"Mày đã học khinh công rồi hả?", 
-                    "À, mày có thấy con chó của tao chạy đâu đâu không?"});
+                placeClassmate(1, 2, 25, 10, 40, 22, 28, DialogueText.trainingClassmate1);
             }
 
-            a(2, 1, 6, 9, 40, 2, 10, new String[]{"Bên kia là một thác nước rất lớn đấy.", 
-                "Nó không thuộc phạm vi trường chúng ta nữa nên có rất nhiều quái vật hung dữ.", 
-                "Nghe nói có một con quái vật rất to đấy, tốt hơn ngươi đừng qua làm gì!"});
+            placeClassmate(2, 1, 6, 9, 40, 2, 10, DialogueText.trainingClassmate2);
             y(7);
         }
 
         if (var0 == 2) {
             du = 7;
             J();
-            a(0, 3, 16, 12, 60, 14, 21, new String[]{"Cậu nhìn thấy chiếc xe máy kia không?", 
-                "Phải có bằng lái từ thầy chủ nhiệm bạn mới có thể chạy được."});
-            a(1, 4, 8, 12, 50, 2, 15, new String[]{"Thằng nhà quê kia, mày đi đâu đấy?"});
+            placeClassmate(0, 3, 16, 12, 60, 14, 21, DialogueText.villageClassmate0);
+            placeClassmate(1, 4, 8, 12, 50, 2, 15, DialogueText.villageClassmate1);
             if (Skills.transform) {
-                a(2, 6, 29, 13, 200, 27, 40, new String[]{"Ninja sát thủ là ta - Thiên hạ vô địch!"});
+                placeClassmate(2, 6, 29, 13, 200, 27, 40, DialogueText.villageClassmate2Assassin);
             } else {
-                a(2, 2, 29, 13, 200, 27, 40, new String[]{"Mày có thấy con chó của tao ở đâu không?"});
+                placeClassmate(2, 2, 29, 13, 200, 27, 40, DialogueText.villageClassmate2);
             }
 
-            a(3, 5, 46, 13, 200, 41, 49, new String[]{"Nếu bạn muốn lên kia thì phải học khinh công từ cô Ayumi đã."});
-            a(4, 1, 46, 11, 200, 43, 53, new String[]{"Cậu có thấy ở đây ai cũng tài giỏi không?", 
-                "Hãy cố gắng tập luyện hơn nữa nhé"});
-            a(5, 0, 54, 11, 200, 50, 58, new String[]{"Ra ngoài rừng hoa đào có rất nhiều điều thú vị đấy.", 
-                "Bạn nên ra thử một lần để biết."});
-            a(6, 6, 34, 13, 200, 28, 48, new String[]{"Đừng hỏi ta là ai...", 
-                "Ta chỉ là một ninja sát thủ thôi, ngươi biết thế là được rồi.", "Biến đi cho ta luyện tập."});
+            placeClassmate(3, 5, 46, 13, 200, 41, 49, DialogueText.villageClassmate3);
+            placeClassmate(4, 1, 46, 11, 200, 43, 53, DialogueText.villageClassmate4);
+            placeClassmate(5, 0, 54, 11, 200, 50, 58, DialogueText.villageClassmate5);
+            placeClassmate(6, 6, 34, 13, 200, 28, 48, DialogueText.villageClassmate6);
             y(7);
         }
 
@@ -3108,28 +2748,28 @@ public final class b extends Canvas implements Runnable {
         if (var0 == 99 || var0 == 101) {
             du = 7;
             J();
-            var1 = new String[]{"Này, cậu đi tìm con heo đó trước đi. Tớ đi theo bọc lót cho!"};
-            a(0, 0, 8, 13, 0, 0, 1000, var1);
-            a(1, 1, 5, 13, 0, 0, 1000, var1);
-            a(2, 6, 6, 13, 0, 0, 1000, var1);
-            a(3, 2, 7, 13, 0, 0, 1000, var1);
-            a(4, 4, 6, 13, 0, 0, 1000, var1);
-            a(5, 5, 5, 13, 0, 0, 1000, var1);
-            a(6, 3, 8, 13, 0, 0, 1000, var1);
+            var1 = DialogueText.tutorialClassmates;
+            placeClassmate(0, 0, 8, 13, 0, 0, 1000, var1);
+            placeClassmate(1, 1, 5, 13, 0, 0, 1000, var1);
+            placeClassmate(2, 6, 6, 13, 0, 0, 1000, var1);
+            placeClassmate(3, 2, 7, 13, 0, 0, 1000, var1);
+            placeClassmate(4, 4, 6, 13, 0, 0, 1000, var1);
+            placeClassmate(5, 5, 5, 13, 0, 0, 1000, var1);
+            placeClassmate(6, 3, 8, 13, 0, 0, 1000, var1);
             y(7);
         }
 
         if (var0 == 94) {
             du = 7;
             J();
-            var1 = new String[]{"Chúc mừng, sắp được ra trường rồi nhé!"};
-            a(0, 0, 5, 12, 0, 0, 1000, var1);
-            a(1, 1, 5, 12, 0, 0, 1000, var1);
-            a(2, 6, 6, 12, 0, 0, 1000, var1);
-            a(3, 7, 3, 12, 0, 0, 1000, var1);
-            a(4, 4, 6, 12, 0, 0, 1000, var1);
-            a(5, 5, 5, 12, 0, 0, 1000, var1);
-            a(6, 3, 8, 12, 0, 0, 1000, var1);
+            var1 = DialogueText.graduationClassmates;
+            placeClassmate(0, 0, 5, 12, 0, 0, 1000, var1);
+            placeClassmate(1, 1, 5, 12, 0, 0, 1000, var1);
+            placeClassmate(2, 6, 6, 12, 0, 0, 1000, var1);
+            placeClassmate(3, 7, 3, 12, 0, 0, 1000, var1);
+            placeClassmate(4, 4, 6, 12, 0, 0, 1000, var1);
+            placeClassmate(5, 5, 5, 12, 0, 0, 1000, var1);
+            placeClassmate(6, 3, 8, 12, 0, 0, 1000, var1);
             y(8);
         }
 
@@ -3151,7 +2791,7 @@ public final class b extends Canvas implements Runnable {
         dL = new int[du];
         dM = new int[du];
         dN = new int[du];
-        dv = new String[du][];
+        classmateLines = new String[du][];
     }
 
     private static void y(int var0) {
@@ -3170,7 +2810,7 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void a(int var0, int var1, int var2, int var3, int var4, int var5, int var6, String[] var7) {
+    private static void placeClassmate(int var0, int var1, int var2, int var3, int var4, int var5, int var6, String[] var7) {
         dz[var0] = var2 * 24 + (var0 << 2);
         dA[var0] = var3 * 24;
         dB[var0] = 0;
@@ -3186,7 +2826,7 @@ public final class b extends Canvas implements Runnable {
         dM[var0] = var5 * 24 + 12;
         dN[var0] = var6 * 24 + 12;
         dK[var0] = var4;
-        dv[var0] = var7;
+        classmateLines[var0] = var7;
     }
 
     private static void K() {
@@ -3487,7 +3127,7 @@ public final class b extends Canvas implements Runnable {
             hc = true;
             du = 1;
             J();
-            a(0, 2, 5, 11, 200, 4, 22, (String[])null);
+            placeClassmate(0, 2, 5, 11, 200, 4, 22, (String[])null);
             y(3);
             hh = 15000;
             hg = 15000;
@@ -5418,7 +5058,7 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 var1 -= 40;
-                                startDialogue(cutsceneLines[cutsceneScripts[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
+                                startDialogue(DialogueText.cutsceneLines[cutsceneScripts[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
                                 ++cutsceneStep;
                                 ga = true;
                             }
@@ -5520,7 +5160,7 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 15:
                             captionVisible = true;
-                            captionLines = FontGraph.wrapBoldText(cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], viewWidth - 40);
+                            captionLines = FontGraph.wrapBoldText(DialogueText.cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], viewWidth - 40);
                             if ((captionTargetY = (letterboxMaxHeight >> 1) - (captionLines.length << 3)) < 3) {
                                 captionTargetY = 2;
                             }
@@ -6995,7 +6635,7 @@ public final class b extends Canvas implements Runnable {
                     var1.drawImage(titleImage, screenCenterX, aY + bb >> 1, 3);
                     FontGraph.drawBold(var1, "*", screenCenterX - 50 - tick % 3, bd, 0);
                     FontGraph.drawBold(var1, "/", screenCenterX + 50 + tick % 3, bd, 1);
-                    FontGraph.drawBold(var1, aE[aX], screenCenterX, bd, 3);
+                    FontGraph.drawBold(var1, GameText.mainMenuItems[aX], screenCenterX, bd, 3);
                     return;
                 case GameState.LOGO:
                     var1.setColor(0);
@@ -7226,36 +6866,36 @@ public final class b extends Canvas implements Runnable {
                                         switch (npcTypes[var4]) {
                                             case 0:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(idleLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!Skills.lightness) {
                                                     setNextNpcMarker(2);
-                                                    startDialogue(questGiveLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
                                                     if (Skills.hide && !Story.gameCompleted) {
                                                         if (QuestState.current == Quest.RESCUE_SAKURA) {
                                                             if (Story.sakuraFound) {
-                                                                startDialogue(questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questReminderLines[14], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(idleLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 1:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(idleLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!Skills.lightness) {
                                                     if (QuestState.current == Quest.KILL_SNAILS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
-                                                            startDialogue(questReminderLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             var3 = true;
                                                             boolean var8 = true;
@@ -7265,129 +6905,129 @@ public final class b extends Canvas implements Runnable {
                                                             pendingMarkerNpc = 4;
                                                             pendingMarkerX = 1044;
                                                             pendingMarkerY = 240;
-                                                            startDialogue(questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (!Story.goldenBatQuestDone && Skills.transform) {
                                                     if (PlayerStats.level < 10) {
-                                                        startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
-                                                            startDialogue(questReminderLines[6], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             setNextNpcMarker(2);
-                                                            startDialogue(questRewardLines[6], QuestAction.REWARD_MONEY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (Story.girlOutingDone && !Skills.tripleJump) {
                                                     if (PlayerStats.level < 12) {
-                                                        startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (QuestState.current == Quest.AIR_HITS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
-                                                            startDialogue(questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             setNextNpcMarker(4);
-                                                            startDialogue(questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[17], QuestAction.START_AIR_HITS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (!Skills.sprint && Skills.dartsLevel2) {
                                                         if (PlayerStats.level < 15) {
-                                                            startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else if (QuestState.current == Quest.KILL_SCORPIONS) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
-                                                                startDialogue(questReminderLines[11], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 setNextNpcMarker(3);
-                                                                startDialogue(questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(idleLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 2:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!Skills.lightness) {
                                                     setNextNpcMarker(1);
-                                                    startDialogue(questGiveLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (Skills.burrow && !Skills.motorbikeLicense) {
                                                     if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
-                                                        startDialogue(questGiveLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
                                                     if (QuestState.current == Quest.FIGHT_TONIKU) {
                                                         if (Story.tonikuDefeated) {
                                                             setNextNpcMarker(2);
-                                                            startDialogue(questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questReminderLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (Story.tonikuQuestDone && !Story.girlWaiting) {
                                                         if (QuestState.current == Quest.KILL_NATIVES) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
-                                                                startDialogue(questReminderLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 setNextNpcMarker(3);
-                                                                startDialogue(questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(idleLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 3:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
                                                     if (Skills.lightness && Skills.darts) {
                                                         if (!Skills.burrow) {
                                                             if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(questReminderLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(2);
-                                                                    startDialogue(questRewardLines[2], QuestAction.REWARD_BURROW, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7395,33 +7035,33 @@ public final class b extends Canvas implements Runnable {
                                                         if (!Skills.dive && Skills.doubleStrength) {
                                                             if (QuestState.current == Quest.KILL_WILD_BOAR) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(questReminderLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(4);
-                                                                    startDialogue(questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
                                                         if (!Skills.standOnWater && Skills.sprint) {
                                                             if (PlayerStats.level < 16) {
-                                                                startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
                                                                 if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
-                                                                    startDialogue(questReminderLines[12], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(3);
-                                                                    startDialogue(questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7429,98 +7069,98 @@ public final class b extends Canvas implements Runnable {
                                                         if (!Skills.hide && Skills.standOnWater) {
                                                             if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(questReminderLines[13], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(0);
-                                                                    startDialogue(questRewardLines[13], QuestAction.REWARD_HIDE, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        startDialogue(idleLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         break;
                                                     }
 
-                                                    startDialogue(questGiveLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 4:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(idleLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (mapId == 99) {
-                                                    startDialogue(questGiveLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!Skills.lightness) {
-                                                    startDialogue(questGiveLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!Skills.darts) {
                                                     if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
-                                                            startDialogue(questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             setNextNpcMarker(3);
-                                                            startDialogue(questRewardLines[1], QuestAction.REWARD_DARTS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
                                                     if (QuestState.current == Quest.KILL_BEES) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
-                                                            startDialogue(questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             setNextNpcMarker(3);
-                                                            startDialogue(questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[11], QuestAction.START_KILL_BEES, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (Skills.dive && !Skills.transform) {
                                                     if (PlayerStats.level < 8) {
-                                                        startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (QuestState.current == Quest.CROSS_RIVER) {
                                                         if (!QuestState.itemFound) {
-                                                            startDialogue(questReminderLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             setNextNpcMarker(1);
-                                                            startDialogue(questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (!Skills.dartsLevel2 && Skills.tripleJump) {
                                                         if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
-                                                                startDialogue(questReminderLines[10], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 setNextNpcMarker(1);
-                                                                startDialogue(questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            startDialogue(questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(idleLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 5:
                                                 if (mapId == 0) {
                                                     if (var4 == 5) {
-                                                        startDialogue(guardLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     }
 
                                                     if (var4 == 6) {
@@ -7537,15 +7177,15 @@ public final class b extends Canvas implements Runnable {
                                                 }
 
                                                 if (mapId == 1 && var4 == 0) {
-                                                    startDialogue(guardLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
 
                                                 if (mapId == 5 && var4 == 0) {
-                                                    startDialogue(guardLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
 
                                                 if (mapId == 6 && var4 == 0) {
-                                                    startDialogue(guardLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                         }
 
@@ -7555,18 +7195,18 @@ public final class b extends Canvas implements Runnable {
                                     } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
                                         Input.clearPressed();
                                         dJ[fE] = -fm;
-                                        startDialogue(dv[fE], QuestAction.TALK, dz[fE], dA[fE] - 44);
+                                        startDialogue(classmateLines[fE], QuestAction.TALK, dz[fE], dA[fE] - 44);
                                     } else if (rightSoftKeyLabel.equals("Nói chuyện") && fB) {
                                         if (gk) {
-                                            startDialogue(girlLines[0], QuestAction.TALK, gn, go - 44);
+                                            startDialogue(DialogueText.girlLines[0], QuestAction.TALK, gn, go - 44);
                                         } else if (Story.girlOutingDone) {
-                                            startDialogue(girlLines[2], QuestAction.TALK, gn, go - 44);
+                                            startDialogue(DialogueText.girlLines[2], QuestAction.TALK, gn, go - 44);
                                             gk = true;
                                         } else if (Story.girlWaiting) {
-                                            startDialogue(girlLines[3], QuestAction.START_GIRL_OUTING, gn, go - 44);
+                                            startDialogue(DialogueText.girlLines[3], QuestAction.START_GIRL_OUTING, gn, go - 44);
                                             Story.girlWaiting = false;
                                         } else {
-                                            startDialogue(girlLines[1], QuestAction.TALK, gn, go - 44);
+                                            startDialogue(DialogueText.girlLines[1], QuestAction.TALK, gn, go - 44);
                                         }
                                     }
                                 } else {
@@ -9371,14 +9011,14 @@ public final class b extends Canvas implements Runnable {
 
                     if (Input.pressed[Input.KEY_LEFT]) {
                         if (--aX < 0) {
-                            aX = aE.length - 1;
+                            aX = GameText.mainMenuItems.length - 1;
                         }
 
                         Input.pressed[Input.KEY_LEFT] = false;
                     }
 
                     if (Input.pressed[Input.KEY_RIGHT]) {
-                        if (++aX == aE.length) {
+                        if (++aX == GameText.mainMenuItems.length) {
                             aX = 0;
                         }
 
@@ -10287,7 +9927,7 @@ public final class b extends Canvas implements Runnable {
 
         if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == jI[var0]) {
             ++QuestState.progress;
-            showNotice(monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
+            showNotice(GameText.monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
         }
 
         if (jI[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
