@@ -16,7 +16,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 public final class b extends Canvas implements Runnable {
-    public static boolean a = true;
+    public static boolean lowGraphics = true;
     private static int frameDurationMs = 40;
     private static int[] ab = new int[]{150, 180, 180, 300, 350, 380, 500};
     private static int[] ac = new int[]{20, 30, 40, 100, 80, 120, 200};
@@ -420,7 +420,7 @@ public final class b extends Canvas implements Runnable {
     private static Image[] slashEffects;
     private static Image[] weaponIcons;
     private static Image[] waterSplashSprites;
-    public static int w;
+    public static int mapId;
     public static int tick;
     private static boolean eE;
     private static boolean eF;
@@ -653,38 +653,25 @@ public final class b extends Canvas implements Runnable {
     private static Image waterfallImage;
     private static Image waterSurfaceImage;
     private static Image[] houseImages;
-    private static int iX;
-    private static int[] iY;
-    private static int[] iZ;
-    private static int[] ja;
-    private static int[] jb;
-    private static int[] jc;
+    private static int houseCount;
+    private static int[] houseTypes;
+    private static int[] houseX;
+    private static int[] houseY;
+    private static int[] houseHalfWidth;
+    private static int[] houseHeight;
     private static Image bushImage;
     private static int jf;
     private static int jg;
     private static int jh;
     private static int ji;
-    private static String[] jj;
-    private static int[] jk;
-    private static int[] jl;
-    private static int[] jm;
-    private static int jn;
-    private static int jo;
-    private static int jp;
-    private static int jq;
-    private static int jr;
-    private static int js;
-    private static int jt;
-    private static int ju;
-    private static int jv;
-    private static int jw;
-    private static int jx;
-    private static int jy;
-    private static int jz;
-    private static int jA;
-    static int S;
+    private static String[] signTexts;
+    private static int[] signX;
+    private static int[] signY;
+    private static int[] signWidth;
+    private static int signCount;
+    static int loadingTarget;
     private static int jB;
-    static int T;
+    static int loadingProgress;
     private static Image logoImage;
     private static int jD;
     private static int jE;
@@ -783,10 +770,10 @@ public final class b extends Canvas implements Runnable {
     private static String messageRightLabel;
     private static String[] messageLines;
     private static Image[][] npcSprites;
-    private static int lt;
-    private static int[] lu;
-    private static int[] lv;
-    private static int[] lw;
+    private static int npcCount;
+    private static int[] npcX;
+    private static int[] npcY;
+    private static int[] npcTypes;
     private static String[][] lx;
     private static String[][] ly;
     private static String[][] lz;
@@ -876,9 +863,9 @@ public final class b extends Canvas implements Runnable {
         ij = -1;
         ir = -1;
         iz = false;
-        S = 0;
+        loadingTarget = 0;
         jB = 0;
-        T = 0;
+        loadingProgress = 0;
         kl = null;
         km = new int[]{0, 10, 15, 20};
         ks = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
@@ -1162,7 +1149,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[0] = gL;
         ++var2;
-        var1[1] = w;
+        var1[1] = mapId;
         ++var2;
         var1[2] = tick;
         ++var2;
@@ -1411,7 +1398,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         gL = var0[0];
         ++var2;
-        w = var0[1];
+        mapId = var0[1];
         ++var2;
         tick = var0[2];
         ++var2;
@@ -2250,7 +2237,7 @@ public final class b extends Canvas implements Runnable {
         return -1;
     }
 
-    private static void B() {
+    private static void releaseMapResources() {
         npcSprites = null;
         System.gc();
         motorbikeFrames = null;
@@ -2981,7 +2968,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     public static final void l() {
-        if (!a) {
+        if (!lowGraphics) {
             if (dustSprites == null) {
                 dustSprites = new Image[2][5];
 
@@ -3038,11 +3025,11 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void x(int var0) {
+    private static void changeMap(int var0) {
         state = GameState.LOADING;
-        w = var0;
+        mapId = var0;
         Midlet.nextGameState = GameState.PLAYING;
-        aj();
+        resetLoadingProgress();
         (new Thread(Midlet.instance)).start();
     }
 
@@ -3254,9 +3241,9 @@ public final class b extends Canvas implements Runnable {
 
     private static void K() {
         state = GameState.LOADING;
-        aj();
+        resetLoadingProgress();
         Midlet.nextGameState = GameState.MAIN_MENU;
-        w = 99;
+        mapId = 99;
 
         try {
             titleImage = Ui.loadTitle();
@@ -3689,7 +3676,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     public static final void r() {
-        if (!a) {
+        if (!lowGraphics) {
             waterSplashSprites = new Image[3];
 
             for(int var0 = 0; var0 < 3; ++var0) {
@@ -3782,7 +3769,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void a(Graphics var0) {
         int var1;
-        if (c && !a) {
+        if (c && !lowGraphics) {
             var0.setColor(j);
             var0.fillRect(0, 0, viewWidth, q);
 
@@ -3811,7 +3798,7 @@ public final class b extends Canvas implements Runnable {
         } else {
             var0.setColor(j);
             var0.fillRect(0, 0, viewWidth, viewHeight);
-            if (!a) {
+            if (!lowGraphics) {
                 var0.drawImage(v, h, i, 3);
 
                 for(var1 = 0; var1 < 2; ++var1) {
@@ -3979,14 +3966,14 @@ public final class b extends Canvas implements Runnable {
         }
 
         var0.setColor(16777215);
-        if (a) {
+        if (lowGraphics) {
             var0.fillRect(iK, var1 - 5, iJ, (iA << 4) + 7);
         } else {
             var0.fillRoundRect(iK, var1 - 5, iJ, (iA << 4) + 7, 10, 10);
         }
 
         var0.setColor(17408);
-        if (a) {
+        if (lowGraphics) {
             var0.drawRect(iK - 1, var1 - 5, iJ + 1, (iA << 4) + 7);
         } else {
             var0.drawRoundRect(iK - 1, var1 - 5, iJ + 1, (iA << 4) + 7, 10, 10);
@@ -4039,16 +4026,16 @@ public final class b extends Canvas implements Runnable {
         var0.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
         a(var0);
         var0.translate(-cameraX, -cameraY);
-        if (a) {
+        if (lowGraphics) {
             j(var0);
         } else {
             k(var0);
         }
 
-        i(var0);
+        drawSigns(var0);
         g(var0);
         b(var0);
-        r(var0);
+        drawNpcs(var0);
         l(var0);
         e(var0);
         if (iz) {
@@ -4174,7 +4161,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static boolean e(int var0, int var1, int var2) {
-        if (a) {
+        if (lowGraphics) {
             return false;
         } else {
             var0 = var0 == 1 ? 0 : 1;
@@ -4262,7 +4249,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static boolean g(int var0, int var1) {
-        if (a) {
+        if (lowGraphics) {
             return false;
         } else {
             int var2 = ch[0] == -1 ? 0 : 1;
@@ -4363,7 +4350,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (gm == w && gr == 1 && ff == go && a(fe - gn) < 30) {
+                if (gm == mapId && gr == 1 && ff == go && a(fe - gn) < 30) {
                     p = "Nói chuyện";
                     d = true;
                     fB = true;
@@ -4372,11 +4359,11 @@ public final class b extends Canvas implements Runnable {
                 var0 = 0;
 
                 while(true) {
-                    if (var0 >= lt) {
+                    if (var0 >= npcCount) {
                         break label788;
                     }
 
-                    if (ff == lv[var0] && a(fe - lu[var0]) < 30 && fD == -1) {
+                    if (ff == npcY[var0] && a(fe - npcX[var0]) < 30 && fD == -1) {
                         p = "Giao tiếp";
                         d = true;
                         fD = var0;
@@ -5313,7 +5300,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static final void S() {
-        if (!a) {
+        if (!lowGraphics) {
             if (GameMap.hasFlag(fe, ff + 1, TileFlags.BRIDGE)) {
                 GameMap.pressBridge(fe, ff + 1);
                 GameMap.pressBridge(fe, ff - 2);
@@ -5516,8 +5503,8 @@ public final class b extends Canvas implements Runnable {
                                         var1 = ff;
                                         break;
                                     case 1:
-                                        var0 = lu[aC[az[fT][fU]]];
-                                        var1 = lv[aC[az[fT][fU]]];
+                                        var0 = npcX[aC[az[fT][fU]]];
+                                        var1 = npcY[aC[az[fT][fU]]];
                                         break;
                                     case 2:
                                         var0 = dz[aC[az[fT][fU]]];
@@ -5536,7 +5523,7 @@ public final class b extends Canvas implements Runnable {
                             }
                             break;
                         case 5:
-                            a(w, az[fT][fU], ff - 50, -1);
+                            a(mapId, az[fT][fU], ff - 50, -1);
                             ++fU;
                             break;
                         case 6:
@@ -5646,11 +5633,11 @@ public final class b extends Canvas implements Runnable {
                             ++fU;
                             break;
                         case 17:
-                            fp = fe = ju;
-                            fq = ff = jv;
-                            B();
+                            fp = fe = MapExits.rightSpawnX;
+                            fq = ff = MapExits.rightSpawnY;
+                            releaseMapResources();
                             Save.pendingSave = true;
-                            x(az[fT][fU]);
+                            changeMap(az[fT][fU]);
                             return true;
                         case 18:
                             V(az[fT][fU]);
@@ -5671,7 +5658,7 @@ public final class b extends Canvas implements Runnable {
                             P = -1;
                             eM = true;
                             b("nhận bằng lái môtô");
-                            a(0, lu[4], lv[4] - 40, 4);
+                            a(0, npcX[4], npcY[4] - 40, 4);
                             ++fU;
                             break;
                         case 22:
@@ -6740,22 +6727,22 @@ public final class b extends Canvas implements Runnable {
                     var1 = var1;
 
                     int var2;
-                    for(var2 = 0; var2 < iX; ++var2) {
-                        if (iZ[var2] + jb[var2] >= cameraX && iZ[var2] - jb[var2] <= cameraX + viewWidth && ja[var2] >= cameraY && ja[var2] - jc[var2] <= cameraY + viewHeight) {
-                            jg = (jf = iZ[var2] - cameraX) - viewCenterX;
+                    for(var2 = 0; var2 < houseCount; ++var2) {
+                        if (houseX[var2] + houseHalfWidth[var2] >= cameraX && houseX[var2] - houseHalfWidth[var2] <= cameraX + viewWidth && houseY[var2] >= cameraY && houseY[var2] - houseHeight[var2] <= cameraY + viewHeight) {
+                            jg = (jf = houseX[var2] - cameraX) - viewCenterX;
                             jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
-                            var1.drawImage(houseImages[iY[var2]], cameraX + jh, ja[var2], 33);
+                            var1.drawImage(houseImages[houseTypes[var2]], cameraX + jh, houseY[var2], 33);
                         }
                     }
 
-                    if (a) {
+                    if (lowGraphics) {
                         j(var6);
                     } else {
                         k(var6);
                     }
 
-                    i(var6);
-                    r(var6);
+                    drawSigns(var6);
+                    drawNpcs(var6);
                     if (hJ) {
                         if (hY < 0) {
                             var6.drawImage(boss1Sprites[0], hP, hQ, 33);
@@ -6971,7 +6958,7 @@ public final class b extends Canvas implements Runnable {
                     var6.drawImage(auraSprites[var2], dV, dW, 17);
                 }
 
-                if (gm == w) {
+                if (gm == mapId) {
                     if (gz == 1) {
                         var6.drawImage(girlHeads[aq[gs][0][0]], gn + aq[gs][0][1], go - aq[gs][0][2], 0);
                         var6.drawImage(girlLegs[aq[gs][1][0]], gn + aq[gs][1][1], go - aq[gs][1][2], 0);
@@ -7007,7 +6994,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 var1 = var6;
-                if (!a) {
+                if (!lowGraphics) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (cl[var2] != -1) {
                             var1.drawImage(dustSprites[var2][cl[var2]], cj[var2], ck[var2], 3);
@@ -7040,7 +7027,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 var1 = var6;
-                if (!a) {
+                if (!lowGraphics) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (ch[var2] != -1) {
                             var1.drawImage(waterSplashSprites[ci[var2]], cf[var2], cg[var2], 3);
@@ -7057,7 +7044,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (gb == w) {
+                if (gb == mapId) {
                     var6.drawImage(arrowIcons[ge], gf, gg, 3);
                 }
 
@@ -7090,19 +7077,19 @@ public final class b extends Canvas implements Runnable {
                 case GameState.LOADING:
                     var1.setColor(0);
                     var1.fillRect(0, 0, screenWidth, 21);
-                    FontGraph.drawBold(var1, "Loading... " + T + "%", screenWidth >> 1, 4, 2);
+                    FontGraph.drawBold(var1, "Loading... " + loadingProgress + "%", screenWidth >> 1, 4, 2);
                     return;
                 case GameState.MAIN_MENU:
                     var1.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
                     a(var1);
                     var1.translate(-cameraX, -cameraY);
-                    if (a) {
+                    if (lowGraphics) {
                         j(var1);
                     } else {
                         k(var1);
                     }
 
-                    i(var1);
+                    drawSigns(var1);
                     l(var1);
                     var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
                     var1.setColor(0);
@@ -7200,17 +7187,17 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (fe < 0) {
-                        if (jo != -1) {
-                            B();
-                            fp = fe = js - 1;
-                            fq = ff = jt;
+                        if (MapExits.leftMap != MapExits.NONE) {
+                            releaseMapResources();
+                            fp = fe = MapExits.leftSpawnX - 1;
+                            fq = ff = MapExits.leftSpawnY;
                             Save.pendingSave = true;
-                            x(jo);
+                            changeMap(MapExits.leftMap);
                             break;
                         }
                     } else if (fe >= GameMap.pixelWidth - 24) {
-                        if (jp != -1) {
-                            if (!eZ && jp == 95) {
+                        if (MapExits.rightMap != MapExits.NONE) {
+                            if (!eZ && MapExits.rightMap == 95) {
                                 showMessage(MessageType.LEVEL_UP);
                                 setMessageText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
                                 fe = GameMap.pixelWidth - 60;
@@ -7219,27 +7206,27 @@ public final class b extends Canvas implements Runnable {
                                 break;
                             }
 
-                            B();
-                            if (jq != -1 && ff > jA) {
-                                fp = fe = jw;
-                                fq = ff = jx;
+                            releaseMapResources();
+                            if (MapExits.rightLowerMap != MapExits.NONE && ff > MapExits.rightLowerMinY) {
+                                fp = fe = MapExits.rightLowerSpawnX;
+                                fq = ff = MapExits.rightLowerSpawnY;
                                 Save.pendingSave = true;
-                                x(jq);
+                                changeMap(MapExits.rightLowerMap);
                                 break;
                             }
 
-                            fp = fe = ju;
-                            fq = ff = jv;
+                            fp = fe = MapExits.rightSpawnX;
+                            fq = ff = MapExits.rightSpawnY;
                             Save.pendingSave = true;
-                            x(jp);
+                            changeMap(MapExits.rightMap);
                             break;
                         }
-                    } else if (ff + A >= GameMap.pixelHeight && B != 6 && jr != -1) {
-                        B();
-                        fp = fe = jy;
-                        fq = ff = jz;
+                    } else if (ff + A >= GameMap.pixelHeight && B != 6 && MapExits.bottomMap != MapExits.NONE) {
+                        releaseMapResources();
+                        fp = fe = MapExits.bottomSpawnX;
+                        fq = ff = MapExits.bottomSpawnY;
                         Save.pendingSave = true;
-                        x(jr);
+                        changeMap(MapExits.bottomMap);
                         B = 4;
                         break;
                     }
@@ -7251,7 +7238,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     int var13;
-                    if (!a) {
+                    if (!lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (tick % (var13 + 2 << 3) == 0) {
                                 var10002 = f[var13]++;
@@ -7349,39 +7336,39 @@ public final class b extends Canvas implements Runnable {
                                     Input.clearPressed();
                                     if (p.equals("Giao tiếp")) {
                                         var4 = fD;
-                                        switch (lw[var4]) {
+                                        switch (npcTypes[var4]) {
                                             case 0:
                                                 if (fb) {
-                                                    a(lB[7], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[7], -1, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
                                                     V(2);
-                                                    a(ly[0], -1, lu[var4], lv[var4] - 40);
+                                                    a(ly[0], -1, npcX[var4], npcY[var4] - 40);
                                                 } else {
                                                     if (eZ && !fa) {
                                                         if (P == 16) {
                                                             if (eH) {
-                                                                a(lz[14], 35, lu[var4], lv[var4] - 40);
+                                                                a(lz[14], 35, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lA[14], -1, lu[var4], lv[var4] - 40);
+                                                                a(lA[14], -1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[22], 36, lu[var4], lv[var4] - 40);
+                                                            a(ly[22], 36, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[1], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[1], -1, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 1:
                                                 if (fb) {
-                                                    a(lB[5], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[5], -1, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
                                                     if (P == 0) {
                                                         if (fC < lE[0]) {
-                                                            a(lA[0], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[0], -1, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             var3 = true;
                                                             boolean var8 = true;
@@ -7391,129 +7378,129 @@ public final class b extends Canvas implements Runnable {
                                                             lJ = 4;
                                                             lH = 1044;
                                                             lI = 240;
-                                                            a(lz[0], 4, lu[var4], lv[var4] - 40);
+                                                            a(lz[0], 4, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[1], 3, lu[var4], lv[var4] - 40);
+                                                        a(ly[1], 3, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (!eR && eQ) {
                                                     if (PlayerStats.level < 10) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, -1, lu[var4], lv[var4] - 40);
+                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, -1, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == 7) {
                                                         if (fC < lE[7]) {
-                                                            a(lA[6], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[6], -1, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(2);
-                                                            a(lz[6], 19, lu[var4], lv[var4] - 40);
+                                                            a(lz[6], 19, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[14], 18, lu[var4], lv[var4] - 40);
+                                                        a(ly[14], 18, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eU && !eV) {
                                                     if (PlayerStats.level < 12) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, -1, lu[var4], lv[var4] - 40);
+                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, -1, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == 11) {
                                                         if (fC < 20) {
-                                                            a(lA[9], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[9], -1, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(4);
-                                                            a(lz[9], 27, lu[var4], lv[var4] - 40);
+                                                            a(lz[9], 27, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[17], 28, lu[var4], lv[var4] - 40);
+                                                        a(ly[17], 28, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (!eX && eW) {
                                                         if (PlayerStats.level < 15) {
-                                                            a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, -1, lu[var4], lv[var4] - 40);
+                                                            a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, -1, npcX[var4], npcY[var4] - 40);
                                                         } else if (P == 13) {
                                                             if (fC < lE[13]) {
-                                                                a(lA[11], -1, lu[var4], lv[var4] - 40);
+                                                                a(lA[11], -1, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 V(3);
-                                                                a(lz[11], 31, lu[var4], lv[var4] - 40);
+                                                                a(lz[11], 31, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[19], 32, lu[var4], lv[var4] - 40);
+                                                            a(ly[19], 32, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[0], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[0], -1, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 2:
                                                 if (fb) {
-                                                    a(lB[9], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[9], -1, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
                                                     V(1);
-                                                    a(ly[2], -1, lu[var4], lv[var4] - 40);
+                                                    a(ly[2], -1, npcX[var4], npcY[var4] - 40);
                                                 } else if (eL && !eM) {
                                                     if (P == 3) {
-                                                        a(ly[9], -1, lu[var4], lv[var4] - 40);
+                                                        a(ly[9], -1, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == -1) {
-                                                        a(ly[10], 11, lu[var4], lv[var4] - 40);
+                                                        a(ly[10], 11, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eR && !eS) {
                                                     if (P == 8) {
                                                         if (eG) {
                                                             V(2);
-                                                            a(lz[7], 23, lu[var4], lv[var4] - 40);
+                                                            a(lz[7], 23, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lA[7], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[7], -1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[15], 22, lu[var4], lv[var4] - 40);
+                                                        a(ly[15], 22, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (eS && !eT) {
                                                         if (P == 9) {
                                                             if (fC < lE[9]) {
-                                                                a(lA[8], -1, lu[var4], lv[var4] - 40);
+                                                                a(lA[8], -1, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 V(3);
-                                                                a(lz[8], 25, lu[var4], lv[var4] - 40);
+                                                                a(lz[8], 25, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[16], 24, lu[var4], lv[var4] - 40);
+                                                            a(ly[16], 24, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[3], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[3], -1, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 3:
                                                 if (fb) {
-                                                    a(lB[9], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[9], -1, npcX[var4], npcY[var4] - 40);
                                                 } else {
                                                     if (eI && eK) {
                                                         if (!eL) {
                                                             if (P == 2) {
                                                                 if (!fA) {
-                                                                    a(lA[2], -1, lu[var4], lv[var4] - 40);
+                                                                    a(lA[2], -1, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(2);
-                                                                    a(lz[2], 10, lu[var4], lv[var4] - 40);
+                                                                    a(lz[2], 10, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[8], 9, lu[var4], lv[var4] - 40);
+                                                                a(ly[8], 9, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7521,33 +7508,33 @@ public final class b extends Canvas implements Runnable {
                                                         if (!eO && eN) {
                                                             if (P == 5) {
                                                                 if (!fA) {
-                                                                    a(lA[4], -1, lu[var4], lv[var4] - 40);
+                                                                    a(lA[4], -1, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(4);
-                                                                    a(lz[4], 15, lu[var4], lv[var4] - 40);
+                                                                    a(lz[4], 15, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[12], 14, lu[var4], lv[var4] - 40);
+                                                                a(ly[12], 14, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
                                                         if (!eY && eX) {
                                                             if (PlayerStats.level < 16) {
-                                                                a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, -1, lu[var4], lv[var4] - 40);
+                                                                a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, -1, npcX[var4], npcY[var4] - 40);
                                                             } else if (P == 14) {
                                                                 if (fC < lE[14]) {
-                                                                    a(lA[12], -1, lu[var4], lv[var4] - 40);
+                                                                    a(lA[12], -1, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(3);
-                                                                    a(lz[12], 33, lu[var4], lv[var4] - 40);
+                                                                    a(lz[12], 33, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[20], 34, lu[var4], lv[var4] - 40);
+                                                                a(ly[20], 34, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7555,98 +7542,98 @@ public final class b extends Canvas implements Runnable {
                                                         if (!eZ && eY) {
                                                             if (P == 15) {
                                                                 if (!fA) {
-                                                                    a(lA[13], -1, lu[var4], lv[var4] - 40);
+                                                                    a(lA[13], -1, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(0);
-                                                                    a(lz[13], 21, lu[var4], lv[var4] - 40);
+                                                                    a(lz[13], 21, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[21], 20, lu[var4], lv[var4] - 40);
+                                                                a(ly[21], 20, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        a(lB[4], -1, lu[var4], lv[var4] - 40);
+                                                        a(lB[4], -1, npcX[var4], npcY[var4] - 40);
                                                         break;
                                                     }
 
-                                                    a(ly[5], -1, lu[var4], lv[var4] - 40);
+                                                    a(ly[5], -1, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 4:
                                                 if (fb) {
-                                                    a(lB[8], -1, lu[var4], lv[var4] - 40);
-                                                } else if (w == 99) {
-                                                    a(ly[7], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[8], -1, npcX[var4], npcY[var4] - 40);
+                                                } else if (mapId == 99) {
+                                                    a(ly[7], -1, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
-                                                    a(ly[4], -1, lu[var4], lv[var4] - 40);
+                                                    a(ly[4], -1, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eK) {
                                                     if (P == 1) {
                                                         if (fC < lE[1]) {
-                                                            a(lA[3], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[3], -1, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(3);
-                                                            a(lz[1], 6, lu[var4], lv[var4] - 40);
+                                                            a(lz[1], 6, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[6], 5, lu[var4], lv[var4] - 40);
+                                                        a(ly[6], 5, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eM && !eN) {
                                                     if (P == 4) {
                                                         if (fC < lE[4]) {
-                                                            a(lA[3], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[3], -1, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(3);
-                                                            a(lz[3], 12, lu[var4], lv[var4] - 40);
+                                                            a(lz[3], 12, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[11], 13, lu[var4], lv[var4] - 40);
+                                                        a(ly[11], 13, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eO && !eQ) {
                                                     if (PlayerStats.level < 8) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, -1, lu[var4], lv[var4] - 40);
+                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, -1, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == 6) {
                                                         if (!fA) {
-                                                            a(lA[5], -1, lu[var4], lv[var4] - 40);
+                                                            a(lA[5], -1, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(1);
-                                                            a(lz[5], 17, lu[var4], lv[var4] - 40);
+                                                            a(lz[5], 17, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[13], 16, lu[var4], lv[var4] - 40);
+                                                        a(ly[13], 16, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (!eW && eV) {
                                                         if (P == 12) {
                                                             if (fC < lE[12]) {
-                                                                a(lA[10], -1, lu[var4], lv[var4] - 40);
+                                                                a(lA[10], -1, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 V(1);
-                                                                a(lz[10], 29, lu[var4], lv[var4] - 40);
+                                                                a(lz[10], 29, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[18], 30, lu[var4], lv[var4] - 40);
+                                                            a(ly[18], 30, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[2], -1, lu[var4], lv[var4] - 40);
+                                                    a(lB[2], -1, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 5:
-                                                if (w == 0) {
+                                                if (mapId == 0) {
                                                     if (var4 == 5) {
-                                                        a(lx[0], -1, lu[var4], lv[var4] - 40);
+                                                        a(lx[0], -1, npcX[var4], npcY[var4] - 40);
                                                     }
 
                                                     if (var4 == 6) {
@@ -7656,26 +7643,26 @@ public final class b extends Canvas implements Runnable {
                                                     }
                                                 }
 
-                                                if (w == 2 && var4 == 0) {
+                                                if (mapId == 2 && var4 == 0) {
                                                     openShop();
                                                     state = GameState.SHOP;
                                                     kr = 1;
                                                 }
 
-                                                if (w == 1 && var4 == 0) {
-                                                    a(lx[1], -1, lu[var4], lv[var4] - 40);
+                                                if (mapId == 1 && var4 == 0) {
+                                                    a(lx[1], -1, npcX[var4], npcY[var4] - 40);
                                                 }
 
-                                                if (w == 5 && var4 == 0) {
-                                                    a(lx[2], -1, lu[var4], lv[var4] - 40);
+                                                if (mapId == 5 && var4 == 0) {
+                                                    a(lx[2], -1, npcX[var4], npcY[var4] - 40);
                                                 }
 
-                                                if (w == 6 && var4 == 0) {
-                                                    a(lx[3], -1, lu[var4], lv[var4] - 40);
+                                                if (mapId == 6 && var4 == 0) {
+                                                    a(lx[3], -1, npcX[var4], npcY[var4] - 40);
                                                 }
                                         }
 
-                                        if (w == gb && var4 == gj) {
+                                        if (mapId == gb && var4 == gj) {
                                             gb = -1;
                                         }
                                     } else if (p.equals("Trò chuyện")) {
@@ -8249,7 +8236,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (!a) {
+                    if (!lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (ch[var13] != -1) {
                                 var10002 = cg[var13]--;
@@ -8265,7 +8252,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (!a) {
+                    if (!lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (cl[var13] != -1) {
                                 var10002 = cl[var13]++;
@@ -8481,7 +8468,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     R();
-                    if (gm == w) {
+                    if (gm == mapId) {
                         try {
                             switch (gr) {
                                 case 1:
@@ -9486,8 +9473,8 @@ public final class b extends Canvas implements Runnable {
                 }
                 break;
                 case GameState.LOADING:
-                    if (T < S) {
-                        T += 5;
+                    if (loadingProgress < loadingTarget) {
+                        loadingProgress += 5;
                     }
                     break;
                 case GameState.MAIN_MENU:
@@ -9516,20 +9503,20 @@ public final class b extends Canvas implements Runnable {
                             Input.clearPressed();
                             if (aX == 0) {
                                 titleImage = null;
-                                B();
+                                releaseMapResources();
                                 Save.pendingSave = true;
                                 gM = System.currentTimeMillis();
-                                x(99);
+                                changeMap(99);
                             } else if (aX == 1) {
                                 if (!Save.isSaved()) {
                                     break label2172;
                                 }
 
                                 titleImage = null;
-                                B();
+                                releaseMapResources();
                                 int[] var12;
                                 gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
-                                w = var12[1];
+                                mapId = var12[1];
                                 tick = var12[2];
                                 eE = var12[3] == 1;
                                 dd = var12[4];
@@ -9545,14 +9532,14 @@ public final class b extends Canvas implements Runnable {
                                 eW = var12[14] == 1;
                                 Save.pendingLoad = true;
                                 gM = System.currentTimeMillis();
-                                x(w);
+                                changeMap(mapId);
                             } else if (aX == 2) {
                                 titleImage = null;
-                                B();
+                                releaseMapResources();
                                 state = GameState.LOADING;
-                                aj();
+                                resetLoadingProgress();
                                 Midlet.nextGameState = GameState.TUTORIAL;
-                                w = 101;
+                                mapId = 101;
                                 (new Thread(Midlet.instance)).start();
                             } else if (aX == 3) {
                                 try {
@@ -9649,7 +9636,7 @@ public final class b extends Canvas implements Runnable {
                     if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         var3 = true;
                         cornerIcons = null;
-                        ah();
+                        ensureMapImages();
                         state = GameState.PLAYING;
                         d = true;
                     } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
@@ -9683,7 +9670,7 @@ public final class b extends Canvas implements Runnable {
                         if (gameMenuSelection == 2) {
                             if (B != 1) {
                                 cornerIcons = null;
-                                ah();
+                                ensureMapImages();
                                 prepareDialog();
                                 showMessage(MessageType.GAME_NOTICE);
                                 setMessageText("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
@@ -9750,7 +9737,7 @@ public final class b extends Canvas implements Runnable {
                     if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         ar();
                         cornerIcons = null;
-                        ah();
+                        ensureMapImages();
                         state = GameState.PLAYING;
                         Input.clearPressed();
                         Input.clearHeld();
@@ -9815,12 +9802,12 @@ public final class b extends Canvas implements Runnable {
                                     dd -= travelCost;
                                     ar();
                                     cornerIcons = null;
-                                    ah();
-                                    B();
+                                    ensureMapImages();
+                                    releaseMapResources();
                                     fp = fe = kP[worldMapCursor] * 24;
                                     fq = ff = kQ[worldMapCursor] * 24;
                                     Save.pendingSave = true;
-                                    x(worldMapCursor);
+                                    changeMap(worldMapCursor);
                                 }
                                 break;
                             case MessageType.GAME_NOTICE:
@@ -9952,7 +9939,7 @@ public final class b extends Canvas implements Runnable {
                         cornerIcons = null;
                         shopSwordIcons = null;
                         System.gc();
-                        ah();
+                        ensureMapImages();
                         Input.clearPressed();
                         Input.clearHeld();
                         state = GameState.PLAYING;
@@ -10015,7 +10002,7 @@ public final class b extends Canvas implements Runnable {
                         if (ll == 0) {
                             Sound.disabled = false;
                         } else {
-                            a = false;
+                            lowGraphics = false;
                         }
 
                         var3 = true;
@@ -10023,7 +10010,7 @@ public final class b extends Canvas implements Runnable {
                         if (ll == 0) {
                             Sound.disabled = true;
                         } else {
-                            a = true;
+                            lowGraphics = true;
                         }
 
                         var3 = true;
@@ -10064,111 +10051,111 @@ public final class b extends Canvas implements Runnable {
         Midlet.instance.notifyDestroyed();
     }
 
-    public static void o(int var0) {
-        jn = 0;
+    public static void setupSigns(int var0) {
+        signCount = 0;
         if (var0 == 0) {
-            jn = 16;
-            af();
-            a(0, "Bộ môn Khí", 1044, 336);
-            a(1, "Cô Ayumi", 1044, 347);
-            a(2, "Phòng chủ nhiệm", 1212, 336);
-            a(3, "Thầy Takanashi", 1212, 347);
-            a(4, "Phòng", 1380, 336);
-            a(5, "đào tạo", 1380, 347);
-            a(6, "Phòng", 1212, 216);
-            a(7, "Hiệu trưởng", 1212, 227);
-            a(8, "Bộ môn Lực", 1044, 216);
-            a(9, "Thầy Hiroyaki", 1044, 227);
-            a(10, "Bộ môn Thuật", 1380, 216);
-            a(11, "Thầy Honda", 1380, 227);
-            a(12, "Kí Túc Xá", 444, 341);
-            a(13, "* Khu luyện tập", 72, 341);
-            a(14, "Cổng /", 1860, 317);
-            a(15, "Bán HP-MP", 612, 341);
+            signCount = 16;
+            allocSigns();
+            placeSign(0, "Bộ môn Khí", 1044, 336);
+            placeSign(1, "Cô Ayumi", 1044, 347);
+            placeSign(2, "Phòng chủ nhiệm", 1212, 336);
+            placeSign(3, "Thầy Takanashi", 1212, 347);
+            placeSign(4, "Phòng", 1380, 336);
+            placeSign(5, "đào tạo", 1380, 347);
+            placeSign(6, "Phòng", 1212, 216);
+            placeSign(7, "Hiệu trưởng", 1212, 227);
+            placeSign(8, "Bộ môn Lực", 1044, 216);
+            placeSign(9, "Thầy Hiroyaki", 1044, 227);
+            placeSign(10, "Bộ môn Thuật", 1380, 216);
+            placeSign(11, "Thầy Honda", 1380, 227);
+            placeSign(12, "Kí Túc Xá", 444, 341);
+            placeSign(13, "* Khu luyện tập", 72, 341);
+            placeSign(14, "Cổng /", 1860, 317);
+            placeSign(15, "Bán HP-MP", 612, 341);
         } else if (var0 == 1) {
-            jn = 2;
-            af();
-            a(0, "Trường /", 1356, 173);
-            a(1, "* Thác nước", 48, 173);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "Trường /", 1356, 173);
+            placeSign(1, "* Thác nước", 48, 173);
         } else if (var0 == 2) {
-            jn = 4;
-            af();
-            a(0, "* Lối vào", 60, 245);
-            a(1, "Trường Hirosaki", 240, 197);
-            a(2, "Lối ra /", 420, 245);
-            a(2, "Mua đồ tiền thật", 552, 245);
-            a(3, "đường hoa đào /", 1356, 221);
+            signCount = 4;
+            allocSigns();
+            placeSign(0, "* Lối vào", 60, 245);
+            placeSign(1, "Trường Hirosaki", 240, 197);
+            placeSign(2, "Lối ra /", 420, 245);
+            placeSign(2, "Mua đồ tiền thật", 552, 245);
+            placeSign(3, "đường hoa đào /", 1356, 221);
         } else if (var0 == 3) {
-            jn = 2;
-            af();
-            a(0, "* Ngôi làng", 48, 173);
-            a(1, "Rừng trúc /", 2808, 173);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "* Ngôi làng", 48, 173);
+            placeSign(1, "Rừng trúc /", 2808, 173);
         } else if (var0 == 4) {
-            jn = 2;
-            af();
-            a(0, "* Vườn đào", 48, 101);
-            a(1, "Rừng tối", 1704, 245);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "* Vườn đào", 48, 101);
+            placeSign(1, "Rừng tối", 1704, 245);
         } else if (var0 == 5) {
-            jn = 2;
-            af();
-            a(0, "Trường /", 420, 77);
-            a(1, "Rừng tối /", 408, 1829);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "Trường /", 420, 77);
+            placeSign(1, "Rừng tối /", 408, 1829);
         } else if (var0 == 6) {
-            jn = 3;
-            af();
-            a(0, "* Thác nước", 72, 101);
-            a(1, "Rừng tối /", 504, 53);
-            a(2, "Sông Watamoro /", 5916, 197);
+            signCount = 3;
+            allocSigns();
+            placeSign(0, "* Thác nước", 72, 101);
+            placeSign(1, "Rừng tối /", 504, 53);
+            placeSign(2, "Sông Watamoro /", 5916, 197);
         } else {
             if (var0 == 99) {
-                jn = 1;
-                af();
-                a(0, "Trường Hirosaki", 744, 173);
+                signCount = 1;
+                allocSigns();
+                placeSign(0, "Trường Hirosaki", 744, 173);
             }
 
         }
     }
 
-    private static void a(int var0, String var1, int var2, int var3) {
-        jj[var0] = var1;
-        jk[var0] = var2;
-        jl[var0] = var3;
-        int[] var10000 = jk;
+    private static void placeSign(int var0, String var1, int var2, int var3) {
+        signTexts[var0] = var1;
+        signX[var0] = var2;
+        signY[var0] = var3;
+        int[] var10000 = signX;
         var10000[var0] -= FontGraph.getBoldWidth(var1) >> 1;
-        jm[var0] = FontGraph.getBoldWidth(var1);
+        signWidth[var0] = FontGraph.getBoldWidth(var1);
     }
 
-    private static void i(Graphics var0) {
-        for(int var1 = 0; var1 < jn; ++var1) {
-            if (jk[var1] + jm[var1] >= cameraX && jk[var1] <= cameraX + viewWidth && jl[var1] >= cameraY && jl[var1] - 14 <= cameraY + viewHeight) {
-                FontGraph.drawBold(var0, jj[var1], jk[var1], jl[var1], 0);
+    private static void drawSigns(Graphics var0) {
+        for(int var1 = 0; var1 < signCount; ++var1) {
+            if (signX[var1] + signWidth[var1] >= cameraX && signX[var1] <= cameraX + viewWidth && signY[var1] >= cameraY && signY[var1] - 14 <= cameraY + viewHeight) {
+                FontGraph.drawBold(var0, signTexts[var1], signX[var1], signY[var1], 0);
             }
         }
 
     }
 
-    private static void af() {
-        jj = new String[jn];
-        jk = new int[jn];
-        jl = new int[jn];
-        jm = new int[jn];
+    private static void allocSigns() {
+        signTexts = new String[signCount];
+        signX = new int[signCount];
+        signY = new int[signCount];
+        signWidth = new int[signCount];
     }
 
-    public static void p(int var0) {
-        iX = 0;
+    public static void setupHouses(int var0) {
+        houseCount = 0;
         if (var0 == 2) {
             try {
                 houseImages = Tile.ensureHouses(houseImages);
             } catch (Exception var2) {
             }
 
-            iX = 5;
-            ag();
-            b(0, 0, 29, 13);
-            b(1, 1, 34, 13);
-            b(2, 2, 39, 13);
-            b(3, 1, 46, 11);
-            b(4, 2, 51, 11);
+            houseCount = 5;
+            allocHouses();
+            placeHouse(0, 0, 29, 13);
+            placeHouse(1, 1, 34, 13);
+            placeHouse(2, 2, 39, 13);
+            placeHouse(3, 1, 46, 11);
+            placeHouse(4, 2, 51, 11);
         }
 
         if (var0 == 16) {
@@ -10177,39 +10164,39 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var1) {
             }
 
-            iX = 5;
-            ag();
-            b(0, 0, 5, 11);
-            b(1, 1, 14, 12);
-            b(2, 2, 33, 10);
-            b(3, 1, 53, 10);
-            b(4, 0, 59, 11);
+            houseCount = 5;
+            allocHouses();
+            placeHouse(0, 0, 5, 11);
+            placeHouse(1, 1, 14, 12);
+            placeHouse(2, 2, 33, 10);
+            placeHouse(3, 1, 53, 10);
+            placeHouse(4, 0, 59, 11);
         }
 
     }
 
-    private static void b(int var0, int var1, int var2, int var3) {
-        iY[var0] = var1;
-        iZ[var0] = var2 * GameMap.TILE_SIZE + 12;
-        ja[var0] = var3 * GameMap.TILE_SIZE;
-        jb[var0] = houseImages[var1].getWidth() >> 1;
-        jc[var0] = houseImages[var1].getHeight();
+    private static void placeHouse(int var0, int var1, int var2, int var3) {
+        houseTypes[var0] = var1;
+        houseX[var0] = var2 * GameMap.TILE_SIZE + 12;
+        houseY[var0] = var3 * GameMap.TILE_SIZE;
+        houseHalfWidth[var0] = houseImages[var1].getWidth() >> 1;
+        houseHeight[var0] = houseImages[var1].getHeight();
     }
 
-    private static void ag() {
-        iY = new int[iX];
-        iZ = new int[iX];
-        ja = new int[iX];
-        jb = new int[iX];
-        jc = new int[iX];
+    private static void allocHouses() {
+        houseTypes = new int[houseCount];
+        houseX = new int[houseCount];
+        houseY = new int[houseCount];
+        houseHalfWidth = new int[houseCount];
+        houseHeight = new int[houseCount];
     }
 
-    private static void ah() {
+    private static void ensureMapImages() {
         try {
             tilesetImage = Tile.ensureTileset(tilesetImage);
             waterfallImage = Tile.ensureWaterfall(waterfallImage);
             waterSurfaceImage = Tile.ensureWaterSurface(waterSurfaceImage);
-            if (!a) {
+            if (!lowGraphics) {
                 bushImage = Tile.ensureBush(bushImage);
             }
 
@@ -10219,282 +10206,14 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    public static void q(int var0) {
-        var0 = var0;
-        GameMap.resetUsedTiles();
-        if (var0 == 101) {
-            var0 = 99;
-        }
-
-        if (var0 == 0) {
-            GameMap.width = 80;
-            GameMap.height = 19;
-            jo = 1;
-            js = 59 * GameMap.TILE_SIZE;
-            jt = 9 * GameMap.TILE_SIZE;
-            jp = 2;
-            ju = 3;
-            jv = 12 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 1) {
-            GameMap.width = 60;
-            GameMap.height = 14;
-            jo = 5;
-            js = 19 * GameMap.TILE_SIZE;
-            jt = 5 * GameMap.TILE_SIZE;
-            jp = 0;
-            ju = 3;
-            jv = 16 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 2) {
-            GameMap.width = 60;
-            GameMap.height = 16;
-            jo = 0;
-            js = 79 * GameMap.TILE_SIZE;
-            jt = 15 * GameMap.TILE_SIZE;
-            jp = 3;
-            ju = 3;
-            jv = 9 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 3) {
-            GameMap.width = 120;
-            GameMap.height = 12;
-            jo = 2;
-            js = 59 * GameMap.TILE_SIZE;
-            jt = 11 * GameMap.TILE_SIZE;
-            jp = 4;
-            ju = 3;
-            jv = 144;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 4) {
-            GameMap.width = 80;
-            GameMap.height = 15;
-            jo = 3;
-            js = 119 * GameMap.TILE_SIZE;
-            jt = 9 * GameMap.TILE_SIZE;
-            jp = -1;
-            jq = -1;
-            jr = 6;
-            jy = 26 * GameMap.TILE_SIZE;
-            jz = 10;
-        } else if (var0 == 5) {
-            GameMap.width = 20;
-            GameMap.height = 80;
-            jo = -1;
-            jp = 1;
-            ju = 3;
-            jv = 9 * GameMap.TILE_SIZE;
-            jA = 40 * GameMap.TILE_SIZE;
-            jq = 6;
-            jw = 3;
-            jx = 5 * GameMap.TILE_SIZE;
-            jr = -1;
-        } else if (var0 == 6) {
-            GameMap.width = 250;
-            GameMap.height = 12;
-            jo = 5;
-            js = 19 * GameMap.TILE_SIZE;
-            jt = 78 * GameMap.TILE_SIZE;
-            jp = 7;
-            ju = 1 * GameMap.TILE_SIZE;
-            jv = 7 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 7) {
-            GameMap.width = 80;
-            GameMap.height = 14;
-            jo = 6;
-            js = 249 * GameMap.TILE_SIZE;
-            jt = 10 * GameMap.TILE_SIZE;
-            jp = 97;
-            ju = 1 * GameMap.TILE_SIZE;
-            jv = 3 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 97) {
-            GameMap.width = 25;
-            GameMap.height = 13;
-            jo = 7;
-            js = 79 * GameMap.TILE_SIZE;
-            jt = 11 * GameMap.TILE_SIZE;
-            jp = 8;
-            ju = 1 * GameMap.TILE_SIZE;
-            jv = 12 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 8) {
-            GameMap.width = 80;
-            GameMap.height = 14;
-            jo = 97;
-            js = 23 * GameMap.TILE_SIZE;
-            jt = 7 * GameMap.TILE_SIZE;
-            jp = 9;
-            ju = 1 * GameMap.TILE_SIZE;
-            jv = 11 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 9) {
-            GameMap.width = 80;
-            GameMap.height = 14;
-            jo = 8;
-            js = 79 * GameMap.TILE_SIZE;
-            jt = 9 * GameMap.TILE_SIZE;
-            jp = -1;
-            ju = 1 * GameMap.TILE_SIZE;
-            jv = 11 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = 10;
-            jy = 2 * GameMap.TILE_SIZE;
-            jz = 0 * GameMap.TILE_SIZE;
-        } else if (var0 == 10) {
-            GameMap.width = 40;
-            GameMap.height = 40;
-            jo = -1;
-            jp = 11;
-            ju = 24;
-            jv = 264;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 11) {
-            GameMap.width = 90;
-            GameMap.height = 14;
-            jo = 10;
-            js = 936;
-            jt = 720;
-            jp = 96;
-            ju = 24;
-            jv = 192;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 96) {
-            GameMap.width = 25;
-            GameMap.height = 14;
-            jo = 11;
-            js = 2112;
-            jt = 288;
-            jp = 12;
-            ju = 24;
-            jv = 192;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 12) {
-            GameMap.width = 40;
-            GameMap.height = 25;
-            jo = 96;
-            js = 552;
-            jt = 264;
-            jp = 13;
-            ju = 24;
-            jv = 216;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 13) {
-            GameMap.width = 80;
-            GameMap.height = 14;
-            jo = 12;
-            js = 936;
-            jt = 456;
-            jp = 14;
-            ju = 24;
-            jv = 168;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 14) {
-            GameMap.width = 60;
-            GameMap.height = 16;
-            jo = 13;
-            js = 1896;
-            jt = 264;
-            jp = 15;
-            ju = 24;
-            jv = 120;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 15) {
-            GameMap.width = 40;
-            GameMap.height = 30;
-            jo = 14;
-            js = 1416;
-            jt = 144;
-            jp = 16;
-            ju = 24;
-            jv = 264;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 16) {
-            GameMap.width = 70;
-            GameMap.height = 15;
-            jo = 15;
-            js = 936;
-            jt = 168;
-            jp = 17;
-            ju = 24;
-            jv = 432;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 17) {
-            GameMap.width = 50;
-            GameMap.height = 20;
-            jo = 16;
-            js = 1656;
-            jt = 144;
-            jp = 18;
-            ju = 24;
-            jv = 288;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 18) {
-            GameMap.width = 70;
-            GameMap.height = 15;
-            jo = 17;
-            js = 1176;
-            jt = 384;
-            jp = 95;
-            ju = 24;
-            jv = 192;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 95) {
-            GameMap.width = 25;
-            GameMap.height = 14;
-            jo = 18;
-            js = 1632;
-            jt = 312;
-            jp = -1;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 94) {
-            GameMap.width = 24;
-            GameMap.height = 14;
-            jo = -1;
-            jp = -1;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 99) {
-            GameMap.width = 70;
-            GameMap.height = 15;
-            jo = -1;
-            jp = 4;
-            ju = 2 * GameMap.TILE_SIZE;
-            jv = 5 * GameMap.TILE_SIZE;
-            jq = -1;
-            jr = -1;
-        }
-
-        GameMap.pixelWidth = GameMap.width * GameMap.TILE_SIZE;
-        GameMap.pixelHeight = GameMap.height * GameMap.TILE_SIZE;
-
+    public static void loadMap(int mapId) {
         try {
-            GameMap.loadTiles(var0);
-        } catch (Exception var2) {
+            MapConfig.load(mapId);
+        } catch (Exception ex) {
             Midlet.instance.shutdownApp();
         }
 
-        ah();
+        ensureMapImages();
     }
 
     private static void j(Graphics var0) {
@@ -10560,7 +10279,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void l(Graphics var0) {
-        if (!a) {
+        if (!lowGraphics) {
             for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
                 for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
@@ -10599,9 +10318,9 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void aj() {
-        T = 0;
-        S = 0;
+    private static void resetLoadingProgress() {
+        loadingProgress = 0;
+        loadingTarget = 0;
         jB = 0;
     }
 
@@ -12986,20 +12705,20 @@ public final class b extends Canvas implements Runnable {
         } catch (Exception var0) {
         }
 
-        worldMapCurrent = w;
-        if (w == 99) {
+        worldMapCurrent = mapId;
+        if (mapId == 99) {
             worldMapCurrent = 0;
         }
 
-        if (w == 97) {
+        if (mapId == 97) {
             worldMapCurrent = 7;
         }
 
-        if (w == 96) {
+        if (mapId == 96) {
             worldMapCurrent = 11;
         }
 
-        if (w == 95) {
+        if (mapId == 95) {
             worldMapCurrent = 18;
         }
 
@@ -13182,14 +12901,14 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void V(int var0) {
-        lG = w;
+        lG = mapId;
         lJ = var0;
-        lH = lu[var0];
-        lI = lv[var0] - 44;
+        lH = npcX[var0];
+        lI = npcY[var0] - 44;
     }
 
-    public static void t(int var0) {
-        lt = 0;
+    public static void setupNpcs(int var0) {
+        npcCount = 0;
         if (var0 == 0) {
             npcSprites = Npc.createSpriteTable();
 
@@ -13203,15 +12922,15 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var7) {
             }
 
-            lt = 7;
-            av();
-            c(0, 0, 34, 13);
-            c(1, 1, 43, 17);
-            c(2, 2, 50, 17);
-            c(3, 3, 57, 12);
-            c(4, 4, 43, 12);
-            c(5, 5, 77, 15);
-            c(6, 5, 25, 17);
+            npcCount = 7;
+            allocNpcs();
+            placeNpc(0, 0, 34, 13);
+            placeNpc(1, 1, 43, 17);
+            placeNpc(2, 2, 50, 17);
+            placeNpc(3, 3, 57, 12);
+            placeNpc(4, 4, 43, 12);
+            placeNpc(5, 5, 77, 15);
+            placeNpc(6, 5, 25, 17);
         }
 
         if (var0 == 1) {
@@ -13222,9 +12941,9 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var6) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 54, 9);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 54, 9);
         }
 
         if (var0 == 2) {
@@ -13235,9 +12954,9 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var5) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 23, 12);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 23, 12);
         }
 
         if (var0 == 5) {
@@ -13248,9 +12967,9 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var4) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 12, 5);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 12, 5);
         }
 
         if (var0 == 6) {
@@ -13261,9 +12980,9 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var3) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 14, 9);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 14, 9);
         }
 
         if (var0 == 99 || var0 == 101) {
@@ -13274,9 +12993,9 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var2) {
             }
 
-            lt = 1;
-            av();
-            c(0, 4, 3, 12);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 4, 3, 12);
         }
 
         if (var0 == 94) {
@@ -13289,32 +13008,32 @@ public final class b extends Canvas implements Runnable {
             } catch (Exception var1) {
             }
 
-            lt = 3;
-            av();
-            c(0, 4, 2, 10);
-            c(1, 0, 3, 10);
-            c(2, 2, 4, 10);
+            npcCount = 3;
+            allocNpcs();
+            placeNpc(0, 4, 2, 10);
+            placeNpc(1, 0, 3, 10);
+            placeNpc(2, 2, 4, 10);
         }
 
     }
 
-    private static void c(int var0, int var1, int var2, int var3) {
-        lw[var0] = var1;
-        lu[var0] = var2 * GameMap.TILE_SIZE + 12;
-        lv[var0] = var3 * GameMap.TILE_SIZE;
+    private static void placeNpc(int var0, int var1, int var2, int var3) {
+        npcTypes[var0] = var1;
+        npcX[var0] = var2 * GameMap.TILE_SIZE + 12;
+        npcY[var0] = var3 * GameMap.TILE_SIZE;
     }
 
-    private static void av() {
-        lu = new int[lt];
-        lv = new int[lt];
-        lw = new int[lt];
+    private static void allocNpcs() {
+        npcX = new int[npcCount];
+        npcY = new int[npcCount];
+        npcTypes = new int[npcCount];
     }
 
-    private static void r(Graphics var0) {
-        for(int var1 = 0; var1 < lt; ++var1) {
-            if (lu[var1] + 10 >= cameraX && lu[var1] - 10 <= cameraX + viewWidth && lv[var1] >= cameraY && lv[var1] - 32 <= cameraY + viewHeight) {
-                var0.drawImage(npcSprites[lw[var1]][Npc.PART_LEGS], lu[var1], lv[var1], 33);
-                var0.drawImage(npcSprites[lw[var1]][Npc.PART_BODY], lu[var1], lv[var1] - lF[lw[var1]] + (tick % (15 + lw[var1]) > 4 ? 0 : 1), 33);
+    private static void drawNpcs(Graphics var0) {
+        for(int var1 = 0; var1 < npcCount; ++var1) {
+            if (npcX[var1] + 10 >= cameraX && npcX[var1] - 10 <= cameraX + viewWidth && npcY[var1] >= cameraY && npcY[var1] - 32 <= cameraY + viewHeight) {
+                var0.drawImage(npcSprites[npcTypes[var1]][Npc.PART_LEGS], npcX[var1], npcY[var1], 33);
+                var0.drawImage(npcSprites[npcTypes[var1]][Npc.PART_BODY], npcX[var1], npcY[var1] - lF[npcTypes[var1]] + (tick % (15 + npcTypes[var1]) > 4 ? 0 : 1), 33);
             }
         }
 

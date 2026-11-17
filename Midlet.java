@@ -28,60 +28,60 @@ public class Midlet extends MIDlet implements Runnable {
             Thread.sleep(200L);
             Thread.yield();
             b.tick = b.a((int) System.currentTimeMillis() % 1000);
-            b.S = 30;
+            b.loadingTarget = 30;
             Thread.yield();
-            b.m(b.w);
-            b.q(b.w);
-            b.p(b.w);
-            b.o(b.w);
-            b.S = 50;
+            b.m(b.mapId);
+            b.loadMap(b.mapId);
+            b.setupHouses(b.mapId);
+            b.setupSigns(b.mapId);
+            b.loadingTarget = 50;
             Thread.yield();
-            b.t(b.w);
+            b.setupNpcs(b.mapId);
             b.i();
-            b.f(b.w);
-            b.g(b.w);
-            b.e(b.w);
-            b.S = 65;
+            b.f(b.mapId);
+            b.g(b.mapId);
+            b.e(b.mapId);
+            b.loadingTarget = 65;
             Thread.yield();
-            b.r(b.w);
-            b.S = 70;
+            b.r(b.mapId);
+            b.loadingTarget = 70;
             Thread.yield();
-            b.h(b.w);
-            b.i(b.w);
-            b.j(b.w);
-            b.k(b.w);
-            b.l(b.w);
-            b.S = 75;
+            b.h(b.mapId);
+            b.i(b.mapId);
+            b.j(b.mapId);
+            b.k(b.mapId);
+            b.l(b.mapId);
+            b.loadingTarget = 75;
             b.k();
             b.g();
             b.p();
-            b.S = 78;
+            b.loadingTarget = 78;
             Thread.yield();
-            b.d(b.w);
-            b.c(b.w);
-            b.S = 80;
+            b.d(b.mapId);
+            b.c(b.mapId);
+            b.loadingTarget = 80;
             b.l();
             b.r();
-            b.S = 82;
+            b.loadingTarget = 82;
             Thread.yield();
             b.q();
             b.n();
             b.m();
-            b.S = 85;
-            b.b(b.w);
+            b.loadingTarget = 85;
+            b.b(b.mapId);
             b.f();
             b.o();
-            b.S = 87;
+            b.loadingTarget = 87;
             b.e();
             b.setupViewport();
             b.j();
-            b.S = 95;
+            b.loadingTarget = 95;
             Thread.yield();
             b.j = (new int[]{5614318, 18})[Save.backgroundIndex];
 
             int verticalOffset;
             try {
-                if (!b.a) {
+                if (!b.lowGraphics) {
                     b.t = Background.ensureLayers(b.t, Save.backgroundIndex);
                     b.u = Background.ensureCloud(b.u, Save.backgroundIndex);
                     b.v = Background.ensureSun(b.v, Save.backgroundIndex);
@@ -90,7 +90,7 @@ public class Midlet extends MIDlet implements Runnable {
             }
 
             b.c = false;
-            if (b.w != 0 && !b.a) {
+            if (b.mapId != 0 && !b.lowGraphics) {
                 b.c = true;
                 b.q = b.viewHeight - (b.t[0].getHeight() + b.t[1].getHeight() + b.t[2].getHeight()) + 11;
                 b.m = (b.l = (b.k = b.viewHeight - b.t[0].getHeight()) - b.t[1].getHeight()) - b.t[2].getHeight();
@@ -101,8 +101,8 @@ public class Midlet extends MIDlet implements Runnable {
                 verticalOffset = 0;
             }
 
-            if (b.w < 19) {
-                b.X[b.w] = true;
+            if (b.mapId < 19) {
+                b.X[b.mapId] = true;
             }
 
             b.q += verticalOffset;
@@ -122,8 +122,8 @@ public class Midlet extends MIDlet implements Runnable {
             b.o = "Menu";
             b.p = " ";
             b.U = false;
-            b.n(b.w);
-            b.S = 100;
+            b.n(b.mapId);
+            b.loadingTarget = 100;
             if (needsDefaultsInit) {
                 needsDefaultsInit = false;
                 PlayerStats.initDefaults();
@@ -150,7 +150,7 @@ public class Midlet extends MIDlet implements Runnable {
                 Save.pendingSave = false;
             }
 
-            switch (b.w) {
+            switch (b.mapId) {
                 case 0:
                 case 1:
                 case 2:
@@ -183,7 +183,7 @@ public class Midlet extends MIDlet implements Runnable {
             instance.shutdownApp();
         }
 
-        while (b.T < 90) {
+        while (b.loadingProgress < 90) {
             Thread.yield();
         }
 
