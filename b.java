@@ -1,5 +1,6 @@
 import assets.*;
 import assets.Character;
+import core.app.*;
 import core.input.*;
 import core.map.*;
 import core.player.*;
@@ -218,7 +219,7 @@ public final class b extends Canvas implements Runnable {
     private static int bb;
     private static int bc;
     private static int bd;
-    public static int e;
+    public static int state;
     private static boolean be;
     public static int[] f;
     public static int[] g;
@@ -1721,7 +1722,7 @@ public final class b extends Canvas implements Runnable {
             a("level-up", 2, fe, ff - fh, 0, -2);
             s(6);
             a("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
-            e = 7;
+            state = GameState.MESSAGE;
         } else {
             a("+" + amount, 2, fe, ff - fh, 0, -2);
         }
@@ -3037,9 +3038,9 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void x(int var0) {
-        e = 2;
+        state = GameState.LOADING;
         w = var0;
-        Midlet.nextGameState = 1;
+        Midlet.nextGameState = GameState.PLAYING;
         aj();
         (new Thread(Midlet.instance)).start();
     }
@@ -3251,9 +3252,9 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void K() {
-        e = 2;
+        state = GameState.LOADING;
         aj();
-        Midlet.nextGameState = 3;
+        Midlet.nextGameState = GameState.MAIN_MENU;
         w = 99;
 
         try {
@@ -4936,7 +4937,7 @@ public final class b extends Canvas implements Runnable {
 
                     au();
                     s(5);
-                    e = 7;
+                    state = GameState.MESSAGE;
                 }
                 break;
             case 7:
@@ -6649,7 +6650,7 @@ public final class b extends Canvas implements Runnable {
         b var0 = Midlet.b;
         Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         ai();
-        e = 4;
+        state = GameState.LOGO;
         (new Thread(var0)).start();
     }
 
@@ -6729,8 +6730,8 @@ public final class b extends Canvas implements Runnable {
 
     protected final void paint(Graphics var1) {
         try {
-            switch (e) {
-                case 1:
+            switch (state) {
+                case GameState.PLAYING:
                     Graphics var6 = var1;
                     var1.setClip(-1, -1, r + 2, s + 2);
                     a(var1);
@@ -7085,12 +7086,12 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 return;
-                case 2:
+                case GameState.LOADING:
                     var1.setColor(0);
                     var1.fillRect(0, 0, aT, 21);
                     FontGraph.drawBold(var1, "Loading... " + T + "%", aT >> 1, 4, 2);
                     return;
-                case 3:
+                case GameState.MAIN_MENU:
                     var1.setClip(-1, -1, aT + 2, aU + 1);
                     a(var1);
                     var1.translate(-fO, -fP);
@@ -7114,7 +7115,7 @@ public final class b extends Canvas implements Runnable {
                     FontGraph.drawBold(var1, "/", aV + 50 + x % 3, bd, 1);
                     FontGraph.drawBold(var1, aE[aX], aV, bd, 3);
                     return;
-                case 4:
+                case GameState.LOGO:
                     var1.setColor(0);
                     var1.fillRect(0, 0, aT, aU);
                     if (logoImage != null && jE >= 0) {
@@ -7122,22 +7123,22 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     return;
-                case 5:
+                case GameState.GAME_MENU:
                     o(var1);
                     return;
-                case 6:
+                case GameState.WORLD_MAP:
                     p(var1);
                     return;
-                case 7:
+                case GameState.MESSAGE:
                     q(var1);
                     return;
-                case 8:
+                case GameState.INVENTORY:
                     n(var1);
                     return;
-                case 9:
+                case GameState.SHOP:
                     m(var1);
                     return;
-                case 10:
+                case GameState.SETUP_PROMPT:
                     var1.setColor(0);
                     var1.fillRect(0, 0, aT, aU);
                     if (!lk) {
@@ -7155,10 +7156,10 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     return;
-                case 11:
+                case GameState.TUTORIAL:
                     h(var1);
                     return;
-                case 12:
+                case GameState.UNUSED_12:
                     h(var1);
                     return;
                 default:
@@ -7191,8 +7192,8 @@ public final class b extends Canvas implements Runnable {
             long var1 = System.currentTimeMillis();
             boolean var3;
             int var10002;
-            switch (e) {
-                case 1:
+            switch (state) {
+                case GameState.PLAYING:
                     if (++x == 10000) {
                         x = 0;
                     }
@@ -7213,7 +7214,7 @@ public final class b extends Canvas implements Runnable {
                                 a("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
                                 fe = GameMap.pixelWidth - 60;
                                 B = 4;
-                                e = 7;
+                                state = GameState.MESSAGE;
                                 break;
                             }
 
@@ -7276,7 +7277,7 @@ public final class b extends Canvas implements Runnable {
                         label2614: {
                             if (Input.pressed[Input.KEY_SOFT_LEFT]) {
                                 ap();
-                                e = 5;
+                                state = GameState.GAME_MENU;
                                 Input.clearHeld();
                                 Input.clearPressed();
                             } else if (Input.pressed[Input.KEY_NUM0]) {
@@ -7649,14 +7650,14 @@ public final class b extends Canvas implements Runnable {
 
                                                     if (var4 == 6) {
                                                         an();
-                                                        e = 9;
+                                                        state = GameState.SHOP;
                                                         kr = 0;
                                                     }
                                                 }
 
                                                 if (w == 2 && var4 == 0) {
                                                     an();
-                                                    e = 9;
+                                                    state = GameState.SHOP;
                                                     kr = 1;
                                                 }
 
@@ -9483,12 +9484,12 @@ public final class b extends Canvas implements Runnable {
                     cm = false;
                 }
                 break;
-                case 2:
+                case GameState.LOADING:
                     if (T < S) {
                         T += 5;
                     }
                     break;
-                case 3:
+                case GameState.MAIN_MENU:
                     if (++x == 10000) {
                         x = 0;
                     }
@@ -9547,9 +9548,9 @@ public final class b extends Canvas implements Runnable {
                             } else if (aX == 2) {
                                 titleImage = null;
                                 B();
-                                e = 2;
+                                state = GameState.LOADING;
                                 aj();
-                                Midlet.nextGameState = 11;
+                                Midlet.nextGameState = GameState.TUTORIAL;
                                 w = 101;
                                 (new Thread(Midlet.instance)).start();
                             } else if (aX == 3) {
@@ -9621,7 +9622,7 @@ public final class b extends Canvas implements Runnable {
                         bd -= 2;
                     }
                     break;
-                case 4:
+                case GameState.LOGO:
                     if (jD < 4) {
                         jE = jD;
                     }
@@ -9629,7 +9630,7 @@ public final class b extends Canvas implements Runnable {
                     if (jD > 51) {
                         logoImage = null;
                         at();
-                        e = 10;
+                        state = GameState.SETUP_PROMPT;
                     } else if (jD > 46) {
                         jE = 4 - (jD - 46);
                     }
@@ -9638,7 +9639,7 @@ public final class b extends Canvas implements Runnable {
                     aU = aM.getHeight();
                     ++jD;
                     break;
-                case 5:
+                case GameState.GAME_MENU:
                     if (++kJ > 10000) {
                         kJ = 0;
                     }
@@ -9648,7 +9649,7 @@ public final class b extends Canvas implements Runnable {
                         var3 = true;
                         cornerIcons = null;
                         ah();
-                        e = 1;
+                        state = GameState.PLAYING;
                         d = true;
                     } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
                         if (Input.pressed[Input.KEY_DOWN]) {
@@ -9670,12 +9671,12 @@ public final class b extends Canvas implements Runnable {
                         var3 = true;
                         if (kI == 0) {
                             ao();
-                            e = 8;
+                            state = GameState.INVENTORY;
                         }
 
                         if (kI == 1) {
                             aq();
-                            e = 6;
+                            state = GameState.WORLD_MAP;
                         }
 
                         if (kI == 2) {
@@ -9686,7 +9687,7 @@ public final class b extends Canvas implements Runnable {
                                 s(5);
                                 a("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
                                 Y = bD - 40;
-                                e = 7;
+                                state = GameState.MESSAGE;
                             } else {
                                 b = false;
                             }
@@ -9697,7 +9698,7 @@ public final class b extends Canvas implements Runnable {
                         Input.clearPressed();
                     }
                     break;
-                case 6:
+                case GameState.WORLD_MAP:
                     if (++kW > 10000) {
                         kW = 0;
                     }
@@ -9734,13 +9735,13 @@ public final class b extends Canvas implements Runnable {
                         if (kV != -1) {
                             if (!X[kV]) {
                                 s(1);
-                                e = 7;
+                                state = GameState.MESSAGE;
                             } else if (lh == kV) {
                                 s(3);
-                                e = 7;
+                                state = GameState.MESSAGE;
                             } else {
                                 s(2);
-                                e = 7;
+                                state = GameState.MESSAGE;
                             }
                         }
                     }
@@ -9749,7 +9750,7 @@ public final class b extends Canvas implements Runnable {
                         ar();
                         cornerIcons = null;
                         ah();
-                        e = 1;
+                        state = GameState.PLAYING;
                         Input.clearPressed();
                         Input.clearHeld();
                         Input.pressed[Input.KEY_SOFT_LEFT] = true;
@@ -9793,7 +9794,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
                     break;
-                case 7:
+                case GameState.MESSAGE:
                     if (++lo < 10) {
                         Input.clearPressed();
                     }
@@ -9804,7 +9805,7 @@ public final class b extends Canvas implements Runnable {
                             case 1:
                             case 3:
                             case 4:
-                                e = 6;
+                                state = GameState.WORLD_MAP;
                                 break;
                             case 2:
                                 if (ln >= dd) {
@@ -9824,7 +9825,7 @@ public final class b extends Canvas implements Runnable {
                             case 5:
                             case 6:
                                 cornerIcons = null;
-                                e = 1;
+                                state = GameState.PLAYING;
                         }
                     }
 
@@ -9839,16 +9840,16 @@ public final class b extends Canvas implements Runnable {
                             default:
                                 break;
                             case 2:
-                                e = 6;
+                                state = GameState.WORLD_MAP;
                                 break;
                             case 7:
-                                e = 9;
+                                state = GameState.SHOP;
                         }
                     }
 
                     d = true;
                     break;
-                case 8:
+                case GameState.INVENTORY:
                     if (kC > 0) {
                         --kC;
                     }
@@ -9870,7 +9871,7 @@ public final class b extends Canvas implements Runnable {
                     if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         Input.clearPressed();
                         Input.clearHeld();
-                        e = 5;
+                        state = GameState.GAME_MENU;
                     } else {
                         if (Input.pressed[Input.KEY_LEFT]) {
                             Input.clearPressed();
@@ -9887,7 +9888,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
                     break;
-                case 9:
+                case GameState.SHOP:
                     if (kp > 0) {
                         --kp;
                     }
@@ -9916,7 +9917,7 @@ public final class b extends Canvas implements Runnable {
                                 s(7);
                                 a("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
                                 Y = V;
-                                e = 7;
+                                state = GameState.MESSAGE;
                                 break;
                             }
 
@@ -9924,7 +9925,7 @@ public final class b extends Canvas implements Runnable {
                                 s(7);
                                 a("Bạn phải đạt cấp độ " + km[ko] + " mới có thể mua vũ khí này!");
                                 Y = V;
-                                e = 7;
+                                state = GameState.MESSAGE;
                                 break;
                             }
 
@@ -9937,7 +9938,7 @@ public final class b extends Canvas implements Runnable {
                                     s(7);
                                     a("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + dd + "$. Hãy đi tìm thêm.");
                                     Y = V;
-                                    e = 7;
+                                    state = GameState.MESSAGE;
                                 }
                                 break;
                             }
@@ -9953,7 +9954,7 @@ public final class b extends Canvas implements Runnable {
                         ah();
                         Input.clearPressed();
                         Input.clearHeld();
-                        e = 1;
+                        state = GameState.PLAYING;
                         d = true;
                     } else {
                         if (Input.pressed[Input.KEY_UP]) {
@@ -10002,7 +10003,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
                     break;
-                case 10:
+                case GameState.SETUP_PROMPT:
                     if (lk) {
                         popupImage = null;
                         K();
@@ -10042,10 +10043,10 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
                     break;
-                case 11:
+                case GameState.TUTORIAL:
                     Z();
                     break;
-                case 12:
+                case GameState.UNUSED_12:
                     Z();
                     break;
             }
@@ -13322,7 +13323,7 @@ public final class b extends Canvas implements Runnable {
         s(7);
         a("Không thể mua. Xin hãy thử lại sau.");
         Y = V;
-        e = 7;
+        state = GameState.MESSAGE;
     }
 
     public static void t() {
@@ -13331,7 +13332,7 @@ public final class b extends Canvas implements Runnable {
         s(7);
         a("Xin chúc mừng. Bạn đã có vũ khí mới: " + kt[kq][ko] + "!");
         Y = V;
-        e = 7;
+        state = GameState.MESSAGE;
     }
 
 }

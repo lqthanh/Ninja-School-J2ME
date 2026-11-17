@@ -1,4 +1,5 @@
 import assets.*;
+import core.app.*;
 import core.input.*;
 import core.player.*;
 import core.save.*;
@@ -186,7 +187,7 @@ public class Midlet extends MIDlet implements Runnable {
             Thread.yield();
         }
 
-        b.e = nextGameState;
+        b.state = nextGameState;
     }
 
     // =====================================================================================
