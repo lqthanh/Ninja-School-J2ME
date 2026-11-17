@@ -27,7 +27,7 @@ public class Midlet extends MIDlet implements Runnable {
         try {
             Thread.sleep(200L);
             Thread.yield();
-            b.x = b.a((int) System.currentTimeMillis() % 1000);
+            b.tick = b.a((int) System.currentTimeMillis() % 1000);
             b.S = 30;
             Thread.yield();
             b.m(b.w);
@@ -73,7 +73,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.o();
             b.S = 87;
             b.e();
-            b.h();
+            b.setupViewport();
             b.j();
             b.S = 95;
             Thread.yield();
@@ -92,12 +92,12 @@ public class Midlet extends MIDlet implements Runnable {
             b.c = false;
             if (b.w != 0 && !b.a) {
                 b.c = true;
-                b.q = b.s - (b.t[0].getHeight() + b.t[1].getHeight() + b.t[2].getHeight()) + 11;
-                b.m = (b.l = (b.k = b.s - b.t[0].getHeight()) - b.t[1].getHeight()) - b.t[2].getHeight();
+                b.q = b.viewHeight - (b.t[0].getHeight() + b.t[1].getHeight() + b.t[2].getHeight()) + 11;
+                b.m = (b.l = (b.k = b.viewHeight - b.t[0].getHeight()) - b.t[1].getHeight()) - b.t[2].getHeight();
                 b.n = b.l - b.t[3].getHeight() - 10;
             }
 
-            if ((verticalOffset = 2 * b.s / 3 - b.l) < 0) {
+            if ((verticalOffset = 2 * b.viewHeight / 3 - b.l) < 0) {
                 verticalOffset = 0;
             }
 
@@ -110,13 +110,13 @@ public class Midlet extends MIDlet implements Runnable {
             b.l += verticalOffset;
             b.m += verticalOffset;
             b.n += verticalOffset;
-            b.h = 3 * b.r / 4;
+            b.h = 3 * b.viewWidth / 4;
             b.i = b.q / 3;
             b.f = new int[2];
             b.g = new int[2];
-            b.f[0] = b.r / 3;
+            b.f[0] = b.viewWidth / 3;
             b.g[0] = b.q / 2 - 8;
-            b.f[1] = 2 * b.r / 3;
+            b.f[1] = 2 * b.viewWidth / 3;
             b.g[1] = b.q / 2 + 8;
             b.d = true;
             b.o = "Menu";

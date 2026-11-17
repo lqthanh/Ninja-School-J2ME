@@ -5,6 +5,7 @@ import core.input.*;
 import core.map.*;
 import core.player.*;
 import core.save.*;
+import core.ui.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ import javax.microedition.lcdui.Image;
 
 public final class b extends Canvas implements Runnable {
     public static boolean a = true;
-    private static int aa = 40;
+    private static int frameDurationMs = 40;
     private static int[] ab = new int[]{150, 180, 180, 300, 350, 380, 500};
     private static int[] ac = new int[]{20, 30, 40, 100, 80, 120, 200};
     private static int[] ad = new int[]{150, 140, 120, 240, 280, 290, 300};
@@ -204,12 +205,12 @@ public final class b extends Canvas implements Runnable {
     private static int[] aJ;
     private static int[] aK;
     private static int aL;
-    private static b aM;
+    private static b instance;
     static boolean b;
-    private static int aT;
-    private static int aU;
-    private static int aV;
-    private static int aW;
+    private static int screenWidth;
+    private static int screenHeight;
+    private static int screenCenterX;
+    private static int screenCenterY;
     private static int aX;
     public static boolean c;
     public static boolean d;
@@ -249,19 +250,19 @@ public final class b extends Canvas implements Runnable {
     private static int bt;
     private static int bu;
     private static String bv;
-    private static int bw;
-    private static int bx;
-    private static int by;
-    private static int bz;
-    private static int bA;
-    private static int bB;
+    private static int firstVisibleCol;
+    private static int firstVisibleRow;
+    private static int visibleCols;
+    private static int visibleRows;
+    private static int lastVisibleCol;
+    private static int lastVisibleRow;
     public static int q;
-    public static int r;
-    public static int s;
-    private static int bC;
-    private static int bD;
-    private static int bE;
-    private static int bF;
+    public static int viewWidth;
+    public static int viewHeight;
+    private static int viewCenterX;
+    private static int viewCenterY;
+    private static int cameraOffsetY;
+    private static int cameraLeadX;
     private static int bG;
     private static int bH;
     private static int bI;
@@ -420,7 +421,7 @@ public final class b extends Canvas implements Runnable {
     private static Image[] weaponIcons;
     private static Image[] waterSplashSprites;
     public static int w;
-    public static int x;
+    public static int tick;
     private static boolean eE;
     private static boolean eF;
     private static boolean eG;
@@ -487,16 +488,16 @@ public final class b extends Canvas implements Runnable {
     private static int fF;
     private static int fG;
     private static int fH;
-    private static int fI;
-    private static int fJ;
+    private static int cameraTargetX;
+    private static int cameraTargetY;
     private static int fK;
     private static int fL;
     private static int fM;
     private static int fN;
-    private static int fO;
-    private static int fP;
-    private static int fQ;
-    private static int fR;
+    private static int cameraX;
+    private static int cameraY;
+    private static int cameraMaxX;
+    private static int cameraMaxY;
     private static boolean fS;
     private static int fT;
     private static int fU;
@@ -722,8 +723,8 @@ public final class b extends Canvas implements Runnable {
     private static boolean[][] kk;
     private static int[] kl;
     private static int[] km;
-    static int V;
-    private static int kn;
+    static int shopY;
+    private static int shopX;
     private static int ko;
     private static int kp;
     private static int kq;
@@ -733,8 +734,8 @@ public final class b extends Canvas implements Runnable {
     private static String[][] ku;
     private static int[][] kv;
     private static Image[] shopSwordIcons;
-    private static int kz;
-    private static int kA;
+    private static int inventoryY;
+    private static int inventoryX;
     private static int kB;
     private static int kC;
     private static int[] kD;
@@ -742,12 +743,12 @@ public final class b extends Canvas implements Runnable {
     static int[] W;
     private static int[] kF;
     private static Image[] cornerIcons;
-    private static int kH;
-    private static int kI;
+    private static int gameMenuY;
+    private static int gameMenuSelection;
     private static int kJ;
-    private static String[] kK;
+    private static String[] gameMenuItems;
     private static String[] kL;
-    private static int[] kM;
+    private static int[] travelCosts;
     public static boolean[] X;
     private static int[] kN;
     private static int[] kO;
@@ -757,7 +758,7 @@ public final class b extends Canvas implements Runnable {
     private static Image crossIcon;
     private static int kT;
     private static int kU;
-    private static int kV;
+    private static int worldMapCursor;
     private static int kW;
     private static int kX;
     private static int kY;
@@ -769,18 +770,18 @@ public final class b extends Canvas implements Runnable {
     private static int le;
     private static int lf;
     private static int lg;
-    private static int lh;
+    private static int worldMapCurrent;
     private static String li;
     private static Image popupImage;
     private static boolean lk;
     private static int ll;
-    public static int Y;
-    private static int lm;
-    private static int ln;
+    public static int messageY;
+    private static int messageType;
+    private static int travelCost;
     private static int lo;
-    private static String lp;
-    private static String lq;
-    private static String[] lr;
+    private static String messageLeftLabel;
+    private static String messageRightLabel;
+    private static String[] messageLines;
     private static Image[][] npcSprites;
     private static int lt;
     private static int[] lu;
@@ -920,7 +921,7 @@ public final class b extends Canvas implements Runnable {
                 "Bình MP to"};
         W = new int[]{5, 2, 1, 5, 2, 1};
         kF = new int[]{100, 400, 1000, 100, 200, 300};
-        kK = new String[]{"Sử dụng item", 
+        gameMenuItems = new String[]{"Sử dụng item", 
                 "Xem bản đồ", 
                 "Lưu và thoát", 
                 "Nhạc: Bật"};
@@ -943,7 +944,7 @@ public final class b extends Canvas implements Runnable {
                 "Thôn Sanzu", 
                 "Lối vào Orochi", 
                 "Ngôi đền Orochi"};
-        kM = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
+        travelCosts = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
         X = new boolean[19];
         kN = new int[]{49, 31, 98, 112, 106, 42, 75, 84, 37, 39, 80, 117, 157, 201, 208, 170, 186, 219, 161};
         kO = new int[]{35, 65, 38, 75, 98, 97, 95, 128, 142, 185, 212, 189, 189, 204, 156, 142, 96, 59, 39};
@@ -1163,7 +1164,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[1] = w;
         ++var2;
-        var1[2] = x;
+        var1[2] = tick;
         ++var2;
         var1[3] = eE ? 1 : 0;
         ++var2;
@@ -1266,16 +1267,16 @@ public final class b extends Canvas implements Runnable {
         var1[var2++] = fF;
         var1[var2++] = fG;
         var1[var2++] = fH;
-        var1[var2++] = fI;
-        var1[var2++] = fJ;
+        var1[var2++] = cameraTargetX;
+        var1[var2++] = cameraTargetY;
         var1[var2++] = fK;
         var1[var2++] = fL;
         var1[var2++] = fM;
         var1[var2++] = fN;
-        var1[var2++] = fO;
-        var1[var2++] = fP;
-        var1[var2++] = fQ;
-        var1[var2++] = fR;
+        var1[var2++] = cameraX;
+        var1[var2++] = cameraY;
+        var1[var2++] = cameraMaxX;
+        var1[var2++] = cameraMaxY;
         var1[var2++] = ie ? 1 : 0;
         var1[var2++] = id;
         var1[var2++] = ifSt;
@@ -1412,7 +1413,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         w = var0[1];
         ++var2;
-        x = var0[2];
+        tick = var0[2];
         ++var2;
         eE = var0[3] == 1;
         ++var2;
@@ -1515,16 +1516,16 @@ public final class b extends Canvas implements Runnable {
         fF = var0[var2++];
         fG = var0[var2++];
         fH = var0[var2++];
-        fI = var0[var2++];
-        fJ = var0[var2++];
+        cameraTargetX = var0[var2++];
+        cameraTargetY = var0[var2++];
         fK = var0[var2++];
         fL = var0[var2++];
         fM = var0[var2++];
         fN = var0[var2++];
-        fO = var0[var2++];
-        fP = var0[var2++];
-        fQ = var0[var2++];
-        fR = var0[var2++];
+        cameraX = var0[var2++];
+        cameraY = var0[var2++];
+        cameraMaxX = var0[var2++];
+        cameraMaxY = var0[var2++];
         ie = var0[var2++] == 1;
         id = var0[var2++];
         ifSt = var0[var2++];
@@ -1720,8 +1721,8 @@ public final class b extends Canvas implements Runnable {
     private static void gainExp(int amount) {
         if (Leveling.addExp(amount)) {
             a("level-up", 2, fe, ff - fh, 0, -2);
-            s(6);
-            a("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
+            showMessage(MessageType.LEVEL_UP);
+            setMessageText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(y));
             state = GameState.MESSAGE;
         } else {
             a("+" + amount, 2, fe, ff - fh, 0, -2);
@@ -1740,7 +1741,7 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        int var0 = PlayerStats.rollMeleeDamage(x, y);
+        int var0 = PlayerStats.rollMeleeDamage(tick, y);
         if (fx) {
             var0 <<= 1;
         }
@@ -2324,11 +2325,11 @@ public final class b extends Canvas implements Runnable {
 
             int var0;
             int var1;
-            if (gn >= fO - 24 && gn <= fO + r + 24) {
-                if (go < fP - 30 || go > fP + s + 30) {
+            if (gn >= cameraX - 24 && gn <= cameraX + viewWidth + 24) {
+                if (go < cameraY - 30 || go > cameraY + viewHeight + 30) {
                     gz = fe + (fm << 5) > gn ? 1 : -1;
                     var0 = fe;
-                    var1 = ff > go ? fP - 20 : fP + s;
+                    var1 = ff > go ? cameraY - 20 : cameraY + viewHeight;
                     gn = var0;
                     go = var1;
                     gr = 3;
@@ -2453,7 +2454,7 @@ public final class b extends Canvas implements Runnable {
                 }
             } else {
                 gz = fe + (fm << 5) > gn ? 1 : -1;
-                var0 = fe > gn ? fO - 24 : fO + r + 24;
+                var0 = fe > gn ? cameraX - 24 : cameraX + viewWidth + 24;
                 var1 = ff - 20;
                 if (!GameMap.hasFlag(var0, var1, TileFlags.DIGGABLE)) {
                     gn = var0;
@@ -2523,9 +2524,9 @@ public final class b extends Canvas implements Runnable {
                 cq[var0] = 0;
                 cE[var0] = 1;
                 gainExp(ad[cD[var0]]);
-                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, ab[cD[var0]] + x % 10);
-                if (x % 20 > 5) {
-                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, ac[cD[var0]] << 2, (x + 1) % 2);
+                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, ab[cD[var0]] + tick % 10);
+                if (tick % 20 > 5) {
+                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, ac[cD[var0]] << 2, (tick + 1) % 2);
                 }
 
                 return true;
@@ -2569,7 +2570,7 @@ public final class b extends Canvas implements Runnable {
             if (var0 <= PlayerStats.dartDamage) {
                 gY = 0;
             } else {
-                gY = 2 + x % 5;
+                gY = 2 + tick % 5;
             }
         }
 
@@ -2795,74 +2796,74 @@ public final class b extends Canvas implements Runnable {
         iu[var0] = 1;
     }
 
-    public static final void h() {
-        r = aT;
-        if (aU >= 208) {
+    public static final void setupViewport() {
+        viewWidth = screenWidth;
+        if (screenHeight >= 208) {
             be = true;
             bi = 50;
-            s = aU - bi;
-            bh = r;
+            viewHeight = screenHeight - bi;
+            bh = viewWidth;
             bf = 0;
-            bg = s + 1;
+            bg = viewHeight + 1;
         } else {
             bi = 16;
-            s = aU - bi;
+            viewHeight = screenHeight - bi;
             be = false;
             bi = 0;
-            bh = r;
+            bh = viewWidth;
             bf = 0;
-            bg = s + 1;
-            bq = (bo = r / 3) + 29;
+            bg = viewHeight + 1;
+            bq = (bo = viewWidth / 3) + 29;
             br = bo + 50;
         }
 
-        if ((bt = aU / 6) < 48) {
+        if ((bt = screenHeight / 6) < 48) {
             bt = 48;
         }
 
-        bC = r >> 1;
-        bD = s >> 1;
-        bE = 3 * s / 4;
-        bF = r / 6;
-        by = r / GameMap.TILE_SIZE + 2;
-        bz = s / GameMap.TILE_SIZE + 2;
-        if (r % 24 != 0) {
-            ++by;
+        viewCenterX = viewWidth >> 1;
+        viewCenterY = viewHeight >> 1;
+        cameraOffsetY = 3 * viewHeight / 4;
+        cameraLeadX = viewWidth / 6;
+        visibleCols = viewWidth / GameMap.TILE_SIZE + 2;
+        visibleRows = viewHeight / GameMap.TILE_SIZE + 2;
+        if (viewWidth % 24 != 0) {
+            ++visibleCols;
         }
 
-        fQ = (GameMap.width - 1) * GameMap.TILE_SIZE - r;
-        fR = (GameMap.height - 1) * GameMap.TILE_SIZE - s;
-        fO = fI = fe - bC + bF * fm;
-        fP = fJ = ff - bE;
-        if (fO < 0) {
-            fO = 0;
+        cameraMaxX = (GameMap.width - 1) * GameMap.TILE_SIZE - viewWidth;
+        cameraMaxY = (GameMap.height - 1) * GameMap.TILE_SIZE - viewHeight;
+        cameraX = cameraTargetX = fe - viewCenterX + cameraLeadX * fm;
+        cameraY = cameraTargetY = ff - cameraOffsetY;
+        if (cameraX < 0) {
+            cameraX = 0;
         }
 
-        if (fO > fQ) {
-            fO = fQ;
+        if (cameraX > cameraMaxX) {
+            cameraX = cameraMaxX;
         }
 
-        if (fP < 0) {
-            fP = 0;
+        if (cameraY < 0) {
+            cameraY = 0;
         }
 
-        if (fP > fR) {
-            fP = fR;
+        if (cameraY > cameraMaxY) {
+            cameraY = cameraMaxY;
         }
 
-        if ((bw = fO / GameMap.TILE_SIZE - 1) < 0) {
-            bw = 0;
+        if ((firstVisibleCol = cameraX / GameMap.TILE_SIZE - 1) < 0) {
+            firstVisibleCol = 0;
         }
 
-        bx = fP / GameMap.TILE_SIZE;
-        bA = bw + by;
-        bB = bx + bz;
-        if (bx < 0) {
-            bx = 0;
+        firstVisibleRow = cameraY / GameMap.TILE_SIZE;
+        lastVisibleCol = firstVisibleCol + visibleCols;
+        lastVisibleRow = firstVisibleRow + visibleRows;
+        if (firstVisibleRow < 0) {
+            firstVisibleRow = 0;
         }
 
-        if (bB > GameMap.height - 1) {
-            bB = GameMap.height - 1;
+        if (lastVisibleRow > GameMap.height - 1) {
+            lastVisibleRow = GameMap.height - 1;
         }
 
     }
@@ -2924,11 +2925,11 @@ public final class b extends Canvas implements Runnable {
 
                 bj = hudFrames[0].getWidth();
                 bk = hudFrames[1].getWidth();
-                bl = r - bj - bk + 1;
+                bl = viewWidth - bj - bk + 1;
                 bm = 78;
                 bn = bg + 7;
-                bo = r - 134;
-                bp = r - 84;
+                bo = viewWidth - 134;
+                bp = viewWidth - 84;
                 bs = 5;
             } catch (IOException var1) {
             }
@@ -3262,10 +3263,10 @@ public final class b extends Canvas implements Runnable {
         } catch (Exception var1) {
         }
 
-        bc = aU - 30;
-        bd = aU;
+        bc = screenHeight - 30;
+        bd = screenHeight;
         aY = 30;
-        aZ = aU - 50;
+        aZ = screenHeight - 50;
         ba = bb = aY + aZ >> 1;
         if (Save.isSaved()) {
             aX = 1;
@@ -3666,9 +3667,9 @@ public final class b extends Canvas implements Runnable {
             D(7);
         } else if (var0 == 101) {
             D(8);
-            fP = fJ = 336 - s;
-            fI = 24;
-            fO = 24;
+            cameraY = cameraTargetY = 336 - viewHeight;
+            cameraTargetX = 24;
+            cameraX = 24;
         } else if (var0 == 9 && P == 10) {
             D(9);
         }
@@ -3783,17 +3784,17 @@ public final class b extends Canvas implements Runnable {
         int var1;
         if (c && !a) {
             var0.setColor(j);
-            var0.fillRect(0, 0, r, q);
+            var0.fillRect(0, 0, viewWidth, q);
 
-            for(var1 = -((fO >> 1) % 24); var1 < r; var1 += 24) {
+            for(var1 = -((cameraX >> 1) % 24); var1 < viewWidth; var1 += 24) {
                 var0.drawImage(t[0], var1, k, 0);
             }
 
-            for(var1 = -((fO >> 2) % 24); var1 < r; var1 += 24) {
+            for(var1 = -((cameraX >> 2) % 24); var1 < viewWidth; var1 += 24) {
                 var0.drawImage(t[1], var1, l, 0);
             }
 
-            for(var1 = -((fO >> 4) % 64); var1 < r; var1 += 64) {
+            for(var1 = -((cameraX >> 4) % 64); var1 < viewWidth; var1 += 64) {
                 var0.drawImage(t[3], var1, n, 0);
             }
 
@@ -3803,13 +3804,13 @@ public final class b extends Canvas implements Runnable {
                 var0.drawImage(u, f[var1], g[var1], 3);
             }
 
-            for(var1 = -((fO >> 3) % 192); var1 < r; var1 += 192) {
+            for(var1 = -((cameraX >> 3) % 192); var1 < viewWidth; var1 += 192) {
                 var0.drawImage(t[2], var1, m, 0);
             }
 
         } else {
             var0.setColor(j);
-            var0.fillRect(0, 0, r, s);
+            var0.fillRect(0, 0, viewWidth, viewHeight);
             if (!a) {
                 var0.drawImage(v, h, i, 3);
 
@@ -3823,7 +3824,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void b(Graphics var0) {
         if (fw) {
-            if (x % 20 > 2) {
+            if (tick % 20 > 2) {
                 C = 25;
             } else {
                 C = 26;
@@ -3949,18 +3950,18 @@ public final class b extends Canvas implements Runnable {
 
     private static void e(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, -1, aT + 2, aU + 2);
+        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
         var0.setColor(0);
-        var0.fillRect(0, 0, r, bu);
+        var0.fillRect(0, 0, viewWidth, bu);
         if (be) {
-            var0.fillRect(0, aU - bu + 1, r, bu);
+            var0.fillRect(0, screenHeight - bu + 1, viewWidth, bu);
         } else {
-            var0.fillRect(0, aU - 13, aT, 13);
+            var0.fillRect(0, screenHeight - 13, screenWidth, 13);
         }
 
         if (fV) {
             for(int var1 = 0; var1 < fW.length; ++var1) {
-                FontGraph.drawBold(var0, fW[var1], bC, fX + (var1 << 4), 2);
+                FontGraph.drawBold(var0, fW[var1], viewCenterX, fX + (var1 << 4), 2);
             }
         }
 
@@ -3968,9 +3969,9 @@ public final class b extends Canvas implements Runnable {
 
     private static void f(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, -1, aT + 2, aU + 2);
+        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
         iA = iE[iC].length;
-        int var1 = iG - fP - (iA << 4);
+        int var1 = iG - cameraY - (iA << 4);
         boolean var2 = true;
         if (var1 < 10) {
             var2 = false;
@@ -4001,19 +4002,19 @@ public final class b extends Canvas implements Runnable {
 
         var0.setColor(0);
         var0.fillRect(0, bg + 33, bh, 15);
-        if (var2 && iF > fO + 10 && iF < fO + r - 10) {
-            var0.drawImage(markerIcon, iF - fO, iG - fP + 2, 17);
+        if (var2 && iF > cameraX + 10 && iF < cameraX + viewWidth - 10) {
+            var0.drawImage(markerIcon, iF - cameraX, iG - cameraY + 2, 17);
         }
 
-        if (x % 10 < 8) {
-            FontGraph.drawBold(var0, "Tiếp tục", bC, aU - 13, 2);
+        if (tick % 10 < 8) {
+            FontGraph.drawBold(var0, "Tiếp tục", viewCenterX, screenHeight - 13, 2);
         }
 
     }
 
     private static void g(Graphics var0) {
         for(int var1 = 0; var1 < du; ++var1) {
-            if (dz[var1] + fi >= fO && dz[var1] - fi <= fO + r && dA[var1] >= fP && dA[var1] - fh <= fP + s) {
+            if (dz[var1] + fi >= cameraX && dz[var1] - fi <= cameraX + viewWidth && dA[var1] >= cameraY && dA[var1] - fh <= cameraY + viewHeight) {
                 if (dJ[var1] == 1) {
                     var0.drawImage(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
                     var0.drawImage(heroLegs[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
@@ -4034,10 +4035,10 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void h(Graphics var0) {
-        var0.setClip(-1, -1, aT + 2, aU + 1);
+    private static void drawTutorial(Graphics var0) {
+        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
         a(var0);
-        var0.translate(-fO, -fP);
+        var0.translate(-cameraX, -cameraY);
         if (a) {
             j(var0);
         } else {
@@ -4151,7 +4152,7 @@ public final class b extends Canvas implements Runnable {
         iB = var0.length;
         iC = 0;
         iE = new String[iB][];
-        if ((iJ = r >> 1) < 120) {
+        if ((iJ = viewWidth >> 1) < 120) {
             iJ = 120;
         }
 
@@ -4159,12 +4160,12 @@ public final class b extends Canvas implements Runnable {
             iE[var1] = FontGraph.wrapRegularText(var0[var1], iJ - 20);
         }
 
-        if ((iK = iF - (iJ >> 1) - fO) < 2) {
+        if ((iK = iF - (iJ >> 1) - cameraX) < 2) {
             iK = 2;
         }
 
-        if (iK + iJ > r - 2) {
-            iK = r - 2 - iJ;
+        if (iK + iJ > viewWidth - 2) {
+            iK = viewWidth - 2 - iJ;
         }
 
         iz = true;
@@ -4281,7 +4282,7 @@ public final class b extends Canvas implements Runnable {
             if (bP[var0] == 1) {
                 int[] var10000 = bN;
                 var10000[var0] += bQ[var0];
-                if (bN[var0] >= fO && bN[var0] <= fO + r && bO[var0] >= fP && bO[var0] <= fP + s) {
+                if (bN[var0] >= cameraX && bN[var0] <= cameraX + viewWidth && bO[var0] >= cameraY && bO[var0] <= cameraY + viewHeight) {
                     if (a(fe - bN[var0]) < fi && a(ff - fj - bO[var0]) < fj) {
                         if (B == 5 && fd == 0 && bS[var0] < 3) {
                             bQ[var0] = -bQ[var0];
@@ -4310,7 +4311,7 @@ public final class b extends Canvas implements Runnable {
                 var10000 = bV;
                 var10000[var0] += bY[var0];
                 int var10002 = bY[var0]++;
-                if (bV[var0] > fP + s) {
+                if (bV[var0] > cameraY + viewHeight) {
                     bW[var0] = 0;
                 }
 
@@ -4333,8 +4334,8 @@ public final class b extends Canvas implements Runnable {
 
     private static void R() {
         if (fu) {
-            fI = fe - bC + bF * fm;
-            fJ = ff - bE;
+            cameraTargetX = fe - viewCenterX + cameraLeadX * fm;
+            cameraTargetY = ff - cameraOffsetY;
         }
 
         int var0;
@@ -4916,7 +4917,7 @@ public final class b extends Canvas implements Runnable {
                 ++A;
                 ff += A;
                 C = 21;
-                if (ff >= GameMap.pixelHeight || ff > fP + s + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
+                if (ff >= GameMap.pixelHeight || ff > cameraY + viewHeight + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
                     fe = fp;
                     ff = fq;
                     B = 4;
@@ -4935,8 +4936,8 @@ public final class b extends Canvas implements Runnable {
                         hm = hn;
                     }
 
-                    au();
-                    s(5);
+                    prepareDialog();
+                    showMessage(MessageType.GAME_NOTICE);
                     state = GameState.MESSAGE;
                 }
                 break;
@@ -4995,7 +4996,7 @@ public final class b extends Canvas implements Runnable {
                 break;
             case 12:
                 ff += A;
-                if (A < 20 && x % 2 == 0) {
+                if (A < 20 && tick % 2 == 0) {
                     ++A;
                 }
 
@@ -5035,13 +5036,13 @@ public final class b extends Canvas implements Runnable {
                 B = 14;
                 break;
             case 14:
-                if (x % 20 > 2) {
+                if (tick % 20 > 2) {
                     C = 25;
                 } else {
                     C = 26;
                 }
 
-                if (x % 8 == 0) {
+                if (tick % 8 == 0) {
                     if (PlayerStats.drainMp(1)) {
                         B = 15;
                     }
@@ -5104,7 +5105,7 @@ public final class b extends Canvas implements Runnable {
                 }
                 break;
             case 18:
-                if (x % 8 > 3) {
+                if (tick % 8 > 3) {
                     C = 43;
                 } else {
                     C = 44;
@@ -5114,7 +5115,7 @@ public final class b extends Canvas implements Runnable {
                 D = 0;
                 break;
             case 19:
-                if (x % 8 > 3) {
+                if (tick % 8 > 3) {
                     C = 43;
                 } else {
                     C = 44;
@@ -5200,7 +5201,7 @@ public final class b extends Canvas implements Runnable {
                         --z;
                     }
 
-                    if (x % 8 > 3) {
+                    if (tick % 8 > 3) {
                         C = 43;
                     } else {
                         C = 44;
@@ -5269,7 +5270,7 @@ public final class b extends Canvas implements Runnable {
                     ++fn;
                 }
 
-                if (x % 8 > 3) {
+                if (tick % 8 > 3) {
                     C = 43;
                 } else {
                     C = 44;
@@ -5285,7 +5286,7 @@ public final class b extends Canvas implements Runnable {
                 T();
         }
 
-        if (x % 3 == 0) {
+        if (tick % 3 == 0) {
             if (fw) {
                 if (PlayerStats.drainMp(1)) {
                     fw = false;
@@ -5428,7 +5429,7 @@ public final class b extends Canvas implements Runnable {
             D = 0;
         }
 
-        if (x % 8 == 0) {
+        if (tick % 8 == 0) {
             if (PlayerStats.drainMp(3)) {
                 z = 0;
                 B = 12;
@@ -5551,87 +5552,87 @@ public final class b extends Canvas implements Runnable {
                             ++fU;
                             break;
                         case 9:
-                            fO = aB[az[fT][fU]][0] - bC;
-                            fP = aB[az[fT][fU]][1] - bD;
-                            if (fO < 0) {
-                                fO = 0;
+                            cameraX = aB[az[fT][fU]][0] - viewCenterX;
+                            cameraY = aB[az[fT][fU]][1] - viewCenterY;
+                            if (cameraX < 0) {
+                                cameraX = 0;
                             }
 
-                            if (fO > fQ) {
-                                fO = fQ;
+                            if (cameraX > cameraMaxX) {
+                                cameraX = cameraMaxX;
                             }
 
-                            if (fP < 0) {
-                                fP = 0;
+                            if (cameraY < 0) {
+                                cameraY = 0;
                             }
 
-                            if (fP > fR) {
-                                fP = fR;
+                            if (cameraY > cameraMaxY) {
+                                cameraY = cameraMaxY;
                             }
 
-                            fI = fO;
-                            fJ = fP;
+                            cameraTargetX = cameraX;
+                            cameraTargetY = cameraY;
                             ++fU;
                             break;
                         case 10:
-                            fI = aB[az[fT][fU]][0] - bC;
-                            fJ = aB[az[fT][fU]][1] - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = aB[az[fT][fU]][0] - viewCenterX;
+                            cameraTargetY = aB[az[fT][fU]][1] - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
                             ++fU;
                             break;
                         case 11:
-                            fI = gP - bC;
-                            fJ = gQ - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = gP - viewCenterX;
+                            cameraTargetY = gQ - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
                             ++fU;
                             break;
                         case 12:
-                            fJ = fP += 2;
-                            if (fP > aB[az[fT][fU]][1] - bD) {
+                            cameraTargetY = cameraY += 2;
+                            if (cameraY > aB[az[fT][fU]][1] - viewCenterY) {
                                 ++fU;
                             }
                         case 13:
                         default:
                             break;
                         case 14:
-                            fI = fO -= 2;
-                            if (fO < aB[az[fT][fU]][0] - bC) {
+                            cameraTargetX = cameraX -= 2;
+                            if (cameraX < aB[az[fT][fU]][0] - viewCenterX) {
                                 ++fU;
                             }
                             break;
                         case 15:
                             fV = true;
-                            fW = FontGraph.wrapBoldText(aG[az[fT][fU]], r - 40);
+                            fW = FontGraph.wrapBoldText(aG[az[fT][fU]], viewWidth - 40);
                             if ((fY = (bt >> 1) - (fW.length << 3)) < 3) {
                                 fY = 2;
                             }
@@ -5683,22 +5684,22 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 23:
                             fu = false;
-                            fI = dz[az[fT][fU]] - bC;
-                            fJ = dA[az[fT][fU]] - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = dz[az[fT][fU]] - viewCenterX;
+                            cameraTargetY = dA[az[fT][fU]] - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
                             ++fU;
@@ -5722,22 +5723,22 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 27:
                             fu = false;
-                            fI = hp - bC;
-                            fJ = hq - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = hp - viewCenterX;
+                            cameraTargetY = hq - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
                             ++fU;
@@ -5800,22 +5801,22 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 31:
                             fu = false;
-                            fI = gn - bC;
-                            fJ = go - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = gn - viewCenterX;
+                            cameraTargetY = go - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
                             ++fU;
@@ -5943,7 +5944,7 @@ public final class b extends Canvas implements Runnable {
 
                             dF[var0] = 0;
                             int var2;
-                            if ((var2 = (x + dK[var0]) % 120 - 60) > 0) {
+                            if ((var2 = (tick + dK[var0]) % 120 - 60) > 0) {
                                 var2 += dK[var0];
                             } else {
                                 var2 -= dK[var0];
@@ -5960,7 +5961,7 @@ public final class b extends Canvas implements Runnable {
                             }
                         }
 
-                        if (x % 10 == 1) {
+                        if (tick % 10 == 1) {
                             B(var0);
                         }
                     }
@@ -5975,7 +5976,7 @@ public final class b extends Canvas implements Runnable {
                     int[] var10000 = dz;
                     var10000[var0] += dB[var0];
                     if (dz[var0] <= dN[var0] && dz[var0] >= dM[var0] && a(dz[var0] - dF[var0]) >= 8) {
-                        if (x % 10 == 0) {
+                        if (tick % 10 == 0) {
                             B(var0);
                         }
                     } else {
@@ -6123,9 +6124,9 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void Z() {
-        if (++x == 10000) {
-            x = 0;
+    private static void updateTutorial() {
+        if (++tick == 10000) {
+            tick = 0;
         }
 
         ad();
@@ -6174,7 +6175,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     var10002 = cB[var0]++;
-                    if (cv[var0] <= fP + s + 32 && cv[var0] < GameMap.pixelHeight) {
+                    if (cv[var0] <= cameraY + viewHeight + 32 && cv[var0] < GameMap.pixelHeight) {
                         continue;
                     }
 
@@ -6183,10 +6184,10 @@ public final class b extends Canvas implements Runnable {
                     cE[var0] = 5;
                     break;
                 case 2:
-                    if (x % 12 > 7) {
+                    if (tick % 12 > 7) {
                         cC[var0] = 1;
                         cI[var0] = 1;
-                        if (x % 12 < 10) {
+                        if (tick % 12 < 10) {
                             if (a(cu[var0] - cG[var0]) < 4) {
                                 cF[var0] = cG[var0] = 0;
                                 cE[var0] = 3;
@@ -6204,7 +6205,7 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case 3:
-                    if ((x + var0) % 10 > 5) {
+                    if ((tick + var0) % 10 > 5) {
                         cC[var0] = 1;
                     } else {
                         cC[var0] = 0;
@@ -6215,7 +6216,7 @@ public final class b extends Canvas implements Runnable {
                     cJ[var0] = 0;
                     if (cF[var0] > 50) {
                         int var1;
-                        if ((var1 = (x - var0) % (var0 + 80) - 40) > 0) {
+                        if ((var1 = (tick - var0) % (var0 + 80) - 40) > 0) {
                             var1 += 20;
                         } else {
                             var1 -= 20;
@@ -6223,7 +6224,7 @@ public final class b extends Canvas implements Runnable {
 
                         cG[var0] = cu[var0] + var1;
                         cH[var0] = var1 > 0 ? 1 : -1;
-                        if (x % 4 > 1) {
+                        if (tick % 4 > 1) {
                             cE[var0] = 2;
                             cy[var0] = cH[var0] << 1;
                         } else {
@@ -6240,7 +6241,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (x % 30 == 28) {
+                    if (tick % 30 == 28) {
                         w(var0);
                         v(var0);
                     }
@@ -6290,7 +6291,7 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case 6:
-                    if ((x + var0) % 10 > 5) {
+                    if ((tick + var0) % 10 > 5) {
                         cC[var0] = 1;
                     } else {
                         cC[var0] = 0;
@@ -6330,7 +6331,7 @@ public final class b extends Canvas implements Runnable {
                     } else {
                         var10000 = cu;
                         var10000[var0] += cy[var0];
-                        if (x % 2 == 1) {
+                        if (tick % 2 == 1) {
                             cC[var0] = 1;
                             cI[var0] = 3;
                         } else {
@@ -6406,7 +6407,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void ac() {
         if (hi) {
-            int var0 = x % 10;
+            int var0 = tick % 10;
             int var1 = a(fe - hp);
             int var2 = a(ff - hq);
             switch (hr) {
@@ -6597,7 +6598,7 @@ public final class b extends Canvas implements Runnable {
                 default:
                     return;
                 case 4:
-                    if (fe > fO + r) {
+                    if (fe > cameraX + viewWidth) {
                         C(av[id][ifSt]);
                         ++ifSt;
                         return;
@@ -6657,12 +6658,12 @@ public final class b extends Canvas implements Runnable {
     public b() {
         this.setFullScreenMode(true);
         System.gc();
-        aM = this;
+        instance = this;
         Input.motorolaKeys = this.getKeyCode(Canvas.FIRE) == Input.MOTOROLA_CODE_FIRE;
-        aT = this.getWidth();
-        aU = this.getHeight();
-        aV = aT / 2;
-        aW = aU / 2;
+        screenWidth = this.getWidth();
+        screenHeight = this.getHeight();
+        screenCenterX = screenWidth / 2;
+        screenCenterY = screenHeight / 2;
         Input.clearHeld();
     }
 
@@ -6733,17 +6734,17 @@ public final class b extends Canvas implements Runnable {
             switch (state) {
                 case GameState.PLAYING:
                     Graphics var6 = var1;
-                    var1.setClip(-1, -1, r + 2, s + 2);
+                    var1.setClip(-1, -1, viewWidth + 2, viewHeight + 2);
                     a(var1);
-                    var1.translate(-fO, -fP);
+                    var1.translate(-cameraX, -cameraY);
                     var1 = var1;
 
                     int var2;
                     for(var2 = 0; var2 < iX; ++var2) {
-                        if (iZ[var2] + jb[var2] >= fO && iZ[var2] - jb[var2] <= fO + r && ja[var2] >= fP && ja[var2] - jc[var2] <= fP + s) {
-                            jg = (jf = iZ[var2] - fO) - bC;
-                            jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + bC;
-                            var1.drawImage(houseImages[iY[var2]], fO + jh, ja[var2], 33);
+                        if (iZ[var2] + jb[var2] >= cameraX && iZ[var2] - jb[var2] <= cameraX + viewWidth && ja[var2] >= cameraY && ja[var2] - jc[var2] <= cameraY + viewHeight) {
+                            jg = (jf = iZ[var2] - cameraX) - viewCenterX;
+                            jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                            var1.drawImage(houseImages[iY[var2]], cameraX + jh, ja[var2], 33);
                         }
                     }
 
@@ -6782,7 +6783,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < iq; ++var2) {
-                        if (fO <= is[var2] + 12 && fO + r >= is[var2] - 12 && fP <= it[var2] && fP + s >= it[var2] - 24) {
+                        if (cameraX <= is[var2] + 12 && cameraX + viewWidth >= is[var2] - 12 && cameraY <= it[var2] && cameraY + viewHeight >= it[var2] - 24) {
                             var1.drawImage(itemCrate, is[var2], it[var2], 33);
                         }
                     }
@@ -6790,7 +6791,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < ii; ++var2) {
-                        if (fO <= ik[var2] + 12 && fO + r >= ik[var2] - 12 && fP <= il[var2] && fP + s >= il[var2] - 24) {
+                        if (cameraX <= ik[var2] + 12 && cameraX + viewWidth >= ik[var2] - 12 && cameraY <= il[var2] && cameraY + viewHeight >= il[var2] - 24) {
                             if (im[var2] == 1) {
                                 var1.drawImage(motorbikeFrames[in[var2]], ik[var2], il[var2], 33);
                             } else {
@@ -6802,7 +6803,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < de; ++var2) {
-                        if (dh[var2] != 0 && df[var2] >= fO - 10 && df[var2] <= fO + r + 10 && dg[var2] >= fP && dg[var2] <= fP + s + 20) {
+                        if (dh[var2] != 0 && df[var2] >= cameraX - 10 && df[var2] <= cameraX + viewWidth + 10 && dg[var2] >= cameraY && dg[var2] <= cameraY + viewHeight + 20) {
                             var1.drawRegion(itemMoney[dm[var2]], 0, dk[var2] * Item.FRAME_HEIGHT, Item.MONEY_WIDTH, Item.FRAME_HEIGHT, 0, df[var2], dg[var2], 33);
                         }
                     }
@@ -6810,17 +6811,17 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < cM; ++var2) {
-                        if (cQ[var2] != 0 && cO[var2] >= fO - 10 && cO[var2] <= fO + r + 10 && cP[var2] >= fP && cP[var2] <= fP + s + 20) {
+                        if (cQ[var2] != 0 && cO[var2] >= cameraX - 10 && cO[var2] <= cameraX + viewWidth + 10 && cP[var2] >= cameraY && cP[var2] <= cameraY + viewHeight + 20) {
                             var1.drawRegion(itemPotions[cN[var2]], 0, cT[var2] * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, cO[var2], cP[var2], 33);
                         }
                     }
 
                     int var3;
-                    if (gN && gS != 22 && fO + r >= gP - (gV >> 1) && fO <= gP + (gV >> 1) && fP <= gQ && fP + s >= gQ - gW) {
+                    if (gN && gS != 22 && cameraX + viewWidth >= gP - (gV >> 1) && cameraX <= gP + (gV >> 1) && cameraY <= gQ && cameraY + viewHeight >= gQ - gW) {
                         byte var8 = 0;
                         if (gU == 0) {
                             var8 = -2;
-                            if (gS == 1 && x % 10 > 5) {
+                            if (gS == 1 && tick % 10 > 5) {
                                 var8 = -1;
                             }
 
@@ -6882,7 +6883,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < jG; ++var2) {
-                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= fO - 10 && jJ[var2] <= fO + r + 10 && jK[var2] >= fP && jK[var2] <= fP + s + 20) {
+                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= cameraX - 10 && jJ[var2] <= cameraX + viewWidth + 10 && jK[var2] >= cameraY && jK[var2] <= cameraY + viewHeight + 20) {
                             var1.drawImage(monsterSprites[kg[var2]][jX[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][jW[var2]], jJ[var2], jK[var2], 33);
                             if (jN[var2] != 0) {
                                 var1.setColor(13073);
@@ -6899,7 +6900,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < cp; ++var2) {
-                        if (cE[var2] != 5 && cu[var2] + 15 >= fO && cu[var2] - 15 <= fO + r && cv[var2] >= fP && cv[var2] - 30 <= fP + s) {
+                        if (cE[var2] != 5 && cu[var2] + 15 >= cameraX && cu[var2] - 15 <= cameraX + viewWidth && cv[var2] >= cameraY && cv[var2] - 30 <= cameraY + viewHeight) {
                             if (cH[var2] == -1) {
                                 var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
                                 var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
@@ -6921,8 +6922,8 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     g(var6);
-                    if (dn && doSt + 15 >= fO && doSt - 15 <= fO + r && dp >= fP && dp - 10 <= fP + s) {
-                    var2 = x % 8 > 3 ? 0 : 1;
+                    if (dn && doSt + 15 >= cameraX && doSt - 15 <= cameraX + viewWidth && dp >= cameraY && dp - 10 <= cameraY + viewHeight) {
+                    var2 = tick % 8 > 3 ? 0 : 1;
                     if (dq > 0) {
                         var6.drawImage(npcDog[var2], doSt, dp, 33);
                     } else {
@@ -6933,8 +6934,8 @@ public final class b extends Canvas implements Runnable {
                 if (hc) {
                     if (hd) {
                         var6.setColor(16768477);
-                        var2 = fO + 50;
-                        var3 = fP + 15;
+                        var2 = cameraX + 50;
+                        var3 = cameraY + 15;
                         if (!be) {
                             var3 += 20;
                         }
@@ -6947,7 +6948,7 @@ public final class b extends Canvas implements Runnable {
                         var6.fillRect(var2 - 35 + var7, var3 - 6, 70 - var7 + 1, 3);
                     }
 
-                    if (dz[0] + fi >= fO && dz[0] - fi <= fO + r && dA[0] >= fP && dA[0] - fh <= fP + s) {
+                    if (dz[0] + fi >= cameraX && dz[0] - fi <= cameraX + viewWidth && dA[0] >= cameraY && dA[0] - fh <= cameraY + viewHeight) {
                         if (dJ[0] == 1) {
                             var6.drawImage(classmateHeads[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
                             var6.drawImage(heroLegs[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
@@ -7071,13 +7072,13 @@ public final class b extends Canvas implements Runnable {
 
                 if (cm) {
                     var6.translate(-var6.getTranslateX(), -var6.getTranslateY());
-                    var6.setClip(-1, -1, aT + 2, aU + 2);
+                    var6.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
                     var6.setColor(0);
-                    var6.fillRect(0, 0, aT, 21);
+                    var6.fillRect(0, 0, screenWidth, 21);
                     var6.setColor(10275899);
-                    var6.fillRect(0, 19, aT, 1);
-                    if (x % 10 > 2) {
-                        FontGraph.drawBold(var6, co, bC, 4, 2);
+                    var6.fillRect(0, 19, screenWidth, 1);
+                    if (tick % 10 > 2) {
+                        FontGraph.drawBold(var6, co, viewCenterX, 4, 2);
                     }
                 }
 
@@ -7088,13 +7089,13 @@ public final class b extends Canvas implements Runnable {
                 return;
                 case GameState.LOADING:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, aT, 21);
-                    FontGraph.drawBold(var1, "Loading... " + T + "%", aT >> 1, 4, 2);
+                    var1.fillRect(0, 0, screenWidth, 21);
+                    FontGraph.drawBold(var1, "Loading... " + T + "%", screenWidth >> 1, 4, 2);
                     return;
                 case GameState.MAIN_MENU:
-                    var1.setClip(-1, -1, aT + 2, aU + 1);
+                    var1.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
                     a(var1);
-                    var1.translate(-fO, -fP);
+                    var1.translate(-cameraX, -cameraY);
                     if (a) {
                         j(var1);
                     } else {
@@ -7105,62 +7106,62 @@ public final class b extends Canvas implements Runnable {
                     l(var1);
                     var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
                     var1.setColor(0);
-                    var1.fillRect(0, 0, r, ba);
-                    var1.fillRect(0, bb, r, aU - bb + 1);
+                    var1.fillRect(0, 0, viewWidth, ba);
+                    var1.fillRect(0, bb, viewWidth, screenHeight - bb + 1);
                     var1.setColor(10275899);
-                    var1.fillRect(0, ba - 1, aT, 1);
-                    var1.fillRect(0, bb + 1, aT, 1);
-                    var1.drawImage(titleImage, aV, aY + bb >> 1, 3);
-                    FontGraph.drawBold(var1, "*", aV - 50 - x % 3, bd, 0);
-                    FontGraph.drawBold(var1, "/", aV + 50 + x % 3, bd, 1);
-                    FontGraph.drawBold(var1, aE[aX], aV, bd, 3);
+                    var1.fillRect(0, ba - 1, screenWidth, 1);
+                    var1.fillRect(0, bb + 1, screenWidth, 1);
+                    var1.drawImage(titleImage, screenCenterX, aY + bb >> 1, 3);
+                    FontGraph.drawBold(var1, "*", screenCenterX - 50 - tick % 3, bd, 0);
+                    FontGraph.drawBold(var1, "/", screenCenterX + 50 + tick % 3, bd, 1);
+                    FontGraph.drawBold(var1, aE[aX], screenCenterX, bd, 3);
                     return;
                 case GameState.LOGO:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, aT, aU);
+                    var1.fillRect(0, 0, screenWidth, screenHeight);
                     if (logoImage != null && jE >= 0) {
-                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, aT >> 1, aU >> 1, 3);
+                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, screenWidth >> 1, screenHeight >> 1, 3);
                     }
 
                     return;
                 case GameState.GAME_MENU:
-                    o(var1);
+                    drawGameMenu(var1);
                     return;
                 case GameState.WORLD_MAP:
-                    p(var1);
+                    drawWorldMap(var1);
                     return;
                 case GameState.MESSAGE:
-                    q(var1);
+                    drawMessage(var1);
                     return;
                 case GameState.INVENTORY:
-                    n(var1);
+                    drawInventory(var1);
                     return;
                 case GameState.SHOP:
-                    m(var1);
+                    drawShop(var1);
                     return;
                 case GameState.SETUP_PROMPT:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, aT, aU);
+                    var1.fillRect(0, 0, screenWidth, screenHeight);
                     if (!lk) {
-                        var1.drawImage(popupImage, aV, aW - 30, 3);
+                        var1.drawImage(popupImage, screenCenterX, screenCenterY - 30, 3);
                         if (ll == 0) {
-                            FontGraph.drawBold(var1, "Bật âm thanh?", aV, aW + 15, 2);
-                            FontGraph.drawBold(var1, "Bật", 4, aU - 14, 0);
-                            FontGraph.drawBold(var1, "Tắt", aT - 4, aU - 14, 1);
+                            FontGraph.drawBold(var1, "Bật âm thanh?", screenCenterX, screenCenterY + 15, 2);
+                            FontGraph.drawBold(var1, "Bật", 4, screenHeight - 14, 0);
+                            FontGraph.drawBold(var1, "Tắt", screenWidth - 4, screenHeight - 14, 1);
                             break;
                         }
 
-                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", aV, aW + 15, 2);
-                        FontGraph.drawBold(var1, "Cao", 4, aU - 14, 0);
-                        FontGraph.drawBold(var1, "Thấp", aT - 4, aU - 14, 1);
+                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", screenCenterX, screenCenterY + 15, 2);
+                        FontGraph.drawBold(var1, "Cao", 4, screenHeight - 14, 0);
+                        FontGraph.drawBold(var1, "Thấp", screenWidth - 4, screenHeight - 14, 1);
                     }
 
                     return;
                 case GameState.TUTORIAL:
-                    h(var1);
+                    drawTutorial(var1);
                     return;
                 case GameState.UNUSED_12:
-                    h(var1);
+                    drawTutorial(var1);
                     return;
                 default:
                     return;
@@ -7194,8 +7195,8 @@ public final class b extends Canvas implements Runnable {
             int var10002;
             switch (state) {
                 case GameState.PLAYING:
-                    if (++x == 10000) {
-                        x = 0;
+                    if (++tick == 10000) {
+                        tick = 0;
                     }
 
                     if (fe < 0) {
@@ -7210,8 +7211,8 @@ public final class b extends Canvas implements Runnable {
                     } else if (fe >= GameMap.pixelWidth - 24) {
                         if (jp != -1) {
                             if (!eZ && jp == 95) {
-                                s(6);
-                                a("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
+                                showMessage(MessageType.LEVEL_UP);
+                                setMessageText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
                                 fe = GameMap.pixelWidth - 60;
                                 B = 4;
                                 state = GameState.MESSAGE;
@@ -7252,9 +7253,9 @@ public final class b extends Canvas implements Runnable {
                     int var13;
                     if (!a) {
                         for(var13 = 0; var13 < 2; ++var13) {
-                            if (x % (var13 + 2 << 3) == 0) {
+                            if (tick % (var13 + 2 << 3) == 0) {
                                 var10002 = f[var13]++;
-                                if (f[var13] > r + (u.getWidth() >> 1)) {
+                                if (f[var13] > viewWidth + (u.getWidth() >> 1)) {
                                     f[var13] = -(u.getWidth() >> 1);
                                 }
                             }
@@ -7276,7 +7277,7 @@ public final class b extends Canvas implements Runnable {
                     } else {
                         label2614: {
                             if (Input.pressed[Input.KEY_SOFT_LEFT]) {
-                                ap();
+                                openGameMenu();
                                 state = GameState.GAME_MENU;
                                 Input.clearHeld();
                                 Input.clearPressed();
@@ -7649,14 +7650,14 @@ public final class b extends Canvas implements Runnable {
                                                     }
 
                                                     if (var4 == 6) {
-                                                        an();
+                                                        openShop();
                                                         state = GameState.SHOP;
                                                         kr = 0;
                                                     }
                                                 }
 
                                                 if (w == 2 && var4 == 0) {
-                                                    an();
+                                                    openShop();
                                                     state = GameState.SHOP;
                                                     kr = 1;
                                                 }
@@ -8067,69 +8068,69 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (fO != fI || fP != fJ) {
-                        fK = fI - fO << 2;
-                        fL = fJ - fP << 2;
+                    if (cameraX != cameraTargetX || cameraY != cameraTargetY) {
+                        fK = cameraTargetX - cameraX << 2;
+                        fL = cameraTargetY - cameraY << 2;
                         fM += fK;
-                        fO += fM >> 4;
+                        cameraX += fM >> 4;
                         fM &= 15;
                         fN += fL;
-                        fP += fN >> 4;
+                        cameraY += fN >> 4;
                         fN &= 15;
-                        if (fO < 0) {
-                            fO = 0;
+                        if (cameraX < 0) {
+                            cameraX = 0;
                         }
 
-                        if (fO > fQ) {
-                            fO = fQ;
+                        if (cameraX > cameraMaxX) {
+                            cameraX = cameraMaxX;
                         }
 
-                        if (fP < 0) {
-                            fP = 0;
+                        if (cameraY < 0) {
+                            cameraY = 0;
                         }
 
-                        if (fP > fR) {
-                            fP = fR;
+                        if (cameraY > cameraMaxY) {
+                            cameraY = cameraMaxY;
                         }
                     }
 
                     if (aL >= 0) {
-                        fO += aJ[aL];
-                        fP += aK[aL];
+                        cameraX += aJ[aL];
+                        cameraY += aK[aL];
                         if (++aL == 4) {
                             aL = -1;
                         }
 
-                        if (fO < 0) {
-                            fO = 0;
+                        if (cameraX < 0) {
+                            cameraX = 0;
                         }
 
-                        if (fO > fQ) {
-                            fO = fQ;
+                        if (cameraX > cameraMaxX) {
+                            cameraX = cameraMaxX;
                         }
 
-                        if (fP < 0) {
-                            fP = 0;
+                        if (cameraY < 0) {
+                            cameraY = 0;
                         }
 
-                        if (fP > fR) {
-                            fP = fR;
+                        if (cameraY > cameraMaxY) {
+                            cameraY = cameraMaxY;
                         }
                     }
 
-                    if ((bw = fO / GameMap.TILE_SIZE - 1) < 0) {
-                        bw = 0;
+                    if ((firstVisibleCol = cameraX / GameMap.TILE_SIZE - 1) < 0) {
+                        firstVisibleCol = 0;
                     }
 
-                    bx = fP / GameMap.TILE_SIZE;
-                    bA = bw + by;
-                    bB = bx + bz;
-                    if (bx < 0) {
-                        bx = 0;
+                    firstVisibleRow = cameraY / GameMap.TILE_SIZE;
+                    lastVisibleCol = firstVisibleCol + visibleCols;
+                    lastVisibleRow = firstVisibleRow + visibleRows;
+                    if (firstVisibleRow < 0) {
+                        firstVisibleRow = 0;
                     }
 
-                    if (bB > GameMap.height - 1) {
-                        bB = GameMap.height - 1;
+                    if (lastVisibleRow > GameMap.height - 1) {
+                        lastVisibleRow = GameMap.height - 1;
                     }
 
                     int[] var10000;
@@ -8180,7 +8181,7 @@ public final class b extends Canvas implements Runnable {
                                 iu[var13] = 1;
                                 break;
                             case 11:
-                                if (x % 2 == 0) {
+                                if (tick % 2 == 0) {
                                     var10000 = it;
                                     var10000[var13] += ix[var13];
                                     var10000 = iw;
@@ -8211,7 +8212,7 @@ public final class b extends Canvas implements Runnable {
                         if (var13 == ij) {
                             if (D > 1) {
                                 in[var13] = 2;
-                            } else if (x % 8 > 3) {
+                            } else if (tick % 8 > 3) {
                                 in[var13] = 1;
                             } else {
                                 in[var13] = 0;
@@ -8252,7 +8253,7 @@ public final class b extends Canvas implements Runnable {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (ch[var13] != -1) {
                                 var10002 = cg[var13]--;
-                                if (x % 2 == 0) {
+                                if (tick % 2 == 0) {
                                     var10002 = ch[var13]++;
                                     if (ch[var13] > 2) {
                                         ch[var13] = -1;
@@ -8304,7 +8305,7 @@ public final class b extends Canvas implements Runnable {
                             var10000[var13] += da[var13];
                             var10000 = cX;
                             var10000[var13] += db[var13];
-                            if (cW[var13] >= fO && cW[var13] <= fO + r && cX[var13] >= fP && cX[var13] <= fP + s) {
+                            if (cW[var13] >= cameraX && cW[var13] <= cameraX + viewWidth && cX[var13] >= cameraY && cX[var13] <= cameraY + viewHeight) {
                                 if (da[var13] > 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                     cY[var13] = 2;
                                     cW[var13] = I(cW[var13]);
@@ -8444,34 +8445,34 @@ public final class b extends Canvas implements Runnable {
 
                     P();
                     if (gb >= 0) {
-                        if (gc > fO + 10 && gc < fO + r - 10 && gd > fP + 10 && gd < fP + s - 10) {
+                        if (gc > cameraX + 10 && gc < cameraX + viewWidth - 10 && gd > cameraY + 10 && gd < cameraY + viewHeight - 10) {
                             ge = 2;
                             gf = gc;
                             gg = gd + gi;
                         } else if (a(fe - gc) > a(ff - gd)) {
                             if (fe > gc) {
                                 ge = 1;
-                                gf = fO + 20 + gi;
+                                gf = cameraX + 20 + gi;
                             } else {
                                 ge = 0;
-                                gf = fO + r - 20 + gi;
+                                gf = cameraX + viewWidth - 20 + gi;
                             }
 
-                            if ((gg = gd + 24) < fP + 10) {
-                                gg = fP + 10;
+                            if ((gg = gd + 24) < cameraY + 10) {
+                                gg = cameraY + 10;
                             }
 
-                            if (gg > fP + s - 10) {
-                                gg = fP + s - 10;
+                            if (gg > cameraY + viewHeight - 10) {
+                                gg = cameraY + viewHeight - 10;
                             }
                         } else if (ff > gd) {
                             ge = 3;
                             gf = fe;
-                            gg = fP + 20 + gi;
+                            gg = cameraY + 20 + gi;
                         } else {
                             ge = 2;
                             gf = fe;
-                            gg = fP + s - 20 + gi;
+                            gg = cameraY + viewHeight - 20 + gi;
                         }
 
                         if ((gi += gh) == 5 || gi == -5) {
@@ -8494,11 +8495,11 @@ public final class b extends Canvas implements Runnable {
                                         gs = 1;
                                     }
 
-                                    if (gk && x % 6 == 0) {
+                                    if (gk && tick % 6 == 0) {
                                         D();
                                     }
 
-                                    if (x % 15 == 0) {
+                                    if (tick % 15 == 0) {
                                         E();
                                     }
                                     break;
@@ -8747,7 +8748,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     Y();
-                    if (x % 2 == 0 && ((doSt += dq) > ds || doSt < dr)) {
+                    if (tick % 2 == 0 && ((doSt += dq) > ds || doSt < dr)) {
                     dq = -dq;
                     doSt += dq;
                 }
@@ -8764,7 +8765,7 @@ public final class b extends Canvas implements Runnable {
                             if (gX > 0) {
                                 --gX;
                             } else {
-                                if ((var13 = x % 80 - 40) > 0) {
+                                if ((var13 = tick % 80 - 40) > 0) {
                                     var13 += 20;
                                 } else {
                                     var13 -= 20;
@@ -8777,18 +8778,18 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 gS = 2;
-                                if (x % 5 == 0) {
+                                if (tick % 5 == 0) {
                                     N();
                                 }
                             }
 
                             gU = 0;
-                            if (x % 10 == 6) {
+                            if (tick % 10 == 6) {
                                 e(-gT, gP + gT * 28, gQ - 5);
                             }
                             break;
                         case 2:
-                            if (x % 8 == 0) {
+                            if (tick % 8 == 0) {
                                 N();
                             }
 
@@ -8801,7 +8802,7 @@ public final class b extends Canvas implements Runnable {
                                     gX = 20;
                                 }
 
-                                if (x % 2 == 0) {
+                                if (tick % 2 == 0) {
                                     gP += gR;
                                     gU = 0;
                                 } else {
@@ -8832,7 +8833,7 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 gP += gR;
-                                gU = x % 3;
+                                gU = tick % 3;
                             }
                             break;
                         case 6:
@@ -8847,7 +8848,7 @@ public final class b extends Canvas implements Runnable {
                                 ++gR;
                             }
 
-                            if (gQ > fP + s + gW || gQ >= GameMap.pixelHeight + gW) {
+                            if (gQ > cameraY + viewHeight + gW || gQ >= GameMap.pixelHeight + gW) {
                                 gX = 0;
                                 gS = 22;
                             }
@@ -8865,7 +8866,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 if (hJ) {
-                    var13 = x % 10;
+                    var13 = tick % 10;
                     if (ic > 0) {
                         --ic;
                     }
@@ -8906,11 +8907,11 @@ public final class b extends Canvas implements Runnable {
                                 hY = hP < fe ? 1 : -1;
                             }
 
-                            if (x % 122 == 0) {
+                            if (tick % 122 == 0) {
                                 c(hP, hQ - 45, -1, -12, hK);
                                 c(hP, hQ - 50, 0, -15, hK);
                                 c(hP, hQ - 45, 1, -12, hK);
-                            } else if (x % 200 == 0) {
+                            } else if (tick % 200 == 0) {
                                 hX = 7;
                                 ib = 0;
                             }
@@ -9003,7 +9004,7 @@ public final class b extends Canvas implements Runnable {
                 ac();
                 if (hc) {
                     label2824: {
-                        var13 = x % 50;
+                        var13 = tick % 50;
                         var5 = a(dz[0] - fe);
                         switch (dD[0]) {
                             case 0:
@@ -9490,8 +9491,8 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case GameState.MAIN_MENU:
-                    if (++x == 10000) {
-                        x = 0;
+                    if (++tick == 10000) {
+                        tick = 0;
                     }
 
                     if (Input.pressed[Input.KEY_LEFT]) {
@@ -9529,7 +9530,7 @@ public final class b extends Canvas implements Runnable {
                                 int[] var12;
                                 gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
                                 w = var12[1];
-                                x = var12[2];
+                                tick = var12[2];
                                 eE = var12[3] == 1;
                                 dd = var12[4];
                                 dw = var12[5] == 1;
@@ -9566,48 +9567,48 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (fO == 0) {
-                        fO = 960;
-                        fP = 48;
+                    if (cameraX == 0) {
+                        cameraX = 960;
+                        cameraY = 48;
                         fK = 1;
                         fL = 1;
                     }
 
-                    fO += fK;
-                    fP += fL;
-                    if (fO > fQ) {
-                        fO = fQ;
+                    cameraX += fK;
+                    cameraY += fL;
+                    if (cameraX > cameraMaxX) {
+                        cameraX = cameraMaxX;
                         fK = -fK;
                     }
 
-                    if (fO < 24) {
-                        fO = 24;
+                    if (cameraX < 24) {
+                        cameraX = 24;
                         fK = -fK;
                     }
 
-                    if (fP < 0) {
-                        fP = 0;
+                    if (cameraY < 0) {
+                        cameraY = 0;
                         fL = -fL;
                     }
 
-                    if (fP > fR) {
-                        fP = fR;
+                    if (cameraY > cameraMaxY) {
+                        cameraY = cameraMaxY;
                         fL = -fL;
                     }
 
-                    if ((bw = fO / GameMap.TILE_SIZE - 1) < 0) {
-                        bw = 0;
+                    if ((firstVisibleCol = cameraX / GameMap.TILE_SIZE - 1) < 0) {
+                        firstVisibleCol = 0;
                     }
 
-                    bx = fP / GameMap.TILE_SIZE;
-                    bA = bw + by;
-                    bB = bx + bz;
-                    if (bx < 0) {
-                        bx = 0;
+                    firstVisibleRow = cameraY / GameMap.TILE_SIZE;
+                    lastVisibleCol = firstVisibleCol + visibleCols;
+                    lastVisibleRow = firstVisibleRow + visibleRows;
+                    if (firstVisibleRow < 0) {
+                        firstVisibleRow = 0;
                     }
 
-                    if (bB > GameMap.height - 1) {
-                        bB = GameMap.height - 1;
+                    if (lastVisibleRow > GameMap.height - 1) {
+                        lastVisibleRow = GameMap.height - 1;
                     }
 
                     if (ba > aY) {
@@ -9635,8 +9636,8 @@ public final class b extends Canvas implements Runnable {
                         jE = 4 - (jD - 46);
                     }
 
-                    aT = aM.getWidth();
-                    aU = aM.getHeight();
+                    screenWidth = instance.getWidth();
+                    screenHeight = instance.getHeight();
                     ++jD;
                     break;
                 case GameState.GAME_MENU:
@@ -9654,13 +9655,13 @@ public final class b extends Canvas implements Runnable {
                     } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
                         if (Input.pressed[Input.KEY_DOWN]) {
                             var3 = true;
-                            if (++kI > 3) {
-                                kI = 0;
+                            if (++gameMenuSelection > 3) {
+                                gameMenuSelection = 0;
                             }
                         } else if (Input.pressed[Input.KEY_UP]) {
                             var3 = true;
-                            if (--kI < 0) {
-                                kI = 3;
+                            if (--gameMenuSelection < 0) {
+                                gameMenuSelection = 3;
                             }
                         } else if (Input.pressed[Input.KEY_LEFT]) {
                             var3 = true;
@@ -9669,24 +9670,24 @@ public final class b extends Canvas implements Runnable {
                         }
                     } else {
                         var3 = true;
-                        if (kI == 0) {
-                            ao();
+                        if (gameMenuSelection == 0) {
+                            openInventory();
                             state = GameState.INVENTORY;
                         }
 
-                        if (kI == 1) {
-                            aq();
+                        if (gameMenuSelection == 1) {
+                            openWorldMap();
                             state = GameState.WORLD_MAP;
                         }
 
-                        if (kI == 2) {
+                        if (gameMenuSelection == 2) {
                             if (B != 1) {
                                 cornerIcons = null;
                                 ah();
-                                au();
-                                s(5);
-                                a("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
-                                Y = bD - 40;
+                                prepareDialog();
+                                showMessage(MessageType.GAME_NOTICE);
+                                setMessageText("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
+                                messageY = viewCenterY - 40;
                                 state = GameState.MESSAGE;
                             } else {
                                 b = false;
@@ -9732,15 +9733,15 @@ public final class b extends Canvas implements Runnable {
                     var3 = false;
                     if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
                         Input.clearPressed();
-                        if (kV != -1) {
-                            if (!X[kV]) {
-                                s(1);
+                        if (worldMapCursor != -1) {
+                            if (!X[worldMapCursor]) {
+                                showMessage(MessageType.TRAVEL_NOT_VISITED);
                                 state = GameState.MESSAGE;
-                            } else if (lh == kV) {
-                                s(3);
+                            } else if (worldMapCurrent == worldMapCursor) {
+                                showMessage(MessageType.TRAVEL_ALREADY_HERE);
                                 state = GameState.MESSAGE;
                             } else {
-                                s(2);
+                                showMessage(MessageType.TRAVEL_CONFIRM);
                                 state = GameState.MESSAGE;
                             }
                         }
@@ -9788,8 +9789,8 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         if (var3) {
-                            kX = kT - bC;
-                            kY = kU - bD;
+                            kX = kT - viewCenterX;
+                            kY = kU - viewCenterY;
                             as();
                         }
                     }
@@ -9801,29 +9802,29 @@ public final class b extends Canvas implements Runnable {
 
                     if (Input.pressed[Input.KEY_SOFT_LEFT]) {
                         Input.clearPressed();
-                        switch (lm) {
-                            case 1:
-                            case 3:
-                            case 4:
+                        switch (messageType) {
+                            case MessageType.TRAVEL_NOT_VISITED:
+                            case MessageType.TRAVEL_ALREADY_HERE:
+                            case MessageType.NOT_ENOUGH_MONEY:
                                 state = GameState.WORLD_MAP;
                                 break;
-                            case 2:
-                                if (ln >= dd) {
-                                    s(4);
+                            case MessageType.TRAVEL_CONFIRM:
+                                if (travelCost >= dd) {
+                                    showMessage(MessageType.NOT_ENOUGH_MONEY);
                                 } else {
-                                    dd -= ln;
+                                    dd -= travelCost;
                                     ar();
                                     cornerIcons = null;
                                     ah();
                                     B();
-                                    fp = fe = kP[kV] * 24;
-                                    fq = ff = kQ[kV] * 24;
+                                    fp = fe = kP[worldMapCursor] * 24;
+                                    fq = ff = kQ[worldMapCursor] * 24;
                                     Save.pendingSave = true;
-                                    x(kV);
+                                    x(worldMapCursor);
                                 }
                                 break;
-                            case 5:
-                            case 6:
+                            case MessageType.GAME_NOTICE:
+                            case MessageType.LEVEL_UP:
                                 cornerIcons = null;
                                 state = GameState.PLAYING;
                         }
@@ -9831,18 +9832,18 @@ public final class b extends Canvas implements Runnable {
 
                     if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         Input.clearPressed();
-                        switch (lm) {
-                            case 1:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
+                        switch (messageType) {
+                            case MessageType.TRAVEL_NOT_VISITED:
+                            case MessageType.TRAVEL_ALREADY_HERE:
+                            case MessageType.NOT_ENOUGH_MONEY:
+                            case MessageType.GAME_NOTICE:
+                            case MessageType.LEVEL_UP:
                             default:
                                 break;
-                            case 2:
+                            case MessageType.TRAVEL_CONFIRM:
                                 state = GameState.WORLD_MAP;
                                 break;
-                            case 7:
+                            case MessageType.SHOP_NOTICE:
                                 state = GameState.SHOP;
                         }
                     }
@@ -9914,17 +9915,17 @@ public final class b extends Canvas implements Runnable {
                             }
                         } else {
                             if (y >= ko) {
-                                s(7);
-                                a("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
-                                Y = V;
+                                showMessage(MessageType.SHOP_NOTICE);
+                                setMessageText("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
+                                messageY = shopY;
                                 state = GameState.MESSAGE;
                                 break;
                             }
 
                             if (PlayerStats.level < km[ko]) {
-                                s(7);
-                                a("Bạn phải đạt cấp độ " + km[ko] + " mới có thể mua vũ khí này!");
-                                Y = V;
+                                showMessage(MessageType.SHOP_NOTICE);
+                                setMessageText("Bạn phải đạt cấp độ " + km[ko] + " mới có thể mua vũ khí này!");
+                                messageY = shopY;
                                 state = GameState.MESSAGE;
                                 break;
                             }
@@ -9935,9 +9936,9 @@ public final class b extends Canvas implements Runnable {
                                     y = ko;
                                     t();
                                 } else {
-                                    s(7);
-                                    a("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + dd + "$. Hãy đi tìm thêm.");
-                                    Y = V;
+                                    showMessage(MessageType.SHOP_NOTICE);
+                                    setMessageText("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + dd + "$. Hãy đi tìm thêm.");
+                                    messageY = shopY;
                                     state = GameState.MESSAGE;
                                 }
                                 break;
@@ -10044,17 +10045,17 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case GameState.TUTORIAL:
-                    Z();
+                    updateTutorial();
                     break;
                 case GameState.UNUSED_12:
-                    Z();
+                    updateTutorial();
                     break;
             }
 
             this.repaint();
             this.serviceRepaints();
 
-            while(System.currentTimeMillis() - var1 < (long)aa) {
+            while(System.currentTimeMillis() - var1 < (long)frameDurationMs) {
                 Thread.yield();
             }
         }
@@ -10139,7 +10140,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void i(Graphics var0) {
         for(int var1 = 0; var1 < jn; ++var1) {
-            if (jk[var1] + jm[var1] >= fO && jk[var1] <= fO + r && jl[var1] >= fP && jl[var1] - 14 <= fP + s) {
+            if (jk[var1] + jm[var1] >= cameraX && jk[var1] <= cameraX + viewWidth && jl[var1] >= cameraY && jl[var1] - 14 <= cameraY + viewHeight) {
                 FontGraph.drawBold(var0, jj[var1], jk[var1], jl[var1], 0);
             }
         }
@@ -10497,28 +10498,28 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void j(Graphics var0) {
-        for(int var1 = bw; var1 < bA; ++var1) {
-            for(int var2 = bx; var2 < bB; ++var2) {
+        for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
+            for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                 int var3;
                 if ((var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1) != -1) {
                     var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
 
                 if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                    var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
                     if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
                         var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
 
-                    var0.drawRegion(waterSurfaceImage, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    var0.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
 
                 if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
                     if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
                         var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
@@ -10531,16 +10532,16 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void k(Graphics var0) {
-        for(int var1 = bw; var1 < bA; ++var1) {
-            for(int var2 = bx; var2 < bB; ++var2) {
+        for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
+            for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                 int var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1;
                 if ((GameMap.flagsAt(var1, var2) & TileFlags.PARALLAX) == TileFlags.PARALLAX) {
-                    jg = (jf = var1 * GameMap.TILE_SIZE - fO) - bC;
-                    jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + bC;
-                    var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, jh + fO, var2 * GameMap.TILE_SIZE, 0);
+                    jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - viewCenterX;
+                    jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                    var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, jh + cameraX, var2 * GameMap.TILE_SIZE, 0);
                 } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) != TileFlags.FOREGROUND_BUSH && (GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) != TileFlags.FOREGROUND) {
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) != TileFlags.WATER && (GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) != TileFlags.DEEP_WATER) {
                         if ((GameMap.flagsAt(var1, var2) & TileFlags.BRIDGE_PRESSED) == TileFlags.BRIDGE_PRESSED) {
                             var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 1, 0);
@@ -10548,7 +10549,7 @@ public final class b extends Canvas implements Runnable {
                             var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                         }
                     } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        var0.drawRegion(waterfallImage, 0, 24 * (x % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
                         var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
@@ -10560,14 +10561,14 @@ public final class b extends Canvas implements Runnable {
 
     private static void l(Graphics var0) {
         if (!a) {
-            for(int var1 = bw; var1 < bA; ++var1) {
-                for(int var2 = bx; var2 < bB; ++var2) {
+            for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
+                for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
-                        var0.drawRegion(waterSurfaceImage, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                        var0.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) == TileFlags.FOREGROUND_BUSH) {
-                        jg = (jf = var1 * GameMap.TILE_SIZE - fO) - bC;
-                        jh = (ji = (GameMap.TILE_SIZE - 1) * jg / GameMap.TILE_SIZE) + bC;
-                        var0.drawImage(bushImage, jh + fO - 2 + (var1 + var2) % 5, var2 * GameMap.TILE_SIZE - 3 + var2 % 5, 0);
+                        jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - viewCenterX;
+                        jh = (ji = (GameMap.TILE_SIZE - 1) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                        var0.drawImage(bushImage, jh + cameraX - 2 + (var1 + var2) % 5, var2 * GameMap.TILE_SIZE - 3 + var2 % 5, 0);
                     }
 
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) == TileFlags.FOREGROUND) {
@@ -10668,10 +10669,10 @@ public final class b extends Canvas implements Runnable {
     private static void L(int var0) {
         gainExp(ap[jI[var0]]);
         int var1;
-        if ((var1 = x % 20) > 15) {
-            a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (x + 1) % 2);
+        if ((var1 = tick % 20) > 15) {
+            a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (tick + 1) % 2);
         } else if (var1 == 15) {
-            a(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + x % 10);
+            a(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + tick % 10);
         } else {
             var1 = ((jI[var0] << 2) / 10 + 1) * 10;
             a(jJ[var0], jK[var0], -(jX[var0] << 1), -6, var1);
@@ -10683,7 +10684,7 @@ public final class b extends Canvas implements Runnable {
             b(al[lD[P]] + ": " + fC + "#" + lE[P]);
         }
 
-        if (jI[var0] == fy - 100 && x % 10 < fz) {
+        if (jI[var0] == fy - 100 && tick % 10 < fz) {
             e(jJ[var0], jK[var0]);
             f(jJ[var0], jK[var0] - 28);
         }
@@ -11070,7 +11071,7 @@ public final class b extends Canvas implements Runnable {
                     var10002 = jT[var0]++;
                     var10000 = jK;
                     var10000[var0] += jT[var0];
-                    if (x % 2 == 0) {
+                    if (tick % 2 == 0) {
                         if (jU[var0] > 1) {
                             var10002 = jU[var0]--;
                         } else if (jU[var0] < -1) {
@@ -11104,7 +11105,7 @@ public final class b extends Canvas implements Runnable {
                 case 2:
                     switch (jI[var0]) {
                         case 0:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11120,7 +11121,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11133,27 +11134,27 @@ public final class b extends Canvas implements Runnable {
                             var10000 = jK;
                             var10000[var0] += jS[var0];
                             if (jJ[var0] - jP[var0] > 40) {
-                                jR[var0] = -(x % 3 + 1);
+                                jR[var0] = -(tick % 3 + 1);
                             }
 
                             if (jJ[var0] - jP[var0] < -40) {
-                                jR[var0] = x % 3 + 1;
+                                jR[var0] = tick % 3 + 1;
                             }
 
                             if (jK[var0] - jQ[var0] > 40) {
-                                jS[var0] = -(x % 3 + 1);
+                                jS[var0] = -(tick % 3 + 1);
                             }
 
                             if (jK[var0] - jQ[var0] < -40) {
-                                jS[var0] = x % 3 + 1;
+                                jS[var0] = tick % 3 + 1;
                             }
 
-                            if (x % 15 == 0) {
-                                jR[var0] = x % 4 - 1;
-                                jS[var0] = (x >> 1) % 4 - 1;
+                            if (tick % 15 == 0) {
+                                jR[var0] = tick % 4 - 1;
+                                jS[var0] = (tick >> 1) % 4 - 1;
                             }
 
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11200,7 +11201,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11238,12 +11239,12 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
                         case 5:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11273,7 +11274,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             var10000 = jJ;
-                            var10000[var0] += x % 5 * jX[var0];
+                            var10000[var0] += tick % 5 * jX[var0];
                             if (jJ[var0] > jQ[var0]) {
                                 jX[var0] = -1;
                             } else if (jJ[var0] < jP[var0]) {
@@ -11302,7 +11303,7 @@ public final class b extends Canvas implements Runnable {
                             J(var0);
                             continue;
                         case 11:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 jT[var0] = 0;
                                 if (jW[var0] > 1) {
@@ -11320,7 +11321,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11332,27 +11333,27 @@ public final class b extends Canvas implements Runnable {
                             var10000[var0] += jR[var0];
                             if (jJ[var0] - jP[var0] > 100) {
                                 jX[var0] = -1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 var10000 = jJ;
                                 var10000[var0] += jX[var0] << 2;
                             } else if (jJ[var0] - jP[var0] < -100) {
                                 jX[var0] = 1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 var10000 = jJ;
                                 var10000[var0] += jX[var0] << 2;
                             }
 
                             if (jK[var0] - jQ[var0] > 20) {
-                                jS[var0] = -(x % 4 + 1);
+                                jS[var0] = -(tick % 4 + 1);
                             } else if (jK[var0] - jQ[var0] < -20) {
-                                jS[var0] = x % 4 + 1;
+                                jS[var0] = tick % 4 + 1;
                             } else {
                                 jS[var0] = 0;
                             }
 
                             var10000 = jK;
                             var10000[var0] += jS[var0];
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11372,7 +11373,7 @@ public final class b extends Canvas implements Runnable {
                                 jW[var0] = 0;
                             }
 
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10000 = jJ;
                                 var10000[var0] += jX[var0] << 2;
                             } else {
@@ -11387,7 +11388,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 5 == 0) {
+                            if (tick % 5 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11421,7 +11422,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11433,7 +11434,7 @@ public final class b extends Canvas implements Runnable {
                             continue;
                         case 18:
                         case 19:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11447,7 +11448,7 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11505,22 +11506,22 @@ public final class b extends Canvas implements Runnable {
                             continue;
                         case 2:
                             if (jJ[var0] < fe) {
-                                jR[var0] = 3 + x % 4;
+                                jR[var0] = 3 + tick % 4;
                             } else if (jJ[var0] > fe) {
-                                jR[var0] = -(3 + x % 4);
+                                jR[var0] = -(3 + tick % 4);
                             }
 
                             if (jK[var0] < ff) {
-                                jS[var0] = x % 3;
+                                jS[var0] = tick % 3;
                             } else if (jK[var0] > ff) {
-                                jS[var0] = -x % 3;
+                                jS[var0] = -tick % 3;
                             }
 
                             var10000 = jJ;
                             var10000[var0] += jR[var0];
                             var10000 = jK;
                             var10000[var0] += jS[var0];
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11737,22 +11738,22 @@ public final class b extends Canvas implements Runnable {
                             continue;
                         case 13:
                             if (jJ[var0] < fe) {
-                                jR[var0] = 4 + x % 6;
+                                jR[var0] = 4 + tick % 6;
                             } else if (jJ[var0] > fe) {
-                                jR[var0] = -(4 + x % 6);
+                                jR[var0] = -(4 + tick % 6);
                             }
 
                             if (jK[var0] < ff) {
-                                jS[var0] = 2 + x % 4;
+                                jS[var0] = 2 + tick % 4;
                             } else if (jK[var0] > ff) {
-                                jS[var0] = -(2 + x % 4);
+                                jS[var0] = -(2 + tick % 4);
                             }
 
                             var10000 = jJ;
                             var10000[var0] += jR[var0];
                             var10000 = jK;
                             var10000[var0] += jS[var0];
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11764,7 +11765,7 @@ public final class b extends Canvas implements Runnable {
                                 jO[var0] = 2;
                                 jT[var0] = 0;
                                 jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 kb[var0] = 10;
                             }
 
@@ -11773,7 +11774,7 @@ public final class b extends Canvas implements Runnable {
                                 jT[var0] = 0;
                                 jR[var0] = jS[var0] = 0;
                                 jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 kb[var0] = 0;
                             }
                             continue;
@@ -11850,7 +11851,7 @@ public final class b extends Canvas implements Runnable {
                     var10002 = jT[var0]++;
                     if (jT[var0] >= jH) {
                         jT[var0] = 0;
-                        int var2 = x % ki[kg[var0]].length;
+                        int var2 = tick % ki[kg[var0]].length;
                         if (kk[kg[var0]][var2]) {
                             jT[var0] = jH;
                         } else {
@@ -12618,17 +12619,17 @@ public final class b extends Canvas implements Runnable {
 
     private static void N(int var0) {
         if (jJ[var0] < fe) {
-            jR[var0] = x % 3 + 3;
+            jR[var0] = tick % 3 + 3;
             jX[var0] = 1;
         } else if (jJ[var0] > fe) {
-            jR[var0] = -x % 3 - 3;
+            jR[var0] = -tick % 3 - 3;
             jX[var0] = -1;
         }
 
         if (jK[var0] < ff) {
-            jS[var0] = x % 3 + 3;
+            jS[var0] = tick % 3 + 3;
         } else if (jK[var0] > ff) {
-            jS[var0] = -x % 3 - 3;
+            jS[var0] = -tick % 3 - 3;
         }
 
         int[] var10000 = jJ;
@@ -12691,24 +12692,24 @@ public final class b extends Canvas implements Runnable {
         var10000 = jK;
         var10000[var0] += jS[var0];
         if (jJ[var0] - jP[var0] > 40) {
-            jR[var0] = -(x % 2 + 1);
+            jR[var0] = -(tick % 2 + 1);
         }
 
         if (jJ[var0] - jP[var0] < -40) {
-            jR[var0] = x % 2 + 1;
+            jR[var0] = tick % 2 + 1;
         }
 
         if (jK[var0] - jQ[var0] > 40) {
-            jS[var0] = -(x % 2 + 1);
+            jS[var0] = -(tick % 2 + 1);
         }
 
         if (jK[var0] - jQ[var0] < -40) {
-            jS[var0] = x % 2 + 1;
+            jS[var0] = tick % 2 + 1;
         }
 
-        if (x % 15 == 0) {
-            jR[var0] = x % 3 - 1;
-            jS[var0] = (x >> 1) % 3 - 1;
+        if (tick % 15 == 0) {
+            jR[var0] = tick % 3 - 1;
+            jS[var0] = (tick >> 1) % 3 - 1;
         }
 
         int var10002 = jW[var0]++;
@@ -12717,14 +12718,14 @@ public final class b extends Canvas implements Runnable {
         }
 
         J(var0);
-        if (x % 5 == 0) {
+        if (tick % 5 == 0) {
             K(var0);
         }
 
     }
 
     private static void Q(int var0) {
-        if (x % 4 == 1) {
+        if (tick % 4 == 1) {
             int var10002 = jW[var0]++;
             if (jW[var0] > 1) {
                 jW[var0] = 0;
@@ -12770,7 +12771,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void U(int var0) {
-        if (x % 4 == 0) {
+        if (tick % 4 == 0) {
             int var10002 = jW[var0]++;
             if (jW[var0] > 1) {
                 jW[var0] = 0;
@@ -12787,15 +12788,15 @@ public final class b extends Canvas implements Runnable {
         }
 
         J(var0);
-        if (x % 5 == 0) {
+        if (tick % 5 == 0) {
             K(var0);
         }
 
     }
 
-    private static void an() {
-        V = bD - 40;
-        kn = bC - 50;
+    private static void openShop() {
+        shopY = viewCenterY - 40;
+        shopX = viewCenterX - 50;
         tilesetImage = null;
         shopSwordIcons = new Image[4];
 
@@ -12821,68 +12822,68 @@ public final class b extends Canvas implements Runnable {
         System.gc();
     }
 
-    private static void m(Graphics var0) {
+    private static void drawShop(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         d(var0);
         c(var0);
-        var0.setClip(0, 0, aT, aU);
+        var0.setClip(0, 0, screenWidth, screenHeight);
         var0.setColor(0);
-        var0.fillRect(bC - 64, V - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        FontGraph.drawBold(var0, "Mua", 3, aU - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, shopY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, "Mua", 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, V - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, shopY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, V - 16, 123, 97);
+        var0.fillRect(viewCenterX - 61, shopY - 16, 123, 97);
         if (kr == 0) {
-            FontGraph.drawBold(var0, "Tiền: " + dd + "$", bC, V - 8, 2);
+            FontGraph.drawBold(var0, "Tiền: " + dd + "$", viewCenterX, shopY - 8, 2);
         } else {
-            FontGraph.drawBold(var0, kt[kq][ko], bC, V - 8, 2);
+            FontGraph.drawBold(var0, kt[kq][ko], viewCenterX, shopY - 8, 2);
         }
 
         int var1;
         for(var1 = 0; var1 < 3; ++var1) {
             var0.setColor(0);
-            var0.fillRect(kn - 10 + var1 * 20, V + 10, 19, 20);
-            var0.fillRect(kn + 50 + var1 * 20, V + 10, 19, 20);
+            var0.fillRect(shopX - 10 + var1 * 20, shopY + 10, 19, 20);
+            var0.fillRect(shopX + 50 + var1 * 20, shopY + 10, 19, 20);
             var0.setColor(4856064);
-            var0.drawRect(kn - 10 + var1 * 20, V + 10, 20, 20);
-            var0.drawRect(kn + 50 + var1 * 20, V + 10, 20, 20);
-            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kn + var1 * 20, V + 20, 3);
-            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kn + 60 + var1 * 20, V + 20, 3);
+            var0.drawRect(shopX - 10 + var1 * 20, shopY + 10, 20, 20);
+            var0.drawRect(shopX + 50 + var1 * 20, shopY + 10, 20, 20);
+            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, shopX + var1 * 20, shopY + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, shopX + 60 + var1 * 20, shopY + 20, 3);
         }
 
         for(var1 = 0; var1 < 4; ++var1) {
             var0.setColor(0);
-            var0.fillRect(kn + 10 + var1 * 20, V + 32, 19, 20);
+            var0.fillRect(shopX + 10 + var1 * 20, shopY + 32, 19, 20);
             var0.setColor(4856064);
-            var0.drawRect(kn + 10 + var1 * 20, V + 32, 18, 20);
-            var0.drawImage(shopSwordIcons[var1], kn + 20 + var1 * 20, V + 42, 3);
+            var0.drawRect(shopX + 10 + var1 * 20, shopY + 32, 18, 20);
+            var0.drawImage(shopSwordIcons[var1], shopX + 20 + var1 * 20, shopY + 42, 3);
         }
 
         var0.setColor(ks[kp]);
         if (kq == 0) {
-            var0.drawRect(kn - 10 + ko * 20, V + 10, 19, 20);
+            var0.drawRect(shopX - 10 + ko * 20, shopY + 10, 19, 20);
         } else {
-            var0.drawRect(kn + 10 + ko * 20, V + 32, 19, 20);
+            var0.drawRect(shopX + 10 + ko * 20, shopY + 32, 19, 20);
         }
 
         if (kr == 0) {
-            FontGraph.drawBold(var0, kt[kq][ko] + "-" + kv[kq][ko] + "$", bC, V + 58, 2);
+            FontGraph.drawBold(var0, kt[kq][ko] + "-" + kv[kq][ko] + "$", viewCenterX, shopY + 58, 2);
         } else {
-            FontGraph.drawBold(var0, ku[kq][ko], bC, V + 58, 2);
+            FontGraph.drawBold(var0, ku[kq][ko], viewCenterX, shopY + 58, 2);
         }
 
-        var0.drawImage(cornerIcons[0], bC - 64, V - 19, 20);
-        var0.drawImage(cornerIcons[1], bC + 65, V - 19, 24);
-        var0.drawImage(cornerIcons[2], bC - 64, V + 83, 36);
-        var0.drawImage(cornerIcons[3], bC + 65, V + 83, 40);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, shopY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, shopY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, shopY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, shopY + 83, 40);
     }
 
-    private static void ao() {
-        kz = bD - 40;
-        kA = bC - 50;
+    private static void openInventory() {
+        inventoryY = viewCenterY - 40;
+        inventoryX = viewCenterX - 50;
         if (cornerIcons == null) {
             cornerIcons = new Image[4];
 
@@ -12897,45 +12898,45 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void n(Graphics var0) {
+    private static void drawInventory(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         d(var0);
         c(var0);
-        var0.setClip(0, 0, aT, aU);
+        var0.setClip(0, 0, screenWidth, screenHeight);
         var0.setColor(0);
-        var0.fillRect(bC - 64, kz - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        FontGraph.drawBold(var0, "Sử dụng", 3, aU - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, inventoryY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, "Sử dụng", 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, kz - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, inventoryY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, kz - 16, 123, 97);
-        FontGraph.drawBold(var0, "Sử dụng Item", bC, kz - 8, 2);
+        var0.fillRect(viewCenterX - 61, inventoryY - 16, 123, 97);
+        FontGraph.drawBold(var0, "Sử dụng Item", viewCenterX, inventoryY - 8, 2);
 
         for(int var1 = 0; var1 < 3; ++var1) {
             var0.setColor(0);
-            var0.fillRect(kA - 10 + var1 * 20, kz + 10, 19, 20);
-            var0.fillRect(kA + 50 + var1 * 20, kz + 10, 19, 20);
+            var0.fillRect(inventoryX - 10 + var1 * 20, inventoryY + 10, 19, 20);
+            var0.fillRect(inventoryX + 50 + var1 * 20, inventoryY + 10, 19, 20);
             var0.setColor(4856064);
-            var0.drawRect(kA - 10 + var1 * 20, kz + 10, 20, 20);
-            var0.drawRect(kA + 50 + var1 * 20, kz + 10, 20, 20);
-            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kA + var1 * 20, kz + 20, 3);
-            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, kA + 60 + var1 * 20, kz + 20, 3);
+            var0.drawRect(inventoryX - 10 + var1 * 20, inventoryY + 10, 20, 20);
+            var0.drawRect(inventoryX + 50 + var1 * 20, inventoryY + 10, 20, 20);
+            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + var1 * 20, inventoryY + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + 60 + var1 * 20, inventoryY + 20, 3);
         }
 
         var0.setColor(kD[kC]);
-        var0.drawRect(kA - 10 + kB * 20, kz + 10, 20, 20);
-        FontGraph.drawBold(var0, kE[kB], bC, kz + 40, 2);
-        FontGraph.drawBold(var0, "Số lượng: " + W[kB], bC, kz + 55, 2);
-        var0.drawImage(cornerIcons[0], bC - 64, kz - 19, 20);
-        var0.drawImage(cornerIcons[1], bC + 65, kz - 19, 24);
-        var0.drawImage(cornerIcons[2], bC - 64, kz + 83, 36);
-        var0.drawImage(cornerIcons[3], bC + 65, kz + 83, 40);
+        var0.drawRect(inventoryX - 10 + kB * 20, inventoryY + 10, 20, 20);
+        FontGraph.drawBold(var0, kE[kB], viewCenterX, inventoryY + 40, 2);
+        FontGraph.drawBold(var0, "Số lượng: " + W[kB], viewCenterX, inventoryY + 55, 2);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, inventoryY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, inventoryY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, inventoryY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, inventoryY + 83, 40);
     }
 
-    private static void ap() {
-        kH = bD - 40;
+    private static void openGameMenu() {
+        gameMenuY = viewCenterY - 40;
         tilesetImage = null;
         if (cornerIcons == null) {
             cornerIcons = new Image[4];
@@ -12951,33 +12952,33 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void o(Graphics var0) {
+    private static void drawGameMenu(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(bC - 64, kH - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        FontGraph.drawBold(var0, "Chọn", 3, aU - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, gameMenuY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, "Chọn", 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, kH - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, gameMenuY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, kH - 16, 123, 97);
+        var0.fillRect(viewCenterX - 61, gameMenuY - 16, 123, 97);
 
         for(int var1 = 0; var1 < 4; ++var1) {
-            FontGraph.drawBold(var0, kK[var1], aV - 30, kH + var1 * 18, 0);
+            FontGraph.drawBold(var0, gameMenuItems[var1], screenCenterX - 30, gameMenuY + var1 * 18, 0);
         }
 
-        var0.drawImage(weaponIcons[0], aV - 55 + kJ % 2, kH + kI * 18 - kJ % 2, 0);
-        var0.drawImage(cornerIcons[0], bC - 64, kH - 19, 20);
-        var0.drawImage(cornerIcons[1], bC + 65, kH - 19, 24);
-        var0.drawImage(cornerIcons[2], bC - 64, kH + 83, 36);
-        var0.drawImage(cornerIcons[3], bC + 65, kH + 83, 40);
+        var0.drawImage(weaponIcons[0], screenCenterX - 55 + kJ % 2, gameMenuY + gameMenuSelection * 18 - kJ % 2, 0);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, gameMenuY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, gameMenuY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, gameMenuY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, gameMenuY + 83, 40);
     }
 
-    private static void aq() {
-        lf = 280 - r;
-        lg = 280 - s;
-        kV = 0;
+    private static void openWorldMap() {
+        lf = 280 - viewWidth;
+        lg = 280 - viewHeight;
+        worldMapCursor = 0;
 
         try {
             worldMapImage = Ui.loadWorldMap();
@@ -12985,28 +12986,28 @@ public final class b extends Canvas implements Runnable {
         } catch (Exception var0) {
         }
 
-        lh = w;
+        worldMapCurrent = w;
         if (w == 99) {
-            lh = 0;
+            worldMapCurrent = 0;
         }
 
         if (w == 97) {
-            lh = 7;
+            worldMapCurrent = 7;
         }
 
         if (w == 96) {
-            lh = 11;
+            worldMapCurrent = 11;
         }
 
         if (w == 95) {
-            lh = 18;
+            worldMapCurrent = 18;
         }
 
-        kT = kN[lh];
-        kU = kO[lh];
+        kT = kN[worldMapCurrent];
+        kU = kO[worldMapCurrent];
         as();
-        kX = kT - bC;
-        kY = kU - bD;
+        kX = kT - viewCenterX;
+        kY = kU - viewCenterY;
         if (ld < -40) {
             ld = -40;
         }
@@ -13031,50 +13032,50 @@ public final class b extends Canvas implements Runnable {
         System.gc();
     }
 
-    private static void p(Graphics var0) {
+    private static void drawWorldMap(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(0, 0, r, s);
-        var0.fillRect(0, aU - 13, aT, 13);
-        FontGraph.drawBold(var0, li, 3, aU - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", aT - 3, aU - 13, 1);
-        var0.setClip(0, 0, r, s);
+        var0.fillRect(0, 0, viewWidth, viewHeight);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, li, 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
+        var0.setClip(0, 0, viewWidth, viewHeight);
         var0.translate(-ld, -le);
         var0.drawImage(worldMapImage, 0, 0, 0);
 
         for(int var1 = 0; var1 < 19; ++var1) {
-            if (var1 == lh) {
+            if (var1 == worldMapCurrent) {
                 var0.drawImage(heroHeads[0], kN[var1] + 10, kO[var1], 3);
             }
 
-            if (X[var1] && (var1 != kV || kW % 10 > 5)) {
+            if (X[var1] && (var1 != worldMapCursor || kW % 10 > 5)) {
                 var0.drawImage(crossIcon, kN[var1], kO[var1], 3);
             }
         }
 
         var0.drawImage(weaponIcons[0], kT, kU, 24);
-        if (kV != -1) {
+        if (worldMapCursor != -1) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
             var0.setColor(6562304);
-            var0.fillRect(aV - 60, s - 35, 120, 33);
+            var0.fillRect(screenCenterX - 60, viewHeight - 35, 120, 33);
             var0.setColor(12281361);
-            var0.drawRect(aV - 59, s - 34, 117, 30);
-            FontGraph.drawBold(var0, kL[kV], aV, s - 25, 2);
-            var0.drawImage(cornerIcons[0], aV - 60, s - 35, 20);
-            var0.drawImage(cornerIcons[1], aV + 60, s - 35, 24);
-            var0.drawImage(cornerIcons[2], aV - 60, s - 2, 36);
-            var0.drawImage(cornerIcons[3], aV + 60, s - 2, 40);
+            var0.drawRect(screenCenterX - 59, viewHeight - 34, 117, 30);
+            FontGraph.drawBold(var0, kL[worldMapCursor], screenCenterX, viewHeight - 25, 2);
+            var0.drawImage(cornerIcons[0], screenCenterX - 60, viewHeight - 35, 20);
+            var0.drawImage(cornerIcons[1], screenCenterX + 60, viewHeight - 35, 24);
+            var0.drawImage(cornerIcons[2], screenCenterX - 60, viewHeight - 2, 36);
+            var0.drawImage(cornerIcons[3], screenCenterX + 60, viewHeight - 2, 40);
         }
 
     }
 
     private static void as() {
-        kV = -1;
+        worldMapCursor = -1;
         li = "";
 
         for(int var0 = 0; var0 < 19; ++var0) {
             if (a(kT - kN[var0]) < 8 && a(kU - kO[var0]) < 8) {
-                kV = var0;
+                worldMapCursor = var0;
                 li = "Chuyển đến";
                 return;
             }
@@ -13089,60 +13090,60 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    public static void a(String var0) {
-        lr = FontGraph.wrapBoldText(var0, 100);
-        Y = bD - lr.length * 9;
+    public static void setMessageText(String var0) {
+        messageLines = FontGraph.wrapBoldText(var0, 100);
+        messageY = viewCenterY - messageLines.length * 9;
     }
 
-    public static void s(int var0) {
-        au();
-        lm = var0;
-        if (var0 == 1) {
-            a("Không thể chuyển. Vì bạn chưa từng đi bộ đến đây!");
-            lp = "OK";
-            lq = "";
-        } else if (var0 == 3) {
-            a("Không cần phải chuyển vì bạn đang ở vị trí này!");
-            lp = "OK";
-            lq = "";
-        } else if (var0 != 2) {
-            if (var0 == 4) {
-                a("Bạn không có đủ tiền!");
-                lp = "OK";
-                lq = "";
-            } else if (var0 == 5) {
-                a("Bạn đã bị trọng thương! Mất một số điểm kinh nghiệm!");
-                lp = "OK";
-                lq = "";
-            } else if (var0 == 6) {
-                a("Level up!");
-                lp = "OK";
-                lq = "";
+    public static void showMessage(int var0) {
+        prepareDialog();
+        messageType = var0;
+        if (var0 == MessageType.TRAVEL_NOT_VISITED) {
+            setMessageText("Không thể chuyển. Vì bạn chưa từng đi bộ đến đây!");
+            messageLeftLabel = "OK";
+            messageRightLabel = "";
+        } else if (var0 == MessageType.TRAVEL_ALREADY_HERE) {
+            setMessageText("Không cần phải chuyển vì bạn đang ở vị trí này!");
+            messageLeftLabel = "OK";
+            messageRightLabel = "";
+        } else if (var0 != MessageType.TRAVEL_CONFIRM) {
+            if (var0 == MessageType.NOT_ENOUGH_MONEY) {
+                setMessageText("Bạn không có đủ tiền!");
+                messageLeftLabel = "OK";
+                messageRightLabel = "";
+            } else if (var0 == MessageType.GAME_NOTICE) {
+                setMessageText("Bạn đã bị trọng thương! Mất một số điểm kinh nghiệm!");
+                messageLeftLabel = "OK";
+                messageRightLabel = "";
+            } else if (var0 == MessageType.LEVEL_UP) {
+                setMessageText("Level up!");
+                messageLeftLabel = "OK";
+                messageRightLabel = "";
             } else {
-                if (var0 == 7) {
-                    a("Buy OK!");
-                    lp = "";
-                    lq = "OK";
+                if (var0 == MessageType.SHOP_NOTICE) {
+                    setMessageText("Buy OK!");
+                    messageLeftLabel = "";
+                    messageRightLabel = "OK";
                 }
 
             }
         } else {
-            var0 = lh < kV ? lh : kV;
-            int var1 = lh > kV ? lh : kV;
+            var0 = worldMapCurrent < worldMapCursor ? worldMapCurrent : worldMapCursor;
+            int var1 = worldMapCurrent > worldMapCursor ? worldMapCurrent : worldMapCursor;
             int var2 = 0;
 
             for(var0 = var0; var0 <= var1; ++var0) {
-                var2 += kM[var0];
+                var2 += travelCosts[var0];
             }
 
-            ln = var2 = (var2 << 1) / 3;
-            a("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + dd + "$. Chuyển?");
-            lp = "Chuyển";
-            lq = "Không";
+            travelCost = var2 = (var2 << 1) / 3;
+            setMessageText("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + dd + "$. Chuyển?");
+            messageLeftLabel = "Chuyển";
+            messageRightLabel = "Không";
         }
     }
 
-    private static void au() {
+    private static void prepareDialog() {
         lo = 0;
         if (cornerIcons == null) {
             cornerIcons = new Image[4];
@@ -13158,26 +13159,26 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void q(Graphics var0) {
+    private static void drawMessage(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(bC - 64, Y - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        FontGraph.drawBold(var0, lp, 3, aU - 13, 0);
-        FontGraph.drawBold(var0, lq, aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, messageY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, messageLeftLabel, 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, messageRightLabel, screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, Y - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, messageY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, Y - 16, 123, 97);
+        var0.fillRect(viewCenterX - 61, messageY - 16, 123, 97);
 
-        for(int var1 = 0; var1 < lr.length; ++var1) {
-            FontGraph.drawBold(var0, lr[var1], aV, Y + var1 * 18, 2);
+        for(int var1 = 0; var1 < messageLines.length; ++var1) {
+            FontGraph.drawBold(var0, messageLines[var1], screenCenterX, messageY + var1 * 18, 2);
         }
 
-        var0.drawImage(cornerIcons[0], bC - 64, Y - 19, 20);
-        var0.drawImage(cornerIcons[1], bC + 65, Y - 19, 24);
-        var0.drawImage(cornerIcons[2], bC - 64, Y + 83, 36);
-        var0.drawImage(cornerIcons[3], bC + 65, Y + 83, 40);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, messageY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, messageY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, messageY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, messageY + 83, 40);
     }
 
     private static void V(int var0) {
@@ -13311,27 +13312,27 @@ public final class b extends Canvas implements Runnable {
 
     private static void r(Graphics var0) {
         for(int var1 = 0; var1 < lt; ++var1) {
-            if (lu[var1] + 10 >= fO && lu[var1] - 10 <= fO + r && lv[var1] >= fP && lv[var1] - 32 <= fP + s) {
+            if (lu[var1] + 10 >= cameraX && lu[var1] - 10 <= cameraX + viewWidth && lv[var1] >= cameraY && lv[var1] - 32 <= cameraY + viewHeight) {
                 var0.drawImage(npcSprites[lw[var1]][Npc.PART_LEGS], lu[var1], lv[var1], 33);
-                var0.drawImage(npcSprites[lw[var1]][Npc.PART_BODY], lu[var1], lv[var1] - lF[lw[var1]] + (x % (15 + lw[var1]) > 4 ? 0 : 1), 33);
+                var0.drawImage(npcSprites[lw[var1]][Npc.PART_BODY], lu[var1], lv[var1] - lF[lw[var1]] + (tick % (15 + lw[var1]) > 4 ? 0 : 1), 33);
             }
         }
 
     }
 
     private static void showPurchaseFailed() {
-        s(7);
-        a("Không thể mua. Xin hãy thử lại sau.");
-        Y = V;
+        showMessage(MessageType.SHOP_NOTICE);
+        setMessageText("Không thể mua. Xin hãy thử lại sau.");
+        messageY = shopY;
         state = GameState.MESSAGE;
     }
 
     public static void t() {
         H();
         I();
-        s(7);
-        a("Xin chúc mừng. Bạn đã có vũ khí mới: " + kt[kq][ko] + "!");
-        Y = V;
+        showMessage(MessageType.SHOP_NOTICE);
+        setMessageText("Xin chúc mừng. Bạn đã có vũ khí mới: " + kt[kq][ko] + "!");
+        messageY = shopY;
         state = GameState.MESSAGE;
     }
 
