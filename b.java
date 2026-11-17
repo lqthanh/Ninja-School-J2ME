@@ -68,7 +68,7 @@ public final class b extends Canvas implements Runnable {
             "Chỉ dẫn", 
             "Game khác", 
             "Thoát"};
-    private static String[][] aF = new String[][]{{"Rừng trúc đây rồi!", 
+    private static String[][] cutsceneLines = new String[][]{{"Rừng trúc đây rồi!", 
             "Hôm nay ta phải hạ được con quái vật đó!", 
             "Nó chắc quanh quẩn đây thôi!"}, 
         {"Bọn quái vật nhãi nhép này làm gì được ta chứ!"}, 
@@ -188,12 +188,12 @@ public final class b extends Canvas implements Runnable {
             "Hai tháng nữa là đến kỳ thi kết khoá cho Genin. Các con phải cố gắng tập luyện hơn nữa..", 
             "..Mọi thứ chỉ mới bắt đầu thôi!"}, 
         {"Vâng, chúng con xin nghe!"}};
-    private static String[] aG = new String[]{"Trường đạo tạo Ninja Hirosaki, Mùa thu 1937", 
+    private static String[] cutsceneCaptions = new String[]{"Trường đạo tạo Ninja Hirosaki, Mùa thu 1937", 
             "2 ngày sau, tại rừng trúc...", 
             "Chỉ dẫn: Dùng phím 5 để tấn công.", 
             "6 tháng trước, tại trường Hirosaki...", 
             "2 ngày sau, tại trường Hirosaki..."};
-    private static String[][] aH = new String[][]{{"Chúng ta đi thôi!"}, 
+    private static String[][] girlLines = new String[][]{{"Chúng ta đi thôi!"}, 
         {"Muốn rủ ta đi chơi à!", 
             "Ta chỉ chơi với những người cùng trình độ thôi.", 
             "Ngươi hãy tập luyện đi, bao giờ khá hơn thì quay lại. Đừng ở đó tán gái nữa!"}, 
@@ -637,18 +637,7 @@ public final class b extends Canvas implements Runnable {
     private static int[] iw;
     private static int[] ix;
     private static int[] iy;
-    private static boolean iz;
-    private static int iA;
-    private static int iB;
-    private static int iC;
-    private static int iD;
-    private static String[][] iE;
-    private static int iF;
-    private static int iG;
-    private static int iH;
-    private static int iI;
-    private static int iJ;
-    private static int iK;
+    private static int dialogueBoxLines;
     private static Image tilesetImage;
     private static Image waterfallImage;
     private static Image waterSurfaceImage;
@@ -774,12 +763,12 @@ public final class b extends Canvas implements Runnable {
     private static int[] npcX;
     private static int[] npcY;
     private static int[] npcTypes;
-    private static String[][] lx;
-    private static String[][] ly;
-    private static String[][] lz;
-    private static String[][] lA;
-    private static String[][] lB;
-    private static String[] lC;
+    private static String[][] guardLines;
+    private static String[][] questGiveLines;
+    private static String[][] questRewardLines;
+    private static String[][] questReminderLines;
+    private static String[][] idleLines;
+    private static String[] questUnfinishedLines;
     private static int[] lD;
     private static int[] lE;
     private static int[] lF;
@@ -862,7 +851,7 @@ public final class b extends Canvas implements Runnable {
         id = 10;
         ij = -1;
         ir = -1;
-        iz = false;
+        Dialogue.visible = false;
         loadingTarget = 0;
         jB = 0;
         loadingProgress = 0;
@@ -940,7 +929,7 @@ public final class b extends Canvas implements Runnable {
         li = "Chuyển đến";
         String[] var10000 = new String[]{"Quy Sư Phụ", 
                 "Lâm Sư Phụ"};
-        lx = new String[][]{{"..."}, 
+        guardLines = new String[][]{{"..."}, 
             {"Đây là khu vực luyện tập, cứ yên tâm, nếu bị thương ta sẽ giúp đỡ.", 
                 "Đôi khi tập luyện với cái bù nhìn rơm đằng kia cũng mang lại nhiều bất ngờ đấy!"}, 
             {"Thác nước này rất nguy hiểm, ta khuyên ngươi không nên xuống.", 
@@ -950,7 +939,7 @@ public final class b extends Canvas implements Runnable {
                 "Một số người có thể qua được bằng cách chạy thật nhanh qua.", 
                 "Nếu ngươi tự tin hãy dùng chiếc moto kia và liều một phen xem.", 
                 "Chúc ngươi may mắn."}};
-        ly = new String[][]{{"Con lại tìm ta có chuyện gì?", 
+        questGiveLines = new String[][]{{"Con lại tìm ta có chuyện gì?", 
                 "Thầy chủ nhiệm Con là Takanashi, mau đến gặp thầy để nhận bài tập."}, 
             {"Chào cậu bé, ta là Kagome Ayumi, giảng viên cao cấp bộ môn Khí.", 
                 "Khí là môn đầu tiên bất kỳ học sinh nào cũng phải học khi bước vào đây.", 
@@ -1036,7 +1025,7 @@ public final class b extends Canvas implements Runnable {
                 "Nó vừa bắt mất cô bé Sakura đi rồi.", 
                 "Ta đã sai tất cả đệ tử đi tìm nó, cứu cô bé về!", 
                 "Con cũng phải thế nhé! Cô bé ấy đang chờ con đấy!"}};
-        lz = new String[][]{{"Thể lực con rất tốt, ta sẽ dạy khinh công cho con...", 
+        questRewardLines = new String[][]{{"Thể lực con rất tốt, ta sẽ dạy khinh công cho con...", 
                 "Hãy tập trung khí huyết, hít thở nhẹ, người con nhẹ dần, nhẹ dần tựa chiếc lá khô...", 
                 "Chúc mừng con! Hãy thử nhảy lên xem kết quả thế nào.", 
                 "à, suýt nữa ta quên, lúc nãy thầy Hiroyaki trên tầng 1 gọi con đấy."}, 
@@ -1091,7 +1080,7 @@ public final class b extends Canvas implements Runnable {
                 "Nay ta tuyên bố thăng cấp cho các con là Genin !"}};
         String[][] var3 = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
-        lA = new String[][]{{"Nhanh lên, hãy sang khu luyện tập và giết 10 con ốc sên."}, 
+        questReminderLines = new String[][]{{"Nhanh lên, hãy sang khu luyện tập và giết 10 con ốc sên."}, 
             {"Hãy đánh sập 2 bù nhìn rơm gần cổng trường. Nhanh lên!"}, 
             {"Bọn quỷ một chân có mặt ở thác nước, bên kia khu luyện tập, mau giết chúng để tìm quyển bí kíp!"}, 
             {"Hãy trở lại khi ngươi đã giết đủ 20 con ong."}, 
@@ -1112,7 +1101,7 @@ public final class b extends Canvas implements Runnable {
             {"Để học kỹ năng ẩn thân, hãy đi tìm 1 quyển bí kíp...", 
                 "Cất giấu tại 1 thung lũng phía đông."}, 
             {"Nhanh lên, cô bé ấy đã bị bắt từ mấy hôm rồi!"}};
-        lB = new String[][]{{"Ta đang bận, Con hãy đi tập luyện đi."}, 
+        idleLines = new String[][]{{"Ta đang bận, Con hãy đi tập luyện đi."}, 
             {"Các ngươi phải cố gắng tập luyện để trở thành những Ninja tốt"}, 
             {"Hằng ngày ngươi phải siêng năng tập thể lực, đó là nền tảng cho mọi hoạt động."}, 
             {"Cô Ayumi xinh thật. Con có thấy thế không?"}, 
@@ -1128,7 +1117,7 @@ public final class b extends Canvas implements Runnable {
                 ".. để ta nghĩ ra thêm vài phép mới..", 
                 "..trước mắt hãy học những kỹ năng cũ đã nhé..."}};
         var10000 = new String[]{"Ngươi không có đủ vàng."};
-        lC = new String[]{"Hãy hoàn thành nhiệm vụ được giao rồi quay lại gặp ta!"};
+        questUnfinishedLines = new String[]{"Hãy hoàn thành nhiệm vụ được giao rồi quay lại gặp ta!"};
         lD = new int[]{1, 7, 100, 100, 6, 100, 100, 13, 100, 15, 100, 100, 18, 17, 10, 100, 100, 100};
         lE = new int[]{10, 2, 0, 0, 20, 0, 0, 8, 0, 10, 0, 0, 15, 18, 4, 0, 0, 0};
         lF = new int[]{7, 6, 6, 5, 2, 4};
@@ -2008,9 +1997,9 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void z() {
+    private static void onDialogueFinished() {
         label58:
-        switch (iD) {
+        switch (Dialogue.finishAction) {
             case 3:
                 P = 0;
                 fC = 0;
@@ -3756,17 +3745,6 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void M() {
-        if (iI < iE[iC].length) {
-            iI = iE[iC].length;
-            iH = 0;
-        } else {
-            ++iC;
-            iI = 0;
-            iH = 0;
-        }
-    }
-
     private static void a(Graphics var0) {
         int var1;
         if (c && !lowGraphics) {
@@ -3954,11 +3932,11 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void f(Graphics var0) {
+    private static void drawDialogue(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
-        iA = iE[iC].length;
-        int var1 = iG - cameraY - (iA << 4);
+        dialogueBoxLines = Dialogue.pages[Dialogue.page].length;
+        int var1 = Dialogue.speakerY - cameraY - (dialogueBoxLines << 4);
         boolean var2 = true;
         if (var1 < 10) {
             var2 = false;
@@ -3967,30 +3945,30 @@ public final class b extends Canvas implements Runnable {
 
         var0.setColor(16777215);
         if (lowGraphics) {
-            var0.fillRect(iK, var1 - 5, iJ, (iA << 4) + 7);
+            var0.fillRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7);
         } else {
-            var0.fillRoundRect(iK, var1 - 5, iJ, (iA << 4) + 7, 10, 10);
+            var0.fillRoundRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
         var0.setColor(17408);
         if (lowGraphics) {
-            var0.drawRect(iK - 1, var1 - 5, iJ + 1, (iA << 4) + 7);
+            var0.drawRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7);
         } else {
-            var0.drawRoundRect(iK - 1, var1 - 5, iJ + 1, (iA << 4) + 7, 10, 10);
+            var0.drawRoundRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
-        for(int var3 = 0; var3 < iI; ++var3) {
-            FontGraph.drawRegular(var0, iE[iC][var3], iK + (iJ >> 1), var1 + (var3 << 4), 2);
+        for(int var3 = 0; var3 < Dialogue.shownLines; ++var3) {
+            FontGraph.drawRegular(var0, Dialogue.pages[Dialogue.page][var3], Dialogue.boxX + (Dialogue.boxWidth >> 1), var1 + (var3 << 4), 2);
         }
 
-        if (iI < iE[iC].length) {
-            FontGraph.drawRegular(var0, iE[iC][iI].substring(0, iH), iK + (iJ >> 1), var1 + (iI << 4), 2);
+        if (Dialogue.shownLines < Dialogue.pages[Dialogue.page].length) {
+            FontGraph.drawRegular(var0, Dialogue.pages[Dialogue.page][Dialogue.shownLines].substring(0, Dialogue.shownChars), Dialogue.boxX + (Dialogue.boxWidth >> 1), var1 + (Dialogue.shownLines << 4), 2);
         }
 
         var0.setColor(0);
         var0.fillRect(0, bg + 33, bh, 15);
-        if (var2 && iF > cameraX + 10 && iF < cameraX + viewWidth - 10) {
-            var0.drawImage(markerIcon, iF - cameraX, iG - cameraY + 2, 17);
+        if (var2 && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + viewWidth - 10) {
+            var0.drawImage(markerIcon, Dialogue.speakerX - cameraX, Dialogue.speakerY - cameraY + 2, 17);
         }
 
         if (tick % 10 < 8) {
@@ -4038,8 +4016,8 @@ public final class b extends Canvas implements Runnable {
         drawNpcs(var0);
         l(var0);
         e(var0);
-        if (iz) {
-            f(var0);
+        if (Dialogue.visible) {
+            drawDialogue(var0);
         }
 
     }
@@ -4132,32 +4110,32 @@ public final class b extends Canvas implements Runnable {
         Input.clearPressed();
     }
 
-    private static void a(String[] var0, int var1, int var2, int var3) {
-        iD = var1;
-        iF = var2;
-        iG = var3;
-        iB = var0.length;
-        iC = 0;
-        iE = new String[iB][];
-        if ((iJ = viewWidth >> 1) < 120) {
-            iJ = 120;
+    private static void startDialogue(String[] var0, int var1, int var2, int var3) {
+        Dialogue.finishAction = var1;
+        Dialogue.speakerX = var2;
+        Dialogue.speakerY = var3;
+        Dialogue.pageCount = var0.length;
+        Dialogue.page = 0;
+        Dialogue.pages = new String[Dialogue.pageCount][];
+        if ((Dialogue.boxWidth = viewWidth >> 1) < 120) {
+            Dialogue.boxWidth = 120;
         }
 
-        for(var1 = 0; var1 < iB; ++var1) {
-            iE[var1] = FontGraph.wrapRegularText(var0[var1], iJ - 20);
+        for(var1 = 0; var1 < Dialogue.pageCount; ++var1) {
+            Dialogue.pages[var1] = FontGraph.wrapRegularText(var0[var1], Dialogue.boxWidth - 20);
         }
 
-        if ((iK = iF - (iJ >> 1) - cameraX) < 2) {
-            iK = 2;
+        if ((Dialogue.boxX = Dialogue.speakerX - (Dialogue.boxWidth >> 1) - cameraX) < 2) {
+            Dialogue.boxX = 2;
         }
 
-        if (iK + iJ > viewWidth - 2) {
-            iK = viewWidth - 2 - iJ;
+        if (Dialogue.boxX + Dialogue.boxWidth > viewWidth - 2) {
+            Dialogue.boxX = viewWidth - 2 - Dialogue.boxWidth;
         }
 
-        iz = true;
-        iH = 0;
-        iI = 0;
+        Dialogue.visible = true;
+        Dialogue.shownChars = 0;
+        Dialogue.shownLines = 0;
     }
 
     private static boolean e(int var0, int var1, int var2) {
@@ -5455,11 +5433,11 @@ public final class b extends Canvas implements Runnable {
             if (ga) {
                 if (Input.pressed[Input.KEY_FIRE]) {
                     Input.clearPressed();
-                    M();
-                    if (iC == iB) {
-                        iz = false;
+                    Dialogue.advance();
+                    if (Dialogue.isFinished()) {
+                        Dialogue.visible = false;
                         ga = false;
-                        z();
+                        onDialogueFinished();
                     }
                 }
             } else {
@@ -5517,7 +5495,7 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 var1 -= 40;
-                                a(aF[az[fT][fU]], -1, var0, var1);
+                                startDialogue(cutsceneLines[az[fT][fU]], Dialogue.NO_ACTION, var0, var1);
                                 ++fU;
                                 ga = true;
                             }
@@ -5619,7 +5597,7 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 15:
                             fV = true;
-                            fW = FontGraph.wrapBoldText(aG[az[fT][fU]], viewWidth - 40);
+                            fW = FontGraph.wrapBoldText(cutsceneCaptions[az[fT][fU]], viewWidth - 40);
                             if ((fY = (bt >> 1) - (fW.length << 3)) < 3) {
                                 fY = 2;
                             }
@@ -5888,14 +5866,6 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void X() {
-        if (iz && iI < iE[iC].length && ++iH >= iE[iC][iI].length()) {
-            iH = 0;
-            ++iI;
-        }
-
-    }
-
     private static void Y() {
         for(int var0 = 0; var0 < du; ++var0) {
             int var10002;
@@ -5925,7 +5895,7 @@ public final class b extends Canvas implements Runnable {
 
                         var10002 = dF[var0]++;
                         if (dF[var0] > (dK[var0] + dz[var0]) % 20 + (dK[var0] >> 1)) {
-                            if (iz && fE == var0) {
+                            if (Dialogue.visible && fE == var0) {
                                 break;
                             }
 
@@ -6120,7 +6090,7 @@ public final class b extends Canvas implements Runnable {
         if (!V()) {
             Y();
             R();
-            X();
+            Dialogue.typeTick();
         }
     }
 
@@ -7069,8 +7039,8 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (iz) {
-                    f(var6);
+                if (Dialogue.visible) {
+                    drawDialogue(var6);
                 }
 
                 return;
@@ -7232,7 +7202,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     ad();
-                    X();
+                    Dialogue.typeTick();
                     if (V()) {
                         break;
                     }
@@ -7250,13 +7220,13 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     int var4;
-                    if (iz) {
+                    if (Dialogue.visible) {
                         if (Input.pressed[Input.KEY_FIRE]) {
                             Input.clearPressed();
-                            M();
-                            if (iC == iB) {
-                                iz = false;
-                                z();
+                            Dialogue.advance();
+                            if (Dialogue.isFinished()) {
+                                Dialogue.visible = false;
+                                onDialogueFinished();
                             }
                         }
 
@@ -7339,36 +7309,36 @@ public final class b extends Canvas implements Runnable {
                                         switch (npcTypes[var4]) {
                                             case 0:
                                                 if (fb) {
-                                                    a(lB[7], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
                                                     V(2);
-                                                    a(ly[0], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(questGiveLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
                                                     if (eZ && !fa) {
                                                         if (P == 16) {
                                                             if (eH) {
-                                                                a(lz[14], 35, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questRewardLines[14], 35, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lA[14], -1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questReminderLines[14], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[22], 36, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questGiveLines[22], 36, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[1], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 1:
                                                 if (fb) {
-                                                    a(lB[5], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
                                                     if (P == 0) {
                                                         if (fC < lE[0]) {
-                                                            a(lA[0], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             var3 = true;
                                                             boolean var8 = true;
@@ -7378,129 +7348,129 @@ public final class b extends Canvas implements Runnable {
                                                             lJ = 4;
                                                             lH = 1044;
                                                             lI = 240;
-                                                            a(lz[0], 4, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[0], 4, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[1], 3, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[1], 3, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (!eR && eQ) {
                                                     if (PlayerStats.level < 10) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, -1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == 7) {
                                                         if (fC < lE[7]) {
-                                                            a(lA[6], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[6], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(2);
-                                                            a(lz[6], 19, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[6], 19, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[14], 18, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[14], 18, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eU && !eV) {
                                                     if (PlayerStats.level < 12) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, -1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == 11) {
                                                         if (fC < 20) {
-                                                            a(lA[9], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(4);
-                                                            a(lz[9], 27, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[9], 27, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[17], 28, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[17], 28, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (!eX && eW) {
                                                         if (PlayerStats.level < 15) {
-                                                            a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else if (P == 13) {
                                                             if (fC < lE[13]) {
-                                                                a(lA[11], -1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questReminderLines[11], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 V(3);
-                                                                a(lz[11], 31, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questRewardLines[11], 31, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[19], 32, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questGiveLines[19], 32, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[0], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 2:
                                                 if (fb) {
-                                                    a(lB[9], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
                                                     V(1);
-                                                    a(ly[2], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(questGiveLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (eL && !eM) {
                                                     if (P == 3) {
-                                                        a(ly[9], -1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == -1) {
-                                                        a(ly[10], 11, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[10], 11, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eR && !eS) {
                                                     if (P == 8) {
                                                         if (eG) {
                                                             V(2);
-                                                            a(lz[7], 23, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[7], 23, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lA[7], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[15], 22, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[15], 22, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (eS && !eT) {
                                                         if (P == 9) {
                                                             if (fC < lE[9]) {
-                                                                a(lA[8], -1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questReminderLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 V(3);
-                                                                a(lz[8], 25, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questRewardLines[8], 25, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[16], 24, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questGiveLines[16], 24, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[3], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 3:
                                                 if (fb) {
-                                                    a(lB[9], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
                                                     if (eI && eK) {
                                                         if (!eL) {
                                                             if (P == 2) {
                                                                 if (!fA) {
-                                                                    a(lA[2], -1, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questReminderLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(2);
-                                                                    a(lz[2], 10, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questRewardLines[2], 10, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[8], 9, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questGiveLines[8], 9, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7508,33 +7478,33 @@ public final class b extends Canvas implements Runnable {
                                                         if (!eO && eN) {
                                                             if (P == 5) {
                                                                 if (!fA) {
-                                                                    a(lA[4], -1, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questReminderLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(4);
-                                                                    a(lz[4], 15, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questRewardLines[4], 15, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[12], 14, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questGiveLines[12], 14, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
                                                         if (!eY && eX) {
                                                             if (PlayerStats.level < 16) {
-                                                                a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, -1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else if (P == 14) {
                                                                 if (fC < lE[14]) {
-                                                                    a(lA[12], -1, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questReminderLines[12], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(3);
-                                                                    a(lz[12], 33, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questRewardLines[12], 33, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[20], 34, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questGiveLines[20], 34, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
@@ -7542,98 +7512,98 @@ public final class b extends Canvas implements Runnable {
                                                         if (!eZ && eY) {
                                                             if (P == 15) {
                                                                 if (!fA) {
-                                                                    a(lA[13], -1, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questReminderLines[13], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
                                                                     V(0);
-                                                                    a(lz[13], 21, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(questRewardLines[13], 21, npcX[var4], npcY[var4] - 40);
                                                                 }
                                                             } else if (P == -1) {
-                                                                a(ly[21], 20, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questGiveLines[21], 20, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        a(lB[4], -1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(idleLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         break;
                                                     }
 
-                                                    a(ly[5], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(questGiveLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 4:
                                                 if (fb) {
-                                                    a(lB[8], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (mapId == 99) {
-                                                    a(ly[7], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(questGiveLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eI) {
-                                                    a(ly[4], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(questGiveLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else if (!eK) {
                                                     if (P == 1) {
                                                         if (fC < lE[1]) {
-                                                            a(lA[3], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(3);
-                                                            a(lz[1], 6, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[1], 6, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[6], 5, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[6], 5, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eM && !eN) {
                                                     if (P == 4) {
                                                         if (fC < lE[4]) {
-                                                            a(lA[3], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(3);
-                                                            a(lz[3], 12, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[3], 12, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[11], 13, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[11], 13, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else if (eO && !eQ) {
                                                     if (PlayerStats.level < 8) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, -1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     } else if (P == 6) {
                                                         if (!fA) {
-                                                            a(lA[5], -1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questReminderLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             V(1);
-                                                            a(lz[5], 17, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questRewardLines[5], 17, npcX[var4], npcY[var4] - 40);
                                                         }
                                                     } else if (P == -1) {
-                                                        a(ly[13], 16, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questGiveLines[13], 16, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
                                                     if (!eW && eV) {
                                                         if (P == 12) {
                                                             if (fC < lE[12]) {
-                                                                a(lA[10], -1, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questReminderLines[10], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
                                                                 V(1);
-                                                                a(lz[10], 29, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(questRewardLines[10], 29, npcX[var4], npcY[var4] - 40);
                                                             }
                                                         } else if (P == -1) {
-                                                            a(ly[18], 30, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questGiveLines[18], 30, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(questUnfinishedLines, 1, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[2], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(idleLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 5:
                                                 if (mapId == 0) {
                                                     if (var4 == 5) {
-                                                        a(lx[0], -1, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(guardLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     }
 
                                                     if (var4 == 6) {
@@ -7650,15 +7620,15 @@ public final class b extends Canvas implements Runnable {
                                                 }
 
                                                 if (mapId == 1 && var4 == 0) {
-                                                    a(lx[1], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(guardLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
 
                                                 if (mapId == 5 && var4 == 0) {
-                                                    a(lx[2], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(guardLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
 
                                                 if (mapId == 6 && var4 == 0) {
-                                                    a(lx[3], -1, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(guardLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                         }
 
@@ -7668,18 +7638,18 @@ public final class b extends Canvas implements Runnable {
                                     } else if (p.equals("Trò chuyện")) {
                                         Input.clearPressed();
                                         dJ[fE] = -fm;
-                                        a(dv[fE], 0, dz[fE], dA[fE] - 44);
+                                        startDialogue(dv[fE], 0, dz[fE], dA[fE] - 44);
                                     } else if (p.equals("Nói chuyện") && fB) {
                                         if (gk) {
-                                            a(aH[0], 0, gn, go - 44);
+                                            startDialogue(girlLines[0], 0, gn, go - 44);
                                         } else if (eU) {
-                                            a(aH[2], 0, gn, go - 44);
+                                            startDialogue(girlLines[2], 0, gn, go - 44);
                                             gk = true;
                                         } else if (eT) {
-                                            a(aH[3], 26, gn, go - 44);
+                                            startDialogue(girlLines[3], 26, gn, go - 44);
                                             eT = false;
                                         } else {
-                                            a(aH[1], 0, gn, go - 44);
+                                            startDialogue(girlLines[1], 0, gn, go - 44);
                                         }
                                     }
                                 } else {
