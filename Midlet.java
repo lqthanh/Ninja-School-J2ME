@@ -2,6 +2,7 @@ import assets.*;
 import core.app.*;
 import core.input.*;
 import core.player.*;
+import core.render.*;
 import core.save.*;
 
 import javax.microedition.lcdui.Display;
@@ -77,47 +78,11 @@ public class Midlet extends MIDlet implements Runnable {
             b.j();
             b.loadingTarget = 95;
             Thread.yield();
-            b.j = (new int[]{5614318, 18})[Save.backgroundIndex];
-
-            int verticalOffset;
-            try {
-                if (!b.lowGraphics) {
-                    b.t = Background.ensureLayers(b.t, Save.backgroundIndex);
-                    b.u = Background.ensureCloud(b.u, Save.backgroundIndex);
-                    b.v = Background.ensureSun(b.v, Save.backgroundIndex);
-                }
-            } catch (Exception ex) {
-            }
-
-            b.c = false;
-            if (b.mapId != 0 && !b.lowGraphics) {
-                b.c = true;
-                b.q = b.viewHeight - (b.t[0].getHeight() + b.t[1].getHeight() + b.t[2].getHeight()) + 11;
-                b.m = (b.l = (b.k = b.viewHeight - b.t[0].getHeight()) - b.t[1].getHeight()) - b.t[2].getHeight();
-                b.n = b.l - b.t[3].getHeight() - 10;
-            }
-
-            if ((verticalOffset = 2 * b.viewHeight / 3 - b.l) < 0) {
-                verticalOffset = 0;
-            }
-
+            Sky.setup(Save.backgroundIndex, b.mapId, b.viewWidth, b.viewHeight, b.lowGraphics);
             if (b.mapId < 19) {
                 b.X[b.mapId] = true;
             }
 
-            b.q += verticalOffset;
-            b.k += verticalOffset;
-            b.l += verticalOffset;
-            b.m += verticalOffset;
-            b.n += verticalOffset;
-            b.h = 3 * b.viewWidth / 4;
-            b.i = b.q / 3;
-            b.f = new int[2];
-            b.g = new int[2];
-            b.f[0] = b.viewWidth / 3;
-            b.g[0] = b.q / 2 - 8;
-            b.f[1] = 2 * b.viewWidth / 3;
-            b.g[1] = b.q / 2 + 8;
             b.d = true;
             b.o = "Menu";
             b.p = " ";

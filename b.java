@@ -4,6 +4,7 @@ import core.app.*;
 import core.input.*;
 import core.map.*;
 import core.player.*;
+import core.render.*;
 import core.save.*;
 import core.ui.*;
 
@@ -212,7 +213,6 @@ public final class b extends Canvas implements Runnable {
     private static int screenCenterX;
     private static int screenCenterY;
     private static int aX;
-    public static boolean c;
     public static boolean d;
     private static int aY;
     private static int aZ;
@@ -222,15 +222,6 @@ public final class b extends Canvas implements Runnable {
     private static int bd;
     public static int state;
     private static boolean be;
-    public static int[] f;
-    public static int[] g;
-    public static int h;
-    public static int i;
-    public static int j;
-    public static int k;
-    public static int l;
-    public static int m;
-    public static int n;
     public static String o;
     public static String p;
     private static int bf;
@@ -256,7 +247,6 @@ public final class b extends Canvas implements Runnable {
     private static int visibleRows;
     private static int lastVisibleCol;
     private static int lastVisibleRow;
-    public static int q;
     public static int viewWidth;
     public static int viewHeight;
     private static int viewCenterX;
@@ -388,13 +378,10 @@ public final class b extends Canvas implements Runnable {
     private static Image[][] enemyProjectiles;
     private static Image[] arrowIcons;
     private static Image healSprite;
-    public static Image[] t;
     private static Image[] motorbikeFrames;
     private static Image itemScroll;
     private static Image[] heroBodies;
     private static Image itemCrate;
-    public static Image u;
-    public static Image v;
     private static Image[] hudFrames;
     private static Image[] itemMoney;
     private static Image markerIcon;
@@ -3745,46 +3732,8 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void a(Graphics var0) {
-        int var1;
-        if (c && !lowGraphics) {
-            var0.setColor(j);
-            var0.fillRect(0, 0, viewWidth, q);
-
-            for(var1 = -((cameraX >> 1) % 24); var1 < viewWidth; var1 += 24) {
-                var0.drawImage(t[0], var1, k, 0);
-            }
-
-            for(var1 = -((cameraX >> 2) % 24); var1 < viewWidth; var1 += 24) {
-                var0.drawImage(t[1], var1, l, 0);
-            }
-
-            for(var1 = -((cameraX >> 4) % 64); var1 < viewWidth; var1 += 64) {
-                var0.drawImage(t[3], var1, n, 0);
-            }
-
-            var0.drawImage(v, h, i, 3);
-
-            for(var1 = 0; var1 < 2; ++var1) {
-                var0.drawImage(u, f[var1], g[var1], 3);
-            }
-
-            for(var1 = -((cameraX >> 3) % 192); var1 < viewWidth; var1 += 192) {
-                var0.drawImage(t[2], var1, m, 0);
-            }
-
-        } else {
-            var0.setColor(j);
-            var0.fillRect(0, 0, viewWidth, viewHeight);
-            if (!lowGraphics) {
-                var0.drawImage(v, h, i, 3);
-
-                for(var1 = 0; var1 < 2; ++var1) {
-                    var0.drawImage(u, f[var1], g[var1], 3);
-                }
-
-            }
-        }
+    private static void drawSky(Graphics g) {
+        Sky.draw(g, cameraX, viewWidth, viewHeight, lowGraphics);
     }
 
     private static void b(Graphics var0) {
@@ -4002,7 +3951,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawTutorial(Graphics var0) {
         var0.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
-        a(var0);
+        drawSky(var0);
         var0.translate(-cameraX, -cameraY);
         if (lowGraphics) {
             j(var0);
@@ -6692,7 +6641,7 @@ public final class b extends Canvas implements Runnable {
                 case GameState.PLAYING:
                     Graphics var6 = var1;
                     var1.setClip(-1, -1, viewWidth + 2, viewHeight + 2);
-                    a(var1);
+                    drawSky(var1);
                     var1.translate(-cameraX, -cameraY);
                     var1 = var1;
 
@@ -7051,7 +7000,7 @@ public final class b extends Canvas implements Runnable {
                     return;
                 case GameState.MAIN_MENU:
                     var1.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
-                    a(var1);
+                    drawSky(var1);
                     var1.translate(-cameraX, -cameraY);
                     if (lowGraphics) {
                         j(var1);
@@ -7209,14 +7158,7 @@ public final class b extends Canvas implements Runnable {
 
                     int var13;
                     if (!lowGraphics) {
-                        for(var13 = 0; var13 < 2; ++var13) {
-                            if (tick % (var13 + 2 << 3) == 0) {
-                                var10002 = f[var13]++;
-                                if (f[var13] > viewWidth + (u.getWidth() >> 1)) {
-                                    f[var13] = -(u.getWidth() >> 1);
-                                }
-                            }
-                        }
+                        Sky.updateClouds(tick, viewWidth);
                     }
 
                     int var4;
