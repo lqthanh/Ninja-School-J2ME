@@ -1,5 +1,6 @@
 import assets.*;
 import assets.Character;
+import core.input.*;
 import core.map.*;
 import core.player.*;
 import core.save.*;
@@ -204,12 +205,6 @@ public final class b extends Canvas implements Runnable {
     private static int aL;
     private static b aM;
     static boolean b;
-    private static boolean aN;
-    private static int aO;
-    private static int aP;
-    private static boolean aQ;
-    private static boolean[] aR;
-    private static boolean[] aS;
     private static int aT;
     private static int aU;
     private static int aV;
@@ -832,8 +827,6 @@ public final class b extends Canvas implements Runnable {
         aK = new int[]{-3, 2, -1, 1};
         aL = -1;
         b = true;
-        aR = new boolean[14];
-        aS = new boolean[14];
         aX = 0;
         bv = "";
         bG = -22;
@@ -2022,20 +2015,6 @@ public final class b extends Canvas implements Runnable {
                     return;
                 }
             }
-        }
-
-    }
-
-    static void c() {
-        for(int var0 = 0; var0 < 14; ++var0) {
-            aR[var0] = false;
-        }
-
-    }
-
-    static void d() {
-        for(int var0 = 0; var0 < 14; ++var0) {
-            aS[var0] = false;
         }
 
     }
@@ -4160,8 +4139,8 @@ public final class b extends Canvas implements Runnable {
         fU = 0;
         fS = true;
         ga = false;
-        c();
-        d();
+        Input.clearHeld();
+        Input.clearPressed();
     }
 
     private static void a(String[] var0, int var1, int var2, int var3) {
@@ -4998,7 +4977,7 @@ public final class b extends Canvas implements Runnable {
                 C = 22;
                 if (D < 5) {
                     ++D;
-                } else if (!aR[8]) {
+                } else if (!Input.held[Input.KEY_DOWN]) {
                     B = 1;
                 }
 
@@ -5485,8 +5464,8 @@ public final class b extends Canvas implements Runnable {
             return false;
         } else {
             if (ga) {
-                if (aS[5]) {
-                    d();
+                if (Input.pressed[Input.KEY_FIRE]) {
+                    Input.clearPressed();
                     M();
                     if (iC == iB) {
                         iz = false;
@@ -5512,11 +5491,11 @@ public final class b extends Canvas implements Runnable {
                     int var0;
                     switch (ay[fT][fU]) {
                         case 1:
-                            F(az[fT][fU]);
+                            Input.keyDown(az[fT][fU]);
                             ++fU;
                             break;
                         case 2:
-                            G(az[fT][fU]);
+                            Input.keyUp(az[fT][fU]);
                             ++fU;
                             break;
                         case 3:
@@ -5767,8 +5746,8 @@ public final class b extends Canvas implements Runnable {
                             ++fU;
                             break;
                         case 29:
-                            d();
-                            c();
+                            Input.clearPressed();
+                            Input.clearHeld();
                             tilesetImage = null;
                             waterfallImage = null;
                             waterSurfaceImage = null;
@@ -5856,8 +5835,8 @@ public final class b extends Canvas implements Runnable {
                 }
             }
 
-            aR[5] = false;
-            aS[5] = false;
+            Input.held[Input.KEY_FIRE] = false;
+            Input.pressed[Input.KEY_FIRE] = false;
             return false;
         }
     }
@@ -6678,16 +6657,16 @@ public final class b extends Canvas implements Runnable {
         this.setFullScreenMode(true);
         System.gc();
         aM = this;
-        aQ = this.getKeyCode(8) == -20;
+        Input.motorolaKeys = this.getKeyCode(Canvas.FIRE) == Input.MOTOROLA_CODE_FIRE;
         aT = this.getWidth();
         aU = this.getHeight();
         aV = aT / 2;
         aW = aU / 2;
-        c();
+        Input.clearHeld();
     }
 
     protected final void keyPressed(int var1) {
-        if (var1 == 35) {
+        if (var1 == Input.CODE_POUND) {
             if (bv.equals("1984")) {
                 eI = true;
                 eJ = true;
@@ -6731,182 +6710,20 @@ public final class b extends Canvas implements Runnable {
             bv = "";
         }
 
-        if (var1 >= 48 && var1 <= 57 && (bv = bv + (char)var1).length() > 10) {
+        if (var1 >= Input.CODE_NUM0 && var1 <= Input.CODE_NUM9 && (bv = bv + (char)var1).length() > 10) {
             bv = "";
         }
 
-        if (aQ) {
-            switch (var1) {
-                case -23:
-                    var1 = -8;
-                    break;
-                case -22:
-                case 22:
-                    var1 = -7;
-                    break;
-                case -21:
-                case 21:
-                    var1 = -6;
-                    break;
-                case -20:
-                    var1 = -5;
-                    break;
-                case -6:
-                    var1 = -2;
-                    break;
-                case -5:
-                    var1 = -4;
-                    break;
-                case -2:
-                    var1 = -3;
-            }
-        }
-
-        if (!fS || var1 == -5) {
-            F(var1);
+        var1 = Input.normalizeKeyCode(var1);
+        if (!fS || var1 == Input.CODE_FIRE) {
+            Input.keyDown(var1);
         }
     }
 
     protected final void keyReleased(int var1) {
-        if (aQ) {
-            switch (var1) {
-                case -23:
-                    var1 = -8;
-                    break;
-                case -22:
-                case 22:
-                    var1 = -7;
-                    break;
-                case -21:
-                case 21:
-                    var1 = -6;
-                    break;
-                case -20:
-                    var1 = -5;
-                    break;
-                case -6:
-                    var1 = -2;
-                    break;
-                case -5:
-                    var1 = -4;
-                    break;
-                case -2:
-                    var1 = -3;
-            }
-        }
-
-        if (!fS || var1 == -5) {
-            G(var1);
-        }
-    }
-
-    private static void F(int var0) {
-        switch (var0) {
-            case -22:
-            case -7:
-                aR[13] = true;
-                aS[13] = true;
-                return;
-            case -21:
-            case -6:
-                aR[12] = true;
-                aS[12] = true;
-                return;
-            case -5:
-            case 10:
-                aR[5] = true;
-                aS[5] = true;
-                return;
-            case -4:
-                aR[6] = true;
-                aS[6] = true;
-                return;
-            case -3:
-                aR[4] = true;
-                aS[4] = true;
-                return;
-            case -2:
-                aR[8] = true;
-                aS[8] = true;
-                return;
-            case -1:
-                aR[2] = true;
-                aS[2] = true;
-                return;
-            case 35:
-                aR[11] = true;
-                aS[11] = true;
-                return;
-            case 42:
-                aR[10] = true;
-                aS[10] = true;
-                return;
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
-            case 53:
-            case 54:
-            case 55:
-            case 56:
-            case 57:
-                aR[var0 - 48] = true;
-                aS[var0 - 48] = true;
-                return;
-            default:
-        }
-    }
-
-    private static void G(int var0) {
-        switch (var0) {
-            case -22:
-            case -7:
-                aR[13] = false;
-                return;
-            case -21:
-            case -6:
-                aR[12] = false;
-                return;
-            case -5:
-            case 10:
-                aR[5] = false;
-                return;
-            case -4:
-                aR[6] = false;
-                aS[6] = false;
-                return;
-            case -3:
-                aR[4] = false;
-                aS[4] = false;
-                return;
-            case -2:
-                aR[8] = false;
-                aS[8] = false;
-                return;
-            case -1:
-                aR[2] = false;
-                aS[2] = false;
-                return;
-            case 35:
-                aR[11] = false;
-                return;
-            case 42:
-                aR[10] = false;
-                return;
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
-            case 53:
-            case 54:
-            case 55:
-            case 56:
-            case 57:
-                aR[var0 - 48] = false;
-                return;
-            default:
+        var1 = Input.normalizeKeyCode(var1);
+        if (!fS || var1 == Input.CODE_FIRE) {
+            Input.keyUp(var1);
         }
     }
 
@@ -7354,19 +7171,19 @@ public final class b extends Canvas implements Runnable {
     }
 
     protected final void pointerDragged(int var1, int var2) {
-        aO = var1;
-        aP = var2;
+        Input.pointerX = var1;
+        Input.pointerY = var2;
     }
 
     protected final void pointerPressed(int var1, int var2) {
-        aO = var1;
-        aP = var2;
+        Input.pointerX = var1;
+        Input.pointerY = var2;
     }
 
     protected final void pointerReleased(int var1, int var2) {
-        aN = true;
-        aO = var1;
-        aP = var2;
+        Input.pointerReleased = true;
+        Input.pointerX = var1;
+        Input.pointerY = var2;
     }
 
     public final void run() {
@@ -7445,8 +7262,8 @@ public final class b extends Canvas implements Runnable {
 
                     int var4;
                     if (iz) {
-                        if (aS[5]) {
-                            d();
+                        if (Input.pressed[Input.KEY_FIRE]) {
+                            Input.clearPressed();
                             M();
                             if (iC == iB) {
                                 iz = false;
@@ -7457,12 +7274,12 @@ public final class b extends Canvas implements Runnable {
                         d = true;
                     } else {
                         label2614: {
-                            if (aS[12]) {
+                            if (Input.pressed[Input.KEY_SOFT_LEFT]) {
                                 ap();
                                 e = 5;
-                                c();
-                                d();
-                            } else if (aS[0]) {
+                                Input.clearHeld();
+                                Input.clearPressed();
+                            } else if (Input.pressed[Input.KEY_NUM0]) {
                                 if (fd == 0) {
                                     if (eK) {
                                         fd = 1;
@@ -7472,32 +7289,32 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 d = true;
-                                aS[0] = false;
-                            } else if (aS[6]) {
+                                Input.pressed[Input.KEY_NUM0] = false;
+                            } else if (Input.pressed[Input.KEY_RIGHT]) {
                                 fo = 2;
-                                aS[6] = false;
-                            } else if (aS[4]) {
+                                Input.pressed[Input.KEY_RIGHT] = false;
+                            } else if (Input.pressed[Input.KEY_LEFT]) {
                                 fo = -2;
-                                aS[4] = false;
+                                Input.pressed[Input.KEY_LEFT] = false;
                             } else {
-                                if (aS[9]) {
+                                if (Input.pressed[Input.KEY_NUM9]) {
                                     if (eZ) {
                                         fw = !fw;
                                     }
 
-                                    aS[9] = false;
+                                    Input.pressed[Input.KEY_NUM9] = false;
                                     break label2614;
                                 }
 
-                                if (aS[7]) {
+                                if (Input.pressed[Input.KEY_NUM7]) {
                                     if (B == 1 && eQ) {
                                         B = 23;
                                         D = 0;
                                     }
 
-                                    aS[7] = false;
-                                } else if (aS[10]) {
-                                    aS[10] = false;
+                                    Input.pressed[Input.KEY_NUM7] = false;
+                                } else if (Input.pressed[Input.KEY_STAR]) {
+                                    Input.pressed[Input.KEY_STAR] = false;
                                     if (!PlayerStats.isHpFull()) {
                                         for(var13 = 0; var13 < 3; ++var13) {
                                             if (W[var13] > 0) {
@@ -7509,8 +7326,8 @@ public final class b extends Canvas implements Runnable {
                                             }
                                         }
                                     }
-                                } else if (aS[11]) {
-                                    aS[11] = false;
+                                } else if (Input.pressed[Input.KEY_POUND]) {
+                                    Input.pressed[Input.KEY_POUND] = false;
                                     if (!PlayerStats.isMpFull()) {
                                         for(var13 = 3; var13 < 6; ++var13) {
                                             if (W[var13] > 0) {
@@ -7526,8 +7343,8 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             if (B == 1) {
-                                if (aS[13]) {
-                                    d();
+                                if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                                    Input.clearPressed();
                                     if (p.equals("Giao tiếp")) {
                                         var4 = fD;
                                         switch (lw[var4]) {
@@ -7860,7 +7677,7 @@ public final class b extends Canvas implements Runnable {
                                             gb = -1;
                                         }
                                     } else if (p.equals("Trò chuyện")) {
-                                        d();
+                                        Input.clearPressed();
                                         dJ[fE] = -fm;
                                         a(dv[fE], 0, dz[fE], dA[fE] - 44);
                                     } else if (p.equals("Nói chuyện") && fB) {
@@ -7878,13 +7695,13 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 } else {
                                     label2585: {
-                                        if (aR[2]) {
+                                        if (Input.held[Input.KEY_UP]) {
                                             if (eM) {
                                                 for(var13 = 0; var13 < ii; ++var13) {
                                                     if (ff == il[var13] && a(fe - ik[var13]) < 20) {
                                                         fe = ik[var13];
                                                         B = 18;
-                                                        c();
+                                                        Input.clearHeld();
                                                         ij = var13;
                                                         im[var13] = fm;
                                                         in[var13] = 0;
@@ -7906,7 +7723,7 @@ public final class b extends Canvas implements Runnable {
                                             fE = -1;
                                             p = " ";
                                             d = true;
-                                        } else if (aR[4]) {
+                                        } else if (Input.held[Input.KEY_LEFT]) {
                                             if (fm == 1) {
                                                 fm = -1;
                                             } else {
@@ -7918,7 +7735,7 @@ public final class b extends Canvas implements Runnable {
                                             fE = -1;
                                             p = " ";
                                             d = true;
-                                        } else if (aR[6]) {
+                                        } else if (Input.held[Input.KEY_RIGHT]) {
                                             if (fm == -1) {
                                                 fm = 1;
                                             } else {
@@ -7930,11 +7747,11 @@ public final class b extends Canvas implements Runnable {
                                             fD = -1;
                                             p = " ";
                                             d = true;
-                                        } else if (aR[8]) {
+                                        } else if (Input.held[Input.KEY_DOWN]) {
                                             D = 0;
                                             E = 0;
                                             B = 8;
-                                        } else if (aR[1]) {
+                                        } else if (Input.held[Input.KEY_NUM1]) {
                                             if (eI) {
                                                 A = -10;
                                             } else {
@@ -7950,7 +7767,7 @@ public final class b extends Canvas implements Runnable {
                                             fE = -1;
                                             p = " ";
                                             d = true;
-                                        } else if (aR[3]) {
+                                        } else if (Input.held[Input.KEY_NUM3]) {
                                             if (eI) {
                                                 A = -10;
                                             } else {
@@ -7968,12 +7785,12 @@ public final class b extends Canvas implements Runnable {
                                             d = true;
                                         }
 
-                                        if (aS[5]) {
+                                        if (Input.pressed[Input.KEY_FIRE]) {
                                             B = 5;
                                             ft = 0;
                                             D = 0;
                                             A = 0;
-                                            aS[5] = false;
+                                            Input.pressed[Input.KEY_FIRE] = false;
                                             fD = -1;
                                             fE = -1;
                                             p = " ";
@@ -7982,7 +7799,7 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 2) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     ir = -1;
                                     if (eI) {
                                         A = -10;
@@ -7992,13 +7809,13 @@ public final class b extends Canvas implements Runnable {
 
                                     B = 3;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q + fo;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8006,15 +7823,15 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
 
-                                if (aS[5]) {
+                                if (Input.pressed[Input.KEY_FIRE]) {
                                     B = 5;
                                     ft = 0;
                                     D = 0;
                                     A = 0;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
                             } else if (B == 11) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     if (eI) {
                                         A = -10;
                                     } else {
@@ -8023,13 +7840,13 @@ public final class b extends Canvas implements Runnable {
 
                                     B = 3;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -L + fo;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8037,13 +7854,13 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 3) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8051,14 +7868,14 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
 
-                                if (aS[5]) {
+                                if (Input.pressed[Input.KEY_FIRE]) {
                                     B = 5;
                                     ft = 0;
                                     D = 0;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
 
-                                if (aR[2] && PlayerStats.hasMp() && A > -4 && (D == 0 && eJ || D == 1 && eV)) {
+                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && A > -4 && (D == 0 && eJ || D == 1 && eV)) {
                                     ++D;
                                     A = -7;
                                     PlayerStats.drainMp(3);
@@ -8069,13 +7886,13 @@ public final class b extends Canvas implements Runnable {
                                     g(fe, ff);
                                 }
                             } else if (B == 4) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8083,20 +7900,20 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
 
-                                if (aS[5] && A > 4) {
+                                if (Input.pressed[Input.KEY_FIRE] && A > 4) {
                                     B = 5;
                                     D = 0;
                                     ft = 0;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
                             } else if (B == 5) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q + 2;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8104,17 +7921,17 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
 
-                                if (aS[5]) {
+                                if (Input.pressed[Input.KEY_FIRE]) {
                                     fv = true;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
                             } else if (B == 18) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 21;
                                     D = 10;
                                     ir = -1;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
@@ -8124,7 +7941,7 @@ public final class b extends Canvas implements Runnable {
                                         D = 10;
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8133,24 +7950,24 @@ public final class b extends Canvas implements Runnable {
                                         D = 10;
                                         z = R;
                                     }
-                                } else if (aR[8]) {
+                                } else if (Input.held[Input.KEY_DOWN]) {
                                     B = 1;
                                     ij = -1;
                                 }
                             } else if (B == 19) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 21;
                                     ir = -1;
                                     D = 10;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
                                     } else {
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8159,14 +7976,14 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 21) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
                                     } else {
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8175,14 +7992,14 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 20) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
                                     } else {
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8191,19 +8008,19 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 17) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         B = 16;
                                         z = -M;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8212,18 +8029,18 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 16) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -M;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8231,18 +8048,18 @@ public final class b extends Canvas implements Runnable {
                                     }
                                 }
                             } else if (B == 12) {
-                                if (aR[2] && eP) {
+                                if (Input.held[Input.KEY_UP] && eP) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
                                     D = 0;
                                 }
                             } else if (B == 14) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     fm = -1;
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     fm = 1;
-                                } else if (aR[2]) {
+                                } else if (Input.held[Input.KEY_UP]) {
                                     B = 15;
                                 }
                             }
@@ -9676,25 +9493,25 @@ public final class b extends Canvas implements Runnable {
                         x = 0;
                     }
 
-                    if (aS[4]) {
+                    if (Input.pressed[Input.KEY_LEFT]) {
                         if (--aX < 0) {
                             aX = aE.length - 1;
                         }
 
-                        aS[4] = false;
+                        Input.pressed[Input.KEY_LEFT] = false;
                     }
 
-                    if (aS[6]) {
+                    if (Input.pressed[Input.KEY_RIGHT]) {
                         if (++aX == aE.length) {
                             aX = 0;
                         }
 
-                        aS[6] = false;
+                        Input.pressed[Input.KEY_RIGHT] = false;
                     }
 
-                    if (aS[5]) {
+                    if (Input.pressed[Input.KEY_FIRE]) {
                         label2172: {
-                            d();
+                            Input.clearPressed();
                             if (aX == 0) {
                                 titleImage = null;
                                 B();
@@ -9744,7 +9561,7 @@ public final class b extends Canvas implements Runnable {
                                 Midlet.instance.notifyDestroyed();
                             }
 
-                            aS[5] = false;
+                            Input.pressed[Input.KEY_FIRE] = false;
                         }
                     }
 
@@ -9827,26 +9644,26 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     var3 = false;
-                    if (aS[13]) {
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         var3 = true;
                         cornerIcons = null;
                         ah();
                         e = 1;
                         d = true;
-                    } else if (!aS[5] && !aS[12]) {
-                        if (aS[8]) {
+                    } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        if (Input.pressed[Input.KEY_DOWN]) {
                             var3 = true;
                             if (++kI > 3) {
                                 kI = 0;
                             }
-                        } else if (aS[2]) {
+                        } else if (Input.pressed[Input.KEY_UP]) {
                             var3 = true;
                             if (--kI < 0) {
                                 kI = 3;
                             }
-                        } else if (aS[4]) {
+                        } else if (Input.pressed[Input.KEY_LEFT]) {
                             var3 = true;
-                        } else if (aS[6]) {
+                        } else if (Input.pressed[Input.KEY_RIGHT]) {
                             var3 = true;
                         }
                     } else {
@@ -9877,7 +9694,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (var3) {
-                        d();
+                        Input.clearPressed();
                     }
                     break;
                 case 6:
@@ -9912,8 +9729,8 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     var3 = false;
-                    if (aS[5] || aS[12]) {
-                        d();
+                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        Input.clearPressed();
                         if (kV != -1) {
                             if (!X[kV]) {
                                 s(1);
@@ -9928,16 +9745,16 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (aS[13]) {
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         ar();
                         cornerIcons = null;
                         ah();
                         e = 1;
-                        d();
-                        c();
-                        aS[12] = true;
+                        Input.clearPressed();
+                        Input.clearHeld();
+                        Input.pressed[Input.KEY_SOFT_LEFT] = true;
                     } else {
-                        if (aR[2]) {
+                        if (Input.held[Input.KEY_UP]) {
                             if ((kU -= 4) < -20) {
                                 kU = -20;
                             }
@@ -9945,7 +9762,7 @@ public final class b extends Canvas implements Runnable {
                             var3 = true;
                         }
 
-                        if (aR[8]) {
+                        if (Input.held[Input.KEY_DOWN]) {
                             if ((kU += 4) > 279) {
                                 kU = 279;
                             }
@@ -9953,7 +9770,7 @@ public final class b extends Canvas implements Runnable {
                             var3 = true;
                         }
 
-                        if (aR[4]) {
+                        if (Input.held[Input.KEY_LEFT]) {
                             if ((kT -= 4) < -20) {
                                 kT = -20;
                             }
@@ -9961,7 +9778,7 @@ public final class b extends Canvas implements Runnable {
                             var3 = true;
                         }
 
-                        if (aR[6]) {
+                        if (Input.held[Input.KEY_RIGHT]) {
                             if ((kT += 4) > 279) {
                                 kT = 279;
                             }
@@ -9978,11 +9795,11 @@ public final class b extends Canvas implements Runnable {
                     break;
                 case 7:
                     if (++lo < 10) {
-                        d();
+                        Input.clearPressed();
                     }
 
-                    if (aS[12]) {
-                        d();
+                    if (Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        Input.clearPressed();
                         switch (lm) {
                             case 1:
                             case 3:
@@ -10011,8 +9828,8 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (aS[13]) {
-                        d();
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                        Input.clearPressed();
                         switch (lm) {
                             case 1:
                             case 3:
@@ -10036,7 +9853,7 @@ public final class b extends Canvas implements Runnable {
                         --kC;
                     }
 
-                    if (aS[5] || aS[12]) {
+                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
                         if (W[kB] > 0) {
                             var10002 = W[kB]--;
                             kC = kD.length - 1;
@@ -10047,23 +9864,23 @@ public final class b extends Canvas implements Runnable {
                             }
                         }
 
-                        d();
+                        Input.clearPressed();
                     }
 
-                    if (aS[13]) {
-                        d();
-                        c();
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                        Input.clearPressed();
+                        Input.clearHeld();
                         e = 5;
                     } else {
-                        if (aS[4]) {
-                            d();
+                        if (Input.pressed[Input.KEY_LEFT]) {
+                            Input.clearPressed();
                             if (--kB < 0) {
                                 kB = 5;
                             }
                         }
 
-                        if (aS[6]) {
-                            d();
+                        if (Input.pressed[Input.KEY_RIGHT]) {
+                            Input.clearPressed();
                             if (++kB == 6) {
                                 kB = 0;
                             }
@@ -10075,8 +9892,8 @@ public final class b extends Canvas implements Runnable {
                         --kp;
                     }
 
-                    if (aS[5] || aS[12]) {
-                        d();
+                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        Input.clearPressed();
                         if (kq == 0) {
                             if (kr == 0) {
                                 if (ko < 3) {
@@ -10129,26 +9946,26 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (aS[13]) {
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         cornerIcons = null;
                         shopSwordIcons = null;
                         System.gc();
                         ah();
-                        d();
-                        c();
+                        Input.clearPressed();
+                        Input.clearHeld();
                         e = 1;
                         d = true;
                     } else {
-                        if (aS[2]) {
-                            d();
+                        if (Input.pressed[Input.KEY_UP]) {
+                            Input.clearPressed();
                             if (kq == 1) {
                                 kq = 0;
                                 ++ko;
                             }
                         }
 
-                        if (aS[8]) {
-                            d();
+                        if (Input.pressed[Input.KEY_DOWN]) {
+                            Input.clearPressed();
                             if (kq == 0) {
                                 kq = 1;
                                 if (--ko < 0) {
@@ -10161,8 +9978,8 @@ public final class b extends Canvas implements Runnable {
                             }
                         }
 
-                        if (aS[4]) {
-                            d();
+                        if (Input.pressed[Input.KEY_LEFT]) {
+                            Input.clearPressed();
                             if (--ko < 0) {
                                 if (kq == 0) {
                                     ko = 5;
@@ -10172,8 +9989,8 @@ public final class b extends Canvas implements Runnable {
                             }
                         }
 
-                        if (aS[6]) {
-                            d();
+                        if (Input.pressed[Input.KEY_RIGHT]) {
+                            Input.clearPressed();
                             ++ko;
                             if (kq == 0 && ko == 6) {
                                 ko = 0;
@@ -10192,7 +10009,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     var3 = false;
-                    if (aS[12]) {
+                    if (Input.pressed[Input.KEY_SOFT_LEFT]) {
                         if (ll == 0) {
                             Sound.disabled = false;
                         } else {
@@ -10200,7 +10017,7 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         var3 = true;
-                    } else if (aS[13]) {
+                    } else if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         if (ll == 0) {
                             Sound.disabled = true;
                         } else {
@@ -10211,8 +10028,8 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (var3) {
-                        d();
-                        c();
+                        Input.clearPressed();
+                        Input.clearHeld();
                         if (ll == 0) {
                             try {
                                 popupImage = Ui.loadSmileys();

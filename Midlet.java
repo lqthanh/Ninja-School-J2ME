@@ -1,4 +1,5 @@
 import assets.*;
+import core.input.*;
 import core.player.*;
 import core.save.*;
 
@@ -138,8 +139,8 @@ public class Midlet extends MIDlet implements Runnable {
                 b.D = 0;
             }
 
-            b.d();
-            b.c();
+            Input.clearPressed();
+            Input.clearHeld();
             if (Save.pendingLoad) {
                 b.b();
                 Save.pendingLoad = false;
