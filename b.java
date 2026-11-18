@@ -1,19 +1,26 @@
+import assets.*;
+import assets.Character;
+import core.app.*;
+import core.input.*;
+import core.map.*;
+import core.player.*;
+import core.quest.*;
+import core.render.*;
+import core.save.*;
+import core.text.*;
+import core.ui.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import javax.microedition.lcdui.Canvas;
-import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
-import javax.microedition.lcdui.TextBox;
-import javax.microedition.rms.RecordStore;
 
-public final class b extends Canvas implements Runnable, CommandListener {
-    public static boolean a = true;
-    private static int aa = 40;
+public final class b extends Canvas implements Runnable {
+    public static boolean lowGraphics = true;
+    private static int frameDurationMs = 40;
     private static int[] ab = new int[]{150, 180, 180, 300, 350, 380, 500};
     private static int[] ac = new int[]{20, 30, 40, 100, 80, 120, 200};
     private static int[] ad = new int[]{150, 140, 120, 240, 280, 290, 300};
@@ -21,29 +28,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[][] af = new int[][]{{-5, -2}, {-2, -4}, {0, -5}, {-6, -6}, {-5, -2}, {-2, -4}, {0, -5}};
     private static int[][] ag = new int[][]{{5, 8}, {3, 3}, new int[2], {4, 4}, {5, 8}, {3, 3}, new int[2]};
     private static int[] ah = new int[]{1, -2, 1, 1, 1, -2, 1};
-    private static int[] ai = new int[]{3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
-    private static int[] aj = new int[]{50, 150, 240, 400, 600, 800, 1000, 1500, 2000, 3000, 5000, 7000, 9000, 12000, 15000, 19000, 26000, 32000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000, 100000};
-    private static int[] ak = new int[]{20, 20, 20, 20, 30, 30, 30, 40, 40, 50, 60, 70, 80, 80, 90, 90, 100, 120, 130, 150, 160, 170, 180, 190, 200, 210, 220, 250, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300};
-    private static String[] al = new String[]{"Ma một mắt", 
-            "ốc sên", 
-            "Dơi quỷ", 
-            "Quỷ một chân", 
-            "Cóc xanh", 
-            "Nhện", 
-            "Ong bò vẽ", 
-            "Bù nhìn rơm", 
-            "Cá cọp", 
-            "Ninja gió", 
-            "Cá cọp đỏ", 
-            "Ma một mắt", 
-            "Rết sa mạc", 
-            "Dơi vàng", 
-            "Chuột", 
-            "Thổ dân", 
-            "Ong đỏ", 
-            "Bò cạp", 
-            "Quỷ hoa", 
-            "Quỷ tử hoa"};
     private static int[] am = new int[]{140, 70, 150, 120, 150, 150, 60, 1000, 250, 500, 4000, 500, 600, 1000, 1500, 2000, 1000, 3500, 1500, 5500};
     private static int[] an = new int[]{15, 10, 30, 25, 25, 25, 5, 10, 20, 40, 30, 40, 130, 30, 40, 100, 60, 160, 120, 200};
     private static int[] ao = new int[]{35, 20, 55, 40, 45, 50, 30, 130, 60, 65, 70, 75, 120, 85, 100, 120, 140, 160, 180, 200};
@@ -52,222 +36,67 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[][][] ar = new int[][][]{{{0, -10, 32}, {1, -7, 7}, {1, -11, 15}}, {{0, -10, 33}, {1, -7, 7}, {1, -11, 16}}, {{1, -10, 33}, {2, -10, 11}, {2, -9, 16}}, {{1, -10, 32}, {3, -11, 9}, {3, -11, 16}}, {{1, -10, 34}, {4, -9, 9}, {4, -8, 16}}, {{1, -10, 34}, {5, -11, 11}, {5, -10, 17}}, {{1, -10, 33}, {6, -9, 9}, {6, -8, 16}}, {{0, -9, 36}, {7, -5, 15}, {7, -10, 21}}, {{4, -13, 26}, new int[3], new int[3]}, {{5, -13, 25}, new int[3], new int[3]}, {{6, -12, 26}, new int[3], new int[3]}, {{7, -13, 25}, new int[3], new int[3]}, {{0, -9, 35}, {8, -4, 13}, {8, -14, 27}}, {{0, -9, 32}, {9, -11, 9}, {10, -10, 18}}, {{2, -7, 34}, {9, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {9, -11, 9}, {12, -8, 15}}, {{2, -7, 33}, {9, -11, 9}, {13, -12, 16}}, {{0, -11, 32}, {9, -11, 9}, {14, -15, 19}}, {{2, -9, 33}, {9, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {9, -11, 9}, {16, -7, 23}}, {{2, -9, 33}, {9, -11, 9}, {17, -11, 19}}, {{3, -12, 34}, {8, -4, 13}, {8, -15, 25}}, {{0, -10, 28}, new int[3], {19, -8, 12}}, {{0, -9, 35}, {8, -4, 13}, {9, -9, 22}}, {{0, -10, 33}, new int[3], new int[3]}, {{9, -4, 24}, new int[3], new int[3]}, {{10, -4, 22}, new int[3], new int[3]}, {{0, -9, 32}, {8, -4, 9}, {10, -10, 18}}, {{2, -7, 34}, {8, -4, 9}, {11, -8, 16}}, {{2, -8, 33}, {8, -4, 9}, {12, -8, 15}}, {{2, -7, 33}, {8, -4, 9}, {13, -12, 16}}, {{0, -11, 32}, {7, -5, 9}, {14, -15, 19}}, {{2, -9, 33}, {7, -5, 9}, {15, -13, 20}}, {{2, -9, 32}, {7, -5, 9}, {16, -7, 23}}, {{2, -9, 33}, {7, -5, 9}, {17, -11, 19}}, {{0, -9, 32}, {2, -10, 11}, {10, -10, 18}}, {{2, -7, 34}, {3, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {4, -9, 9}, {12, -8, 15}}, {{2, -7, 33}, {5, -11, 11}, {13, -12, 16}}, {{0, -11, 32}, {2, -10, 11}, {14, -15, 19}}, {{2, -9, 33}, {3, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {4, -9, 9}, {16, -7, 23}}, {{2, -9, 33}, {5, -11, 11}, {17, -11, 19}}, {{1, -8, 38}, new int[3], {18, -8, 21}}, {{1, -8, 39}, new int[3], {18, -8, 22}}, {{1, -10, 43}, new int[3], {18, -11, 26}}};
     private static int[] as = new int[]{-2, -6, 22, 21, 19, 22, 10, -2, -2, 5, 19};
     private static int[] at = new int[]{9, 22, 25, 17, 26, 37, 36, 49, 50, 52, 36};
-    private static int[][] au = new int[][]{{2, 1, 1, 5, 3}, {2, 4, 3}, {2, 3}, {2, 1, 3}, {6, 3}, {2, 7, 3}, {2, 8, 3}, {2, 9, 3}, {2, 3}, {1, 3}, {2, 3}};
-    private static int[][] av = new int[][]{{0, 1, 2, 5, 0}, {3, 4, 0}, {6, 0}, {7, 8, 0}, {9, 0}, {10, 11, 0}, {12, 13, 0}, {14, 15, 0}, {16, 0}, {17, 0}, {18, 0}};
-    private static int[][] aw = new int[][]{{0, 360, 1128, 0, 0}, new int[3], new int[2], {0, 2784, 0}, {1248, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
+    private static int[][] mapEventConditions = new int[][]{{2, 1, 1, 5, 3}, {2, 4, 3}, {2, 3}, {2, 1, 3}, {6, 3}, {2, 7, 3}, {2, 8, 3}, {2, 9, 3}, {2, 3}, {1, 3}, {2, 3}};
+    private static int[][] mapEventCutscenes = new int[][]{{0, 1, 2, 5, 0}, {3, 4, 0}, {6, 0}, {7, 8, 0}, {9, 0}, {10, 11, 0}, {12, 13, 0}, {14, 15, 0}, {16, 0}, {17, 0}, {18, 0}};
+    private static int[][] mapEventParams = new int[][]{{0, 360, 1128, 0, 0}, new int[3], new int[2], {0, 2784, 0}, {1248, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
     private static int[][] ax = new int[][]{new int[5], new int[3], new int[2], new int[3], {408, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
     private static int[][] ay = new int[][]{{15, 1, 1, 2, 2, 1, 2, 4, 5, 3}, {6, 15, 1, 2, 1, 2, 1, 2, 1, 2, 4, 5, 3}, {6, 1, 2, 8, 11, 4, 7, 1, 2, 1, 2, 3}, {8, 9, 15, 12, 14, 10, 4, 16, 5, 1, 2, 3}, {7, 17}, {4, 1, 2, 17}, {8, 9, 15, 12, 14, 10, 4, 18, 4, 7, 3}, {1, 2, 4, 5, 3}, {6, 4, 19, 3}, {4, 20, 21, 3}, {4, 3}, {4, 22, 3}, {23, 4, 7, 4, 3}, {23, 25, 4, 7, 24, 26, 3}, {27, 4, 7, 4, 28, 3}, {4, 31, 32, 7, 4, 31, 4, 7, 4, 8, 17, 3}, {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 29, 3}, {4, 30, 3}, {15, 31, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 33, 17, 3}};
-    private static int[][] az = new int[][]{{1, -4, -1, -1, -4, -4, -4, 0, 20000, 0}, {0, 2, -4, -4, -5, -5, -5, -5, -5, -5, 1, 20000, 0}, {0, -5, -5, 0, 0, 2, 0, 55, 55, -4, -4, 0}, {0, 1, 0, 2, 3, 4, 3, 432, 20000, -4, -4, 0}, {0, 4}, {4, 55, 55, 0}, {0, 5, 3, 6, 7, 8, 5, 2, 6, 0, 0}, {-4, -4, 7, 20000, 0}, {0, 8, 0, 0}, {9, 0, 0, 0}, {10, 0}, {11, 0, 0}, {0, 12, 0, 13, 0}, {0, 0, 14, 0, 600, 0, 0}, {0, 15, 0, 16, 0, 0}, {17, 0, 0, 0, 55, 0, 56, 0, 57, 0, 94, 0}, {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 0, 0}, {54, 0, 0}, {4, 0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 0, 0, 0}};
+    private static int[][] cutsceneScripts = new int[][]{{1, -4, -1, -1, -4, -4, -4, 0, 20000, 0}, {0, 2, -4, -4, -5, -5, -5, -5, -5, -5, 1, 20000, 0}, {0, -5, -5, 0, 0, 2, 0, 55, 55, -4, -4, 0}, {0, 1, 0, 2, 3, 4, 3, 432, 20000, -4, -4, 0}, {0, 4}, {4, 55, 55, 0}, {0, 5, 3, 6, 7, 8, 5, 2, 6, 0, 0}, {-4, -4, 7, 20000, 0}, {0, 8, 0, 0}, {9, 0, 0, 0}, {10, 0}, {11, 0, 0}, {0, 12, 0, 13, 0}, {0, 0, 14, 0, 600, 0, 0}, {0, 15, 0, 16, 0, 0}, {17, 0, 0, 0, 55, 0, 56, 0, 57, 0, 94, 0}, {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 0, 0}, {54, 0, 0}, {4, 0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 0, 0, 0}};
     private static int[][] aA = new int[][]{{5, 26, 30, 33, 41, 48, 53, 57, 58, 60}, {5, 6, 8, 9, 18, 20, 30, 32, 39, 40, 60, 63, 67}, {5, 6, 7, 13, 14, 19, 21, 34, 35, 60, 79, 80}, {1, 2, 3, 20, 50, 80, 85, 90, 92, 93, 95, 0}, {5, 6}, {10, 12, 13, 50}, {1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21}, {5, 10, 20, 30, 32}, {5, 10, 15, 20}, {10, 15, 20, 25}, {20, 25}, {10, 12, 14}, {15, 30, 35, 45, 55}, {10, 12, 30, 40, 45, 50, 75}, {15, 30, 35, 45, 53, 55}, {10, 12, 13, 40, 50, 60, 70, 80, 90, 95, 100, 105}, {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47}, {10, 12, 14}, {10, 11, 60, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74}};
     private static int[][] aB = new int[][]{{1344, 288}, {816, 48}, {816, 192}, {744, 192}, {144, 264}, {1440, 96}, {1368, 288}, {1128, 288}, {840, 312}};
     private static int[] aC = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 4, 0, 3, 0, 6, 0, 2, 0, 5, 0, 4, 0, 1, 0, 3, 0, 0, 0, 5, 0, 4, 0, 3, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 3, 0, 0, 2, 1, 3, 2, 2};
     private static int[] aD = new int[]{0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 2, 0, 2, 3, 0, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 0, 4, 0, 1, 2, 1, 2, 0, 1, 2, 1, 2, 1, 2};
-    private static String[] aE = new String[]{"Chơi mới", 
-            "Chơi tiếp", 
-            "Chỉ dẫn", 
-            "About Us", 
-            "Thoát"};
-    private static String[][] aF = new String[][]{{"Rừng trúc đây rồi!", 
-            "Hôm nay ta phải hạ được con lon đó!", 
-            "Nó chắc quanh quẩn đây thôi!"}, 
-        {"Bọn quái vật nhãi nhép này làm gì được ta chứ!"}, 
-        {"Con lon hung hăng kia rồi!", 
-            "Ngươi phải đền tội vì phải giết ngươi mà tao ko đc đi xem concert của Rồng Tưởng Tượng!"}, 
-        {"Này các con, sau bao năm tháng tập luyện...", 
-            "Đây là lúc các con thể hiện tài năng!", 
-            "Gần đây, trong khu rừng trúc...", 
-            "..xuất hiện 1 con lon to ..", 
-            "Nó thường phá phách, đe dọa dân làng.", 
-            "Các con biết phải làm gì rồi chứ?", 
-            "Đây là lúc các con chứng minh khả năng của mình.. ", 
-            "Đi đi. Và hãy cẩn thận đấy !!"}, 
-        {"Chết đi, con quái vật hung hăng kia !!!", 
-            "Hahahaha!"}, 
-        {"Chào mừng ngươi đến với trường đào tạo ninja Hirosaki.", 
-            "Ta là Okamesama, hiệu trưởng trường này.", 
-            "Tại đây chúng ta sẽ đào tạo các ngươi, trở thành những ninja chuyên nghiệp.", 
-            "Giáo viên chủ nhiêm của ngươi là thầy Takanashi", 
-            "Hãy đến gặp thầy để nhận bài tập.", 
-            "Có vấn đề gì, ngươi có thể hỏi những đồng môn của mình.", 
-            "Chúc ngươi sớm đạt được thành công nhé."}, 
-        {"Vâng, thưa thầy!"}, 
-        {"Con đường hoa đào đây rồi.", 
-            "Con bé ấy đâu rồi nhỉ?"}, 
-        {"Chào bạn! Bạn có phải là em gái cô Ayumi không?", 
-            "Thầy Takanashi bận nên nhờ mình đón bạn giúp.", 
-            "Đi theo mình nhé, chúng ta sẽ về trường!"}, 
-        {"Tốt lắm, con đã đưa cô bé về an toàn!", 
-            "Đây ta có món quà gì giá trị để tặng con..", 
-            "Đây là tấm bằng lái xe có chữ ký của ta. Kể từ nay con có thể sử dụng những chiếc xe máy rồi!", 
-            "Nhớ phải lái cẩn thận và đội mũ bảo hiểm, nếu không là CSGT phạt đó!"}, 
-        {"Thuỷ quái hạ nguồn sông Waramato, con quái trong truyền thuyết !", 
-            "Một khi nó chưa bị tiêu diệt, ta sẽ không đi tiếp!"}, 
-        {"Chết đi, con quái vật kia!", 
-            "Từ nay con sông này sẽ trở lại thanh bình rồi!", 
-            "Ta tiếp tục cuộc hành trình thôi!"}, 
-        {"Ngươi cũng lặn lội đến tận đây được à, khá đấy!", 
-            "Hãy bỏ ngôi trường ấy đi, theo ta lập căn cứ, ngươi sẽ có tất cả.", 
-            "Nếu không theo ta, ngươi sẽ hối hận đấy... HaHaHa!"}, 
-        {"Không đời nào, tên phản bội kia!"}, 
-        {"Ngươi khá lắm! Hãy đợi đấy, ta sẽ nhớ mối thù này!", 
-            "Hẹn gặp lại ngươi!!!"}, 
-        {"Chúng ta lại gặp nhau rồi!", 
-            "Ta cho ngươi một cơ hội lần cuối. hãy theo ta, hoặc là chết!"}, 
-        {"Haha. Tên phản bội kia, ta sẽ cho mi biết sức mạnh một ninja thực thụ!"}, 
-        {"Cuối cùng thì mi cũng đã phải dền tội!"}, 
-        {"Các con hãy cho biết làm cách nào để di chuyển!"}, 
-        {"Sử dụng phím mũi tên hoặc phím 2,4,6,8!"}, 
-        {"Làm thế nào để tấn công?, Kunio"}, 
-        {"Sử dụng phím 5 hoặc phím chọn giữa!"}, 
-        {"Làm thế nào để trò chuyện với bạn bè hoặc thầy cô?,Lee"}, 
-        {"Đứng gần người đó rồi bấm Giao Tiếp!"}, 
-        {"Làm thế nào để biết mình đang ở đâu! Katashi"}, 
-        {"Chọn menu/Xem bản đồ!"}, 
-        {"Làm thế nào khi hết HP hoặc MP! Toniku"}, 
-        {"Chọn menu/Sử dụng Item, chọn một bình HP/MP để sử dụng!"}, 
-        {"Uhm..Nếu không còn bình HP/MP nào thì sao? Minori"}, 
-        {"Gặp ông bán hàng mua tại trường, ở gần ký túc xá!"}, 
-        {"Tốt. Làm thế nào để di chuyển nhanh từ khu vực này đến khu vực khác?"}, 
-        {"Mở bản đồ, chọn 1 địa điểm để di chuyển đến!"}, 
-        {"Đúng rồi, Làm sao để sử dụng phi tiêu?,Ryuu"}, 
-        {"Bấm phím 1 sẽ chuyển sang chế độ phi tiêu.", 
-            "Bấm phím 1 lần nữa để quay lại đánh kiếm!"}, 
-        {"Tốt. Làm sao để sử dụng khinh công?"}, 
-        {"Học khinh công từ cô Ayumi. Bấm phím mũi tên lên hoặc phím 2 nhiều lần!"}, 
-        {"Uhm..Làm sao để độn thổ!"}, 
-        {"Học độn thổ từ thầy Honda. Bấm và giữ luôn phím xuống hoặc phím 8!"}, 
-        {"Khi nào mới có thể lái xe môtô?"}, 
-        {"Học lái xe từ thầy Takanashi, được cấp bằng lái", 
-            "Sau đó có thể nhảy lên chạy bất kỳ chiếc mô tô nào !"}, 
-        {"Làm sao để chạy trên mặt nước? huh ? Sadao"}, 
-        {"Học thuật chạy nước/ lặn nước từ thầy Honda! Sau đó có thể chạy trên mặt nước!"}, 
-        {"Làm sao để biến hình!"}, 
-        {"Bấm phím 7. Sau khi đã học phép biến hình từ thầy Hiroyaki"}, 
-        {"Làm sao để tàng hình!"}, 
-        {"Bấm phím 3. Sau khi đã học phép tàng hình từ thầy Honda"}, 
-        {"Tốt! Cho ta biết ai ăn cắp game này xong phát hành lậu!"}, 
-        {"Nhóm DuriuStudio!"}, 
-        {"Cụ thể là ai?"}, 
-        {"Kệ mẹ chúng nó, hu at hu ce!"}, 
-        {"Vậy chúng ta ăn cắp lại code của chúng nó ở đâu?"}, 
-        {"Trên Page FB DuriuStudio chúng nó hay đăng code với mấy cái xàm vl!"}, 
-        {"Tốt, các con có thể giải tán!"}, 
-        {"Chúng con chào thầy!"}, 
-        {"Cảm ơn, mi thật tốt bụng. Hẹn gặp lại!", 
-            "Quên mất, lúc nãy cô Ayumi dặn ta gặp cô ấy ngay.", 
-            "Hihi, gặp lại mi sau!"}, 
-        {"Sakura, bạn có sao không!"}, 
-        {"Mình không sao, bạn không bị thương chứ!"}, 
-        {"Mình cũng không sao! Tên Toniku chắc cũng không chạy xa được đâu , hắn cũng sớm bị bắt thôi!", 
-            "Chúng ta về thôi!"}, 
-        {"Toniku, ngươi đã biết tội chưa!"}, 
-        {"..vâng..con biết...."}, 
-        {"Theo nội quy của nhà trường. Ngươi phải rời khỏi ngôi trường này.", 
-            "Vĩnh viễn không được trở lại nữa.."}, 
-        {"......"}, 
-        {"Thưa thầy...", 
-            "Toniku vốn là học sinh giỏi của trường..", 
-            " Chỉ vì nghe lời xúi giục của bọn xấu nên mới hành động như thế...", 
-            "Đây là lần vi phạm đầu tiên, xin nhà trường tha thứ cho bạn ấy..."}, 
-        {"......"}, 
-        {"Xin các thầy hãy tha thứ cho bạn ấy ạ!"}, 
-        {"..thôi được rồi..", "Tội Toniku rất nặng, đáng lẽ ra phải bị đuổi học.", 
-            "Con đường để thành một nhẫn giả thật gian lao và chông gai..", 
-            "..ngươi phải luyện tập bằng khả năng và sức lực của mình", 
-            " sẽ không có con đường nào khác", 
-            " ... các con đều biết chữ Nhẫn gồm chữ Đao và chữ Tâm.", 
-            "..nếu Tâm không tịnh thì Đao sẽ bổ xuống!", 
-            "Các con hãy lấy Toniku mà làm gương ...", 
-            "Toniku, ngươi đã quá tham lam...", 
-            "..nhưng ta cũng thây nơi con người ngươi có tố chất tiềm tàng!", 
-            "Nên ta quyết định tha cho con lần này...", 
-            "Sẽ không có lần sau, Toniku, ngươi nhớ đấy!!"}, 
-        {"Vâng, con xin cảm ơn thầy!"}, 
-        {"Sẵn đây ta muốn nhắc nhở thêm các con..", 
-            "Hai tháng nữa là đến kỳ thi kết khoá cho Genin. Các con phải cố gắng tập luyện hơn nữa..", 
-            "..Mọi thứ chỉ mới bắt đầu thôi!"}, 
-        {"Vâng, chúng con xin nghe!"}};
-    private static String[] aG = new String[]{"Trường đạo tạo Ninja Hirosaki, Mùa thu 1937", 
-            "2 ngày sau, tại rừng trúc...", 
-            "Chỉ dẫn: Dùng phím 5 để tấn công.", 
-            "6 tháng trước, tại trường Hirosaki...", 
-            "2 ngày sau, tại trường Hirosaki..."};
-    private static String[][] aH = new String[][]{{"Chúng ta đi thôi!"}, 
-        {"Muốn rủ ta đi chơi à!", 
-            "Ta chỉ chơi với những người có hơn 5 triệu lực chiến trong Rise of Kingdom thôi.", 
-            "Ngươi hãy nạp tiền đi, bao giờ nhiều lực chiến hơn thì quay lại!"}, 
-        {"Muốn rủ ta cùng đi à?", 
-            "OK, nhưng chỉ một lúc thôi nhé, nếu không chị Ayumi mắng ta đó!"}, 
-        {"Ta muốn đến miếu Koujin chơi, mi có thể dẫn đường chứ!", 
-            "Nếu sợ, mi có thể ở nhà, ta sẽ tự đi. Haha!"}};
     private static int[][][] aI;
     private static int[] aJ;
     private static int[] aK;
     private static int aL;
-    private static b aM;
+    private static b instance;
     static boolean b;
-    private static boolean aN;
-    private static int aO;
-    private static int aP;
-    private static boolean aQ;
-    private static boolean[] aR;
-    private static boolean[] aS;
-    private static int aT;
-    private static int aU;
-    private static int aV;
-    private static int aW;
+    private static int screenWidth;
+    private static int screenHeight;
+    private static int screenCenterX;
+    private static int screenCenterY;
     private static int aX;
-    public static boolean c;
-    public static boolean d;
+    public static boolean hudDirty;
     private static int aY;
     private static int aZ;
     private static int ba;
     private static int bb;
     private static int bc;
     private static int bd;
-    public static int e;
-    private static boolean be;
-    public static int[] f;
-    public static int[] g;
-    public static int h;
-    public static int i;
-    public static int j;
-    public static int k;
-    public static int l;
-    public static int m;
-    public static int n;
-    public static String o;
-    public static String p;
-    private static int bf;
-    private static int bg;
-    private static int bh;
-    private static int bi;
-    private static int bj;
-    private static int bk;
-    private static int bl;
-    private static int bm;
-    private static int bn;
-    private static int bo;
-    private static int bp;
-    private static int bq;
-    private static int br;
-    private static int bs;
-    private static int bt;
-    private static int bu;
+    public static int state;
+    private static boolean hudPanelVisible;
+    public static String leftSoftKeyLabel;
+    public static String rightSoftKeyLabel;
+    private static int hudX;
+    private static int hudY;
+    private static int hudWidth;
+    private static int hudHeight;
+    private static int hudLeftFrameWidth;
+    private static int hudRightFrameWidth;
+    private static int hudStripWidth;
+    private static int hudBarX;
+    private static int hudBarY;
+    private static int hudBarMaxWidth;
+    private static int hudExpBarMaxWidth;
+    private static int hudLevelX;
+    private static int hudMoneyX;
+    private static int hudMpBarHeight;
+    private static int letterboxMaxHeight;
+    private static int letterboxHeight;
     private static String bv;
-    private static int bw;
-    private static int bx;
-    private static int by;
-    private static int bz;
-    private static int bA;
-    private static int bB;
-    public static int q;
-    public static int r;
-    public static int s;
-    private static int bC;
-    private static int bD;
-    private static int bE;
-    private static int bF;
+    private static int firstVisibleCol;
+    private static int firstVisibleRow;
+    private static int visibleCols;
+    private static int visibleRows;
+    private static int lastVisibleCol;
+    private static int lastVisibleRow;
+    public static int viewWidth;
+    public static int viewHeight;
+    private static int viewCenterX;
+    private static int viewCenterY;
+    private static int cameraOffsetY;
+    private static int cameraLeadX;
     private static int bG;
     private static int bH;
     private static int bI;
@@ -300,9 +129,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[] cj;
     private static int[] ck;
     private static int[] cl;
-    private static boolean cm;
-    private static int cn;
-    private static String co;
+    private static boolean noticeVisible;
+    private static int noticeTimer;
+    private static String noticeText;
     private static int cp;
     private static int[] cq;
     private static int[] cr;
@@ -343,7 +172,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[] da;
     private static int[] db;
     private static boolean[] dc;
-    private static int dd;
+    private static int money;
     private static int de;
     private static int[] df;
     private static int[] dg;
@@ -361,7 +190,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int ds;
     private static boolean[] dt;
     private static int du;
-    private static String[][] dv;
+    private static String[][] classmateLines;
     private static boolean dw;
     private static boolean dx;
     private static int dy;
@@ -390,70 +219,43 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int dV;
     private static int dW;
     private static int dX;
-    private static Image[][] dY;
-    private static Image[] dZ;
-    private static Image ea;
-    public static Image[] t;
-    private static Image[] eb;
-    private static Image ec;
-    private static Image[] ed;
-    private static Image ee;
-    public static Image u;
-    public static Image v;
-    private static Image[] ef;
-    private static Image[] eg;
-    private static Image eh;
-    private static Image[] ei;
-    private static Image[][] ej;
-    private static Image[] ek;
-    private static Image[] el;
-    private static Image[] em;
-    private static Image[] en;
-    private static Image[] eo;
-    private static Image[] ep;
-    private static Image[] eq;
-    private static Image[] er;
-    private static Image[][] es;
-    private static Image[][] et;
-    private static Image[] eu;
-    private static Image[] ev;
-    private static Image[] ew;
-    private static Image[] ex;
-    private static Image[] ey;
-    private static Image[] ez;
-    private static Image eA;
-    private static Image[] eB;
-    private static Image[] eC;
-    private static Image[] eD;
-    public static int w;
-    public static int x;
-    private static boolean eE;
-    private static boolean eF;
-    private static boolean eG;
-    private static boolean eH;
-    private static boolean eI;
-    private static boolean eJ;
-    private static boolean eK;
-    private static boolean eL;
-    private static boolean eM;
-    private static boolean eN;
-    private static boolean eO;
-    private static boolean eP;
-    private static boolean eQ;
-    private static boolean eR;
-    private static boolean eS;
-    private static boolean eT;
-    private static boolean eU;
-    private static boolean eV;
-    private static boolean eW;
-    private static boolean eX;
-    private static boolean eY;
-    private static boolean eZ;
-    private static boolean fa;
-    private static boolean fb;
+    private static Image[][] enemyProjectiles;
+    private static Image[] arrowIcons;
+    private static Image healSprite;
+    private static Image[] motorbikeFrames;
+    private static Image itemScroll;
+    private static Image[] heroBodies;
+    private static Image itemCrate;
+    private static Image[] hudFrames;
+    private static Image[] itemMoney;
+    private static Image markerIcon;
+    private static Image[] npcDog;
+    private static Image[][] dustSprites;
+    private static Image[] dartFrames;
+    private static Image[] girlBodies;
+    private static Image[] girlHeads;
+    private static Image[] girlLegs;
+    private static Image[] heroHeads;
+    private static Image[] heroTransformHeads;
+    private static Image[] heroLegs;
+    private static Image[] auraSprites;
+    private static Image[][] classmateHeads;
+    private static Image[][] ninjaBodies;
+    private static Image[] ninjaLegs;
+    private static Image[] boss0Sprites;
+    private static Image[] itemPotions;
+    private static Image[] boss1Sprites;
+    private static Image[] bloodSprites;
+    private static Image[] boss2Sprites;
+    private static Image titleImage;
+    private static Image[] slashEffects;
+    private static Image[] weaponIcons;
+    private static Image[] waterSplashSprites;
+    public static int mapId;
+    public static int tick;
     private static int fc;
     private static int fd;
-    public static int y;
+    public static int swordLevel;
     private static int fe;
     private static int ff;
     public static int z;
@@ -470,12 +272,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
     public static int D;
     public static int E;
     private static int fn;
-    public static int F;
-    public static int G;
-    public static int H;
-    public static int I;
-    public static int J;
-    public static int K;
     public static int L;
     public static int M;
     private static int fo;
@@ -484,53 +280,46 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static boolean fr;
     private static int fs;
     private static int ft;
-    public static int N;
-    public static int O;
     private static boolean fu;
     private static boolean fv;
     private static boolean fw;
     private static boolean fx;
-    public static int P;
-    private static int fy;
-    private static int fz;
-    private static boolean fA;
     private static boolean fB;
-    private static int fC;
     private static int fD;
     private static int fE;
-    private static int fF;
-    private static int fG;
-    private static int fH;
-    private static int fI;
-    private static int fJ;
+    private static int questItemX;
+    private static int questItemY;
+    private static int questItemState;
+    private static int cameraTargetX;
+    private static int cameraTargetY;
     private static int fK;
     private static int fL;
     private static int fM;
     private static int fN;
-    private static int fO;
-    private static int fP;
-    private static int fQ;
-    private static int fR;
-    private static boolean fS;
-    private static int fT;
-    private static int fU;
+    private static int cameraX;
+    private static int cameraY;
+    private static int cameraMaxX;
+    private static int cameraMaxY;
+    private static boolean cutscenePlaying;
+    private static int cutsceneId;
+    private static int cutsceneStep;
     public static int Q;
     public static int R;
-    private static boolean fV;
-    private static String[] fW;
-    private static int fX;
-    private static int fY;
+    private static boolean captionVisible;
+    private static String[] captionLines;
+    private static int captionY;
+    private static int captionTargetY;
     private static int fZ;
     private static boolean ga;
-    private static int gb;
-    private static int gc;
-    private static int gd;
+    private static int guideMarkerMap;
+    private static int guideMarkerX;
+    private static int guideMarkerY;
     private static int ge;
     private static int gf;
     private static int gg;
     private static int gh;
     private static int gi;
-    private static int gj;
+    private static int guideMarkerNpc;
     private static boolean gk;
     private static int gl;
     private static int gm;
@@ -628,9 +417,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int ia;
     private static int ib;
     private static int ic;
-    private static int id;
-    private static boolean ie;
-    private static int ifSt;
+    private static int mapEventId;
+    private static boolean mapEventActive;
+    private static int mapEventStep;
     private static int ig;
     private static int ih;
     private static int ii;
@@ -650,68 +439,35 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[] iw;
     private static int[] ix;
     private static int[] iy;
-    private static boolean iz;
-    private static int iA;
-    private static int iB;
-    private static int iC;
-    private static int iD;
-    private static String[][] iE;
-    private static int iF;
-    private static int iG;
-    private static int iH;
-    private static int iI;
-    private static int iJ;
-    private static int iK;
-    private static String iL;
-    private static int iM;
-    private static int iN;
-    private static int iO;
-    private static int iP;
-    private static byte[] iQ;
-    private static int[] iR;
-    private static boolean[] iS;
-    private static Image iT;
-    private static Image iU;
-    private static Image iV;
-    private static Image[] iW;
-    private static int iX;
-    private static int[] iY;
-    private static int[] iZ;
-    private static int[] ja;
-    private static int[] jb;
-    private static int[] jc;
-    private static Image jd;
-    private static int je;
+    private static int dialogueBoxLines;
+    private static Image tilesetImage;
+    private static Image waterfallImage;
+    private static Image waterSurfaceImage;
+    private static Image[] houseImages;
+    private static int houseCount;
+    private static int[] houseTypes;
+    private static int[] houseX;
+    private static int[] houseY;
+    private static int[] houseHalfWidth;
+    private static int[] houseHeight;
+    private static Image bushImage;
     private static int jf;
     private static int jg;
     private static int jh;
     private static int ji;
-    private static String[] jj;
-    private static int[] jk;
-    private static int[] jl;
-    private static int[] jm;
-    private static int jn;
-    private static int jo;
-    private static int jp;
-    private static int jq;
-    private static int jr;
-    private static int js;
-    private static int jt;
-    private static int ju;
-    private static int jv;
-    private static int jw;
-    private static int jx;
-    private static int jy;
-    private static int jz;
-    private static int jA;
-    static int S;
+    private static String[] signTexts;
+    private static int[] signX;
+    private static int[] signY;
+    private static int[] signWidth;
+    private static int signCount;
+    static int loadingTarget;
     private static int jB;
-    static int T;
-    private static Image jC;
+    static int loadingProgress;
+    private static Image logoImage;
     private static int jD;
     private static int jE;
     public static boolean U;
-    private static Image[][][] jF;
+    private static Image[][][] monsterSprites;
     private static int jG;
     private static int jH;
     private static int[] jI;
@@ -744,45 +500,47 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int[][] kj;
     private static boolean[][] kk;
     private static int[] kl;
-    private static int[] km;
-    static int V;
-    private static int kn;
-    private static int ko;
-    private static int kp;
-    private static int kq;
-    private static int kr;
-    private static int[] ks;
-    private static String[][] kt;
-    private static String[][] ku;
-    private static int[][] kv;
-    private static Image[] kw;
-    private static String[][] kx;
-    private static String[][] ky;
-    private static int kz;
-    private static int kA;
-    private static int kB;
-    private static int kC;
-    private static int[] kD;
-    private static String[] kE;
-    static int[] W;
-    private static int[] kF;
-    private static Image[] kG;
-    private static int kH;
-    private static int kI;
+    private static int[] swordLevelRequirements;
+    static int shopY;
+    private static int shopX;
+    private static int shopCursor;
+    private static int shopBlink;
+    private static int shopRow;
+    /** Cửa hàng mua bằng tiền trong game. */
+    private static final int SHOP_MODE_MONEY = 0;
+    /** Cửa hàng tiền thật (SMS), giờ chỉ báo mua thất bại. */
+    private static final int SHOP_MODE_SMS = 1;
+    private static int shopMode;
+    private static int[] shopBlinkColors;
+    private static String[][] shopItemNames;
+    private static String[][] shopSmsPrices;
+    private static int[][] shopPrices;
+    private static Image[] shopSwordIcons;
+    private static int inventoryY;
+    private static int inventoryX;
+    private static int inventoryCursor;
+    private static int inventoryBlink;
+    private static int[] inventoryBlinkColors;
+    private static String[] potionNames;
+    static int[] potionCounts;
+    private static int[] potionRestoreAmounts;
+    private static Image[] cornerIcons;
+    private static int gameMenuY;
+    private static int gameMenuSelection;
     private static int kJ;
-    private static String[] kK;
+    private static String[] gameMenuItems;
     private static String[] kL;
-    private static int[] kM;
+    private static int[] travelCosts;
     public static boolean[] X;
     private static int[] kN;
     private static int[] kO;
     private static int[] kP;
     private static int[] kQ;
-    private static Image kR;
-    private static Image kS;
+    private static Image worldMapImage;
+    private static Image crossIcon;
     private static int kT;
     private static int kU;
-    private static int kV;
+    private static int worldMapCursor;
     private static int kW;
     private static int kX;
     private static int kY;
@@ -794,54 +552,30 @@ public final class b extends Canvas implements Runnable, CommandListener {
     private static int le;
     private static int lf;
     private static int lg;
-    private static int lh;
+    private static int worldMapCurrent;
     private static String li;
-    private static Image lj;
+    private static Image popupImage;
     private static boolean lk;
     private static int ll;
-    public static int Y;
-    private static int lm;
-    private static int ln;
+    public static int messageY;
+    private static int messageType;
+    private static int travelCost;
     private static int lo;
-    private static String lp;
-    private static String lq;
-    private static String[] lr;
-    private static Image[][] ls;
-    private static int lt;
-    private static int[] lu;
-    private static int[] lv;
-    private static int[] lw;
-    private static String[][] lx;
-    private static String[][] ly;
-    private static String[][] lz;
-    private static String[][] lA;
-    private static String[][] lB;
-    private static String[] lC;
-    private static int[] lD;
-    private static int[] lE;
+    private static String messageLeftLabel;
+    private static String messageRightLabel;
+    private static String[] messageLines;
+    private static Image[][] npcSprites;
+    private static int npcCount;
+    private static int[] npcX;
+    private static int[] npcY;
+    private static int[] npcTypes;
     private static int[] lF;
-    private static int lG;
-    private static int lH;
-    private static int lI;
-    private static int lJ;
-    private static boolean lK;
-    private static String[] lL;
-    private static String[] lM;
-    public static int Z;
-    private static int lN;
-    private static int lO;
+    private static int pendingMarkerMap;
+    private static int pendingMarkerX;
+    private static int pendingMarkerY;
+    private static int pendingMarkerNpc;
     private static Font lP;
-    private static Font lQ;
     private static int lR;
-    private String lS = "12345678";
-    private int lT;
-    private static String lU;
-    private static int[] lV;
-    private static int lW;
-    private int lX = 0;
-    private String lY = "";
-    private int lZ;
-    private int ma;
 
     static {
         aI = new int[ar.length][3][3];
@@ -869,8 +603,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
         aK = new int[]{-3, 2, -1, 1};
         aL = -1;
         b = true;
-        aR = new boolean[14];
-        aS = new boolean[14];
         aX = 0;
         bv = "";
         bG = -22;
@@ -879,32 +611,32 @@ public final class b extends Canvas implements Runnable, CommandListener {
         bJ = -19;
         bK = -12;
         bL = -26;
-        eI = false;
-        eJ = false;
-        eK = false;
-        eL = false;
-        eM = false;
-        eN = false;
-        eO = false;
-        eP = false;
-        eQ = false;
-        eR = false;
-        eS = false;
-        eT = false;
-        eU = false;
-        eV = false;
-        eW = false;
-        eX = false;
-        eY = false;
-        eZ = false;
-        fa = false;
-        fb = false;
+        Skills.lightness = false;
+        Skills.doubleJump = false;
+        Skills.darts = false;
+        Skills.burrow = false;
+        Skills.motorbikeLicense = false;
+        Skills.doubleStrength = false;
+        Skills.dive = false;
+        Skills.runOnWater = false;
+        Skills.transform = false;
+        Story.goldenBatQuestDone = false;
+        Story.tonikuQuestDone = false;
+        Story.girlWaiting = false;
+        Story.girlOutingDone = false;
+        Skills.tripleJump = false;
+        Skills.dartsLevel2 = false;
+        Skills.sprint = false;
+        Skills.standOnWater = false;
+        Skills.hide = false;
+        Story.gameCompleted = false;
+        Story.sakuraEscorting = false;
         fu = true;
-        fS = false;
-        fU = 0;
-        fW = new String[]{""};
+        cutscenePlaying = false;
+        cutsceneStep = 0;
+        captionLines = new String[]{""};
         fZ = 0;
-        gb = -1;
+        guideMarkerMap = -1;
         gh = 1;
         gk = false;
         gm = -1;
@@ -914,19 +646,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
         hK = 20;
         hL = 60;
         hO = 50;
-        id = 10;
+        mapEventId = 10;
         ij = -1;
         ir = -1;
-        iz = false;
-        iL = "oplj";
-        je = 24;
-        S = 0;
+        Dialogue.visible = false;
+        loadingTarget = 0;
         jB = 0;
-        T = 0;
+        loadingProgress = 0;
         kl = null;
-        km = new int[]{0, 10, 15, 20};
-        ks = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
-        kt = new String[][]{{"Bình HP nhỏ", 
+        swordLevelRequirements = new int[]{0, 10, 15, 20};
+        shopBlinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
+        shopItemNames = new String[][]{{"Bình HP nhỏ", 
                 "Bình HP vừa", 
                 "Bình HP to", 
                 "Bình MP nhỏ", 
@@ -936,7 +666,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 "Thủy linh kiếm", 
                 "Hỏa giác kiếm", 
                 "Long giao kiếm"}};
-        ku = new String[][]{{"2000vnđ / 50 bình", 
+        shopSmsPrices = new String[][]{{"2000vnđ / 50 bình", 
                 "3000vnđ / 50 bình", 
                 "3000vnđ / 30 bình", 
                 "2000vnđ / 50 bình", 
@@ -946,7 +676,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 "3000vnđ", 
                 "3000vnđ", 
                 "5000vnđ"}};
-        kv = new int[][]{{200, 
+        shopPrices = new int[][]{{200, 
                 600, 
                 1500, 
                 200, 
@@ -956,27 +686,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 12000, 
                 45000, 
                 182000}};
-        kx = new String[][]{{"BinhHP_Nho(50)", 
-                "BinhHP_Vua(50)", 
-                "BinhHP_To(30)", 
-                "BinhMP_Nho(50)", 
-                "BinhMP_Vua(30)", 
-                "BinhMP_To(50)"}, 
-            {"KiemTre", 
-                "ThuyLinhKiem", 
-                "HoaGiacKiem", 
-                "LongGiaoKiem"}};
-        ky = new String[][]{{"sms://", "sms://", "sms://", "sms://", "sms://", "sms://"}, {"sms://", "sms://", "sms://", "sms://"}};
-        kD = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
-        kE = new String[]{"Bình HP nhỏ", 
+        inventoryBlinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
+        potionNames = new String[]{"Bình HP nhỏ", 
                 "Bình HP vừa", 
                 "Bình HP to", 
                 "Bình MP nhỏ", 
                 "Bình MP vừa", 
                 "Bình MP to"};
-        W = new int[]{5, 2, 1, 5, 2, 1};
-        kF = new int[]{100, 400, 1000, 100, 200, 300};
-        kK = new String[]{"Sử dụng item", 
+        potionCounts = new int[]{5, 2, 1, 5, 2, 1};
+        potionRestoreAmounts = new int[]{100, 400, 1000, 100, 200, 300};
+        gameMenuItems = new String[]{"Sử dụng item", 
                 "Xem bản đồ", 
                 "Lưu và thoát", 
                 "Nhạc: Bật"};
@@ -999,221 +718,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 "Thôn Sanzu", 
                 "Lối vào Orochi", 
                 "Ngôi đền Orochi"};
-        kM = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
+        travelCosts = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
         X = new boolean[19];
         kN = new int[]{49, 31, 98, 112, 106, 42, 75, 84, 37, 39, 80, 117, 157, 201, 208, 170, 186, 219, 161};
         kO = new int[]{35, 65, 38, 75, 98, 97, 95, 128, 142, 185, 212, 189, 189, 204, 156, 142, 96, 59, 39};
         kP = new int[]{62, 52, 17, 4, 8, 12, 14, 5, 1, 2, 3, 2, 2, 2, 2, 1, 2, 3, 1};
         kQ = new int[]{17, 9, 12, 9, 10, 5, 9, 7, 12, 11, 4, 11, 8, 9, 7, 6, 11, 16, 8};
         li = "Chuyển đến";
-        String[] var10000 = new String[]{"Quy Sư Phụ", 
-                "Lâm Sư Phụ"};
-        lx = new String[][]{{"..."}, 
-            {"Đây là khu vực luyện tập, cứ yên tâm, nếu bị thương ta sẽ giúp đỡ.", 
-                "Đôi khi tập luyện với cái bù nhìn rơm đằng kia cũng mang lại nhiều bất ngờ đấy!"}, 
-            {"Thác nước này rất nguy hiểm, ta khuyên ngươi không nên xuống.", 
-                "Hãy quay lại đi, nếu có chuyện gì ta không cứu được ngươi đâu."}, 
-            {"Khu rừng trước mặt ngươi là nơi sống của bọn dơi quỷ, nhện độc và những sát thủ bị truy nã.", 
-                "Dù ngươi tài giỏi đến đâu cũng phải mất mạng khi đi ngang qua đó.", 
-                "Một số người có thể qua được bằng cách chạy thật nhanh qua.", 
-                "Nếu ngươi tự tin hãy dùng chiếc moto kia và liều một phen xem.", 
-                "Chúc ngươi may mắn."}};
-        ly = new String[][]{{"Con lại tìm ta có chuyện gì?", 
-                "Thầy chủ nhiệm Con là Takanashi, mau đến gặp thầy để nhận bài tập."}, 
-            {"Chào cậu bé, ta là Kagome Ayumi, giảng viên cao cấp bộ môn Khí.", 
-                "Khí là môn đầu tiên bất kỳ học sinh nào cũng phải học khi bước vào đây.", 
-                "Bài học đâu tiên là kỹ năng khinh công. Sau khi học xong con sẽ phi thân cao hơn  gấp đôi bình thường.", 
-                "Bây giờ ta phải kiểm tra sơ bộ con. Hãy chạy thẳng về tay trái đến khu luyện tập.", 
-                "đến đó giết đủ 10 con ốc sên đá, sau đó quay lại đây!"}, 
-            {"Chào con, con đã sẵn sàng luyện tập rồi chứ?", 
-                "Hãy đến gặp cô Ayumi để học môn đầu tiên.", 
-                "Cô ấy đứng đằng kia, chúc con học tốt nhé!", 
-                "à, nếu cô ấy có hỏi gì về ta, hãy nói tốt về ta nhé, ta sẽ thưởng."}, 
-            {"Ta già cả rồi, tựa như chiếc lá khô..", 
-                "Lại đây, ta sẽ truyền hết võ công cho con...", 
-                "Toyotomi,...tình yêu của ta,....em ở nơi nào"}, 
-            {"Trình độ nhà ngươi còn quá thấp. Hãy quay lại đây khi đã học xong khinh công."}, 
-            {"Ngươi còn chưa dùng shuriken thì làm sao học phép thuật được."}, 
-            {"Ta sẽ dạy ngươi dùng shuriken nếu ngươi có đủ khả năng.", 
-                "Gần cổng trường có vài cái bù nhìn rơm, hãy đánh gãy 2 cái.", 
-                "Nhanh lên, hãy chứng tỏ sức mạnh của mình đi."}, 
-            {"Ngươi còn không mau đi đi!"}, 
-            {"Ngươi muốn học thuật ư?", 
-                "Không như những môn khác, thuật đòi hỏi ngươi phải luyện tập hàng ngày..", 
-                "Hơn thế nữa, ngươi phải học theo những quyển bí kíp.", 
-                "Ta sẽ dạy cho ngươi môn độn thổ, nếu ngươi có thể tìm được 1 quyển bí kíp từ bọn quỷ một chân", 
-                "Bọn chúng thường xuất hiện ở thác nước, bên kia khu luyện tập.", 
-                "Đi đi, hãy kiên nhẫn với từng tên , ngươi sẽ tìm thấy thôi!"}, 
-            {"Nhanh lên con, cô bé ấy đang đứng chờ ở đường hoa đào đấy!", 
-                "Nếu chậm, cô Ayumi sẽ buồn lắm đó!"}, 
-            {"Con có thể giúp ta một chuyện được không?", 
-                "Cô Ayumi có nhờ ta đón giúp cô em gái. Nhưng đúng vào lúc ta phải họp cùng thầy hiệu trưởng.", 
-                "Ta rất tin tưởng ở con, con hãy đến đầu đường hoa đào, đón cô ấy nhé!", 
-                "Nhanh lên, ta sẽ thưởng cho con nếu con làm tốt."}, 
-            {"Để trở thành 1 ninja giỏi ngươi phải có thể lực tốt.", 
-                "Ngươi có biết chữ Nin là Nhẫn không!", 
-                "Trong Nhẫn thì có Lực và Tâm..", 
-                "..để trở thành ninja thực thụ thì ngươi phải có Tâm và Lực", 
-                "....mà ta nói, ngươi có hiểu gì không.", 
-                "Hãy giết 20 con ong, rồi quay về gặp ta. Lúc đó ta sẽ giúp ngươi."}, 
-            {"Ngươi đã bao giờ vượt sông Watamoro chưa? Đó là một con sông rộng và hung dữ với thuỷ quái và sóng to.", 
-                "Ta sẽ giúp ngươi 1 cách vượt sông rất dễ dàng, nhưng ngươi phải làm một việc...", 
-                "Trong khu rừng trúc, có 1 con heo rừng thành tinh rất hung hăng..", 
-                "Hãy giết nó, mang về đây 1 quyển bí kíp nói về thuật lặn nước, ta sẽ hướng dẫn ngươi luyện.", 
-                "Đi đi, và hãy cẩn thận tính mạng nhà ngươi."}, 
-            {"Ngươi đã học được kỹ năng chạy nước rồi!", 
-                "Nếu ngươi có thể qua bên kia con sông,đến khu nghĩa địa, nhặt quyển bí kíp Ninja biến hình..", 
-                "..ta sẽ truyền thụ kỹ năng biến hình cho ngươi.", 
-                "Hãy nhớ ngươi phải đối đầu với một con quái vật to lớn bên kia sông đấy!", 
-                "Đi đi, chúc ngươi may mắn."}, 
-            {"Con biết, ta đang nghiên cứu làm ra 1 thứ thuốc, để chữa trị vết thương...", 
-                "Tuy nhiên ta thiếu 1 loại nguyên liệu rất khó kiếm.", 
-                "Nếu con có thể tìm giúp ta 8 cánh dơi vàng, ta sẽ có đền đáp xứng đáng.", 
-                "Bọn dơi vàng có mặt ở những ngôi đền phía nam. Bọn chúng rất nhanh.", 
-                "Tuy thế, ta vẫn tin con có thể mang về cho ta.", "Chúc con may mắn!"}, 
-            {"Cô Ayumi nói cho con nghe rồi à...", 
-                "Nói ra thật đáng buồn, cũng như bao trường khác, trường ta luôn có những học sinh cá biệt...", 
-                "Toniku là một trong số đó, nó đã bỏ trường thành lập băng nhóm...", 
-                "Hiện đang tụ tập quậy phá ở 3 ngôi miếu phía nam trường...", 
-                "Con là một học sinh tốt, hãy đi tìm bọn chúng bắt về cho ta.", 
-                "Làm đi, rồi báo cáo kết quả với ta nhé!"}, 
-            {"Cô bé em gái cô Ayumi cũng xinh, y như cô ấy vậy, con có thấy thế không!", 
-                "Nếu con có thể vào khu rừng gỗ, đánh gục 10 tên Quỷ khố, ta sẽ mai mối cho, haha!", 
-                "Nhưng hãy cẩn thận, bọn quái vật trong khu rừng ấy rất đông và mạnh đấy!"}, 
-            {"Hiện tại khả năng con đã rất khá rồi, ta quyết định dạy những kỹ năng cấp cao cho con.", 
-                "Đầu tiên là khinh công cấp 2.", "Tuy nhiên, con phải chứng tỏ đã thành thạo khinh công cấp 1 trước...", 
-                "Hãy nhảy lên không tung, đánh được 20 đòn trước khi chạm đất!", 
-                "Không dễ phải không..."}, 
-            {"Shuriken , một trong những vũ khí cơ bản của Ninja, ta sẽ truyền cho ngươi bộ ám khí mới này", 
-                "Vẫn như các lần trước, ngươi phải cho ta thấy đã đủ sức học...", 
-                "Đến khu rừng chông tre. Nhổ gốc 15 con quỷ hoa đỏ rồi về đây, ta sẽ dạy cho.", 
-                "Cẩn thận tính mạng ngươi đấy."}, 
-            {"Mấy hôm nay ta nhận thấy con chạy còn rất chậm..", 
-                "Một ninja chậm chạp như con không thể làm việc lớn được.", 
-                "Hãy đến vách đá Ito, mang về cho ta 18 đuôi bò cạp..", 
-                "Ta sẽ dùng độc của chúng, điều chế cho con 1 loại thuốc tăng lực...", 
-                "Cẩn thận nọc độc bọn chúng nhé! Hãy dẫn cô bé Sakura đi, nó sẽ giúp con nhiều đấy."}, 
-            {"Ta không muốn nói nhiều. Một phần thưởng đặt biệt cho ngươi..", 
-                "..nếu ngươi có thể giết được 4 con cá đỏ!"}, 
-            {"Đây là kỹ năng cuối cùng của một ninja... kỹ thuật ẩn thân", 
-                "Kỹ năng này muốn học cũng không khó, tại một thung lũng phía nam..", 
-                "có một quyển bí kíp được giấu từ ngàn năm nay.", 
-                "Hãy tìm về, ta sẽ giúp con có được kỹ năng lợi hại này."}, 
-            {"Con còn nhớ tên phản đồ Toniku lần trước không!", 
-                "Sau khi bị con đánh, hắn đã bỏ chạy đến ngôi miếu phía đông bắc.", 
-                "Nó vừa bắt mất cô bé Sakura đi rồi.", 
-                "Ta đã sai tất cả đệ tử đi tìm nó, cứu cô bé về!", 
-                "Con cũng phải thế nhé! Cô bé ấy đang chờ con đấy!"}};
-        lz = new String[][]{{"Thể lực con rất tốt, ta sẽ dạy khinh công cho con...", 
-                "Hãy tập trung khí huyết, hít thở nhẹ, người con nhẹ dần, nhẹ dần tựa chiếc lá khô...", 
-                "Chúc mừng con! Hãy thử nhảy lên xem kết quả thế nào.", 
-                "à, suýt nữa ta quên, lúc nãy thầy Hiroyaki trên tầng 1 gọi con đấy."}, 
-            {"Tốt. Đây là cách phóng shuriken, hãy nhớ kỹ:", 
-                "Bấm phím 0 để chuyển sang phóng shuriken, bấm lần nữa để đánh kiếm.", 
-                "Nếu chăm chỉ tập luyện, phi tiêu sẽ là vũ khí lợi hại nhất của ngươi.", 
-                "Thầy Honda có việc cần gặp ngươi. Nhanh lại đó đi!"}, 
-            {"Giỏi lắm, đúng là quyển bí kíp này.", 
-                "Cứ luyện tập theo quyển bí kíp này: hãy đến khu vực có đất..", 
-                "Ngồi thấp xuống và tập trung, ngươi sẽ độn thổ được.", 
-                "Hãy luyện tập đi, chú ý MP ngươi sẽ bị giảm khi độn thổ đó.", 
-                "Còn chuyện này nữa, vừa nãy ta thấy thầy chủ nhiệm ngươi có vẻ mệt. Ngươi hãy nhanh ghé thăm!"}, 
-            {"Ngươi giỏi lắm, ta sẽ đã thông kinh mạch cho...", 
-                "úm ba la !! soda cacao cola!", "Ngươi có cảm nhận được luồn chân khí trong người không", 
-                "Đi đi, hãy dùng sức mạnh này để bảo vệ dân làng!"}, 
-            {"Quyển bí kíp đây rồi, khá lắm cậu bé.", 
-                "Ngươi đã có thể lặn nước được rồi. Hãy nhớ, tuy lặn được nhưng thanh trúc dùng để thở rất ngắn...", 
-                "Vì thế, đừng lặn sâu quá đó.", 
-                "Thầy Hiroyaki tìm ngươi. Hãy mau đến gặp đi."}, 
-            {"Ngươi có thể vượt qua con sông ấy ư?", 
-                "Ta sẽ giúp ngươi gọi được sức mạnh của dòng tộc mình: Xích Mao", 
-                "Bất kỳ khi nào, hãy ấn phím số 7, ngươi sẽ có được sức mạnh từ gốc cội của dòng tộc mình", 
-                "hãy thử xem, nhưng ngươi cần cẩn thận, vì thi triển thuật này,ngươi sẽ chóng mệt lắm đấy."}, 
-            {"Cảm ơn con nhiều lắm. Đây là phần thưởng cho con, 5000$", 
-                "Tuy không bao nhiêu nhưng con có thể dùng nó để mua HP, MP.", 
-                "À, trường ta đang có việc lớn đấy!", 
-                "Con hãy gặp thầy chủ nhiệm để hỏi xem có giúp được gì hay không!"}, 
-            {"Hắn bỏ trốn thoát rồi ư?", 
-                "Ta thật đau lòng khi có một đứa học trò như nó!", 
-                "Kể từ nay, ta cho phép con tấn công nó, không nương tay, bất kỳ khi nào gặp!"}, 
-            {"Ta biết chắc chắn thế nào con cũng giết được bọn quỷ khố hung hăng đó!", 
-                "Lúc nãy, ta đã nói chuyện với cô Ayumi rồi.", 
-                "Hãy lại bắt chuyện với cô bé ấy đi!"}, 
-            {"Tốt lắm. Con đã chứng tỏ được mình.", 
-                "Đây là kỹ năng khinh công cấp 2. Con đã có thể nhảy cao hơn trước rồi.", 
-                "Tiếp theo, hãy gặp thầy Hiroyaki, ông ta sẽ dạy con những kỹ năng mới!"}, 
-            {"Tốt. Đây là kỹ năng shuriken cấp 2.", 
-                "Sức tấn công từ shuriken của con đã tăng lên rất nhiều!", 
-                "Con phải siêng năng tập luyện mới có thể giữ được sức mạnh này. Nhớ đấy!"}, 
-            {"Khá lắm. Đây là phương thuốc chạy nhanh cho con!", 
-                "Hãy chạy 1 đoạn ngắn, sau đó tốc độ của con sẽ tăng nhanh..", 
-                "Hãy thử xem nào!"}, 
-            {"Giỏi. Kể từ nay con sẽ không bao giờ bị chìm dưới nước nữa!", 
-                "..đây là kỹ thuật đứng nước bí truyền của ninja. Ta chỉ dạy cho mình con đấy!"}, 
-            {"Ngươi có thể tìm được nó ư?", 
-                "Tốt lắm, từ nay con có thể sử dụng nó rồi đấy.", 
-                "Hãy nhấn phím số 9 để có thể ẩn thân. Kỹ năng này rất lợi hại..", 
-                "tuy nhiên nó sẽ tiêu thụ rất nhiều MP của con đấy!"}, 
-            {"Các con đều bình an vô sự, rất tốt!", 
-                "Những gì đã là quá khứ thì ta cho qua, nhưng hãy nhớ và không tái phạm", 
-                "Nào, ta cho các con nghỉ, điện thoại cũng có lúc phải nghì ngơi chứ, hehe. Nay , ta chúc mừng các con đã hoàn thành khóa học ninja sơ cấp: các con không còn là Chunin nữa !", 
-                "Nay ta tuyên bố thăng cấp cho các con là Genin !"}};
         String[][] var3 = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
-        lA = new String[][]{{"Nhanh lên, hãy sang khu luyện tập và giết 10 con ốc sên."}, 
-            {"Hãy đánh sập 2 bù nhìn rơm gần cổng trường. Nhanh lên!"}, 
-            {"Bọn quỷ một chân có mặt ở thác nước, bên kia khu luyện tập, mau giết chúng để tìm quyển bí kíp!"}, 
-            {"Hãy trở lại khi ngươi đã giết đủ 20 con ong."}, 
-            {"Con heo rừng rất nguy hiểm. Nhưng ta tin ngươi có thể giết được nó và cầm về cho ta quyển bí kíp. Đi đi!"}, 
-            {"Hãy đến khu nghĩa địa bên kia sông! Mang về quyển bí kíp. Nhanh lên!"}, 
-            {"Nhanh lên, hãy giết 8 con dơi vàng ở những ngôi miếu phía nam!"}, 
-            {"Hãy tìm tên Toniku, hắn trốn ở những ngôi miếu phía nam.", 
-                "Tìm gặp hắn quay lại báo cáo với ta nhé!"}, 
-            {"Hãy giết 10 con quỷ khố ở khu rừng gỗ!", 
-                "Xong việc ta sẽ giúp con cưa con bé em gái cô giáo Ayumi!"}, 
-            {"Để ta dạy kinh công cấp 2 cho con, con phải chứng tỏ được khả năng hiện tại.", 
-                "Hãy nhảy lên cao và chém được ít nhất 20 phát khi chưa chạm đất!", 
-                "Khá khó, nhưng ta tin con sẽ khẳng định được mình!"}, 
-            {"Hãy đến rừng chông tre. Giết 15 quỷ hoa đỏ rồi về đây, ta cho ngươi shuriken cấp 2!"}, 
-            {"Con hãy đến vách đá Ito, giết 18 con bò cạp, mang đuôi về cho ta!"}, 
-            {"Ta không muốn nói nhiều. Một phần thưởng đặt biệt cho ngươi..", 
-                "..nếu ngươi có thể giết được 4 con cá đỏ!"}, 
-            {"Để học kỹ năng ẩn thân, hãy đi tìm 1 quyển bí kíp...", 
-                "Cất giấu tại 1 thung lũng phía đông."}, 
-            {"Nhanh lên, cô bé ấy đã bị bắt từ mấy hôm rồi!"}};
-        lB = new String[][]{{"Ta đang bận, Con hãy đi tập luyện đi."}, 
-            {"Các ngươi phải cố gắng tập luyện để trở thành những Ninja tốt"}, 
-            {"Hằng ngày ngươi phải siêng năng tập thể lực, đó là nền tảng cho mọi hoạt động."}, 
-            {"Cô Ayumi xinh thật. Con có thấy thế không?"}, 
-            {"Ngươi biết không....à..à...mà ta định nói gì với ngươi nhỉ."}, 
-            {"Ta không còn gì để dạy con nữa...", 
-                "Nhưng con phải cố gắng tập luyện hàng ngày. Biết không!"}, 
-            {"Con cần phải để mắt tới cô bé Sakura nhé..", 
-                "Con bé ấy quậy lắm đấy!"}, 
-            {"Dù sau này có đi đâu, ngươi cũng phải trở thành 1 ninja tốt nhé!"}, 
-            {"Ta không còn gì để dạy con nữa!", 
-                "Hãy rèn luyện sức khỏe hàng ngày, biết không!"}, 
-            {"..à.. ừ.. ngươi muốn học phép à..", 
-                ".. để ta nghĩ ra thêm vài phép mới..", 
-                "..trước mắt hãy học những kỹ năng cũ đã nhé..."}};
-        var10000 = new String[]{"Ngươi không có đủ vàng."};
-        lC = new String[]{"Hãy hoàn thành nhiệm vụ được giao rồi quay lại gặp ta!"};
-        lD = new int[]{1, 7, 100, 100, 6, 100, 100, 13, 100, 15, 100, 100, 18, 17, 10, 100, 100, 100};
-        lE = new int[]{10, 2, 0, 0, 20, 0, 0, 8, 0, 10, 0, 0, 15, 18, 4, 0, 0, 0};
         lF = new int[]{7, 6, 6, 5, 2, 4};
-        lG = -1;
-        lL = new String[]{"1. Tiep tuc", "2. Kich hoat", "3. Nhap ma kich hoat"};
-        lM = new String[]{"1. Kich hoat", "2. Nhap ma kich hoat"};
+        pendingMarkerMap = -1;
         lP = Font.getFont(0, 0, 0);
-        lQ = Font.getFont(0, 1, 0);
         lR = lP.getHeight() + 6;
-        lV = new int[9];
-        lW = 10;
-
-        for(var0 = 0; var0 < 9; ++var0) {
-            lV[var0] = (var0 << 1) + 1;
-            int[] var4 = lV;
-            var4[var0] += aV;
-        }
 
     }
 
@@ -1228,21 +745,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ++var2;
         var1[0] = gL;
         ++var2;
-        var1[1] = w;
+        var1[1] = mapId;
         ++var2;
-        var1[2] = x;
+        var1[2] = tick;
         ++var2;
-        var1[3] = eE ? 1 : 0;
+        var1[3] = Story.prologueActive ? 1 : 0;
         ++var2;
-        var1[4] = dd;
+        var1[4] = money;
         ++var2;
         var1[5] = dw ? 1 : 0;
         ++var2;
-        var1[6] = eF ? 1 : 0;
+        var1[6] = Story.riverMonsterDefeated ? 1 : 0;
         ++var2;
-        var1[7] = eG ? 1 : 0;
+        var1[7] = Story.tonikuDefeated ? 1 : 0;
         ++var2;
-        var1[8] = eH ? 1 : 0;
+        var1[8] = Story.sakuraFound ? 1 : 0;
         ++var2;
         var1[9] = gk ? 1 : 0;
         ++var2;
@@ -1252,38 +769,38 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ++var2;
         var1[12] = ij;
         ++var2;
-        var1[13] = y;
+        var1[13] = swordLevel;
         ++var2;
-        var1[14] = eW ? 1 : 0;
+        var1[14] = Skills.dartsLevel2 ? 1 : 0;
 
         int var0;
         for(var0 = 0; var0 < X.length; ++var0) {
             var1[var2++] = X[var0] ? 1 : 0;
         }
 
-        for(var0 = 0; var0 < W.length; ++var0) {
-            var1[var2++] = W[var0];
+        for(var0 = 0; var0 < potionCounts.length; ++var0) {
+            var1[var2++] = potionCounts[var0];
         }
 
-        var1[var2++] = eI ? 1 : 0;
-        var1[var2++] = eJ ? 1 : 0;
-        var1[var2++] = eK ? 1 : 0;
-        var1[var2++] = eL ? 1 : 0;
-        var1[var2++] = eM ? 1 : 0;
-        var1[var2++] = eN ? 1 : 0;
-        var1[var2++] = eO ? 1 : 0;
-        var1[var2++] = eP ? 1 : 0;
-        var1[var2++] = eQ ? 1 : 0;
-        var1[var2++] = eR ? 1 : 0;
-        var1[var2++] = eS ? 1 : 0;
-        var1[var2++] = eT ? 1 : 0;
-        var1[var2++] = eU ? 1 : 0;
-        var1[var2++] = eV ? 1 : 0;
-        var1[var2++] = eX ? 1 : 0;
-        var1[var2++] = eY ? 1 : 0;
-        var1[var2++] = eZ ? 1 : 0;
-        var1[var2++] = fa ? 1 : 0;
-        var1[var2++] = fb ? 1 : 0;
+        var1[var2++] = Skills.lightness ? 1 : 0;
+        var1[var2++] = Skills.doubleJump ? 1 : 0;
+        var1[var2++] = Skills.darts ? 1 : 0;
+        var1[var2++] = Skills.burrow ? 1 : 0;
+        var1[var2++] = Skills.motorbikeLicense ? 1 : 0;
+        var1[var2++] = Skills.doubleStrength ? 1 : 0;
+        var1[var2++] = Skills.dive ? 1 : 0;
+        var1[var2++] = Skills.runOnWater ? 1 : 0;
+        var1[var2++] = Skills.transform ? 1 : 0;
+        var1[var2++] = Story.goldenBatQuestDone ? 1 : 0;
+        var1[var2++] = Story.tonikuQuestDone ? 1 : 0;
+        var1[var2++] = Story.girlWaiting ? 1 : 0;
+        var1[var2++] = Story.girlOutingDone ? 1 : 0;
+        var1[var2++] = Skills.tripleJump ? 1 : 0;
+        var1[var2++] = Skills.sprint ? 1 : 0;
+        var1[var2++] = Skills.standOnWater ? 1 : 0;
+        var1[var2++] = Skills.hide ? 1 : 0;
+        var1[var2++] = Story.gameCompleted ? 1 : 0;
+        var1[var2++] = Story.sakuraEscorting ? 1 : 0;
         var1[var2++] = fc;
         var1[var2++] = fd;
         var1[var2++] = fe;
@@ -1302,12 +819,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var1[var2++] = D;
         var1[var2++] = E;
         var1[var2++] = fn;
-        var1[var2++] = F;
-        var1[var2++] = G;
-        var1[var2++] = H;
-        var1[var2++] = I;
-        var1[var2++] = J;
-        var1[var2++] = K;
+        var1[var2++] = PlayerStats.attack;
+        var1[var2++] = PlayerStats.dartDamage;
+        var1[var2++] = PlayerStats.hp;
+        var1[var2++] = PlayerStats.maxHp;
+        var1[var2++] = PlayerStats.mp;
+        var1[var2++] = PlayerStats.maxMp;
         var1[var2++] = L;
         var1[var2++] = M;
         var1[var2++] = fo;
@@ -1315,46 +832,46 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var1[var2++] = fq;
         var1[var2++] = fs;
         var1[var2++] = ft;
-        var1[var2++] = N;
-        var1[var2++] = O;
+        var1[var2++] = PlayerStats.level;
+        var1[var2++] = PlayerStats.exp;
         var1[var2++] = fu ? 1 : 0;
         var1[var2++] = fv ? 1 : 0;
         var1[var2++] = fw ? 1 : 0;
         var1[var2++] = fx ? 1 : 0;
-        var1[var2++] = P;
-        var1[var2++] = fy;
-        var1[var2++] = fz;
-        var1[var2++] = fA ? 1 : 0;
-        var1[var2++] = fC;
+        var1[var2++] = QuestState.current;
+        var1[var2++] = QuestState.dropMonster;
+        var1[var2++] = QuestState.dropChance;
+        var1[var2++] = QuestState.itemFound ? 1 : 0;
+        var1[var2++] = QuestState.progress;
         var1[var2++] = fD;
         var1[var2++] = fE;
         var1[var2++] = ig;
         var1[var2++] = ih;
-        var1[var2++] = fF;
-        var1[var2++] = fG;
-        var1[var2++] = fH;
-        var1[var2++] = fI;
-        var1[var2++] = fJ;
+        var1[var2++] = questItemX;
+        var1[var2++] = questItemY;
+        var1[var2++] = questItemState;
+        var1[var2++] = cameraTargetX;
+        var1[var2++] = cameraTargetY;
         var1[var2++] = fK;
         var1[var2++] = fL;
         var1[var2++] = fM;
         var1[var2++] = fN;
-        var1[var2++] = fO;
-        var1[var2++] = fP;
-        var1[var2++] = fQ;
-        var1[var2++] = fR;
-        var1[var2++] = ie ? 1 : 0;
-        var1[var2++] = id;
-        var1[var2++] = ifSt;
-        var1[var2++] = gb;
-        var1[var2++] = gc;
-        var1[var2++] = gd;
+        var1[var2++] = cameraX;
+        var1[var2++] = cameraY;
+        var1[var2++] = cameraMaxX;
+        var1[var2++] = cameraMaxY;
+        var1[var2++] = mapEventActive ? 1 : 0;
+        var1[var2++] = mapEventId;
+        var1[var2++] = mapEventStep;
+        var1[var2++] = guideMarkerMap;
+        var1[var2++] = guideMarkerX;
+        var1[var2++] = guideMarkerY;
         var1[var2++] = ge;
         var1[var2++] = gf;
         var1[var2++] = gg;
         var1[var2++] = gh;
         var1[var2++] = gi;
-        var1[var2++] = gj;
+        var1[var2++] = guideMarkerNpc;
         var1[var2++] = gn;
         var1[var2++] = go;
         var1[var2++] = gp;
@@ -1467,31 +984,31 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var6[(var3 << 2) + 3] = (byte)var5[var3];
         }
 
-        Midlet.a("ninjasave", var6);
-        Midlet.a(true);
+        Save.saveRecord("ninjasave", var6);
+        Save.markSaved();
     }
 
     public static void b() {
-        int[] var0 = a(Midlet.b("ninjasave"));
+        int[] var0 = a(Save.loadRecord("ninjasave"));
         int var2 = 0;
         ++var2;
         gL = var0[0];
         ++var2;
-        w = var0[1];
+        mapId = var0[1];
         ++var2;
-        x = var0[2];
+        tick = var0[2];
         ++var2;
-        eE = var0[3] == 1;
+        Story.prologueActive = var0[3] == 1;
         ++var2;
-        dd = var0[4];
+        money = var0[4];
         ++var2;
         dw = var0[5] == 1;
         ++var2;
-        eF = var0[6] == 1;
+        Story.riverMonsterDefeated = var0[6] == 1;
         ++var2;
-        eG = var0[7] == 1;
+        Story.tonikuDefeated = var0[7] == 1;
         ++var2;
-        eH = var0[8] == 1;
+        Story.sakuraFound = var0[8] == 1;
         ++var2;
         gk = var0[9] == 1;
         ++var2;
@@ -1501,38 +1018,38 @@ public final class b extends Canvas implements Runnable, CommandListener {
         ++var2;
         ij = var0[12];
         ++var2;
-        y = var0[13];
+        swordLevel = var0[13];
         ++var2;
-        eW = var0[14] == 1;
+        Skills.dartsLevel2 = var0[14] == 1;
 
         int var1;
         for(var1 = 0; var1 < X.length; ++var1) {
             X[var1] = var0[var2++] == 1;
         }
 
-        for(var1 = 0; var1 < W.length; ++var1) {
-            W[var1] = var0[var2++];
+        for(var1 = 0; var1 < potionCounts.length; ++var1) {
+            potionCounts[var1] = var0[var2++];
         }
 
-        eI = var0[var2++] == 1;
-        eJ = var0[var2++] == 1;
-        eK = var0[var2++] == 1;
-        eL = var0[var2++] == 1;
-        eM = var0[var2++] == 1;
-        eN = var0[var2++] == 1;
-        eO = var0[var2++] == 1;
-        eP = var0[var2++] == 1;
-        eQ = var0[var2++] == 1;
-        eR = var0[var2++] == 1;
-        eS = var0[var2++] == 1;
-        eT = var0[var2++] == 1;
-        eU = var0[var2++] == 1;
-        eV = var0[var2++] == 1;
-        eX = var0[var2++] == 1;
-        eY = var0[var2++] == 1;
-        eZ = var0[var2++] == 1;
-        fa = var0[var2++] == 1;
-        fb = var0[var2++] == 1;
+        Skills.lightness = var0[var2++] == 1;
+        Skills.doubleJump = var0[var2++] == 1;
+        Skills.darts = var0[var2++] == 1;
+        Skills.burrow = var0[var2++] == 1;
+        Skills.motorbikeLicense = var0[var2++] == 1;
+        Skills.doubleStrength = var0[var2++] == 1;
+        Skills.dive = var0[var2++] == 1;
+        Skills.runOnWater = var0[var2++] == 1;
+        Skills.transform = var0[var2++] == 1;
+        Story.goldenBatQuestDone = var0[var2++] == 1;
+        Story.tonikuQuestDone = var0[var2++] == 1;
+        Story.girlWaiting = var0[var2++] == 1;
+        Story.girlOutingDone = var0[var2++] == 1;
+        Skills.tripleJump = var0[var2++] == 1;
+        Skills.sprint = var0[var2++] == 1;
+        Skills.standOnWater = var0[var2++] == 1;
+        Skills.hide = var0[var2++] == 1;
+        Story.gameCompleted = var0[var2++] == 1;
+        Story.sakuraEscorting = var0[var2++] == 1;
         fc = var0[var2++];
         fd = var0[var2++];
         fe = var0[var2++];
@@ -1551,12 +1068,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         D = var0[var2++];
         E = var0[var2++];
         fn = var0[var2++];
-        F = var0[var2++];
-        G = var0[var2++];
-        H = var0[var2++];
-        I = var0[var2++];
-        J = var0[var2++];
-        K = var0[var2++];
+        PlayerStats.attack = var0[var2++];
+        PlayerStats.dartDamage = var0[var2++];
+        PlayerStats.hp = var0[var2++];
+        PlayerStats.maxHp = var0[var2++];
+        PlayerStats.mp = var0[var2++];
+        PlayerStats.maxMp = var0[var2++];
         L = var0[var2++];
         M = var0[var2++];
         fo = var0[var2++];
@@ -1564,46 +1081,46 @@ public final class b extends Canvas implements Runnable, CommandListener {
         fq = var0[var2++];
         fs = var0[var2++];
         ft = var0[var2++];
-        N = var0[var2++];
-        O = var0[var2++];
+        PlayerStats.level = var0[var2++];
+        PlayerStats.exp = var0[var2++];
         fu = var0[var2++] == 1;
         fv = var0[var2++] == 1;
         fw = var0[var2++] == 1;
         fx = var0[var2++] == 1;
-        P = var0[var2++];
-        fy = var0[var2++];
-        fz = var0[var2++];
-        fA = var0[var2++] == 1;
-        fC = var0[var2++];
+        QuestState.current = var0[var2++];
+        QuestState.dropMonster = var0[var2++];
+        QuestState.dropChance = var0[var2++];
+        QuestState.itemFound = var0[var2++] == 1;
+        QuestState.progress = var0[var2++];
         fD = var0[var2++];
         fE = var0[var2++];
         ig = var0[var2++];
         ih = var0[var2++];
-        fF = var0[var2++];
-        fG = var0[var2++];
-        fH = var0[var2++];
-        fI = var0[var2++];
-        fJ = var0[var2++];
+        questItemX = var0[var2++];
+        questItemY = var0[var2++];
+        questItemState = var0[var2++];
+        cameraTargetX = var0[var2++];
+        cameraTargetY = var0[var2++];
         fK = var0[var2++];
         fL = var0[var2++];
         fM = var0[var2++];
         fN = var0[var2++];
-        fO = var0[var2++];
-        fP = var0[var2++];
-        fQ = var0[var2++];
-        fR = var0[var2++];
-        ie = var0[var2++] == 1;
-        id = var0[var2++];
-        ifSt = var0[var2++];
-        gb = var0[var2++];
-        gc = var0[var2++];
-        gd = var0[var2++];
+        cameraX = var0[var2++];
+        cameraY = var0[var2++];
+        cameraMaxX = var0[var2++];
+        cameraMaxY = var0[var2++];
+        mapEventActive = var0[var2++] == 1;
+        mapEventId = var0[var2++];
+        mapEventStep = var0[var2++];
+        guideMarkerMap = var0[var2++];
+        guideMarkerX = var0[var2++];
+        guideMarkerY = var0[var2++];
         ge = var0[var2++];
         gf = var0[var2++];
         gg = var0[var2++];
         gh = var0[var2++];
         gi = var0[var2++];
-        gj = var0[var2++];
+        guideMarkerNpc = var0[var2++];
         gn = var0[var2++];
         go = var0[var2++];
         gp = var0[var2++];
@@ -1703,23 +1220,23 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (fx) {
-            if (ep == null) {
-                ep = new Image[4];
+            if (heroTransformHeads == null) {
+                heroTransformHeads = new Image[4];
 
                 try {
-                    ep[0] = Image.createImage("/cp/ch0x.png");
-                    ep[1] = Image.createImage("/cp/ch1x.png");
+                    heroTransformHeads[0] = Character.loadHeroTransformHead(0);
+                    heroTransformHeads[1] = Character.loadHeroTransformHead(1);
                 } catch (Exception var3) {
                 }
 
-                ep[2] = ep[1];
-                ep[3] = ep[0];
+                heroTransformHeads[2] = heroTransformHeads[1];
+                heroTransformHeads[3] = heroTransformHeads[0];
             }
 
             for(var1 = 0; var1 < 4; ++var1) {
-                Image var6 = eo[var1];
-                eo[var1] = ep[var1];
-                ep[var1] = var6;
+                Image var6 = heroHeads[var1];
+                heroHeads[var1] = heroTransformHeads[var1];
+                heroTransformHeads[var1] = var6;
             }
         }
 
@@ -1753,11 +1270,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
             dh[var5] = 1;
             dl[var5] = var4;
             if (var4 < 160) {
-                dm[var5] = 0;
+                dm[var5] = Item.MONEY_GOLD;
             } else if (var4 < 600) {
-                dm[var5] = 1;
+                dm[var5] = Item.MONEY_BLUE_GEM;
             } else {
-                dm[var5] = 2;
+                dm[var5] = Item.MONEY_RED_GEM;
             }
         }
     }
@@ -1784,43 +1301,30 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static void u(int var0) {
-        if ((O += var0) > aj[N - 1]) {
-            O = 0;
-            if (Midlet.a && N == 6) {
-                s(6);
-                a("Xin đăng ký để có thể lên cấp 7!");
-                e = 7;
-                return;
-            }
-
-            ++N;
-            F += ai[N - 2];
-            G += 2;
-            H = I += ak[N - 2];
-            J = K;
+    private static void gainExp(int amount) {
+        if (Leveling.addExp(amount)) {
             a("level-up", 2, fe, ff - fh, 0, -2);
-            s(6);
-            a("Chúc mừng! Bạn đạt được cấp " + N + '\n' + "HP: " + I + '\n' + "Sức đánh: " + (F + (F >> 2) * (y + 1)));
-            e = 7;
+            showMessage(MessageType.LEVEL_UP);
+            setMessageText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(swordLevel));
+            state = GameState.MESSAGE;
         } else {
-            a("+" + var0, 2, fe, ff - fh, 0, -2);
+            a("+" + amount, 2, fe, ff - fh, 0, -2);
         }
 
-        d = true;
+        hudDirty = true;
     }
 
     private static void u() {
-        if (P == 11 && A != 0) {
-            ++fC;
-            if (P >= 20) {
-                b("Thành công 20 hit!");
+        if (QuestState.current == Quest.AIR_HITS && A != 0) {
+            ++QuestState.progress;
+            if (QuestState.current >= 20) {
+                showNotice("Thành công 20 hit!");
             } else {
-                b("Hit: " + fC);
+                showNotice("Hit: " + QuestState.progress);
             }
         }
 
-        int var0 = (var0 = F + x % (F >> 1)) + (var0 >> 1) * y;
+        int var0 = PlayerStats.rollMeleeDamage(tick, swordLevel);
         if (fx) {
             var0 <<= 1;
         }
@@ -1941,7 +1445,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             var1 = ff - go >> 3;
             a(gn + (gz << 3), go - 12, var0, var1 + (var0 - 8), true);
         } else {
-            var0 = F << 1;
+            var0 = PlayerStats.attack << 1;
             var1 = gz > 0 ? gn - 20 : gn - 40;
             int var2 = gz > 0 ? gn + 40 : gn + 20;
             int var3 = go - gu - 15;
@@ -2100,68 +1604,54 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    static void c() {
-        for(int var0 = 0; var0 < 14; ++var0) {
-            aR[var0] = false;
-        }
-
-    }
-
-    static void d() {
-        for(int var0 = 0; var0 < 14; ++var0) {
-            aS[var0] = false;
-        }
-
-    }
-
-    private static void z() {
+    private static void onDialogueFinished() {
         label58:
-        switch (iD) {
-            case 3:
-                P = 0;
-                fC = 0;
-                b("NV: Giết 10 ốc sên");
+        switch (Dialogue.finishAction) {
+            case QuestAction.START_KILL_SNAILS:
+                QuestState.current = Quest.KILL_SNAILS;
+                QuestState.progress = 0;
+                showNotice("NV: Giết 10 ốc sên");
                 break;
-            case 4:
-                eI = true;
-                eJ = true;
-                P = -1;
-                fC = 0;
-                b("đã học phép khinh công");
+            case QuestAction.REWARD_LIGHTNESS:
+                Skills.lightness = true;
+                Skills.doubleJump = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã học phép khinh công");
                 break;
-            case 5:
-                P = 1;
-                fC = 0;
-                b("NV: đánh ngã 2 bù nhìn");
+            case QuestAction.START_KNOCK_DOWN_SCARECROWS:
+                QuestState.current = Quest.KNOCK_DOWN_SCARECROWS;
+                QuestState.progress = 0;
+                showNotice("NV: đánh ngã 2 bù nhìn");
                 break;
-            case 6:
-                eK = true;
-                P = -1;
-                fC = 0;
-                b("đã học ném phi tiêu");
-            case 7:
+            case QuestAction.REWARD_DARTS:
+                Skills.darts = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã học ném phi tiêu");
+            case QuestAction.UNUSED_7:
             default:
                 break;
-            case 8:
-                b((String)null);
+            case QuestAction.UNUSED_CLEAR_NOTICE:
+                showNotice((String)null);
                 break;
-            case 9:
-                P = 2;
-                fy = 103;
-                fz = 2;
-                fA = false;
-                b("NV: Tìm bí kíp");
+            case QuestAction.START_FIND_BURROW_SCROLL:
+                QuestState.current = Quest.FIND_BURROW_SCROLL;
+                QuestState.dropMonster = QuestState.DROP_MONSTER_BASE + 3;
+                QuestState.dropChance = 2;
+                QuestState.itemFound = false;
+                showNotice("NV: Tìm bí kíp");
                 break;
-            case 10:
-                eL = true;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("đã học thuật độn thổ");
+            case QuestAction.REWARD_BURROW:
+                Skills.burrow = true;
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("đã học thuật độn thổ");
                 break;
-            case 11:
-                P = 3;
+            case QuestAction.START_ESCORT_AYUMI_SISTER:
+                QuestState.current = Quest.ESCORT_AYUMI_SISTER;
                 gm = 3;
                 gn = 2808;
                 go = 216;
@@ -2169,173 +1659,163 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 gr = 1;
                 gp = 5;
                 break;
-            case 12:
-                eN = true;
-                F <<= 1;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("sức công nhân đôi!");
+            case QuestAction.REWARD_DOUBLE_STRENGTH:
+                Skills.doubleStrength = true;
+                PlayerStats.attack <<= 1;
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("sức công nhân đôi!");
                 break;
-            case 13:
-                P = 4;
-                fC = 0;
-                b("NV: giết 20 con ong");
+            case QuestAction.START_KILL_BEES:
+                QuestState.current = Quest.KILL_BEES;
+                QuestState.progress = 0;
+                showNotice("NV: giết 20 con ong");
                 break;
-            case 14:
-                P = 5;
-                fA = false;
-                fC = 0;
-                fz = 10;
-                b("NV: giết heo rừng");
+            case QuestAction.START_KILL_WILD_BOAR:
+                QuestState.current = Quest.KILL_WILD_BOAR;
+                QuestState.itemFound = false;
+                QuestState.progress = 0;
+                QuestState.dropChance = 10;
+                showNotice("NV: giết heo rừng");
                 break;
-            case 15:
-                P = -1;
-                eO = true;
-                eP = true;
-                b("đã học chạy nước.");
+            case QuestAction.REWARD_WATER_SKILLS:
+                QuestState.current = Quest.NONE;
+                Skills.dive = true;
+                Skills.runOnWater = true;
+                // Thưởng gồm cả lặn nước (Skills.dive) nhưng thông báo chỉ ghi chạy nước (giữ như bản gốc).
+                showNotice("đã học chạy nước.");
                 break;
-            case 16:
-                P = 6;
-                fA = false;
-                fz = 10;
-                b("NV: vượt sông");
+            case QuestAction.START_CROSS_RIVER:
+                QuestState.current = Quest.CROSS_RIVER;
+                QuestState.itemFound = false;
+                QuestState.dropChance = 10;
+                showNotice("NV: vượt sông");
                 break;
-            case 17:
-                P = -1;
-                eQ = true;
-                b("đã học biến hình.");
+            case QuestAction.REWARD_TRANSFORM:
+                QuestState.current = Quest.NONE;
+                Skills.transform = true;
+                showNotice("đã học biến hình.");
                 break;
-            case 18:
-                P = 7;
-                fC = 0;
-                b("NV: giết 8 dơi vàng");
+            case QuestAction.START_KILL_GOLDEN_BATS:
+                QuestState.current = Quest.KILL_GOLDEN_BATS;
+                QuestState.progress = 0;
+                showNotice("NV: giết 8 dơi vàng");
                 break;
-            case 19:
-                eR = true;
-                dd += 5000;
-                d = true;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("Nhận được tiền 5000$");
+            case QuestAction.REWARD_MONEY:
+                Story.goldenBatQuestDone = true;
+                money += 5000;
+                hudDirty = true;
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("Nhận được tiền 5000$");
                 break;
-            case 20:
-                P = 15;
-                fC = 0;
-                fA = false;
-                b("NV: tìm bí kíp");
+            case QuestAction.START_FIND_HIDE_SCROLL:
+                QuestState.current = Quest.FIND_HIDE_SCROLL;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
+                showNotice("NV: tìm bí kíp");
                 break;
-            case 21:
-                eZ = true;
-                P = -1;
-                fC = 0;
-                fA = false;
-                b("đã có thể ẩn thân");
+            case QuestAction.REWARD_HIDE:
+                Skills.hide = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
+                showNotice("đã có thể ẩn thân");
                 break;
-            case 22:
-                P = 8;
-                b("NV: tìm đánh Toniku");
+            case QuestAction.START_FIGHT_TONIKU:
+                QuestState.current = Quest.FIGHT_TONIKU;
+                showNotice("NV: tìm đánh Toniku");
                 break;
-            case 23:
-                P = -1;
-                eS = true;
-                b("Hoàn thành nhiệm vụ.");
+            case QuestAction.COMPLETE_FIGHT_TONIKU:
+                QuestState.current = Quest.NONE;
+                Story.tonikuQuestDone = true;
+                showNotice("Hoàn thành nhiệm vụ.");
                 break;
-            case 24:
-                P = 9;
-                fC = 0;
-                b("NV: giết 10 thổ dân");
+            case QuestAction.START_KILL_NATIVES:
+                QuestState.current = Quest.KILL_NATIVES;
+                QuestState.progress = 0;
+                showNotice("NV: giết 10 thổ dân");
                 break;
-            case 25:
-                eT = true;
-                P = -1;
-                fy = 0;
-                fz = 0;
-                fA = false;
-                b("đến gặp cô bé!");
+            case QuestAction.REWARD_MEET_GIRL:
+                Story.girlWaiting = true;
+                QuestState.current = Quest.NONE;
+                QuestState.dropMonster = 0;
+                QuestState.dropChance = 0;
+                QuestState.itemFound = false;
+                showNotice("đến gặp cô bé!");
                 break;
-            case 26:
-                P = 10;
-                fC = 0;
+            case QuestAction.START_GIRL_OUTING:
+                QuestState.current = Quest.GIRL_OUTING;
+                QuestState.progress = 0;
                 gk = true;
-                b("NV: dẫn cô bé đi chơi");
+                showNotice("NV: dẫn cô bé đi chơi");
                 break;
-            case 27:
-                P = -1;
-                eV = true;
-                fC = 0;
-                b("Học khinh công cấp 2");
+            case QuestAction.REWARD_TRIPLE_JUMP:
+                QuestState.current = Quest.NONE;
+                Skills.tripleJump = true;
+                QuestState.progress = 0;
+                showNotice("Học khinh công cấp 2");
                 break;
-            case 28:
-                P = 11;
-                fC = 0;
-                b("NV: 20 hit trên không");
+            case QuestAction.START_AIR_HITS:
+                QuestState.current = Quest.AIR_HITS;
+                QuestState.progress = 0;
+                showNotice("NV: 20 hit trên không");
                 break;
-            case 29:
-                eW = true;
-                G <<= 2;
-                P = -1;
-                fC = 0;
-                b("đã học phi tiêu cấp 2");
-                int var0 = 0;
-
-                while(true) {
-                    if (var0 >= 2) {
-                        break label58;
-                    }
-
-                    try {
-                        ek[var0] = Image.createImage("/c/pt" + (var0 + 2) + ".png");
-                    } catch (IOException var1) {
-                    }
-
-                    ++var0;
-                }
-            case 30:
-                P = 12;
-                fC = 0;
-                b("NV: đánh 15 quỷ hoa đỏ");
+            case QuestAction.REWARD_DARTS_LEVEL_2:
+                Skills.dartsLevel2 = true;
+                PlayerStats.dartDamage <<= 2;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã học phi tiêu cấp 2");
+                Effect.loadDarts(dartFrames, Effect.DART_LEVEL_2);
+                break label58;
+            case QuestAction.START_KILL_FLOWER_DEMONS:
+                QuestState.current = Quest.KILL_FLOWER_DEMONS;
+                QuestState.progress = 0;
+                // Mục tiêu thực tế là "Quỷ hoa" (Quest.TARGET_MONSTER = 18), thông báo ghi "quỷ hoa đỏ" (giữ như bản gốc).
+                showNotice("NV: đánh 15 quỷ hoa đỏ");
                 break;
-            case 31:
-                eX = true;
-                P = -1;
-                fC = 0;
-                b("đã có thể chạy nhanh");
+            case QuestAction.REWARD_SPRINT:
+                Skills.sprint = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã có thể chạy nhanh");
                 break;
-            case 32:
-                P = 13;
-                fC = 0;
-                b("NV: Giết 18 bò cạp");
+            case QuestAction.START_KILL_SCORPIONS:
+                QuestState.current = Quest.KILL_SCORPIONS;
+                QuestState.progress = 0;
+                showNotice("NV: Giết 18 bò cạp");
                 break;
-            case 33:
-                eY = true;
-                P = -1;
-                fC = 0;
-                b("đã có thể đứng nước");
+            case QuestAction.REWARD_STAND_ON_WATER:
+                Skills.standOnWater = true;
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                showNotice("đã có thể đứng nước");
                 break;
-            case 34:
-                P = 14;
-                fC = 0;
-                b("NV: Giết 4 cá đỏ");
+            case QuestAction.START_KILL_RED_TIGER_FISH:
+                QuestState.current = Quest.KILL_RED_TIGER_FISH;
+                QuestState.progress = 0;
+                showNotice("NV: Giết 4 cá đỏ");
                 break;
-            case 35:
-                P = -1;
-                fC = 0;
-                fA = false;
+            case QuestAction.COMPLETE_RESCUE_SAKURA:
+                QuestState.current = Quest.NONE;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
                 break;
-            case 36:
-                P = 16;
-                fC = 0;
-                fA = false;
-                b("NV: cứu Sakura");
+            case QuestAction.START_RESCUE_SAKURA:
+                QuestState.current = Quest.RESCUE_SAKURA;
+                QuestState.progress = 0;
+                QuestState.itemFound = false;
+                showNotice("NV: cứu Sakura");
         }
 
-        if (lG >= 0) {
-            a(lG, lH, lI, lJ);
-            lG = -1;
+        if (pendingMarkerMap >= 0) {
+            setGuideMarker(pendingMarkerMap, pendingMarkerX, pendingMarkerY, pendingMarkerNpc);
+            pendingMarkerMap = -1;
         }
 
     }
@@ -2355,27 +1835,27 @@ public final class b extends Canvas implements Runnable, CommandListener {
         return -1;
     }
 
-    private static void B() {
-        ls = null;
+    private static void releaseMapResources() {
+        npcSprites = null;
         System.gc();
-        eb = null;
-        ee = null;
-        ev = null;
+        motorbikeFrames = null;
+        itemCrate = null;
+        boss0Sprites = null;
         System.gc();
-        ex = null;
+        boss1Sprites = null;
         System.gc();
-        jF = null;
+        monsterSprites = null;
         System.gc();
         C();
-        es = null;
-        ei = null;
-        dY = null;
+        classmateHeads = null;
+        npcDog = null;
+        enemyProjectiles = null;
         System.gc();
     }
 
     private static void C() {
-        eu = null;
-        et = null;
+        ninjaLegs = null;
+        ninjaBodies = null;
         System.gc();
     }
 
@@ -2414,14 +1894,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void E() {
         if (gk) {
-            if (ff <= go - 24 && g(gn, go - 1, 2)) {
+            if (ff <= go - 24 && GameMap.hasFlag(gn, go - 1, TileFlags.SOLID)) {
                 gr = 3;
                 gp = 0;
                 gq = -7;
                 return;
             }
 
-            if (ff <= go - 24 && g(gn, go - 25, 2)) {
+            if (ff <= go - 24 && GameMap.hasFlag(gn, go - 25, TileFlags.SOLID)) {
                 gr = 3;
                 gp = 0;
                 gq = -10;
@@ -2430,11 +1910,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
             int var0;
             int var1;
-            if (gn >= fO - 24 && gn <= fO + r + 24) {
-                if (go < fP - 30 || go > fP + s + 30) {
+            if (gn >= cameraX - 24 && gn <= cameraX + viewWidth + 24) {
+                if (go < cameraY - 30 || go > cameraY + viewHeight + 30) {
                     gz = fe + (fm << 5) > gn ? 1 : -1;
                     var0 = fe;
-                    var1 = ff > go ? fP - 20 : fP + s;
+                    var1 = ff > go ? cameraY - 20 : cameraY + viewHeight;
                     gn = var0;
                     go = var1;
                     gr = 3;
@@ -2447,29 +1927,29 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     gr = 1;
                 } else if (ff >= go) {
                     if (ff > go) {
-                        if (g(gn + gz * gt, go, 2)) {
+                        if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
                             gz = fe > gn ? 1 : -1;
                             gr = 2;
                             gp = gz * Q;
                             return;
                         }
 
-                        if (g(gn + gz * 48, go + 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 48, go + 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 7;
                             gq = -5;
                             return;
                         }
 
-                        for(var0 = 1; var0 <= 5 && go + var0 * 24 < iP && !g(gn + gz * 24, go + var0 * 24, 64); ++var0) {
-                            if (g(gn + gz * 24, go + var0 * 24, 2)) {
+                        for(var0 = 1; var0 <= 5 && go + var0 * 24 < GameMap.pixelHeight && !GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.WATER); ++var0) {
+                            if (GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz << 2;
                                 gq = -4;
                                 return;
                             }
 
-                            if (g(gn + gz * 48, go + var0 * 24, 2)) {
+                            if (GameMap.hasFlag(gn + gz * 48, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz * 6;
                                 gq = -4;
@@ -2477,34 +1957,34 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
                         }
 
-                        if (g(gn + gz * 24, go - 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 24, go - 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 5;
                             gq = -7;
                             return;
                         }
 
-                        if (g(gn + gz * 48, go - 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 48, go - 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 6;
                             gq = -8;
                             return;
                         }
 
-                        if (g(gn + gz * 24, go - 48, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 24, go - 48, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 5;
                             gq = -11;
                             return;
                         }
-                    } else if (g(gn + gz * gt, go, 2)) {
+                    } else if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
                         gz = fe + (fm << 5) > gn ? 1 : -1;
                         gr = 2;
                         gp = gz * Q;
                         return;
                     }
                 } else {
-                    if (g(gn + gz * 48, go - 24, 2)) {
+                    if (GameMap.hasFlag(gn + gz * 48, go - 24, TileFlags.SOLID)) {
                         gr = 3;
                         gp = gz * 5;
                         gq = -8;
@@ -2512,7 +1992,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     for(var0 = 1; var0 <= 3; ++var0) {
-                        if (g(gn + gz * 24, go - var0 * 24, 2)) {
+                        if (GameMap.hasFlag(gn + gz * 24, go - var0 * 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 6;
                             gq = -5 - var0 * 3;
@@ -2520,8 +2000,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (!g(gn + gz * 48, go - 2, 64)) {
-                        if (go + 24 >= iP || g(gn + gz * 48, go + 24, 2)) {
+                    if (!GameMap.hasFlag(gn + gz * 48, go - 2, TileFlags.WATER)) {
+                        if (go + 24 >= GameMap.pixelHeight || GameMap.hasFlag(gn + gz * 48, go + 24, TileFlags.SOLID)) {
                             gr = 3;
                             gp = gz * 7;
                             gq = -4;
@@ -2535,18 +2015,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 return;
                             }
 
-                            if (go + var0 * 24 >= iP || g(gn + gz * 24, go + var0 * 24, 64)) {
+                            if (go + var0 * 24 >= GameMap.pixelHeight || GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.WATER)) {
                                 break;
                             }
 
-                            if (g(gn + gz * 48, go + var0 * 24, 2)) {
+                            if (GameMap.hasFlag(gn + gz * 48, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz * 6;
                                 gq = -4;
                                 return;
                             }
 
-                            if (g(gn + gz * 24, go + var0 * 24, 2)) {
+                            if (GameMap.hasFlag(gn + gz * 24, go + var0 * 24, TileFlags.SOLID)) {
                                 gr = 3;
                                 gp = gz << 2;
                                 gq = -4;
@@ -2559,9 +2039,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
             } else {
                 gz = fe + (fm << 5) > gn ? 1 : -1;
-                var0 = fe > gn ? fO - 24 : fO + r + 24;
+                var0 = fe > gn ? cameraX - 24 : cameraX + viewWidth + 24;
                 var1 = ff - 20;
-                if (!g(var0, var1, 8192)) {
+                if (!GameMap.hasFlag(var0, var1, TileFlags.DIGGABLE)) {
                     gn = var0;
                     go = var1;
                     gr = 4;
@@ -2570,7 +2050,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     return;
                 }
 
-                if (g(gn + gz * gt, go, 2)) {
+                if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
                     gz = fe > gn ? 1 : -1;
                     gr = 2;
                     gp = gz * 12;
@@ -2582,12 +2062,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void a(int var0, int var1) {
-        H -= var0;
+        boolean dead = PlayerStats.takeDamage(var0);
         fc = -1;
-        d = true;
+        hudDirty = true;
         ir = -1;
-        if (H <= 0) {
-            H = 0;
+        if (dead) {
             A = -7;
             z = var1 << 2;
             B = 6;
@@ -2629,10 +2108,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 cF[var0] = 0;
                 cq[var0] = 0;
                 cE[var0] = 1;
-                u(ad[cD[var0]]);
-                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, ab[cD[var0]] + x % 10);
-                if (x % 20 > 5) {
-                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, ac[cD[var0]] << 2, (x + 1) % 2);
+                gainExp(ad[cD[var0]]);
+                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, ab[cD[var0]] + tick % 10);
+                if (tick % 20 > 5) {
+                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, ac[cD[var0]] << 2, (tick + 1) % 2);
                 }
 
                 return true;
@@ -2661,8 +2140,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 a(gP, gQ, -4, -8, 50);
                 a(gP, gQ, 5, -9, 50);
                 a(gP, gQ, 0, -10, 50);
-                if (P == 5) {
-                    e(gP, gQ);
+                if (QuestState.current == Quest.KILL_WILD_BOAR) {
+                    placeQuestItem(gP, gQ);
                 }
 
                 return true;
@@ -2673,10 +2152,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             gS = 7;
             hb = 10;
             gU = 0;
-            if (var0 <= G) {
+            if (var0 <= PlayerStats.dartDamage) {
                 gY = 0;
             } else {
-                gY = 2 + x % 5;
+                gY = 2 + tick % 5;
             }
         }
 
@@ -2704,18 +2183,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (var0 == 0) {
             bM = 0;
         } else {
-            if (dY == null) {
-                dY = new Image[4][2];
-
-                for(var0 = 0; var0 < 4; ++var0) {
-                    for(int var1 = 0; var1 < 2; ++var1) {
-                        try {
-                            dY[var0][var1] = Image.createImage("/c/ar" + var0 + var1 + ".png");
-                        } catch (IOException var2) {
-                        }
-                    }
-                }
-            }
+            enemyProjectiles = Effect.ensureProjectiles(enemyProjectiles);
 
             bM = 10;
             bN = new int[10];
@@ -2733,12 +2201,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static void e() {
-        if (dZ == null) {
-            dZ = new Image[4];
+        if (arrowIcons == null) {
+            arrowIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    dZ[var0] = Image.createImage("/u/arr" + var0 + ".png");
+                    arrowIcons[var0] = Ui.loadArrow(var0);
                 } catch (Exception var1) {
                 }
             }
@@ -2756,7 +2224,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         bZ = new int[bT];
 
         try {
-            ea = Image.createImage("/e/b.png");
+            healSprite = Effect.loadHeal();
         } catch (Exception var0) {
         }
     }
@@ -2831,15 +2299,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void F() {
-        if (eb == null) {
-            eb = new Image[3];
-
-            try {
-                for(int var0 = 0; var0 < 3; ++var0) {
-                    eb[var0] = Image.createImage("/c/v" + var0 + ".png");
-                }
-            } catch (Exception var1) {
-            }
+        try {
+            motorbikeFrames = Effect.ensureMotorbike(motorbikeFrames);
+        } catch (Exception var1) {
         }
 
         ik = new int[ii];
@@ -2851,15 +2313,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void b(int var0, int var1, int var2) {
-        ik[var0] = var1 * je + 12;
-        il[var0] = var2 * je;
+        ik[var0] = var1 * GameMap.TILE_SIZE + 12;
+        il[var0] = var2 * GameMap.TILE_SIZE;
         in[var0] = 0;
         im[var0] = 1;
     }
 
     public static void g() {
         try {
-            ec = Image.createImage("/i/bk.png");
+            itemScroll = Item.loadScroll();
         } catch (Exception var0) {
         }
     }
@@ -2899,11 +2361,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void G() {
-        if (ee == null) {
-            try {
-                ee = Image.createImage("/i/b.png");
-            } catch (Exception var0) {
-            }
+        try {
+            itemCrate = Item.ensureCrate(itemCrate);
+        } catch (Exception var0) {
         }
 
         is = new int[iq];
@@ -2916,110 +2376,110 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void c(int var0, int var1, int var2) {
-        is[var0] = var1 * je + 12;
-        it[var0] = var2 * je + 24;
+        is[var0] = var1 * GameMap.TILE_SIZE + 12;
+        it[var0] = var2 * GameMap.TILE_SIZE + 24;
         iu[var0] = 1;
     }
 
-    public static final void h() {
-        r = aT;
-        if (aU >= 208) {
-            be = true;
-            bi = 50;
-            s = aU - bi;
-            bh = r;
-            bf = 0;
-            bg = s + 1;
+    public static final void setupViewport() {
+        viewWidth = screenWidth;
+        if (screenHeight >= 208) {
+            hudPanelVisible = true;
+            hudHeight = 50;
+            viewHeight = screenHeight - hudHeight;
+            hudWidth = viewWidth;
+            hudX = 0;
+            hudY = viewHeight + 1;
         } else {
-            bi = 16;
-            s = aU - bi;
-            be = false;
-            bi = 0;
-            bh = r;
-            bf = 0;
-            bg = s + 1;
-            bq = (bo = r / 3) + 29;
-            br = bo + 50;
+            hudHeight = 16;
+            viewHeight = screenHeight - hudHeight;
+            hudPanelVisible = false;
+            hudHeight = 0;
+            hudWidth = viewWidth;
+            hudX = 0;
+            hudY = viewHeight + 1;
+            hudLevelX = (hudBarMaxWidth = viewWidth / 3) + 29;
+            hudMoneyX = hudBarMaxWidth + 50;
         }
 
-        if ((bt = aU / 6) < 48) {
-            bt = 48;
+        if ((letterboxMaxHeight = screenHeight / 6) < 48) {
+            letterboxMaxHeight = 48;
         }
 
-        bC = r >> 1;
-        bD = s >> 1;
-        bE = 3 * s / 4;
-        bF = r / 6;
-        by = r / je + 2;
-        bz = s / je + 2;
-        if (r % 24 != 0) {
-            ++by;
+        viewCenterX = viewWidth >> 1;
+        viewCenterY = viewHeight >> 1;
+        cameraOffsetY = 3 * viewHeight / 4;
+        cameraLeadX = viewWidth / 6;
+        visibleCols = viewWidth / GameMap.TILE_SIZE + 2;
+        visibleRows = viewHeight / GameMap.TILE_SIZE + 2;
+        if (viewWidth % 24 != 0) {
+            ++visibleCols;
         }
 
-        fQ = (iM - 1) * je - r;
-        fR = (iN - 1) * je - s;
-        fO = fI = fe - bC + bF * fm;
-        fP = fJ = ff - bE;
-        if (fO < 0) {
-            fO = 0;
+        cameraMaxX = (GameMap.width - 1) * GameMap.TILE_SIZE - viewWidth;
+        cameraMaxY = (GameMap.height - 1) * GameMap.TILE_SIZE - viewHeight;
+        cameraX = cameraTargetX = fe - viewCenterX + cameraLeadX * fm;
+        cameraY = cameraTargetY = ff - cameraOffsetY;
+        if (cameraX < 0) {
+            cameraX = 0;
         }
 
-        if (fO > fQ) {
-            fO = fQ;
+        if (cameraX > cameraMaxX) {
+            cameraX = cameraMaxX;
         }
 
-        if (fP < 0) {
-            fP = 0;
+        if (cameraY < 0) {
+            cameraY = 0;
         }
 
-        if (fP > fR) {
-            fP = fR;
+        if (cameraY > cameraMaxY) {
+            cameraY = cameraMaxY;
         }
 
-        if ((bw = fO / je - 1) < 0) {
-            bw = 0;
+        if ((firstVisibleCol = cameraX / GameMap.TILE_SIZE - 1) < 0) {
+            firstVisibleCol = 0;
         }
 
-        bx = fP / je;
-        bA = bw + by;
-        bB = bx + bz;
-        if (bx < 0) {
-            bx = 0;
+        firstVisibleRow = cameraY / GameMap.TILE_SIZE;
+        lastVisibleCol = firstVisibleCol + visibleCols;
+        lastVisibleRow = firstVisibleRow + visibleRows;
+        if (firstVisibleRow < 0) {
+            firstVisibleRow = 0;
         }
 
-        if (bB > iN - 1) {
-            bB = iN - 1;
+        if (lastVisibleRow > GameMap.height - 1) {
+            lastVisibleRow = GameMap.height - 1;
         }
 
     }
 
     public static final void i() {
         fc = -1;
-        if (ed == null) {
+        if (heroBodies == null) {
             try {
-                ed = new Image[20];
+                heroBodies = new Image[20];
 
                 int var0;
                 for(var0 = 0; var0 < 20; ++var0) {
-                    ed[var0] = Image.createImage("/cp/cb" + var0 + ".png");
+                    heroBodies[var0] = Character.loadHeroBody(var0);
                 }
 
-                eo = new Image[11];
+                heroHeads = new Image[11];
 
                 for(var0 = 0; var0 < 11; ++var0) {
-                    eo[var0] = Image.createImage("/cp/ch" + var0 + ".png");
+                    heroHeads[var0] = Character.loadHeroHead(var0);
                 }
 
-                eq = new Image[10];
+                heroLegs = new Image[10];
 
                 for(var0 = 0; var0 < 10; ++var0) {
-                    eq[var0] = Image.createImage("/cp/cl" + var0 + ".png");
+                    heroLegs[var0] = Character.loadHeroLegs(var0);
                 }
             } catch (Exception var1) {
             }
         }
 
-        H();
+        reloadSlashEffects();
         fg = 22;
         fh = 32;
         fi = fg >> 1;
@@ -3029,76 +2489,55 @@ public final class b extends Canvas implements Runnable, CommandListener {
         fD = -1;
     }
 
-    private static void H() {
-        eB = new Image[11];
+    private static void reloadSlashEffects() {
+        slashEffects = null;
         System.gc();
-
-        for(int var0 = 0; var0 < 11; ++var0) {
-            try {
-                eB[var0] = Image.createImage("/c/w" + var0 + "t" + y + ".png");
-            } catch (Exception var3) {
-                try {
-                    eB[var0] = Image.createImage("/c/w" + var0 + "t0.png");
-                } catch (IOException var2) {
-                    var2.printStackTrace();
-                }
-            }
-        }
+        slashEffects = Effect.loadSlashes(swordLevel);
 
     }
 
-    public static void j() {
-        I();
-        if (be) {
+    public static void setupHud() {
+        loadHudIcons();
+        if (hudPanelVisible) {
             try {
-                if (ef == null) {
-                    ef = new Image[2];
+                if (hudFrames == null) {
+                    hudFrames = new Image[2];
 
                     for(int var0 = 0; var0 < 2; ++var0) {
-                        ef[var0] = Image.createImage("/u/c" + var0 + ".png");
+                        hudFrames[var0] = Ui.loadHud(var0);
                     }
                 }
 
-                bj = ef[0].getWidth();
-                bk = ef[1].getWidth();
-                bl = r - bj - bk + 1;
-                bm = 78;
-                bn = bg + 7;
-                bo = r - 134;
-                bp = r - 84;
-                bs = 5;
+                hudLeftFrameWidth = hudFrames[0].getWidth();
+                hudRightFrameWidth = hudFrames[1].getWidth();
+                hudStripWidth = viewWidth - hudLeftFrameWidth - hudRightFrameWidth + 1;
+                hudBarX = 78;
+                hudBarY = hudY + 7;
+                hudBarMaxWidth = viewWidth - 134;
+                hudExpBarMaxWidth = viewWidth - 84;
+                hudMpBarHeight = 5;
             } catch (IOException var1) {
             }
         }
     }
 
-    private static void I() {
+    private static void loadHudIcons() {
         try {
-            if (eh == null) {
-                eh = Image.createImage("/u/co.png");
+            if (markerIcon == null) {
+                markerIcon = Ui.loadMarker();
             }
 
-            (eC = new Image[2])[1] = Image.createImage("/u/wpt1.png");
-            if (y == 0) {
-                eC[0] = Image.createImage("/u/wpt0.png");
-            } else {
-                eC[0] = Image.createImage("/u/wpt" + (y + 1) + ".png");
-            }
+            (weaponIcons = new Image[2])[1] = Ui.loadDartIcon();
+            weaponIcons[0] = Ui.loadSwordIcon(swordLevel);
         } catch (Exception var0) {
         }
     }
 
     public static void k() {
         de = 5;
-        if (eg == null) {
-            try {
-                eg = new Image[3];
-
-                for(int var0 = 0; var0 < 3; ++var0) {
-                    eg[var0] = Image.createImage("/i/dm" + var0 + ".png");
-                }
-            } catch (Exception var1) {
-            }
+        try {
+            itemMoney = Item.ensureMoney(itemMoney);
+        } catch (Exception var1) {
         }
 
         df = new int[de];
@@ -3114,16 +2553,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     public static void e(int var0) {
         dn = false;
         if (var0 == 0) {
-            if (ei == null) {
-                ei = new Image[2];
-
-                for(var0 = 0; var0 < 2; ++var0) {
-                    try {
-                        ei[var0] = Image.createImage("/npc/d" + var0 + ".png");
-                    } catch (Exception var1) {
-                    }
-                }
-            }
+            npcDog = Npc.ensureDog(npcDog);
 
             dn = true;
             doSt = 348;
@@ -3136,14 +2566,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static final void l() {
-        if (!a) {
-            if (ej == null) {
-                ej = new Image[2][5];
+        if (!lowGraphics) {
+            if (dustSprites == null) {
+                dustSprites = new Image[2][5];
 
                 for(int var0 = 0; var0 < 2; ++var0) {
                     for(int var1 = 0; var1 < 5; ++var1) {
                         try {
-                            ej[var0][var1] = Image.createImage("/e/d" + var0 + var1 + ".png");
+                            dustSprites[var0][var1] = Effect.loadDust(var0, var1);
                         } catch (IOException var2) {
                         }
                     }
@@ -3158,19 +2588,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static final void m() {
         int var0;
-        if (ek == null) {
-            ek = new Image[2];
-
-            for(var0 = 0; var0 < 2; ++var0) {
-                try {
-                    if (eW) {
-                        ek[var0] = Image.createImage("/c/pt" + (var0 + 2) + ".png");
-                    } else {
-                        ek[var0] = Image.createImage("/c/pt" + var0 + ".png");
-                    }
-                } catch (IOException var1) {
-                }
-            }
+        if (dartFrames == null) {
+            dartFrames = Effect.createDartFrames();
+            Effect.loadDarts(dartFrames, Skills.dartsLevel2 ? Effect.DART_LEVEL_2 : Effect.DART_LEVEL_1);
         }
 
         cV = 10;
@@ -3203,12 +2623,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void x(int var0) {
-        e = 2;
-        w = var0;
-        Midlet.d = 1;
-        aj();
-        (new Thread(Midlet.c)).start();
+    private static void changeMap(int var0) {
+        state = GameState.LOADING;
+        mapId = var0;
+        Midlet.nextGameState = GameState.PLAYING;
+        resetLoadingProgress();
+        (new Thread(Midlet.instance)).start();
     }
 
     public static final void f(int var0) {
@@ -3218,24 +2638,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (gm == var0) {
             ig = -1;
-            if (el == null) {
+            if (girlBodies == null) {
                 try {
-                    el = new Image[8];
+                    girlBodies = new Image[8];
 
                     for(var0 = 0; var0 < 8; ++var0) {
-                        el[var0] = Image.createImage("/cp/gb" + var0 + ".png");
+                        girlBodies[var0] = Character.loadGirlBody(var0);
                     }
 
-                    em = new Image[3];
+                    girlHeads = new Image[3];
 
                     for(var0 = 0; var0 < 3; ++var0) {
-                        em[var0] = Image.createImage("/cp/gh" + var0 + ".png");
+                        girlHeads[var0] = Character.loadGirlHead(var0);
                     }
 
-                    en = new Image[9];
+                    girlLegs = new Image[9];
 
                     for(var0 = 0; var0 < 9; ++var0) {
-                        en[var0] = Image.createImage("/cp/gl" + var0 + ".png");
+                        girlLegs[var0] = Character.loadGirlLegs(var0);
                     }
                 } catch (Exception var1) {
                 }
@@ -3258,12 +2678,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static void o() {
-        if (er == null) {
-            er = new Image[2];
+        if (auraSprites == null) {
+            auraSprites = new Image[2];
 
             for(int var0 = 0; var0 < 2; ++var0) {
                 try {
-                    er[var0] = Image.createImage("/e/l" + var0 + ".png");
+                    auraSprites[var0] = Effect.loadAura(var0);
                 } catch (IOException var1) {
                 }
             }
@@ -3271,64 +2691,56 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    public static void g(int var0) {
+    public static void setupClassmates(int var0) {
         du = 0;
         dx = false;
         if (var0 == 0) {
             du = 7;
             J();
-            a(0, 0, 14, 17, 130, 11, 22, new String[]{"Chào, cậu là ai thế, mình chưa từng gặp bạn thì phải?", "Nói cậu nghe nhé, thầy cô trường này khó tính lắm đó.", "Cẩn thận với ông thầy Hiroyaki nhé. Đừng chọc giận ổng."});
-            a(1, 1, 24, 17, 160, 15, 30, new String[]{"Mình là MinhXP, lớp trưởng lớp kiếm thuật.", "Kiếm là vũ khí lợi hại nhất của một ninja đấy bạn biết không?", "Khu vực luyện tập nằm ở bên trái. Hãy sang đấy tập luyện nhiều hơn nữa."});
-            if (eQ) {
-                a(2, 6, 17, 12, 200, 7, 29, new String[]{"Thằng bên kia là sát thủ giả mạo.", "Ta đây mới là ninja sát thủ thứ thiệt đây!"});
+            placeClassmate(0, 0, 14, 17, 130, 11, 22, DialogueText.schoolClassmate0);
+            placeClassmate(1, 1, 24, 17, 160, 15, 30, DialogueText.schoolClassmate1);
+            if (Skills.transform) {
+                placeClassmate(2, 6, 17, 12, 200, 7, 29, DialogueText.schoolClassmate2Assassin);
             } else {
-                a(2, 2, 17, 12, 200, 7, 29, new String[]{"Chào, tao tên là Tonic, mày là thằng nào?", "Nhìn lão hiệu trưởng kìa, lão có một hũ rượu trông hấp dẫn quá!", "Nếu muốn rủ tao đi nhậu thì ok, còn không thì biến đi.", "À, nếu mày có thấy con chó của tao thì báo tao 1 tiếng nhé."});
+                placeClassmate(2, 2, 17, 12, 200, 7, 29, DialogueText.schoolClassmate2);
             }
 
-            a(3, 3, 48, 17, 200, 44, 63, new String[]{"Hi, mình là Craze, trông bạn có vẻ hơi buồn thì phải?", "Bạn có thấy chán khi tối ngày quanh quẩn trong trường không?", "Đi về phía tay phải bạn sẽ đến được ngôi làng, ra đó để tìm niềm vui đi!"});
-            a(4, 4, 46, 12, 200, 40, 54, new String[]{"Thằng nhà quê kia, mày mau kiếm tiền đóng thuế thân cho tao.", "Tao cho mày 2 ngày, nếu không đưa tao 1000$ thì mày ăn chém đó."});
-            a(5, 5, 38, 17, 200, 34, 49, new String[]{"Xin chào, bạn là học sinh mới phải không?", "Nhìn thầy hiệu trưởng kìa, thầy vốn là một ninja sát thủ đấy.", "Thầy đã bỏ nghề sát thủ lâu rồi, nhưng tài năng vẫn còn đó", "Chúng ta có tập luyện cả đời cũng không bằng thầy đâu."});
-            a(6, 6, 58, 12, 200, 46, 60, new String[]{"Đừng hỏi ta là ai...", "Ta chỉ là một ninja sát thủ thôi, ngươi biết thế là được rồi.", "Biến đi cho ta luyện tập."});
+            placeClassmate(3, 3, 48, 17, 200, 44, 63, DialogueText.schoolClassmate3);
+            placeClassmate(4, 4, 46, 12, 200, 40, 54, DialogueText.schoolClassmate4);
+            placeClassmate(5, 5, 38, 17, 200, 34, 49, DialogueText.schoolClassmate5);
+            placeClassmate(6, 6, 58, 12, 200, 46, 60, DialogueText.schoolClassmate6);
             y(7);
         }
 
         if (var0 == 1) {
             du = 3;
             J();
-            a(0, 5, 35, 9, 40, 33, 36, new String[]{"Bạn có thể nhảy lên cây cầu này nếu đã học xong khinh công từ cô Ayumi xinh đẹp."});
-            if (eQ) {
-                a(1, 6, 25, 10, 40, 22, 28, new String[]{"Ta đây là một ninja sát thủ!", 
-                    "Ha ha ha!"});
+            placeClassmate(0, 5, 35, 9, 40, 33, 36, DialogueText.trainingClassmate0);
+            if (Skills.transform) {
+                placeClassmate(1, 6, 25, 10, 40, 22, 28, DialogueText.trainingClassmate1Assassin);
             } else {
-                a(1, 2, 25, 10, 40, 22, 28, new String[]{"Mày đã học khinh công rồi hả?", 
-                    "À, mày có thấy con chó của tao chạy đâu đâu không?"});
+                placeClassmate(1, 2, 25, 10, 40, 22, 28, DialogueText.trainingClassmate1);
             }
 
-            a(2, 1, 6, 9, 40, 2, 10, new String[]{"Bên kia là một thác nước rất lớn đấy.", 
-                "Nó không thuộc phạm vi trường chúng ta nữa nên có rất nhiều quái vật hung dữ.", 
-                "Nghe nói có một con quái vật rất to đấy, tốt hơn ngươi đừng qua làm gì!"});
+            placeClassmate(2, 1, 6, 9, 40, 2, 10, DialogueText.trainingClassmate2);
             y(7);
         }
 
         if (var0 == 2) {
             du = 7;
             J();
-            a(0, 3, 16, 12, 60, 14, 21, new String[]{"Cậu nhìn thấy chiếc xe máy kia không?", 
-                "Phải có bằng lái từ thầy chủ nhiệm bạn mới có thể chạy được."});
-            a(1, 4, 8, 12, 50, 2, 15, new String[]{"Thằng nhà quê kia, mày đi đâu đấy?"});
-            if (eQ) {
-                a(2, 6, 29, 13, 200, 27, 40, new String[]{"Ninja sát thủ là ta - Thiên hạ vô địch!"});
+            placeClassmate(0, 3, 16, 12, 60, 14, 21, DialogueText.villageClassmate0);
+            placeClassmate(1, 4, 8, 12, 50, 2, 15, DialogueText.villageClassmate1);
+            if (Skills.transform) {
+                placeClassmate(2, 6, 29, 13, 200, 27, 40, DialogueText.villageClassmate2Assassin);
             } else {
-                a(2, 2, 29, 13, 200, 27, 40, new String[]{"Mày có thấy con chó của tao ở đâu không?"});
+                placeClassmate(2, 2, 29, 13, 200, 27, 40, DialogueText.villageClassmate2);
             }
 
-            a(3, 5, 46, 13, 200, 41, 49, new String[]{"Nếu bạn muốn lên kia thì phải học khinh công từ cô Ayumi đã."});
-            a(4, 1, 46, 11, 200, 43, 53, new String[]{"Cậu có thấy ở đây ai cũng tài giỏi không?", 
-                "Hãy cố gắng tập luyện hơn nữa nhé"});
-            a(5, 0, 54, 11, 200, 50, 58, new String[]{"Ra ngoài rừng hoa đào có rất nhiều điều thú vị đấy.", 
-                "Bạn nên ra thử một lần để biết."});
-            a(6, 6, 34, 13, 200, 28, 48, new String[]{"Đừng hỏi ta là ai...", 
-                "Ta chỉ là một ninja sát thủ thôi, ngươi biết thế là được rồi.", "Biến đi cho ta luyện tập."});
+            placeClassmate(3, 5, 46, 13, 200, 41, 49, DialogueText.villageClassmate3);
+            placeClassmate(4, 1, 46, 11, 200, 43, 53, DialogueText.villageClassmate4);
+            placeClassmate(5, 0, 54, 11, 200, 50, 58, DialogueText.villageClassmate5);
+            placeClassmate(6, 6, 34, 13, 200, 28, 48, DialogueText.villageClassmate6);
             y(7);
         }
 
@@ -3336,28 +2748,28 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (var0 == 99 || var0 == 101) {
             du = 7;
             J();
-            var1 = new String[]{"Này, cậu đi tìm con heo đó trước đi. Tớ đi theo bọc lót cho!"};
-            a(0, 0, 8, 13, 0, 0, 1000, var1);
-            a(1, 1, 5, 13, 0, 0, 1000, var1);
-            a(2, 6, 6, 13, 0, 0, 1000, var1);
-            a(3, 2, 7, 13, 0, 0, 1000, var1);
-            a(4, 4, 6, 13, 0, 0, 1000, var1);
-            a(5, 5, 5, 13, 0, 0, 1000, var1);
-            a(6, 3, 8, 13, 0, 0, 1000, var1);
+            var1 = DialogueText.tutorialClassmates;
+            placeClassmate(0, 0, 8, 13, 0, 0, 1000, var1);
+            placeClassmate(1, 1, 5, 13, 0, 0, 1000, var1);
+            placeClassmate(2, 6, 6, 13, 0, 0, 1000, var1);
+            placeClassmate(3, 2, 7, 13, 0, 0, 1000, var1);
+            placeClassmate(4, 4, 6, 13, 0, 0, 1000, var1);
+            placeClassmate(5, 5, 5, 13, 0, 0, 1000, var1);
+            placeClassmate(6, 3, 8, 13, 0, 0, 1000, var1);
             y(7);
         }
 
         if (var0 == 94) {
             du = 7;
             J();
-            var1 = new String[]{"Chúc mừng, sắp được ra trường rồi nhé!"};
-            a(0, 0, 5, 12, 0, 0, 1000, var1);
-            a(1, 1, 5, 12, 0, 0, 1000, var1);
-            a(2, 6, 6, 12, 0, 0, 1000, var1);
-            a(3, 7, 3, 12, 0, 0, 1000, var1);
-            a(4, 4, 6, 12, 0, 0, 1000, var1);
-            a(5, 5, 5, 12, 0, 0, 1000, var1);
-            a(6, 3, 8, 12, 0, 0, 1000, var1);
+            var1 = DialogueText.graduationClassmates;
+            placeClassmate(0, 0, 5, 12, 0, 0, 1000, var1);
+            placeClassmate(1, 1, 5, 12, 0, 0, 1000, var1);
+            placeClassmate(2, 6, 6, 12, 0, 0, 1000, var1);
+            placeClassmate(3, 7, 3, 12, 0, 0, 1000, var1);
+            placeClassmate(4, 4, 6, 12, 0, 0, 1000, var1);
+            placeClassmate(5, 5, 5, 12, 0, 0, 1000, var1);
+            placeClassmate(6, 3, 8, 12, 0, 0, 1000, var1);
             y(8);
         }
 
@@ -3379,17 +2791,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
         dL = new int[du];
         dM = new int[du];
         dN = new int[du];
-        dv = new String[du][];
+        classmateLines = new String[du][];
     }
 
     private static void y(int var0) {
-        if (es == null) {
-            es = new Image[var0][2];
+        if (classmateHeads == null) {
+            classmateHeads = new Image[var0][2];
 
             for(int var1 = 0; var1 < var0; ++var1) {
                 for(int var2 = 0; var2 < 2; ++var2) {
                     try {
-                        es[var1][var2] = Image.createImage("/cp/f" + var1 + "h" + var2 + ".png");
+                        classmateHeads[var1][var2] = Character.loadClassmateHead(var1, var2);
                     } catch (Exception var3) {
                     }
                 }
@@ -3398,7 +2810,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void a(int var0, int var1, int var2, int var3, int var4, int var5, int var6, String[] var7) {
+    private static void placeClassmate(int var0, int var1, int var2, int var3, int var4, int var5, int var6, String[] var7) {
         dz[var0] = var2 * 24 + (var0 << 2);
         dA[var0] = var3 * 24;
         dB[var0] = 0;
@@ -3414,35 +2826,30 @@ public final class b extends Canvas implements Runnable, CommandListener {
         dM[var0] = var5 * 24 + 12;
         dN[var0] = var6 * 24 + 12;
         dK[var0] = var4;
-        dv[var0] = var7;
+        classmateLines[var0] = var7;
     }
 
     private static void K() {
-        e = 2;
-        aj();
-        Midlet.d = 3;
-        w = 99;
+        state = GameState.LOADING;
+        resetLoadingProgress();
+        Midlet.nextGameState = GameState.MAIN_MENU;
+        mapId = 99;
 
         try {
-            eA = Image.createImage("/u/tt.png");
+            titleImage = Ui.loadTitle();
         } catch (Exception var1) {
         }
 
-        bc = aU - 30;
-        bd = aU;
+        bc = screenHeight - 30;
+        bd = screenHeight;
         aY = 30;
-        aZ = aU - 50;
+        aZ = screenHeight - 50;
         ba = bb = aY + aZ >> 1;
-        if (Midlet.b()) {
+        if (Save.isSaved()) {
             aX = 1;
         }
 
-        String var0;
-        if ((var0 = System.getProperty("microedition.platform")).endsWith("JAVASDK") || var0.endsWith("wtk")) {
-            Midlet.a = true;
-        }
-
-        (new Thread(Midlet.c)).start();
+        (new Thread(Midlet.instance)).start();
     }
 
     public static void h(int var0) {
@@ -3533,24 +2940,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void L() {
         boolean var0 = false;
-        if (eu == null) {
+        if (ninjaLegs == null) {
             try {
-                eu = new Image[4];
-
-                int var3;
-                for(var3 = 0; var3 < 4; ++var3) {
-                    eu[var3] = Image.createImage("/mob/x" + var3 + ".png");
-                }
-
-                et = new Image[7][2];
-
-                for(var3 = 0; var3 < 7; ++var3) {
-                    if (dt[var3]) {
-                        for(int var1 = 0; var1 < 2; ++var1) {
-                            et[var3][var1] = Image.createImage("/mob/y" + var3 + var1 + ".png");
-                        }
-                    }
-                }
+                ninjaLegs = Mob.loadNinjaLegs();
+                ninjaBodies = Mob.loadNinjaBodies(dt);
             } catch (Exception var2) {
             }
         }
@@ -3607,21 +3000,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
         int var1;
         if (var0 == 4) {
             gN = true;
-            if (ev == null) {
-                ev = new Image[5];
+            boss0Sprites = Mob.ensureBoss0(boss0Sprites);
 
-                for(var1 = 0; var1 < 5; ++var1) {
-                    try {
-                        ev[var1] = Image.createImage("/mob/b0" + var1 + ".png");
-                    } catch (Exception var3) {
-                    }
-                }
-            }
-
-            gV = ev[0].getWidth();
-            gW = ev[0].getHeight();
-            gP = 55 * je + 12;
-            gQ = 13 * je;
+            gV = boss0Sprites[0].getWidth();
+            gW = boss0Sprites[0].getHeight();
+            gP = 55 * GameMap.TILE_SIZE + 12;
+            gQ = 13 * GameMap.TILE_SIZE;
             gS = 1;
             gT = -1;
             gU = 0;
@@ -3629,21 +3013,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         if (var0 == 5) {
             gN = true;
-            if (ev == null) {
-                ev = new Image[5];
+            boss0Sprites = Mob.ensureBoss0(boss0Sprites);
 
-                for(var1 = 0; var1 < 5; ++var1) {
-                    try {
-                        ev[var1] = Image.createImage("/mob/b0" + var1 + ".png");
-                    } catch (Exception var2) {
-                    }
-                }
-            }
-
-            gV = ev[0].getWidth();
-            gW = ev[0].getHeight();
-            gP = 8 * je + 12;
-            gQ = 56 * je;
+            gV = boss0Sprites[0].getWidth();
+            gW = boss0Sprites[0].getHeight();
+            gP = 8 * GameMap.TILE_SIZE + 12;
+            gQ = 56 * GameMap.TILE_SIZE;
             gS = 1;
             gT = -1;
             gU = 0;
@@ -3653,12 +3028,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void p() {
         cM = 5;
-        if (ew == null) {
-            try {
-                (ew = new Image[2])[0] = Image.createImage("/i/pt0.png");
-                ew[1] = Image.createImage("/i/pt1.png");
-            } catch (Exception var0) {
-            }
+        try {
+            itemPotions = Item.ensurePotions(itemPotions);
+        } catch (Exception var0) {
         }
 
         cO = new int[cM];
@@ -3673,16 +3045,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void j(int var0) {
         hJ = false;
-        if (var0 == 97 && !eF) {
+        if (var0 == 97 && !Story.riverMonsterDefeated) {
             hJ = true;
-            ex = new Image[4];
-
-            for(var0 = 0; var0 < 4; ++var0) {
-                try {
-                    ex[var0] = Image.createImage("/mob/b1" + var0 + ".png");
-                } catch (IOException var1) {
-                }
-            }
+            boss1Sprites = Mob.loadBoss1();
 
             hP = 168;
             hQ = 226;
@@ -3697,12 +3062,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     public static final void q() {
-        if (ey == null) {
-            ey = new Image[3];
+        if (bloodSprites == null) {
+            bloodSprites = new Image[3];
 
             for(int var0 = 0; var0 < 3; ++var0) {
                 try {
-                    ey[var0] = Image.createImage("/e/sp" + var0 + ".png");
+                    bloodSprites[var0] = Effect.loadBlood(var0);
                 } catch (IOException var1) {
                 }
             }
@@ -3718,18 +3083,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void k(int var0) {
         hi = false;
-        if (var0 == 95 && !eH) {
+        if (var0 == 95 && !Story.sakuraFound) {
             hi = true;
-            ez = new Image[6];
+            boss2Sprites = new Image[6];
 
             try {
-                ez[0] = Image.createImage("/mob/b20.png");
-                ez[1] = Image.createImage("/mob/b21.png");
-                ez[2] = Image.createImage("/mob/b22.png");
-                ez[3] = ez[1];
-                ez[4] = Image.createImage("/mob/b23.png");
-                ez[5] = Image.createImage("/cp/f2h0.png");
-            } catch (IOException var1) {
+                boss2Sprites[0] = Mob.loadBossPart(2, 0);
+                boss2Sprites[1] = Mob.loadBossPart(2, 1);
+                boss2Sprites[2] = Mob.loadBossPart(2, 2);
+                boss2Sprites[3] = boss2Sprites[1];
+                boss2Sprites[4] = Mob.loadBossPart(2, 3);
+                boss2Sprites[5] = Character.loadClassmateHead(2, 0);
+            } catch (Exception var1) {
             }
 
             hp = 192;
@@ -3758,11 +3123,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     public static void l(int var0) {
         hc = false;
-        if (var0 == 96 && !eG) {
+        if (var0 == 96 && !Story.tonikuDefeated) {
             hc = true;
             du = 1;
             J();
-            a(0, 2, 5, 11, 200, 4, 22, (String[])null);
+            placeClassmate(0, 2, 5, 11, 200, 4, 22, (String[])null);
             y(3);
             hh = 15000;
             hg = 15000;
@@ -3787,21 +3152,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
             fm = 1;
         }
 
-        if (var0 == 0 && P == 15 && fA) {
+        if (var0 == 0 && QuestState.current == Quest.FIND_HIDE_SCROLL && QuestState.itemFound) {
             gm = -1;
             gk = false;
         }
 
-        if (var0 == 0 && P == 16 && fb) {
-            fa = true;
+        if (var0 == 0 && QuestState.current == Quest.RESCUE_SAKURA && Story.sakuraEscorting) {
+            Story.gameCompleted = true;
             gm = 0;
             gk = true;
             fu = true;
-            P = -1;
+            QuestState.current = Quest.NONE;
             fe = 984;
             ff = 408;
         } else {
-            if (var0 == 95 && !eH) {
+            if (var0 == 95 && !Story.sakuraFound) {
                 gk = false;
                 gn = 599;
                 go = 264;
@@ -3812,57 +3177,48 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    public static void n(int var0) {
-        ie = false;
-        fS = false;
-        fH = 0;
-        if (var0 == 15 && P == 15) {
-            e(216, 432);
+    public static void onMapEntered(int var0) {
+        mapEventActive = false;
+        cutscenePlaying = false;
+        questItemState = 0;
+        if (var0 == 15 && QuestState.current == Quest.FIND_HIDE_SCROLL) {
+            placeQuestItem(216, 432);
         }
 
-        if (var0 == 8 && P == 6) {
-            e(72, 240);
+        if (var0 == 8 && QuestState.current == Quest.CROSS_RIVER) {
+            placeQuestItem(72, 240);
         }
 
         int var1;
-        if (var0 == 4 && eE) {
+        if (var0 == 4 && Story.prologueActive) {
             U = true;
-            eI = true;
-            eQ = true;
-            eP = true;
-            I = 1000;
-            H = 1000;
-            K = 2000;
-            J = 2000;
-            F = 25;
+            Skills.lightness = true;
+            Skills.transform = true;
+            Skills.runOnWater = true;
+            PlayerStats.setMaxHpMp(1000, 2000);
+            PlayerStats.attack = 25;
             B = 4;
             ha = 500;
             gZ = 500;
-            D(0);
+            startMapEvent(0);
         } else if (var0 == 99) {
-            eE = true;
+            Story.prologueActive = true;
             dw = true;
             fe = 108;
             ff = 312;
             fm = -1;
-            D(1);
+            startMapEvent(1);
         } else if (var0 == 94) {
-            D(10);
-        } else if (var0 == 0 && eE) {
+            startMapEvent(10);
+        } else if (var0 == 0 && Story.prologueActive) {
             U = false;
-            eI = false;
-            eP = false;
-            eQ = false;
+            Skills.lightness = false;
+            Skills.runOnWater = false;
+            Skills.transform = false;
             fx = false;
-            H = 200;
-            I = 200;
-            J = 200;
-            K = 200;
+            PlayerStats.resetForNewGame();
             ha = 1000;
             gZ = 1000;
-            O = 0;
-            N = 1;
-            F = 20;
             fe = 864;
             ff = 336;
 
@@ -3874,48 +3230,48 @@ public final class b extends Canvas implements Runnable, CommandListener {
             fm = -1;
             dw = false;
             dx = false;
-            D(2);
-            eE = false;
-        } else if (var0 == 3 && P == 3 && !gk) {
-            D(3);
-        } else if (var0 == 0 && P == 3 && gk) {
-            D(4);
-        } else if (var0 == 97 && !eF) {
-            D(5);
-        } else if (var0 == 96 && !eG) {
-            D(6);
-        } else if (var0 == 95 && !eH) {
-            D(7);
+            startMapEvent(2);
+            Story.prologueActive = false;
+        } else if (var0 == 3 && QuestState.current == Quest.ESCORT_AYUMI_SISTER && !gk) {
+            startMapEvent(3);
+        } else if (var0 == 0 && QuestState.current == Quest.ESCORT_AYUMI_SISTER && gk) {
+            startMapEvent(4);
+        } else if (var0 == 97 && !Story.riverMonsterDefeated) {
+            startMapEvent(5);
+        } else if (var0 == 96 && !Story.tonikuDefeated) {
+            startMapEvent(6);
+        } else if (var0 == 95 && !Story.sakuraFound) {
+            startMapEvent(7);
         } else if (var0 == 101) {
-            D(8);
-            fP = fJ = 336 - s;
-            fI = 24;
-            fO = 24;
-        } else if (var0 == 9 && P == 10) {
-            D(9);
+            startMapEvent(8);
+            cameraY = cameraTargetY = 336 - viewHeight;
+            cameraTargetX = 24;
+            cameraX = 24;
+        } else if (var0 == 9 && QuestState.current == Quest.GIRL_OUTING) {
+            startMapEvent(9);
         }
 
-        if (var0 == 97 && eF) {
+        if (var0 == 97 && Story.riverMonsterDefeated) {
             for(var1 = 0; var1 <= 6; ++var1) {
-                i(24, var1, 0);
+                GameMap.clearFlags(24, var1);
             }
         }
 
-        if (var0 == 96 && eG) {
+        if (var0 == 96 && Story.tonikuDefeated) {
             for(var1 = 0; var1 <= 11; ++var1) {
-                i(24, var1, 0);
+                GameMap.clearFlags(24, var1);
             }
         }
 
     }
 
     public static final void r() {
-        if (!a) {
-            eD = new Image[3];
+        if (!lowGraphics) {
+            waterSplashSprites = new Image[3];
 
             for(int var0 = 0; var0 < 3; ++var0) {
                 try {
-                    eD[var0] = Image.createImage("/e/w" + var0 + ".png");
+                    waterSplashSprites[var0] = Effect.loadWaterSplash(var0);
                 } catch (IOException var1) {
                 }
             }
@@ -3939,7 +3295,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
         int var1;
         boolean var6;
         label29: {
-            var1 = F;
+            var1 = PlayerStats.attack;
             int var10000 = dL[var0];
             int var4 = -dJ[var0];
             int var2 = var10000;
@@ -3990,62 +3346,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void M() {
-        if (iI < iE[iC].length) {
-            iI = iE[iC].length;
-            iH = 0;
-        } else {
-            ++iC;
-            iI = 0;
-            iH = 0;
-        }
-    }
-
-    private static void a(Graphics var0) {
-        int var1;
-        if (c && !a) {
-            var0.setColor(j);
-            var0.fillRect(0, 0, r, q);
-
-            for(var1 = -((fO >> 1) % 24); var1 < r; var1 += 24) {
-                var0.drawImage(t[0], var1, k, 0);
-            }
-
-            for(var1 = -((fO >> 2) % 24); var1 < r; var1 += 24) {
-                var0.drawImage(t[1], var1, l, 0);
-            }
-
-            for(var1 = -((fO >> 4) % 64); var1 < r; var1 += 64) {
-                var0.drawImage(t[3], var1, n, 0);
-            }
-
-            var0.drawImage(v, h, i, 3);
-
-            for(var1 = 0; var1 < 2; ++var1) {
-                var0.drawImage(u, f[var1], g[var1], 3);
-            }
-
-            for(var1 = -((fO >> 3) % 192); var1 < r; var1 += 192) {
-                var0.drawImage(t[2], var1, m, 0);
-            }
-
-        } else {
-            var0.setColor(j);
-            var0.fillRect(0, 0, r, s);
-            if (!a) {
-                var0.drawImage(v, h, i, 3);
-
-                for(var1 = 0; var1 < 2; ++var1) {
-                    var0.drawImage(u, f[var1], g[var1], 3);
-                }
-
-            }
-        }
+    private static void drawSky(Graphics g) {
+        Sky.draw(g, cameraX, viewWidth, viewHeight, lowGraphics);
     }
 
     private static void b(Graphics var0) {
         if (fw) {
-            if (x % 20 > 2) {
+            if (tick % 20 > 2) {
                 C = 25;
             } else {
                 C = 26;
@@ -4053,146 +3360,146 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (fm == 1) {
-            var0.drawImage(eo[ar[C][0][0]], fe + ar[C][0][1], ff - ar[C][0][2], 0);
-            var0.drawImage(eq[ar[C][1][0]], fe + ar[C][1][1], ff - ar[C][1][2], 0);
-            var0.drawImage(ed[ar[C][2][0]], fe + ar[C][2][1], ff - ar[C][2][2], 0);
+            var0.drawImage(heroHeads[ar[C][0][0]], fe + ar[C][0][1], ff - ar[C][0][2], 0);
+            var0.drawImage(heroLegs[ar[C][1][0]], fe + ar[C][1][1], ff - ar[C][1][2], 0);
+            var0.drawImage(heroBodies[ar[C][2][0]], fe + ar[C][2][1], ff - ar[C][2][2], 0);
             if (fc != -1) {
-                var0.drawImage(eB[fc], fe - as[fc], ff - at[fc], 0);
+                var0.drawImage(slashEffects[fc], fe - as[fc], ff - at[fc], 0);
                 return;
             }
         } else {
-            var0.drawRegion(eo[ar[C][0][0]], 0, 0, eo[ar[C][0][0]].getWidth(), eo[ar[C][0][0]].getHeight(), 2, fe - ar[C][0][1], ff - ar[C][0][2], 24);
-            var0.drawRegion(eq[ar[C][1][0]], 0, 0, eq[ar[C][1][0]].getWidth(), eq[ar[C][1][0]].getHeight(), 2, fe - ar[C][1][1], ff - ar[C][1][2], 24);
-            var0.drawRegion(ed[ar[C][2][0]], 0, 0, ed[ar[C][2][0]].getWidth(), ed[ar[C][2][0]].getHeight(), 2, fe - ar[C][2][1], ff - ar[C][2][2], 24);
+            var0.drawRegion(heroHeads[ar[C][0][0]], 0, 0, heroHeads[ar[C][0][0]].getWidth(), heroHeads[ar[C][0][0]].getHeight(), 2, fe - ar[C][0][1], ff - ar[C][0][2], 24);
+            var0.drawRegion(heroLegs[ar[C][1][0]], 0, 0, heroLegs[ar[C][1][0]].getWidth(), heroLegs[ar[C][1][0]].getHeight(), 2, fe - ar[C][1][1], ff - ar[C][1][2], 24);
+            var0.drawRegion(heroBodies[ar[C][2][0]], 0, 0, heroBodies[ar[C][2][0]].getWidth(), heroBodies[ar[C][2][0]].getHeight(), 2, fe - ar[C][2][1], ff - ar[C][2][2], 24);
             if (fc != -1) {
-                var0.drawRegion(eB[fc], 0, 0, eB[fc].getWidth(), eB[fc].getHeight(), 2, fe + as[fc], ff - at[fc], 24);
+                var0.drawRegion(slashEffects[fc], 0, 0, slashEffects[fc].getWidth(), slashEffects[fc].getHeight(), 2, fe + as[fc], ff - at[fc], 24);
             }
         }
 
     }
 
-    private static void c(Graphics var0) {
-        if (!be) {
+    private static void drawHudOverlay(Graphics var0) {
+        if (!hudPanelVisible) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-            var0.drawImage(eo[0], 0, 2, 0);
+            var0.drawImage(heroHeads[0], 0, 2, 0);
             var0.setColor(0);
-            var0.drawRect(23, 2, bo + 1, 4);
-            var0.drawRect(23, 8, bo + 1, 4);
-            var0.drawRect(23, 14, bo + 1, 3);
+            var0.drawRect(23, 2, hudBarMaxWidth + 1, 4);
+            var0.drawRect(23, 8, hudBarMaxWidth + 1, 4);
+            var0.drawRect(23, 14, hudBarMaxWidth + 1, 3);
             var0.setColor(16711680);
-            int var1 = H * bo / I;
+            int var1 = PlayerStats.hpBarWidth(hudBarMaxWidth);
             var0.fillRect(24, 3, var1, 3);
             var0.setColor(5570560);
-            var0.fillRect(var1 + 24, 3, bo - var1, 3);
+            var0.fillRect(var1 + 24, 3, hudBarMaxWidth - var1, 3);
             var0.setColor(255);
-            var1 = J * bo / K;
+            var1 = PlayerStats.mpBarWidth(hudBarMaxWidth);
             var0.fillRect(24, 9, var1, 3);
             var0.setColor(5570560);
-            var0.fillRect(var1 + 24, 9, bo - var1, 3);
+            var0.fillRect(var1 + 24, 9, hudBarMaxWidth - var1, 3);
             var0.setColor(7274435);
-            var1 = O * bo / aj[N - 1];
+            var1 = Leveling.expBarWidth(hudBarMaxWidth);
             var0.fillRect(24, 15, var1, 2);
             var0.setColor(19506);
-            var0.fillRect(var1 + 24, 15, bo - var1, 2);
-            Midlet.a(var0, "lv:" + N, 2, bq, 7, 0);
-            Midlet.a(var0, dd + "$", 1, br, 7, 0);
+            var0.fillRect(var1 + 24, 15, hudBarMaxWidth - var1, 2);
+            FontGraph.drawSmall(var0, "lv:" + PlayerStats.level, 2, hudLevelX, 7, 0);
+            FontGraph.drawSmall(var0, money + "$", 1, hudMoneyX, 7, 0);
         }
     }
 
-    private static void d(Graphics var0) {
-        d = false;
+    private static void drawHudPanel(Graphics var0) {
+        hudDirty = false;
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, bg - 1, bh + 2, 100);
+        var0.setClip(-1, hudY - 1, hudWidth + 2, 100);
         var0.setColor(0);
-        if (!be) {
-            var0.fillRect(0, bg, bh, 15);
-            Midlet.a(var0, o, 3, bg + 3, 0);
-            Midlet.a(var0, p, bh - 3, bg + 3, 1);
+        if (!hudPanelVisible) {
+            var0.fillRect(0, hudY, hudWidth, 15);
+            FontGraph.drawBold(var0, leftSoftKeyLabel, 3, hudY + 3, 0);
+            FontGraph.drawBold(var0, rightSoftKeyLabel, hudWidth - 3, hudY + 3, 1);
         } else {
-            var0.fillRect(0, bg + 33, bh, 15);
-            Midlet.a(var0, o, 3, bg + 36, 0);
-            Midlet.a(var0, p, bh - 3, bg + 36, 1);
+            var0.fillRect(0, hudY + 33, hudWidth, 15);
+            FontGraph.drawBold(var0, leftSoftKeyLabel, 3, hudY + 36, 0);
+            FontGraph.drawBold(var0, rightSoftKeyLabel, hudWidth - 3, hudY + 36, 1);
             var0.setColor(4352);
-            var0.fillRect(bj, bg, bl, 1);
-            var0.fillRect(bj, bg + 35, bl, 1);
-            var0.fillRect(bj, bg + 33, bl, 1);
-            var0.fillRect(bj, bg + 30, bl, 1);
-            var0.fillRect(bj, bg + 28, bl, 1);
-            var0.fillRect(bj, bg + 26, bl, 1);
-            var0.fillRect(bj, bg + 12, bl, 1);
-            var0.fillRect(bj, bg + 24, bl, 1);
-            var0.fillRect(bj, bg + 18, bl, 1);
-            var0.fillRect(bj, bg + 16, bl, 1);
-            var0.fillRect(bj, bg + 2, bl, 1);
-            var0.fillRect(bj, bg + 4, bl, 1);
-            var0.fillRect(bj, bg + 6, bl, 1);
-            var0.fillRect(bj, bg + 14, bl, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 35, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 33, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 30, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 28, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 26, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 12, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 24, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 18, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 16, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 2, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 4, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 6, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 14, hudStripWidth, 1);
             var0.setColor(15649843);
-            var0.fillRect(bj, bg + 1, bl, 1);
-            var0.fillRect(bj, bg + 5, bl, 1);
-            var0.fillRect(bj, bg + 17, bl, 1);
-            var0.fillRect(bj, bg + 34, bl, 1);
-            var0.fillRect(bj, bg + 29, bl, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 1, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 5, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 17, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 34, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 29, hudStripWidth, 1);
             var0.setColor(16767871);
-            var0.fillRect(bj, bg + 3, bl, 1);
-            var0.fillRect(bj, bg + 15, bl, 1);
-            var0.fillRect(bj, bg + 27, bl, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 3, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 15, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 27, hudStripWidth, 1);
             var0.setColor(3355443);
-            var0.fillRect(bj, bg + 7, bl, 5);
-            var0.fillRect(bj, bg + 19, bl, 5);
-            var0.fillRect(bj, bg + 31, bl, 2);
+            var0.fillRect(hudLeftFrameWidth, hudY + 7, hudStripWidth, 5);
+            var0.fillRect(hudLeftFrameWidth, hudY + 19, hudStripWidth, 5);
+            var0.fillRect(hudLeftFrameWidth, hudY + 31, hudStripWidth, 2);
             var0.setColor(12281361);
-            var0.fillRect(bj, bg + 25, bl, 1);
-            var0.fillRect(bj, bg + 13, bl, 1);
-            var0.drawImage(ef[0], 0, bg, 0);
-            var0.drawImage(ef[1], 0 + bh, bg, 24);
-            int var1 = H * bo / I;
+            var0.fillRect(hudLeftFrameWidth, hudY + 25, hudStripWidth, 1);
+            var0.fillRect(hudLeftFrameWidth, hudY + 13, hudStripWidth, 1);
+            var0.drawImage(hudFrames[0], 0, hudY, 0);
+            var0.drawImage(hudFrames[1], 0 + hudWidth, hudY, 24);
+            int var1 = PlayerStats.hpBarWidth(hudBarMaxWidth);
             var0.setColor(7798784);
-            var0.fillRect(bm, bn, var1, 2);
+            var0.fillRect(hudBarX, hudBarY, var1, 2);
             var0.setColor(13369344);
-            var0.fillRect(bm, bn + 1, var1, 4);
-            var1 = J * bo / K;
+            var0.fillRect(hudBarX, hudBarY + 1, var1, 4);
+            var1 = PlayerStats.mpBarWidth(hudBarMaxWidth);
             var0.setColor(119);
-            var0.fillRect(bm, bn + 12, var1, 2);
+            var0.fillRect(hudBarX, hudBarY + 12, var1, 2);
             var0.setColor(204);
-            var0.fillRect(bm, bn + 14, var1, bs - 2);
-            Midlet.a(var0, "" + dd, 1, bh - 18, bg + 6, 2);
-            var1 = O * bp / aj[N - 1];
+            var0.fillRect(hudBarX, hudBarY + 14, var1, hudMpBarHeight - 2);
+            FontGraph.drawSmall(var0, "" + money, 1, hudWidth - 18, hudY + 6, 2);
+            var1 = Leveling.expBarWidth(hudExpBarMaxWidth);
             var0.setColor(94373);
-            var0.fillRect(31, bg + 31, var1, 1);
+            var0.fillRect(31, hudY + 31, var1, 1);
             var0.setColor(65535);
-            var0.fillRect(31, bg + 32, var1, 1);
-            Midlet.a(var0, "" + N, 2, 26, bg + 11, 2);
-            var0.drawImage(eC[fd], 43, bg + 16, 3);
-            Midlet.a(var0, "" + (W[0] + W[1] + W[2]), 2, bh - 29, bg + 19, 2);
-            Midlet.a(var0, "" + (W[3] + W[4] + W[5]), 2, bh - 9, bg + 19, 2);
+            var0.fillRect(31, hudY + 32, var1, 1);
+            FontGraph.drawSmall(var0, "" + PlayerStats.level, 2, 26, hudY + 11, 2);
+            var0.drawImage(weaponIcons[fd], 43, hudY + 16, 3);
+            FontGraph.drawSmall(var0, "" + (potionCounts[0] + potionCounts[1] + potionCounts[2]), 2, hudWidth - 29, hudY + 19, 2);
+            FontGraph.drawSmall(var0, "" + (potionCounts[3] + potionCounts[4] + potionCounts[5]), 2, hudWidth - 9, hudY + 19, 2);
         }
     }
 
-    private static void e(Graphics var0) {
+    private static void drawLetterbox(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, -1, aT + 2, aU + 2);
+        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
         var0.setColor(0);
-        var0.fillRect(0, 0, r, bu);
-        if (be) {
-            var0.fillRect(0, aU - bu + 1, r, bu);
+        var0.fillRect(0, 0, viewWidth, letterboxHeight);
+        if (hudPanelVisible) {
+            var0.fillRect(0, screenHeight - letterboxHeight + 1, viewWidth, letterboxHeight);
         } else {
-            var0.fillRect(0, aU - 13, aT, 13);
+            var0.fillRect(0, screenHeight - 13, screenWidth, 13);
         }
 
-        if (fV) {
-            for(int var1 = 0; var1 < fW.length; ++var1) {
-                Midlet.a(var0, fW[var1], bC, fX + (var1 << 4), 2);
+        if (captionVisible) {
+            for(int var1 = 0; var1 < captionLines.length; ++var1) {
+                FontGraph.drawBold(var0, captionLines[var1], viewCenterX, captionY + (var1 << 4), 2);
             }
         }
 
     }
 
-    private static void f(Graphics var0) {
+    private static void drawDialogue(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, -1, aT + 2, aU + 2);
-        iA = iE[iC].length;
-        int var1 = iG - fP - (iA << 4);
+        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
+        dialogueBoxLines = Dialogue.pages[Dialogue.page].length;
+        int var1 = Dialogue.speakerY - cameraY - (dialogueBoxLines << 4);
         boolean var2 = true;
         if (var1 < 10) {
             var2 = false;
@@ -4200,55 +3507,55 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         var0.setColor(16777215);
-        if (a) {
-            var0.fillRect(iK, var1 - 5, iJ, (iA << 4) + 7);
+        if (lowGraphics) {
+            var0.fillRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7);
         } else {
-            var0.fillRoundRect(iK, var1 - 5, iJ, (iA << 4) + 7, 10, 10);
+            var0.fillRoundRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
         var0.setColor(17408);
-        if (a) {
-            var0.drawRect(iK - 1, var1 - 5, iJ + 1, (iA << 4) + 7);
+        if (lowGraphics) {
+            var0.drawRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7);
         } else {
-            var0.drawRoundRect(iK - 1, var1 - 5, iJ + 1, (iA << 4) + 7, 10, 10);
+            var0.drawRoundRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
-        for(int var3 = 0; var3 < iI; ++var3) {
-            Midlet.b(var0, iE[iC][var3], iK + (iJ >> 1), var1 + (var3 << 4), 2);
+        for(int var3 = 0; var3 < Dialogue.shownLines; ++var3) {
+            FontGraph.drawRegular(var0, Dialogue.pages[Dialogue.page][var3], Dialogue.boxX + (Dialogue.boxWidth >> 1), var1 + (var3 << 4), 2);
         }
 
-        if (iI < iE[iC].length) {
-            Midlet.b(var0, iE[iC][iI].substring(0, iH), iK + (iJ >> 1), var1 + (iI << 4), 2);
+        if (Dialogue.shownLines < Dialogue.pages[Dialogue.page].length) {
+            FontGraph.drawRegular(var0, Dialogue.pages[Dialogue.page][Dialogue.shownLines].substring(0, Dialogue.shownChars), Dialogue.boxX + (Dialogue.boxWidth >> 1), var1 + (Dialogue.shownLines << 4), 2);
         }
 
         var0.setColor(0);
-        var0.fillRect(0, bg + 33, bh, 15);
-        if (var2 && iF > fO + 10 && iF < fO + r - 10) {
-            var0.drawImage(eh, iF - fO, iG - fP + 2, 17);
+        var0.fillRect(0, hudY + 33, hudWidth, 15);
+        if (var2 && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + viewWidth - 10) {
+            var0.drawImage(markerIcon, Dialogue.speakerX - cameraX, Dialogue.speakerY - cameraY + 2, 17);
         }
 
-        if (x % 10 < 8) {
-            Midlet.a(var0, "Tiếp tục", bC, aU - 13, 2);
+        if (tick % 10 < 8) {
+            FontGraph.drawBold(var0, "Tiếp tục", viewCenterX, screenHeight - 13, 2);
         }
 
     }
 
     private static void g(Graphics var0) {
         for(int var1 = 0; var1 < du; ++var1) {
-            if (dz[var1] + fi >= fO && dz[var1] - fi <= fO + r && dA[var1] >= fP && dA[var1] - fh <= fP + s) {
+            if (dz[var1] + fi >= cameraX && dz[var1] - fi <= cameraX + viewWidth && dA[var1] >= cameraY && dA[var1] - fh <= cameraY + viewHeight) {
                 if (dJ[var1] == 1) {
-                    var0.drawImage(es[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
-                    var0.drawImage(eq[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
-                    var0.drawImage(ed[aI[dG[var1]][2][0]], dz[var1] + aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 0);
+                    var0.drawImage(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
+                    var0.drawImage(heroLegs[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
+                    var0.drawImage(heroBodies[aI[dG[var1]][2][0]], dz[var1] + aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 0);
                     if (dI[var1] != -1) {
-                        var0.drawImage(eB[dI[var1]], dz[var1] - as[dI[var1]], dA[var1] - at[dI[var1]], 0);
+                        var0.drawImage(slashEffects[dI[var1]], dz[var1] - as[dI[var1]], dA[var1] - at[dI[var1]], 0);
                     }
                 } else {
-                    var0.drawRegion(es[dH[var1]][aI[dG[var1]][0][0]], 0, 0, es[dH[var1]][aI[dG[var1]][0][0]].getWidth(), es[dH[var1]][aI[dG[var1]][0][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 24);
-                    var0.drawRegion(eq[aI[dG[var1]][1][0]], 0, 0, eq[aI[dG[var1]][1][0]].getWidth(), eq[aI[dG[var1]][1][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 24);
-                    var0.drawRegion(ed[aI[dG[var1]][2][0]], 0, 0, ed[aI[dG[var1]][2][0]].getWidth(), ed[aI[dG[var1]][2][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 24);
+                    var0.drawRegion(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], 0, 0, classmateHeads[dH[var1]][aI[dG[var1]][0][0]].getWidth(), classmateHeads[dH[var1]][aI[dG[var1]][0][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 24);
+                    var0.drawRegion(heroLegs[aI[dG[var1]][1][0]], 0, 0, heroLegs[aI[dG[var1]][1][0]].getWidth(), heroLegs[aI[dG[var1]][1][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 24);
+                    var0.drawRegion(heroBodies[aI[dG[var1]][2][0]], 0, 0, heroBodies[aI[dG[var1]][2][0]].getWidth(), heroBodies[aI[dG[var1]][2][0]].getHeight(), 2, dz[var1] - aI[dG[var1]][2][1], dA[var1] - aI[dG[var1]][2][2], 24);
                     if (dI[var1] != -1) {
-                        var0.drawRegion(eB[dI[var1]], 0, 0, eB[dI[var1]].getWidth(), eB[dI[var1]].getHeight(), 2, dz[var1] + as[dI[var1]], dA[var1] - at[dI[var1]], 24);
+                        var0.drawRegion(slashEffects[dI[var1]], 0, 0, slashEffects[dI[var1]].getWidth(), slashEffects[dI[var1]].getHeight(), 2, dz[var1] + as[dI[var1]], dA[var1] - at[dI[var1]], 24);
                     }
                 }
             }
@@ -4256,24 +3563,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void h(Graphics var0) {
-        var0.setClip(-1, -1, aT + 2, aU + 1);
-        a(var0);
-        var0.translate(-fO, -fP);
-        if (a) {
+    private static void drawTutorial(Graphics var0) {
+        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
+        drawSky(var0);
+        var0.translate(-cameraX, -cameraY);
+        if (lowGraphics) {
             j(var0);
         } else {
             k(var0);
         }
 
-        i(var0);
+        drawSigns(var0);
         g(var0);
         b(var0);
-        r(var0);
+        drawNpcs(var0);
         l(var0);
-        e(var0);
-        if (iz) {
-            f(var0);
+        drawLetterbox(var0);
+        if (Dialogue.visible) {
+            drawDialogue(var0);
         }
 
     }
@@ -4323,11 +3630,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static void a(int var0, int var1, int var2, int var3) {
-        gb = var0;
-        gc = var1;
-        gd = var2;
-        gj = var3;
+    private static void setGuideMarker(int var0, int var1, int var2, int var3) {
+        guideMarkerMap = var0;
+        guideMarkerX = var1;
+        guideMarkerY = var2;
+        guideMarkerNpc = var3;
     }
 
     private static void c(int var0, int var1, int var2, int var3, int var4) {
@@ -4350,52 +3657,52 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static void e(int var0, int var1) {
-        fF = var0;
-        fG = var1;
-        fH = 1;
+    private static void placeQuestItem(int var0, int var1) {
+        questItemX = var0;
+        questItemY = var1;
+        questItemState = 1;
     }
 
-    private static void C(int var0) {
+    private static void startCutscene(int var0) {
         fZ = 0;
-        fT = var0;
-        fU = 0;
-        fS = true;
+        cutsceneId = var0;
+        cutsceneStep = 0;
+        cutscenePlaying = true;
         ga = false;
-        c();
-        d();
+        Input.clearHeld();
+        Input.clearPressed();
     }
 
-    private static void a(String[] var0, int var1, int var2, int var3) {
-        iD = var1;
-        iF = var2;
-        iG = var3;
-        iB = var0.length;
-        iC = 0;
-        iE = new String[iB][];
-        if ((iJ = r >> 1) < 120) {
-            iJ = 120;
+    private static void startDialogue(String[] var0, int var1, int var2, int var3) {
+        Dialogue.finishAction = var1;
+        Dialogue.speakerX = var2;
+        Dialogue.speakerY = var3;
+        Dialogue.pageCount = var0.length;
+        Dialogue.page = 0;
+        Dialogue.pages = new String[Dialogue.pageCount][];
+        if ((Dialogue.boxWidth = viewWidth >> 1) < 120) {
+            Dialogue.boxWidth = 120;
         }
 
-        for(var1 = 0; var1 < iB; ++var1) {
-            iE[var1] = Midlet.b(var0[var1], iJ - 20);
+        for(var1 = 0; var1 < Dialogue.pageCount; ++var1) {
+            Dialogue.pages[var1] = FontGraph.wrapRegularText(var0[var1], Dialogue.boxWidth - 20);
         }
 
-        if ((iK = iF - (iJ >> 1) - fO) < 2) {
-            iK = 2;
+        if ((Dialogue.boxX = Dialogue.speakerX - (Dialogue.boxWidth >> 1) - cameraX) < 2) {
+            Dialogue.boxX = 2;
         }
 
-        if (iK + iJ > r - 2) {
-            iK = r - 2 - iJ;
+        if (Dialogue.boxX + Dialogue.boxWidth > viewWidth - 2) {
+            Dialogue.boxX = viewWidth - 2 - Dialogue.boxWidth;
         }
 
-        iz = true;
-        iH = 0;
-        iI = 0;
+        Dialogue.visible = true;
+        Dialogue.shownChars = 0;
+        Dialogue.shownLines = 0;
     }
 
     private static boolean e(int var0, int var1, int var2) {
-        if (a) {
+        if (lowGraphics) {
             return false;
         } else {
             var0 = var0 == 1 ? 0 : 1;
@@ -4457,10 +3764,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         dW = var1;
     }
 
-    private static void b(String var0) {
-        co = var0;
-        cn = 0;
-        cm = true;
+    private static void showNotice(String var0) {
+        noticeText = var0;
+        noticeTimer = 0;
+        noticeVisible = true;
     }
 
     private static boolean f(int var0, int var1, int var2) {
@@ -4476,14 +3783,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static void D(int var0) {
-        ifSt = 0;
-        id = var0;
-        ie = true;
+    private static void startMapEvent(int var0) {
+        mapEventStep = 0;
+        mapEventId = var0;
+        mapEventActive = true;
     }
 
     private static boolean g(int var0, int var1) {
-        if (a) {
+        if (lowGraphics) {
             return false;
         } else {
             int var2 = ch[0] == -1 ? 0 : 1;
@@ -4503,7 +3810,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             if (bP[var0] == 1) {
                 int[] var10000 = bN;
                 var10000[var0] += bQ[var0];
-                if (bN[var0] >= fO && bN[var0] <= fO + r && bO[var0] >= fP && bO[var0] <= fP + s) {
+                if (bN[var0] >= cameraX && bN[var0] <= cameraX + viewWidth && bO[var0] >= cameraY && bO[var0] <= cameraY + viewHeight) {
                     if (a(fe - bN[var0]) < fi && a(ff - fj - bO[var0]) < fj) {
                         if (B == 5 && fd == 0 && bS[var0] < 3) {
                             bQ[var0] = -bQ[var0];
@@ -4532,7 +3839,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 var10000 = bV;
                 var10000[var0] += bY[var0];
                 int var10002 = bY[var0]++;
-                if (bV[var0] > fP + s) {
+                if (bV[var0] > cameraY + viewHeight) {
                     bW[var0] = 0;
                 }
 
@@ -4555,8 +3862,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void R() {
         if (fu) {
-            fI = fe - bC + bF * fm;
-            fJ = ff - bE;
+            cameraTargetX = fe - viewCenterX + cameraLeadX * fm;
+            cameraTargetY = ff - cameraOffsetY;
         }
 
         int var0;
@@ -4577,29 +3884,29 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var0 = 0; var0 < du; ++var0) {
                     if (dD[var0] == 1 && ff == dA[var0] && a(fe - dz[var0]) < 30 && fE == -1) {
-                        p = "Trò chuyện";
-                        d = true;
+                        rightSoftKeyLabel = "Trò chuyện";
+                        hudDirty = true;
                         fE = var0;
                         break;
                     }
                 }
 
-                if (gm == w && gr == 1 && ff == go && a(fe - gn) < 30) {
-                    p = "Nói chuyện";
-                    d = true;
+                if (gm == mapId && gr == 1 && ff == go && a(fe - gn) < 30) {
+                    rightSoftKeyLabel = "Nói chuyện";
+                    hudDirty = true;
                     fB = true;
                 }
 
                 var0 = 0;
 
                 while(true) {
-                    if (var0 >= lt) {
+                    if (var0 >= npcCount) {
                         break label788;
                     }
 
-                    if (ff == lv[var0] && a(fe - lu[var0]) < 30 && fD == -1) {
-                        p = "Giao tiếp";
-                        d = true;
+                    if (ff == npcY[var0] && a(fe - npcX[var0]) < 30 && fD == -1) {
+                        rightSoftKeyLabel = "Giao tiếp";
+                        hudDirty = true;
                         fD = var0;
                         break label788;
                     }
@@ -4610,23 +3917,23 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (++D >= 10) {
                     D = 0;
                     fo = 0;
-                    if (eX) {
+                    if (Skills.sprint) {
                         fo = fm << 1;
                     }
                 }
 
                 C = (D >> 1) + 2;
                 if (fm == 1) {
-                    if (g(fe + fi, ff - fj, 4)) {
+                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
                         z = 0;
                         fe = I(fe + fi) - fi;
                     }
-                } else if (g(fe - fi - 1, ff - fj, 8)) {
+                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
                     z = 0;
-                    fe = I(fe - fi - 1) + je + fi;
+                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
                 }
 
-                if ((i(fe, ff - 1) & 64) == 64) {
+                if ((GameMap.flagsAtPixel(fe, ff - 1) & TileFlags.WATER) == TileFlags.WATER) {
                     fe += z >> 1;
                 } else {
                     fe += z;
@@ -4644,7 +3951,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (ir != -1) {
                     if (a(fe - is[ir]) >= 20) {
                         ir = -1;
-                        if (g(fe, ff, 2)) {
+                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                             B = 1;
                         } else {
                             B = 4;
@@ -4653,7 +3960,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             E = 0;
                         }
                     }
-                } else if ((i(fe, ff) & 2) != 2) {
+                } else if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                     B = 4;
                     z = 3 * fm;
                     E = 0;
@@ -4677,7 +3984,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 ++A;
-                if (eI && !fx) {
+                if (Skills.lightness && !fx) {
                     if (A == -3) {
                         C = 8;
                     } else if (A == -2) {
@@ -4692,9 +3999,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (A == 0) {
                     B = 4;
                     D = 0;
-                    E = eI ? 1 : 0;
+                    E = Skills.lightness ? 1 : 0;
                     A = 1;
-                    d = true;
+                    hudDirty = true;
                 }
 
                 if (fn < 0) {
@@ -4702,11 +4009,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (fm == 1) {
-                    if ((i(fe + fi, ff) & 4) == 4) {
+                    if ((GameMap.flagsAtPixel(fe + fi, ff) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                         fe = I(fe + fi) - fi;
                         z = 0;
                     }
-                } else if ((i(fe - fi, ff) & 8) == 8) {
+                } else if ((GameMap.flagsAtPixel(fe - fi, ff) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     fe = I(fe + 24 - fi) + fi;
                     z = 0;
                 }
@@ -4724,13 +4031,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 C = 7;
-                if (ff >= iP) {
+                if (ff >= GameMap.pixelHeight) {
                     B = 6;
-                    H = 0;
-                } else if (ff + 4 >= iP) {
+                    PlayerStats.kill();
+                } else if (ff + 4 >= GameMap.pixelHeight) {
                     B = 6;
-                    H = 0;
-                } else if (A > 4 && (i(fe, ff + 3) & 2) == 2) {
+                    PlayerStats.kill();
+                } else if (A > 4 && (GameMap.flagsAtPixel(fe, ff + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
                     if (A > 12) {
                         B = 8;
                     } else {
@@ -4744,7 +4051,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     ff = I(ff + 3);
                     e(-1, fe - -8, ff);
                     e(1, fe - 8, ff);
-                    if (eM) {
+                    if (Skills.motorbikeLicense) {
                         for(var0 = 0; var0 < ii; ++var0) {
                             if (ff == il[var0] && a(fe - ik[var0]) < 16) {
                                 fe = ik[var0];
@@ -4756,24 +4063,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (P == 11 && fC < 20) {
-                        fC = 0;
-                        b("Hit: " + fC);
+                    if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
+                        QuestState.progress = 0;
+                        showNotice("Hit: " + QuestState.progress);
                     }
                 } else {
-                    if (g(fe, ff, 64) && ff % je > 8) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
                         g(fe, H(ff) + 8);
                         ff = H(ff) + 8;
                         B = 11;
                         z = fm << 1;
                         A >>= 2;
                         ff = H(ff) + 12;
-                        if (J == 0 || !eP) {
+                        if (!PlayerStats.hasMp() || !Skills.runOnWater) {
                             B = 12;
                         }
                     }
 
-                    if (g(fe, ff, 4096)) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
                         B = 12;
                     }
 
@@ -4800,11 +4107,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     if (fm == 1) {
-                        if ((i(fe + fi, ff) & 4) == 4) {
+                        if ((GameMap.flagsAtPixel(fe + fi, ff) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                             fe = I(fe + fi) - fi;
                             z = 0;
                         }
-                    } else if ((i(fe - fi, ff) & 8) == 8) {
+                    } else if ((GameMap.flagsAtPixel(fe - fi, ff) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                         fe = I(fe + 24 - fi) + fi;
                         z = 0;
                     }
@@ -4820,10 +4127,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             case 5:
                 ++D;
                 if (fm == 1) {
-                    if ((i(fe + fi, ff - fj) & 4) == 4) {
+                    if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                         z = 0;
                     }
-                } else if ((i(fe - fi, ff - fj) & 8) == 8) {
+                } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     z = 0;
                 }
 
@@ -4834,7 +4141,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (A == 0) {
-                    if (ir == -1 && (i(fe, ff) & 2) != 2) {
+                    if (ir == -1 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                         B = 4;
                         fc = -1;
                         z = (Q >> 1) * fm;
@@ -4844,7 +4151,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                     if (ir != -1 && a(fe - is[ir]) >= 20) {
                         ir = -1;
-                        if (g(fe, ff, 2)) {
+                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                             B = 1;
                         } else {
                             B = 4;
@@ -4867,30 +4174,30 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         A = 3;
                     }
 
-                    if (A > 2 && (i(fe, ff + 3) & 2) == 2) {
+                    if (A > 2 && (GameMap.flagsAtPixel(fe, ff + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
                         A = 0;
                         z = 0;
                         ff = I(ff + 3);
-                        if (P == 11 && fC < 20) {
-                            fC = 0;
-                            b("Hit: " + fC);
+                        if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
+                            QuestState.progress = 0;
+                            showNotice("Hit: " + QuestState.progress);
                         }
                     }
 
-                    if (g(fe, ff, 64) && ff % je > 8) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
                         g(fe, H(ff) + 8);
                         B = 11;
                         z = fm << 1;
                         A >>= 2;
                         ff = H(ff) + 12;
                         fc = -1;
-                        if (J == 0 || !eP) {
+                        if (!PlayerStats.hasMp() || !Skills.runOnWater) {
                             B = 12;
                         }
                         break;
                     }
 
-                    if (g(fe, ff, 4096)) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
                         B = 12;
                         fc = -1;
                         break;
@@ -5138,18 +4445,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 ++A;
                 ff += A;
                 C = 21;
-                if (ff >= iP || ff > fP + s + fh || g(fe, ff - fh, 4096)) {
+                if (ff >= GameMap.pixelHeight || ff > cameraY + viewHeight + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
                     fe = fp;
                     ff = fq;
                     B = 4;
-                    H = I / 3;
-                    J = K / 3;
+                    PlayerStats.revive();
                     A = 0;
                     z = 0;
                     E = 0;
                     D = 0;
-                    O >>= 1;
-                    d = true;
+                    Leveling.applyDeathPenalty();
+                    hudDirty = true;
                     if (hc) {
                         hg = hh;
                     }
@@ -5158,17 +4464,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         hm = hn;
                     }
 
-                    au();
-                    s(5);
-                    e = 7;
+                    prepareDialog();
+                    showMessage(MessageType.GAME_NOTICE);
+                    state = GameState.MESSAGE;
                 }
                 break;
             case 7:
-                if ((i(fe + fi, ff - fj) & 4) == 4) {
+                if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                     z = -z;
                 }
 
-                if ((i(fe - fi, ff - fj) & 8) == 8) {
+                if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     z = -z;
                 }
 
@@ -5201,11 +4507,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 C = 22;
                 if (D < 5) {
                     ++D;
-                } else if (!aR[8]) {
+                } else if (!Input.held[Input.KEY_DOWN]) {
                     B = 1;
                 }
 
-                if (++E > 6 && g(fe + fi, ff + 2, 8192) && g(fe - fi, ff + 2, 8192) && eL & J > 0) {
+                if (++E > 6 && GameMap.hasFlag(fe + fi, ff + 2, TileFlags.DIGGABLE) && GameMap.hasFlag(fe - fi, ff + 2, TileFlags.DIGGABLE) && Skills.burrow & PlayerStats.hasMp()) {
                     B = 13;
                 }
             case 9:
@@ -5218,24 +4524,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 break;
             case 12:
                 ff += A;
-                if (A < 20 && x % 2 == 0) {
+                if (A < 20 && tick % 2 == 0) {
                     ++A;
                 }
 
                 C = 7;
-                if (ff >= iP) {
-                    H = 0;
+                if (ff >= GameMap.pixelHeight) {
+                    PlayerStats.kill();
                     B = 6;
                     fc = -1;
-                } else if (g(fe, ff, 2)) {
+                } else if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                     ff = H(ff);
-                    if (g(fe, ff - 2, 64)) {
+                    if (GameMap.hasFlag(fe, ff - 2, TileFlags.WATER)) {
                         B = 1;
                         A = 0;
                         z = 0;
                         E = 0;
                         D = 0;
-                    } else if (eO) {
+                    } else if (Skills.dive) {
                         B = 17;
                         A = 0;
                         z = 0;
@@ -5246,8 +4552,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     ff = I(ff);
-                } else if (g(fe, ff - fh - 5, 4096)) {
-                    H = 0;
+                } else if (GameMap.hasFlag(fe, ff - fh - 5, TileFlags.DEEP_WATER)) {
+                    PlayerStats.kill();
                     B = 6;
                     fc = -1;
                 }
@@ -5258,19 +4564,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 B = 14;
                 break;
             case 14:
-                if (x % 20 > 2) {
+                if (tick % 20 > 2) {
                     C = 25;
                 } else {
                     C = 26;
                 }
 
-                if (x % 8 == 0) {
-                    if (--J <= 0) {
-                        J = 0;
+                if (tick % 8 == 0) {
+                    if (PlayerStats.drainMp(1)) {
                         B = 15;
                     }
 
-                    d = true;
+                    hudDirty = true;
                 }
                 break;
             case 15:
@@ -5290,13 +4595,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (fm == 1) {
-                    if (g(fe + fi, ff - fj, 4)) {
+                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
                         z = 0;
                         fe = I(fe + fi) - fi;
                     }
-                } else if (g(fe - fi - 1, ff - fj, 8)) {
+                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
                     z = 0;
-                    fe = I(fe - fi - 1) + je + fi;
+                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
                 }
 
                 fe += z;
@@ -5308,7 +4613,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     B = 17;
                 }
 
-                if ((i(fe, ff) & 2) != 2) {
+                if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                     B = 12;
                     z = fm << 2;
                     E = 0;
@@ -5328,7 +4633,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
                 break;
             case 18:
-                if (x % 8 > 3) {
+                if (tick % 8 > 3) {
                     C = 43;
                 } else {
                     C = 44;
@@ -5338,7 +4643,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 D = 0;
                 break;
             case 19:
-                if (x % 8 > 3) {
+                if (tick % 8 > 3) {
                     C = 43;
                 } else {
                     C = 44;
@@ -5351,16 +4656,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (fm == 1) {
-                    if (g(fe + fi, ff - fj, 4)) {
+                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
                         z = 0;
                         fe = I(fe + fi) - fi;
                     }
-                } else if (g(fe - fi - 1, ff - fj, 8)) {
+                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
                     z = 0;
-                    fe = I(fe - fi - 1) + je + fi;
+                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
                 }
 
-                if ((i(fe, ff - 1) & 64) == 64) {
+                if ((GameMap.flagsAtPixel(fe, ff - 1) & TileFlags.WATER) == TileFlags.WATER) {
                     fe += z >> 1;
                 } else {
                     fe += z;
@@ -5380,7 +4685,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (ir != -1) {
                     if (a(fe - is[ir]) >= 20) {
                         ir = -1;
-                        if (g(fe, ff, 2)) {
+                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
                             B = 18;
                         } else {
                             B = 20;
@@ -5389,7 +4694,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             E = 0;
                         }
                     }
-                } else if ((i(fe, ff) & 2) != 2) {
+                } else if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
                     B = 20;
                     z = 3 * fm;
                     E = 0;
@@ -5406,10 +4711,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
             case 20:
                 try {
                     if (fm == 1) {
-                        if ((i(fe + fi, ff - fj) & 4) == 4) {
+                        if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                             z = 0;
                         }
-                    } else if ((i(fe - fi, ff - fj) & 8) == 8) {
+                    } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                         z = 0;
                     }
 
@@ -5424,14 +4729,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         --z;
                     }
 
-                    if (x % 8 > 3) {
+                    if (tick % 8 > 3) {
                         C = 43;
                     } else {
                         C = 44;
                         e(fm, fe - (fm << 4), ff - 5);
                     }
 
-                    if (A > 4 && (i(fe, ff) & 2) == 2) {
+                    if (A > 4 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) == TileFlags.SOLID) {
                         if (A < 8) {
                             B = 18;
                             A = 0;
@@ -5446,13 +4751,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (g(fe, ff, 64) && ff % je > 8) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
                         g(fe, H(ff) + 8);
                     }
 
                     ik[ij] = fe;
                     il[ij] = ff;
-                    if (g(fe, ff, 4096)) {
+                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
                         io[ij] = 1;
                         ij = -1;
                         B = 12;
@@ -5466,10 +4771,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 break;
             case 21:
                 if (fm == 1) {
-                    if ((i(fe + fi, ff - fj) & 4) == 4) {
+                    if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                         z = 0;
                     }
-                } else if ((i(fe - fi, ff - fj) & 8) == 8) {
+                } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                     z = 0;
                 }
 
@@ -5484,16 +4789,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 if (++A == 0) {
                     B = 20;
                     D = 0;
-                    E = eI ? 1 : 0;
+                    E = Skills.lightness ? 1 : 0;
                     A = 1;
-                    d = true;
+                    hudDirty = true;
                 }
 
                 if (fn < 0) {
                     ++fn;
                 }
 
-                if (x % 8 > 3) {
+                if (tick % 8 > 3) {
                     C = 43;
                 } else {
                     C = 44;
@@ -5509,49 +4814,47 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 T();
         }
 
-        if (x % 3 == 0) {
+        if (tick % 3 == 0) {
             if (fw) {
-                if (--J <= 0) {
-                    J = 0;
+                if (PlayerStats.drainMp(1)) {
                     fw = false;
                 }
 
-                d = true;
+                hudDirty = true;
             }
 
             if (fx) {
-                if (--J <= 0) {
-                    J = 0;
+                if (PlayerStats.drainMp(1)) {
                     fx = false;
 
                     for(int var1 = 0; var1 < 4; ++var1) {
-                        Image var3 = eo[var1];
-                        eo[var1] = ep[var1];
-                        ep[var1] = var3;
+                        Image var3 = heroHeads[var1];
+                        heroHeads[var1] = heroTransformHeads[var1];
+                        heroTransformHeads[var1] = var3;
                     }
                 }
 
-                d = true;
+                hudDirty = true;
             }
         }
 
     }
 
     private static final void S() {
-        if (!a) {
-            if (g(fe, ff + 1, 2048)) {
-                h(fe, ff + 1, 1024);
-                h(fe, ff - 2, 1024);
+        if (!lowGraphics) {
+            if (GameMap.hasFlag(fe, ff + 1, TileFlags.BRIDGE)) {
+                GameMap.pressBridge(fe, ff + 1);
+                GameMap.pressBridge(fe, ff - 2);
             }
 
-            if (g(fe - je, ff + 1, 1024)) {
-                j(fe - je, ff + 1, 1024);
-                j(fe - je, ff - 2, 1024);
+            if (GameMap.hasFlag(fe - GameMap.TILE_SIZE, ff + 1, TileFlags.BRIDGE_PRESSED)) {
+                GameMap.releaseBridge(fe - GameMap.TILE_SIZE, ff + 1);
+                GameMap.releaseBridge(fe - GameMap.TILE_SIZE, ff - 2);
             }
 
-            if (g(fe + je, ff + 1, 1024)) {
-                j(fe + je, ff + 1, 1024);
-                j(fe + je, ff - 2, 1024);
+            if (GameMap.hasFlag(fe + GameMap.TILE_SIZE, ff + 1, TileFlags.BRIDGE_PRESSED)) {
+                GameMap.releaseBridge(fe + GameMap.TILE_SIZE, ff + 1);
+                GameMap.releaseBridge(fe + GameMap.TILE_SIZE, ff - 2);
             }
 
         }
@@ -5561,17 +4864,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
         if (++D == 1) {
             f(fe, ff - 40);
             aL = 0;
-            if (ep == null) {
-                ep = new Image[4];
+            if (heroTransformHeads == null) {
+                heroTransformHeads = new Image[4];
 
                 try {
-                    ep[0] = Image.createImage("/cp/ch0x.png");
-                    ep[1] = Image.createImage("/cp/ch1x.png");
+                    heroTransformHeads[0] = Character.loadHeroTransformHead(0);
+                    heroTransformHeads[1] = Character.loadHeroTransformHead(1);
                 } catch (Exception var2) {
                 }
 
-                ep[2] = ep[1];
-                ep[3] = ep[0];
+                heroTransformHeads[2] = heroTransformHeads[1];
+                heroTransformHeads[3] = heroTransformHeads[0];
             }
         } else {
             Image var0;
@@ -5579,38 +4882,38 @@ public final class b extends Canvas implements Runnable, CommandListener {
             if (D >= 30) {
                 B = 1;
                 D = 0;
-                if (J == 0) {
+                if (!PlayerStats.hasMp()) {
                     return;
                 }
 
                 for(var1 = 0; var1 < 4; ++var1) {
-                    var0 = eo[var1];
-                    eo[var1] = ep[var1];
-                    ep[var1] = var0;
+                    var0 = heroHeads[var1];
+                    heroHeads[var1] = heroTransformHeads[var1];
+                    heroTransformHeads[var1] = var0;
                 }
 
                 fx = !fx;
             } else if (D <= 10) {
                 if (D % 5 == 0) {
                     for(var1 = 0; var1 < 4; ++var1) {
-                        var0 = eo[var1];
-                        eo[var1] = ep[var1];
-                        ep[var1] = var0;
+                        var0 = heroHeads[var1];
+                        heroHeads[var1] = heroTransformHeads[var1];
+                        heroTransformHeads[var1] = var0;
                     }
                 }
             } else if (D < 20) {
                 if (D % 3 == 0) {
                     for(var1 = 0; var1 < 4; ++var1) {
-                        var0 = eo[var1];
-                        eo[var1] = ep[var1];
-                        ep[var1] = var0;
+                        var0 = heroHeads[var1];
+                        heroHeads[var1] = heroTransformHeads[var1];
+                        heroTransformHeads[var1] = var0;
                     }
                 }
             } else if (D < 30 && D % 2 == 0) {
                 for(var1 = 0; var1 < 4; ++var1) {
-                    var0 = eo[var1];
-                    eo[var1] = ep[var1];
-                    ep[var1] = var0;
+                    var0 = heroHeads[var1];
+                    heroHeads[var1] = heroTransformHeads[var1];
+                    heroTransformHeads[var1] = var0;
                 }
             }
         }
@@ -5630,13 +4933,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         C = D + 2;
         if (fm == 1) {
-            if (g(fe + fi, ff - 1, 4)) {
+            if (GameMap.hasFlag(fe + fi, ff - 1, TileFlags.WALL_LEFT_SIDE)) {
                 z = 0;
                 fe = I(fe + fi) - fi;
             }
-        } else if (g(fe - fi - 1, ff - 1, 8)) {
+        } else if (GameMap.hasFlag(fe - fi - 1, ff - 1, TileFlags.WALL_RIGHT_SIDE)) {
             z = 0;
-            fe = I(fe - fi - 1) + je + fi;
+            fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
         }
 
         fe += z;
@@ -5644,7 +4947,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
             --z;
         } else if (z < 0) {
             ++z;
-        } else if (!eY) {
+        } else if (!Skills.standOnWater) {
             B = 12;
             fo = 0;
         } else {
@@ -5654,14 +4957,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
             D = 0;
         }
 
-        if (x % 8 == 0) {
-            if ((J -= 3) <= 0) {
-                J = 0;
+        if (tick % 8 == 0) {
+            if (PlayerStats.drainMp(3)) {
                 z = 0;
                 B = 12;
             }
 
-            d = true;
+            hudDirty = true;
         }
 
         for(int var0 = 0; var0 < iq; ++var0) {
@@ -5682,72 +4984,72 @@ public final class b extends Canvas implements Runnable, CommandListener {
         e(fm, fe - (fm << 3), ff);
     }
 
-    private static boolean V() {
-        if (!fS) {
-            if (bu > 1) {
-                bu >>= 1;
-                d = true;
+    private static boolean updateCutscene() {
+        if (!cutscenePlaying) {
+            if (letterboxHeight > 1) {
+                letterboxHeight >>= 1;
+                hudDirty = true;
             }
 
             return false;
         } else {
             if (ga) {
-                if (aS[5]) {
-                    d();
-                    M();
-                    if (iC == iB) {
-                        iz = false;
+                if (Input.pressed[Input.KEY_FIRE]) {
+                    Input.clearPressed();
+                    Dialogue.advance();
+                    if (Dialogue.isFinished()) {
+                        Dialogue.visible = false;
                         ga = false;
-                        z();
+                        onDialogueFinished();
                     }
                 }
             } else {
-                if (bu < bt) {
-                    bu += (bt - bu >> 1) + 1;
+                if (letterboxHeight < letterboxMaxHeight) {
+                    letterboxHeight += (letterboxMaxHeight - letterboxHeight >> 1) + 1;
                 }
 
-                if (fV) {
-                    if (fX < fY) {
-                        fX += 2;
+                if (captionVisible) {
+                    if (captionY < captionTargetY) {
+                        captionY += 2;
                     } else {
-                        fX = fY;
+                        captionY = captionTargetY;
                     }
                 }
 
-                if (++fZ >= aA[fT][fU]) {
-                    fZ = aA[fT][fU];
+                if (++fZ >= aA[cutsceneId][cutsceneStep]) {
+                    fZ = aA[cutsceneId][cutsceneStep];
                     int var0;
-                    switch (ay[fT][fU]) {
+                    switch (ay[cutsceneId][cutsceneStep]) {
                         case 1:
-                            F(az[fT][fU]);
-                            ++fU;
+                            Input.keyDown(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            ++cutsceneStep;
                             break;
                         case 2:
-                            G(az[fT][fU]);
-                            ++fU;
+                            Input.keyUp(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            ++cutsceneStep;
                             break;
                         case 3:
-                            fS = false;
-                            d = true;
-                            ++fU;
+                            cutscenePlaying = false;
+                            hudDirty = true;
+                            ++cutsceneStep;
                             break;
                         case 4:
                             if (B == 1) {
-                                fV = false;
+                                captionVisible = false;
                                 var0 = 0;
                                 int var1 = 0;
-                                switch (aD[az[fT][fU]]) {
+                                switch (aD[cutsceneScripts[cutsceneId][cutsceneStep]]) {
                                     case 0:
                                         var0 = fe;
                                         var1 = ff;
                                         break;
                                     case 1:
-                                        var0 = lu[aC[az[fT][fU]]];
-                                        var1 = lv[aC[az[fT][fU]]];
+                                        var0 = npcX[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
+                                        var1 = npcY[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
                                         break;
                                     case 2:
-                                        var0 = dz[aC[az[fT][fU]]];
-                                        var1 = dA[aC[az[fT][fU]]];
+                                        var0 = dz[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
+                                        var1 = dA[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
                                         break;
                                     case 3:
                                     case 4:
@@ -5756,296 +5058,297 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 }
 
                                 var1 -= 40;
-                                a(aF[az[fT][fU]], -1, var0, var1);
-                                ++fU;
+                                startDialogue(DialogueText.cutsceneLines[cutsceneScripts[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
+                                ++cutsceneStep;
                                 ga = true;
                             }
                             break;
                         case 5:
-                            a(w, az[fT][fU], ff - 50, -1);
-                            ++fU;
+                            setGuideMarker(mapId, cutsceneScripts[cutsceneId][cutsceneStep], ff - 50, -1);
+                            ++cutsceneStep;
                             break;
                         case 6:
-                            gb = -1;
-                            ++fU;
+                            guideMarkerMap = -1;
+                            ++cutsceneStep;
                             break;
                         case 7:
                             fu = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 8:
                             fu = false;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 9:
-                            fO = aB[az[fT][fU]][0] - bC;
-                            fP = aB[az[fT][fU]][1] - bD;
-                            if (fO < 0) {
-                                fO = 0;
+                            cameraX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX;
+                            cameraY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY;
+                            if (cameraX < 0) {
+                                cameraX = 0;
                             }
 
-                            if (fO > fQ) {
-                                fO = fQ;
+                            if (cameraX > cameraMaxX) {
+                                cameraX = cameraMaxX;
                             }
 
-                            if (fP < 0) {
-                                fP = 0;
+                            if (cameraY < 0) {
+                                cameraY = 0;
                             }
 
-                            if (fP > fR) {
-                                fP = fR;
+                            if (cameraY > cameraMaxY) {
+                                cameraY = cameraMaxY;
                             }
 
-                            fI = fO;
-                            fJ = fP;
-                            ++fU;
+                            cameraTargetX = cameraX;
+                            cameraTargetY = cameraY;
+                            ++cutsceneStep;
                             break;
                         case 10:
-                            fI = aB[az[fT][fU]][0] - bC;
-                            fJ = aB[az[fT][fU]][1] - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX;
+                            cameraTargetY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 11:
-                            fI = gP - bC;
-                            fJ = gQ - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = gP - viewCenterX;
+                            cameraTargetY = gQ - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 12:
-                            fJ = fP += 2;
-                            if (fP > aB[az[fT][fU]][1] - bD) {
-                                ++fU;
+                            cameraTargetY = cameraY += 2;
+                            if (cameraY > aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY) {
+                                ++cutsceneStep;
                             }
                         case 13:
                         default:
                             break;
                         case 14:
-                            fI = fO -= 2;
-                            if (fO < aB[az[fT][fU]][0] - bC) {
-                                ++fU;
+                            cameraTargetX = cameraX -= 2;
+                            if (cameraX < aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX) {
+                                ++cutsceneStep;
                             }
                             break;
                         case 15:
-                            fV = true;
-                            fW = Midlet.a(aG[az[fT][fU]], r - 40);
-                            if ((fY = (bt >> 1) - (fW.length << 3)) < 3) {
-                                fY = 2;
+                            captionVisible = true;
+                            captionLines = FontGraph.wrapBoldText(DialogueText.cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], viewWidth - 40);
+                            if ((captionTargetY = (letterboxMaxHeight >> 1) - (captionLines.length << 3)) < 3) {
+                                captionTargetY = 2;
                             }
 
-                            fX = -fW.length << 3;
-                            ++fU;
+                            captionY = -captionLines.length << 3;
+                            ++cutsceneStep;
                             break;
                         case 16:
                             dx = true;
-                            dy = az[fT][fU];
-                            ++fU;
+                            dy = cutsceneScripts[cutsceneId][cutsceneStep];
+                            ++cutsceneStep;
                             break;
                         case 17:
-                            fp = fe = ju;
-                            fq = ff = jv;
-                            B();
-                            Midlet.f = true;
-                            x(az[fT][fU]);
+                            fp = fe = MapExits.rightSpawnX;
+                            fq = ff = MapExits.rightSpawnY;
+                            releaseMapResources();
+                            Save.pendingSave = true;
+                            changeMap(cutsceneScripts[cutsceneId][cutsceneStep]);
                             return true;
                         case 18:
-                            V(az[fT][fU]);
-                            ++fU;
+                            setNextNpcMarker(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            ++cutsceneStep;
                             break;
                         case 19:
                             gk = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 20:
                             gk = false;
                             gm = 0;
                             gn = 1080;
                             go = 408;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 21:
-                            P = -1;
-                            eM = true;
-                            b("nhận bằng lái môtô");
-                            a(0, lu[4], lv[4] - 40, 4);
-                            ++fU;
+                            QuestState.current = Quest.NONE;
+                            // Thưởng nhiệm vụ ESCORT_AYUMI_SISTER được trao trong cutscene, không qua onDialogueFinished.
+                            Skills.motorbikeLicense = true;
+                            showNotice("nhận bằng lái môtô");
+                            setGuideMarker(0, npcX[4], npcY[4] - 40, 4);
+                            ++cutsceneStep;
                             break;
                         case 22:
                             for(var0 = 0; var0 <= 6; ++var0) {
-                                i(24, var0, 0);
+                                GameMap.clearFlags(24, var0);
                             }
 
-                            eF = true;
-                            ++fU;
+                            Story.riverMonsterDefeated = true;
+                            ++cutsceneStep;
                             break;
                         case 23:
                             fu = false;
-                            fI = dz[az[fT][fU]] - bC;
-                            fJ = dA[az[fT][fU]] - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = dz[cutsceneScripts[cutsceneId][cutsceneStep]] - viewCenterX;
+                            cameraTargetY = dA[cutsceneScripts[cutsceneId][cutsceneStep]] - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 24:
                             dx = true;
-                            dy = az[fT][fU];
-                            ++fU;
+                            dy = cutsceneScripts[cutsceneId][cutsceneStep];
+                            ++cutsceneStep;
                             break;
                         case 25:
                             he = true;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 26:
                             for(var0 = 0; var0 <= 10; ++var0) {
-                                i(24, var0, 0);
+                                GameMap.clearFlags(24, var0);
                             }
 
-                            eG = true;
-                            ++fU;
+                            Story.tonikuDefeated = true;
+                            ++cutsceneStep;
                             break;
                         case 27:
                             fu = false;
-                            fI = hp - bC;
-                            fJ = hq - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = hp - viewCenterX;
+                            cameraTargetY = hq - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 28:
                             hr = 1;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 29:
-                            d();
-                            c();
-                            iT = null;
-                            iU = null;
-                            iV = null;
-                            iW = null;
-                            iQ = null;
-                            iR = null;
+                            Input.clearPressed();
+                            Input.clearHeld();
+                            tilesetImage = null;
+                            waterfallImage = null;
+                            waterSurfaceImage = null;
+                            houseImages = null;
+                            GameMap.tiles = null;
+                            GameMap.flags = null;
                             System.gc();
-                            ls = null;
+                            npcSprites = null;
                             System.gc();
-                            eb = null;
-                            ee = null;
-                            eg = null;
-                            ev = null;
+                            motorbikeFrames = null;
+                            itemCrate = null;
+                            itemMoney = null;
+                            boss0Sprites = null;
                             System.gc();
-                            ex = null;
+                            boss1Sprites = null;
                             System.gc();
-                            jF = null;
+                            monsterSprites = null;
                             System.gc();
                             C();
-                            es = null;
-                            ei = null;
-                            dY = null;
-                            ej = null;
-                            ek = null;
-                            er = null;
-                            ey = null;
-                            eD = null;
-                            dZ = null;
+                            classmateHeads = null;
+                            npcDog = null;
+                            enemyProjectiles = null;
+                            dustSprites = null;
+                            dartFrames = null;
+                            auraSprites = null;
+                            bloodSprites = null;
+                            waterSplashSprites = null;
+                            arrowIcons = null;
                             System.gc();
-                            eq = null;
-                            ed = null;
-                            eo = null;
-                            ep = null;
-                            eB = null;
+                            heroLegs = null;
+                            heroBodies = null;
+                            heroHeads = null;
+                            heroTransformHeads = null;
+                            slashEffects = null;
                             System.gc();
                             K();
                             return true;
                         case 30:
-                            P = -1;
-                            eT = false;
-                            eU = true;
+                            QuestState.current = Quest.NONE;
+                            Story.girlWaiting = false;
+                            Story.girlOutingDone = true;
                             gm = 0;
                             gn = 648;
                             go = 288;
                             gk = false;
-                            b("gặp cô Ayumi");
-                            a(0, 1032, 368, 4);
-                            ++fU;
+                            showNotice("gặp cô Ayumi");
+                            setGuideMarker(0, 1032, 368, 4);
+                            ++cutsceneStep;
                             break;
                         case 31:
                             fu = false;
-                            fI = gn - bC;
-                            fJ = go - bD;
-                            if (fI < 0) {
-                                fI = 0;
+                            cameraTargetX = gn - viewCenterX;
+                            cameraTargetY = go - viewCenterY;
+                            if (cameraTargetX < 0) {
+                                cameraTargetX = 0;
                             }
 
-                            if (fI > fQ) {
-                                fI = fQ;
+                            if (cameraTargetX > cameraMaxX) {
+                                cameraTargetX = cameraMaxX;
                             }
 
-                            if (fJ < 0) {
-                                fJ = 0;
+                            if (cameraTargetY < 0) {
+                                cameraTargetY = 0;
                             }
 
-                            if (fJ > fR) {
-                                fJ = fR;
+                            if (cameraTargetY > cameraMaxY) {
+                                cameraTargetY = cameraMaxY;
                             }
 
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 32:
                             gk = true;
@@ -6053,18 +5356,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             gp = -5;
                             gz = -1;
                             gK = 8;
-                            ++fU;
+                            ++cutsceneStep;
                             break;
                         case 33:
-                            fb = true;
+                            Story.sakuraEscorting = true;
                             gk = true;
-                            ++fU;
+                            ++cutsceneStep;
                     }
                 }
             }
 
-            aR[5] = false;
-            aS[5] = false;
+            Input.held[Input.KEY_FIRE] = false;
+            Input.pressed[Input.KEY_FIRE] = false;
             return false;
         }
     }
@@ -6073,8 +5376,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
         for(int var0 = 0; var0 < de; ++var0) {
             if (dh[var0] != 0) {
                 if (a(ff - (fh >> 1) - (dg[var0] - 7)) < 10 && a(fe - df[var0]) < 10) {
-                    dd += dl[var0];
-                    d = true;
+                    money += dl[var0];
+                    hudDirty = true;
                     dh[var0] = 301;
                     a("+" + dl[var0], 1, df[var0], dg[var0] - 15, 0, -1);
                 }
@@ -6109,8 +5412,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     dk[var0] = 2;
                 }
 
-                if (dg[var0] >= 0 && dg[var0] < iP && df[var0] < iO && df[var0] >= 0) {
-                    if (dj[var0] > 2 && (i(df[var0], dg[var0]) & 2) == 2) {
+                if (dg[var0] >= 0 && dg[var0] < GameMap.pixelHeight && df[var0] < GameMap.pixelWidth && df[var0] >= 0) {
+                    if (dj[var0] > 2 && (GameMap.flagsAtPixel(df[var0], dg[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                         dg[var0] = H(dg[var0]);
                         if (dj[var0] > 2) {
                             dj[var0] = -(dj[var0] >> 1);
@@ -6123,14 +5426,6 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     dh[var0] = 0;
                 }
             }
-        }
-
-    }
-
-    private static void X() {
-        if (iz && iI < iE[iC].length && ++iH >= iE[iC][iI].length()) {
-            iH = 0;
-            ++iI;
         }
 
     }
@@ -6164,13 +5459,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                         var10002 = dF[var0]++;
                         if (dF[var0] > (dK[var0] + dz[var0]) % 20 + (dK[var0] >> 1)) {
-                            if (iz && fE == var0) {
+                            if (Dialogue.visible && fE == var0) {
                                 break;
                             }
 
                             dF[var0] = 0;
                             int var2;
-                            if ((var2 = (x + dK[var0]) % 120 - 60) > 0) {
+                            if ((var2 = (tick + dK[var0]) % 120 - 60) > 0) {
                                 var2 += dK[var0];
                             } else {
                                 var2 -= dK[var0];
@@ -6182,12 +5477,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             dD[var0] = 2;
                             if (fE == var0) {
                                 fE = -1;
-                                p = " ";
-                                d = true;
+                                rightSoftKeyLabel = " ";
+                                hudDirty = true;
                             }
                         }
 
-                        if (x % 10 == 1) {
+                        if (tick % 10 == 1) {
                             B(var0);
                         }
                     }
@@ -6202,7 +5497,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     int[] var10000 = dz;
                     var10000[var0] += dB[var0];
                     if (dz[var0] <= dN[var0] && dz[var0] >= dM[var0] && a(dz[var0] - dF[var0]) >= 8) {
-                        if (x % 10 == 0) {
+                        if (tick % 10 == 0) {
                             B(var0);
                         }
                     } else {
@@ -6350,16 +5645,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void Z() {
-        if (++x == 10000) {
-            x = 0;
+    private static void updateTutorial() {
+        if (++tick == 10000) {
+            tick = 0;
         }
 
-        ad();
-        if (!V()) {
+        updateMapEvent();
+        if (!updateCutscene()) {
             Y();
             R();
-            X();
+            Dialogue.typeTick();
         }
     }
 
@@ -6401,7 +5696,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     var10002 = cB[var0]++;
-                    if (cv[var0] <= fP + s + 32 && cv[var0] < iP) {
+                    if (cv[var0] <= cameraY + viewHeight + 32 && cv[var0] < GameMap.pixelHeight) {
                         continue;
                     }
 
@@ -6410,10 +5705,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     cE[var0] = 5;
                     break;
                 case 2:
-                    if (x % 12 > 7) {
+                    if (tick % 12 > 7) {
                         cC[var0] = 1;
                         cI[var0] = 1;
-                        if (x % 12 < 10) {
+                        if (tick % 12 < 10) {
                             if (a(cu[var0] - cG[var0]) < 4) {
                                 cF[var0] = cG[var0] = 0;
                                 cE[var0] = 3;
@@ -6431,7 +5726,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
                     break;
                 case 3:
-                    if ((x + var0) % 10 > 5) {
+                    if ((tick + var0) % 10 > 5) {
                         cC[var0] = 1;
                     } else {
                         cC[var0] = 0;
@@ -6442,7 +5737,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     cJ[var0] = 0;
                     if (cF[var0] > 50) {
                         int var1;
-                        if ((var1 = (x - var0) % (var0 + 80) - 40) > 0) {
+                        if ((var1 = (tick - var0) % (var0 + 80) - 40) > 0) {
                             var1 += 20;
                         } else {
                             var1 -= 20;
@@ -6450,7 +5745,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                         cG[var0] = cu[var0] + var1;
                         cH[var0] = var1 > 0 ? 1 : -1;
-                        if (x % 4 > 1) {
+                        if (tick % 4 > 1) {
                             cE[var0] = 2;
                             cy[var0] = cH[var0] << 1;
                         } else {
@@ -6467,7 +5762,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (x % 30 == 28) {
+                    if (tick % 30 == 28) {
                         w(var0);
                         v(var0);
                     }
@@ -6517,7 +5812,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
                     break;
                 case 6:
-                    if ((x + var0) % 10 > 5) {
+                    if ((tick + var0) % 10 > 5) {
                         cC[var0] = 1;
                     } else {
                         cC[var0] = 0;
@@ -6557,7 +5852,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     } else {
                         var10000 = cu;
                         var10000[var0] += cy[var0];
-                        if (x % 2 == 1) {
+                        if (tick % 2 == 1) {
                             cC[var0] = 1;
                             cI[var0] = 3;
                         } else {
@@ -6578,20 +5873,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
             if (cQ[var0] != 0) {
                 if (a(ff - (fh >> 1) - (cP[var0] - 7)) < 10 && a(fe - cO[var0]) < 10) {
                     if (cN[var0] == 0) {
-                        if ((H += cU[var0]) > I) {
-                            H = I;
-                        }
+                        PlayerStats.restoreHp(cU[var0]);
 
                         a("+" + cU[var0], 0, cO[var0], cP[var0] - 15, 0, -1);
                     } else {
-                        if ((J += cU[var0]) > K) {
-                            J = K;
-                        }
+                        PlayerStats.restoreMp(cU[var0]);
 
                         a("+" + cU[var0], 2, cO[var0], cP[var0] - 15, 0, -1);
                     }
 
-                    d = true;
+                    hudDirty = true;
                     cQ[var0] = 301;
                 }
 
@@ -6617,8 +5908,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     cQ[var0] = 0;
                 }
 
-                if (cP[var0] < iP && cP[var0] >= 0 && cO[var0] < iO && cO[var0] >= 0) {
-                    if (cS[var0] > 2 && (i(cO[var0], cP[var0]) & 2) == 2) {
+                if (cP[var0] < GameMap.pixelHeight && cP[var0] >= 0 && cO[var0] < GameMap.pixelWidth && cO[var0] >= 0) {
+                    if (cS[var0] > 2 && (GameMap.flagsAtPixel(cO[var0], cP[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                         cP[var0] = H(cP[var0]);
                         if (cS[var0] > 2) {
                             cS[var0] = -(cS[var0] >> 1);
@@ -6637,7 +5928,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void ac() {
         if (hi) {
-            int var0 = x % 10;
+            int var0 = tick % 10;
             int var1 = a(fe - hp);
             int var2 = a(ff - hq);
             switch (hr) {
@@ -6810,485 +6101,193 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static void ad() {
-        if (ie) {
-            switch (au[id][ifSt]) {
+    private static void updateMapEvent() {
+        if (mapEventActive) {
+            switch (mapEventConditions[mapEventId][mapEventStep]) {
                 case 1:
-                    if (fe > aw[id][ifSt]) {
-                    C(av[id][ifSt]);
-                    ++ifSt;
+                    if (fe > mapEventParams[mapEventId][mapEventStep]) {
+                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                    ++mapEventStep;
                     return;
                 }
                 break;
                 case 2:
-                    C(av[id][ifSt]);
-                    ++ifSt;
+                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                    ++mapEventStep;
                     return;
                 case 3:
                 default:
                     return;
                 case 4:
-                    if (fe > fO + r) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                    if (fe > cameraX + viewWidth) {
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 6:
-                    if (fe < aw[id][ifSt] && fe > aw[id][ifSt] - 96 && ff == ax[id][ifSt]) {
-                    C(av[id][ifSt]);
-                    ++ifSt;
+                    if (fe < mapEventParams[mapEventId][mapEventStep] && fe > mapEventParams[mapEventId][mapEventStep] - 96 && ff == ax[mapEventId][mapEventStep]) {
+                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                    ++mapEventStep;
                 }
                 case 5:
                     if (gS == 22) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 7:
                     if (hX == 5) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 8:
                     if (hg < 10) {
-                        C(av[id][ifSt]);
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
                         return;
                     }
                     break;
                 case 9:
                     if (hr == 22) {
-                        C(av[id][ifSt]);
-                        eH = true;
-                        ++ifSt;
+                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        Story.sakuraFound = true;
+                        ++mapEventStep;
                         return;
                     }
             }
-        } else if (id == 10) {
-            Display.getDisplay(Midlet.c).setCurrent(Midlet.b);
-            id = 0;
+        } else if (mapEventId == 10) {
+            Display.getDisplay(Midlet.instance).setCurrent(Midlet.b);
+            mapEventId = 0;
         }
 
     }
 
     public static void s() {
         Midlet.b = new b();
-        ad();
+        updateMapEvent();
         b var0 = Midlet.b;
-        Midlet.a((Midlet.g = Midlet.a()) == 0 ? 1 : 0);
-        e = 13;
+        Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         ai();
-        e = 4;
-        lK = true;
+        state = GameState.LOGO;
         (new Thread(var0)).start();
     }
 
     public b() {
         this.setFullScreenMode(true);
         System.gc();
-        aM = this;
-        aQ = this.getKeyCode(8) == -20;
-        aT = this.getWidth();
-        aU = this.getHeight();
-        aV = aT / 2;
-        aW = aU / 2;
-        lK = aH() == 1;
-        this.ae();
-        this.lT = 100;
-        this.ay();
-        byte[] var2;
-        byte var10000 = (var2 = e("np")) == null ? -1 : var2[0];
-        lW = var10000;
-        if (var10000 == -1) {
-            W(lW = this.lT / 10);
-            f("TEAM PAY " + (int)(System.currentTimeMillis() % 8599L + 1000L) + "009" + "003");
-            X(0);
-        }
-
-        c();
-        b var1 = this;
-        String var6;
-        if ((var6 = System.getProperty("phone.imei")) == null || var6.equals("")) {
-            var6 = System.getProperty("com.nokia.IMEI");
-        }
-
-        if (var6 != null && !var6.equals("")) {
-            this.lS = var6;
-        }
-
-        byte[] var3;
-        String var7 = (var3 = e("im")) == null ? null : new String(var3);
-        String var4 = var7;
-        if (var7 == null) {
-            var4 = var1.lS;
-            a("im", var4.getBytes());
-        } else if (!var4.equals(var1.lS)) {
-            lW = 2;
-            W(2);
-            f("TEAM PAY " + (int)(System.currentTimeMillis() % 8599L + 1000L) + "009" + "003");
-            X(0);
-        }
-
-        e = 13;
-        byte[] var5;
-        Z = (var5 = e("r")) == null ? 0 : var5[0];
-        lO = aV - (lP.stringWidth(lM[1]) >> 1);
-    }
-
-    private void ae() {
-        String var4 = System.getProperty("microedition.platform");
-        String var1 = "";
-        if (var4 == null) {
-            var4 = "TeaMobile";
-        }
-
-        if (lK) {
-            byte[] var2;
-            String var10000 = (var2 = e("lv")) == null ? null : new String(var2);
-            String var6 = var10000;
-            if (var10000 == null) {
-                X(0);
-                Y(0);
-                d(var4);
-                return;
-            }
-
-            if (!var6.equals(var4)) {
-                X(0);
-                Y(0);
-                d(var4);
-                return;
-            }
-
-            for(int var7 = 0; var7 < 4; ++var7) {
-                var1 = var1 + (char)(iL.charAt(var7) - 1);
-            }
-
-            var1 = var1 + 'a';
-            if (var4.toLowerCase().indexOf(var1) != -1) {
-                e = 13;
-                byte[] var5;
-                byte var9 = (var5 = e("bc")) == null ? 0 : var5[0];
-                byte var8 = var9;
-                if (var9 < iL.length() - 1) {
-                    E(var8 + 1);
-                    return;
-                }
-
-                var4 = (var5 = e("girl")) == null ? null : new String(var5);
-                var1 = null;
-
-                if (var1 == null) {
-                    b = !b;
-                } else if (var4 == null) {
-                    c(var1);
-                } else if (!var1.equals(var4)) {
-                    X(0);
-                    Y(0);
-                    c(var1);
-                    f("TEAM PAY " + (int)(System.currentTimeMillis() % 8599L + 1000L) + "009" + "003");
-                } else {
-                    E(0);
-                }
-            }
-        } else {
-            d(var4);
-        }
-
-    }
-
-    private static void E(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("bc", var1);
-    }
-
-    private static void c(String var0) {
-        a("girl", var0.getBytes());
-    }
-
-    private static void d(String var0) {
-        a("lv", var0.getBytes());
+        instance = this;
+        Input.motorolaKeys = this.getKeyCode(Canvas.FIRE) == Input.MOTOROLA_CODE_FIRE;
+        screenWidth = this.getWidth();
+        screenHeight = this.getHeight();
+        screenCenterX = screenWidth / 2;
+        screenCenterY = screenHeight / 2;
+        Input.clearHeld();
     }
 
     protected final void keyPressed(int var1) {
-        if (var1 == 35) {
+        if (var1 == Input.CODE_POUND) {
             if (bv.equals("1984")) {
-                eI = true;
-                eJ = true;
-                eZ = true;
-                eL = true;
-                eO = true;
-                eM = true;
-                eK = true;
-                eP = true;
-                eQ = true;
-                eV = true;
-                b("Learned All Skill");
+                Skills.lightness = true;
+                Skills.doubleJump = true;
+                Skills.hide = true;
+                Skills.burrow = true;
+                Skills.dive = true;
+                Skills.motorbikeLicense = true;
+                Skills.darts = true;
+                Skills.runOnWater = true;
+                Skills.transform = true;
+                Skills.tripleJump = true;
+                showNotice("Learned All Skill");
             } else if (bv.equals("30538")) {
-                K = 500000;
-                J = 500000;
-                I = 500000;
-                H = 500000;
-                b("Unlimit HP MP");
+                PlayerStats.setMaxHpMp(500000, 500000);
+                showNotice("Unlimit HP MP");
             } else if (bv.equals("38305")) {
-                F = 10000;
-                b("Unlimit Damage");
+                PlayerStats.attack = 10000;
+                showNotice("Unlimit Damage");
             } else if (bv.equals("1982")) {
-                u(100000);
+                gainExp(100000);
             } else if (bv.equals("1983")) {
-                dd += 50000;
-                b("Money+=50000");
-            } else if (bv.equals("12456")) {
-                TextBox var3;
-                (var3 = new TextBox("Type anything:", "", 50, 0)).addCommand(new Command("OK", 4, 0));
-                var3.addCommand(new Command("Back", 2, 0));
-                var3.setCommandListener(this);
-                Display.getDisplay(Midlet.c).setCurrent(var3);
-            } else if (bv.equals("99999")) {
-                a(aG(), "sms://", 0);
-                e = 13;
+                money += 50000;
+                showNotice("Money+=50000");
             } else {
                 int var2;
                 if (!bv.equals("1981")) {
                     if (bv.equals("8463")) {
                         var2 = gL + (int)((System.currentTimeMillis() - gM) / 1000L);
-                        b(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
+                        showNotice(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
                     }
                 } else {
                     for(var2 = 0; var2 < 19; ++var2) {
                         X[var2] = true;
                     }
 
-                    b("Unlock all map!");
+                    showNotice("Unlock all map!");
                 }
             }
 
-            d = true;
+            hudDirty = true;
             bv = "";
         }
 
-        if (var1 >= 48 && var1 <= 57 && (bv = bv + (char)var1).length() > 10) {
+        if (var1 >= Input.CODE_NUM0 && var1 <= Input.CODE_NUM9 && (bv = bv + (char)var1).length() > 10) {
             bv = "";
         }
 
-        if (aQ) {
-            switch (var1) {
-                case -23:
-                    var1 = -8;
-                    break;
-                case -22:
-                case 22:
-                    var1 = -7;
-                    break;
-                case -21:
-                case 21:
-                    var1 = -6;
-                    break;
-                case -20:
-                    var1 = -5;
-                    break;
-                case -6:
-                    var1 = -2;
-                    break;
-                case -5:
-                    var1 = -4;
-                    break;
-                case -2:
-                    var1 = -3;
-            }
-        }
-
-        if (!fS || var1 == -5) {
-            F(var1);
+        var1 = Input.normalizeKeyCode(var1);
+        if (!cutscenePlaying || var1 == Input.CODE_FIRE) {
+            Input.keyDown(var1);
         }
     }
 
     protected final void keyReleased(int var1) {
-        if (aQ) {
-            switch (var1) {
-                case -23:
-                    var1 = -8;
-                    break;
-                case -22:
-                case 22:
-                    var1 = -7;
-                    break;
-                case -21:
-                case 21:
-                    var1 = -6;
-                    break;
-                case -20:
-                    var1 = -5;
-                    break;
-                case -6:
-                    var1 = -2;
-                    break;
-                case -5:
-                    var1 = -4;
-                    break;
-                case -2:
-                    var1 = -3;
-            }
-        }
-
-        if (!fS || var1 == -5) {
-            G(var1);
-        }
-    }
-
-    private static void F(int var0) {
-        switch (var0) {
-            case -22:
-            case -7:
-                aR[13] = true;
-                aS[13] = true;
-                return;
-            case -21:
-            case -6:
-                aR[12] = true;
-                aS[12] = true;
-                return;
-            case -5:
-            case 10:
-                aR[5] = true;
-                aS[5] = true;
-                return;
-            case -4:
-                aR[6] = true;
-                aS[6] = true;
-                return;
-            case -3:
-                aR[4] = true;
-                aS[4] = true;
-                return;
-            case -2:
-                aR[8] = true;
-                aS[8] = true;
-                return;
-            case -1:
-                aR[2] = true;
-                aS[2] = true;
-                return;
-            case 35:
-                aR[11] = true;
-                aS[11] = true;
-                return;
-            case 42:
-                aR[10] = true;
-                aS[10] = true;
-                return;
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
-            case 53:
-            case 54:
-            case 55:
-            case 56:
-            case 57:
-                aR[var0 - 48] = true;
-                aS[var0 - 48] = true;
-                return;
-            default:
-        }
-    }
-
-    private static void G(int var0) {
-        switch (var0) {
-            case -22:
-            case -7:
-                aR[13] = false;
-                return;
-            case -21:
-            case -6:
-                aR[12] = false;
-                return;
-            case -5:
-            case 10:
-                aR[5] = false;
-                return;
-            case -4:
-                aR[6] = false;
-                aS[6] = false;
-                return;
-            case -3:
-                aR[4] = false;
-                aS[4] = false;
-                return;
-            case -2:
-                aR[8] = false;
-                aS[8] = false;
-                return;
-            case -1:
-                aR[2] = false;
-                aS[2] = false;
-                return;
-            case 35:
-                aR[11] = false;
-                return;
-            case 42:
-                aR[10] = false;
-                return;
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
-            case 53:
-            case 54:
-            case 55:
-            case 56:
-            case 57:
-                aR[var0 - 48] = false;
-                return;
-            default:
+        var1 = Input.normalizeKeyCode(var1);
+        if (!cutscenePlaying || var1 == Input.CODE_FIRE) {
+            Input.keyUp(var1);
         }
     }
 
     protected final void paint(Graphics var1) {
         try {
-            switch (e) {
-                case 1:
+            switch (state) {
+                case GameState.PLAYING:
                     Graphics var6 = var1;
-                    var1.setClip(-1, -1, r + 2, s + 2);
-                    a(var1);
-                    var1.translate(-fO, -fP);
+                    var1.setClip(-1, -1, viewWidth + 2, viewHeight + 2);
+                    drawSky(var1);
+                    var1.translate(-cameraX, -cameraY);
                     var1 = var1;
 
                     int var2;
-                    for(var2 = 0; var2 < iX; ++var2) {
-                        if (iZ[var2] + jb[var2] >= fO && iZ[var2] - jb[var2] <= fO + r && ja[var2] >= fP && ja[var2] - jc[var2] <= fP + s) {
-                            jg = (jf = iZ[var2] - fO) - bC;
-                            jh = (ji = (je - 2) * jg / je) + bC;
-                            var1.drawImage(iW[iY[var2]], fO + jh, ja[var2], 33);
+                    for(var2 = 0; var2 < houseCount; ++var2) {
+                        if (houseX[var2] + houseHalfWidth[var2] >= cameraX && houseX[var2] - houseHalfWidth[var2] <= cameraX + viewWidth && houseY[var2] >= cameraY && houseY[var2] - houseHeight[var2] <= cameraY + viewHeight) {
+                            jg = (jf = houseX[var2] - cameraX) - viewCenterX;
+                            jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                            var1.drawImage(houseImages[houseTypes[var2]], cameraX + jh, houseY[var2], 33);
                         }
                     }
 
-                    if (a) {
+                    if (lowGraphics) {
                         j(var6);
                     } else {
                         k(var6);
                     }
 
-                    i(var6);
-                    r(var6);
+                    drawSigns(var6);
+                    drawNpcs(var6);
                     if (hJ) {
                         if (hY < 0) {
-                            var6.drawImage(ex[0], hP, hQ, 33);
-                            var6.drawImage(ex[2], hR, hV, 33);
-                            var6.drawImage(ex[3], hU, hW, 33);
-                            var6.drawImage(ex[1], hS, hT, 33);
+                            var6.drawImage(boss1Sprites[0], hP, hQ, 33);
+                            var6.drawImage(boss1Sprites[2], hR, hV, 33);
+                            var6.drawImage(boss1Sprites[3], hU, hW, 33);
+                            var6.drawImage(boss1Sprites[1], hS, hT, 33);
                         } else {
-                            var6.drawRegion(ex[0], 0, 0, ex[0].getWidth(), ex[0].getHeight(), 2, hP, hQ, 33);
-                            var6.drawRegion(ex[2], 0, 0, ex[2].getWidth(), ex[2].getHeight(), 2, hR, hV, 33);
-                            var6.drawRegion(ex[3], 0, 0, ex[3].getWidth(), ex[3].getHeight(), 2, hU, hW, 33);
-                            var6.drawRegion(ex[1], 0, 0, ex[1].getWidth(), ex[1].getHeight(), 2, hS, hT, 33);
+                            var6.drawRegion(boss1Sprites[0], 0, 0, boss1Sprites[0].getWidth(), boss1Sprites[0].getHeight(), 2, hP, hQ, 33);
+                            var6.drawRegion(boss1Sprites[2], 0, 0, boss1Sprites[2].getWidth(), boss1Sprites[2].getHeight(), 2, hR, hV, 33);
+                            var6.drawRegion(boss1Sprites[3], 0, 0, boss1Sprites[3].getWidth(), boss1Sprites[3].getHeight(), 2, hU, hW, 33);
+                            var6.drawRegion(boss1Sprites[1], 0, 0, boss1Sprites[1].getWidth(), boss1Sprites[1].getHeight(), 2, hS, hT, 33);
                         }
 
                         if (ic != 0) {
@@ -7305,19 +6304,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1 = var6;
 
                     for(var2 = 0; var2 < iq; ++var2) {
-                        if (fO <= is[var2] + 12 && fO + r >= is[var2] - 12 && fP <= it[var2] && fP + s >= it[var2] - 24) {
-                            var1.drawImage(ee, is[var2], it[var2], 33);
+                        if (cameraX <= is[var2] + 12 && cameraX + viewWidth >= is[var2] - 12 && cameraY <= it[var2] && cameraY + viewHeight >= it[var2] - 24) {
+                            var1.drawImage(itemCrate, is[var2], it[var2], 33);
                         }
                     }
 
                     var1 = var6;
 
                     for(var2 = 0; var2 < ii; ++var2) {
-                        if (fO <= ik[var2] + 12 && fO + r >= ik[var2] - 12 && fP <= il[var2] && fP + s >= il[var2] - 24) {
+                        if (cameraX <= ik[var2] + 12 && cameraX + viewWidth >= ik[var2] - 12 && cameraY <= il[var2] && cameraY + viewHeight >= il[var2] - 24) {
                             if (im[var2] == 1) {
-                                var1.drawImage(eb[in[var2]], ik[var2], il[var2], 33);
+                                var1.drawImage(motorbikeFrames[in[var2]], ik[var2], il[var2], 33);
                             } else {
-                                var1.drawRegion(eb[in[var2]], 0, 0, eb[in[var2]].getWidth(), eb[in[var2]].getHeight(), 2, ik[var2], il[var2], 33);
+                                var1.drawRegion(motorbikeFrames[in[var2]], 0, 0, motorbikeFrames[in[var2]].getWidth(), motorbikeFrames[in[var2]].getHeight(), 2, ik[var2], il[var2], 33);
                             }
                         }
                     }
@@ -7325,46 +6324,46 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1 = var6;
 
                     for(var2 = 0; var2 < de; ++var2) {
-                        if (dh[var2] != 0 && df[var2] >= fO - 10 && df[var2] <= fO + r + 10 && dg[var2] >= fP && dg[var2] <= fP + s + 20) {
-                            var1.drawRegion(eg[dm[var2]], 0, dk[var2] * 15, 8, 15, 0, df[var2], dg[var2], 33);
+                        if (dh[var2] != 0 && df[var2] >= cameraX - 10 && df[var2] <= cameraX + viewWidth + 10 && dg[var2] >= cameraY && dg[var2] <= cameraY + viewHeight + 20) {
+                            var1.drawRegion(itemMoney[dm[var2]], 0, dk[var2] * Item.FRAME_HEIGHT, Item.MONEY_WIDTH, Item.FRAME_HEIGHT, 0, df[var2], dg[var2], 33);
                         }
                     }
 
                     var1 = var6;
 
                     for(var2 = 0; var2 < cM; ++var2) {
-                        if (cQ[var2] != 0 && cO[var2] >= fO - 10 && cO[var2] <= fO + r + 10 && cP[var2] >= fP && cP[var2] <= fP + s + 20) {
-                            var1.drawRegion(ew[cN[var2]], 0, cT[var2] * 15, 13, 15, 0, cO[var2], cP[var2], 33);
+                        if (cQ[var2] != 0 && cO[var2] >= cameraX - 10 && cO[var2] <= cameraX + viewWidth + 10 && cP[var2] >= cameraY && cP[var2] <= cameraY + viewHeight + 20) {
+                            var1.drawRegion(itemPotions[cN[var2]], 0, cT[var2] * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, cO[var2], cP[var2], 33);
                         }
                     }
 
                     int var3;
-                    if (gN && gS != 22 && fO + r >= gP - (gV >> 1) && fO <= gP + (gV >> 1) && fP <= gQ && fP + s >= gQ - gW) {
+                    if (gN && gS != 22 && cameraX + viewWidth >= gP - (gV >> 1) && cameraX <= gP + (gV >> 1) && cameraY <= gQ && cameraY + viewHeight >= gQ - gW) {
                         byte var8 = 0;
                         if (gU == 0) {
                             var8 = -2;
-                            if (gS == 1 && x % 10 > 5) {
+                            if (gS == 1 && tick % 10 > 5) {
                                 var8 = -1;
                             }
 
                             if (gT == 1) {
-                                var6.drawImage(ev[4], gP, gQ + 1, 33);
+                                var6.drawImage(boss0Sprites[4], gP, gQ + 1, 33);
                             } else {
-                                var6.drawRegion(ev[4], 0, 0, ev[4].getWidth(), ev[4].getHeight(), 2, gP, gQ + 1, 33);
+                                var6.drawRegion(boss0Sprites[4], 0, 0, boss0Sprites[4].getWidth(), boss0Sprites[4].getHeight(), 2, gP, gQ + 1, 33);
                             }
                         }
 
                         if (gT == 1) {
-                            var6.drawImage(ev[gU], gP, gQ + var8 + 1, 33);
+                            var6.drawImage(boss0Sprites[gU], gP, gQ + var8 + 1, 33);
                         } else {
-                            var6.drawRegion(ev[gU], 0, 0, ev[gU].getWidth(), ev[gU].getHeight(), 2, gP, gQ + var8 + 1, 33);
+                            var6.drawRegion(boss0Sprites[gU], 0, 0, boss0Sprites[gU].getWidth(), boss0Sprites[gU].getHeight(), 2, gP, gQ + var8 + 1, 33);
                         }
 
                         if (gS == 7) {
                             if (gT == 1) {
-                                var6.drawImage(ev[3], gP + 10, gQ - 25 + 1, 0);
+                                var6.drawImage(boss0Sprites[3], gP + 10, gQ - 25 + 1, 0);
                             } else {
-                                var6.drawRegion(ev[3], 0, 0, ev[3].getWidth(), ev[3].getHeight(), 2, gP - 10, gQ - 25 + 1, 24);
+                                var6.drawRegion(boss0Sprites[3], 0, 0, boss0Sprites[3].getWidth(), boss0Sprites[3].getHeight(), 2, gP - 10, gQ - 25 + 1, 24);
                             }
                         }
 
@@ -7383,11 +6382,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     if (hi) {
                         if (hs > 0) {
                             for(var2 = 0; var2 < 6; ++var2) {
-                                var1.drawImage(ez[var2], hD[var2], hE[var2], 33);
+                                var1.drawImage(boss2Sprites[var2], hD[var2], hE[var2], 33);
                             }
                         } else {
                             for(var2 = 0; var2 < 6; ++var2) {
-                                var1.drawRegion(ez[var2], 0, 0, ez[var2].getWidth(), ez[var2].getHeight(), 2, hD[var2], hE[var2], 33);
+                                var1.drawRegion(boss2Sprites[var2], 0, 0, boss2Sprites[var2].getWidth(), boss2Sprites[var2].getHeight(), 2, hD[var2], hE[var2], 33);
                             }
                         }
 
@@ -7405,8 +6404,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1 = var6;
 
                     for(var2 = 0; var2 < jG; ++var2) {
-                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= fO - 10 && jJ[var2] <= fO + r + 10 && jK[var2] >= fP && jK[var2] <= fP + s + 20) {
-                            var1.drawImage(jF[kg[var2]][jX[var2] >= 0 ? 0 : 1][jW[var2]], jJ[var2], jK[var2], 33);
+                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= cameraX - 10 && jJ[var2] <= cameraX + viewWidth + 10 && jK[var2] >= cameraY && jK[var2] <= cameraY + viewHeight + 20) {
+                            var1.drawImage(monsterSprites[kg[var2]][jX[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][jW[var2]], jJ[var2], jK[var2], 33);
                             if (jN[var2] != 0) {
                                 var1.setColor(13073);
                                 var1.drawRect(jJ[var2] - (jM[var2] >> 1) - 1, jK[var2] - jL[var2] - 7, jM[var2] + 2, 4);
@@ -7422,13 +6421,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var1 = var6;
 
                     for(var2 = 0; var2 < cp; ++var2) {
-                        if (cE[var2] != 5 && cu[var2] + 15 >= fO && cu[var2] - 15 <= fO + r && cv[var2] >= fP && cv[var2] - 30 <= fP + s) {
+                        if (cE[var2] != 5 && cu[var2] + 15 >= cameraX && cu[var2] - 15 <= cameraX + viewWidth && cv[var2] >= cameraY && cv[var2] - 30 <= cameraY + viewHeight) {
                             if (cH[var2] == -1) {
-                                var1.drawImage(eu[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
-                                var1.drawImage(et[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
+                                var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
                             } else {
-                                var1.drawRegion(eu[cI[var2]], 0, 0, eu[cI[var2]].getWidth(), eu[cI[var2]].getHeight(), 2, cu[var2] - ah[cD[var2]], cv[var2], 33);
-                                var1.drawRegion(et[cD[var2]][cJ[var2]], 0, 0, et[cD[var2]][cJ[var2]].getWidth(), et[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - af[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawRegion(ninjaLegs[cI[var2]], 0, 0, ninjaLegs[cI[var2]].getWidth(), ninjaLegs[cI[var2]].getHeight(), 2, cu[var2] - ah[cD[var2]], cv[var2], 33);
+                                var1.drawRegion(ninjaBodies[cD[var2]][cJ[var2]], 0, 0, ninjaBodies[cD[var2]][cJ[var2]].getWidth(), ninjaBodies[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - af[cD[var2]][cJ[var2]], cx[var2], 33);
                             }
 
                             if (cq[var2] != 0) {
@@ -7444,21 +6443,21 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     g(var6);
-                    if (dn && doSt + 15 >= fO && doSt - 15 <= fO + r && dp >= fP && dp - 10 <= fP + s) {
-                    var2 = x % 8 > 3 ? 0 : 1;
+                    if (dn && doSt + 15 >= cameraX && doSt - 15 <= cameraX + viewWidth && dp >= cameraY && dp - 10 <= cameraY + viewHeight) {
+                    var2 = tick % 8 > 3 ? 0 : 1;
                     if (dq > 0) {
-                        var6.drawImage(ei[var2], doSt, dp, 33);
+                        var6.drawImage(npcDog[var2], doSt, dp, 33);
                     } else {
-                        var6.drawRegion(ei[var2], 0, 0, ei[var2].getWidth(), ei[var2].getHeight(), 2, doSt, dp, 33);
+                        var6.drawRegion(npcDog[var2], 0, 0, npcDog[var2].getWidth(), npcDog[var2].getHeight(), 2, doSt, dp, 33);
                     }
                 }
 
                 if (hc) {
                     if (hd) {
                         var6.setColor(16768477);
-                        var2 = fO + 50;
-                        var3 = fP + 15;
-                        if (!be) {
+                        var2 = cameraX + 50;
+                        var3 = cameraY + 15;
+                        if (!hudPanelVisible) {
                             var3 += 20;
                         }
 
@@ -7470,50 +6469,50 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         var6.fillRect(var2 - 35 + var7, var3 - 6, 70 - var7 + 1, 3);
                     }
 
-                    if (dz[0] + fi >= fO && dz[0] - fi <= fO + r && dA[0] >= fP && dA[0] - fh <= fP + s) {
+                    if (dz[0] + fi >= cameraX && dz[0] - fi <= cameraX + viewWidth && dA[0] >= cameraY && dA[0] - fh <= cameraY + viewHeight) {
                         if (dJ[0] == 1) {
-                            var6.drawImage(es[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
-                            var6.drawImage(eq[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
-                            var6.drawImage(ed[aI[dG[0]][2][0]], dz[0] + aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 0);
+                            var6.drawImage(classmateHeads[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
+                            var6.drawImage(heroLegs[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
+                            var6.drawImage(heroBodies[aI[dG[0]][2][0]], dz[0] + aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 0);
                             if (dI[0] != -1) {
-                                var6.drawImage(eB[dI[0]], dz[0] - as[dI[0]], dA[0] - at[dI[0]], 0);
+                                var6.drawImage(slashEffects[dI[0]], dz[0] - as[dI[0]], dA[0] - at[dI[0]], 0);
                             }
                         } else {
-                            var6.drawRegion(es[dH[0]][aI[dG[0]][0][0]], 0, 0, es[dH[0]][aI[dG[0]][0][0]].getWidth(), es[dH[0]][aI[dG[0]][0][0]].getHeight(), 2, dz[0] - aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 24);
-                            var6.drawRegion(eq[aI[dG[0]][1][0]], 0, 0, eq[aI[dG[0]][1][0]].getWidth(), eq[aI[dG[0]][1][0]].getHeight(), 2, dz[0] - aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 24);
-                            var6.drawRegion(ed[aI[dG[0]][2][0]], 0, 0, ed[aI[dG[0]][2][0]].getWidth(), ed[aI[dG[0]][2][0]].getHeight(), 2, dz[0] - aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 24);
+                            var6.drawRegion(classmateHeads[dH[0]][aI[dG[0]][0][0]], 0, 0, classmateHeads[dH[0]][aI[dG[0]][0][0]].getWidth(), classmateHeads[dH[0]][aI[dG[0]][0][0]].getHeight(), 2, dz[0] - aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 24);
+                            var6.drawRegion(heroLegs[aI[dG[0]][1][0]], 0, 0, heroLegs[aI[dG[0]][1][0]].getWidth(), heroLegs[aI[dG[0]][1][0]].getHeight(), 2, dz[0] - aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 24);
+                            var6.drawRegion(heroBodies[aI[dG[0]][2][0]], 0, 0, heroBodies[aI[dG[0]][2][0]].getWidth(), heroBodies[aI[dG[0]][2][0]].getHeight(), 2, dz[0] - aI[dG[0]][2][1], dA[0] - aI[dG[0]][2][2], 24);
                             if (dI[0] != -1) {
-                                var6.drawRegion(eB[dI[0]], 0, 0, eB[dI[0]].getWidth(), eB[dI[0]].getHeight(), 2, dz[0] + as[dI[0]], dA[0] - at[dI[0]], 24);
+                                var6.drawRegion(slashEffects[dI[0]], 0, 0, slashEffects[dI[0]].getWidth(), slashEffects[dI[0]].getHeight(), 2, dz[0] + as[dI[0]], dA[0] - at[dI[0]], 24);
                             }
                         }
                     }
                 }
 
                 if (dX != 0 && (var2 = dX % 3) < 2) {
-                    var6.drawImage(er[var2], dV, dW, 17);
+                    var6.drawImage(auraSprites[var2], dV, dW, 17);
                 }
 
-                if (gm == w) {
+                if (gm == mapId) {
                     if (gz == 1) {
-                        var6.drawImage(em[aq[gs][0][0]], gn + aq[gs][0][1], go - aq[gs][0][2], 0);
-                        var6.drawImage(en[aq[gs][1][0]], gn + aq[gs][1][1], go - aq[gs][1][2], 0);
-                        var6.drawImage(el[aq[gs][2][0]], gn + aq[gs][2][1], go - aq[gs][2][2], 0);
+                        var6.drawImage(girlHeads[aq[gs][0][0]], gn + aq[gs][0][1], go - aq[gs][0][2], 0);
+                        var6.drawImage(girlLegs[aq[gs][1][0]], gn + aq[gs][1][1], go - aq[gs][1][2], 0);
+                        var6.drawImage(girlBodies[aq[gs][2][0]], gn + aq[gs][2][1], go - aq[gs][2][2], 0);
                         if (ig != -1) {
-                            var6.drawImage(eB[ig], gn - as[ig], go - at[ig], 0);
+                            var6.drawImage(slashEffects[ig], gn - as[ig], go - at[ig], 0);
                         }
                     } else {
-                        var6.drawRegion(em[aq[gs][0][0]], 0, 0, em[aq[gs][0][0]].getWidth(), em[aq[gs][0][0]].getHeight(), 2, gn - aq[gs][0][1], go - aq[gs][0][2], 24);
-                        var6.drawRegion(en[aq[gs][1][0]], 0, 0, en[aq[gs][1][0]].getWidth(), en[aq[gs][1][0]].getHeight(), 2, gn - aq[gs][1][1], go - aq[gs][1][2], 24);
-                        var6.drawRegion(el[aq[gs][2][0]], 0, 0, el[aq[gs][2][0]].getWidth(), el[aq[gs][2][0]].getHeight(), 2, gn - aq[gs][2][1], go - aq[gs][2][2], 24);
+                        var6.drawRegion(girlHeads[aq[gs][0][0]], 0, 0, girlHeads[aq[gs][0][0]].getWidth(), girlHeads[aq[gs][0][0]].getHeight(), 2, gn - aq[gs][0][1], go - aq[gs][0][2], 24);
+                        var6.drawRegion(girlLegs[aq[gs][1][0]], 0, 0, girlLegs[aq[gs][1][0]].getWidth(), girlLegs[aq[gs][1][0]].getHeight(), 2, gn - aq[gs][1][1], go - aq[gs][1][2], 24);
+                        var6.drawRegion(girlBodies[aq[gs][2][0]], 0, 0, girlBodies[aq[gs][2][0]].getWidth(), girlBodies[aq[gs][2][0]].getHeight(), 2, gn - aq[gs][2][1], go - aq[gs][2][2], 24);
                         if (ig != -1) {
-                            var6.drawRegion(eB[ig], 0, 0, eB[ig].getWidth(), eB[ig].getHeight(), 2, gn + as[ig], go - at[ig], 24);
+                            var6.drawRegion(slashEffects[ig], 0, 0, slashEffects[ig].getWidth(), slashEffects[ig].getHeight(), 2, gn + as[ig], go - at[ig], 24);
                         }
                     }
                 }
 
                 b(var6);
-                if (fH != 0) {
-                    var6.drawImage(ec, fF, fG, 33);
+                if (questItemState != 0) {
+                    var6.drawImage(itemScroll, questItemX, questItemY, 33);
                 }
 
                 var1 = var6;
@@ -7521,18 +6520,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 for(var2 = 0; var2 < 2; ++var2) {
                     if (cc[var2] != -1) {
                         if (ce[var2] == 1) {
-                            var1.drawImage(ey[cd[var2]], ca[var2], cb[var2], 3);
+                            var1.drawImage(bloodSprites[cd[var2]], ca[var2], cb[var2], 3);
                         } else {
-                            var1.drawRegion(ey[cd[var2]], 0, 0, ey[cd[var2]].getWidth(), ey[cd[var2]].getHeight(), 2, ca[var2], cb[var2], 3);
+                            var1.drawRegion(bloodSprites[cd[var2]], 0, 0, bloodSprites[cd[var2]].getWidth(), bloodSprites[cd[var2]].getHeight(), 2, ca[var2], cb[var2], 3);
                         }
                     }
                 }
 
                 var1 = var6;
-                if (!a) {
+                if (!lowGraphics) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (cl[var2] != -1) {
-                            var1.drawImage(ej[var2][cl[var2]], cj[var2], ck[var2], 3);
+                            var1.drawImage(dustSprites[var2][cl[var2]], cj[var2], ck[var2], 3);
                         }
                     }
                 }
@@ -7541,7 +6540,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < bM; ++var2) {
                     if (bP[var2] != -1) {
-                        var1.drawImage(dY[bS[var2]][bQ[var2] > 0 ? 0 : 1], bN[var2], bO[var2], 3);
+                        var1.drawImage(enemyProjectiles[bS[var2]][bQ[var2] > 0 ? Effect.PROJECTILE_DIR_RIGHT : Effect.PROJECTILE_DIR_LEFT], bN[var2], bO[var2], 3);
                     }
                 }
 
@@ -7549,7 +6548,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < cV; ++var2) {
                     if (cY[var2] != -1) {
-                        var1.drawImage(ek[cZ[var2]], cW[var2], cX[var2], 3);
+                        var1.drawImage(dartFrames[cZ[var2]], cW[var2], cX[var2], 3);
                     }
                 }
 
@@ -7557,15 +6556,15 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < bT; ++var2) {
                     if (bW[var2] != 0) {
-                        var1.drawImage(ea, bU[var2], bV[var2], 3);
+                        var1.drawImage(healSprite, bU[var2], bV[var2], 3);
                     }
                 }
 
                 var1 = var6;
-                if (!a) {
+                if (!lowGraphics) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (ch[var2] != -1) {
-                            var1.drawImage(eD[ci[var2]], cf[var2], cg[var2], 3);
+                            var1.drawImage(waterSplashSprites[ci[var2]], cf[var2], cg[var2], 3);
                         }
                     }
                 }
@@ -7575,194 +6574,116 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 for(var2 = 0; var2 < 5; ++var2) {
                     if (dT[var2] != -1) {
-                        Midlet.a(var1, dO[var2], dU[var2], dP[var2], dQ[var2], 0);
+                        FontGraph.drawSmall(var1, dO[var2], dU[var2], dP[var2], dQ[var2], 0);
                     }
                 }
 
-                if (gb == w) {
-                    var6.drawImage(dZ[ge], gf, gg, 3);
+                if (guideMarkerMap == mapId) {
+                    var6.drawImage(arrowIcons[ge], gf, gg, 3);
                 }
 
-                c(var6);
-                if (d) {
-                    d(var6);
+                drawHudOverlay(var6);
+                if (hudDirty) {
+                    drawHudPanel(var6);
                 }
 
-                if (bu > 1) {
-                    e(var6);
+                if (letterboxHeight > 1) {
+                    drawLetterbox(var6);
                 }
 
-                if (cm) {
+                if (noticeVisible) {
                     var6.translate(-var6.getTranslateX(), -var6.getTranslateY());
-                    var6.setClip(-1, -1, aT + 2, aU + 2);
+                    var6.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
                     var6.setColor(0);
-                    var6.fillRect(0, 0, aT, 21);
+                    var6.fillRect(0, 0, screenWidth, 21);
                     var6.setColor(10275899);
-                    var6.fillRect(0, 19, aT, 1);
-                    if (x % 10 > 2) {
-                        Midlet.a(var6, co, bC, 4, 2);
+                    var6.fillRect(0, 19, screenWidth, 1);
+                    if (tick % 10 > 2) {
+                        FontGraph.drawBold(var6, noticeText, viewCenterX, 4, 2);
                     }
                 }
 
-                if (iz) {
-                    f(var6);
+                if (Dialogue.visible) {
+                    drawDialogue(var6);
                 }
 
                 return;
-                case 2:
+                case GameState.LOADING:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, aT, 21);
-                    Midlet.a(var1, "Loading... " + T + "%", aT >> 1, 4, 2);
+                    var1.fillRect(0, 0, screenWidth, 21);
+                    FontGraph.drawBold(var1, "Loading... " + loadingProgress + "%", screenWidth >> 1, 4, 2);
                     return;
-                case 3:
-                    var1.setClip(-1, -1, aT + 2, aU + 1);
-                    a(var1);
-                    var1.translate(-fO, -fP);
-                    if (a) {
+                case GameState.MAIN_MENU:
+                    var1.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
+                    drawSky(var1);
+                    var1.translate(-cameraX, -cameraY);
+                    if (lowGraphics) {
                         j(var1);
                     } else {
                         k(var1);
                     }
 
-                    i(var1);
+                    drawSigns(var1);
                     l(var1);
                     var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
                     var1.setColor(0);
-                    var1.fillRect(0, 0, r, ba);
-                    var1.fillRect(0, bb, r, aU - bb + 1);
+                    var1.fillRect(0, 0, viewWidth, ba);
+                    var1.fillRect(0, bb, viewWidth, screenHeight - bb + 1);
                     var1.setColor(10275899);
-                    var1.fillRect(0, ba - 1, aT, 1);
-                    var1.fillRect(0, bb + 1, aT, 1);
-                    var1.drawImage(eA, aV, aY + bb >> 1, 3);
-                    Midlet.a(var1, "*", aV - 50 - x % 3, bd, 0);
-                    Midlet.a(var1, "/", aV + 50 + x % 3, bd, 1);
-                    Midlet.a(var1, aE[aX], aV, bd, 3);
+                    var1.fillRect(0, ba - 1, screenWidth, 1);
+                    var1.fillRect(0, bb + 1, screenWidth, 1);
+                    var1.drawImage(titleImage, screenCenterX, aY + bb >> 1, 3);
+                    FontGraph.drawBold(var1, "*", screenCenterX - 50 - tick % 3, bd, 0);
+                    FontGraph.drawBold(var1, "/", screenCenterX + 50 + tick % 3, bd, 1);
+                    FontGraph.drawBold(var1, GameText.mainMenuItems[aX], screenCenterX, bd, 3);
                     return;
-                case 4:
+                case GameState.LOGO:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, aT, aU);
-                    if (jC != null && jE >= 0) {
-                        var1.drawRegion(jC, 0, jE * 51, 71, 51, 0, aT >> 1, aU >> 1, 3);
+                    var1.fillRect(0, 0, screenWidth, screenHeight);
+                    if (logoImage != null && jE >= 0) {
+                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, screenWidth >> 1, screenHeight >> 1, 3);
                     }
 
                     return;
-                case 5:
-                    o(var1);
+                case GameState.GAME_MENU:
+                    drawGameMenu(var1);
                     return;
-                case 6:
-                    p(var1);
+                case GameState.WORLD_MAP:
+                    drawWorldMap(var1);
                     return;
-                case 7:
-                    q(var1);
+                case GameState.MESSAGE:
+                    drawMessage(var1);
                     return;
-                case 8:
-                    n(var1);
+                case GameState.INVENTORY:
+                    drawInventory(var1);
                     return;
-                case 9:
-                    m(var1);
+                case GameState.SHOP:
+                    drawShop(var1);
                     return;
-                case 10:
+                case GameState.SETUP_PROMPT:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, aT, aU);
+                    var1.fillRect(0, 0, screenWidth, screenHeight);
                     if (!lk) {
-                        var1.drawImage(lj, aV, aW - 30, 3);
+                        var1.drawImage(popupImage, screenCenterX, screenCenterY - 30, 3);
                         if (ll == 0) {
-                            Midlet.a(var1, "Bật âm thanh?", aV, aW + 15, 2);
-                            Midlet.a(var1, "Bật", 4, aU - 14, 0);
-                            Midlet.a(var1, "Tắt", aT - 4, aU - 14, 1);
+                            FontGraph.drawBold(var1, "Bật âm thanh?", screenCenterX, screenCenterY + 15, 2);
+                            FontGraph.drawBold(var1, "Bật", 4, screenHeight - 14, 0);
+                            FontGraph.drawBold(var1, "Tắt", screenWidth - 4, screenHeight - 14, 1);
                             break;
                         }
 
-                        Midlet.a(var1, "Chất lượng hình ảnh?", aV, aW + 15, 2);
-                        Midlet.a(var1, "Cao", 4, aU - 14, 0);
-                        Midlet.a(var1, "Thấp", aT - 4, aU - 14, 1);
+                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", screenCenterX, screenCenterY + 15, 2);
+                        FontGraph.drawBold(var1, "Cao", 4, screenHeight - 14, 0);
+                        FontGraph.drawBold(var1, "Thấp", screenWidth - 4, screenHeight - 14, 1);
                     }
 
                     return;
-                case 11:
-                    h(var1);
+                case GameState.TUTORIAL:
+                    drawTutorial(var1);
                     return;
-                case 12:
-                    h(var1);
+                case GameState.UNUSED_12:
+                    drawTutorial(var1);
                     return;
-                case 13:
-                    var1.setColor(15395562);
-                    var1.fillRect(0, 0, aT, aU);
-                    var1.setColor(11788624);
-                    var1.fillRect(0, 0, aT, lR);
-                    var1.fillRect(0, aU - lR, aT, lR);
-                    var1.setColor(16777215);
-                    var1.setFont(lQ);
-                    var1.drawString("Ninja School", aV, 3, 17);
-                    var1.setFont(lP);
-                    switch (Z) {
-                        case 0:
-                            this.t(var1);
-                            return;
-                        case 1:
-                            var1.setColor(lN % 10 > 5 ? 16777215 : 7171437);
-                            var1.drawString("Dang gui tin", aV, aW - lR, 17);
-                            var1.drawString("kich hoat...", aV, aW, 17);
-                            return;
-                        case 2:
-                            var1.setColor(7171437);
-                            var1.drawString("Gui tin kich hoat ton phi", aV, aW - (lR << 1), 17);
-                            var1.drawString("15.000đ. Ban se nhan", aV, aW - lR, 17);
-                            var1.drawString("duoc ma kich hoat trong", aV, aW, 17);
-                            var1.drawString("tin nhan tra loi.", aV, aW + lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("Dong y", 2, aU - lR + 3, 20);
-                            var1.drawString("Khong", aT - 2, aU - lR + 3, 24);
-                            return;
-                        case 3:
-                        default:
-                            break;
-                        case 4:
-                            this.s(var1);
-                            return;
-                        case 5:
-                            var1.setColor(7171437);
-                            var1.drawString("Da gui tin kich hoat.", aV, aW - (lR << 1), 17);
-                            var1.drawString("Xin thoat game va", aV, aW - lR, 17);
-                            var1.drawString("cho giay lat. Ban se", aV, aW, 17);
-                            var1.drawString("nhan duoc ma kich hoat.", aV, aW + lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("OK", 2, aU - lR + 3, 20);
-                            return;
-                        case 6:
-                            var1.setColor(7171437);
-                            var1.drawString("Khong the gui SMS", aV, aW - (lR << 1), 17);
-                            var1.drawString("Xin hay thu lai. Vao", aV, aW - lR, 17);
-                            var1.drawString("www.teamobi.com", aV, aW, 17);
-                            var1.drawString("de biet them thong tin.", aV, aW + lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("OK", 2, aU - lR + 3, 20);
-                            return;
-                        case 7:
-                            var1.setColor(0);
-                            var1.fillRect(0, 0, aT, aU);
-                            String var4 = this.lY;
-                            if (lN % 10 > 5) {
-                                var4 = var4 + "|";
-                            }
-
-                            var1.drawString(var4, aV - 20, aW - 40, 20);
-                            X(7);
-                            ai();
-                            e = 4;
-                            lK = aH() == 1;
-                            return;
-                        case 8:
-                            var1.setColor(7171437);
-                            var1.drawString("Xin vui long", aV, aW - (lR << 1), 17);
-                            var1.drawString("Bat Bluetooth", aV, aW - lR, 17);
-                            var1.setColor(16777215);
-                            var1.setFont(lQ);
-                            var1.drawString("OK", 2, aU - lR + 3, 20);
-                    }
                 default:
                     return;
             }
@@ -7773,180 +6694,163 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     protected final void pointerDragged(int var1, int var2) {
-        aO = var1;
-        aP = var2;
+        Input.pointerX = var1;
+        Input.pointerY = var2;
     }
 
     protected final void pointerPressed(int var1, int var2) {
-        aO = var1;
-        aP = var2;
+        Input.pointerX = var1;
+        Input.pointerY = var2;
     }
 
     protected final void pointerReleased(int var1, int var2) {
-        aN = true;
-        aO = var1;
-        aP = var2;
+        Input.pointerReleased = true;
+        Input.pointerX = var1;
+        Input.pointerY = var2;
     }
 
     public final void run() {
-        if (!b) {
-            b = true;
-            e = 13;
-            Z = 8;
-        }
-
         while(b) {
             long var1 = System.currentTimeMillis();
             boolean var3;
             int var10002;
-            switch (e) {
-                case 1:
-                    if (++x == 10000) {
-                        x = 0;
+            switch (state) {
+                case GameState.PLAYING:
+                    if (++tick == 10000) {
+                        tick = 0;
                     }
 
                     if (fe < 0) {
-                        if (jo != -1) {
-                            B();
-                            fp = fe = js - 1;
-                            fq = ff = jt;
-                            Midlet.f = true;
-                            x(jo);
+                        if (MapExits.leftMap != MapExits.NONE) {
+                            releaseMapResources();
+                            fp = fe = MapExits.leftSpawnX - 1;
+                            fq = ff = MapExits.leftSpawnY;
+                            Save.pendingSave = true;
+                            changeMap(MapExits.leftMap);
                             break;
                         }
-                    } else if (fe >= iO - 24) {
-                        if (jp != -1) {
-                            if (!eZ && jp == 95) {
-                                s(6);
-                                a("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
-                                fe = iO - 60;
+                    } else if (fe >= GameMap.pixelWidth - 24) {
+                        if (MapExits.rightMap != MapExits.NONE) {
+                            if (!Skills.hide && MapExits.rightMap == 95) {
+                                showMessage(MessageType.LEVEL_UP);
+                                setMessageText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
+                                fe = GameMap.pixelWidth - 60;
                                 B = 4;
-                                e = 7;
+                                state = GameState.MESSAGE;
                                 break;
                             }
 
-                            B();
-                            if (jq != -1 && ff > jA) {
-                                fp = fe = jw;
-                                fq = ff = jx;
-                                Midlet.f = true;
-                                x(jq);
+                            releaseMapResources();
+                            if (MapExits.rightLowerMap != MapExits.NONE && ff > MapExits.rightLowerMinY) {
+                                fp = fe = MapExits.rightLowerSpawnX;
+                                fq = ff = MapExits.rightLowerSpawnY;
+                                Save.pendingSave = true;
+                                changeMap(MapExits.rightLowerMap);
                                 break;
                             }
 
-                            fp = fe = ju;
-                            fq = ff = jv;
-                            Midlet.f = true;
-                            x(jp);
+                            fp = fe = MapExits.rightSpawnX;
+                            fq = ff = MapExits.rightSpawnY;
+                            Save.pendingSave = true;
+                            changeMap(MapExits.rightMap);
                             break;
                         }
-                    } else if (ff + A >= iP && B != 6 && jr != -1) {
-                        B();
-                        fp = fe = jy;
-                        fq = ff = jz;
-                        Midlet.f = true;
-                        x(jr);
+                    } else if (ff + A >= GameMap.pixelHeight && B != 6 && MapExits.bottomMap != MapExits.NONE) {
+                        releaseMapResources();
+                        fp = fe = MapExits.bottomSpawnX;
+                        fq = ff = MapExits.bottomSpawnY;
+                        Save.pendingSave = true;
+                        changeMap(MapExits.bottomMap);
                         B = 4;
                         break;
                     }
 
-                    ad();
-                    X();
-                    if (V()) {
+                    updateMapEvent();
+                    Dialogue.typeTick();
+                    if (updateCutscene()) {
                         break;
                     }
 
                     int var13;
-                    if (!a) {
-                        for(var13 = 0; var13 < 2; ++var13) {
-                            if (x % (var13 + 2 << 3) == 0) {
-                                var10002 = f[var13]++;
-                                if (f[var13] > r + (u.getWidth() >> 1)) {
-                                    f[var13] = -(u.getWidth() >> 1);
-                                }
-                            }
-                        }
+                    if (!lowGraphics) {
+                        Sky.updateClouds(tick, viewWidth);
                     }
 
                     int var4;
-                    if (iz) {
-                        if (aS[5]) {
-                            d();
-                            M();
-                            if (iC == iB) {
-                                iz = false;
-                                z();
+                    if (Dialogue.visible) {
+                        if (Input.pressed[Input.KEY_FIRE]) {
+                            Input.clearPressed();
+                            Dialogue.advance();
+                            if (Dialogue.isFinished()) {
+                                Dialogue.visible = false;
+                                onDialogueFinished();
                             }
                         }
 
-                        d = true;
+                        hudDirty = true;
                     } else {
                         label2614: {
-                            if (aS[12]) {
-                                ap();
-                                e = 5;
-                                c();
-                                d();
-                            } else if (aS[0]) {
+                            if (Input.pressed[Input.KEY_SOFT_LEFT]) {
+                                openGameMenu();
+                                state = GameState.GAME_MENU;
+                                Input.clearHeld();
+                                Input.clearPressed();
+                            } else if (Input.pressed[Input.KEY_NUM0]) {
                                 if (fd == 0) {
-                                    if (eK) {
+                                    if (Skills.darts) {
                                         fd = 1;
                                     }
                                 } else {
                                     fd = 0;
                                 }
 
-                                d = true;
-                                aS[0] = false;
-                            } else if (aS[6]) {
+                                hudDirty = true;
+                                Input.pressed[Input.KEY_NUM0] = false;
+                            } else if (Input.pressed[Input.KEY_RIGHT]) {
                                 fo = 2;
-                                aS[6] = false;
-                            } else if (aS[4]) {
+                                Input.pressed[Input.KEY_RIGHT] = false;
+                            } else if (Input.pressed[Input.KEY_LEFT]) {
                                 fo = -2;
-                                aS[4] = false;
+                                Input.pressed[Input.KEY_LEFT] = false;
                             } else {
-                                if (aS[9]) {
-                                    if (eZ) {
+                                if (Input.pressed[Input.KEY_NUM9]) {
+                                    if (Skills.hide) {
                                         fw = !fw;
                                     }
 
-                                    aS[9] = false;
+                                    Input.pressed[Input.KEY_NUM9] = false;
                                     break label2614;
                                 }
 
-                                if (aS[7]) {
-                                    if (B == 1 && eQ) {
+                                if (Input.pressed[Input.KEY_NUM7]) {
+                                    if (B == 1 && Skills.transform) {
                                         B = 23;
                                         D = 0;
                                     }
 
-                                    aS[7] = false;
-                                } else if (aS[10]) {
-                                    aS[10] = false;
-                                    if (H < I) {
+                                    Input.pressed[Input.KEY_NUM7] = false;
+                                } else if (Input.pressed[Input.KEY_STAR]) {
+                                    Input.pressed[Input.KEY_STAR] = false;
+                                    if (!PlayerStats.isHpFull()) {
                                         for(var13 = 0; var13 < 3; ++var13) {
-                                            if (W[var13] > 0) {
-                                                var10002 = W[var13]--;
-                                                if ((H += kF[var13]) > I) {
-                                                    H = I;
-                                                }
+                                            if (potionCounts[var13] > 0) {
+                                                var10002 = potionCounts[var13]--;
+                                                PlayerStats.restoreHp(potionRestoreAmounts[var13]);
 
-                                                d = true;
+                                                hudDirty = true;
                                                 break;
                                             }
                                         }
                                     }
-                                } else if (aS[11]) {
-                                    aS[11] = false;
-                                    if (J < K) {
+                                } else if (Input.pressed[Input.KEY_POUND]) {
+                                    Input.pressed[Input.KEY_POUND] = false;
+                                    if (!PlayerStats.isMpFull()) {
                                         for(var13 = 3; var13 < 6; ++var13) {
-                                            if (W[var13] > 0) {
-                                                var10002 = W[var13]--;
-                                                if ((J += kF[var13]) > K) {
-                                                    J = K;
-                                                }
+                                            if (potionCounts[var13] > 0) {
+                                                var10002 = potionCounts[var13]--;
+                                                PlayerStats.restoreMp(potionRestoreAmounts[var13]);
 
-                                                d = true;
+                                                hudDirty = true;
                                                 break;
                                             }
                                         }
@@ -7955,365 +6859,365 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             if (B == 1) {
-                                if (aS[13]) {
-                                    d();
-                                    if (p.equals("Giao tiếp")) {
+                                if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                                    Input.clearPressed();
+                                    if (rightSoftKeyLabel.equals("Giao tiếp")) {
                                         var4 = fD;
-                                        switch (lw[var4]) {
+                                        switch (npcTypes[var4]) {
                                             case 0:
-                                                if (fb) {
-                                                    a(lB[7], -1, lu[var4], lv[var4] - 40);
-                                                } else if (!eI) {
-                                                    V(2);
-                                                    a(ly[0], -1, lu[var4], lv[var4] - 40);
+                                                if (Story.sakuraEscorting) {
+                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (!Skills.lightness) {
+                                                    setNextNpcMarker(2);
+                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
-                                                    if (eZ && !fa) {
-                                                        if (P == 16) {
-                                                            if (eH) {
-                                                                a(lz[14], 35, lu[var4], lv[var4] - 40);
+                                                    if (Skills.hide && !Story.gameCompleted) {
+                                                        if (QuestState.current == Quest.RESCUE_SAKURA) {
+                                                            if (Story.sakuraFound) {
+                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lA[14], -1, lu[var4], lv[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            a(ly[22], 36, lu[var4], lv[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[1], -1, lu[var4], lv[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 1:
-                                                if (fb) {
-                                                    a(lB[5], -1, lu[var4], lv[var4] - 40);
-                                                } else if (!eI) {
-                                                    if (P == 0) {
-                                                        if (fC < lE[0]) {
-                                                            a(lA[0], -1, lu[var4], lv[var4] - 40);
+                                                if (Story.sakuraEscorting) {
+                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (!Skills.lightness) {
+                                                    if (QuestState.current == Quest.KILL_SNAILS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
+                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
                                                             var3 = true;
                                                             boolean var8 = true;
                                                             boolean var7 = true;
                                                             boolean var6 = false;
-                                                            lG = 0;
-                                                            lJ = 4;
-                                                            lH = 1044;
-                                                            lI = 240;
-                                                            a(lz[0], 4, lu[var4], lv[var4] - 40);
+                                                            pendingMarkerMap = 0;
+                                                            pendingMarkerNpc = 4;
+                                                            pendingMarkerX = 1044;
+                                                            pendingMarkerY = 240;
+                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[1], 3, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (!eR && eQ) {
-                                                    if (N < 10) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 10"}, -1, lu[var4], lv[var4] - 40);
-                                                    } else if (P == 7) {
-                                                        if (fC < lE[7]) {
-                                                            a(lA[6], -1, lu[var4], lv[var4] - 40);
+                                                } else if (!Story.goldenBatQuestDone && Skills.transform) {
+                                                    if (PlayerStats.level < 10) {
+                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
+                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(2);
-                                                            a(lz[6], 19, lu[var4], lv[var4] - 40);
+                                                            setNextNpcMarker(2);
+                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[14], 18, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eU && !eV) {
-                                                    if (N < 12) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 12"}, -1, lu[var4], lv[var4] - 40);
-                                                    } else if (P == 11) {
-                                                        if (fC < 20) {
-                                                            a(lA[9], -1, lu[var4], lv[var4] - 40);
+                                                } else if (Story.girlOutingDone && !Skills.tripleJump) {
+                                                    if (PlayerStats.level < 12) {
+                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.AIR_HITS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
+                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(4);
-                                                            a(lz[9], 27, lu[var4], lv[var4] - 40);
+                                                            setNextNpcMarker(4);
+                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[17], 28, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
-                                                    if (!eX && eW) {
-                                                        if (N < 15) {
-                                                            a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 15"}, -1, lu[var4], lv[var4] - 40);
-                                                        } else if (P == 13) {
-                                                            if (fC < lE[13]) {
-                                                                a(lA[11], -1, lu[var4], lv[var4] - 40);
+                                                    if (!Skills.sprint && Skills.dartsLevel2) {
+                                                        if (PlayerStats.level < 15) {
+                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        } else if (QuestState.current == Quest.KILL_SCORPIONS) {
+                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
+                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                V(3);
-                                                                a(lz[11], 31, lu[var4], lv[var4] - 40);
+                                                                setNextNpcMarker(3);
+                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            a(ly[19], 32, lu[var4], lv[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[0], -1, lu[var4], lv[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 2:
-                                                if (fb) {
-                                                    a(lB[9], -1, lu[var4], lv[var4] - 40);
-                                                } else if (!eI) {
-                                                    V(1);
-                                                    a(ly[2], -1, lu[var4], lv[var4] - 40);
-                                                } else if (eL && !eM) {
-                                                    if (P == 3) {
-                                                        a(ly[9], -1, lu[var4], lv[var4] - 40);
-                                                    } else if (P == -1) {
-                                                        a(ly[10], 11, lu[var4], lv[var4] - 40);
+                                                if (Story.sakuraEscorting) {
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (!Skills.lightness) {
+                                                    setNextNpcMarker(1);
+                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (Skills.burrow && !Skills.motorbikeLicense) {
+                                                    if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
+                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eR && !eS) {
-                                                    if (P == 8) {
-                                                        if (eG) {
-                                                            V(2);
-                                                            a(lz[7], 23, lu[var4], lv[var4] - 40);
+                                                } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
+                                                    if (QuestState.current == Quest.FIGHT_TONIKU) {
+                                                        if (Story.tonikuDefeated) {
+                                                            setNextNpcMarker(2);
+                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lA[7], -1, lu[var4], lv[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[15], 22, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
-                                                    if (eS && !eT) {
-                                                        if (P == 9) {
-                                                            if (fC < lE[9]) {
-                                                                a(lA[8], -1, lu[var4], lv[var4] - 40);
+                                                    if (Story.tonikuQuestDone && !Story.girlWaiting) {
+                                                        if (QuestState.current == Quest.KILL_NATIVES) {
+                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
+                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                V(3);
-                                                                a(lz[8], 25, lu[var4], lv[var4] - 40);
+                                                                setNextNpcMarker(3);
+                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            a(ly[16], 24, lu[var4], lv[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[3], -1, lu[var4], lv[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 3:
-                                                if (fb) {
-                                                    a(lB[9], -1, lu[var4], lv[var4] - 40);
+                                                if (Story.sakuraEscorting) {
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 } else {
-                                                    if (eI && eK) {
-                                                        if (!eL) {
-                                                            if (P == 2) {
-                                                                if (!fA) {
-                                                                    a(lA[2], -1, lu[var4], lv[var4] - 40);
+                                                    if (Skills.lightness && Skills.darts) {
+                                                        if (!Skills.burrow) {
+                                                            if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
+                                                                if (!QuestState.itemFound) {
+                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(2);
-                                                                    a(lz[2], 10, lu[var4], lv[var4] - 40);
+                                                                    setNextNpcMarker(2);
+                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                a(ly[8], 9, lu[var4], lv[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        if (!eO && eN) {
-                                                            if (P == 5) {
-                                                                if (!fA) {
-                                                                    a(lA[4], -1, lu[var4], lv[var4] - 40);
+                                                        if (!Skills.dive && Skills.doubleStrength) {
+                                                            if (QuestState.current == Quest.KILL_WILD_BOAR) {
+                                                                if (!QuestState.itemFound) {
+                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(4);
-                                                                    a(lz[4], 15, lu[var4], lv[var4] - 40);
+                                                                    setNextNpcMarker(4);
+                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                a(ly[12], 14, lu[var4], lv[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        if (!eY && eX) {
-                                                            if (N < 16) {
-                                                                a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 16"}, -1, lu[var4], lv[var4] - 40);
-                                                            } else if (P == 14) {
-                                                                if (fC < lE[14]) {
-                                                                    a(lA[12], -1, lu[var4], lv[var4] - 40);
+                                                        if (!Skills.standOnWater && Skills.sprint) {
+                                                            if (PlayerStats.level < 16) {
+                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
+                                                                if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
+                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(3);
-                                                                    a(lz[12], 33, lu[var4], lv[var4] - 40);
+                                                                    setNextNpcMarker(3);
+                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                a(ly[20], 34, lu[var4], lv[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        if (!eZ && eY) {
-                                                            if (P == 15) {
-                                                                if (!fA) {
-                                                                    a(lA[13], -1, lu[var4], lv[var4] - 40);
+                                                        if (!Skills.hide && Skills.standOnWater) {
+                                                            if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
+                                                                if (!QuestState.itemFound) {
+                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                                 } else {
-                                                                    V(0);
-                                                                    a(lz[13], 21, lu[var4], lv[var4] - 40);
+                                                                    setNextNpcMarker(0);
+                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, npcX[var4], npcY[var4] - 40);
                                                                 }
-                                                            } else if (P == -1) {
-                                                                a(ly[21], 20, lu[var4], lv[var4] - 40);
+                                                            } else if (QuestState.current == Quest.NONE) {
+                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                a(lC, 1, lu[var4], lv[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        a(lB[4], -1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         break;
                                                     }
 
-                                                    a(ly[5], -1, lu[var4], lv[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 4:
-                                                if (fb) {
-                                                    a(lB[8], -1, lu[var4], lv[var4] - 40);
-                                                } else if (w == 99) {
-                                                    a(ly[7], -1, lu[var4], lv[var4] - 40);
-                                                } else if (!eI) {
-                                                    a(ly[4], -1, lu[var4], lv[var4] - 40);
-                                                } else if (!eK) {
-                                                    if (P == 1) {
-                                                        if (fC < lE[1]) {
-                                                            a(lA[3], -1, lu[var4], lv[var4] - 40);
+                                                if (Story.sakuraEscorting) {
+                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (mapId == 99) {
+                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (!Skills.lightness) {
+                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                } else if (!Skills.darts) {
+                                                    if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(3);
-                                                            a(lz[1], 6, lu[var4], lv[var4] - 40);
+                                                            setNextNpcMarker(3);
+                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[6], 5, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eM && !eN) {
-                                                    if (P == 4) {
-                                                        if (fC < lE[4]) {
-                                                            a(lA[3], -1, lu[var4], lv[var4] - 40);
+                                                } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
+                                                    if (QuestState.current == Quest.KILL_BEES) {
+                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(3);
-                                                            a(lz[3], 12, lu[var4], lv[var4] - 40);
+                                                            setNextNpcMarker(3);
+                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[11], 13, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
-                                                } else if (eO && !eQ) {
-                                                    if (N < 8) {
-                                                        a(new String[]{"Hãy quay lại gặp ta khi con đạt cấp độ 8"}, -1, lu[var4], lv[var4] - 40);
-                                                    } else if (P == 6) {
-                                                        if (!fA) {
-                                                            a(lA[5], -1, lu[var4], lv[var4] - 40);
+                                                } else if (Skills.dive && !Skills.transform) {
+                                                    if (PlayerStats.level < 8) {
+                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    } else if (QuestState.current == Quest.CROSS_RIVER) {
+                                                        if (!QuestState.itemFound) {
+                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            V(1);
-                                                            a(lz[5], 17, lu[var4], lv[var4] - 40);
+                                                            setNextNpcMarker(1);
+                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[var4], npcY[var4] - 40);
                                                         }
-                                                    } else if (P == -1) {
-                                                        a(ly[13], 16, lu[var4], lv[var4] - 40);
+                                                    } else if (QuestState.current == Quest.NONE) {
+                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[var4], npcY[var4] - 40);
                                                     } else {
-                                                        a(lC, 1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                     }
                                                 } else {
-                                                    if (!eW && eV) {
-                                                        if (P == 12) {
-                                                            if (fC < lE[12]) {
-                                                                a(lA[10], -1, lu[var4], lv[var4] - 40);
+                                                    if (!Skills.dartsLevel2 && Skills.tripleJump) {
+                                                        if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
+                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
+                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                             } else {
-                                                                V(1);
-                                                                a(lz[10], 29, lu[var4], lv[var4] - 40);
+                                                                setNextNpcMarker(1);
+                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[var4], npcY[var4] - 40);
                                                             }
-                                                        } else if (P == -1) {
-                                                            a(ly[18], 30, lu[var4], lv[var4] - 40);
+                                                        } else if (QuestState.current == Quest.NONE) {
+                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[var4], npcY[var4] - 40);
                                                         } else {
-                                                            a(lC, 1, lu[var4], lv[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    a(lB[2], -1, lu[var4], lv[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                                 break;
                                             case 5:
-                                                if (w == 0) {
+                                                if (mapId == 0) {
                                                     if (var4 == 5) {
-                                                        a(lx[0], -1, lu[var4], lv[var4] - 40);
+                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                     }
 
                                                     if (var4 == 6) {
-                                                        an();
-                                                        e = 9;
-                                                        kr = 0;
+                                                        openShop();
+                                                        state = GameState.SHOP;
+                                                        shopMode = SHOP_MODE_MONEY;
                                                     }
                                                 }
 
-                                                if (w == 2 && var4 == 0) {
-                                                    an();
-                                                    e = 9;
-                                                    kr = 1;
+                                                if (mapId == 2 && var4 == 0) {
+                                                    openShop();
+                                                    state = GameState.SHOP;
+                                                    shopMode = SHOP_MODE_SMS;
                                                 }
 
-                                                if (w == 1 && var4 == 0) {
-                                                    a(lx[1], -1, lu[var4], lv[var4] - 40);
+                                                if (mapId == 1 && var4 == 0) {
+                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
 
-                                                if (w == 5 && var4 == 0) {
-                                                    a(lx[2], -1, lu[var4], lv[var4] - 40);
+                                                if (mapId == 5 && var4 == 0) {
+                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
 
-                                                if (w == 6 && var4 == 0) {
-                                                    a(lx[3], -1, lu[var4], lv[var4] - 40);
+                                                if (mapId == 6 && var4 == 0) {
+                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
                                                 }
                                         }
 
-                                        if (w == gb && var4 == gj) {
-                                            gb = -1;
+                                        if (mapId == guideMarkerMap && var4 == guideMarkerNpc) {
+                                            guideMarkerMap = -1;
                                         }
-                                    } else if (p.equals("Trò chuyện")) {
-                                        d();
+                                    } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
+                                        Input.clearPressed();
                                         dJ[fE] = -fm;
-                                        a(dv[fE], 0, dz[fE], dA[fE] - 44);
-                                    } else if (p.equals("Nói chuyện") && fB) {
+                                        startDialogue(classmateLines[fE], QuestAction.TALK, dz[fE], dA[fE] - 44);
+                                    } else if (rightSoftKeyLabel.equals("Nói chuyện") && fB) {
                                         if (gk) {
-                                            a(aH[0], 0, gn, go - 44);
-                                        } else if (eU) {
-                                            a(aH[2], 0, gn, go - 44);
+                                            startDialogue(DialogueText.girlLines[0], QuestAction.TALK, gn, go - 44);
+                                        } else if (Story.girlOutingDone) {
+                                            startDialogue(DialogueText.girlLines[2], QuestAction.TALK, gn, go - 44);
                                             gk = true;
-                                        } else if (eT) {
-                                            a(aH[3], 26, gn, go - 44);
-                                            eT = false;
+                                        } else if (Story.girlWaiting) {
+                                            startDialogue(DialogueText.girlLines[3], QuestAction.START_GIRL_OUTING, gn, go - 44);
+                                            Story.girlWaiting = false;
                                         } else {
-                                            a(aH[1], 0, gn, go - 44);
+                                            startDialogue(DialogueText.girlLines[1], QuestAction.TALK, gn, go - 44);
                                         }
                                     }
                                 } else {
                                     label2585: {
-                                        if (aR[2]) {
-                                            if (eM) {
+                                        if (Input.held[Input.KEY_UP]) {
+                                            if (Skills.motorbikeLicense) {
                                                 for(var13 = 0; var13 < ii; ++var13) {
                                                     if (ff == il[var13] && a(fe - ik[var13]) < 20) {
                                                         fe = ik[var13];
                                                         B = 18;
-                                                        c();
+                                                        Input.clearHeld();
                                                         ij = var13;
                                                         im[var13] = fm;
                                                         in[var13] = 0;
@@ -8322,7 +7226,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                 }
                                             }
 
-                                            if (eI) {
+                                            if (Skills.lightness) {
                                                 A = -10;
                                             } else {
                                                 A = -8;
@@ -8333,9 +7237,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             D = 0;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
-                                        } else if (aR[4]) {
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
+                                        } else if (Input.held[Input.KEY_LEFT]) {
                                             if (fm == 1) {
                                                 fm = -1;
                                             } else {
@@ -8345,9 +7249,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
-                                        } else if (aR[6]) {
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
+                                        } else if (Input.held[Input.KEY_RIGHT]) {
                                             if (fm == -1) {
                                                 fm = 1;
                                             } else {
@@ -8357,14 +7261,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                                             fE = -1;
                                             fD = -1;
-                                            p = " ";
-                                            d = true;
-                                        } else if (aR[8]) {
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
+                                        } else if (Input.held[Input.KEY_DOWN]) {
                                             D = 0;
                                             E = 0;
                                             B = 8;
-                                        } else if (aR[1]) {
-                                            if (eI) {
+                                        } else if (Input.held[Input.KEY_NUM1]) {
+                                            if (Skills.lightness) {
                                                 A = -10;
                                             } else {
                                                 A = -8;
@@ -8377,10 +7281,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             D = 0;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
-                                        } else if (aR[3]) {
-                                            if (eI) {
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
+                                        } else if (Input.held[Input.KEY_NUM3]) {
+                                            if (Skills.lightness) {
                                                 A = -10;
                                             } else {
                                                 A = -8;
@@ -8393,27 +7297,27 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             D = 0;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         }
 
-                                        if (aS[5]) {
+                                        if (Input.pressed[Input.KEY_FIRE]) {
                                             B = 5;
                                             ft = 0;
                                             D = 0;
                                             A = 0;
-                                            aS[5] = false;
+                                            Input.pressed[Input.KEY_FIRE] = false;
                                             fD = -1;
                                             fE = -1;
-                                            p = " ";
-                                            d = true;
+                                            rightSoftKeyLabel = " ";
+                                            hudDirty = true;
                                         }
                                     }
                                 }
                             } else if (B == 2) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     ir = -1;
-                                    if (eI) {
+                                    if (Skills.lightness) {
                                         A = -10;
                                     } else {
                                         A = -8;
@@ -8421,13 +7325,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                                     B = 3;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q + fo;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8435,16 +7339,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
 
-                                if (aS[5]) {
+                                if (Input.pressed[Input.KEY_FIRE]) {
                                     B = 5;
                                     ft = 0;
                                     D = 0;
                                     A = 0;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
                             } else if (B == 11) {
-                                if (aR[2]) {
-                                    if (eI) {
+                                if (Input.held[Input.KEY_UP]) {
+                                    if (Skills.lightness) {
                                         A = -10;
                                     } else {
                                         A = -8;
@@ -8452,13 +7356,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                                     B = 3;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -L + fo;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8466,13 +7370,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
                             } else if (B == 3) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8480,33 +7384,31 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
 
-                                if (aS[5]) {
+                                if (Input.pressed[Input.KEY_FIRE]) {
                                     B = 5;
                                     ft = 0;
                                     D = 0;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
 
-                                if (aR[2] && J > 0 && A > -4 && (D == 0 && eJ || D == 1 && eV)) {
+                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && A > -4 && (D == 0 && Skills.doubleJump || D == 1 && Skills.tripleJump)) {
                                     ++D;
                                     A = -7;
-                                    if ((J -= 3) < 0) {
-                                        J = 0;
-                                    }
+                                    PlayerStats.drainMp(3);
 
-                                    d = true;
+                                    hudDirty = true;
                                     e(-1, fe - -8, ff);
                                     e(1, fe - 8, ff);
                                     g(fe, ff);
                                 }
                             } else if (B == 4) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8514,20 +7416,20 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
 
-                                if (aS[5] && A > 4) {
+                                if (Input.pressed[Input.KEY_FIRE] && A > 4) {
                                     B = 5;
                                     D = 0;
                                     ft = 0;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
                             } else if (B == 5) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -Q + 2;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8535,17 +7437,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
 
-                                if (aS[5]) {
+                                if (Input.pressed[Input.KEY_FIRE]) {
                                     fv = true;
-                                    aS[5] = false;
+                                    Input.pressed[Input.KEY_FIRE] = false;
                                 }
                             } else if (B == 18) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 21;
                                     D = 10;
                                     ir = -1;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
@@ -8555,7 +7457,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         D = 10;
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8564,24 +7466,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         D = 10;
                                         z = R;
                                     }
-                                } else if (aR[8]) {
+                                } else if (Input.held[Input.KEY_DOWN]) {
                                     B = 1;
                                     ij = -1;
                                 }
                             } else if (B == 19) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 21;
                                     ir = -1;
                                     D = 10;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
                                     } else {
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8590,14 +7492,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
                             } else if (B == 21) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
                                     } else {
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8606,14 +7508,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
                             } else if (B == 20) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                         im[ij] = -1;
                                     } else {
                                         z = -R;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                         im[ij] = 1;
@@ -8622,19 +7524,19 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
                             } else if (B == 17) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         B = 16;
                                         z = -M;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8643,18 +7545,18 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
                             } else if (B == 16) {
-                                if (aR[2]) {
+                                if (Input.held[Input.KEY_UP]) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
                                     D = 0;
-                                } else if (aR[4]) {
+                                } else if (Input.held[Input.KEY_LEFT]) {
                                     if (fm == 1) {
                                         fm = -1;
                                     } else {
                                         z = -M;
                                     }
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (fm == -1) {
                                         fm = 1;
                                     } else {
@@ -8662,87 +7564,87 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
                                 }
                             } else if (B == 12) {
-                                if (aR[2] && eP) {
+                                if (Input.held[Input.KEY_UP] && Skills.runOnWater) {
                                     A = -10;
                                     B = 3;
                                     fc = -1;
                                     D = 0;
                                 }
                             } else if (B == 14) {
-                                if (aR[4]) {
+                                if (Input.held[Input.KEY_LEFT]) {
                                     fm = -1;
-                                } else if (aR[6]) {
+                                } else if (Input.held[Input.KEY_RIGHT]) {
                                     fm = 1;
-                                } else if (aR[2]) {
+                                } else if (Input.held[Input.KEY_UP]) {
                                     B = 15;
                                 }
                             }
                         }
                     }
 
-                    if (fO != fI || fP != fJ) {
-                        fK = fI - fO << 2;
-                        fL = fJ - fP << 2;
+                    if (cameraX != cameraTargetX || cameraY != cameraTargetY) {
+                        fK = cameraTargetX - cameraX << 2;
+                        fL = cameraTargetY - cameraY << 2;
                         fM += fK;
-                        fO += fM >> 4;
+                        cameraX += fM >> 4;
                         fM &= 15;
                         fN += fL;
-                        fP += fN >> 4;
+                        cameraY += fN >> 4;
                         fN &= 15;
-                        if (fO < 0) {
-                            fO = 0;
+                        if (cameraX < 0) {
+                            cameraX = 0;
                         }
 
-                        if (fO > fQ) {
-                            fO = fQ;
+                        if (cameraX > cameraMaxX) {
+                            cameraX = cameraMaxX;
                         }
 
-                        if (fP < 0) {
-                            fP = 0;
+                        if (cameraY < 0) {
+                            cameraY = 0;
                         }
 
-                        if (fP > fR) {
-                            fP = fR;
+                        if (cameraY > cameraMaxY) {
+                            cameraY = cameraMaxY;
                         }
                     }
 
                     if (aL >= 0) {
-                        fO += aJ[aL];
-                        fP += aK[aL];
+                        cameraX += aJ[aL];
+                        cameraY += aK[aL];
                         if (++aL == 4) {
                             aL = -1;
                         }
 
-                        if (fO < 0) {
-                            fO = 0;
+                        if (cameraX < 0) {
+                            cameraX = 0;
                         }
 
-                        if (fO > fQ) {
-                            fO = fQ;
+                        if (cameraX > cameraMaxX) {
+                            cameraX = cameraMaxX;
                         }
 
-                        if (fP < 0) {
-                            fP = 0;
+                        if (cameraY < 0) {
+                            cameraY = 0;
                         }
 
-                        if (fP > fR) {
-                            fP = fR;
+                        if (cameraY > cameraMaxY) {
+                            cameraY = cameraMaxY;
                         }
                     }
 
-                    if ((bw = fO / je - 1) < 0) {
-                        bw = 0;
+                    if ((firstVisibleCol = cameraX / GameMap.TILE_SIZE - 1) < 0) {
+                        firstVisibleCol = 0;
                     }
 
-                    bx = fP / je;
-                    bA = bw + by;
-                    bB = bx + bz;
-                    if (bx < 0) {
-                        bx = 0;
+                    firstVisibleRow = cameraY / GameMap.TILE_SIZE;
+                    lastVisibleCol = firstVisibleCol + visibleCols;
+                    lastVisibleRow = firstVisibleRow + visibleRows;
+                    if (firstVisibleRow < 0) {
+                        firstVisibleRow = 0;
                     }
 
-                    if (bB > iN - 1) {
-                        bB = iN - 1;
+                    if (lastVisibleRow > GameMap.height - 1) {
+                        lastVisibleRow = GameMap.height - 1;
                     }
 
                     int[] var10000;
@@ -8759,12 +7661,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     iu[var13] = 1;
                                 }
 
-                                if (!g(is[var13] - 12, it[var13] + 1, 2) && !g(is[var13] + 12, it[var13] + 1, 2)) {
+                                if (!GameMap.hasFlag(is[var13] - 12, it[var13] + 1, TileFlags.SOLID) && !GameMap.hasFlag(is[var13] + 12, it[var13] + 1, TileFlags.SOLID)) {
                                     iu[var13] = 4;
                                     iw[var13] = 2;
                                 }
 
-                                if (g(is[var13] + 12, it[var13] - 2, 4) || g(is[var13] - 12, it[var13] - 2, 8)) {
+                                if (GameMap.hasFlag(is[var13] + 12, it[var13] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13] - 2, TileFlags.WALL_RIGHT_SIDE)) {
                                     is[var13] = I(is[var13]) + 12;
                                 }
                                 break;
@@ -8775,8 +7677,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     var10002 = iw[var13]++;
                                 }
 
-                                if (!g(is[var13] + 12, it[var13], 2) && !g(is[var13] - 12, it[var13], 2)) {
-                                    if (g(is[var13], it[var13] - je, 64)) {
+                                if (!GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.SOLID) && !GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.SOLID)) {
+                                    if (GameMap.hasFlag(is[var13], it[var13] - GameMap.TILE_SIZE, TileFlags.WATER)) {
                                         it[var13] = H(it[var13]) + 1;
                                         g(is[var13], it[var13] - 13);
                                         g(is[var13] + 1, it[var13] - 10);
@@ -8793,7 +7695,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 iu[var13] = 1;
                                 break;
                             case 11:
-                                if (x % 2 == 0) {
+                                if (tick % 2 == 0) {
                                     var10000 = it;
                                     var10000[var13] += ix[var13];
                                     var10000 = iw;
@@ -8813,7 +7715,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         fe += iy[var13];
                                     }
 
-                                    if (g(is[var13] + 12, it[var13], 4) || g(is[var13] - 12, it[var13], 8)) {
+                                    if (GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.WALL_RIGHT_SIDE)) {
                                         iy[var13] = -iy[var13];
                                     }
                                 }
@@ -8824,7 +7726,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         if (var13 == ij) {
                             if (D > 1) {
                                 in[var13] = 2;
-                            } else if (x % 8 > 3) {
+                            } else if (tick % 8 > 3) {
                                 in[var13] = 1;
                             } else {
                                 in[var13] = 0;
@@ -8838,7 +7740,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 var10002 = ip[var13]++;
                             }
 
-                            if (il[var13] >= iP || g(ik[var13], il[var13], 2)) {
+                            if (il[var13] >= GameMap.pixelHeight || GameMap.hasFlag(ik[var13], il[var13], TileFlags.SOLID)) {
                                 ip[var13] = 0;
                                 io[var13] = 0;
                                 il[var13] = H(il[var13]);
@@ -8861,11 +7763,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (!a) {
+                    if (!lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (ch[var13] != -1) {
                                 var10002 = cg[var13]--;
-                                if (x % 2 == 0) {
+                                if (tick % 2 == 0) {
                                     var10002 = ch[var13]++;
                                     if (ch[var13] > 2) {
                                         ch[var13] = -1;
@@ -8877,7 +7779,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
                     }
 
-                    if (!a) {
+                    if (!lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (cl[var13] != -1) {
                                 var10002 = cl[var13]++;
@@ -8917,13 +7819,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var10000[var13] += da[var13];
                             var10000 = cX;
                             var10000[var13] += db[var13];
-                            if (cW[var13] >= fO && cW[var13] <= fO + r && cX[var13] >= fP && cX[var13] <= fP + s) {
-                                if (da[var13] > 0 && (i(cW[var13], cX[var13]) & 4) == 4) {
+                            if (cW[var13] >= cameraX && cW[var13] <= cameraX + viewWidth && cX[var13] >= cameraY && cX[var13] <= cameraY + viewHeight) {
+                                if (da[var13] > 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                     cY[var13] = 2;
                                     cW[var13] = I(cW[var13]);
-                                } else if (da[var13] < 0 && (i(cW[var13], cX[var13]) & 8) == 8) {
+                                } else if (da[var13] < 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                     cY[var13] = 2;
-                                    cW[var13] = I(cW[var13]) + je;
+                                    cW[var13] = I(cW[var13]) + GameMap.TILE_SIZE;
                                 }
 
                                 var10002 = cZ[var13]++;
@@ -8936,7 +7838,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         if (jO[var4] != 5 && jO[var4] != 1 && a(jJ[var4] - cW[var13]) < jM[var4] && a(jK[var4] - (jL[var4] >> 1) - cX[var13]) < jL[var4]) {
                                             boolean var14;
                                             label2807: {
-                                                var5 = dc[var13] ? G << 1 : G;
+                                                var5 = dc[var13] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
                                                 if (jO[var4] == 2 || jO[var4] == 3 || jO[var4] == 4) {
                                                     if (jI[var4] == 9 && da[var13] * jX[var4] < 0) {
                                                         jO[var4] = 4;
@@ -8986,9 +7888,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     for(var4 = 0; var4 < cp; ++var4) {
                                         if (cE[var4] != 5 && cE[var4] != 1 && a(cu[var4] - cW[var13]) < 20 && a(cv[var4] - 15 - cX[var13]) < 20) {
                                             if (dc[var13]) {
-                                                a(var4, G << 1, cH[var13]);
+                                                a(var4, PlayerStats.dartDamage << 1, cH[var13]);
                                                 f(cu[var4], cv[var4] - 15, cH[var4]);
-                                                a("-" + (G << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
+                                                a("-" + (PlayerStats.dartDamage << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
                                                 cY[var13] = -1;
                                             } else {
                                                 cE[var4] = 4;
@@ -9006,16 +7908,16 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             da[var13] = -da[var13];
                                             db[var13] = -3;
                                         } else {
-                                            a(G, -fm);
+                                            a(PlayerStats.dartDamage, -fm);
                                             cY[var13] = -1;
                                         }
                                         break;
                                     }
 
                                     if (gN && a(gP - cW[var13]) < gV >> 1 && a(gQ - (gW >> 1) - cX[var13]) < gW >> 1) {
-                                        c(G, -gT);
+                                        c(PlayerStats.dartDamage, -gT);
                                         f(cW[var13], cX[var13], gT);
-                                        a("-" + G, 0, gP, gQ - gW, 0, -2);
+                                        a("-" + PlayerStats.dartDamage, 0, gP, gQ - gW, 0, -2);
                                         cY[var13] = -1;
                                     }
 
@@ -9032,7 +7934,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                             dE[0] = dF[0] = 0;
                                             dD[0] = 5;
                                         } else {
-                                            d(G, -dJ[0]);
+                                            d(PlayerStats.dartDamage, -dJ[0]);
                                             cY[var13] = -1;
                                         }
                                     }
@@ -9056,35 +7958,35 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     P();
-                    if (gb >= 0) {
-                        if (gc > fO + 10 && gc < fO + r - 10 && gd > fP + 10 && gd < fP + s - 10) {
+                    if (guideMarkerMap >= 0) {
+                        if (guideMarkerX > cameraX + 10 && guideMarkerX < cameraX + viewWidth - 10 && guideMarkerY > cameraY + 10 && guideMarkerY < cameraY + viewHeight - 10) {
                             ge = 2;
-                            gf = gc;
-                            gg = gd + gi;
-                        } else if (a(fe - gc) > a(ff - gd)) {
-                            if (fe > gc) {
+                            gf = guideMarkerX;
+                            gg = guideMarkerY + gi;
+                        } else if (a(fe - guideMarkerX) > a(ff - guideMarkerY)) {
+                            if (fe > guideMarkerX) {
                                 ge = 1;
-                                gf = fO + 20 + gi;
+                                gf = cameraX + 20 + gi;
                             } else {
                                 ge = 0;
-                                gf = fO + r - 20 + gi;
+                                gf = cameraX + viewWidth - 20 + gi;
                             }
 
-                            if ((gg = gd + 24) < fP + 10) {
-                                gg = fP + 10;
+                            if ((gg = guideMarkerY + 24) < cameraY + 10) {
+                                gg = cameraY + 10;
                             }
 
-                            if (gg > fP + s - 10) {
-                                gg = fP + s - 10;
+                            if (gg > cameraY + viewHeight - 10) {
+                                gg = cameraY + viewHeight - 10;
                             }
-                        } else if (ff > gd) {
+                        } else if (ff > guideMarkerY) {
                             ge = 3;
                             gf = fe;
-                            gg = fP + 20 + gi;
+                            gg = cameraY + 20 + gi;
                         } else {
                             ge = 2;
                             gf = fe;
-                            gg = fP + s - 20 + gi;
+                            gg = cameraY + viewHeight - 20 + gi;
                         }
 
                         if ((gi += gh) == 5 || gi == -5) {
@@ -9093,7 +7995,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     R();
-                    if (gm == w) {
+                    if (gm == mapId) {
                         try {
                             switch (gr) {
                                 case 1:
@@ -9107,11 +8009,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         gs = 1;
                                     }
 
-                                    if (gk && x % 6 == 0) {
+                                    if (gk && tick % 6 == 0) {
                                         D();
                                     }
 
-                                    if (x % 15 == 0) {
+                                    if (tick % 15 == 0) {
                                         E();
                                     }
                                     break;
@@ -9122,27 +8024,27 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                                     gs = (gA >> 1) + 2;
                                     if (gz == 1) {
-                                        if (g(gn + gv, go - gw, 4)) {
+                                        if (GameMap.hasFlag(gn + gv, go - gw, TileFlags.WALL_LEFT_SIDE)) {
                                             gp = 0;
                                             gn = I(gn + gv) - gv;
                                         }
-                                    } else if (g(gn - gv - 1, go - gw, 8)) {
+                                    } else if (GameMap.hasFlag(gn - gv - 1, go - gw, TileFlags.WALL_RIGHT_SIDE)) {
                                         gp = 0;
-                                        gn = I(gn - gv - 1) + je + gv;
+                                        gn = I(gn - gv - 1) + GameMap.TILE_SIZE + gv;
                                     }
 
                                     if ((gn += gp) < 0) {
                                         gn = 0;
                                     }
 
-                                    if (gn >= iO) {
-                                        gn = iO - 1;
+                                    if (gn >= GameMap.pixelWidth) {
+                                        gn = GameMap.pixelWidth - 1;
                                     }
 
                                     if (ir != -1) {
                                         if (a(gn - is[ir]) >= 20) {
                                             ir = -1;
-                                            if (g(gn, go, 2)) {
+                                            if (GameMap.hasFlag(gn, go, TileFlags.SOLID)) {
                                                 gr = 1;
                                             } else {
                                                 gr = 4;
@@ -9151,7 +8053,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                                 gB = 0;
                                             }
                                         }
-                                    } else if ((i(gn + gz * gt, go) & 2) != 2) {
+                                    } else if ((GameMap.flagsAtPixel(gn + gz * gt, go) & TileFlags.SOLID) != TileFlags.SOLID) {
                                         gr = 1;
                                         gs = 0;
                                         gp = 0;
@@ -9172,10 +8074,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
 
                                     if (gz == 1) {
-                                        if ((i(gn + gv, go - gw) & 4) == 4) {
+                                        if ((GameMap.flagsAtPixel(gn + gv, go - gw) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                             gp = 0;
                                         }
-                                    } else if ((i(gn - gv, go - gw) & 8) == 8) {
+                                    } else if ((GameMap.flagsAtPixel(gn - gv, go - gw) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                         gp = 0;
                                     }
 
@@ -9188,8 +8090,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         gn = 0;
                                     }
 
-                                    if (gn >= iO) {
-                                        gn = iO - 1;
+                                    if (gn >= GameMap.pixelWidth) {
+                                        gn = GameMap.pixelWidth - 1;
                                     }
 
                                     go += gq;
@@ -9216,10 +8118,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     break;
                                 case 4:
                                     if (gz == 1) {
-                                        if ((i(gn + gt, go) & 4) == 4) {
+                                        if ((GameMap.flagsAtPixel(gn + gt, go) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                             gp = 0;
                                         }
-                                    } else if ((i(gn - gt, go) & 8) == 8) {
+                                    } else if ((GameMap.flagsAtPixel(gn - gt, go) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                         gp = 0;
                                     }
 
@@ -9228,8 +8130,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         gn = 0;
                                     }
 
-                                    if (gn >= iO) {
-                                        gn = iO - 1;
+                                    if (gn >= GameMap.pixelWidth) {
+                                        gn = GameMap.pixelWidth - 1;
                                     }
 
                                     go += gq;
@@ -9246,13 +8148,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     }
 
                                     gs = 8;
-                                    if (go >= iP) {
-                                        go = iP - 1;
+                                    if (go >= GameMap.pixelHeight) {
+                                        go = GameMap.pixelHeight - 1;
                                         gr = 3;
                                         gq = -20;
                                     }
 
-                                    if (gq > 4 && (i(gn, go) & 2) == 2) {
+                                    if (gq > 4 && (GameMap.flagsAtPixel(gn, go) & TileFlags.SOLID) == TileFlags.SOLID) {
                                         gr = 1;
                                         gq = 0;
                                         gp = 0;
@@ -9263,7 +8165,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                         e(1, gn - 8, go);
                                     }
 
-                                    if (g(gn, go, 64) && g(gn, go + 24, 4096) && go % je > 8) {
+                                    if (GameMap.hasFlag(gn, go, TileFlags.WATER) && GameMap.hasFlag(gn, go + 24, TileFlags.DEEP_WATER) && go % GameMap.TILE_SIZE > 8) {
                                         g(gn, H(go) + 8);
                                         gr = 3;
                                         gp = (gz = fe > gn ? 1 : -1) << 2;
@@ -9319,11 +8221,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 default:
                                     break;
                                 case 7:
-                                    if ((i(gn + gv, go - gw) & 4) == 4) {
+                                    if ((GameMap.flagsAtPixel(gn + gv, go - gw) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                         gp = -gp;
                                     }
 
-                                    if ((i(gn - gv, go - gw) & 8) == 8) {
+                                    if ((GameMap.flagsAtPixel(gn - gv, go - gw) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
                                         gp = -gp;
                                     }
 
@@ -9360,7 +8262,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     Y();
-                    if (x % 2 == 0 && ((doSt += dq) > ds || doSt < dr)) {
+                    if (tick % 2 == 0 && ((doSt += dq) > ds || doSt < dr)) {
                     dq = -dq;
                     doSt += dq;
                 }
@@ -9377,7 +8279,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             if (gX > 0) {
                                 --gX;
                             } else {
-                                if ((var13 = x % 80 - 40) > 0) {
+                                if ((var13 = tick % 80 - 40) > 0) {
                                     var13 += 20;
                                 } else {
                                     var13 -= 20;
@@ -9390,22 +8292,22 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 }
 
                                 gS = 2;
-                                if (x % 5 == 0) {
+                                if (tick % 5 == 0) {
                                     N();
                                 }
                             }
 
                             gU = 0;
-                            if (x % 10 == 6) {
+                            if (tick % 10 == 6) {
                                 e(-gT, gP + gT * 28, gQ - 5);
                             }
                             break;
                         case 2:
-                            if (x % 8 == 0) {
+                            if (tick % 8 == 0) {
                                 N();
                             }
 
-                            if (!g(gP + (gT << 4), gQ + 1, 2)) {
+                            if (!GameMap.hasFlag(gP + (gT << 4), gQ + 1, TileFlags.SOLID)) {
                                 gS = 1;
                                 gX = 0;
                             } else {
@@ -9414,7 +8316,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                     gX = 20;
                                 }
 
-                                if (x % 2 == 0) {
+                                if (tick % 2 == 0) {
                                     gP += gR;
                                     gU = 0;
                                 } else {
@@ -9426,7 +8328,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         default:
                             break;
                         case 5:
-                            if (!g(gP + (gT << 4), gQ + 1, 2)) {
+                            if (!GameMap.hasFlag(gP + (gT << 4), gQ + 1, TileFlags.SOLID)) {
                                 gS = 1;
                                 gX = 0;
                             } else {
@@ -9445,7 +8347,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 }
 
                                 gP += gR;
-                                gU = x % 3;
+                                gU = tick % 3;
                             }
                             break;
                         case 6:
@@ -9460,7 +8362,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 ++gR;
                             }
 
-                            if (gQ > fP + s + gW || gQ >= iP + gW) {
+                            if (gQ > cameraY + viewHeight + gW || gQ >= GameMap.pixelHeight + gW) {
                                 gX = 0;
                                 gS = 22;
                             }
@@ -9478,7 +8380,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 }
 
                 if (hJ) {
-                    var13 = x % 10;
+                    var13 = tick % 10;
                     if (ic > 0) {
                         --ic;
                     }
@@ -9519,11 +8421,11 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 hY = hP < fe ? 1 : -1;
                             }
 
-                            if (x % 122 == 0) {
+                            if (tick % 122 == 0) {
                                 c(hP, hQ - 45, -1, -12, hK);
                                 c(hP, hQ - 50, 0, -15, hK);
                                 c(hP, hQ - 45, 1, -12, hK);
-                            } else if (x % 200 == 0) {
+                            } else if (tick % 200 == 0) {
                                 hX = 7;
                                 ib = 0;
                             }
@@ -9616,7 +8518,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 ac();
                 if (hc) {
                     label2824: {
-                        var13 = x % 50;
+                        var13 = tick % 50;
                         var5 = a(dz[0] - fe);
                         switch (dD[0]) {
                             case 0:
@@ -9805,9 +8707,9 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 }
 
                                 dG[0] = 7;
-                                if (dA[0] >= iP) {
+                                if (dA[0] >= GameMap.pixelHeight) {
                                     dD[0] = 6;
-                                } else if ((i(dz[0], dA[0]) & 2) == 2) {
+                                } else if ((GameMap.flagsAtPixel(dz[0], dA[0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                                     dD[0] = 1;
                                     dE[0] = dF[0] = 0;
                                     dB[0] = dC[0] = 0;
@@ -10077,150 +8979,150 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
                 W();
                 ab();
-                if (fH != 0) {
-                    if (fH == 1) {
-                        if (a(ff - (fh >> 1) - (fG - 7)) < 10 && a(fe - fF) < 10) {
-                            fH = 2;
-                            fA = true;
-                            b("đã lấy được bí kíp");
+                if (questItemState != 0) {
+                    if (questItemState == 1) {
+                        if (a(ff - (fh >> 1) - (questItemY - 7)) < 10 && a(fe - questItemX) < 10) {
+                            questItemState = 2;
+                            QuestState.itemFound = true;
+                            showNotice("đã lấy được bí kíp");
                         }
                     } else {
-                        ++fH;
-                        fG -= 3;
-                        if (fH > 40) {
-                            fH = 0;
+                        ++questItemState;
+                        questItemY -= 3;
+                        if (questItemState > 40) {
+                            questItemState = 0;
                         }
                     }
                 }
 
-                if (cm && ++cn >= 150) {
-                    cm = false;
+                if (noticeVisible && ++noticeTimer >= 150) {
+                    noticeVisible = false;
                 }
                 break;
-                case 2:
-                    if (T < S) {
-                        T += 5;
+                case GameState.LOADING:
+                    if (loadingProgress < loadingTarget) {
+                        loadingProgress += 5;
                     }
                     break;
-                case 3:
-                    if (++x == 10000) {
-                        x = 0;
+                case GameState.MAIN_MENU:
+                    if (++tick == 10000) {
+                        tick = 0;
                     }
 
-                    if (aS[4]) {
+                    if (Input.pressed[Input.KEY_LEFT]) {
                         if (--aX < 0) {
-                            aX = aE.length - 1;
+                            aX = GameText.mainMenuItems.length - 1;
                         }
 
-                        aS[4] = false;
+                        Input.pressed[Input.KEY_LEFT] = false;
                     }
 
-                    if (aS[6]) {
-                        if (++aX == aE.length) {
+                    if (Input.pressed[Input.KEY_RIGHT]) {
+                        if (++aX == GameText.mainMenuItems.length) {
                             aX = 0;
                         }
 
-                        aS[6] = false;
+                        Input.pressed[Input.KEY_RIGHT] = false;
                     }
 
-                    if (aS[5]) {
+                    if (Input.pressed[Input.KEY_FIRE]) {
                         label2172: {
-                            d();
+                            Input.clearPressed();
                             if (aX == 0) {
-                                eA = null;
-                                B();
-                                Midlet.f = true;
+                                titleImage = null;
+                                releaseMapResources();
+                                Save.pendingSave = true;
                                 gM = System.currentTimeMillis();
-                                x(99);
+                                changeMap(99);
                             } else if (aX == 1) {
-                                if (!Midlet.b()) {
+                                if (!Save.isSaved()) {
                                     break label2172;
                                 }
 
-                                eA = null;
-                                B();
+                                titleImage = null;
+                                releaseMapResources();
                                 int[] var12;
-                                gL = (var12 = a(Midlet.b("ninjasave")))[0];
-                                w = var12[1];
-                                x = var12[2];
-                                eE = var12[3] == 1;
-                                dd = var12[4];
+                                gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
+                                mapId = var12[1];
+                                tick = var12[2];
+                                Story.prologueActive = var12[3] == 1;
+                                money = var12[4];
                                 dw = var12[5] == 1;
-                                eF = var12[6] == 1;
-                                eG = var12[7] == 1;
-                                eH = var12[8] == 1;
+                                Story.riverMonsterDefeated = var12[6] == 1;
+                                Story.tonikuDefeated = var12[7] == 1;
+                                Story.sakuraFound = var12[8] == 1;
                                 gk = var12[9] == 1;
                                 gl = var12[10];
                                 gm = var12[11];
                                 ij = var12[12];
-                                y = var12[13];
-                                eW = var12[14] == 1;
-                                Midlet.e = true;
+                                swordLevel = var12[13];
+                                Skills.dartsLevel2 = var12[14] == 1;
+                                Save.pendingLoad = true;
                                 gM = System.currentTimeMillis();
-                                x(w);
+                                changeMap(mapId);
                             } else if (aX == 2) {
-                                eA = null;
-                                B();
-                                e = 2;
-                                aj();
-                                Midlet.d = 11;
-                                w = 101;
-                                (new Thread(Midlet.c)).start();
+                                titleImage = null;
+                                releaseMapResources();
+                                state = GameState.LOADING;
+                                resetLoadingProgress();
+                                Midlet.nextGameState = GameState.TUTORIAL;
+                                mapId = 101;
+                                (new Thread(Midlet.instance)).start();
                             } else if (aX == 3) {
                                 try {
-                                    Midlet.c.platformRequest("https://www.facebook.com/duriustudio");
+                                    Midlet.instance.platformRequest("http://wap.teamobi.com/");
                                 } catch (Exception var10) {
                                 }
                             } else if (aX == 4) {
-                                Midlet.c.notifyDestroyed();
+                                Midlet.instance.notifyDestroyed();
                             }
 
-                            aS[5] = false;
+                            Input.pressed[Input.KEY_FIRE] = false;
                         }
                     }
 
-                    if (fO == 0) {
-                        fO = 960;
-                        fP = 48;
+                    if (cameraX == 0) {
+                        cameraX = 960;
+                        cameraY = 48;
                         fK = 1;
                         fL = 1;
                     }
 
-                    fO += fK;
-                    fP += fL;
-                    if (fO > fQ) {
-                        fO = fQ;
+                    cameraX += fK;
+                    cameraY += fL;
+                    if (cameraX > cameraMaxX) {
+                        cameraX = cameraMaxX;
                         fK = -fK;
                     }
 
-                    if (fO < 24) {
-                        fO = 24;
+                    if (cameraX < 24) {
+                        cameraX = 24;
                         fK = -fK;
                     }
 
-                    if (fP < 0) {
-                        fP = 0;
+                    if (cameraY < 0) {
+                        cameraY = 0;
                         fL = -fL;
                     }
 
-                    if (fP > fR) {
-                        fP = fR;
+                    if (cameraY > cameraMaxY) {
+                        cameraY = cameraMaxY;
                         fL = -fL;
                     }
 
-                    if ((bw = fO / je - 1) < 0) {
-                        bw = 0;
+                    if ((firstVisibleCol = cameraX / GameMap.TILE_SIZE - 1) < 0) {
+                        firstVisibleCol = 0;
                     }
 
-                    bx = fP / je;
-                    bA = bw + by;
-                    bB = bx + bz;
-                    if (bx < 0) {
-                        bx = 0;
+                    firstVisibleRow = cameraY / GameMap.TILE_SIZE;
+                    lastVisibleCol = firstVisibleCol + visibleCols;
+                    lastVisibleRow = firstVisibleRow + visibleRows;
+                    if (firstVisibleRow < 0) {
+                        firstVisibleRow = 0;
                     }
 
-                    if (bB > iN - 1) {
-                        bB = iN - 1;
+                    if (lastVisibleRow > GameMap.height - 1) {
+                        lastVisibleRow = GameMap.height - 1;
                     }
 
                     if (ba > aY) {
@@ -10235,72 +9137,72 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         bd -= 2;
                     }
                     break;
-                case 4:
+                case GameState.LOGO:
                     if (jD < 4) {
                         jE = jD;
                     }
 
                     if (jD > 51) {
-                        jC = null;
+                        logoImage = null;
                         at();
-                        e = 10;
+                        state = GameState.SETUP_PROMPT;
                     } else if (jD > 46) {
                         jE = 4 - (jD - 46);
                     }
 
-                    aT = aM.getWidth();
-                    aU = aM.getHeight();
+                    screenWidth = instance.getWidth();
+                    screenHeight = instance.getHeight();
                     ++jD;
                     break;
-                case 5:
+                case GameState.GAME_MENU:
                     if (++kJ > 10000) {
                         kJ = 0;
                     }
 
                     var3 = false;
-                    if (aS[13]) {
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         var3 = true;
-                        kG = null;
-                        ah();
-                        e = 1;
-                        d = true;
-                    } else if (!aS[5] && !aS[12]) {
-                        if (aS[8]) {
+                        cornerIcons = null;
+                        ensureMapImages();
+                        state = GameState.PLAYING;
+                        hudDirty = true;
+                    } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        if (Input.pressed[Input.KEY_DOWN]) {
                             var3 = true;
-                            if (++kI > 3) {
-                                kI = 0;
+                            if (++gameMenuSelection > 3) {
+                                gameMenuSelection = 0;
                             }
-                        } else if (aS[2]) {
+                        } else if (Input.pressed[Input.KEY_UP]) {
                             var3 = true;
-                            if (--kI < 0) {
-                                kI = 3;
+                            if (--gameMenuSelection < 0) {
+                                gameMenuSelection = 3;
                             }
-                        } else if (aS[4]) {
+                        } else if (Input.pressed[Input.KEY_LEFT]) {
                             var3 = true;
-                        } else if (aS[6]) {
+                        } else if (Input.pressed[Input.KEY_RIGHT]) {
                             var3 = true;
                         }
                     } else {
                         var3 = true;
-                        if (kI == 0) {
-                            ao();
-                            e = 8;
+                        if (gameMenuSelection == 0) {
+                            openInventory();
+                            state = GameState.INVENTORY;
                         }
 
-                        if (kI == 1) {
-                            aq();
-                            e = 6;
+                        if (gameMenuSelection == 1) {
+                            openWorldMap();
+                            state = GameState.WORLD_MAP;
                         }
 
-                        if (kI == 2) {
+                        if (gameMenuSelection == 2) {
                             if (B != 1) {
-                                kG = null;
-                                ah();
-                                au();
-                                s(5);
-                                a("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
-                                Y = bD - 40;
-                                e = 7;
+                                cornerIcons = null;
+                                ensureMapImages();
+                                prepareDialog();
+                                showMessage(MessageType.GAME_NOTICE);
+                                setMessageText("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
+                                messageY = viewCenterY - 40;
+                                state = GameState.MESSAGE;
                             } else {
                                 b = false;
                             }
@@ -10308,10 +9210,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     if (var3) {
-                        d();
+                        Input.clearPressed();
                     }
                     break;
-                case 6:
+                case GameState.WORLD_MAP:
                     if (++kW > 10000) {
                         kW = 0;
                     }
@@ -10343,32 +9245,32 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     }
 
                     var3 = false;
-                    if (aS[5] || aS[12]) {
-                        d();
-                        if (kV != -1) {
-                            if (!X[kV]) {
-                                s(1);
-                                e = 7;
-                            } else if (lh == kV) {
-                                s(3);
-                                e = 7;
+                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        Input.clearPressed();
+                        if (worldMapCursor != -1) {
+                            if (!X[worldMapCursor]) {
+                                showMessage(MessageType.TRAVEL_NOT_VISITED);
+                                state = GameState.MESSAGE;
+                            } else if (worldMapCurrent == worldMapCursor) {
+                                showMessage(MessageType.TRAVEL_ALREADY_HERE);
+                                state = GameState.MESSAGE;
                             } else {
-                                s(2);
-                                e = 7;
+                                showMessage(MessageType.TRAVEL_CONFIRM);
+                                state = GameState.MESSAGE;
                             }
                         }
                     }
 
-                    if (aS[13]) {
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         ar();
-                        kG = null;
-                        ah();
-                        e = 1;
-                        d();
-                        c();
-                        aS[12] = true;
+                        cornerIcons = null;
+                        ensureMapImages();
+                        state = GameState.PLAYING;
+                        Input.clearPressed();
+                        Input.clearHeld();
+                        Input.pressed[Input.KEY_SOFT_LEFT] = true;
                     } else {
-                        if (aR[2]) {
+                        if (Input.held[Input.KEY_UP]) {
                             if ((kU -= 4) < -20) {
                                 kU = -20;
                             }
@@ -10376,7 +9278,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var3 = true;
                         }
 
-                        if (aR[8]) {
+                        if (Input.held[Input.KEY_DOWN]) {
                             if ((kU += 4) > 279) {
                                 kU = 279;
                             }
@@ -10384,7 +9286,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var3 = true;
                         }
 
-                        if (aR[4]) {
+                        if (Input.held[Input.KEY_LEFT]) {
                             if ((kT -= 4) < -20) {
                                 kT = -20;
                             }
@@ -10392,7 +9294,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var3 = true;
                         }
 
-                        if (aR[6]) {
+                        if (Input.held[Input.KEY_RIGHT]) {
                             if ((kT += 4) > 279) {
                                 kT = 279;
                             }
@@ -10401,896 +9303,474 @@ public final class b extends Canvas implements Runnable, CommandListener {
                         }
 
                         if (var3) {
-                            kX = kT - bC;
-                            kY = kU - bD;
+                            kX = kT - viewCenterX;
+                            kY = kU - viewCenterY;
                             as();
                         }
                     }
                     break;
-                case 7:
+                case GameState.MESSAGE:
                     if (++lo < 10) {
-                        d();
+                        Input.clearPressed();
                     }
 
-                    if (aS[12]) {
-                        d();
-                        switch (lm) {
-                            case 1:
-                            case 3:
-                            case 4:
-                                e = 6;
+                    if (Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        Input.clearPressed();
+                        switch (messageType) {
+                            case MessageType.TRAVEL_NOT_VISITED:
+                            case MessageType.TRAVEL_ALREADY_HERE:
+                            case MessageType.NOT_ENOUGH_MONEY:
+                                state = GameState.WORLD_MAP;
                                 break;
-                            case 2:
-                                if (ln >= dd) {
-                                    s(4);
+                            case MessageType.TRAVEL_CONFIRM:
+                                if (travelCost >= money) {
+                                    showMessage(MessageType.NOT_ENOUGH_MONEY);
                                 } else {
-                                    dd -= ln;
+                                    money -= travelCost;
                                     ar();
-                                    kG = null;
-                                    ah();
-                                    B();
-                                    fp = fe = kP[kV] * 24;
-                                    fq = ff = kQ[kV] * 24;
-                                    Midlet.f = true;
-                                    x(kV);
+                                    cornerIcons = null;
+                                    ensureMapImages();
+                                    releaseMapResources();
+                                    fp = fe = kP[worldMapCursor] * 24;
+                                    fq = ff = kQ[worldMapCursor] * 24;
+                                    Save.pendingSave = true;
+                                    changeMap(worldMapCursor);
                                 }
                                 break;
-                            case 5:
-                            case 6:
-                                kG = null;
-                                e = 1;
+                            case MessageType.GAME_NOTICE:
+                            case MessageType.LEVEL_UP:
+                                cornerIcons = null;
+                                state = GameState.PLAYING;
                         }
                     }
 
-                    if (aS[13]) {
-                        d();
-                        switch (lm) {
-                            case 1:
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                        Input.clearPressed();
+                        switch (messageType) {
+                            case MessageType.TRAVEL_NOT_VISITED:
+                            case MessageType.TRAVEL_ALREADY_HERE:
+                            case MessageType.NOT_ENOUGH_MONEY:
+                            case MessageType.GAME_NOTICE:
+                            case MessageType.LEVEL_UP:
                             default:
                                 break;
-                            case 2:
-                                e = 6;
+                            case MessageType.TRAVEL_CONFIRM:
+                                state = GameState.WORLD_MAP;
                                 break;
-                            case 7:
-                                e = 9;
+                            case MessageType.SHOP_NOTICE:
+                                state = GameState.SHOP;
                         }
                     }
 
-                    d = true;
+                    hudDirty = true;
                     break;
-                case 8:
-                    if (kC > 0) {
-                        --kC;
+                case GameState.INVENTORY:
+                    if (inventoryBlink > 0) {
+                        --inventoryBlink;
                     }
 
-                    if (aS[5] || aS[12]) {
-                        if (W[kB] > 0) {
-                            var10002 = W[kB]--;
-                            kC = kD.length - 1;
-                            if (kB <= 2) {
-                                if (H < I) {
-                                    H += kF[kB];
-                                }
-
-                                if (H > I) {
-                                    H = I;
-                                }
+                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        if (potionCounts[inventoryCursor] > 0) {
+                            var10002 = potionCounts[inventoryCursor]--;
+                            inventoryBlink = inventoryBlinkColors.length - 1;
+                            if (inventoryCursor <= 2) {
+                                PlayerStats.restoreHp(potionRestoreAmounts[inventoryCursor]);
                             } else {
-                                if (J < K) {
-                                    J += kF[kB];
-                                }
-
-                                if (J > K) {
-                                    J = K;
-                                }
+                                PlayerStats.restoreMp(potionRestoreAmounts[inventoryCursor]);
                             }
                         }
 
-                        d();
+                        Input.clearPressed();
                     }
 
-                    if (aS[13]) {
-                        d();
-                        c();
-                        e = 5;
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                        Input.clearPressed();
+                        Input.clearHeld();
+                        state = GameState.GAME_MENU;
                     } else {
-                        if (aS[4]) {
-                            d();
-                            if (--kB < 0) {
-                                kB = 5;
+                        if (Input.pressed[Input.KEY_LEFT]) {
+                            Input.clearPressed();
+                            if (--inventoryCursor < 0) {
+                                inventoryCursor = 5;
                             }
                         }
 
-                        if (aS[6]) {
-                            d();
-                            if (++kB == 6) {
-                                kB = 0;
+                        if (Input.pressed[Input.KEY_RIGHT]) {
+                            Input.clearPressed();
+                            if (++inventoryCursor == 6) {
+                                inventoryCursor = 0;
                             }
                         }
                     }
                     break;
-                case 9:
-                    if (kp > 0) {
-                        --kp;
+                case GameState.SHOP:
+                    if (shopBlink > 0) {
+                        --shopBlink;
                     }
 
-                    if (aS[5] || aS[12]) {
-                        d();
-                        if (kq == 0) {
-                            if (kr == 0) {
-                                if (ko < 3) {
-                                    if (W[0] + W[1] + W[2] > 99) {
+                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
+                        Input.clearPressed();
+                        if (shopRow == 0) {
+                            if (shopMode == SHOP_MODE_MONEY) {
+                                if (shopCursor < 3) {
+                                    if (potionCounts[0] + potionCounts[1] + potionCounts[2] > 99) {
                                         break;
                                     }
-                                } else if (W[3] + W[4] + W[5] > 99) {
+                                } else if (potionCounts[3] + potionCounts[4] + potionCounts[5] > 99) {
                                     break;
                                 }
 
-                                if (dd >= kv[kq][ko]) {
-                                    var10002 = W[ko]++;
-                                    dd -= kv[kq][ko];
+                                if (money >= shopPrices[shopRow][shopCursor]) {
+                                    var10002 = potionCounts[shopCursor]++;
+                                    money -= shopPrices[shopRow][shopCursor];
                                 }
                             } else {
-                                a("TEAM BUY 009003 " + kx[kq][ko], ky[kq][ko], ko + 1);
+                                showPurchaseFailed();
                             }
                         } else {
-                            if (y >= ko) {
-                                s(7);
-                                a("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
-                                Y = V;
-                                e = 7;
+                            if (swordLevel >= shopCursor) {
+                                showMessage(MessageType.SHOP_NOTICE);
+                                setMessageText("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
+                                messageY = shopY;
+                                state = GameState.MESSAGE;
                                 break;
                             }
 
-                            if (N < km[ko]) {
-                                s(7);
-                                a("Bạn phải đạt cấp độ " + km[ko] + " mới có thể mua vũ khí này!");
-                                Y = V;
-                                e = 7;
+                            if (PlayerStats.level < swordLevelRequirements[shopCursor]) {
+                                showMessage(MessageType.SHOP_NOTICE);
+                                setMessageText("Bạn phải đạt cấp độ " + swordLevelRequirements[shopCursor] + " mới có thể mua vũ khí này!");
+                                messageY = shopY;
+                                state = GameState.MESSAGE;
                                 break;
                             }
 
-                            if (kr == 0) {
-                                if (dd >= kv[kq][ko]) {
-                                    dd -= kv[kq][ko];
-                                    y = ko;
-                                    t();
+                            if (shopMode == SHOP_MODE_MONEY) {
+                                if (money >= shopPrices[shopRow][shopCursor]) {
+                                    money -= shopPrices[shopRow][shopCursor];
+                                    swordLevel = shopCursor;
+                                    onSwordPurchased();
                                 } else {
-                                    s(7);
-                                    a("Không có đủ tiền: " + kv[kq][ko] + "$. Bạn chỉ có: " + dd + "$. Hãy đi tìm thêm.");
-                                    Y = V;
-                                    e = 7;
+                                    showMessage(MessageType.SHOP_NOTICE);
+                                    setMessageText("Không có đủ tiền: " + shopPrices[shopRow][shopCursor] + "$. Bạn chỉ có: " + money + "$. Hãy đi tìm thêm.");
+                                    messageY = shopY;
+                                    state = GameState.MESSAGE;
                                 }
                                 break;
                             }
 
-                            a("TEAM BUY 009003 " + kx[kq][ko], ky[kq][ko], ko + 6);
+                            showPurchaseFailed();
                         }
                     }
 
-                    if (aS[13]) {
-                        kG = null;
-                        kw = null;
+                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                        cornerIcons = null;
+                        shopSwordIcons = null;
                         System.gc();
-                        ah();
-                        d();
-                        c();
-                        e = 1;
-                        d = true;
+                        ensureMapImages();
+                        Input.clearPressed();
+                        Input.clearHeld();
+                        state = GameState.PLAYING;
+                        hudDirty = true;
                     } else {
-                        if (aS[2]) {
-                            d();
-                            if (kq == 1) {
-                                kq = 0;
-                                ++ko;
+                        if (Input.pressed[Input.KEY_UP]) {
+                            Input.clearPressed();
+                            if (shopRow == 1) {
+                                shopRow = 0;
+                                ++shopCursor;
                             }
                         }
 
-                        if (aS[8]) {
-                            d();
-                            if (kq == 0) {
-                                kq = 1;
-                                if (--ko < 0) {
-                                    ko = 0;
+                        if (Input.pressed[Input.KEY_DOWN]) {
+                            Input.clearPressed();
+                            if (shopRow == 0) {
+                                shopRow = 1;
+                                if (--shopCursor < 0) {
+                                    shopCursor = 0;
                                 }
 
-                                if (ko > 3) {
-                                    ko = 3;
+                                if (shopCursor > 3) {
+                                    shopCursor = 3;
                                 }
                             }
                         }
 
-                        if (aS[4]) {
-                            d();
-                            if (--ko < 0) {
-                                if (kq == 0) {
-                                    ko = 5;
+                        if (Input.pressed[Input.KEY_LEFT]) {
+                            Input.clearPressed();
+                            if (--shopCursor < 0) {
+                                if (shopRow == 0) {
+                                    shopCursor = 5;
                                 } else {
-                                    ko = 3;
+                                    shopCursor = 3;
                                 }
                             }
                         }
 
-                        if (aS[6]) {
-                            d();
-                            ++ko;
-                            if (kq == 0 && ko == 6) {
-                                ko = 0;
+                        if (Input.pressed[Input.KEY_RIGHT]) {
+                            Input.clearPressed();
+                            ++shopCursor;
+                            if (shopRow == 0 && shopCursor == 6) {
+                                shopCursor = 0;
                             }
 
-                            if (kq == 1 && ko == 4) {
-                                ko = 0;
+                            if (shopRow == 1 && shopCursor == 4) {
+                                shopCursor = 0;
                             }
                         }
                     }
                     break;
-                case 10:
+                case GameState.SETUP_PROMPT:
                     if (lk) {
-                        lj = null;
+                        popupImage = null;
                         K();
                     }
 
                     var3 = false;
-                    if (aS[12]) {
+                    if (Input.pressed[Input.KEY_SOFT_LEFT]) {
                         if (ll == 0) {
-                            Midlet.h = false;
+                            Sound.disabled = false;
                         } else {
-                            a = false;
+                            lowGraphics = false;
                         }
 
                         var3 = true;
-                    } else if (aS[13]) {
+                    } else if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                         if (ll == 0) {
-                            Midlet.h = true;
+                            Sound.disabled = true;
                         } else {
-                            a = true;
+                            lowGraphics = true;
                         }
 
                         var3 = true;
                     }
 
                     if (var3) {
-                        d();
-                        c();
+                        Input.clearPressed();
+                        Input.clearHeld();
                         if (ll == 0) {
                             try {
-                                lj = Image.createImage("/u/m2.png");
+                                popupImage = Ui.loadSmileys();
                             } catch (Exception var9) {
                             }
 
                             ll = 1;
                         } else {
-                            Midlet.a = !lK;
                             lk = true;
                         }
                     }
                     break;
-                case 11:
-                    Z();
+                case GameState.TUTORIAL:
+                    updateTutorial();
                     break;
-                case 12:
-                    Z();
+                case GameState.UNUSED_12:
+                    updateTutorial();
                     break;
-                case 13:
-                    if (++lN > 10000) {
-                        lN = 0;
-                    }
-
-                    aT = this.getWidth();
-                    aU = this.getHeight();
-                    if (aN && aP > aU - 20) {
-                        if (aO < aV) {
-                            aS[12] = true;
-                        } else {
-                            aS[13] = true;
-                        }
-
-                        aN = false;
-                    }
-
-                    switch (Z) {
-                        case 0:
-                            this.aE();
-                        case 1:
-                        case 3:
-                        default:
-                            break;
-                        case 2:
-                            this.aD();
-                            break;
-                        case 4:
-                            this.ax();
-                            break;
-                        case 5:
-                            if (aS[5] || aS[12]) {
-                                Midlet.c.notifyDestroyed();
-                            }
-                            break;
-                        case 6:
-                            aC();
-                            break;
-                        case 7:
-                            aw();
-                            break;
-                        case 8:
-                            if (aS[12]) {
-                                Midlet.c.notifyDestroyed();
-                            }
-                    }
             }
 
             this.repaint();
             this.serviceRepaints();
 
-            while(System.currentTimeMillis() - var1 < (long)aa) {
+            while(System.currentTimeMillis() - var1 < (long)frameDurationMs) {
                 Thread.yield();
             }
         }
 
         a();
-        Midlet.c.notifyDestroyed();
+        Midlet.instance.notifyDestroyed();
     }
 
-    public static void o(int var0) {
-        jn = 0;
+    public static void setupSigns(int var0) {
+        signCount = 0;
         if (var0 == 0) {
-            jn = 16;
-            af();
-            a(0, "Bộ môn Khí", 1044, 336);
-            a(1, "Cô Ayumi", 1044, 347);
-            a(2, "Phòng chủ nhiệm", 1212, 336);
-            a(3, "Thầy Takanashi", 1212, 347);
-            a(4, "Phòng", 1380, 336);
-            a(5, "đào tạo", 1380, 347);
-            a(6, "Phòng", 1212, 216);
-            a(7, "Hiệu trưởng", 1212, 227);
-            a(8, "Bộ môn Lực", 1044, 216);
-            a(9, "Thầy Hiroyaki", 1044, 227);
-            a(10, "Bộ môn Thuật", 1380, 216);
-            a(11, "Thầy Honda", 1380, 227);
-            a(12, "Kí Túc Xá", 444, 341);
-            a(13, "* Khu luyện tập", 72, 341);
-            a(14, "Cổng /", 1860, 317);
-            a(15, "Bán HP-MP", 612, 341);
+            signCount = 16;
+            allocSigns();
+            placeSign(0, "Bộ môn Khí", 1044, 336);
+            placeSign(1, "Cô Ayumi", 1044, 347);
+            placeSign(2, "Phòng chủ nhiệm", 1212, 336);
+            placeSign(3, "Thầy Takanashi", 1212, 347);
+            placeSign(4, "Phòng", 1380, 336);
+            placeSign(5, "đào tạo", 1380, 347);
+            placeSign(6, "Phòng", 1212, 216);
+            placeSign(7, "Hiệu trưởng", 1212, 227);
+            placeSign(8, "Bộ môn Lực", 1044, 216);
+            placeSign(9, "Thầy Hiroyaki", 1044, 227);
+            placeSign(10, "Bộ môn Thuật", 1380, 216);
+            placeSign(11, "Thầy Honda", 1380, 227);
+            placeSign(12, "Kí Túc Xá", 444, 341);
+            placeSign(13, "* Khu luyện tập", 72, 341);
+            placeSign(14, "Cổng /", 1860, 317);
+            placeSign(15, "Bán HP-MP", 612, 341);
         } else if (var0 == 1) {
-            jn = 2;
-            af();
-            a(0, "Trường /", 1356, 173);
-            a(1, "* Thác nước", 48, 173);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "Trường /", 1356, 173);
+            placeSign(1, "* Thác nước", 48, 173);
         } else if (var0 == 2) {
-            jn = 4;
-            af();
-            a(0, "* Lối vào", 60, 245);
-            a(1, "Trường Hirosaki", 240, 197);
-            a(2, "Lối ra /", 420, 245);
-            a(2, "Mua đồ tiền thật", 552, 245);
-            a(3, "đường hoa đào /", 1356, 221);
+            signCount = 4;
+            allocSigns();
+            placeSign(0, "* Lối vào", 60, 245);
+            placeSign(1, "Trường Hirosaki", 240, 197);
+            placeSign(2, "Lối ra /", 420, 245);
+            placeSign(2, "Mua đồ tiền thật", 552, 245);
+            placeSign(3, "đường hoa đào /", 1356, 221);
         } else if (var0 == 3) {
-            jn = 2;
-            af();
-            a(0, "* Ngôi làng", 48, 173);
-            a(1, "Rừng trúc /", 2808, 173);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "* Ngôi làng", 48, 173);
+            placeSign(1, "Rừng trúc /", 2808, 173);
         } else if (var0 == 4) {
-            jn = 2;
-            af();
-            a(0, "* Vườn đào", 48, 101);
-            a(1, "Rừng tối", 1704, 245);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "* Vườn đào", 48, 101);
+            placeSign(1, "Rừng tối", 1704, 245);
         } else if (var0 == 5) {
-            jn = 2;
-            af();
-            a(0, "Trường /", 420, 77);
-            a(1, "Rừng tối /", 408, 1829);
+            signCount = 2;
+            allocSigns();
+            placeSign(0, "Trường /", 420, 77);
+            placeSign(1, "Rừng tối /", 408, 1829);
         } else if (var0 == 6) {
-            jn = 3;
-            af();
-            a(0, "* Thác nước", 72, 101);
-            a(1, "Rừng tối /", 504, 53);
-            a(2, "Sông Watamoro /", 5916, 197);
+            signCount = 3;
+            allocSigns();
+            placeSign(0, "* Thác nước", 72, 101);
+            placeSign(1, "Rừng tối /", 504, 53);
+            placeSign(2, "Sông Watamoro /", 5916, 197);
         } else {
             if (var0 == 99) {
-                jn = 1;
-                af();
-                a(0, "Trường Hirosaki", 744, 173);
+                signCount = 1;
+                allocSigns();
+                placeSign(0, "Trường Hirosaki", 744, 173);
             }
 
         }
     }
 
-    private static void a(int var0, String var1, int var2, int var3) {
-        jj[var0] = var1;
-        jk[var0] = var2;
-        jl[var0] = var3;
-        int[] var10000 = jk;
-        var10000[var0] -= Midlet.a(var1) >> 1;
-        jm[var0] = Midlet.a(var1);
+    private static void placeSign(int var0, String var1, int var2, int var3) {
+        signTexts[var0] = var1;
+        signX[var0] = var2;
+        signY[var0] = var3;
+        int[] var10000 = signX;
+        var10000[var0] -= FontGraph.getBoldWidth(var1) >> 1;
+        signWidth[var0] = FontGraph.getBoldWidth(var1);
     }
 
-    private static void i(Graphics var0) {
-        for(int var1 = 0; var1 < jn; ++var1) {
-            if (jk[var1] + jm[var1] >= fO && jk[var1] <= fO + r && jl[var1] >= fP && jl[var1] - 14 <= fP + s) {
-                Midlet.a(var0, jj[var1], jk[var1], jl[var1], 0);
+    private static void drawSigns(Graphics var0) {
+        for(int var1 = 0; var1 < signCount; ++var1) {
+            if (signX[var1] + signWidth[var1] >= cameraX && signX[var1] <= cameraX + viewWidth && signY[var1] >= cameraY && signY[var1] - 14 <= cameraY + viewHeight) {
+                FontGraph.drawBold(var0, signTexts[var1], signX[var1], signY[var1], 0);
             }
         }
 
     }
 
-    private static void af() {
-        jj = new String[jn];
-        jk = new int[jn];
-        jl = new int[jn];
-        jm = new int[jn];
+    private static void allocSigns() {
+        signTexts = new String[signCount];
+        signX = new int[signCount];
+        signY = new int[signCount];
+        signWidth = new int[signCount];
     }
 
-    public static void p(int var0) {
-        iX = 0;
+    public static void setupHouses(int var0) {
+        houseCount = 0;
         if (var0 == 2) {
-            if (iW == null) {
-                iW = new Image[3];
-
-                try {
-                    iW[0] = Image.createImage("/t/h0.png");
-                    iW[1] = Image.createImage("/t/h1.png");
-                    iW[2] = Image.createImage("/t/h2.png");
-                } catch (Exception var2) {
-                }
+            try {
+                houseImages = Tile.ensureHouses(houseImages);
+            } catch (Exception var2) {
             }
 
-            iX = 5;
-            ag();
-            b(0, 0, 29, 13);
-            b(1, 1, 34, 13);
-            b(2, 2, 39, 13);
-            b(3, 1, 46, 11);
-            b(4, 2, 51, 11);
+            houseCount = 5;
+            allocHouses();
+            placeHouse(0, 0, 29, 13);
+            placeHouse(1, 1, 34, 13);
+            placeHouse(2, 2, 39, 13);
+            placeHouse(3, 1, 46, 11);
+            placeHouse(4, 2, 51, 11);
         }
 
         if (var0 == 16) {
-            if (iW == null) {
-                iW = new Image[3];
-
-                try {
-                    iW[0] = Image.createImage("/t/h0.png");
-                    iW[1] = Image.createImage("/t/h1.png");
-                    iW[2] = Image.createImage("/t/h2.png");
-                } catch (Exception var1) {
-                }
+            try {
+                houseImages = Tile.ensureHouses(houseImages);
+            } catch (Exception var1) {
             }
 
-            iX = 5;
-            ag();
-            b(0, 0, 5, 11);
-            b(1, 1, 14, 12);
-            b(2, 2, 33, 10);
-            b(3, 1, 53, 10);
-            b(4, 0, 59, 11);
+            houseCount = 5;
+            allocHouses();
+            placeHouse(0, 0, 5, 11);
+            placeHouse(1, 1, 14, 12);
+            placeHouse(2, 2, 33, 10);
+            placeHouse(3, 1, 53, 10);
+            placeHouse(4, 0, 59, 11);
         }
 
     }
 
-    private static void b(int var0, int var1, int var2, int var3) {
-        iY[var0] = var1;
-        iZ[var0] = var2 * je + 12;
-        ja[var0] = var3 * je;
-        jb[var0] = iW[var1].getWidth() >> 1;
-        jc[var0] = iW[var1].getHeight();
+    private static void placeHouse(int var0, int var1, int var2, int var3) {
+        houseTypes[var0] = var1;
+        houseX[var0] = var2 * GameMap.TILE_SIZE + 12;
+        houseY[var0] = var3 * GameMap.TILE_SIZE;
+        houseHalfWidth[var0] = houseImages[var1].getWidth() >> 1;
+        houseHeight[var0] = houseImages[var1].getHeight();
     }
 
-    private static void ag() {
-        iY = new int[iX];
-        iZ = new int[iX];
-        ja = new int[iX];
-        jb = new int[iX];
-        jc = new int[iX];
+    private static void allocHouses() {
+        houseTypes = new int[houseCount];
+        houseX = new int[houseCount];
+        houseY = new int[houseCount];
+        houseHalfWidth = new int[houseCount];
+        houseHeight = new int[houseCount];
     }
 
-    private static void ah() {
+    private static void ensureMapImages() {
         try {
-            if (iT == null) {
-                iT = Image.createImage("/t/t.png");
-            }
-
-            if (iU == null) {
-                iU = Image.createImage("/t/wtf.png");
-            }
-
-            if (iV == null) {
-                iV = Image.createImage("/t/wts.png");
-            }
-
-            if (jd == null && !a) {
-                jd = Image.createImage("/t/tb.png");
+            tilesetImage = Tile.ensureTileset(tilesetImage);
+            waterfallImage = Tile.ensureWaterfall(waterfallImage);
+            waterSurfaceImage = Tile.ensureWaterSurface(waterSurfaceImage);
+            if (!lowGraphics) {
+                bushImage = Tile.ensureBush(bushImage);
             }
 
             System.gc();
         } catch (Exception var0) {
-            Midlet.c.c();
+            Midlet.instance.shutdownApp();
         }
     }
 
-    public static void q(int var0) {
-        var0 = var0;
-        iS = new boolean[200];
-        if (var0 == 101) {
-            var0 = 99;
-        }
-
-        if (var0 == 0) {
-            iM = 80;
-            iN = 19;
-            jo = 1;
-            js = 59 * je;
-            jt = 9 * je;
-            jp = 2;
-            ju = 3;
-            jv = 12 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 1) {
-            iM = 60;
-            iN = 14;
-            jo = 5;
-            js = 19 * je;
-            jt = 5 * je;
-            jp = 0;
-            ju = 3;
-            jv = 16 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 2) {
-            iM = 60;
-            iN = 16;
-            jo = 0;
-            js = 79 * je;
-            jt = 15 * je;
-            jp = 3;
-            ju = 3;
-            jv = 9 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 3) {
-            iM = 120;
-            iN = 12;
-            jo = 2;
-            js = 59 * je;
-            jt = 11 * je;
-            jp = 4;
-            ju = 3;
-            jv = 144;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 4) {
-            iM = 80;
-            iN = 15;
-            jo = 3;
-            js = 119 * je;
-            jt = 9 * je;
-            jp = -1;
-            jq = -1;
-            jr = 6;
-            jy = 26 * je;
-            jz = 10;
-        } else if (var0 == 5) {
-            iM = 20;
-            iN = 80;
-            jo = -1;
-            jp = 1;
-            ju = 3;
-            jv = 9 * je;
-            jA = 40 * je;
-            jq = 6;
-            jw = 3;
-            jx = 5 * je;
-            jr = -1;
-        } else if (var0 == 6) {
-            iM = 250;
-            iN = 12;
-            jo = 5;
-            js = 19 * je;
-            jt = 78 * je;
-            jp = 7;
-            ju = 1 * je;
-            jv = 7 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 7) {
-            iM = 80;
-            iN = 14;
-            jo = 6;
-            js = 249 * je;
-            jt = 10 * je;
-            jp = 97;
-            ju = 1 * je;
-            jv = 3 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 97) {
-            iM = 25;
-            iN = 13;
-            jo = 7;
-            js = 79 * je;
-            jt = 11 * je;
-            jp = 8;
-            ju = 1 * je;
-            jv = 12 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 8) {
-            iM = 80;
-            iN = 14;
-            jo = 97;
-            js = 23 * je;
-            jt = 7 * je;
-            jp = 9;
-            ju = 1 * je;
-            jv = 11 * je;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 9) {
-            iM = 80;
-            iN = 14;
-            jo = 8;
-            js = 79 * je;
-            jt = 9 * je;
-            jp = -1;
-            ju = 1 * je;
-            jv = 11 * je;
-            jq = -1;
-            jr = 10;
-            jy = 2 * je;
-            jz = 0 * je;
-        } else if (var0 == 10) {
-            iM = 40;
-            iN = 40;
-            jo = -1;
-            jp = 11;
-            ju = 24;
-            jv = 264;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 11) {
-            iM = 90;
-            iN = 14;
-            jo = 10;
-            js = 936;
-            jt = 720;
-            jp = 96;
-            ju = 24;
-            jv = 192;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 96) {
-            iM = 25;
-            iN = 14;
-            jo = 11;
-            js = 2112;
-            jt = 288;
-            jp = 12;
-            ju = 24;
-            jv = 192;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 12) {
-            iM = 40;
-            iN = 25;
-            jo = 96;
-            js = 552;
-            jt = 264;
-            jp = 13;
-            ju = 24;
-            jv = 216;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 13) {
-            iM = 80;
-            iN = 14;
-            jo = 12;
-            js = 936;
-            jt = 456;
-            jp = 14;
-            ju = 24;
-            jv = 168;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 14) {
-            iM = 60;
-            iN = 16;
-            jo = 13;
-            js = 1896;
-            jt = 264;
-            jp = 15;
-            ju = 24;
-            jv = 120;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 15) {
-            iM = 40;
-            iN = 30;
-            jo = 14;
-            js = 1416;
-            jt = 144;
-            jp = 16;
-            ju = 24;
-            jv = 264;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 16) {
-            iM = 70;
-            iN = 15;
-            jo = 15;
-            js = 936;
-            jt = 168;
-            jp = 17;
-            ju = 24;
-            jv = 432;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 17) {
-            iM = 50;
-            iN = 20;
-            jo = 16;
-            js = 1656;
-            jt = 144;
-            jp = 18;
-            ju = 24;
-            jv = 288;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 18) {
-            iM = 70;
-            iN = 15;
-            jo = 17;
-            js = 1176;
-            jt = 384;
-            jp = 95;
-            ju = 24;
-            jv = 192;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 95) {
-            iM = 25;
-            iN = 14;
-            jo = 18;
-            js = 1632;
-            jt = 312;
-            jp = -1;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 94) {
-            iM = 24;
-            iN = 14;
-            jo = -1;
-            jp = -1;
-            jq = -1;
-            jr = -1;
-        } else if (var0 == 99) {
-            iM = 70;
-            iN = 15;
-            jo = -1;
-            jp = 4;
-            ju = 2 * je;
-            jv = 5 * je;
-            jq = -1;
-            jr = -1;
-        }
-
-        iO = iM * je;
-        iP = iN * je;
-
+    public static void loadMap(int mapId) {
         try {
-            InputStream var3 = "".getClass().getResourceAsStream("/m/" + var0);
-            iQ = new byte[iM * iN];
-            iR = new int[iM * iN];
-
-            for(int var1 = 0; var1 < iM * iN; ++var1) {
-                iQ[var1] = (byte)var3.read();
-                if (iQ[var1] != 0) {
-                    iS[iQ[var1] - 1] = true;
-                }
-
-                int[] var10000;
-                if (iQ[var1] == 1 || iQ[var1] == 2 || iQ[var1] == 3 || iQ[var1] == 4 || iQ[var1] == 5 || iQ[var1] == 6 || iQ[var1] == 7 || iQ[var1] == 36 || iQ[var1] == 37 || iQ[var1] == 54 || iQ[var1] == 91 || iQ[var1] == 92 || iQ[var1] == 93 || iQ[var1] == 94 || iQ[var1] == 73 || iQ[var1] == 74 || iQ[var1] == 97 || iQ[var1] == 98 || iQ[var1] == 120) {
-                    var10000 = iR;
-                    var10000[var1] |= 2;
-                }
-
-                if (iQ[var1] == 2 || iQ[var1] == 3 || iQ[var1] == 4 || iQ[var1] == 5 || iQ[var1] == 6 || iQ[var1] == 20 || iQ[var1] == 21 || iQ[var1] == 22 || iQ[var1] == 23 || iQ[var1] == 36 || iQ[var1] == 37 || iQ[var1] == 38 || iQ[var1] == 39) {
-                    var10000 = iR;
-                    var10000[var1] |= 8192;
-                }
-
-                if (iQ[var1] == 8 || iQ[var1] == 9 || iQ[var1] == 10 || iQ[var1] == 12 || iQ[var1] == 13 || iQ[var1] == 14 || iQ[var1] == 30) {
-                    var10000 = iR;
-                    var10000[var1] |= 16;
-                }
-
-                if (iQ[var1] == 17) {
-                    var10000 = iR;
-                    var10000[var1] |= 32;
-                }
-
-                if (iQ[var1] == 18) {
-                    var10000 = iR;
-                    var10000[var1] |= 128;
-                }
-
-                if (iQ[var1] == 37 || iQ[var1] == 38) {
-                    var10000 = iR;
-                    var10000[var1] |= 4;
-                }
-
-                if (iQ[var1] == 36 || iQ[var1] == 39) {
-                    var10000 = iR;
-                    var10000[var1] |= 8;
-                }
-
-                if (iQ[var1] == 19) {
-                    var10000 = iR;
-                    var10000[var1] |= 64;
-                    if ((iR[var1 - iM] & 8192) == 8192) {
-                        var10000 = iR;
-                        var10000[var1] |= 8192;
-                    }
-                }
-
-                if (iQ[var1] == 35) {
-                    var10000 = iR;
-                    var10000[var1] |= 4096;
-                }
-
-                if (iQ[var1] == 32) {
-                    var10000 = iR;
-                    var10000[var1] |= 256;
-                }
-
-                if (iQ[var1] == 7) {
-                    var10000 = iR;
-                    var10000[var1] |= 2048;
-                }
-
-                if (iQ[var1] == 33 || iQ[var1] == 34) {
-                    var10000 = iR;
-                    var10000[var1] |= 512;
-                }
-            }
-        } catch (Exception var2) {
-            Midlet.c.c();
+            MapConfig.load(mapId);
+        } catch (Exception ex) {
+            Midlet.instance.shutdownApp();
         }
 
-        ah();
+        ensureMapImages();
     }
 
     private static void j(Graphics var0) {
-        for(int var1 = bw; var1 < bA; ++var1) {
-            for(int var2 = bx; var2 < bB; ++var2) {
+        for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
+            for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                 int var3;
-                if ((var3 = iQ[var2 * iM + var1] - 1) != -1) {
-                    var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                if ((var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1) != -1) {
+                    var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
 
-                if ((h(var1, var2) & 32) == 32) {
-                    var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                } else if ((h(var1, var2) & 64) == 64) {
-                    if ((h(var1, var2 - 1) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2 - 1) & 8192) == 8192) {
-                        var0.drawRegion(iT, 0, 504, 24, 24, 0, var1 * je, var2 * je, 0);
+                if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                    var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
+                    if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
 
-                    var0.drawRegion(iV, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * je, var2 * je, 0);
+                    var0.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
 
-                if ((h(var1, var2) & 4096) == 4096) {
-                    if ((h(var1, var2 - 1) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2 - 1) & 8192) == 8192) {
-                        var0.drawRegion(iT, 0, 504, 24, 24, 0, var1 * je, var2 * je, 0);
+                if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
+                    if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
 
-                    var0.drawRegion(iT, 0, (iQ[var2 * iM + var1] - 1) * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                    var0.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                 }
             }
         }
@@ -11298,26 +9778,26 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void k(Graphics var0) {
-        for(int var1 = bw; var1 < bA; ++var1) {
-            for(int var2 = bx; var2 < bB; ++var2) {
-                int var3 = iQ[var2 * iM + var1] - 1;
-                if ((h(var1, var2) & 16) == 16) {
-                    jg = (jf = var1 * je - fO) - bC;
-                    jh = (ji = (je - 2) * jg / je) + bC;
-                    var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, jh + fO, var2 * je, 0);
-                } else if ((h(var1, var2) & 256) != 256 && (h(var1, var2) & 512) != 512) {
-                    if ((h(var1, var2) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2) & 64) != 64 && (h(var1, var2) & 4096) != 4096) {
-                        if ((h(var1, var2) & 1024) == 1024) {
-                            var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, var1 * je, var2 * je + 1, 0);
+        for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
+            for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
+                int var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1;
+                if ((GameMap.flagsAt(var1, var2) & TileFlags.PARALLAX) == TileFlags.PARALLAX) {
+                    jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - viewCenterX;
+                    jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                    var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, jh + cameraX, var2 * GameMap.TILE_SIZE, 0);
+                } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) != TileFlags.FOREGROUND_BUSH && (GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) != TileFlags.FOREGROUND) {
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) != TileFlags.WATER && (GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) != TileFlags.DEEP_WATER) {
+                        if ((GameMap.flagsAt(var1, var2) & TileFlags.BRIDGE_PRESSED) == TileFlags.BRIDGE_PRESSED) {
+                            var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 1, 0);
                         } else if (var3 != -1) {
-                            var0.drawRegion(iT, 0, var3 * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                            var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                         }
-                    } else if ((h(var1, var2 - 1) & 32) == 32) {
-                        var0.drawRegion(iU, 0, 24 * (x % 4), 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2 - 1) & 8192) == 8192) {
-                        var0.drawRegion(iT, 0, 504, 24, 24, 0, var1 * je, var2 * je, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        var0.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        var0.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
                 }
             }
@@ -11326,23 +9806,23 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void l(Graphics var0) {
-        if (!a) {
-            for(int var1 = bw; var1 < bA; ++var1) {
-                for(int var2 = bx; var2 < bB; ++var2) {
-                    if ((h(var1, var2) & 64) == 64) {
-                        var0.drawRegion(iV, 0, (x % 8 >> 2) * 24, 24, 24, 0, var1 * je, var2 * je, 0);
-                    } else if ((h(var1, var2) & 256) == 256) {
-                        jg = (jf = var1 * je - fO) - bC;
-                        jh = (ji = (je - 1) * jg / je) + bC;
-                        var0.drawImage(jd, jh + fO - 2 + (var1 + var2) % 5, var2 * je - 3 + var2 % 5, 0);
+        if (!lowGraphics) {
+            for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
+                for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
+                        var0.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) == TileFlags.FOREGROUND_BUSH) {
+                        jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - viewCenterX;
+                        jh = (ji = (GameMap.TILE_SIZE - 1) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                        var0.drawImage(bushImage, jh + cameraX - 2 + (var1 + var2) % 5, var2 * GameMap.TILE_SIZE - 3 + var2 % 5, 0);
                     }
 
-                    if ((h(var1, var2) & 512) == 512) {
-                        var0.drawRegion(iT, 0, (iQ[var2 * iM + var1] - 1) * je, 24, 24, 0, var1 * je, var2 * je + 2, 0);
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) == TileFlags.FOREGROUND) {
+                        var0.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 2, 0);
                     }
 
-                    if ((h(var1, var2) & 4096) == 4096) {
-                        var0.drawRegion(iT, 0, (iQ[var2 * iM + var1] - 1) * je, 24, 24, 0, var1 * je, var2 * je, 0);
+                    if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
+                        var0.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     }
                 }
             }
@@ -11350,52 +9830,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
     }
 
-    private static int h(int var0, int var1) {
-        return iR[var1 * iM + var0];
-    }
-
-    private static int i(int var0, int var1) {
-        return iR[var1 / je * iM + var0 / je];
-    }
-
-    private static boolean g(int var0, int var1, int var2) {
-        return (iR[var1 / je * iM + var0 / je] & var2) == var2;
-    }
-
-    private static void h(int var0, int var1, int var2) {
-        int[] var10000 = iR;
-        int var10001 = var1 / je * iM + var0 / je;
-        var10000[var10001] |= 1024;
-    }
-
-    private static void i(int var0, int var1, int var2) {
-        iR[var1 * iM + 24] = 0;
-    }
-
-    private static void j(int var0, int var1, int var2) {
-        int[] var10000 = iR;
-        int var10001 = var1 / je * iM + var0 / je;
-        var10000[var10001] &= -1025;
-    }
-
     private static int H(int var0) {
-        return var0 / je * je;
+        return var0 / GameMap.TILE_SIZE * GameMap.TILE_SIZE;
     }
 
     private static int I(int var0) {
-        return var0 / je * je;
+        return var0 / GameMap.TILE_SIZE * GameMap.TILE_SIZE;
     }
 
     private static void ai() {
         try {
-            jC = Image.createImage("/u/lg.png");
+            logoImage = Ui.loadLogo();
         } catch (Exception var0) {
         }
     }
 
-    private static void aj() {
-        T = 0;
-        S = 0;
+    private static void resetLoadingProgress() {
+        loadingProgress = 0;
+        loadingTarget = 0;
         jB = 0;
     }
 
@@ -11461,25 +9913,25 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void L(int var0) {
-        u(ap[jI[var0]]);
+        gainExp(ap[jI[var0]]);
         int var1;
-        if ((var1 = x % 20) > 15) {
-            a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (x + 1) % 2);
+        if ((var1 = tick % 20) > 15) {
+            a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (tick + 1) % 2);
         } else if (var1 == 15) {
-            a(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + x % 10);
+            a(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + tick % 10);
         } else {
             var1 = ((jI[var0] << 2) / 10 + 1) * 10;
             a(jJ[var0], jK[var0], -(jX[var0] << 1), -6, var1);
             a(jJ[var0], jK[var0], -(jX[var0] << 4), -3, var1);
         }
 
-        if (P != -1 && lD[P] == jI[var0]) {
-            ++fC;
-            b(al[lD[P]] + ": " + fC + "#" + lE[P]);
+        if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == jI[var0]) {
+            ++QuestState.progress;
+            showNotice(GameText.monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
         }
 
-        if (jI[var0] == fy - 100 && x % 10 < fz) {
-            e(jJ[var0], jK[var0]);
+        if (jI[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
+            placeQuestItem(jJ[var0], jK[var0]);
             f(jJ[var0], jK[var0] - 28);
         }
 
@@ -11839,25 +10291,10 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         if (jG > 0) {
-            jF = new Image[kl.length][2][4];
+            monsterSprites = new Image[kl.length][][];
 
             for(var0 = 0; var0 < kl.length; ++var0) {
-                for(int var5 = 0; var5 < 2; ++var5) {
-                    for(var2 = 0; var2 < 4; ++var2) {
-                        try {
-                            jF[var0][var5][var2] = Image.createImage("/mob/m" + kl[var0] + var5 + var2 + ".png");
-                        } catch (Exception var3) {
-                        }
-
-                        if (jF[var0][var5][var2] == null && var5 == 1) {
-                            jF[var0][1][var2] = jF[var0][0][var2];
-                        }
-                    }
-
-                    if (jF[var0][var5][2] == null) {
-                        jF[var0][var5][2] = jF[var0][var5][1];
-                    }
-                }
+                monsterSprites[var0] = Mob.loadMonster(kl[var0]);
             }
         }
 
@@ -11880,7 +10317,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var10002 = jT[var0]++;
                     var10000 = jK;
                     var10000[var0] += jT[var0];
-                    if (x % 2 == 0) {
+                    if (tick % 2 == 0) {
                         if (jU[var0] > 1) {
                             var10002 = jU[var0]--;
                         } else if (jU[var0] < -1) {
@@ -11891,13 +10328,13 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var10000 = jJ;
                     var10000[var0] += jU[var0];
                     jW[var0] = 2;
-                    if (jK[var0] < iP && jJ[var0] >= 0 && jJ[var0] < iO) {
-                        if ((jV[var0] == 0 || jV[var0] < 3 && jT[var0] > 7) && (i(jJ[var0], jK[var0]) & 2) == 2) {
+                    if (jK[var0] < GameMap.pixelHeight && jJ[var0] >= 0 && jJ[var0] < GameMap.pixelWidth) {
+                        if ((jV[var0] == 0 || jV[var0] < 3 && jT[var0] > 7) && (GameMap.flagsAtPixel(jJ[var0], jK[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
                             jT[var0] = jT[var0] > 4 ? -4 : -jT[var0];
                             var10002 = jV[var0]++;
                         }
 
-                        if (g(jJ[var0], jK[var0], 64) && jK[var0] % je > 8) {
+                        if (GameMap.hasFlag(jJ[var0], jK[var0], TileFlags.WATER) && jK[var0] % GameMap.TILE_SIZE > 8) {
                             g(jJ[var0], H(jK[var0]) + 8);
                         }
                         break;
@@ -11914,7 +10351,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                 case 2:
                     switch (jI[var0]) {
                         case 0:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -11930,7 +10367,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -11943,27 +10380,27 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var10000 = jK;
                             var10000[var0] += jS[var0];
                             if (jJ[var0] - jP[var0] > 40) {
-                                jR[var0] = -(x % 3 + 1);
+                                jR[var0] = -(tick % 3 + 1);
                             }
 
                             if (jJ[var0] - jP[var0] < -40) {
-                                jR[var0] = x % 3 + 1;
+                                jR[var0] = tick % 3 + 1;
                             }
 
                             if (jK[var0] - jQ[var0] > 40) {
-                                jS[var0] = -(x % 3 + 1);
+                                jS[var0] = -(tick % 3 + 1);
                             }
 
                             if (jK[var0] - jQ[var0] < -40) {
-                                jS[var0] = x % 3 + 1;
+                                jS[var0] = tick % 3 + 1;
                             }
 
-                            if (x % 15 == 0) {
-                                jR[var0] = x % 4 - 1;
-                                jS[var0] = (x >> 1) % 4 - 1;
+                            if (tick % 15 == 0) {
+                                jR[var0] = tick % 4 - 1;
+                                jS[var0] = (tick >> 1) % 4 - 1;
                             }
 
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -12010,7 +10447,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -12048,12 +10485,12 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
                         case 5:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -12083,7 +10520,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             var10000 = jJ;
-                            var10000[var0] += x % 5 * jX[var0];
+                            var10000[var0] += tick % 5 * jX[var0];
                             if (jJ[var0] > jQ[var0]) {
                                 jX[var0] = -1;
                             } else if (jJ[var0] < jP[var0]) {
@@ -12112,7 +10549,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             J(var0);
                             continue;
                         case 11:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 jT[var0] = 0;
                                 if (jW[var0] > 1) {
@@ -12130,7 +10567,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -12142,27 +10579,27 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             var10000[var0] += jR[var0];
                             if (jJ[var0] - jP[var0] > 100) {
                                 jX[var0] = -1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 var10000 = jJ;
                                 var10000[var0] += jX[var0] << 2;
                             } else if (jJ[var0] - jP[var0] < -100) {
                                 jX[var0] = 1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 var10000 = jJ;
                                 var10000[var0] += jX[var0] << 2;
                             }
 
                             if (jK[var0] - jQ[var0] > 20) {
-                                jS[var0] = -(x % 4 + 1);
+                                jS[var0] = -(tick % 4 + 1);
                             } else if (jK[var0] - jQ[var0] < -20) {
-                                jS[var0] = x % 4 + 1;
+                                jS[var0] = tick % 4 + 1;
                             } else {
                                 jS[var0] = 0;
                             }
 
                             var10000 = jK;
                             var10000[var0] += jS[var0];
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -12182,7 +10619,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 jW[var0] = 0;
                             }
 
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10000 = jJ;
                                 var10000[var0] += jX[var0] << 2;
                             } else {
@@ -12197,7 +10634,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 5 == 0) {
+                            if (tick % 5 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -12231,7 +10668,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -12243,7 +10680,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             continue;
                         case 18:
                         case 19:
-                            if (x % 4 == 0) {
+                            if (tick % 4 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -12257,7 +10694,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             }
 
                             J(var0);
-                            if (x % 9 == 0) {
+                            if (tick % 9 == 0) {
                                 K(var0);
                             }
                             continue;
@@ -12315,22 +10752,22 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             continue;
                         case 2:
                             if (jJ[var0] < fe) {
-                                jR[var0] = 3 + x % 4;
+                                jR[var0] = 3 + tick % 4;
                             } else if (jJ[var0] > fe) {
-                                jR[var0] = -(3 + x % 4);
+                                jR[var0] = -(3 + tick % 4);
                             }
 
                             if (jK[var0] < ff) {
-                                jS[var0] = x % 3;
+                                jS[var0] = tick % 3;
                             } else if (jK[var0] > ff) {
-                                jS[var0] = -x % 3;
+                                jS[var0] = -tick % 3;
                             }
 
                             var10000 = jJ;
                             var10000[var0] += jR[var0];
                             var10000 = jK;
                             var10000[var0] += jS[var0];
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -12547,22 +10984,22 @@ public final class b extends Canvas implements Runnable, CommandListener {
                             continue;
                         case 13:
                             if (jJ[var0] < fe) {
-                                jR[var0] = 4 + x % 6;
+                                jR[var0] = 4 + tick % 6;
                             } else if (jJ[var0] > fe) {
-                                jR[var0] = -(4 + x % 6);
+                                jR[var0] = -(4 + tick % 6);
                             }
 
                             if (jK[var0] < ff) {
-                                jS[var0] = 2 + x % 4;
+                                jS[var0] = 2 + tick % 4;
                             } else if (jK[var0] > ff) {
-                                jS[var0] = -(2 + x % 4);
+                                jS[var0] = -(2 + tick % 4);
                             }
 
                             var10000 = jJ;
                             var10000[var0] += jR[var0];
                             var10000 = jK;
                             var10000[var0] += jS[var0];
-                            if (x % 2 == 0) {
+                            if (tick % 2 == 0) {
                                 var10002 = jW[var0]++;
                                 if (jW[var0] > 1) {
                                     jW[var0] = 0;
@@ -12574,7 +11011,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 jO[var0] = 2;
                                 jT[var0] = 0;
                                 jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 kb[var0] = 10;
                             }
 
@@ -12583,7 +11020,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                                 jT[var0] = 0;
                                 jR[var0] = jS[var0] = 0;
                                 jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] * (x % 4 + 1);
+                                jR[var0] = jX[var0] * (tick % 4 + 1);
                                 kb[var0] = 0;
                             }
                             continue;
@@ -12660,7 +11097,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
                     var10002 = jT[var0]++;
                     if (jT[var0] >= jH) {
                         jT[var0] = 0;
-                        int var2 = x % ki[kg[var0]].length;
+                        int var2 = tick % ki[kg[var0]].length;
                         if (kk[kg[var0]][var2]) {
                             jT[var0] = jH;
                         } else {
@@ -13415,8 +11852,8 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
         for(var0 = 0; var0 < ki.length; ++var0) {
             for(int var1 = 0; var1 < ki[var0].length; ++var1) {
-                ki[var0][var1] = ki[var0][var1] * je + 12;
-                kj[var0][var1] *= je;
+                ki[var0][var1] = ki[var0][var1] * GameMap.TILE_SIZE + 12;
+                kj[var0][var1] *= GameMap.TILE_SIZE;
                 if (var0 == 8) {
                     int[] var10000 = kj[var0];
                     var10000[var1] -= 12;
@@ -13428,17 +11865,17 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void N(int var0) {
         if (jJ[var0] < fe) {
-            jR[var0] = x % 3 + 3;
+            jR[var0] = tick % 3 + 3;
             jX[var0] = 1;
         } else if (jJ[var0] > fe) {
-            jR[var0] = -x % 3 - 3;
+            jR[var0] = -tick % 3 - 3;
             jX[var0] = -1;
         }
 
         if (jK[var0] < ff) {
-            jS[var0] = x % 3 + 3;
+            jS[var0] = tick % 3 + 3;
         } else if (jK[var0] > ff) {
-            jS[var0] = -x % 3 - 3;
+            jS[var0] = -tick % 3 - 3;
         }
 
         int[] var10000 = jJ;
@@ -13501,24 +11938,24 @@ public final class b extends Canvas implements Runnable, CommandListener {
         var10000 = jK;
         var10000[var0] += jS[var0];
         if (jJ[var0] - jP[var0] > 40) {
-            jR[var0] = -(x % 2 + 1);
+            jR[var0] = -(tick % 2 + 1);
         }
 
         if (jJ[var0] - jP[var0] < -40) {
-            jR[var0] = x % 2 + 1;
+            jR[var0] = tick % 2 + 1;
         }
 
         if (jK[var0] - jQ[var0] > 40) {
-            jS[var0] = -(x % 2 + 1);
+            jS[var0] = -(tick % 2 + 1);
         }
 
         if (jK[var0] - jQ[var0] < -40) {
-            jS[var0] = x % 2 + 1;
+            jS[var0] = tick % 2 + 1;
         }
 
-        if (x % 15 == 0) {
-            jR[var0] = x % 3 - 1;
-            jS[var0] = (x >> 1) % 3 - 1;
+        if (tick % 15 == 0) {
+            jR[var0] = tick % 3 - 1;
+            jS[var0] = (tick >> 1) % 3 - 1;
         }
 
         int var10002 = jW[var0]++;
@@ -13527,14 +11964,14 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         J(var0);
-        if (x % 5 == 0) {
+        if (tick % 5 == 0) {
             K(var0);
         }
 
     }
 
     private static void Q(int var0) {
-        if (x % 4 == 1) {
+        if (tick % 4 == 1) {
             int var10002 = jW[var0]++;
             if (jW[var0] > 1) {
                 jW[var0] = 0;
@@ -13580,7 +12017,7 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void U(int var0) {
-        if (x % 4 == 0) {
+        if (tick % 4 == 0) {
             int var10002 = jW[var0]++;
             if (jW[var0] > 1) {
                 jW[var0] = 0;
@@ -13597,32 +12034,31 @@ public final class b extends Canvas implements Runnable, CommandListener {
         }
 
         J(var0);
-        if (x % 5 == 0) {
+        if (tick % 5 == 0) {
             K(var0);
         }
 
     }
 
-    private static void an() {
-        V = bD - 40;
-        kn = bC - 50;
-        iT = null;
-        kw = new Image[4];
+    private static void openShop() {
+        shopY = viewCenterY - 40;
+        shopX = viewCenterX - 50;
+        tilesetImage = null;
+        shopSwordIcons = new Image[4];
 
         try {
-            kw[0] = Image.createImage("/u/wpt0.png");
-            kw[1] = Image.createImage("/u/wpt2.png");
-            kw[2] = Image.createImage("/u/wpt3.png");
-            kw[3] = Image.createImage("/u/wpt4.png");
+            for(int var4 = 0; var4 < Ui.SWORD_LEVEL_COUNT; ++var4) {
+                shopSwordIcons[var4] = Ui.loadSwordIcon(var4);
+            }
         } catch (Exception var3) {
         }
 
-        if (kG == null) {
-            kG = new Image[4];
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13632,74 +12068,74 @@ public final class b extends Canvas implements Runnable, CommandListener {
         System.gc();
     }
 
-    private static void m(Graphics var0) {
+    private static void drawShop(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        d(var0);
-        c(var0);
-        var0.setClip(0, 0, aT, aU);
+        drawHudPanel(var0);
+        drawHudOverlay(var0);
+        var0.setClip(0, 0, screenWidth, screenHeight);
         var0.setColor(0);
-        var0.fillRect(bC - 64, V - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, "Mua", 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, shopY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, "Mua", 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, V - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, shopY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, V - 16, 123, 97);
-        if (kr == 0) {
-            Midlet.a(var0, "Tiền: " + dd + "$", bC, V - 8, 2);
+        var0.fillRect(viewCenterX - 61, shopY - 16, 123, 97);
+        if (shopMode == SHOP_MODE_MONEY) {
+            FontGraph.drawBold(var0, "Tiền: " + money + "$", viewCenterX, shopY - 8, 2);
         } else {
-            Midlet.a(var0, kt[kq][ko], bC, V - 8, 2);
+            FontGraph.drawBold(var0, shopItemNames[shopRow][shopCursor], viewCenterX, shopY - 8, 2);
         }
 
         int var1;
         for(var1 = 0; var1 < 3; ++var1) {
             var0.setColor(0);
-            var0.fillRect(kn - 10 + var1 * 20, V + 10, 19, 20);
-            var0.fillRect(kn + 50 + var1 * 20, V + 10, 19, 20);
+            var0.fillRect(shopX - 10 + var1 * 20, shopY + 10, 19, 20);
+            var0.fillRect(shopX + 50 + var1 * 20, shopY + 10, 19, 20);
             var0.setColor(4856064);
-            var0.drawRect(kn - 10 + var1 * 20, V + 10, 20, 20);
-            var0.drawRect(kn + 50 + var1 * 20, V + 10, 20, 20);
-            var0.drawRegion(ew[0], 0, var1 * 15, 13, 15, 0, kn + var1 * 20, V + 20, 3);
-            var0.drawRegion(ew[1], 0, var1 * 15, 13, 15, 0, kn + 60 + var1 * 20, V + 20, 3);
+            var0.drawRect(shopX - 10 + var1 * 20, shopY + 10, 20, 20);
+            var0.drawRect(shopX + 50 + var1 * 20, shopY + 10, 20, 20);
+            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, shopX + var1 * 20, shopY + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, shopX + 60 + var1 * 20, shopY + 20, 3);
         }
 
         for(var1 = 0; var1 < 4; ++var1) {
             var0.setColor(0);
-            var0.fillRect(kn + 10 + var1 * 20, V + 32, 19, 20);
+            var0.fillRect(shopX + 10 + var1 * 20, shopY + 32, 19, 20);
             var0.setColor(4856064);
-            var0.drawRect(kn + 10 + var1 * 20, V + 32, 18, 20);
-            var0.drawImage(kw[var1], kn + 20 + var1 * 20, V + 42, 3);
+            var0.drawRect(shopX + 10 + var1 * 20, shopY + 32, 18, 20);
+            var0.drawImage(shopSwordIcons[var1], shopX + 20 + var1 * 20, shopY + 42, 3);
         }
 
-        var0.setColor(ks[kp]);
-        if (kq == 0) {
-            var0.drawRect(kn - 10 + ko * 20, V + 10, 19, 20);
+        var0.setColor(shopBlinkColors[shopBlink]);
+        if (shopRow == 0) {
+            var0.drawRect(shopX - 10 + shopCursor * 20, shopY + 10, 19, 20);
         } else {
-            var0.drawRect(kn + 10 + ko * 20, V + 32, 19, 20);
+            var0.drawRect(shopX + 10 + shopCursor * 20, shopY + 32, 19, 20);
         }
 
-        if (kr == 0) {
-            Midlet.a(var0, kt[kq][ko] + "-" + kv[kq][ko] + "$", bC, V + 58, 2);
+        if (shopMode == SHOP_MODE_MONEY) {
+            FontGraph.drawBold(var0, shopItemNames[shopRow][shopCursor] + "-" + shopPrices[shopRow][shopCursor] + "$", viewCenterX, shopY + 58, 2);
         } else {
-            Midlet.a(var0, ku[kq][ko], bC, V + 58, 2);
+            FontGraph.drawBold(var0, shopSmsPrices[shopRow][shopCursor], viewCenterX, shopY + 58, 2);
         }
 
-        var0.drawImage(kG[0], bC - 64, V - 19, 20);
-        var0.drawImage(kG[1], bC + 65, V - 19, 24);
-        var0.drawImage(kG[2], bC - 64, V + 83, 36);
-        var0.drawImage(kG[3], bC + 65, V + 83, 40);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, shopY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, shopY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, shopY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, shopY + 83, 40);
     }
 
-    private static void ao() {
-        kz = bD - 40;
-        kA = bC - 50;
-        if (kG == null) {
-            kG = new Image[4];
+    private static void openInventory() {
+        inventoryY = viewCenterY - 40;
+        inventoryX = viewCenterX - 50;
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13708,52 +12144,52 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void n(Graphics var0) {
+    private static void drawInventory(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        d(var0);
-        c(var0);
-        var0.setClip(0, 0, aT, aU);
+        drawHudPanel(var0);
+        drawHudOverlay(var0);
+        var0.setClip(0, 0, screenWidth, screenHeight);
         var0.setColor(0);
-        var0.fillRect(bC - 64, kz - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, "Sử dụng", 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, inventoryY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, "Sử dụng", 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, kz - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, inventoryY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, kz - 16, 123, 97);
-        Midlet.a(var0, "Sử dụng Item", bC, kz - 8, 2);
+        var0.fillRect(viewCenterX - 61, inventoryY - 16, 123, 97);
+        FontGraph.drawBold(var0, "Sử dụng Item", viewCenterX, inventoryY - 8, 2);
 
         for(int var1 = 0; var1 < 3; ++var1) {
             var0.setColor(0);
-            var0.fillRect(kA - 10 + var1 * 20, kz + 10, 19, 20);
-            var0.fillRect(kA + 50 + var1 * 20, kz + 10, 19, 20);
+            var0.fillRect(inventoryX - 10 + var1 * 20, inventoryY + 10, 19, 20);
+            var0.fillRect(inventoryX + 50 + var1 * 20, inventoryY + 10, 19, 20);
             var0.setColor(4856064);
-            var0.drawRect(kA - 10 + var1 * 20, kz + 10, 20, 20);
-            var0.drawRect(kA + 50 + var1 * 20, kz + 10, 20, 20);
-            var0.drawRegion(ew[0], 0, var1 * 15, 13, 15, 0, kA + var1 * 20, kz + 20, 3);
-            var0.drawRegion(ew[1], 0, var1 * 15, 13, 15, 0, kA + 60 + var1 * 20, kz + 20, 3);
+            var0.drawRect(inventoryX - 10 + var1 * 20, inventoryY + 10, 20, 20);
+            var0.drawRect(inventoryX + 50 + var1 * 20, inventoryY + 10, 20, 20);
+            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + var1 * 20, inventoryY + 20, 3);
+            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + 60 + var1 * 20, inventoryY + 20, 3);
         }
 
-        var0.setColor(kD[kC]);
-        var0.drawRect(kA - 10 + kB * 20, kz + 10, 20, 20);
-        Midlet.a(var0, kE[kB], bC, kz + 40, 2);
-        Midlet.a(var0, "Số lượng: " + W[kB], bC, kz + 55, 2);
-        var0.drawImage(kG[0], bC - 64, kz - 19, 20);
-        var0.drawImage(kG[1], bC + 65, kz - 19, 24);
-        var0.drawImage(kG[2], bC - 64, kz + 83, 36);
-        var0.drawImage(kG[3], bC + 65, kz + 83, 40);
+        var0.setColor(inventoryBlinkColors[inventoryBlink]);
+        var0.drawRect(inventoryX - 10 + inventoryCursor * 20, inventoryY + 10, 20, 20);
+        FontGraph.drawBold(var0, potionNames[inventoryCursor], viewCenterX, inventoryY + 40, 2);
+        FontGraph.drawBold(var0, "Số lượng: " + potionCounts[inventoryCursor], viewCenterX, inventoryY + 55, 2);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, inventoryY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, inventoryY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, inventoryY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, inventoryY + 83, 40);
     }
 
-    private static void ap() {
-        kH = bD - 40;
-        iT = null;
-        if (kG == null) {
-            kG = new Image[4];
+    private static void openGameMenu() {
+        gameMenuY = viewCenterY - 40;
+        tilesetImage = null;
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13762,62 +12198,62 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void o(Graphics var0) {
+    private static void drawGameMenu(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(bC - 64, kH - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, "Chọn", 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, gameMenuY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, "Chọn", 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, kH - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, gameMenuY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, kH - 16, 123, 97);
+        var0.fillRect(viewCenterX - 61, gameMenuY - 16, 123, 97);
 
         for(int var1 = 0; var1 < 4; ++var1) {
-            Midlet.a(var0, kK[var1], aV - 30, kH + var1 * 18, 0);
+            FontGraph.drawBold(var0, gameMenuItems[var1], screenCenterX - 30, gameMenuY + var1 * 18, 0);
         }
 
-        var0.drawImage(eC[0], aV - 55 + kJ % 2, kH + kI * 18 - kJ % 2, 0);
-        var0.drawImage(kG[0], bC - 64, kH - 19, 20);
-        var0.drawImage(kG[1], bC + 65, kH - 19, 24);
-        var0.drawImage(kG[2], bC - 64, kH + 83, 36);
-        var0.drawImage(kG[3], bC + 65, kH + 83, 40);
+        var0.drawImage(weaponIcons[0], screenCenterX - 55 + kJ % 2, gameMenuY + gameMenuSelection * 18 - kJ % 2, 0);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, gameMenuY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, gameMenuY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, gameMenuY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, gameMenuY + 83, 40);
     }
 
-    private static void aq() {
-        lf = 280 - r;
-        lg = 280 - s;
-        kV = 0;
+    private static void openWorldMap() {
+        lf = 280 - viewWidth;
+        lg = 280 - viewHeight;
+        worldMapCursor = 0;
 
         try {
-            kR = Image.createImage("/wm.png");
-            kS = Image.createImage("/u/x.png");
+            worldMapImage = Ui.loadWorldMap();
+            crossIcon = Ui.loadCross();
         } catch (Exception var0) {
         }
 
-        lh = w;
-        if (w == 99) {
-            lh = 0;
+        worldMapCurrent = mapId;
+        if (mapId == 99) {
+            worldMapCurrent = 0;
         }
 
-        if (w == 97) {
-            lh = 7;
+        if (mapId == 97) {
+            worldMapCurrent = 7;
         }
 
-        if (w == 96) {
-            lh = 11;
+        if (mapId == 96) {
+            worldMapCurrent = 11;
         }
 
-        if (w == 95) {
-            lh = 18;
+        if (mapId == 95) {
+            worldMapCurrent = 18;
         }
 
-        kT = kN[lh];
-        kU = kO[lh];
+        kT = kN[worldMapCurrent];
+        kU = kO[worldMapCurrent];
         as();
-        kX = kT - bC;
-        kY = kU - bD;
+        kX = kT - viewCenterX;
+        kY = kU - viewCenterY;
         if (ld < -40) {
             ld = -40;
         }
@@ -13837,55 +12273,55 @@ public final class b extends Canvas implements Runnable, CommandListener {
     }
 
     private static void ar() {
-        kR = null;
-        kS = null;
+        worldMapImage = null;
+        crossIcon = null;
         System.gc();
     }
 
-    private static void p(Graphics var0) {
+    private static void drawWorldMap(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(0, 0, r, s);
-        var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, li, 3, aU - 13, 0);
-        Midlet.a(var0, "Quay lại", aT - 3, aU - 13, 1);
-        var0.setClip(0, 0, r, s);
+        var0.fillRect(0, 0, viewWidth, viewHeight);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, li, 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
+        var0.setClip(0, 0, viewWidth, viewHeight);
         var0.translate(-ld, -le);
-        var0.drawImage(kR, 0, 0, 0);
+        var0.drawImage(worldMapImage, 0, 0, 0);
 
         for(int var1 = 0; var1 < 19; ++var1) {
-            if (var1 == lh) {
-                var0.drawImage(eo[0], kN[var1] + 10, kO[var1], 3);
+            if (var1 == worldMapCurrent) {
+                var0.drawImage(heroHeads[0], kN[var1] + 10, kO[var1], 3);
             }
 
-            if (X[var1] && (var1 != kV || kW % 10 > 5)) {
-                var0.drawImage(kS, kN[var1], kO[var1], 3);
+            if (X[var1] && (var1 != worldMapCursor || kW % 10 > 5)) {
+                var0.drawImage(crossIcon, kN[var1], kO[var1], 3);
             }
         }
 
-        var0.drawImage(eC[0], kT, kU, 24);
-        if (kV != -1) {
+        var0.drawImage(weaponIcons[0], kT, kU, 24);
+        if (worldMapCursor != -1) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
             var0.setColor(6562304);
-            var0.fillRect(aV - 60, s - 35, 120, 33);
+            var0.fillRect(screenCenterX - 60, viewHeight - 35, 120, 33);
             var0.setColor(12281361);
-            var0.drawRect(aV - 59, s - 34, 117, 30);
-            Midlet.a(var0, kL[kV], aV, s - 25, 2);
-            var0.drawImage(kG[0], aV - 60, s - 35, 20);
-            var0.drawImage(kG[1], aV + 60, s - 35, 24);
-            var0.drawImage(kG[2], aV - 60, s - 2, 36);
-            var0.drawImage(kG[3], aV + 60, s - 2, 40);
+            var0.drawRect(screenCenterX - 59, viewHeight - 34, 117, 30);
+            FontGraph.drawBold(var0, kL[worldMapCursor], screenCenterX, viewHeight - 25, 2);
+            var0.drawImage(cornerIcons[0], screenCenterX - 60, viewHeight - 35, 20);
+            var0.drawImage(cornerIcons[1], screenCenterX + 60, viewHeight - 35, 24);
+            var0.drawImage(cornerIcons[2], screenCenterX - 60, viewHeight - 2, 36);
+            var0.drawImage(cornerIcons[3], screenCenterX + 60, viewHeight - 2, 40);
         }
 
     }
 
     private static void as() {
-        kV = -1;
+        worldMapCursor = -1;
         li = "";
 
         for(int var0 = 0; var0 < 19; ++var0) {
             if (a(kT - kN[var0]) < 8 && a(kU - kO[var0]) < 8) {
-                kV = var0;
+                worldMapCursor = var0;
                 li = "Chuyển đến";
                 return;
             }
@@ -13895,72 +12331,72 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     private static void at() {
         try {
-            lj = Image.createImage("/u/m.png");
+            popupImage = Ui.loadSoundIcon();
         } catch (Exception var0) {
         }
     }
 
-    public static void a(String var0) {
-        lr = Midlet.a(var0, 100);
-        Y = bD - lr.length * 9;
+    public static void setMessageText(String var0) {
+        messageLines = FontGraph.wrapBoldText(var0, 100);
+        messageY = viewCenterY - messageLines.length * 9;
     }
 
-    public static void s(int var0) {
-        au();
-        lm = var0;
-        if (var0 == 1) {
-            a("Không thể chuyển. Vì bạn chưa từng đi bộ đến đây!");
-            lp = "OK";
-            lq = "";
-        } else if (var0 == 3) {
-            a("Không cần phải chuyển vì bạn đang ở vị trí này!");
-            lp = "OK";
-            lq = "";
-        } else if (var0 != 2) {
-            if (var0 == 4) {
-                a("Bạn không có đủ tiền!");
-                lp = "OK";
-                lq = "";
-            } else if (var0 == 5) {
-                a("Bạn đã bị trọng thương! Mất một số điểm kinh nghiệm!");
-                lp = "OK";
-                lq = "";
-            } else if (var0 == 6) {
-                a("Level up!");
-                lp = "OK";
-                lq = "";
+    public static void showMessage(int var0) {
+        prepareDialog();
+        messageType = var0;
+        if (var0 == MessageType.TRAVEL_NOT_VISITED) {
+            setMessageText("Không thể chuyển. Vì bạn chưa từng đi bộ đến đây!");
+            messageLeftLabel = "OK";
+            messageRightLabel = "";
+        } else if (var0 == MessageType.TRAVEL_ALREADY_HERE) {
+            setMessageText("Không cần phải chuyển vì bạn đang ở vị trí này!");
+            messageLeftLabel = "OK";
+            messageRightLabel = "";
+        } else if (var0 != MessageType.TRAVEL_CONFIRM) {
+            if (var0 == MessageType.NOT_ENOUGH_MONEY) {
+                setMessageText("Bạn không có đủ tiền!");
+                messageLeftLabel = "OK";
+                messageRightLabel = "";
+            } else if (var0 == MessageType.GAME_NOTICE) {
+                setMessageText("Bạn đã bị trọng thương! Mất một số điểm kinh nghiệm!");
+                messageLeftLabel = "OK";
+                messageRightLabel = "";
+            } else if (var0 == MessageType.LEVEL_UP) {
+                setMessageText("Level up!");
+                messageLeftLabel = "OK";
+                messageRightLabel = "";
             } else {
-                if (var0 == 7) {
-                    a("Buy OK!");
-                    lp = "";
-                    lq = "OK";
+                if (var0 == MessageType.SHOP_NOTICE) {
+                    setMessageText("Buy OK!");
+                    messageLeftLabel = "";
+                    messageRightLabel = "OK";
                 }
 
             }
         } else {
-            var0 = lh < kV ? lh : kV;
-            int var1 = lh > kV ? lh : kV;
+            var0 = worldMapCurrent < worldMapCursor ? worldMapCurrent : worldMapCursor;
+            int var1 = worldMapCurrent > worldMapCursor ? worldMapCurrent : worldMapCursor;
             int var2 = 0;
 
             for(var0 = var0; var0 <= var1; ++var0) {
-                var2 += kM[var0];
+                var2 += travelCosts[var0];
             }
 
-            ln = var2 = (var2 << 1) / 3;
-            a("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + dd + "$. Chuyển?");
-            lp = "Chuyển";
-            lq = "Không";
+            travelCost = var2 = (var2 << 1) / 3;
+            setMessageText("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + money + "$. Chuyển?");
+            messageLeftLabel = "Chuyển";
+            messageRightLabel = "Không";
         }
     }
 
-    private static void au() {
+    private static void prepareDialog() {
         lo = 0;
-        if (kG == null) {
-            kG = new Image[4];
+        if (cornerIcons == null) {
+            cornerIcons = new Image[4];
 
             for(int var0 = 0; var0 < 4; ++var0) {
                 try {
-                    kG[var0] = Image.createImage("/u/bd" + var0 + ".png");
+                    cornerIcons[var0] = Ui.loadCorner(var0);
                 } catch (IOException var2) {
                     var2.printStackTrace();
                 }
@@ -13969,563 +12405,181 @@ public final class b extends Canvas implements Runnable, CommandListener {
 
     }
 
-    private static void q(Graphics var0) {
+    private static void drawMessage(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(bC - 64, Y - 19, 129, 102);
-        var0.fillRect(0, aU - 13, aT, 13);
-        Midlet.a(var0, lp, 3, aU - 13, 0);
-        Midlet.a(var0, lq, aT - 3, aU - 13, 1);
+        var0.fillRect(viewCenterX - 64, messageY - 19, 129, 102);
+        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+        FontGraph.drawBold(var0, messageLeftLabel, 3, screenHeight - 13, 0);
+        FontGraph.drawBold(var0, messageRightLabel, screenWidth - 3, screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(bC - 63, Y - 18, 126, 99);
+        var0.drawRect(viewCenterX - 63, messageY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(bC - 61, Y - 16, 123, 97);
+        var0.fillRect(viewCenterX - 61, messageY - 16, 123, 97);
 
-        for(int var1 = 0; var1 < lr.length; ++var1) {
-            Midlet.a(var0, lr[var1], aV, Y + var1 * 18, 2);
+        for(int var1 = 0; var1 < messageLines.length; ++var1) {
+            FontGraph.drawBold(var0, messageLines[var1], screenCenterX, messageY + var1 * 18, 2);
         }
 
-        var0.drawImage(kG[0], bC - 64, Y - 19, 20);
-        var0.drawImage(kG[1], bC + 65, Y - 19, 24);
-        var0.drawImage(kG[2], bC - 64, Y + 83, 36);
-        var0.drawImage(kG[3], bC + 65, Y + 83, 40);
+        var0.drawImage(cornerIcons[0], viewCenterX - 64, messageY - 19, 20);
+        var0.drawImage(cornerIcons[1], viewCenterX + 65, messageY - 19, 24);
+        var0.drawImage(cornerIcons[2], viewCenterX - 64, messageY + 83, 36);
+        var0.drawImage(cornerIcons[3], viewCenterX + 65, messageY + 83, 40);
     }
 
-    private static void V(int var0) {
-        lG = w;
-        lJ = var0;
-        lH = lu[var0];
-        lI = lv[var0] - 44;
+    private static void setNextNpcMarker(int var0) {
+        pendingMarkerMap = mapId;
+        pendingMarkerNpc = var0;
+        pendingMarkerX = npcX[var0];
+        pendingMarkerY = npcY[var0] - 44;
     }
 
-    public static void t(int var0) {
-        lt = 0;
+    public static void setupNpcs(int var0) {
+        npcCount = 0;
         if (var0 == 0) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[0][0] = Image.createImage("/npc/00.png");
-                ls[0][1] = Image.createImage("/npc/01.png");
-                ls[1][0] = Image.createImage("/npc/10.png");
-                ls[1][1] = Image.createImage("/npc/11.png");
-                ls[2][0] = Image.createImage("/npc/20.png");
-                ls[2][1] = Image.createImage("/npc/21.png");
-                ls[3][0] = Image.createImage("/npc/30.png");
-                ls[3][1] = Image.createImage("/npc/31.png");
-                ls[4][0] = Image.createImage("/npc/40.png");
-                ls[4][1] = Image.createImage("/npc/41.png");
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 0);
+                Npc.loadSprite(npcSprites, 1);
+                Npc.loadSprite(npcSprites, 2);
+                Npc.loadSprite(npcSprites, 3);
+                Npc.loadSprite(npcSprites, 4);
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var7) {
             }
 
-            lt = 7;
-            av();
-            c(0, 0, 34, 13);
-            c(1, 1, 43, 17);
-            c(2, 2, 50, 17);
-            c(3, 3, 57, 12);
-            c(4, 4, 43, 12);
-            c(5, 5, 77, 15);
-            c(6, 5, 25, 17);
+            npcCount = 7;
+            allocNpcs();
+            placeNpc(0, 0, 34, 13);
+            placeNpc(1, 1, 43, 17);
+            placeNpc(2, 2, 50, 17);
+            placeNpc(3, 3, 57, 12);
+            placeNpc(4, 4, 43, 12);
+            placeNpc(5, 5, 77, 15);
+            placeNpc(6, 5, 25, 17);
         }
 
         if (var0 == 1) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var6) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 54, 9);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 54, 9);
         }
 
         if (var0 == 2) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var5) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 23, 12);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 23, 12);
         }
 
         if (var0 == 5) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var4) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 12, 5);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 12, 5);
         }
 
         if (var0 == 6) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[5][0] = Image.createImage("/npc/50.png");
-                ls[5][1] = Image.createImage("/npc/51.png");
+                Npc.loadSprite(npcSprites, 5);
             } catch (Exception var3) {
             }
 
-            lt = 1;
-            av();
-            c(0, 5, 14, 9);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 5, 14, 9);
         }
 
         if (var0 == 99 || var0 == 101) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[4][0] = Image.createImage("/npc/40.png");
-                ls[4][1] = Image.createImage("/npc/41.png");
+                Npc.loadSprite(npcSprites, 4);
             } catch (Exception var2) {
             }
 
-            lt = 1;
-            av();
-            c(0, 4, 3, 12);
+            npcCount = 1;
+            allocNpcs();
+            placeNpc(0, 4, 3, 12);
         }
 
         if (var0 == 94) {
-            ls = new Image[6][2];
+            npcSprites = Npc.createSpriteTable();
 
             try {
-                ls[0][0] = Image.createImage("/npc/00.png");
-                ls[0][1] = Image.createImage("/npc/01.png");
-                ls[4][0] = Image.createImage("/npc/40.png");
-                ls[4][1] = Image.createImage("/npc/41.png");
-                ls[2][0] = Image.createImage("/npc/20.png");
-                ls[2][1] = Image.createImage("/npc/21.png");
+                Npc.loadSprite(npcSprites, 0);
+                Npc.loadSprite(npcSprites, 4);
+                Npc.loadSprite(npcSprites, 2);
             } catch (Exception var1) {
             }
 
-            lt = 3;
-            av();
-            c(0, 4, 2, 10);
-            c(1, 0, 3, 10);
-            c(2, 2, 4, 10);
+            npcCount = 3;
+            allocNpcs();
+            placeNpc(0, 4, 2, 10);
+            placeNpc(1, 0, 3, 10);
+            placeNpc(2, 2, 4, 10);
         }
 
     }
 
-    private static void c(int var0, int var1, int var2, int var3) {
-        lw[var0] = var1;
-        lu[var0] = var2 * je + 12;
-        lv[var0] = var3 * je;
+    private static void placeNpc(int var0, int var1, int var2, int var3) {
+        npcTypes[var0] = var1;
+        npcX[var0] = var2 * GameMap.TILE_SIZE + 12;
+        npcY[var0] = var3 * GameMap.TILE_SIZE;
     }
 
-    private static void av() {
-        lu = new int[lt];
-        lv = new int[lt];
-        lw = new int[lt];
+    private static void allocNpcs() {
+        npcX = new int[npcCount];
+        npcY = new int[npcCount];
+        npcTypes = new int[npcCount];
     }
 
-    private static void r(Graphics var0) {
-        for(int var1 = 0; var1 < lt; ++var1) {
-            if (lu[var1] + 10 >= fO && lu[var1] - 10 <= fO + r && lv[var1] >= fP && lv[var1] - 32 <= fP + s) {
-                var0.drawImage(ls[lw[var1]][1], lu[var1], lv[var1], 33);
-                var0.drawImage(ls[lw[var1]][0], lu[var1], lv[var1] - lF[lw[var1]] + (x % (15 + lw[var1]) > 4 ? 0 : 1), 33);
+    private static void drawNpcs(Graphics var0) {
+        for(int var1 = 0; var1 < npcCount; ++var1) {
+            if (npcX[var1] + 10 >= cameraX && npcX[var1] - 10 <= cameraX + viewWidth && npcY[var1] >= cameraY && npcY[var1] - 32 <= cameraY + viewHeight) {
+                var0.drawImage(npcSprites[npcTypes[var1]][Npc.PART_LEGS], npcX[var1], npcY[var1], 33);
+                var0.drawImage(npcSprites[npcTypes[var1]][Npc.PART_BODY], npcX[var1], npcY[var1] - lF[npcTypes[var1]] + (tick % (15 + npcTypes[var1]) > 4 ? 0 : 1), 33);
             }
         }
 
     }
 
-    private static void aw() {
-        if (aS[12]) {
-            Midlet.c.notifyDestroyed();
-        }
-
-        Y(1);
-        int var10002 = lV[0]++;
+    private static void showPurchaseFailed() {
+        showMessage(MessageType.SHOP_NOTICE);
+        setMessageText("Không thể mua. Xin hãy thử lại sau.");
+        messageY = shopY;
+        state = GameState.MESSAGE;
     }
 
-    private void ax() {
-        if (aS[2]) {
-            --this.ma;
-            if (this.ma < 0) {
-                this.ma = 1;
-            }
-
-            d();
-        }
-
-        if (aS[8]) {
-            ++this.ma;
-            if (this.ma > 1) {
-                this.ma = 0;
-            }
-
-            d();
-        }
-
-        if (aS[4]) {
-            --this.lZ;
-            if (this.lZ < 0) {
-                this.lZ = 4;
-            }
-
-            d();
-        }
-
-        if (aS[6]) {
-            ++this.lZ;
-            if (this.lZ > 4) {
-                this.lZ = 0;
-            }
-
-            d();
-        }
-
-        if (aS[5]) {
-            this.aB();
-            d();
-        }
-
-        int var2;
-        if (aS[12]) {
-            lV[5] = Integer.parseInt(lU.substring(9, 10));
-            lV[6] = Integer.parseInt(lU.substring(10, 11));
-            lV[7] = Integer.parseInt(lU.substring(11, 12));
-            lV[8] = Integer.parseInt(lU.substring(12, 13));
-            b var1 = this;
-            if (this.lY.length() < 4) {
-                Z = 0;
-            } else {
-                lV[1] = Integer.parseInt(this.lY.substring(0, 1));
-                lV[2] = Integer.parseInt(this.lY.substring(1, 2));
-                lV[3] = Integer.parseInt(this.lY.substring(2, 3));
-                lV[4] = Integer.parseInt(this.lY.substring(3, 4));
-                lV[8] = (lV[8] + lV[7]) % 10;
-                lV[7] = (lV[7] + lV[6]) % 10;
-                lV[6] = (lV[6] + lV[5]) % 10;
-                lV[5] = (lV[5] + lV[8]) % 10;
-
-                for(var2 = 1; var2 < 8; ++var2) {
-                    if (lV[var2 - 1] != lV[var2]) {
-                        var1.az();
-                    } else if (lV[var2] != lV[var2] + 1) {
-                        var1.aA();
-                    } else {
-                        d();
-                        var1.aD();
-                        var1.aA();
-                        aw();
-                        d();
-                    }
-                }
-            }
-
-            d();
-        }
-
-        if (aS[13]) {
-            this.ay();
-            d();
-        }
-
-        if (aN) {
-            for(int var4 = 0; var4 < 2; ++var4) {
-                for(var2 = 0; var2 < 5; ++var2) {
-                    if (aO > var2 * 20 + aV - 50 && aO < var2 * 20 + aV - 50 + 20 && aP > var4 * 25 + aW && aP < var4 * 25 + aW + 25) {
-                        this.lZ = var2;
-                        this.ma = var4;
-                        this.aB();
-                        aN = false;
-                    }
-                }
-            }
-        }
-
+    public static void onSwordPurchased() {
+        reloadSlashEffects();
+        loadHudIcons();
+        showMessage(MessageType.SHOP_NOTICE);
+        setMessageText("Xin chúc mừng. Bạn đã có vũ khí mới: " + shopItemNames[shopRow][shopCursor] + "!");
+        messageY = shopY;
+        state = GameState.MESSAGE;
     }
 
-    private void ay() {
-        if (this.lY.length() != 0) {
-            this.lY = this.lY.substring(0, this.lY.length() - 1);
-        }
-
-    }
-
-    private void az() {
-        d();
-        Z = 0;
-        aC();
-        d();
-    }
-
-    private void aA() {
-        d();
-        this.aD();
-        Z = 4;
-        this.az();
-        d();
-    }
-
-    private void aB() {
-        if (this.lY.length() < 4) {
-            this.lY = this.lY + (this.ma * 5 + this.lZ);
-        }
-
-    }
-
-    private static void aC() {
-        if (aS[5] || aS[12]) {
-            d();
-            Z = 0;
-        }
-
-    }
-
-    private void aD() {
-        if (aS[5] || aS[12]) {
-            String var1;
-            if ((var1 = aG()) == null || var1.equals("")) {
-                f(var1 = "TEAM PAY " + (System.currentTimeMillis() % 8000L + 1000L) + "009" + "003");
-            }
-
-            Z = 1;
-            a(var1, "sms://", 0);
-            d();
-        }
-
-        if (aS[13]) {
-            Z = 0;
-            d();
-        }
-
-    }
-
-    private void aE() {
-        if (aS[2]) {
-            --this.lX;
-            if (this.lX < 0) {
-                this.lX = lW == 0 ? 1 : 2;
-            }
-
-            d();
-        }
-
-        if (aS[8]) {
-            ++this.lX;
-            if (this.lX > (lW == 0 ? 1 : 2)) {
-                this.lX = 0;
-            }
-
-            d();
-        }
-
-        if (aS[5] || aS[12]) {
-            this.aF();
-            d();
-        }
-
-        if (aS[13]) {
-            Midlet.c.notifyDestroyed();
-        }
-
-        if (aN) {
-            for(int var1 = 0; var1 < (lW == 0 ? 2 : 3); ++var1) {
-                if (aP > aW - 5 + var1 * lR && aP < aW - 5 + var1 * lR + lR) {
-                    if (this.lX != var1) {
-                        this.lX = var1;
-                    } else {
-                        this.aF();
-                    }
-
-                    aN = false;
-                    return;
-                }
-            }
-        }
-
-    }
-
-    private void aF() {
-        if (this.lX == 0 && lW > 0) {
-            W(--lW);
-            e = 4;
-            ai();
-            System.gc();
-        }
-
-        if (this.lX == 1 && lW > 0 || this.lX == 0 && lW == 0) {
-            Z = 2;
-        }
-
-        if (this.lX == 2 && lW > 0 || this.lX == 1 && lW == 0) {
-            lU = aG();
-            Z = 4;
-        }
-
-    }
-
-    private void s(Graphics var1) {
-        var1.setColor(7171437);
-        var1.drawString("Nhap ma kich hoat:", aV, aW - 60, 17);
-        var1.setColor(11788624);
-        var1.fillRect(this.lZ * 20 + aV - 50, this.ma * 25 + aW, 18, 23);
-        int var2 = 0;
-
-        for(int var3 = 0; var3 < 2; ++var3) {
-            for(int var4 = 0; var4 < 5; ++var4) {
-                var1.setColor(11788624);
-                var1.drawRect(var4 * 20 + aV - 50, var3 * 25 + aW, 18, 23);
-                var1.setColor(var4 == this.lZ && var3 == this.ma ? 16777215 : 7171437);
-                var1.drawString(String.valueOf(var2), var4 * 20 + aV - 50 + 10, var3 * 25 + aW + 3, 17);
-                ++var2;
-            }
-        }
-
-        String var5 = this.lY;
-        if (lN % 10 > 5) {
-            var5 = var5 + "|";
-        }
-
-        var1.setColor(7171437);
-        var1.drawString(var5, aV - 20, aW - 40, 20);
-        var1.setColor(16777215);
-        var1.setFont(lQ);
-        var1.drawString("OK", 2, aU - lR + 3, 20);
-        var1.drawString("Xoa", aT - 2, aU - lR + 3, 24);
-    }
-
-    private void t(Graphics var1) {
-        var1.setColor(7171437);
-        if (lV[1] == lV[5] && lV[2] == lV[6] && lV[3] == lV[7] && lV[4] == lV[8]) {
-            Z = 7;
-        }
-
-        var1.setColor(11788624);
-        var1.drawRect(3, aW - 8 + this.lX * lR, aT - 6, lR);
-        var1.drawRect(4, aW - 8 + this.lX * lR + 1, aT - 8, lR - 2);
-        var1.setColor(208472);
-        int var2;
-        if (lW > 0) {
-            var1.setFont(lQ);
-            var1.drawString("..:TEA MOBILE:..", aV, aW - (lR << 1), 17);
-            var1.setFont(lP);
-
-            for(var2 = 0; var2 < 3; ++var2) {
-                var1.setColor(7171437);
-                var1.drawString(lL[var2], lO, aW - 5 + var2 * lR, 20);
-            }
-        } else {
-            var1.drawString("Da het han dung thu", aV, aW - (lR << 1), 17);
-            var1.drawString("Moi ban kich hoat.", aV, aW - lR, 17);
-
-            for(var2 = 0; var2 < 2; ++var2) {
-                var1.setColor(7171437);
-                var1.drawString(lM[var2], lO, aW - 5 + var2 * lR, 20);
-            }
-        }
-
-        var1.setColor(16777215);
-        var1.setFont(lQ);
-        var1.drawString("Chon", 2, aU - lR + 3, 20);
-        var1.drawString("Thoat", aT - 2, aU - lR + 3, 24);
-    }
-
-    private static void a(String var0, String var1, int var2) {
-        if (var2 == 0) {
-            Z = 6;
-            return;
-        }
-
-        s(7);
-        a("Không thể mua. Xin hãy thử lại sau.");
-        Y = V;
-        e = 7;
-    }
-
-    public static void t() {
-        H();
-        I();
-        s(7);
-        a("Xin chúc mừng. Bạn đã có vũ khí mới: " + kt[kq][ko] + "!");
-        Y = V;
-        e = 7;
-    }
-
-    private static byte[] e(String var0) {
-        var0 = "NINJASCHOOL" + var0;
-
-        try {
-            RecordStore var3;
-            byte[] var1 = (var3 = RecordStore.openRecordStore(var0, false)).getRecord(1);
-            var3.closeRecordStore();
-            return var1;
-        } catch (Exception var2) {
-            return null;
-        }
-    }
-
-    private static void a(String var0, byte[] var1) {
-        var0 = "NINJASCHOOL" + var0;
-
-        try {
-            RecordStore var3;
-            if ((var3 = RecordStore.openRecordStore(var0, true)).getNumRecords() > 0) {
-                var3.setRecord(1, var1, 0, var1.length);
-            } else {
-                var3.addRecord(var1, 0, var1.length);
-            }
-
-            var3.closeRecordStore();
-        } catch (Exception var2) {
-        }
-    }
-
-    private static void f(String var0) {
-        a("xxx", var0.getBytes());
-    }
-
-    private static String aG() {
-        byte[] var0;
-        return (var0 = e("xxx")) == null ? null : new String(var0);
-    }
-
-    private static void W(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("np", var1);
-    }
-
-    private static void X(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("r", var1);
-    }
-
-    private static void Y(int var0) {
-        byte[] var1;
-        (var1 = new byte[1])[0] = (byte)var0;
-        a("g", var1);
-    }
-
-    private static int aH() {
-        byte[] var0;
-        return (var0 = e("g")) == null ? 0 : var0[0];
-    }
-
-    public final void commandAction(Command var1, Displayable var2) {
-        if (var1.getLabel().equals("OK")) {
-            a(aG() + " >> " + ((TextBox)var2).getString(), "sms://", 0);
-        }
-
-        Display.getDisplay(Midlet.c).setCurrent(this);
-        this.setFullScreenMode(true);
-    }
 }

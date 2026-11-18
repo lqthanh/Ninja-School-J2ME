@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 MIDlet-Vendor: TeaM
 MIDlet-Version: 1.0.0
-MIDlet-1: Ninja School I,/icon.png,Midlet
+MIDlet-1: Ninja School I,/assets/ui/icon.png,Midlet
 MicroEdition-Configuration: CLDC-1.0
 MIDlet-Name: Ninja School 1
 MIDlet-Info-URL: http://
