@@ -23,7 +23,6 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 public final class b extends Canvas implements Runnable {
-    public static boolean lowGraphics = true;
     private static int frameDurationMs = 40;
     private static int[][][] aq = new int[][][]{{{0, -13, 31}, {0, -7, 8}, {0, -11, 14}}, {{0, -13, 32}, {0, -7, 8}, {0, -11, 15}}, {{1, -11, 31}, {1, -9, 16}, {6, -1000, 0}}, {{2, -11, 32}, {2, -10, 16}, {6, -1000, 0}}, {{1, -11, 31}, {3, -8, 16}, {6, -1000, 0}}, {{2, -10, 32}, {7, -9, 17}, {6, -1000, 0}}, {{1, -10, 31}, {8, -8, 16}, {6, -1000, 0}}, {{0, -8, 35}, {4, -5, 15}, {2, -10, 21}}, {{0, -8, 34}, {5, -6, 13}, {3, -11, 22}}, {{0, -8, 31}, {6, -13, 9}, {4, -10, 18}}, {{1, -8, 30}, {6, -13, 9}, {5, -8, 17}}, {{2, -10, 30}, {6, -13, 9}, {6, -8, 16}}, {{2, -10, 29}, {6, -13, 9}, {7, -11, 17}}, {{3, -11, 33}, {8, -4, 13}, {8, -15, 25}}};
     private static int[][][] ar = new int[][][]{{{0, -10, 32}, {1, -7, 7}, {1, -11, 15}}, {{0, -10, 33}, {1, -7, 7}, {1, -11, 16}}, {{1, -10, 33}, {2, -10, 11}, {2, -9, 16}}, {{1, -10, 32}, {3, -11, 9}, {3, -11, 16}}, {{1, -10, 34}, {4, -9, 9}, {4, -8, 16}}, {{1, -10, 34}, {5, -11, 11}, {5, -10, 17}}, {{1, -10, 33}, {6, -9, 9}, {6, -8, 16}}, {{0, -9, 36}, {7, -5, 15}, {7, -10, 21}}, {{4, -13, 26}, new int[3], new int[3]}, {{5, -13, 25}, new int[3], new int[3]}, {{6, -12, 26}, new int[3], new int[3]}, {{7, -13, 25}, new int[3], new int[3]}, {{0, -9, 35}, {8, -4, 13}, {8, -14, 27}}, {{0, -9, 32}, {9, -11, 9}, {10, -10, 18}}, {{2, -7, 34}, {9, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {9, -11, 9}, {12, -8, 15}}, {{2, -7, 33}, {9, -11, 9}, {13, -12, 16}}, {{0, -11, 32}, {9, -11, 9}, {14, -15, 19}}, {{2, -9, 33}, {9, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {9, -11, 9}, {16, -7, 23}}, {{2, -9, 33}, {9, -11, 9}, {17, -11, 19}}, {{3, -12, 34}, {8, -4, 13}, {8, -15, 25}}, {{0, -10, 28}, new int[3], {19, -8, 12}}, {{0, -9, 35}, {8, -4, 13}, {9, -9, 22}}, {{0, -10, 33}, new int[3], new int[3]}, {{9, -4, 24}, new int[3], new int[3]}, {{10, -4, 22}, new int[3], new int[3]}, {{0, -9, 32}, {8, -4, 9}, {10, -10, 18}}, {{2, -7, 34}, {8, -4, 9}, {11, -8, 16}}, {{2, -8, 33}, {8, -4, 9}, {12, -8, 15}}, {{2, -7, 33}, {8, -4, 9}, {13, -12, 16}}, {{0, -11, 32}, {7, -5, 9}, {14, -15, 19}}, {{2, -9, 33}, {7, -5, 9}, {15, -13, 20}}, {{2, -9, 32}, {7, -5, 9}, {16, -7, 23}}, {{2, -9, 33}, {7, -5, 9}, {17, -11, 19}}, {{0, -9, 32}, {2, -10, 11}, {10, -10, 18}}, {{2, -7, 34}, {3, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {4, -9, 9}, {12, -8, 15}}, {{2, -7, 33}, {5, -11, 11}, {13, -12, 16}}, {{0, -11, 32}, {2, -10, 11}, {14, -15, 19}}, {{2, -9, 33}, {3, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {4, -9, 9}, {16, -7, 23}}, {{2, -9, 33}, {5, -11, 11}, {17, -11, 19}}, {{1, -8, 38}, new int[3], {18, -8, 21}}, {{1, -8, 39}, new int[3], {18, -8, 22}}, {{1, -10, 43}, new int[3], {18, -11, 26}}};
@@ -429,9 +428,6 @@ public final class b extends Canvas implements Runnable {
     static int loadingTarget;
     private static int jB;
     static int loadingProgress;
-    private static Image logoImage;
-    private static int jD;
-    private static int jE;
     public static boolean U;
     private static Image[][][] monsterSprites;
     private static int jG;
@@ -466,9 +462,6 @@ public final class b extends Canvas implements Runnable {
     private static int[][] kj;
     private static boolean[][] kk;
     private static int[] kl;
-    private static Image popupImage;
-    private static boolean lk;
-    private static int ll;
     private static Image[][] npcSprites;
     private static int npcCount;
     private static int[] npcX;
@@ -2395,7 +2388,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     public static final void l() {
-        if (!lowGraphics) {
+        if (!Settings.lowGraphics) {
             if (dustSprites == null) {
                 dustSprites = new Image[2][5];
 
@@ -3095,7 +3088,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     public static final void r() {
-        if (!lowGraphics) {
+        if (!Settings.lowGraphics) {
             waterSplashSprites = new Image[3];
 
             for(int var0 = 0; var0 < 3; ++var0) {
@@ -3176,7 +3169,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawSky(Graphics g) {
-        Sky.draw(g, cameraX, Viewport.viewWidth, Viewport.viewHeight, lowGraphics);
+        Sky.draw(g, cameraX, Viewport.viewWidth, Viewport.viewHeight, Settings.lowGraphics);
     }
 
     private static void b(Graphics var0) {
@@ -3336,14 +3329,14 @@ public final class b extends Canvas implements Runnable {
         }
 
         var0.setColor(16777215);
-        if (lowGraphics) {
+        if (Settings.lowGraphics) {
             var0.fillRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7);
         } else {
             var0.fillRoundRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
         var0.setColor(17408);
-        if (lowGraphics) {
+        if (Settings.lowGraphics) {
             var0.drawRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7);
         } else {
             var0.drawRoundRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7, 10, 10);
@@ -3396,7 +3389,7 @@ public final class b extends Canvas implements Runnable {
         var0.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 1);
         drawSky(var0);
         var0.translate(-cameraX, -cameraY);
-        if (lowGraphics) {
+        if (Settings.lowGraphics) {
             j(var0);
         } else {
             k(var0);
@@ -3531,7 +3524,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static boolean e(int var0, int var1, int var2) {
-        if (lowGraphics) {
+        if (Settings.lowGraphics) {
             return false;
         } else {
             var0 = var0 == 1 ? 0 : 1;
@@ -3613,7 +3606,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static boolean g(int var0, int var1) {
-        if (lowGraphics) {
+        if (Settings.lowGraphics) {
             return false;
         } else {
             int var2 = ch[0] == -1 ? 0 : 1;
@@ -4663,7 +4656,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static final void S() {
-        if (!lowGraphics) {
+        if (!Settings.lowGraphics) {
             if (GameMap.hasFlag(fe, ff + 1, TileFlags.BRIDGE)) {
                 GameMap.pressBridge(fe, ff + 1);
                 GameMap.pressBridge(fe, ff - 2);
@@ -5993,7 +5986,7 @@ public final class b extends Canvas implements Runnable {
         updateMapEvent();
         b var0 = Midlet.b;
         Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
-        ai();
+        LogoScreen.load();
         GameState.current = GameState.LOGO;
         (new Thread(var0)).start();
     }
@@ -6052,7 +6045,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (lowGraphics) {
+                    if (Settings.lowGraphics) {
                         j(var6);
                     } else {
                         k(var6);
@@ -6311,7 +6304,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 var1 = var6;
-                if (!lowGraphics) {
+                if (!Settings.lowGraphics) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (cl[var2] != -1) {
                             var1.drawImage(dustSprites[var2][cl[var2]], cj[var2], ck[var2], 3);
@@ -6344,7 +6337,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 var1 = var6;
-                if (!lowGraphics) {
+                if (!Settings.lowGraphics) {
                     for(var2 = 0; var2 < 2; ++var2) {
                         if (ch[var2] != -1) {
                             var1.drawImage(waterSplashSprites[ci[var2]], cf[var2], cg[var2], 3);
@@ -6392,7 +6385,7 @@ public final class b extends Canvas implements Runnable {
                     var1.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 1);
                     drawSky(var1);
                     var1.translate(-cameraX, -cameraY);
-                    if (lowGraphics) {
+                    if (Settings.lowGraphics) {
                         j(var1);
                     } else {
                         k(var1);
@@ -6413,12 +6406,7 @@ public final class b extends Canvas implements Runnable {
                     FontGraph.drawBold(var1, GameText.mainMenuItems[aX], Viewport.screenCenterX, bd, 3);
                     return;
                 case GameState.LOGO:
-                    var1.setColor(0);
-                    var1.fillRect(0, 0, Viewport.screenWidth, Viewport.screenHeight);
-                    if (logoImage != null && jE >= 0) {
-                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, Viewport.screenWidth >> 1, Viewport.screenHeight >> 1, 3);
-                    }
-
+                    LogoScreen.draw(var1);
                     return;
                 case GameState.GAME_MENU:
                     GameMenu.draw(var1, weaponIcons[0]);
@@ -6436,22 +6424,7 @@ public final class b extends Canvas implements Runnable {
                     drawShop(var1);
                     return;
                 case GameState.SETUP_PROMPT:
-                    var1.setColor(0);
-                    var1.fillRect(0, 0, Viewport.screenWidth, Viewport.screenHeight);
-                    if (!lk) {
-                        var1.drawImage(popupImage, Viewport.screenCenterX, Viewport.screenCenterY - 30, 3);
-                        if (ll == 0) {
-                            FontGraph.drawBold(var1, "Bật âm thanh?", Viewport.screenCenterX, Viewport.screenCenterY + 15, 2);
-                            FontGraph.drawBold(var1, "Bật", 4, Viewport.screenHeight - 14, 0);
-                            FontGraph.drawBold(var1, "Tắt", Viewport.screenWidth - 4, Viewport.screenHeight - 14, 1);
-                            break;
-                        }
-
-                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", Viewport.screenCenterX, Viewport.screenCenterY + 15, 2);
-                        FontGraph.drawBold(var1, "Cao", 4, Viewport.screenHeight - 14, 0);
-                        FontGraph.drawBold(var1, "Thấp", Viewport.screenWidth - 4, Viewport.screenHeight - 14, 1);
-                    }
-
+                    SetupPrompt.draw(var1);
                     return;
                 case GameState.TUTORIAL:
                     drawTutorial(var1);
@@ -6547,7 +6520,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     int var13;
-                    if (!lowGraphics) {
+                    if (!Settings.lowGraphics) {
                         Sky.updateClouds(tick, Viewport.viewWidth);
                     }
 
@@ -7535,7 +7508,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (!lowGraphics) {
+                    if (!Settings.lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (ch[var13] != -1) {
                                 var10002 = cg[var13]--;
@@ -7551,7 +7524,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (!lowGraphics) {
+                    if (!Settings.lowGraphics) {
                         for(var13 = 0; var13 < 2; ++var13) {
                             if (cl[var13] != -1) {
                                 var10002 = cl[var13]++;
@@ -8908,21 +8881,13 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case GameState.LOGO:
-                    if (jD < 4) {
-                        jE = jD;
-                    }
-
-                    if (jD > 51) {
-                        logoImage = null;
-                        at();
+                    if (LogoScreen.update()) {
+                        SetupPrompt.open();
                         GameState.current = GameState.SETUP_PROMPT;
-                    } else if (jD > 46) {
-                        jE = 4 - (jD - 46);
                     }
 
                     Viewport.screenWidth = instance.getWidth();
                     Viewport.screenHeight = instance.getHeight();
-                    ++jD;
                     break;
                 case GameState.GAME_MENU:
                     switch (GameMenu.update()) {
@@ -8992,44 +8957,12 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case GameState.SETUP_PROMPT:
-                    if (lk) {
-                        popupImage = null;
+                    if (SetupPrompt.done) {
+                        SetupPrompt.image = null;
                         K();
                     }
 
-                    var3 = false;
-                    if (Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        if (ll == 0) {
-                            Sound.disabled = false;
-                        } else {
-                            lowGraphics = false;
-                        }
-
-                        var3 = true;
-                    } else if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                        if (ll == 0) {
-                            Sound.disabled = true;
-                        } else {
-                            lowGraphics = true;
-                        }
-
-                        var3 = true;
-                    }
-
-                    if (var3) {
-                        Input.clearPressed();
-                        Input.clearHeld();
-                        if (ll == 0) {
-                            try {
-                                popupImage = Ui.loadSmileys();
-                            } catch (Exception var9) {
-                            }
-
-                            ll = 1;
-                        } else {
-                            lk = true;
-                        }
-                    }
+                    SetupPrompt.update();
                     break;
                 case GameState.TUTORIAL:
                     updateTutorial();
@@ -9196,7 +9129,7 @@ public final class b extends Canvas implements Runnable {
             tilesetImage = Tile.ensureTileset(tilesetImage);
             waterfallImage = Tile.ensureWaterfall(waterfallImage);
             waterSurfaceImage = Tile.ensureWaterSurface(waterSurfaceImage);
-            if (!lowGraphics) {
+            if (!Settings.lowGraphics) {
                 bushImage = Tile.ensureBush(bushImage);
             }
 
@@ -9279,7 +9212,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void l(Graphics var0) {
-        if (!lowGraphics) {
+        if (!Settings.lowGraphics) {
             for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
                 for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
@@ -9309,13 +9242,6 @@ public final class b extends Canvas implements Runnable {
 
     private static int I(int var0) {
         return var0 / GameMap.TILE_SIZE * GameMap.TILE_SIZE;
-    }
-
-    private static void ai() {
-        try {
-            logoImage = Ui.loadLogo();
-        } catch (Exception var0) {
-        }
     }
 
     private static void resetLoadingProgress() {
@@ -11531,13 +11457,6 @@ public final class b extends Canvas implements Runnable {
         drawHudPanel(g);
         drawHudOverlay(g);
         InventoryScreen.draw(g, itemPotions);
-    }
-
-    private static void at() {
-        try {
-            popupImage = Ui.loadSoundIcon();
-        } catch (Exception var0) {
-        }
     }
 
     private static void setNextNpcMarker(int var0) {
