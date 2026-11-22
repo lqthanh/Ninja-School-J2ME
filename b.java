@@ -2819,6 +2819,9 @@ public final class b extends Canvas implements Runnable {
         gZ = 1200;
         gO = 30;
         gN = false;
+        // Map không có boss rừng trúc: xóa trạng thái boss cũ (bản gốc giữ nguyên gS, nên
+        // sự kiện map khác kiểm tra gS == 22 vẫn thấy boss "vừa bị hạ").
+        gS = 0;
         int var1;
         if (var0 == 4) {
             gN = true;
@@ -5941,11 +5944,13 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case MapEvent.WAIT_PLAYER_AT:
-                    // LỖI GỐC (chưa sửa): thiếu break, rơi xuống WAIT_BAMBOO_BOSS_DEFEATED. Xem MapEvent.WAIT_PLAYER_AT.
                     if (fe < MapEvent.paramX[mapEventId][mapEventStep] && fe > MapEvent.paramX[mapEventId][mapEventStep] - 96 && ff == MapEvent.paramY[mapEventId][mapEventStep]) {
-                    startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
-                    ++mapEventStep;
-                }
+                        startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
+                        ++mapEventStep;
+                    }
+
+                    // Bản gốc thiếu lệnh này nên rơi xuống WAIT_BAMBOO_BOSS_DEFEATED.
+                    return;
                 case MapEvent.WAIT_BAMBOO_BOSS_DEFEATED:
                     if (gS == 22) {
                         startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
@@ -8905,6 +8910,9 @@ public final class b extends Canvas implements Runnable {
                         case GameMenu.ITEM_WORLD_MAP:
                             WorldMap.open(mapId);
                             GameState.current = GameState.WORLD_MAP;
+                            break;
+                        case GameMenu.ITEM_MUSIC:
+                            Sound.setEnabled(Sound.disabled, mapId);
                             break;
                         case GameMenu.ITEM_SAVE_AND_EXIT:
                             if (B != 1) {
