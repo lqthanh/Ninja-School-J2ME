@@ -4,10 +4,12 @@ import core.app.*;
 import core.input.*;
 import core.item.*;
 import core.map.*;
+import core.monster.*;
 import core.player.*;
 import core.quest.*;
 import core.render.*;
 import core.save.*;
+import core.story.*;
 import core.text.*;
 import core.ui.*;
 
@@ -22,31 +24,10 @@ import javax.microedition.lcdui.Image;
 public final class b extends Canvas implements Runnable {
     public static boolean lowGraphics = true;
     private static int frameDurationMs = 40;
-    private static int[] ab = new int[]{150, 180, 180, 300, 350, 380, 500};
-    private static int[] ac = new int[]{20, 30, 40, 100, 80, 120, 200};
-    private static int[] ad = new int[]{150, 140, 120, 240, 280, 290, 300};
-    private static int[] ae = new int[]{800, 1000, 1200, 3000, 3500, 4000, 6000};
-    private static int[][] af = new int[][]{{-5, -2}, {-2, -4}, {0, -5}, {-6, -6}, {-5, -2}, {-2, -4}, {0, -5}};
-    private static int[][] ag = new int[][]{{5, 8}, {3, 3}, new int[2], {4, 4}, {5, 8}, {3, 3}, new int[2]};
-    private static int[] ah = new int[]{1, -2, 1, 1, 1, -2, 1};
-    private static int[] am = new int[]{140, 70, 150, 120, 150, 150, 60, 1000, 250, 500, 4000, 500, 600, 1000, 1500, 2000, 1000, 3500, 1500, 5500};
-    private static int[] an = new int[]{15, 10, 30, 25, 25, 25, 5, 10, 20, 40, 30, 40, 130, 30, 40, 100, 60, 160, 120, 200};
-    private static int[] ao = new int[]{35, 20, 55, 40, 45, 50, 30, 130, 60, 65, 70, 75, 120, 85, 100, 120, 140, 160, 180, 200};
-    private static int[] ap = new int[]{20, 10, 50, 25, 30, 40, 15, 50, 60, 70, 80, 100, 120, 130, 160, 180, 170, 210, 190, 220};
     private static int[][][] aq = new int[][][]{{{0, -13, 31}, {0, -7, 8}, {0, -11, 14}}, {{0, -13, 32}, {0, -7, 8}, {0, -11, 15}}, {{1, -11, 31}, {1, -9, 16}, {6, -1000, 0}}, {{2, -11, 32}, {2, -10, 16}, {6, -1000, 0}}, {{1, -11, 31}, {3, -8, 16}, {6, -1000, 0}}, {{2, -10, 32}, {7, -9, 17}, {6, -1000, 0}}, {{1, -10, 31}, {8, -8, 16}, {6, -1000, 0}}, {{0, -8, 35}, {4, -5, 15}, {2, -10, 21}}, {{0, -8, 34}, {5, -6, 13}, {3, -11, 22}}, {{0, -8, 31}, {6, -13, 9}, {4, -10, 18}}, {{1, -8, 30}, {6, -13, 9}, {5, -8, 17}}, {{2, -10, 30}, {6, -13, 9}, {6, -8, 16}}, {{2, -10, 29}, {6, -13, 9}, {7, -11, 17}}, {{3, -11, 33}, {8, -4, 13}, {8, -15, 25}}};
     private static int[][][] ar = new int[][][]{{{0, -10, 32}, {1, -7, 7}, {1, -11, 15}}, {{0, -10, 33}, {1, -7, 7}, {1, -11, 16}}, {{1, -10, 33}, {2, -10, 11}, {2, -9, 16}}, {{1, -10, 32}, {3, -11, 9}, {3, -11, 16}}, {{1, -10, 34}, {4, -9, 9}, {4, -8, 16}}, {{1, -10, 34}, {5, -11, 11}, {5, -10, 17}}, {{1, -10, 33}, {6, -9, 9}, {6, -8, 16}}, {{0, -9, 36}, {7, -5, 15}, {7, -10, 21}}, {{4, -13, 26}, new int[3], new int[3]}, {{5, -13, 25}, new int[3], new int[3]}, {{6, -12, 26}, new int[3], new int[3]}, {{7, -13, 25}, new int[3], new int[3]}, {{0, -9, 35}, {8, -4, 13}, {8, -14, 27}}, {{0, -9, 32}, {9, -11, 9}, {10, -10, 18}}, {{2, -7, 34}, {9, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {9, -11, 9}, {12, -8, 15}}, {{2, -7, 33}, {9, -11, 9}, {13, -12, 16}}, {{0, -11, 32}, {9, -11, 9}, {14, -15, 19}}, {{2, -9, 33}, {9, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {9, -11, 9}, {16, -7, 23}}, {{2, -9, 33}, {9, -11, 9}, {17, -11, 19}}, {{3, -12, 34}, {8, -4, 13}, {8, -15, 25}}, {{0, -10, 28}, new int[3], {19, -8, 12}}, {{0, -9, 35}, {8, -4, 13}, {9, -9, 22}}, {{0, -10, 33}, new int[3], new int[3]}, {{9, -4, 24}, new int[3], new int[3]}, {{10, -4, 22}, new int[3], new int[3]}, {{0, -9, 32}, {8, -4, 9}, {10, -10, 18}}, {{2, -7, 34}, {8, -4, 9}, {11, -8, 16}}, {{2, -8, 33}, {8, -4, 9}, {12, -8, 15}}, {{2, -7, 33}, {8, -4, 9}, {13, -12, 16}}, {{0, -11, 32}, {7, -5, 9}, {14, -15, 19}}, {{2, -9, 33}, {7, -5, 9}, {15, -13, 20}}, {{2, -9, 32}, {7, -5, 9}, {16, -7, 23}}, {{2, -9, 33}, {7, -5, 9}, {17, -11, 19}}, {{0, -9, 32}, {2, -10, 11}, {10, -10, 18}}, {{2, -7, 34}, {3, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {4, -9, 9}, {12, -8, 15}}, {{2, -7, 33}, {5, -11, 11}, {13, -12, 16}}, {{0, -11, 32}, {2, -10, 11}, {14, -15, 19}}, {{2, -9, 33}, {3, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {4, -9, 9}, {16, -7, 23}}, {{2, -9, 33}, {5, -11, 11}, {17, -11, 19}}, {{1, -8, 38}, new int[3], {18, -8, 21}}, {{1, -8, 39}, new int[3], {18, -8, 22}}, {{1, -10, 43}, new int[3], {18, -11, 26}}};
     private static int[] as = new int[]{-2, -6, 22, 21, 19, 22, 10, -2, -2, 5, 19};
     private static int[] at = new int[]{9, 22, 25, 17, 26, 37, 36, 49, 50, 52, 36};
-    private static int[][] mapEventConditions = new int[][]{{2, 1, 1, 5, 3}, {2, 4, 3}, {2, 3}, {2, 1, 3}, {6, 3}, {2, 7, 3}, {2, 8, 3}, {2, 9, 3}, {2, 3}, {1, 3}, {2, 3}};
-    private static int[][] mapEventCutscenes = new int[][]{{0, 1, 2, 5, 0}, {3, 4, 0}, {6, 0}, {7, 8, 0}, {9, 0}, {10, 11, 0}, {12, 13, 0}, {14, 15, 0}, {16, 0}, {17, 0}, {18, 0}};
-    private static int[][] mapEventParams = new int[][]{{0, 360, 1128, 0, 0}, new int[3], new int[2], {0, 2784, 0}, {1248, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
-    private static int[][] ax = new int[][]{new int[5], new int[3], new int[2], new int[3], {408, 0}, new int[3], new int[3], new int[3], new int[2], new int[2], new int[2]};
-    private static int[][] ay = new int[][]{{15, 1, 1, 2, 2, 1, 2, 4, 5, 3}, {6, 15, 1, 2, 1, 2, 1, 2, 1, 2, 4, 5, 3}, {6, 1, 2, 8, 11, 4, 7, 1, 2, 1, 2, 3}, {8, 9, 15, 12, 14, 10, 4, 16, 5, 1, 2, 3}, {7, 17}, {4, 1, 2, 17}, {8, 9, 15, 12, 14, 10, 4, 18, 4, 7, 3}, {1, 2, 4, 5, 3}, {6, 4, 19, 3}, {4, 20, 21, 3}, {4, 3}, {4, 22, 3}, {23, 4, 7, 4, 3}, {23, 25, 4, 7, 24, 26, 3}, {27, 4, 7, 4, 28, 3}, {4, 31, 32, 7, 4, 31, 4, 7, 4, 8, 17, 3}, {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 29, 3}, {4, 30, 3}, {15, 31, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 33, 17, 3}};
-    private static int[][] cutsceneScripts = new int[][]{{1, -4, -1, -1, -4, -4, -4, 0, 20000, 0}, {0, 2, -4, -4, -5, -5, -5, -5, -5, -5, 1, 20000, 0}, {0, -5, -5, 0, 0, 2, 0, 55, 55, -4, -4, 0}, {0, 1, 0, 2, 3, 4, 3, 432, 20000, -4, -4, 0}, {0, 4}, {4, 55, 55, 0}, {0, 5, 3, 6, 7, 8, 5, 2, 6, 0, 0}, {-4, -4, 7, 20000, 0}, {0, 8, 0, 0}, {9, 0, 0, 0}, {10, 0}, {11, 0, 0}, {0, 12, 0, 13, 0}, {0, 0, 14, 0, 600, 0, 0}, {0, 15, 0, 16, 0, 0}, {17, 0, 0, 0, 55, 0, 56, 0, 57, 0, 94, 0}, {18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 0, 0}, {54, 0, 0}, {4, 0, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 0, 0, 0}};
-    private static int[][] aA = new int[][]{{5, 26, 30, 33, 41, 48, 53, 57, 58, 60}, {5, 6, 8, 9, 18, 20, 30, 32, 39, 40, 60, 63, 67}, {5, 6, 7, 13, 14, 19, 21, 34, 35, 60, 79, 80}, {1, 2, 3, 20, 50, 80, 85, 90, 92, 93, 95, 0}, {5, 6}, {10, 12, 13, 50}, {1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21}, {5, 10, 20, 30, 32}, {5, 10, 15, 20}, {10, 15, 20, 25}, {20, 25}, {10, 12, 14}, {15, 30, 35, 45, 55}, {10, 12, 30, 40, 45, 50, 75}, {15, 30, 35, 45, 53, 55}, {10, 12, 13, 40, 50, 60, 70, 80, 90, 95, 100, 105}, {10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47}, {10, 12, 14}, {10, 11, 60, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74}};
-    private static int[][] aB = new int[][]{{1344, 288}, {816, 48}, {816, 192}, {744, 192}, {144, 264}, {1440, 96}, {1368, 288}, {1128, 288}, {840, 312}};
-    private static int[] aC = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 4, 0, 3, 0, 6, 0, 2, 0, 5, 0, 4, 0, 1, 0, 3, 0, 0, 0, 5, 0, 4, 0, 3, 0, 2, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 3, 0, 0, 2, 1, 3, 2, 2};
-    private static int[] aD = new int[]{0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 2, 0, 2, 3, 0, 0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 4, 0, 4, 0, 1, 2, 1, 2, 0, 1, 2, 1, 2, 1, 2};
     private static int[][][] aI;
     private static int[] aJ;
     private static int[] aK;
@@ -1963,10 +1944,10 @@ public final class b extends Canvas implements Runnable {
                 cF[var0] = 0;
                 cq[var0] = 0;
                 cE[var0] = 1;
-                gainExp(ad[cD[var0]]);
-                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, ab[cD[var0]] + tick % 10);
+                gainExp(NinjaStats.exp[cD[var0]]);
+                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, NinjaStats.money[cD[var0]] + tick % 10);
                 if (tick % 20 > 5) {
-                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, ac[cD[var0]] << 2, (tick + 1) % 2);
+                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, NinjaStats.damage[cD[var0]] << 2, (tick + 1) % 2);
                 }
 
                 return true;
@@ -2844,7 +2825,7 @@ public final class b extends Canvas implements Runnable {
         cC[var0] = 0;
         cK[var0] = var3 * 24 + 12;
         cL[var0] = var4 * 24 + 12;
-        cr[var0] = ae[cD[var0]];
+        cr[var0] = NinjaStats.maxHp[cD[var0]];
     }
 
     public static void i(int var0) {
@@ -4864,72 +4845,72 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (++fZ >= aA[cutsceneId][cutsceneStep]) {
-                    fZ = aA[cutsceneId][cutsceneStep];
+                if (++fZ >= Cutscene.triggerFrames[cutsceneId][cutsceneStep]) {
+                    fZ = Cutscene.triggerFrames[cutsceneId][cutsceneStep];
                     int var0;
-                    switch (ay[cutsceneId][cutsceneStep]) {
-                        case 1:
-                            Input.keyDown(cutsceneScripts[cutsceneId][cutsceneStep]);
+                    switch (Cutscene.commands[cutsceneId][cutsceneStep]) {
+                        case Cutscene.CMD_KEY_DOWN:
+                            Input.keyDown(Cutscene.args[cutsceneId][cutsceneStep]);
                             ++cutsceneStep;
                             break;
-                        case 2:
-                            Input.keyUp(cutsceneScripts[cutsceneId][cutsceneStep]);
+                        case Cutscene.CMD_KEY_UP:
+                            Input.keyUp(Cutscene.args[cutsceneId][cutsceneStep]);
                             ++cutsceneStep;
                             break;
-                        case 3:
+                        case Cutscene.CMD_END:
                             cutscenePlaying = false;
                             hudDirty = true;
                             ++cutsceneStep;
                             break;
-                        case 4:
+                        case Cutscene.CMD_SAY:
                             if (B == 1) {
                                 captionVisible = false;
                                 var0 = 0;
                                 int var1 = 0;
-                                switch (aD[cutsceneScripts[cutsceneId][cutsceneStep]]) {
-                                    case 0:
+                                switch (Cutscene.lineSpeakerKind[Cutscene.args[cutsceneId][cutsceneStep]]) {
+                                    case Cutscene.SPEAKER_PLAYER:
                                         var0 = fe;
                                         var1 = ff;
                                         break;
-                                    case 1:
-                                        var0 = npcX[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
-                                        var1 = npcY[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
+                                    case Cutscene.SPEAKER_NPC:
+                                        var0 = npcX[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        var1 = npcY[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
                                         break;
-                                    case 2:
-                                        var0 = dz[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
-                                        var1 = dA[aC[cutsceneScripts[cutsceneId][cutsceneStep]]];
+                                    case Cutscene.SPEAKER_CLASSMATE:
+                                        var0 = dz[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        var1 = dA[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
                                         break;
-                                    case 3:
-                                    case 4:
+                                    case Cutscene.SPEAKER_GIRL:
+                                    case Cutscene.SPEAKER_GIRL_2:
                                         var0 = gn;
                                         var1 = go;
                                 }
 
                                 var1 -= 40;
-                                startDialogue(DialogueText.cutsceneLines[cutsceneScripts[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
+                                startDialogue(DialogueText.cutsceneLines[Cutscene.args[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
                                 ++cutsceneStep;
                                 ga = true;
                             }
                             break;
-                        case 5:
-                            setGuideMarker(mapId, cutsceneScripts[cutsceneId][cutsceneStep], ff - 50, -1);
+                        case Cutscene.CMD_SHOW_GUIDE_MARKER:
+                            setGuideMarker(mapId, Cutscene.args[cutsceneId][cutsceneStep], ff - 50, -1);
                             ++cutsceneStep;
                             break;
-                        case 6:
+                        case Cutscene.CMD_HIDE_GUIDE_MARKER:
                             guideMarkerMap = -1;
                             ++cutsceneStep;
                             break;
-                        case 7:
+                        case Cutscene.CMD_CAMERA_FOLLOW_PLAYER:
                             fu = true;
                             ++cutsceneStep;
                             break;
-                        case 8:
+                        case Cutscene.CMD_CAMERA_FREE:
                             fu = false;
                             ++cutsceneStep;
                             break;
-                        case 9:
-                            cameraX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX;
-                            cameraY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY;
+                        case Cutscene.CMD_CAMERA_JUMP:
+                            cameraX = Cutscene.cameraPoints[Cutscene.args[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX;
+                            cameraY = Cutscene.cameraPoints[Cutscene.args[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY;
                             if (cameraX < 0) {
                                 cameraX = 0;
                             }
@@ -4950,9 +4931,9 @@ public final class b extends Canvas implements Runnable {
                             cameraTargetY = cameraY;
                             ++cutsceneStep;
                             break;
-                        case 10:
-                            cameraTargetX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX;
-                            cameraTargetY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY;
+                        case Cutscene.CMD_CAMERA_PAN:
+                            cameraTargetX = Cutscene.cameraPoints[Cutscene.args[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX;
+                            cameraTargetY = Cutscene.cameraPoints[Cutscene.args[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -4971,7 +4952,7 @@ public final class b extends Canvas implements Runnable {
 
                             ++cutsceneStep;
                             break;
-                        case 11:
+                        case Cutscene.CMD_CAMERA_PAN_TO_BAMBOO_BOSS:
                             cameraTargetX = gP - Viewport.viewCenterX;
                             cameraTargetY = gQ - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
@@ -4992,23 +4973,23 @@ public final class b extends Canvas implements Runnable {
 
                             ++cutsceneStep;
                             break;
-                        case 12:
+                        case Cutscene.CMD_CAMERA_SCROLL_DOWN:
                             cameraTargetY = cameraY += 2;
-                            if (cameraY > aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY) {
+                            if (cameraY > Cutscene.cameraPoints[Cutscene.args[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY) {
                                 ++cutsceneStep;
                             }
-                        case 13:
+                        case Cutscene.CMD_WAIT:
                         default:
                             break;
-                        case 14:
+                        case Cutscene.CMD_CAMERA_SCROLL_LEFT:
                             cameraTargetX = cameraX -= 2;
-                            if (cameraX < aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX) {
+                            if (cameraX < Cutscene.cameraPoints[Cutscene.args[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX) {
                                 ++cutsceneStep;
                             }
                             break;
-                        case 15:
+                        case Cutscene.CMD_CAPTION:
                             captionVisible = true;
-                            captionLines = FontGraph.wrapBoldText(DialogueText.cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], Viewport.viewWidth - 40);
+                            captionLines = FontGraph.wrapBoldText(DialogueText.cutsceneCaptions[Cutscene.args[cutsceneId][cutsceneStep]], Viewport.viewWidth - 40);
                             if ((captionTargetY = (letterboxMaxHeight >> 1) - (captionLines.length << 3)) < 3) {
                                 captionTargetY = 2;
                             }
@@ -5016,34 +4997,34 @@ public final class b extends Canvas implements Runnable {
                             captionY = -captionLines.length << 3;
                             ++cutsceneStep;
                             break;
-                        case 16:
+                        case Cutscene.CMD_CLASSMATE_SCENE:
                             dx = true;
-                            dy = cutsceneScripts[cutsceneId][cutsceneStep];
+                            dy = Cutscene.args[cutsceneId][cutsceneStep];
                             ++cutsceneStep;
                             break;
-                        case 17:
+                        case Cutscene.CMD_CHANGE_MAP:
                             fp = fe = MapExits.rightSpawnX;
                             fq = ff = MapExits.rightSpawnY;
                             releaseMapResources();
                             Save.pendingSave = true;
-                            changeMap(cutsceneScripts[cutsceneId][cutsceneStep]);
+                            changeMap(Cutscene.args[cutsceneId][cutsceneStep]);
                             return true;
-                        case 18:
-                            setNextNpcMarker(cutsceneScripts[cutsceneId][cutsceneStep]);
+                        case Cutscene.CMD_NEXT_NPC_MARKER:
+                            setNextNpcMarker(Cutscene.args[cutsceneId][cutsceneStep]);
                             ++cutsceneStep;
                             break;
-                        case 19:
+                        case Cutscene.CMD_GIRL_FOLLOW:
                             gk = true;
                             ++cutsceneStep;
                             break;
-                        case 20:
+                        case Cutscene.CMD_GIRL_STAY:
                             gk = false;
                             gm = 0;
                             gn = 1080;
                             go = 408;
                             ++cutsceneStep;
                             break;
-                        case 21:
+                        case Cutscene.CMD_REWARD_MOTORBIKE_LICENSE:
                             QuestState.current = Quest.NONE;
                             // Thưởng nhiệm vụ ESCORT_AYUMI_SISTER được trao trong cutscene, không qua onDialogueFinished.
                             Skills.motorbikeLicense = true;
@@ -5051,7 +5032,7 @@ public final class b extends Canvas implements Runnable {
                             setGuideMarker(0, npcX[4], npcY[4] - 40, 4);
                             ++cutsceneStep;
                             break;
-                        case 22:
+                        case Cutscene.CMD_RIVER_MONSTER_DEFEATED:
                             for(var0 = 0; var0 <= 6; ++var0) {
                                 GameMap.clearFlags(24, var0);
                             }
@@ -5059,10 +5040,10 @@ public final class b extends Canvas implements Runnable {
                             Story.riverMonsterDefeated = true;
                             ++cutsceneStep;
                             break;
-                        case 23:
+                        case Cutscene.CMD_CAMERA_PAN_TO_CLASSMATE:
                             fu = false;
-                            cameraTargetX = dz[cutsceneScripts[cutsceneId][cutsceneStep]] - Viewport.viewCenterX;
-                            cameraTargetY = dA[cutsceneScripts[cutsceneId][cutsceneStep]] - Viewport.viewCenterY;
+                            cameraTargetX = dz[Cutscene.args[cutsceneId][cutsceneStep]] - Viewport.viewCenterX;
+                            cameraTargetY = dA[Cutscene.args[cutsceneId][cutsceneStep]] - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5081,16 +5062,16 @@ public final class b extends Canvas implements Runnable {
 
                             ++cutsceneStep;
                             break;
-                        case 24:
+                        case Cutscene.CMD_CLASSMATE_SCENE_2:
                             dx = true;
-                            dy = cutsceneScripts[cutsceneId][cutsceneStep];
+                            dy = Cutscene.args[cutsceneId][cutsceneStep];
                             ++cutsceneStep;
                             break;
-                        case 25:
+                        case Cutscene.CMD_STOP_FIRST_CLASSMATE:
                             he = true;
                             ++cutsceneStep;
                             break;
-                        case 26:
+                        case Cutscene.CMD_TONIKU_DEFEATED:
                             for(var0 = 0; var0 <= 10; ++var0) {
                                 GameMap.clearFlags(24, var0);
                             }
@@ -5098,7 +5079,7 @@ public final class b extends Canvas implements Runnable {
                             Story.tonikuDefeated = true;
                             ++cutsceneStep;
                             break;
-                        case 27:
+                        case Cutscene.CMD_CAMERA_PAN_TO_FINAL_BOSS:
                             fu = false;
                             cameraTargetX = hp - Viewport.viewCenterX;
                             cameraTargetY = hq - Viewport.viewCenterY;
@@ -5120,11 +5101,11 @@ public final class b extends Canvas implements Runnable {
 
                             ++cutsceneStep;
                             break;
-                        case 28:
+                        case Cutscene.CMD_START_FINAL_BOSS:
                             hr = 1;
                             ++cutsceneStep;
                             break;
-                        case 29:
+                        case Cutscene.CMD_END_GAME:
                             Input.clearPressed();
                             Input.clearHeld();
                             tilesetImage = null;
@@ -5164,7 +5145,7 @@ public final class b extends Canvas implements Runnable {
                             System.gc();
                             K();
                             return true;
-                        case 30:
+                        case Cutscene.CMD_GIRL_OUTING_DONE:
                             QuestState.current = Quest.NONE;
                             Story.girlWaiting = false;
                             Story.girlOutingDone = true;
@@ -5176,7 +5157,7 @@ public final class b extends Canvas implements Runnable {
                             setGuideMarker(0, 1032, 368, 4);
                             ++cutsceneStep;
                             break;
-                        case 31:
+                        case Cutscene.CMD_CAMERA_PAN_TO_GIRL:
                             fu = false;
                             cameraTargetX = gn - Viewport.viewCenterX;
                             cameraTargetY = go - Viewport.viewCenterY;
@@ -5198,7 +5179,7 @@ public final class b extends Canvas implements Runnable {
 
                             ++cutsceneStep;
                             break;
-                        case 32:
+                        case Cutscene.CMD_GIRL_RUN:
                             gk = true;
                             gr = 2;
                             gp = -5;
@@ -5206,7 +5187,7 @@ public final class b extends Canvas implements Runnable {
                             gK = 8;
                             ++cutsceneStep;
                             break;
-                        case 33:
+                        case Cutscene.CMD_START_SAKURA_ESCORT:
                             Story.sakuraEscorting = true;
                             gk = true;
                             ++cutsceneStep;
@@ -5634,17 +5615,17 @@ public final class b extends Canvas implements Runnable {
                         switch (cD[var0]) {
                             case 0:
                             case 4:
-                                b(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] * 12, ac[cD[var0]], 0);
+                                b(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] * 12, NinjaStats.damage[cD[var0]], 0);
                                 break label143;
                             case 1:
                             case 5:
-                                b(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] << 3, ac[cD[var0]], 1);
+                                b(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] << 3, NinjaStats.damage[cD[var0]], 1);
                                 break label143;
                             case 2:
                             case 3:
                             case 6:
                                 if (a(ff - cv[var0]) < 5 && a(fe - cu[var0]) < 30) {
-                                    a(ac[cD[var0]], cH[var0]);
+                                    a(NinjaStats.damage[cD[var0]], cH[var0]);
                                 }
                         }
                     }
@@ -5656,7 +5637,7 @@ public final class b extends Canvas implements Runnable {
                         cv[var0] = ct[var0];
                         cF[var0] = 0;
                         cE[var0] = 3;
-                        cr[var0] = ae[cD[var0]];
+                        cr[var0] = NinjaStats.maxHp[cD[var0]];
                     }
                     break;
                 case 6:
@@ -5711,7 +5692,7 @@ public final class b extends Canvas implements Runnable {
             }
 
             cw[var0] = cu[var0];
-            cx[var0] = cv[var0] - 9 + cC[var0] + ag[cD[var0]][cJ[var0]];
+            cx[var0] = cv[var0] - 9 + cC[var0] + NinjaStats.bodyOffsetY[cD[var0]][cJ[var0]];
         }
 
     }
@@ -5951,57 +5932,57 @@ public final class b extends Canvas implements Runnable {
 
     private static void updateMapEvent() {
         if (mapEventActive) {
-            switch (mapEventConditions[mapEventId][mapEventStep]) {
-                case 1:
-                    if (fe > mapEventParams[mapEventId][mapEventStep]) {
-                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+            switch (MapEvent.conditions[mapEventId][mapEventStep]) {
+                case MapEvent.WAIT_PLAYER_PAST_X:
+                    if (fe > MapEvent.paramX[mapEventId][mapEventStep]) {
+                    startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                     ++mapEventStep;
                     return;
                 }
                 break;
-                case 2:
-                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                case MapEvent.IMMEDIATE:
+                    startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                     ++mapEventStep;
                     return;
-                case 3:
+                case MapEvent.END:
                 default:
                     return;
-                case 4:
+                case MapEvent.WAIT_PLAYER_OFFSCREEN_RIGHT:
                     if (fe > cameraX + Viewport.viewWidth) {
-                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                         return;
                     }
                     break;
-                case 6:
-                    if (fe < mapEventParams[mapEventId][mapEventStep] && fe > mapEventParams[mapEventId][mapEventStep] - 96 && ff == ax[mapEventId][mapEventStep]) {
-                    startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                case MapEvent.WAIT_PLAYER_AT:
+                    if (fe < MapEvent.paramX[mapEventId][mapEventStep] && fe > MapEvent.paramX[mapEventId][mapEventStep] - 96 && ff == MapEvent.paramY[mapEventId][mapEventStep]) {
+                    startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                     ++mapEventStep;
                 }
-                case 5:
+                case MapEvent.WAIT_BAMBOO_BOSS_DEFEATED:
                     if (gS == 22) {
-                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                         return;
                     }
                     break;
-                case 7:
+                case MapEvent.WAIT_RIVER_MONSTER_SUNK:
                     if (hX == 5) {
-                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                         return;
                     }
                     break;
-                case 8:
+                case MapEvent.WAIT_TONIKU_DEFEATED:
                     if (hg < 10) {
-                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                         return;
                     }
                     break;
-                case 9:
+                case MapEvent.WAIT_FINAL_BOSS_DEFEATED:
                     if (hr == 22) {
-                        startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
+                        startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         Story.sakuraFound = true;
                         ++mapEventStep;
                         return;
@@ -6271,17 +6252,17 @@ public final class b extends Canvas implements Runnable {
                     for(var2 = 0; var2 < cp; ++var2) {
                         if (cE[var2] != 5 && cu[var2] + 15 >= cameraX && cu[var2] - 15 <= cameraX + Viewport.viewWidth && cv[var2] >= cameraY && cv[var2] - 30 <= cameraY + Viewport.viewHeight) {
                             if (cH[var2] == -1) {
-                                var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
-                                var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + NinjaStats.legsOffsetX[cD[var2]], cv[var2], 33);
+                                var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + NinjaStats.bodyOffsetX[cD[var2]][cJ[var2]], cx[var2], 33);
                             } else {
-                                var1.drawRegion(ninjaLegs[cI[var2]], 0, 0, ninjaLegs[cI[var2]].getWidth(), ninjaLegs[cI[var2]].getHeight(), 2, cu[var2] - ah[cD[var2]], cv[var2], 33);
-                                var1.drawRegion(ninjaBodies[cD[var2]][cJ[var2]], 0, 0, ninjaBodies[cD[var2]][cJ[var2]].getWidth(), ninjaBodies[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - af[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawRegion(ninjaLegs[cI[var2]], 0, 0, ninjaLegs[cI[var2]].getWidth(), ninjaLegs[cI[var2]].getHeight(), 2, cu[var2] - NinjaStats.legsOffsetX[cD[var2]], cv[var2], 33);
+                                var1.drawRegion(ninjaBodies[cD[var2]][cJ[var2]], 0, 0, ninjaBodies[cD[var2]][cJ[var2]].getWidth(), ninjaBodies[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - NinjaStats.bodyOffsetX[cD[var2]][cJ[var2]], cx[var2], 33);
                             }
 
                             if (cq[var2] != 0) {
                                 var1.setColor(13073);
                                 var1.drawRect(cu[var2] - 13, cv[var2] - 40, 26, 4);
-                                var3 = cr[var2] * 24 / ae[cD[var2]];
+                                var3 = cr[var2] * 24 / NinjaStats.maxHp[cD[var2]];
                                 var1.setColor(15597568);
                                 var1.fillRect(cu[var2] - 12, cv[var2] - 39, var3, 3);
                                 var1.setColor(4456482);
@@ -9451,7 +9432,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void L(int var0) {
-        gainExp(ap[jI[var0]]);
+        gainExp(MonsterStats.exp[jI[var0]]);
         int var1;
         if ((var1 = tick % 20) > 15) {
             a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (tick + 1) % 2);
@@ -9582,9 +9563,9 @@ public final class b extends Canvas implements Runnable {
                         jX[var0] = 1;
                         jO[var0] = 5;
                         jT[var0] = var0 << 3;
-                        jY[var0] = jZ[var0] = am[jI[var0]];
-                        ka[var0] = an[jI[var0]];
-                        kf[var0] = ao[jI[var0]];
+                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
+                        ka[var0] = MonsterStats.damage[jI[var0]];
+                        kf[var0] = MonsterStats.money[jI[var0]];
                         kb[var0] = 0;
                     }
                 }
@@ -9621,9 +9602,9 @@ public final class b extends Canvas implements Runnable {
                         jX[var0] = 0;
                         jO[var0] = 5;
                         jT[var0] = var0 << 3;
-                        jY[var0] = jZ[var0] = am[jI[var0]];
-                        ka[var0] = an[jI[var0]];
-                        kf[var0] = ao[jI[var0]];
+                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
+                        ka[var0] = MonsterStats.damage[jI[var0]];
+                        kf[var0] = MonsterStats.money[jI[var0]];
                         kb[var0] = 100;
                     }
                 }
@@ -9673,9 +9654,9 @@ public final class b extends Canvas implements Runnable {
                         jX[var0] = 1;
                         jO[var0] = 5;
                         jT[var0] = jH - var0;
-                        jY[var0] = jZ[var0] = am[jI[var0]];
-                        ka[var0] = an[jI[var0]];
-                        kf[var0] = ao[jI[var0]];
+                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
+                        ka[var0] = MonsterStats.damage[jI[var0]];
+                        kf[var0] = MonsterStats.money[jI[var0]];
                         kb[var0] = 0;
                     }
                 }
@@ -9728,9 +9709,9 @@ public final class b extends Canvas implements Runnable {
                         jX[var0] = 1;
                         jO[var0] = 5;
                         jT[var0] = var0 << 3;
-                        jY[var0] = jZ[var0] = am[jI[var0]];
-                        ka[var0] = an[jI[var0]];
-                        kf[var0] = ao[jI[var0]];
+                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
+                        ka[var0] = MonsterStats.damage[jI[var0]];
+                        kf[var0] = MonsterStats.money[jI[var0]];
                         kb[var0] = 500;
                     }
                 }
@@ -10950,9 +10931,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 0;
                 jO[var3] = 5;
                 jT[var3] = var3 * 7 + var3;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
                 jR[var3] = 2;
                 jS[var3] = 3;
@@ -10977,9 +10958,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = -1;
                 jO[var3] = 5;
                 jT[var3] = var3 << 1;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
                 jR[var3] = -3;
                 jS[var3] = 3;
@@ -11004,9 +10985,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = var3 * 6;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
             }
 
@@ -11030,9 +11011,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var2] = 1;
                 jO[var2] = 5;
                 jT[var2] = var2 * 5;
-                jY[var2] = jZ[var2] = am[jI[var2]];
-                ka[var2] = an[jI[var2]];
-                kf[var2] = ao[jI[var2]];
+                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
+                ka[var2] = MonsterStats.damage[jI[var2]];
+                kf[var2] = MonsterStats.money[jI[var2]];
                 kb[var2] = 60;
             }
 
@@ -11054,9 +11035,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var2] = 1;
                 jO[var2] = 5;
                 jT[var2] = var2 * 5;
-                jY[var2] = jZ[var2] = am[jI[var2]];
-                ka[var2] = an[jI[var2]];
-                kf[var2] = ao[jI[var2]];
+                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
+                ka[var2] = MonsterStats.damage[jI[var2]];
+                kf[var2] = MonsterStats.money[jI[var2]];
                 kb[var2] = 40;
             }
 
@@ -11079,9 +11060,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = -1;
                 jO[var3] = 5;
                 jT[var3] = var3 << 3;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
                 jR[var3] = 2;
                 jS[var3] = 3;
@@ -11106,9 +11087,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = -1;
                 jO[var3] = 5;
                 jT[var3] = var3 + 60;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
                 jR[var3] = 2;
                 jS[var3] = 3;
@@ -11133,9 +11114,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = var3 << 2;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 0;
             }
 
@@ -11157,9 +11138,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var2] = 1;
                 jO[var2] = 5;
                 jT[var2] = var2 << 3;
-                jY[var2] = jZ[var2] = am[jI[var2]];
-                ka[var2] = an[jI[var2]];
-                kf[var2] = ao[jI[var2]];
+                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
+                ka[var2] = MonsterStats.damage[jI[var2]];
+                kf[var2] = MonsterStats.money[jI[var2]];
                 kb[var2] = 0;
             }
 
@@ -11225,9 +11206,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = var3 * 7;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 0;
             }
 
@@ -11250,9 +11231,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = var3 << 1;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 0;
             }
 
@@ -11275,9 +11256,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = var3 << 3;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
             }
 
@@ -11300,9 +11281,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = 60;
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 100;
             }
 
@@ -11324,9 +11305,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var2] = 1;
                 jO[var2] = 5;
                 jT[var2] = 62;
-                jY[var2] = jZ[var2] = am[jI[var2]];
-                ka[var2] = an[jI[var2]];
-                kf[var2] = ao[jI[var2]];
+                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
+                ka[var2] = MonsterStats.damage[jI[var2]];
+                kf[var2] = MonsterStats.money[jI[var2]];
                 kb[var2] = 70;
             }
 
@@ -11349,9 +11330,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var3] = 1;
                 jO[var3] = 5;
                 jT[var3] = 50 + (var3 << 1);
-                jY[var3] = jZ[var3] = am[jI[var3]];
-                ka[var3] = an[jI[var3]];
-                kf[var3] = ao[jI[var3]];
+                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
+                ka[var3] = MonsterStats.damage[jI[var3]];
+                kf[var3] = MonsterStats.money[jI[var3]];
                 kb[var3] = 500;
             }
 
@@ -11373,9 +11354,9 @@ public final class b extends Canvas implements Runnable {
                 jX[var2] = 1;
                 jO[var2] = 5;
                 jT[var2] = 70;
-                jY[var2] = jZ[var2] = am[jI[var2]];
-                ka[var2] = an[jI[var2]];
-                kf[var2] = ao[jI[var2]];
+                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
+                ka[var2] = MonsterStats.damage[jI[var2]];
+                kf[var2] = MonsterStats.money[jI[var2]];
                 kb[var2] = 500;
             }
 
