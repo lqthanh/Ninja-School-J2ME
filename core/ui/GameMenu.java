@@ -11,7 +11,12 @@ public final class GameMenu {
     public static final int ITEM_USE_ITEM = 0;
     public static final int ITEM_WORLD_MAP = 1;
     public static final int ITEM_SAVE_AND_EXIT = 2;
-    /** Mục "Nhạc" chỉ để hiển thị, chọn không có tác dụng (giống bản gốc). */
+    /**
+     * Mục "Nhạc". GHI CHÚ (giữ nguyên bản gốc): chọn mục này không làm gì và chữ luôn là
+     * "Nhạc: Bật", kể cả khi đã tắt âm thanh ở màn hỏi lúc khởi động (SetupPrompt). Muốn
+     * bật/tắt nhạc trong lúc chơi cần thêm xử lý: đổi chữ, gán Sound.disabled và dừng hoặc
+     * nạp lại bài nhạc của map hiện tại.
+     */
     public static final int ITEM_MUSIC = 3;
     public static final int ITEM_COUNT = 4;
 

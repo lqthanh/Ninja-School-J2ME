@@ -17,7 +17,20 @@ public final class MapEvent {
     public static final int WAIT_BAMBOO_BOSS_DEFEATED = 5;
     /**
      * Chờ nhân vật đứng trong khoảng (paramX - 96, paramX) và ở đúng y = {@link #paramY}.
-     * Bản gốc: thiếu break nên rơi xuống kiểm tra luôn điều kiện {@link #WAIT_BAMBOO_BOSS_DEFEATED}.
+     *
+     * <p>LỖI GỐC (giữ nguyên, chưa sửa): thiếu break nên rơi xuống kiểm tra luôn điều kiện
+     * {@link #WAIT_BAMBOO_BOSS_DEFEATED} (b.gS == 22). Chỉ sự kiện 4 dùng điều kiện này: về
+     * map 0 cùng em gái cô Ayumi, tới chỗ thầy (x 1152..1248, y 408) thì phát cutscene 9
+     * (khen, cô bé đứng lại, nhận bằng lái mô tô). Vì b.gS không được reset khi rời map
+     * boss và không được lưu vào save:
+     * <ul>
+     * <li>Đã hạ boss rừng trúc trong lần chạy này (ví dụ chơi liền từ "Chơi mới"): cutscene 9
+     * phát ngay frame đầu khi vào map 0, không cần tới chỗ thầy.</li>
+     * <li>Chưa hạ boss nào trong lần chạy này (vào bằng "Chơi tiếp"): chạy đúng thiết kế.</li>
+     * <li>Hiếm: gS == 22 và nhân vật đang ở đúng chỗ thầy thì cutscene 9 bị thay bằng
+     * cutscene 0, bước sự kiện vượt quá độ dài mảng (có thể ArrayIndexOutOfBounds).</li>
+     * </ul>
+     * Sửa: thêm break (hoặc return) sau nhánh này trong b.updateMapEvent().</p>
      */
     public static final int WAIT_PLAYER_AT = 6;
     /** Chờ thủy quái chìm xuống (bị hạ). */

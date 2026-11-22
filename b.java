@@ -5941,6 +5941,7 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case MapEvent.WAIT_PLAYER_AT:
+                    // LỖI GỐC (chưa sửa): thiếu break, rơi xuống WAIT_BAMBOO_BOSS_DEFEATED. Xem MapEvent.WAIT_PLAYER_AT.
                     if (fe < MapEvent.paramX[mapEventId][mapEventStep] && fe > MapEvent.paramX[mapEventId][mapEventStep] - 96 && ff == MapEvent.paramY[mapEventId][mapEventStep]) {
                     startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                     ++mapEventStep;
@@ -11607,8 +11608,8 @@ public final class b extends Canvas implements Runnable {
                 GameState.current = GameState.WORLD_MAP;
                 break;
             case MessageType.TRAVEL_CONFIRM:
-                // Bản gốc: phải có nhiều hơn (không chỉ bằng) số tiền cần trả.
-                if (WorldMap.travelCost >= Inventory.money) {
+                // Có đúng bằng giá là đủ (bản gốc dùng >= nên bằng giá vẫn bị báo không đủ tiền).
+                if (WorldMap.travelCost > Inventory.money) {
                     MessageBox.show(MessageType.NOT_ENOUGH_MONEY);
                 } else {
                     Inventory.money -= WorldMap.travelCost;
