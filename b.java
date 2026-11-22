@@ -1,6 +1,7 @@
 import assets.*;
 import assets.Character;
 import core.app.*;
+import core.debug.*;
 import core.input.*;
 import core.item.*;
 import core.map.*;
@@ -61,7 +62,6 @@ public final class b extends Canvas implements Runnable {
     private static int hudMpBarHeight;
     private static int letterboxMaxHeight;
     private static int letterboxHeight;
-    private static String bv;
     private static int firstVisibleCol;
     private static int firstVisibleRow;
     private static int visibleCols;
@@ -315,8 +315,6 @@ public final class b extends Canvas implements Runnable {
     private static int gI;
     private static int gJ;
     private static int gK;
-    private static int gL;
-    private static long gM;
     private static boolean gN;
     private static int gO;
     private static int gP;
@@ -511,7 +509,6 @@ public final class b extends Canvas implements Runnable {
         aL = -1;
         b = true;
         aX = 0;
-        bv = "";
         bG = -22;
         bH = 18;
         bI = -10;
@@ -573,13 +570,9 @@ public final class b extends Canvas implements Runnable {
     public static void a() {
         int[] var1 = new int[500];
         int var2 = 0;
-        if (gM > 0L) {
-            gL += (int)((System.currentTimeMillis() - gM) / 1000L);
-        }
-
-        gM = System.currentTimeMillis();
+        PlayTime.checkpoint();
         ++var2;
-        var1[0] = gL;
+        var1[0] = PlayTime.savedSeconds;
         ++var2;
         var1[1] = mapId;
         ++var2;
@@ -828,7 +821,7 @@ public final class b extends Canvas implements Runnable {
         int[] var0 = a(Save.loadRecord("ninjasave"));
         int var2 = 0;
         ++var2;
-        gL = var0[0];
+        PlayTime.savedSeconds = var0[0];
         ++var2;
         mapId = var0[1];
         ++var2;
@@ -6018,52 +6011,13 @@ public final class b extends Canvas implements Runnable {
     }
 
     protected final void keyPressed(int var1) {
-        if (var1 == Input.CODE_POUND) {
-            if (bv.equals("1984")) {
-                Skills.lightness = true;
-                Skills.doubleJump = true;
-                Skills.hide = true;
-                Skills.burrow = true;
-                Skills.dive = true;
-                Skills.motorbikeLicense = true;
-                Skills.darts = true;
-                Skills.runOnWater = true;
-                Skills.transform = true;
-                Skills.tripleJump = true;
-                Notice.show("Learned All Skill");
-            } else if (bv.equals("30538")) {
-                PlayerStats.setMaxHpMp(500000, 500000);
-                Notice.show("Unlimit HP MP");
-            } else if (bv.equals("38305")) {
-                PlayerStats.attack = 10000;
-                Notice.show("Unlimit Damage");
-            } else if (bv.equals("1982")) {
-                gainExp(100000);
-            } else if (bv.equals("1983")) {
-                Inventory.money += 50000;
-                Notice.show("Money+=50000");
-            } else {
-                int var2;
-                if (!bv.equals("1981")) {
-                    if (bv.equals("8463")) {
-                        var2 = gL + (int)((System.currentTimeMillis() - gM) / 1000L);
-                        Notice.show(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
-                    }
-                } else {
-                    for(var2 = 0; var2 < 19; ++var2) {
-                        WorldMap.visited[var2] = true;
-                    }
-
-                    Notice.show("Unlock all map!");
-                }
+        int cheat = CheatCodes.onKeyPressed(var1);
+        if (cheat != CheatCodes.RESULT_NOT_TRIGGERED) {
+            if (cheat == CheatCodes.RESULT_GAIN_EXP) {
+                gainExp(CheatCodes.EXP_BONUS);
             }
 
             hudDirty = true;
-            bv = "";
-        }
-
-        if (var1 >= Input.CODE_NUM0 && var1 <= Input.CODE_NUM9 && (bv = bv + (char)var1).length() > 10) {
-            bv = "";
         }
 
         var1 = Input.normalizeKeyCode(var1);
@@ -8848,7 +8802,7 @@ public final class b extends Canvas implements Runnable {
                                 titleImage = null;
                                 releaseMapResources();
                                 Save.pendingSave = true;
-                                gM = System.currentTimeMillis();
+                                PlayTime.start();
                                 changeMap(99);
                             } else if (aX == 1) {
                                 if (!Save.isSaved()) {
@@ -8858,7 +8812,7 @@ public final class b extends Canvas implements Runnable {
                                 titleImage = null;
                                 releaseMapResources();
                                 int[] var12;
-                                gL = (var12 = a(Save.loadRecord("ninjasave")))[0];
+                                PlayTime.savedSeconds = (var12 = a(Save.loadRecord("ninjasave")))[0];
                                 mapId = var12[1];
                                 tick = var12[2];
                                 Story.prologueActive = var12[3] == 1;
@@ -8874,7 +8828,7 @@ public final class b extends Canvas implements Runnable {
                                 Inventory.swordLevel = var12[13];
                                 Skills.dartsLevel2 = var12[14] == 1;
                                 Save.pendingLoad = true;
-                                gM = System.currentTimeMillis();
+                                PlayTime.start();
                                 changeMap(mapId);
                             } else if (aX == 2) {
                                 titleImage = null;
