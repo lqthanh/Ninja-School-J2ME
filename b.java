@@ -53,10 +53,6 @@ public final class b extends Canvas implements Runnable {
     private static int aL;
     private static b instance;
     static boolean b;
-    private static int screenWidth;
-    private static int screenHeight;
-    private static int screenCenterX;
-    private static int screenCenterY;
     private static int aX;
     public static boolean hudDirty;
     private static int aY;
@@ -92,10 +88,6 @@ public final class b extends Canvas implements Runnable {
     private static int visibleRows;
     private static int lastVisibleCol;
     private static int lastVisibleRow;
-    public static int viewWidth;
-    public static int viewHeight;
-    private static int viewCenterX;
-    private static int viewCenterY;
     private static int cameraOffsetY;
     private static int cameraLeadX;
     private static int bG;
@@ -1863,11 +1855,11 @@ public final class b extends Canvas implements Runnable {
 
             int var0;
             int var1;
-            if (gn >= cameraX - 24 && gn <= cameraX + viewWidth + 24) {
-                if (go < cameraY - 30 || go > cameraY + viewHeight + 30) {
+            if (gn >= cameraX - 24 && gn <= cameraX + Viewport.viewWidth + 24) {
+                if (go < cameraY - 30 || go > cameraY + Viewport.viewHeight + 30) {
                     gz = fe + (fm << 5) > gn ? 1 : -1;
                     var0 = fe;
-                    var1 = ff > go ? cameraY - 20 : cameraY + viewHeight;
+                    var1 = ff > go ? cameraY - 20 : cameraY + Viewport.viewHeight;
                     gn = var0;
                     go = var1;
                     gr = 3;
@@ -1992,7 +1984,7 @@ public final class b extends Canvas implements Runnable {
                 }
             } else {
                 gz = fe + (fm << 5) > gn ? 1 : -1;
-                var0 = fe > gn ? cameraX - 24 : cameraX + viewWidth + 24;
+                var0 = fe > gn ? cameraX - 24 : cameraX + Viewport.viewWidth + 24;
                 var1 = ff - 20;
                 if (!GameMap.hasFlag(var0, var1, TileFlags.DIGGABLE)) {
                     gn = var0;
@@ -2335,43 +2327,43 @@ public final class b extends Canvas implements Runnable {
     }
 
     public static final void setupViewport() {
-        viewWidth = screenWidth;
-        if (screenHeight >= 208) {
+        Viewport.viewWidth = Viewport.screenWidth;
+        if (Viewport.screenHeight >= 208) {
             hudPanelVisible = true;
             hudHeight = 50;
-            viewHeight = screenHeight - hudHeight;
-            hudWidth = viewWidth;
+            Viewport.viewHeight = Viewport.screenHeight - hudHeight;
+            hudWidth = Viewport.viewWidth;
             hudX = 0;
-            hudY = viewHeight + 1;
+            hudY = Viewport.viewHeight + 1;
         } else {
             hudHeight = 16;
-            viewHeight = screenHeight - hudHeight;
+            Viewport.viewHeight = Viewport.screenHeight - hudHeight;
             hudPanelVisible = false;
             hudHeight = 0;
-            hudWidth = viewWidth;
+            hudWidth = Viewport.viewWidth;
             hudX = 0;
-            hudY = viewHeight + 1;
-            hudLevelX = (hudBarMaxWidth = viewWidth / 3) + 29;
+            hudY = Viewport.viewHeight + 1;
+            hudLevelX = (hudBarMaxWidth = Viewport.viewWidth / 3) + 29;
             hudMoneyX = hudBarMaxWidth + 50;
         }
 
-        if ((letterboxMaxHeight = screenHeight / 6) < 48) {
+        if ((letterboxMaxHeight = Viewport.screenHeight / 6) < 48) {
             letterboxMaxHeight = 48;
         }
 
-        viewCenterX = viewWidth >> 1;
-        viewCenterY = viewHeight >> 1;
-        cameraOffsetY = 3 * viewHeight / 4;
-        cameraLeadX = viewWidth / 6;
-        visibleCols = viewWidth / GameMap.TILE_SIZE + 2;
-        visibleRows = viewHeight / GameMap.TILE_SIZE + 2;
-        if (viewWidth % 24 != 0) {
+        Viewport.viewCenterX = Viewport.viewWidth >> 1;
+        Viewport.viewCenterY = Viewport.viewHeight >> 1;
+        cameraOffsetY = 3 * Viewport.viewHeight / 4;
+        cameraLeadX = Viewport.viewWidth / 6;
+        visibleCols = Viewport.viewWidth / GameMap.TILE_SIZE + 2;
+        visibleRows = Viewport.viewHeight / GameMap.TILE_SIZE + 2;
+        if (Viewport.viewWidth % 24 != 0) {
             ++visibleCols;
         }
 
-        cameraMaxX = (GameMap.width - 1) * GameMap.TILE_SIZE - viewWidth;
-        cameraMaxY = (GameMap.height - 1) * GameMap.TILE_SIZE - viewHeight;
-        cameraX = cameraTargetX = fe - viewCenterX + cameraLeadX * fm;
+        cameraMaxX = (GameMap.width - 1) * GameMap.TILE_SIZE - Viewport.viewWidth;
+        cameraMaxY = (GameMap.height - 1) * GameMap.TILE_SIZE - Viewport.viewHeight;
+        cameraX = cameraTargetX = fe - Viewport.viewCenterX + cameraLeadX * fm;
         cameraY = cameraTargetY = ff - cameraOffsetY;
         if (cameraX < 0) {
             cameraX = 0;
@@ -2463,11 +2455,11 @@ public final class b extends Canvas implements Runnable {
 
                 hudLeftFrameWidth = hudFrames[0].getWidth();
                 hudRightFrameWidth = hudFrames[1].getWidth();
-                hudStripWidth = viewWidth - hudLeftFrameWidth - hudRightFrameWidth + 1;
+                hudStripWidth = Viewport.viewWidth - hudLeftFrameWidth - hudRightFrameWidth + 1;
                 hudBarX = 78;
                 hudBarY = hudY + 7;
-                hudBarMaxWidth = viewWidth - 134;
-                hudExpBarMaxWidth = viewWidth - 84;
+                hudBarMaxWidth = Viewport.viewWidth - 134;
+                hudExpBarMaxWidth = Viewport.viewWidth - 84;
                 hudMpBarHeight = 5;
             } catch (IOException var1) {
             }
@@ -2793,10 +2785,10 @@ public final class b extends Canvas implements Runnable {
         } catch (Exception var1) {
         }
 
-        bc = screenHeight - 30;
-        bd = screenHeight;
+        bc = Viewport.screenHeight - 30;
+        bd = Viewport.screenHeight;
         aY = 30;
-        aZ = screenHeight - 50;
+        aZ = Viewport.screenHeight - 50;
         ba = bb = aY + aZ >> 1;
         if (Save.isSaved()) {
             aX = 1;
@@ -3197,7 +3189,7 @@ public final class b extends Canvas implements Runnable {
             startMapEvent(7);
         } else if (var0 == 101) {
             startMapEvent(8);
-            cameraY = cameraTargetY = 336 - viewHeight;
+            cameraY = cameraTargetY = 336 - Viewport.viewHeight;
             cameraTargetX = 24;
             cameraX = 24;
         } else if (var0 == 9 && QuestState.current == Quest.GIRL_OUTING) {
@@ -3300,7 +3292,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawSky(Graphics g) {
-        Sky.draw(g, cameraX, viewWidth, viewHeight, lowGraphics);
+        Sky.draw(g, cameraX, Viewport.viewWidth, Viewport.viewHeight, lowGraphics);
     }
 
     private static void b(Graphics var0) {
@@ -3431,18 +3423,18 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawLetterbox(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
+        var0.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 2);
         var0.setColor(0);
-        var0.fillRect(0, 0, viewWidth, letterboxHeight);
+        var0.fillRect(0, 0, Viewport.viewWidth, letterboxHeight);
         if (hudPanelVisible) {
-            var0.fillRect(0, screenHeight - letterboxHeight + 1, viewWidth, letterboxHeight);
+            var0.fillRect(0, Viewport.screenHeight - letterboxHeight + 1, Viewport.viewWidth, letterboxHeight);
         } else {
-            var0.fillRect(0, screenHeight - 13, screenWidth, 13);
+            var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
         }
 
         if (captionVisible) {
             for(int var1 = 0; var1 < captionLines.length; ++var1) {
-                FontGraph.drawBold(var0, captionLines[var1], viewCenterX, captionY + (var1 << 4), 2);
+                FontGraph.drawBold(var0, captionLines[var1], Viewport.viewCenterX, captionY + (var1 << 4), 2);
             }
         }
 
@@ -3450,7 +3442,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawDialogue(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
+        var0.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 2);
         dialogueBoxLines = Dialogue.pages[Dialogue.page].length;
         int var1 = Dialogue.speakerY - cameraY - (dialogueBoxLines << 4);
         boolean var2 = true;
@@ -3483,19 +3475,19 @@ public final class b extends Canvas implements Runnable {
 
         var0.setColor(0);
         var0.fillRect(0, hudY + 33, hudWidth, 15);
-        if (var2 && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + viewWidth - 10) {
+        if (var2 && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + Viewport.viewWidth - 10) {
             var0.drawImage(markerIcon, Dialogue.speakerX - cameraX, Dialogue.speakerY - cameraY + 2, 17);
         }
 
         if (tick % 10 < 8) {
-            FontGraph.drawBold(var0, "Tiếp tục", viewCenterX, screenHeight - 13, 2);
+            FontGraph.drawBold(var0, "Tiếp tục", Viewport.viewCenterX, Viewport.screenHeight - 13, 2);
         }
 
     }
 
     private static void g(Graphics var0) {
         for(int var1 = 0; var1 < du; ++var1) {
-            if (dz[var1] + fi >= cameraX && dz[var1] - fi <= cameraX + viewWidth && dA[var1] >= cameraY && dA[var1] - fh <= cameraY + viewHeight) {
+            if (dz[var1] + fi >= cameraX && dz[var1] - fi <= cameraX + Viewport.viewWidth && dA[var1] >= cameraY && dA[var1] - fh <= cameraY + Viewport.viewHeight) {
                 if (dJ[var1] == 1) {
                     var0.drawImage(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
                     var0.drawImage(heroLegs[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
@@ -3517,7 +3509,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawTutorial(Graphics var0) {
-        var0.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
+        var0.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 1);
         drawSky(var0);
         var0.translate(-cameraX, -cameraY);
         if (lowGraphics) {
@@ -3633,7 +3625,7 @@ public final class b extends Canvas implements Runnable {
         Dialogue.pageCount = var0.length;
         Dialogue.page = 0;
         Dialogue.pages = new String[Dialogue.pageCount][];
-        if ((Dialogue.boxWidth = viewWidth >> 1) < 120) {
+        if ((Dialogue.boxWidth = Viewport.viewWidth >> 1) < 120) {
             Dialogue.boxWidth = 120;
         }
 
@@ -3645,8 +3637,8 @@ public final class b extends Canvas implements Runnable {
             Dialogue.boxX = 2;
         }
 
-        if (Dialogue.boxX + Dialogue.boxWidth > viewWidth - 2) {
-            Dialogue.boxX = viewWidth - 2 - Dialogue.boxWidth;
+        if (Dialogue.boxX + Dialogue.boxWidth > Viewport.viewWidth - 2) {
+            Dialogue.boxX = Viewport.viewWidth - 2 - Dialogue.boxWidth;
         }
 
         Dialogue.visible = true;
@@ -3763,7 +3755,7 @@ public final class b extends Canvas implements Runnable {
             if (bP[var0] == 1) {
                 int[] var10000 = bN;
                 var10000[var0] += bQ[var0];
-                if (bN[var0] >= cameraX && bN[var0] <= cameraX + viewWidth && bO[var0] >= cameraY && bO[var0] <= cameraY + viewHeight) {
+                if (bN[var0] >= cameraX && bN[var0] <= cameraX + Viewport.viewWidth && bO[var0] >= cameraY && bO[var0] <= cameraY + Viewport.viewHeight) {
                     if (a(fe - bN[var0]) < fi && a(ff - fj - bO[var0]) < fj) {
                         if (B == 5 && fd == 0 && bS[var0] < 3) {
                             bQ[var0] = -bQ[var0];
@@ -3792,7 +3784,7 @@ public final class b extends Canvas implements Runnable {
                 var10000 = bV;
                 var10000[var0] += bY[var0];
                 int var10002 = bY[var0]++;
-                if (bV[var0] > cameraY + viewHeight) {
+                if (bV[var0] > cameraY + Viewport.viewHeight) {
                     bW[var0] = 0;
                 }
 
@@ -3815,7 +3807,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void R() {
         if (fu) {
-            cameraTargetX = fe - viewCenterX + cameraLeadX * fm;
+            cameraTargetX = fe - Viewport.viewCenterX + cameraLeadX * fm;
             cameraTargetY = ff - cameraOffsetY;
         }
 
@@ -4398,7 +4390,7 @@ public final class b extends Canvas implements Runnable {
                 ++A;
                 ff += A;
                 C = 21;
-                if (ff >= GameMap.pixelHeight || ff > cameraY + viewHeight + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
+                if (ff >= GameMap.pixelHeight || ff > cameraY + Viewport.viewHeight + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
                     fe = fp;
                     ff = fq;
                     B = 4;
@@ -5033,8 +5025,8 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case 9:
-                            cameraX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX;
-                            cameraY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY;
+                            cameraX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX;
+                            cameraY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY;
                             if (cameraX < 0) {
                                 cameraX = 0;
                             }
@@ -5056,8 +5048,8 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case 10:
-                            cameraTargetX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX;
-                            cameraTargetY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY;
+                            cameraTargetX = aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX;
+                            cameraTargetY = aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5077,8 +5069,8 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case 11:
-                            cameraTargetX = gP - viewCenterX;
-                            cameraTargetY = gQ - viewCenterY;
+                            cameraTargetX = gP - Viewport.viewCenterX;
+                            cameraTargetY = gQ - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5099,7 +5091,7 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 12:
                             cameraTargetY = cameraY += 2;
-                            if (cameraY > aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - viewCenterY) {
+                            if (cameraY > aB[cutsceneScripts[cutsceneId][cutsceneStep]][1] - Viewport.viewCenterY) {
                                 ++cutsceneStep;
                             }
                         case 13:
@@ -5107,13 +5099,13 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 14:
                             cameraTargetX = cameraX -= 2;
-                            if (cameraX < aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - viewCenterX) {
+                            if (cameraX < aB[cutsceneScripts[cutsceneId][cutsceneStep]][0] - Viewport.viewCenterX) {
                                 ++cutsceneStep;
                             }
                             break;
                         case 15:
                             captionVisible = true;
-                            captionLines = FontGraph.wrapBoldText(DialogueText.cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], viewWidth - 40);
+                            captionLines = FontGraph.wrapBoldText(DialogueText.cutsceneCaptions[cutsceneScripts[cutsceneId][cutsceneStep]], Viewport.viewWidth - 40);
                             if ((captionTargetY = (letterboxMaxHeight >> 1) - (captionLines.length << 3)) < 3) {
                                 captionTargetY = 2;
                             }
@@ -5166,8 +5158,8 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 23:
                             fu = false;
-                            cameraTargetX = dz[cutsceneScripts[cutsceneId][cutsceneStep]] - viewCenterX;
-                            cameraTargetY = dA[cutsceneScripts[cutsceneId][cutsceneStep]] - viewCenterY;
+                            cameraTargetX = dz[cutsceneScripts[cutsceneId][cutsceneStep]] - Viewport.viewCenterX;
+                            cameraTargetY = dA[cutsceneScripts[cutsceneId][cutsceneStep]] - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5205,8 +5197,8 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 27:
                             fu = false;
-                            cameraTargetX = hp - viewCenterX;
-                            cameraTargetY = hq - viewCenterY;
+                            cameraTargetX = hp - Viewport.viewCenterX;
+                            cameraTargetY = hq - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5283,8 +5275,8 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case 31:
                             fu = false;
-                            cameraTargetX = gn - viewCenterX;
-                            cameraTargetY = go - viewCenterY;
+                            cameraTargetX = gn - Viewport.viewCenterX;
+                            cameraTargetY = go - Viewport.viewCenterY;
                             if (cameraTargetX < 0) {
                                 cameraTargetX = 0;
                             }
@@ -5649,7 +5641,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     var10002 = cB[var0]++;
-                    if (cv[var0] <= cameraY + viewHeight + 32 && cv[var0] < GameMap.pixelHeight) {
+                    if (cv[var0] <= cameraY + Viewport.viewHeight + 32 && cv[var0] < GameMap.pixelHeight) {
                         continue;
                     }
 
@@ -6072,7 +6064,7 @@ public final class b extends Canvas implements Runnable {
                 default:
                     return;
                 case 4:
-                    if (fe > cameraX + viewWidth) {
+                    if (fe > cameraX + Viewport.viewWidth) {
                         startCutscene(mapEventCutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                         return;
@@ -6134,10 +6126,10 @@ public final class b extends Canvas implements Runnable {
         System.gc();
         instance = this;
         Input.motorolaKeys = this.getKeyCode(Canvas.FIRE) == Input.MOTOROLA_CODE_FIRE;
-        screenWidth = this.getWidth();
-        screenHeight = this.getHeight();
-        screenCenterX = screenWidth / 2;
-        screenCenterY = screenHeight / 2;
+        Viewport.screenWidth = this.getWidth();
+        Viewport.screenHeight = this.getHeight();
+        Viewport.screenCenterX = Viewport.screenWidth / 2;
+        Viewport.screenCenterY = Viewport.screenHeight / 2;
         Input.clearHeld();
     }
 
@@ -6208,16 +6200,16 @@ public final class b extends Canvas implements Runnable {
             switch (state) {
                 case GameState.PLAYING:
                     Graphics var6 = var1;
-                    var1.setClip(-1, -1, viewWidth + 2, viewHeight + 2);
+                    var1.setClip(-1, -1, Viewport.viewWidth + 2, Viewport.viewHeight + 2);
                     drawSky(var1);
                     var1.translate(-cameraX, -cameraY);
                     var1 = var1;
 
                     int var2;
                     for(var2 = 0; var2 < houseCount; ++var2) {
-                        if (houseX[var2] + houseHalfWidth[var2] >= cameraX && houseX[var2] - houseHalfWidth[var2] <= cameraX + viewWidth && houseY[var2] >= cameraY && houseY[var2] - houseHeight[var2] <= cameraY + viewHeight) {
-                            jg = (jf = houseX[var2] - cameraX) - viewCenterX;
-                            jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                        if (houseX[var2] + houseHalfWidth[var2] >= cameraX && houseX[var2] - houseHalfWidth[var2] <= cameraX + Viewport.viewWidth && houseY[var2] >= cameraY && houseY[var2] - houseHeight[var2] <= cameraY + Viewport.viewHeight) {
+                            jg = (jf = houseX[var2] - cameraX) - Viewport.viewCenterX;
+                            jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + Viewport.viewCenterX;
                             var1.drawImage(houseImages[houseTypes[var2]], cameraX + jh, houseY[var2], 33);
                         }
                     }
@@ -6257,7 +6249,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < iq; ++var2) {
-                        if (cameraX <= is[var2] + 12 && cameraX + viewWidth >= is[var2] - 12 && cameraY <= it[var2] && cameraY + viewHeight >= it[var2] - 24) {
+                        if (cameraX <= is[var2] + 12 && cameraX + Viewport.viewWidth >= is[var2] - 12 && cameraY <= it[var2] && cameraY + Viewport.viewHeight >= it[var2] - 24) {
                             var1.drawImage(itemCrate, is[var2], it[var2], 33);
                         }
                     }
@@ -6265,7 +6257,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < ii; ++var2) {
-                        if (cameraX <= ik[var2] + 12 && cameraX + viewWidth >= ik[var2] - 12 && cameraY <= il[var2] && cameraY + viewHeight >= il[var2] - 24) {
+                        if (cameraX <= ik[var2] + 12 && cameraX + Viewport.viewWidth >= ik[var2] - 12 && cameraY <= il[var2] && cameraY + Viewport.viewHeight >= il[var2] - 24) {
                             if (im[var2] == 1) {
                                 var1.drawImage(motorbikeFrames[in[var2]], ik[var2], il[var2], 33);
                             } else {
@@ -6277,7 +6269,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < de; ++var2) {
-                        if (dh[var2] != 0 && df[var2] >= cameraX - 10 && df[var2] <= cameraX + viewWidth + 10 && dg[var2] >= cameraY && dg[var2] <= cameraY + viewHeight + 20) {
+                        if (dh[var2] != 0 && df[var2] >= cameraX - 10 && df[var2] <= cameraX + Viewport.viewWidth + 10 && dg[var2] >= cameraY && dg[var2] <= cameraY + Viewport.viewHeight + 20) {
                             var1.drawRegion(itemMoney[dm[var2]], 0, dk[var2] * Item.FRAME_HEIGHT, Item.MONEY_WIDTH, Item.FRAME_HEIGHT, 0, df[var2], dg[var2], 33);
                         }
                     }
@@ -6285,13 +6277,13 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < cM; ++var2) {
-                        if (cQ[var2] != 0 && cO[var2] >= cameraX - 10 && cO[var2] <= cameraX + viewWidth + 10 && cP[var2] >= cameraY && cP[var2] <= cameraY + viewHeight + 20) {
+                        if (cQ[var2] != 0 && cO[var2] >= cameraX - 10 && cO[var2] <= cameraX + Viewport.viewWidth + 10 && cP[var2] >= cameraY && cP[var2] <= cameraY + Viewport.viewHeight + 20) {
                             var1.drawRegion(itemPotions[cN[var2]], 0, cT[var2] * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, cO[var2], cP[var2], 33);
                         }
                     }
 
                     int var3;
-                    if (gN && gS != 22 && cameraX + viewWidth >= gP - (gV >> 1) && cameraX <= gP + (gV >> 1) && cameraY <= gQ && cameraY + viewHeight >= gQ - gW) {
+                    if (gN && gS != 22 && cameraX + Viewport.viewWidth >= gP - (gV >> 1) && cameraX <= gP + (gV >> 1) && cameraY <= gQ && cameraY + Viewport.viewHeight >= gQ - gW) {
                         byte var8 = 0;
                         if (gU == 0) {
                             var8 = -2;
@@ -6357,7 +6349,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < jG; ++var2) {
-                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= cameraX - 10 && jJ[var2] <= cameraX + viewWidth + 10 && jK[var2] >= cameraY && jK[var2] <= cameraY + viewHeight + 20) {
+                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= cameraX - 10 && jJ[var2] <= cameraX + Viewport.viewWidth + 10 && jK[var2] >= cameraY && jK[var2] <= cameraY + Viewport.viewHeight + 20) {
                             var1.drawImage(monsterSprites[kg[var2]][jX[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][jW[var2]], jJ[var2], jK[var2], 33);
                             if (jN[var2] != 0) {
                                 var1.setColor(13073);
@@ -6374,7 +6366,7 @@ public final class b extends Canvas implements Runnable {
                     var1 = var6;
 
                     for(var2 = 0; var2 < cp; ++var2) {
-                        if (cE[var2] != 5 && cu[var2] + 15 >= cameraX && cu[var2] - 15 <= cameraX + viewWidth && cv[var2] >= cameraY && cv[var2] - 30 <= cameraY + viewHeight) {
+                        if (cE[var2] != 5 && cu[var2] + 15 >= cameraX && cu[var2] - 15 <= cameraX + Viewport.viewWidth && cv[var2] >= cameraY && cv[var2] - 30 <= cameraY + Viewport.viewHeight) {
                             if (cH[var2] == -1) {
                                 var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + ah[cD[var2]], cv[var2], 33);
                                 var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + af[cD[var2]][cJ[var2]], cx[var2], 33);
@@ -6396,7 +6388,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     g(var6);
-                    if (dn && doSt + 15 >= cameraX && doSt - 15 <= cameraX + viewWidth && dp >= cameraY && dp - 10 <= cameraY + viewHeight) {
+                    if (dn && doSt + 15 >= cameraX && doSt - 15 <= cameraX + Viewport.viewWidth && dp >= cameraY && dp - 10 <= cameraY + Viewport.viewHeight) {
                     var2 = tick % 8 > 3 ? 0 : 1;
                     if (dq > 0) {
                         var6.drawImage(npcDog[var2], doSt, dp, 33);
@@ -6422,7 +6414,7 @@ public final class b extends Canvas implements Runnable {
                         var6.fillRect(var2 - 35 + var7, var3 - 6, 70 - var7 + 1, 3);
                     }
 
-                    if (dz[0] + fi >= cameraX && dz[0] - fi <= cameraX + viewWidth && dA[0] >= cameraY && dA[0] - fh <= cameraY + viewHeight) {
+                    if (dz[0] + fi >= cameraX && dz[0] - fi <= cameraX + Viewport.viewWidth && dA[0] >= cameraY && dA[0] - fh <= cameraY + Viewport.viewHeight) {
                         if (dJ[0] == 1) {
                             var6.drawImage(classmateHeads[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
                             var6.drawImage(heroLegs[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
@@ -6546,13 +6538,13 @@ public final class b extends Canvas implements Runnable {
 
                 if (noticeVisible) {
                     var6.translate(-var6.getTranslateX(), -var6.getTranslateY());
-                    var6.setClip(-1, -1, screenWidth + 2, screenHeight + 2);
+                    var6.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 2);
                     var6.setColor(0);
-                    var6.fillRect(0, 0, screenWidth, 21);
+                    var6.fillRect(0, 0, Viewport.screenWidth, 21);
                     var6.setColor(10275899);
-                    var6.fillRect(0, 19, screenWidth, 1);
+                    var6.fillRect(0, 19, Viewport.screenWidth, 1);
                     if (tick % 10 > 2) {
-                        FontGraph.drawBold(var6, noticeText, viewCenterX, 4, 2);
+                        FontGraph.drawBold(var6, noticeText, Viewport.viewCenterX, 4, 2);
                     }
                 }
 
@@ -6563,11 +6555,11 @@ public final class b extends Canvas implements Runnable {
                 return;
                 case GameState.LOADING:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, screenWidth, 21);
-                    FontGraph.drawBold(var1, "Loading... " + loadingProgress + "%", screenWidth >> 1, 4, 2);
+                    var1.fillRect(0, 0, Viewport.screenWidth, 21);
+                    FontGraph.drawBold(var1, "Loading... " + loadingProgress + "%", Viewport.screenWidth >> 1, 4, 2);
                     return;
                 case GameState.MAIN_MENU:
-                    var1.setClip(-1, -1, screenWidth + 2, screenHeight + 1);
+                    var1.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 1);
                     drawSky(var1);
                     var1.translate(-cameraX, -cameraY);
                     if (lowGraphics) {
@@ -6580,21 +6572,21 @@ public final class b extends Canvas implements Runnable {
                     l(var1);
                     var1.translate(-var1.getTranslateX(), -var1.getTranslateY());
                     var1.setColor(0);
-                    var1.fillRect(0, 0, viewWidth, ba);
-                    var1.fillRect(0, bb, viewWidth, screenHeight - bb + 1);
+                    var1.fillRect(0, 0, Viewport.viewWidth, ba);
+                    var1.fillRect(0, bb, Viewport.viewWidth, Viewport.screenHeight - bb + 1);
                     var1.setColor(10275899);
-                    var1.fillRect(0, ba - 1, screenWidth, 1);
-                    var1.fillRect(0, bb + 1, screenWidth, 1);
-                    var1.drawImage(titleImage, screenCenterX, aY + bb >> 1, 3);
-                    FontGraph.drawBold(var1, "*", screenCenterX - 50 - tick % 3, bd, 0);
-                    FontGraph.drawBold(var1, "/", screenCenterX + 50 + tick % 3, bd, 1);
-                    FontGraph.drawBold(var1, GameText.mainMenuItems[aX], screenCenterX, bd, 3);
+                    var1.fillRect(0, ba - 1, Viewport.screenWidth, 1);
+                    var1.fillRect(0, bb + 1, Viewport.screenWidth, 1);
+                    var1.drawImage(titleImage, Viewport.screenCenterX, aY + bb >> 1, 3);
+                    FontGraph.drawBold(var1, "*", Viewport.screenCenterX - 50 - tick % 3, bd, 0);
+                    FontGraph.drawBold(var1, "/", Viewport.screenCenterX + 50 + tick % 3, bd, 1);
+                    FontGraph.drawBold(var1, GameText.mainMenuItems[aX], Viewport.screenCenterX, bd, 3);
                     return;
                 case GameState.LOGO:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, screenWidth, screenHeight);
+                    var1.fillRect(0, 0, Viewport.screenWidth, Viewport.screenHeight);
                     if (logoImage != null && jE >= 0) {
-                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, screenWidth >> 1, screenHeight >> 1, 3);
+                        var1.drawRegion(logoImage, 0, jE * Ui.LOGO_FRAME_HEIGHT, 71, Ui.LOGO_FRAME_HEIGHT, 0, Viewport.screenWidth >> 1, Viewport.screenHeight >> 1, 3);
                     }
 
                     return;
@@ -6615,19 +6607,19 @@ public final class b extends Canvas implements Runnable {
                     return;
                 case GameState.SETUP_PROMPT:
                     var1.setColor(0);
-                    var1.fillRect(0, 0, screenWidth, screenHeight);
+                    var1.fillRect(0, 0, Viewport.screenWidth, Viewport.screenHeight);
                     if (!lk) {
-                        var1.drawImage(popupImage, screenCenterX, screenCenterY - 30, 3);
+                        var1.drawImage(popupImage, Viewport.screenCenterX, Viewport.screenCenterY - 30, 3);
                         if (ll == 0) {
-                            FontGraph.drawBold(var1, "Bật âm thanh?", screenCenterX, screenCenterY + 15, 2);
-                            FontGraph.drawBold(var1, "Bật", 4, screenHeight - 14, 0);
-                            FontGraph.drawBold(var1, "Tắt", screenWidth - 4, screenHeight - 14, 1);
+                            FontGraph.drawBold(var1, "Bật âm thanh?", Viewport.screenCenterX, Viewport.screenCenterY + 15, 2);
+                            FontGraph.drawBold(var1, "Bật", 4, Viewport.screenHeight - 14, 0);
+                            FontGraph.drawBold(var1, "Tắt", Viewport.screenWidth - 4, Viewport.screenHeight - 14, 1);
                             break;
                         }
 
-                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", screenCenterX, screenCenterY + 15, 2);
-                        FontGraph.drawBold(var1, "Cao", 4, screenHeight - 14, 0);
-                        FontGraph.drawBold(var1, "Thấp", screenWidth - 4, screenHeight - 14, 1);
+                        FontGraph.drawBold(var1, "Chất lượng hình ảnh?", Viewport.screenCenterX, Viewport.screenCenterY + 15, 2);
+                        FontGraph.drawBold(var1, "Cao", 4, Viewport.screenHeight - 14, 0);
+                        FontGraph.drawBold(var1, "Thấp", Viewport.screenWidth - 4, Viewport.screenHeight - 14, 1);
                     }
 
                     return;
@@ -6726,7 +6718,7 @@ public final class b extends Canvas implements Runnable {
 
                     int var13;
                     if (!lowGraphics) {
-                        Sky.updateClouds(tick, viewWidth);
+                        Sky.updateClouds(tick, Viewport.viewWidth);
                     }
 
                     int var4;
@@ -7772,7 +7764,7 @@ public final class b extends Canvas implements Runnable {
                             var10000[var13] += da[var13];
                             var10000 = cX;
                             var10000[var13] += db[var13];
-                            if (cW[var13] >= cameraX && cW[var13] <= cameraX + viewWidth && cX[var13] >= cameraY && cX[var13] <= cameraY + viewHeight) {
+                            if (cW[var13] >= cameraX && cW[var13] <= cameraX + Viewport.viewWidth && cX[var13] >= cameraY && cX[var13] <= cameraY + Viewport.viewHeight) {
                                 if (da[var13] > 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
                                     cY[var13] = 2;
                                     cW[var13] = I(cW[var13]);
@@ -7912,7 +7904,7 @@ public final class b extends Canvas implements Runnable {
 
                     P();
                     if (guideMarkerMap >= 0) {
-                        if (guideMarkerX > cameraX + 10 && guideMarkerX < cameraX + viewWidth - 10 && guideMarkerY > cameraY + 10 && guideMarkerY < cameraY + viewHeight - 10) {
+                        if (guideMarkerX > cameraX + 10 && guideMarkerX < cameraX + Viewport.viewWidth - 10 && guideMarkerY > cameraY + 10 && guideMarkerY < cameraY + Viewport.viewHeight - 10) {
                             ge = 2;
                             gf = guideMarkerX;
                             gg = guideMarkerY + gi;
@@ -7922,15 +7914,15 @@ public final class b extends Canvas implements Runnable {
                                 gf = cameraX + 20 + gi;
                             } else {
                                 ge = 0;
-                                gf = cameraX + viewWidth - 20 + gi;
+                                gf = cameraX + Viewport.viewWidth - 20 + gi;
                             }
 
                             if ((gg = guideMarkerY + 24) < cameraY + 10) {
                                 gg = cameraY + 10;
                             }
 
-                            if (gg > cameraY + viewHeight - 10) {
-                                gg = cameraY + viewHeight - 10;
+                            if (gg > cameraY + Viewport.viewHeight - 10) {
+                                gg = cameraY + Viewport.viewHeight - 10;
                             }
                         } else if (ff > guideMarkerY) {
                             ge = 3;
@@ -7939,7 +7931,7 @@ public final class b extends Canvas implements Runnable {
                         } else {
                             ge = 2;
                             gf = fe;
-                            gg = cameraY + viewHeight - 20 + gi;
+                            gg = cameraY + Viewport.viewHeight - 20 + gi;
                         }
 
                         if ((gi += gh) == 5 || gi == -5) {
@@ -8315,7 +8307,7 @@ public final class b extends Canvas implements Runnable {
                                 ++gR;
                             }
 
-                            if (gQ > cameraY + viewHeight + gW || gQ >= GameMap.pixelHeight + gW) {
+                            if (gQ > cameraY + Viewport.viewHeight + gW || gQ >= GameMap.pixelHeight + gW) {
                                 gX = 0;
                                 gS = 22;
                             }
@@ -9103,8 +9095,8 @@ public final class b extends Canvas implements Runnable {
                         jE = 4 - (jD - 46);
                     }
 
-                    screenWidth = instance.getWidth();
-                    screenHeight = instance.getHeight();
+                    Viewport.screenWidth = instance.getWidth();
+                    Viewport.screenHeight = instance.getHeight();
                     ++jD;
                     break;
                 case GameState.GAME_MENU:
@@ -9154,7 +9146,7 @@ public final class b extends Canvas implements Runnable {
                                 prepareDialog();
                                 showMessage(MessageType.GAME_NOTICE);
                                 setMessageText("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
-                                messageY = viewCenterY - 40;
+                                messageY = Viewport.viewCenterY - 40;
                                 state = GameState.MESSAGE;
                             } else {
                                 b = false;
@@ -9256,8 +9248,8 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         if (var3) {
-                            kX = kT - viewCenterX;
-                            kY = kU - viewCenterY;
+                            kX = kT - Viewport.viewCenterX;
+                            kY = kU - Viewport.viewCenterY;
                             as();
                         }
                     }
@@ -9607,7 +9599,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawSigns(Graphics var0) {
         for(int var1 = 0; var1 < signCount; ++var1) {
-            if (signX[var1] + signWidth[var1] >= cameraX && signX[var1] <= cameraX + viewWidth && signY[var1] >= cameraY && signY[var1] - 14 <= cameraY + viewHeight) {
+            if (signX[var1] + signWidth[var1] >= cameraX && signX[var1] <= cameraX + Viewport.viewWidth && signY[var1] >= cameraY && signY[var1] - 14 <= cameraY + Viewport.viewHeight) {
                 FontGraph.drawBold(var0, signTexts[var1], signX[var1], signY[var1], 0);
             }
         }
@@ -9735,8 +9727,8 @@ public final class b extends Canvas implements Runnable {
             for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
                 int var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1;
                 if ((GameMap.flagsAt(var1, var2) & TileFlags.PARALLAX) == TileFlags.PARALLAX) {
-                    jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - viewCenterX;
-                    jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                    jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - Viewport.viewCenterX;
+                    jh = (ji = (GameMap.TILE_SIZE - 2) * jg / GameMap.TILE_SIZE) + Viewport.viewCenterX;
                     var0.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, jh + cameraX, var2 * GameMap.TILE_SIZE, 0);
                 } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) != TileFlags.FOREGROUND_BUSH && (GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) != TileFlags.FOREGROUND) {
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
@@ -9765,8 +9757,8 @@ public final class b extends Canvas implements Runnable {
                     if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
                         var0.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
                     } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) == TileFlags.FOREGROUND_BUSH) {
-                        jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - viewCenterX;
-                        jh = (ji = (GameMap.TILE_SIZE - 1) * jg / GameMap.TILE_SIZE) + viewCenterX;
+                        jg = (jf = var1 * GameMap.TILE_SIZE - cameraX) - Viewport.viewCenterX;
+                        jh = (ji = (GameMap.TILE_SIZE - 1) * jg / GameMap.TILE_SIZE) + Viewport.viewCenterX;
                         var0.drawImage(bushImage, jh + cameraX - 2 + (var1 + var2) % 5, var2 * GameMap.TILE_SIZE - 3 + var2 % 5, 0);
                     }
 
@@ -11994,8 +11986,8 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void openShop() {
-        shopY = viewCenterY - 40;
-        shopX = viewCenterX - 50;
+        shopY = Viewport.viewCenterY - 40;
+        shopX = Viewport.viewCenterX - 50;
         tilesetImage = null;
         shopSwordIcons = new Image[4];
 
@@ -12025,20 +12017,20 @@ public final class b extends Canvas implements Runnable {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         drawHudPanel(var0);
         drawHudOverlay(var0);
-        var0.setClip(0, 0, screenWidth, screenHeight);
+        var0.setClip(0, 0, Viewport.screenWidth, Viewport.screenHeight);
         var0.setColor(0);
-        var0.fillRect(viewCenterX - 64, shopY - 19, 129, 102);
-        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
-        FontGraph.drawBold(var0, "Mua", 3, screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
+        var0.fillRect(Viewport.viewCenterX - 64, shopY - 19, 129, 102);
+        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
+        FontGraph.drawBold(var0, "Mua", 3, Viewport.screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(viewCenterX - 63, shopY - 18, 126, 99);
+        var0.drawRect(Viewport.viewCenterX - 63, shopY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(viewCenterX - 61, shopY - 16, 123, 97);
+        var0.fillRect(Viewport.viewCenterX - 61, shopY - 16, 123, 97);
         if (shopMode == SHOP_MODE_MONEY) {
-            FontGraph.drawBold(var0, "Tiền: " + Inventory.money + "$", viewCenterX, shopY - 8, 2);
+            FontGraph.drawBold(var0, "Tiền: " + Inventory.money + "$", Viewport.viewCenterX, shopY - 8, 2);
         } else {
-            FontGraph.drawBold(var0, ShopCatalog.itemNames[shopRow][shopCursor], viewCenterX, shopY - 8, 2);
+            FontGraph.drawBold(var0, ShopCatalog.itemNames[shopRow][shopCursor], Viewport.viewCenterX, shopY - 8, 2);
         }
 
         int var1;
@@ -12069,20 +12061,20 @@ public final class b extends Canvas implements Runnable {
         }
 
         if (shopMode == SHOP_MODE_MONEY) {
-            FontGraph.drawBold(var0, ShopCatalog.itemNames[shopRow][shopCursor] + "-" + ShopCatalog.prices[shopRow][shopCursor] + "$", viewCenterX, shopY + 58, 2);
+            FontGraph.drawBold(var0, ShopCatalog.itemNames[shopRow][shopCursor] + "-" + ShopCatalog.prices[shopRow][shopCursor] + "$", Viewport.viewCenterX, shopY + 58, 2);
         } else {
-            FontGraph.drawBold(var0, ShopCatalog.smsPrices[shopRow][shopCursor], viewCenterX, shopY + 58, 2);
+            FontGraph.drawBold(var0, ShopCatalog.smsPrices[shopRow][shopCursor], Viewport.viewCenterX, shopY + 58, 2);
         }
 
-        var0.drawImage(cornerIcons[0], viewCenterX - 64, shopY - 19, 20);
-        var0.drawImage(cornerIcons[1], viewCenterX + 65, shopY - 19, 24);
-        var0.drawImage(cornerIcons[2], viewCenterX - 64, shopY + 83, 36);
-        var0.drawImage(cornerIcons[3], viewCenterX + 65, shopY + 83, 40);
+        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, shopY - 19, 20);
+        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, shopY - 19, 24);
+        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, shopY + 83, 36);
+        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, shopY + 83, 40);
     }
 
     private static void openInventory() {
-        inventoryY = viewCenterY - 40;
-        inventoryX = viewCenterX - 50;
+        inventoryY = Viewport.viewCenterY - 40;
+        inventoryX = Viewport.viewCenterX - 50;
         if (cornerIcons == null) {
             cornerIcons = new Image[4];
 
@@ -12101,17 +12093,17 @@ public final class b extends Canvas implements Runnable {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         drawHudPanel(var0);
         drawHudOverlay(var0);
-        var0.setClip(0, 0, screenWidth, screenHeight);
+        var0.setClip(0, 0, Viewport.screenWidth, Viewport.screenHeight);
         var0.setColor(0);
-        var0.fillRect(viewCenterX - 64, inventoryY - 19, 129, 102);
-        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
-        FontGraph.drawBold(var0, "Sử dụng", 3, screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
+        var0.fillRect(Viewport.viewCenterX - 64, inventoryY - 19, 129, 102);
+        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
+        FontGraph.drawBold(var0, "Sử dụng", 3, Viewport.screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(viewCenterX - 63, inventoryY - 18, 126, 99);
+        var0.drawRect(Viewport.viewCenterX - 63, inventoryY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(viewCenterX - 61, inventoryY - 16, 123, 97);
-        FontGraph.drawBold(var0, "Sử dụng Item", viewCenterX, inventoryY - 8, 2);
+        var0.fillRect(Viewport.viewCenterX - 61, inventoryY - 16, 123, 97);
+        FontGraph.drawBold(var0, "Sử dụng Item", Viewport.viewCenterX, inventoryY - 8, 2);
 
         for(int var1 = 0; var1 < 3; ++var1) {
             var0.setColor(0);
@@ -12126,16 +12118,16 @@ public final class b extends Canvas implements Runnable {
 
         var0.setColor(inventoryBlinkColors[inventoryBlink]);
         var0.drawRect(inventoryX - 10 + inventoryCursor * 20, inventoryY + 10, 20, 20);
-        FontGraph.drawBold(var0, Inventory.potionNames[inventoryCursor], viewCenterX, inventoryY + 40, 2);
-        FontGraph.drawBold(var0, "Số lượng: " + Inventory.potionCounts[inventoryCursor], viewCenterX, inventoryY + 55, 2);
-        var0.drawImage(cornerIcons[0], viewCenterX - 64, inventoryY - 19, 20);
-        var0.drawImage(cornerIcons[1], viewCenterX + 65, inventoryY - 19, 24);
-        var0.drawImage(cornerIcons[2], viewCenterX - 64, inventoryY + 83, 36);
-        var0.drawImage(cornerIcons[3], viewCenterX + 65, inventoryY + 83, 40);
+        FontGraph.drawBold(var0, Inventory.potionNames[inventoryCursor], Viewport.viewCenterX, inventoryY + 40, 2);
+        FontGraph.drawBold(var0, "Số lượng: " + Inventory.potionCounts[inventoryCursor], Viewport.viewCenterX, inventoryY + 55, 2);
+        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, inventoryY - 19, 20);
+        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, inventoryY - 19, 24);
+        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, inventoryY + 83, 36);
+        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, inventoryY + 83, 40);
     }
 
     private static void openGameMenu() {
-        gameMenuY = viewCenterY - 40;
+        gameMenuY = Viewport.viewCenterY - 40;
         tilesetImage = null;
         if (cornerIcons == null) {
             cornerIcons = new Image[4];
@@ -12154,29 +12146,29 @@ public final class b extends Canvas implements Runnable {
     private static void drawGameMenu(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(viewCenterX - 64, gameMenuY - 19, 129, 102);
-        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
-        FontGraph.drawBold(var0, "Chọn", 3, screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
+        var0.fillRect(Viewport.viewCenterX - 64, gameMenuY - 19, 129, 102);
+        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
+        FontGraph.drawBold(var0, "Chọn", 3, Viewport.screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(viewCenterX - 63, gameMenuY - 18, 126, 99);
+        var0.drawRect(Viewport.viewCenterX - 63, gameMenuY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(viewCenterX - 61, gameMenuY - 16, 123, 97);
+        var0.fillRect(Viewport.viewCenterX - 61, gameMenuY - 16, 123, 97);
 
         for(int var1 = 0; var1 < 4; ++var1) {
-            FontGraph.drawBold(var0, gameMenuItems[var1], screenCenterX - 30, gameMenuY + var1 * 18, 0);
+            FontGraph.drawBold(var0, gameMenuItems[var1], Viewport.screenCenterX - 30, gameMenuY + var1 * 18, 0);
         }
 
-        var0.drawImage(weaponIcons[0], screenCenterX - 55 + kJ % 2, gameMenuY + gameMenuSelection * 18 - kJ % 2, 0);
-        var0.drawImage(cornerIcons[0], viewCenterX - 64, gameMenuY - 19, 20);
-        var0.drawImage(cornerIcons[1], viewCenterX + 65, gameMenuY - 19, 24);
-        var0.drawImage(cornerIcons[2], viewCenterX - 64, gameMenuY + 83, 36);
-        var0.drawImage(cornerIcons[3], viewCenterX + 65, gameMenuY + 83, 40);
+        var0.drawImage(weaponIcons[0], Viewport.screenCenterX - 55 + kJ % 2, gameMenuY + gameMenuSelection * 18 - kJ % 2, 0);
+        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, gameMenuY - 19, 20);
+        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, gameMenuY - 19, 24);
+        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, gameMenuY + 83, 36);
+        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, gameMenuY + 83, 40);
     }
 
     private static void openWorldMap() {
-        lf = 280 - viewWidth;
-        lg = 280 - viewHeight;
+        lf = 280 - Viewport.viewWidth;
+        lg = 280 - Viewport.viewHeight;
         worldMapCursor = 0;
 
         try {
@@ -12205,8 +12197,8 @@ public final class b extends Canvas implements Runnable {
         kT = kN[worldMapCurrent];
         kU = kO[worldMapCurrent];
         as();
-        kX = kT - viewCenterX;
-        kY = kU - viewCenterY;
+        kX = kT - Viewport.viewCenterX;
+        kY = kU - Viewport.viewCenterY;
         if (ld < -40) {
             ld = -40;
         }
@@ -12234,11 +12226,11 @@ public final class b extends Canvas implements Runnable {
     private static void drawWorldMap(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(0, 0, viewWidth, viewHeight);
-        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
-        FontGraph.drawBold(var0, li, 3, screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", screenWidth - 3, screenHeight - 13, 1);
-        var0.setClip(0, 0, viewWidth, viewHeight);
+        var0.fillRect(0, 0, Viewport.viewWidth, Viewport.viewHeight);
+        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
+        FontGraph.drawBold(var0, li, 3, Viewport.screenHeight - 13, 0);
+        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
+        var0.setClip(0, 0, Viewport.viewWidth, Viewport.viewHeight);
         var0.translate(-ld, -le);
         var0.drawImage(worldMapImage, 0, 0, 0);
 
@@ -12256,14 +12248,14 @@ public final class b extends Canvas implements Runnable {
         if (worldMapCursor != -1) {
             var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
             var0.setColor(6562304);
-            var0.fillRect(screenCenterX - 60, viewHeight - 35, 120, 33);
+            var0.fillRect(Viewport.screenCenterX - 60, Viewport.viewHeight - 35, 120, 33);
             var0.setColor(12281361);
-            var0.drawRect(screenCenterX - 59, viewHeight - 34, 117, 30);
-            FontGraph.drawBold(var0, kL[worldMapCursor], screenCenterX, viewHeight - 25, 2);
-            var0.drawImage(cornerIcons[0], screenCenterX - 60, viewHeight - 35, 20);
-            var0.drawImage(cornerIcons[1], screenCenterX + 60, viewHeight - 35, 24);
-            var0.drawImage(cornerIcons[2], screenCenterX - 60, viewHeight - 2, 36);
-            var0.drawImage(cornerIcons[3], screenCenterX + 60, viewHeight - 2, 40);
+            var0.drawRect(Viewport.screenCenterX - 59, Viewport.viewHeight - 34, 117, 30);
+            FontGraph.drawBold(var0, kL[worldMapCursor], Viewport.screenCenterX, Viewport.viewHeight - 25, 2);
+            var0.drawImage(cornerIcons[0], Viewport.screenCenterX - 60, Viewport.viewHeight - 35, 20);
+            var0.drawImage(cornerIcons[1], Viewport.screenCenterX + 60, Viewport.viewHeight - 35, 24);
+            var0.drawImage(cornerIcons[2], Viewport.screenCenterX - 60, Viewport.viewHeight - 2, 36);
+            var0.drawImage(cornerIcons[3], Viewport.screenCenterX + 60, Viewport.viewHeight - 2, 40);
         }
 
     }
@@ -12291,7 +12283,7 @@ public final class b extends Canvas implements Runnable {
 
     public static void setMessageText(String var0) {
         messageLines = FontGraph.wrapBoldText(var0, 100);
-        messageY = viewCenterY - messageLines.length * 9;
+        messageY = Viewport.viewCenterY - messageLines.length * 9;
     }
 
     public static void showMessage(int var0) {
@@ -12361,23 +12353,23 @@ public final class b extends Canvas implements Runnable {
     private static void drawMessage(Graphics var0) {
         var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
         var0.setColor(0);
-        var0.fillRect(viewCenterX - 64, messageY - 19, 129, 102);
-        var0.fillRect(0, screenHeight - 13, screenWidth, 13);
-        FontGraph.drawBold(var0, messageLeftLabel, 3, screenHeight - 13, 0);
-        FontGraph.drawBold(var0, messageRightLabel, screenWidth - 3, screenHeight - 13, 1);
+        var0.fillRect(Viewport.viewCenterX - 64, messageY - 19, 129, 102);
+        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
+        FontGraph.drawBold(var0, messageLeftLabel, 3, Viewport.screenHeight - 13, 0);
+        FontGraph.drawBold(var0, messageRightLabel, Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
         var0.setColor(12281361);
-        var0.drawRect(viewCenterX - 63, messageY - 18, 126, 99);
+        var0.drawRect(Viewport.viewCenterX - 63, messageY - 18, 126, 99);
         var0.setColor(6562304);
-        var0.fillRect(viewCenterX - 61, messageY - 16, 123, 97);
+        var0.fillRect(Viewport.viewCenterX - 61, messageY - 16, 123, 97);
 
         for(int var1 = 0; var1 < messageLines.length; ++var1) {
-            FontGraph.drawBold(var0, messageLines[var1], screenCenterX, messageY + var1 * 18, 2);
+            FontGraph.drawBold(var0, messageLines[var1], Viewport.screenCenterX, messageY + var1 * 18, 2);
         }
 
-        var0.drawImage(cornerIcons[0], viewCenterX - 64, messageY - 19, 20);
-        var0.drawImage(cornerIcons[1], viewCenterX + 65, messageY - 19, 24);
-        var0.drawImage(cornerIcons[2], viewCenterX - 64, messageY + 83, 36);
-        var0.drawImage(cornerIcons[3], viewCenterX + 65, messageY + 83, 40);
+        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, messageY - 19, 20);
+        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, messageY - 19, 24);
+        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, messageY + 83, 36);
+        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, messageY + 83, 40);
     }
 
     private static void setNextNpcMarker(int var0) {
@@ -12511,7 +12503,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawNpcs(Graphics var0) {
         for(int var1 = 0; var1 < npcCount; ++var1) {
-            if (npcX[var1] + 10 >= cameraX && npcX[var1] - 10 <= cameraX + viewWidth && npcY[var1] >= cameraY && npcY[var1] - 32 <= cameraY + viewHeight) {
+            if (npcX[var1] + 10 >= cameraX && npcX[var1] - 10 <= cameraX + Viewport.viewWidth && npcY[var1] >= cameraY && npcY[var1] - 32 <= cameraY + Viewport.viewHeight) {
                 var0.drawImage(npcSprites[npcTypes[var1]][Npc.PART_LEGS], npcX[var1], npcY[var1], 33);
                 var0.drawImage(npcSprites[npcTypes[var1]][Npc.PART_BODY], npcX[var1], npcY[var1] - lF[npcTypes[var1]] + (tick % (15 + npcTypes[var1]) > 4 ? 0 : 1), 33);
             }

@@ -79,7 +79,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.setupHud();
             b.loadingTarget = 95;
             Thread.yield();
-            Sky.setup(Save.backgroundIndex, b.mapId, b.viewWidth, b.viewHeight, b.lowGraphics);
+            Sky.setup(Save.backgroundIndex, b.mapId, Viewport.viewWidth, Viewport.viewHeight, b.lowGraphics);
             if (b.mapId < 19) {
                 b.X[b.mapId] = true;
             }
