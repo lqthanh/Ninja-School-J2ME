@@ -1,7 +1,7 @@
 package core.app;
 
 /**
- * Các màn hình / trạng thái chính của game (biến b.state).
+ * Các màn hình / trạng thái chính của game ({@link #current}).
  * Mỗi frame, b.run() cập nhật và b.paint() vẽ theo trạng thái hiện tại.
  */
 public final class GameState {
@@ -29,6 +29,9 @@ public final class GameState {
     public static final int TUTORIAL = 11;
     /** Xử lý giống TUTORIAL nhưng không có chỗ nào chuyển sang trạng thái này. */
     public static final int UNUSED_12 = 12;
+
+    /** Trạng thái hiện tại, một trong các hằng số ở trên. */
+    public static int current;
 
     private GameState() {
     }

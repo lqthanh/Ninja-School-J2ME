@@ -61,7 +61,6 @@ public final class b extends Canvas implements Runnable {
     private static int bb;
     private static int bc;
     private static int bd;
-    public static int state;
     private static boolean hudPanelVisible;
     public static String leftSoftKeyLabel;
     public static String rightSoftKeyLabel;
@@ -122,9 +121,6 @@ public final class b extends Canvas implements Runnable {
     private static int[] cj;
     private static int[] ck;
     private static int[] cl;
-    private static boolean noticeVisible;
-    private static int noticeTimer;
-    private static String noticeText;
     private static int cp;
     private static int[] cq;
     private static int[] cr;
@@ -491,63 +487,9 @@ public final class b extends Canvas implements Runnable {
     private static int[][] kj;
     private static boolean[][] kk;
     private static int[] kl;
-    static int shopY;
-    private static int shopX;
-    private static int shopCursor;
-    private static int shopBlink;
-    private static int shopRow;
-    /** Cửa hàng mua bằng tiền trong game. */
-    private static final int SHOP_MODE_MONEY = 0;
-    /** Cửa hàng tiền thật (SMS), giờ chỉ báo mua thất bại. */
-    private static final int SHOP_MODE_SMS = 1;
-    private static int shopMode;
-    private static int[] shopBlinkColors;
-    private static Image[] shopSwordIcons;
-    private static int inventoryY;
-    private static int inventoryX;
-    private static int inventoryCursor;
-    private static int inventoryBlink;
-    private static int[] inventoryBlinkColors;
-    private static Image[] cornerIcons;
-    private static int gameMenuY;
-    private static int gameMenuSelection;
-    private static int kJ;
-    private static String[] gameMenuItems;
-    private static String[] kL;
-    private static int[] travelCosts;
-    public static boolean[] X;
-    private static int[] kN;
-    private static int[] kO;
-    private static int[] kP;
-    private static int[] kQ;
-    private static Image worldMapImage;
-    private static Image crossIcon;
-    private static int kT;
-    private static int kU;
-    private static int worldMapCursor;
-    private static int kW;
-    private static int kX;
-    private static int kY;
-    private static int kZ;
-    private static int la;
-    private static int lb;
-    private static int lc;
-    private static int ld;
-    private static int le;
-    private static int lf;
-    private static int lg;
-    private static int worldMapCurrent;
-    private static String li;
     private static Image popupImage;
     private static boolean lk;
     private static int ll;
-    public static int messageY;
-    private static int messageType;
-    private static int travelCost;
-    private static int lo;
-    private static String messageLeftLabel;
-    private static String messageRightLabel;
-    private static String[] messageLines;
     private static Image[][] npcSprites;
     private static int npcCount;
     private static int[] npcX;
@@ -638,38 +580,6 @@ public final class b extends Canvas implements Runnable {
         jB = 0;
         loadingProgress = 0;
         kl = null;
-        shopBlinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
-        inventoryBlinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
-        gameMenuItems = new String[]{"Sử dụng item", 
-                "Xem bản đồ", 
-                "Lưu và thoát", 
-                "Nhạc: Bật"};
-        kL = new String[]{"Trường Hirosaki", 
-                "Khu luyện tập", 
-                "Làng Kenshin", 
-                "Rừng đào Sakura", 
-                "Rừng trúc Ura", 
-                "Thác Kitajima", 
-                "Cánh đồng Mishima", 
-                "Sông Watamaro", 
-                "Nghĩa địa Izuko", 
-                "Miếu Kojin", 
-                "Miếu Kamo", 
-                "Miếu Yazaka", 
-                "Rừng gỗ Kouji", 
-                "Rừng chông Hakata", 
-                "Vách đá Ito", 
-                "Thung lũng Taira", 
-                "Thôn Sanzu", 
-                "Lối vào Orochi", 
-                "Ngôi đền Orochi"};
-        travelCosts = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
-        X = new boolean[19];
-        kN = new int[]{49, 31, 98, 112, 106, 42, 75, 84, 37, 39, 80, 117, 157, 201, 208, 170, 186, 219, 161};
-        kO = new int[]{35, 65, 38, 75, 98, 97, 95, 128, 142, 185, 212, 189, 189, 204, 156, 142, 96, 59, 39};
-        kP = new int[]{62, 52, 17, 4, 8, 12, 14, 5, 1, 2, 3, 2, 2, 2, 2, 1, 2, 3, 1};
-        kQ = new int[]{17, 9, 12, 9, 10, 5, 9, 7, 12, 11, 4, 11, 8, 9, 7, 6, 11, 16, 8};
-        li = "Chuyển đến";
         String[][] var3 = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
         lF = new int[]{7, 6, 6, 5, 2, 4};
@@ -719,8 +629,8 @@ public final class b extends Canvas implements Runnable {
         var1[14] = Skills.dartsLevel2 ? 1 : 0;
 
         int var0;
-        for(var0 = 0; var0 < X.length; ++var0) {
-            var1[var2++] = X[var0] ? 1 : 0;
+        for(var0 = 0; var0 < WorldMap.visited.length; ++var0) {
+            var1[var2++] = WorldMap.visited[var0] ? 1 : 0;
         }
 
         for(var0 = 0; var0 < Inventory.potionCounts.length; ++var0) {
@@ -968,8 +878,8 @@ public final class b extends Canvas implements Runnable {
         Skills.dartsLevel2 = var0[14] == 1;
 
         int var1;
-        for(var1 = 0; var1 < X.length; ++var1) {
-            X[var1] = var0[var2++] == 1;
+        for(var1 = 0; var1 < WorldMap.visited.length; ++var1) {
+            WorldMap.visited[var1] = var0[var2++] == 1;
         }
 
         for(var1 = 0; var1 < Inventory.potionCounts.length; ++var1) {
@@ -1249,9 +1159,9 @@ public final class b extends Canvas implements Runnable {
     private static void gainExp(int amount) {
         if (Leveling.addExp(amount)) {
             a("level-up", 2, fe, ff - fh, 0, -2);
-            showMessage(MessageType.LEVEL_UP);
-            setMessageText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(Inventory.swordLevel));
-            state = GameState.MESSAGE;
+            MessageBox.show(MessageType.LEVEL_UP);
+            MessageBox.setText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(Inventory.swordLevel));
+            GameState.current = GameState.MESSAGE;
         } else {
             a("+" + amount, 2, fe, ff - fh, 0, -2);
         }
@@ -1263,9 +1173,9 @@ public final class b extends Canvas implements Runnable {
         if (QuestState.current == Quest.AIR_HITS && A != 0) {
             ++QuestState.progress;
             if (QuestState.current >= 20) {
-                showNotice("Thành công 20 hit!");
+                Notice.show("Thành công 20 hit!");
             } else {
-                showNotice("Hit: " + QuestState.progress);
+                Notice.show("Hit: " + QuestState.progress);
             }
         }
 
@@ -1555,37 +1465,37 @@ public final class b extends Canvas implements Runnable {
             case QuestAction.START_KILL_SNAILS:
                 QuestState.current = Quest.KILL_SNAILS;
                 QuestState.progress = 0;
-                showNotice("NV: Giết 10 ốc sên");
+                Notice.show("NV: Giết 10 ốc sên");
                 break;
             case QuestAction.REWARD_LIGHTNESS:
                 Skills.lightness = true;
                 Skills.doubleJump = true;
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
-                showNotice("đã học phép khinh công");
+                Notice.show("đã học phép khinh công");
                 break;
             case QuestAction.START_KNOCK_DOWN_SCARECROWS:
                 QuestState.current = Quest.KNOCK_DOWN_SCARECROWS;
                 QuestState.progress = 0;
-                showNotice("NV: đánh ngã 2 bù nhìn");
+                Notice.show("NV: đánh ngã 2 bù nhìn");
                 break;
             case QuestAction.REWARD_DARTS:
                 Skills.darts = true;
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
-                showNotice("đã học ném phi tiêu");
+                Notice.show("đã học ném phi tiêu");
             case QuestAction.UNUSED_7:
             default:
                 break;
             case QuestAction.UNUSED_CLEAR_NOTICE:
-                showNotice((String)null);
+                Notice.show((String)null);
                 break;
             case QuestAction.START_FIND_BURROW_SCROLL:
                 QuestState.current = Quest.FIND_BURROW_SCROLL;
                 QuestState.dropMonster = QuestState.DROP_MONSTER_BASE + 3;
                 QuestState.dropChance = 2;
                 QuestState.itemFound = false;
-                showNotice("NV: Tìm bí kíp");
+                Notice.show("NV: Tìm bí kíp");
                 break;
             case QuestAction.REWARD_BURROW:
                 Skills.burrow = true;
@@ -1593,7 +1503,7 @@ public final class b extends Canvas implements Runnable {
                 QuestState.dropMonster = 0;
                 QuestState.dropChance = 0;
                 QuestState.itemFound = false;
-                showNotice("đã học thuật độn thổ");
+                Notice.show("đã học thuật độn thổ");
                 break;
             case QuestAction.START_ESCORT_AYUMI_SISTER:
                 QuestState.current = Quest.ESCORT_AYUMI_SISTER;
@@ -1611,42 +1521,42 @@ public final class b extends Canvas implements Runnable {
                 QuestState.dropMonster = 0;
                 QuestState.dropChance = 0;
                 QuestState.itemFound = false;
-                showNotice("sức công nhân đôi!");
+                Notice.show("sức công nhân đôi!");
                 break;
             case QuestAction.START_KILL_BEES:
                 QuestState.current = Quest.KILL_BEES;
                 QuestState.progress = 0;
-                showNotice("NV: giết 20 con ong");
+                Notice.show("NV: giết 20 con ong");
                 break;
             case QuestAction.START_KILL_WILD_BOAR:
                 QuestState.current = Quest.KILL_WILD_BOAR;
                 QuestState.itemFound = false;
                 QuestState.progress = 0;
                 QuestState.dropChance = 10;
-                showNotice("NV: giết heo rừng");
+                Notice.show("NV: giết heo rừng");
                 break;
             case QuestAction.REWARD_WATER_SKILLS:
                 QuestState.current = Quest.NONE;
                 Skills.dive = true;
                 Skills.runOnWater = true;
                 // Thưởng gồm cả lặn nước (Skills.dive) nhưng thông báo chỉ ghi chạy nước (giữ như bản gốc).
-                showNotice("đã học chạy nước.");
+                Notice.show("đã học chạy nước.");
                 break;
             case QuestAction.START_CROSS_RIVER:
                 QuestState.current = Quest.CROSS_RIVER;
                 QuestState.itemFound = false;
                 QuestState.dropChance = 10;
-                showNotice("NV: vượt sông");
+                Notice.show("NV: vượt sông");
                 break;
             case QuestAction.REWARD_TRANSFORM:
                 QuestState.current = Quest.NONE;
                 Skills.transform = true;
-                showNotice("đã học biến hình.");
+                Notice.show("đã học biến hình.");
                 break;
             case QuestAction.START_KILL_GOLDEN_BATS:
                 QuestState.current = Quest.KILL_GOLDEN_BATS;
                 QuestState.progress = 0;
-                showNotice("NV: giết 8 dơi vàng");
+                Notice.show("NV: giết 8 dơi vàng");
                 break;
             case QuestAction.REWARD_MONEY:
                 Story.goldenBatQuestDone = true;
@@ -1656,34 +1566,34 @@ public final class b extends Canvas implements Runnable {
                 QuestState.dropMonster = 0;
                 QuestState.dropChance = 0;
                 QuestState.itemFound = false;
-                showNotice("Nhận được tiền 5000$");
+                Notice.show("Nhận được tiền 5000$");
                 break;
             case QuestAction.START_FIND_HIDE_SCROLL:
                 QuestState.current = Quest.FIND_HIDE_SCROLL;
                 QuestState.progress = 0;
                 QuestState.itemFound = false;
-                showNotice("NV: tìm bí kíp");
+                Notice.show("NV: tìm bí kíp");
                 break;
             case QuestAction.REWARD_HIDE:
                 Skills.hide = true;
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
                 QuestState.itemFound = false;
-                showNotice("đã có thể ẩn thân");
+                Notice.show("đã có thể ẩn thân");
                 break;
             case QuestAction.START_FIGHT_TONIKU:
                 QuestState.current = Quest.FIGHT_TONIKU;
-                showNotice("NV: tìm đánh Toniku");
+                Notice.show("NV: tìm đánh Toniku");
                 break;
             case QuestAction.COMPLETE_FIGHT_TONIKU:
                 QuestState.current = Quest.NONE;
                 Story.tonikuQuestDone = true;
-                showNotice("Hoàn thành nhiệm vụ.");
+                Notice.show("Hoàn thành nhiệm vụ.");
                 break;
             case QuestAction.START_KILL_NATIVES:
                 QuestState.current = Quest.KILL_NATIVES;
                 QuestState.progress = 0;
-                showNotice("NV: giết 10 thổ dân");
+                Notice.show("NV: giết 10 thổ dân");
                 break;
             case QuestAction.REWARD_MEET_GIRL:
                 Story.girlWaiting = true;
@@ -1691,60 +1601,60 @@ public final class b extends Canvas implements Runnable {
                 QuestState.dropMonster = 0;
                 QuestState.dropChance = 0;
                 QuestState.itemFound = false;
-                showNotice("đến gặp cô bé!");
+                Notice.show("đến gặp cô bé!");
                 break;
             case QuestAction.START_GIRL_OUTING:
                 QuestState.current = Quest.GIRL_OUTING;
                 QuestState.progress = 0;
                 gk = true;
-                showNotice("NV: dẫn cô bé đi chơi");
+                Notice.show("NV: dẫn cô bé đi chơi");
                 break;
             case QuestAction.REWARD_TRIPLE_JUMP:
                 QuestState.current = Quest.NONE;
                 Skills.tripleJump = true;
                 QuestState.progress = 0;
-                showNotice("Học khinh công cấp 2");
+                Notice.show("Học khinh công cấp 2");
                 break;
             case QuestAction.START_AIR_HITS:
                 QuestState.current = Quest.AIR_HITS;
                 QuestState.progress = 0;
-                showNotice("NV: 20 hit trên không");
+                Notice.show("NV: 20 hit trên không");
                 break;
             case QuestAction.REWARD_DARTS_LEVEL_2:
                 Skills.dartsLevel2 = true;
                 PlayerStats.dartDamage <<= 2;
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
-                showNotice("đã học phi tiêu cấp 2");
+                Notice.show("đã học phi tiêu cấp 2");
                 Effect.loadDarts(dartFrames, Effect.DART_LEVEL_2);
                 break label58;
             case QuestAction.START_KILL_FLOWER_DEMONS:
                 QuestState.current = Quest.KILL_FLOWER_DEMONS;
                 QuestState.progress = 0;
                 // Mục tiêu thực tế là "Quỷ hoa" (Quest.TARGET_MONSTER = 18), thông báo ghi "quỷ hoa đỏ" (giữ như bản gốc).
-                showNotice("NV: đánh 15 quỷ hoa đỏ");
+                Notice.show("NV: đánh 15 quỷ hoa đỏ");
                 break;
             case QuestAction.REWARD_SPRINT:
                 Skills.sprint = true;
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
-                showNotice("đã có thể chạy nhanh");
+                Notice.show("đã có thể chạy nhanh");
                 break;
             case QuestAction.START_KILL_SCORPIONS:
                 QuestState.current = Quest.KILL_SCORPIONS;
                 QuestState.progress = 0;
-                showNotice("NV: Giết 18 bò cạp");
+                Notice.show("NV: Giết 18 bò cạp");
                 break;
             case QuestAction.REWARD_STAND_ON_WATER:
                 Skills.standOnWater = true;
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
-                showNotice("đã có thể đứng nước");
+                Notice.show("đã có thể đứng nước");
                 break;
             case QuestAction.START_KILL_RED_TIGER_FISH:
                 QuestState.current = Quest.KILL_RED_TIGER_FISH;
                 QuestState.progress = 0;
-                showNotice("NV: Giết 4 cá đỏ");
+                Notice.show("NV: Giết 4 cá đỏ");
                 break;
             case QuestAction.COMPLETE_RESCUE_SAKURA:
                 QuestState.current = Quest.NONE;
@@ -1755,7 +1665,7 @@ public final class b extends Canvas implements Runnable {
                 QuestState.current = Quest.RESCUE_SAKURA;
                 QuestState.progress = 0;
                 QuestState.itemFound = false;
-                showNotice("NV: cứu Sakura");
+                Notice.show("NV: cứu Sakura");
         }
 
         if (pendingMarkerMap >= 0) {
@@ -2569,7 +2479,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void changeMap(int var0) {
-        state = GameState.LOADING;
+        GameState.current = GameState.LOADING;
         mapId = var0;
         Midlet.nextGameState = GameState.PLAYING;
         resetLoadingProgress();
@@ -2775,7 +2685,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void K() {
-        state = GameState.LOADING;
+        GameState.current = GameState.LOADING;
         resetLoadingProgress();
         Midlet.nextGameState = GameState.MAIN_MENU;
         mapId = 99;
@@ -3168,10 +3078,10 @@ public final class b extends Canvas implements Runnable {
             ff = 336;
 
             for(var1 = 0; var1 < 19; ++var1) {
-                X[var1] = false;
+                WorldMap.visited[var1] = false;
             }
 
-            X[0] = true;
+            WorldMap.visited[0] = true;
             fm = -1;
             dw = false;
             dx = false;
@@ -3709,12 +3619,6 @@ public final class b extends Canvas implements Runnable {
         dW = var1;
     }
 
-    private static void showNotice(String var0) {
-        noticeText = var0;
-        noticeTimer = 0;
-        noticeVisible = true;
-    }
-
     private static boolean f(int var0, int var1, int var2) {
         int var3 = cc[0] == -1 ? 0 : 1;
         if (cc[var3] != -1) {
@@ -4010,7 +3914,7 @@ public final class b extends Canvas implements Runnable {
 
                     if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
                         QuestState.progress = 0;
-                        showNotice("Hit: " + QuestState.progress);
+                        Notice.show("Hit: " + QuestState.progress);
                     }
                 } else {
                     if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
@@ -4125,7 +4029,7 @@ public final class b extends Canvas implements Runnable {
                         ff = I(ff + 3);
                         if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
                             QuestState.progress = 0;
-                            showNotice("Hit: " + QuestState.progress);
+                            Notice.show("Hit: " + QuestState.progress);
                         }
                     }
 
@@ -4409,9 +4313,8 @@ public final class b extends Canvas implements Runnable {
                         hm = hn;
                     }
 
-                    prepareDialog();
-                    showMessage(MessageType.GAME_NOTICE);
-                    state = GameState.MESSAGE;
+                    MessageBox.show(MessageType.GAME_NOTICE);
+                    GameState.current = GameState.MESSAGE;
                 }
                 break;
             case 7:
@@ -5144,7 +5047,7 @@ public final class b extends Canvas implements Runnable {
                             QuestState.current = Quest.NONE;
                             // Thưởng nhiệm vụ ESCORT_AYUMI_SISTER được trao trong cutscene, không qua onDialogueFinished.
                             Skills.motorbikeLicense = true;
-                            showNotice("nhận bằng lái môtô");
+                            Notice.show("nhận bằng lái môtô");
                             setGuideMarker(0, npcX[4], npcY[4] - 40, 4);
                             ++cutsceneStep;
                             break;
@@ -5269,7 +5172,7 @@ public final class b extends Canvas implements Runnable {
                             gn = 648;
                             go = 288;
                             gk = false;
-                            showNotice("gặp cô Ayumi");
+                            Notice.show("gặp cô Ayumi");
                             setGuideMarker(0, 1032, 368, 4);
                             ++cutsceneStep;
                             break;
@@ -6117,7 +6020,7 @@ public final class b extends Canvas implements Runnable {
         b var0 = Midlet.b;
         Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         ai();
-        state = GameState.LOGO;
+        GameState.current = GameState.LOGO;
         (new Thread(var0)).start();
     }
 
@@ -6146,31 +6049,31 @@ public final class b extends Canvas implements Runnable {
                 Skills.runOnWater = true;
                 Skills.transform = true;
                 Skills.tripleJump = true;
-                showNotice("Learned All Skill");
+                Notice.show("Learned All Skill");
             } else if (bv.equals("30538")) {
                 PlayerStats.setMaxHpMp(500000, 500000);
-                showNotice("Unlimit HP MP");
+                Notice.show("Unlimit HP MP");
             } else if (bv.equals("38305")) {
                 PlayerStats.attack = 10000;
-                showNotice("Unlimit Damage");
+                Notice.show("Unlimit Damage");
             } else if (bv.equals("1982")) {
                 gainExp(100000);
             } else if (bv.equals("1983")) {
                 Inventory.money += 50000;
-                showNotice("Money+=50000");
+                Notice.show("Money+=50000");
             } else {
                 int var2;
                 if (!bv.equals("1981")) {
                     if (bv.equals("8463")) {
                         var2 = gL + (int)((System.currentTimeMillis() - gM) / 1000L);
-                        showNotice(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
+                        Notice.show(var2 / 3600 + ":" + var2 % 3600 / 60 + ":" + var2 % 60);
                     }
                 } else {
                     for(var2 = 0; var2 < 19; ++var2) {
-                        X[var2] = true;
+                        WorldMap.visited[var2] = true;
                     }
 
-                    showNotice("Unlock all map!");
+                    Notice.show("Unlock all map!");
                 }
             }
 
@@ -6197,7 +6100,7 @@ public final class b extends Canvas implements Runnable {
 
     protected final void paint(Graphics var1) {
         try {
-            switch (state) {
+            switch (GameState.current) {
                 case GameState.PLAYING:
                     Graphics var6 = var1;
                     var1.setClip(-1, -1, Viewport.viewWidth + 2, Viewport.viewHeight + 2);
@@ -6536,16 +6439,8 @@ public final class b extends Canvas implements Runnable {
                     drawLetterbox(var6);
                 }
 
-                if (noticeVisible) {
-                    var6.translate(-var6.getTranslateX(), -var6.getTranslateY());
-                    var6.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 2);
-                    var6.setColor(0);
-                    var6.fillRect(0, 0, Viewport.screenWidth, 21);
-                    var6.setColor(10275899);
-                    var6.fillRect(0, 19, Viewport.screenWidth, 1);
-                    if (tick % 10 > 2) {
-                        FontGraph.drawBold(var6, noticeText, Viewport.viewCenterX, 4, 2);
-                    }
+                if (Notice.visible) {
+                    Notice.draw(var6, tick);
                 }
 
                 if (Dialogue.visible) {
@@ -6591,13 +6486,13 @@ public final class b extends Canvas implements Runnable {
 
                     return;
                 case GameState.GAME_MENU:
-                    drawGameMenu(var1);
+                    GameMenu.draw(var1, weaponIcons[0]);
                     return;
                 case GameState.WORLD_MAP:
-                    drawWorldMap(var1);
+                    WorldMap.draw(var1, heroHeads[0], weaponIcons[0]);
                     return;
                 case GameState.MESSAGE:
-                    drawMessage(var1);
+                    MessageBox.draw(var1);
                     return;
                 case GameState.INVENTORY:
                     drawInventory(var1);
@@ -6659,7 +6554,7 @@ public final class b extends Canvas implements Runnable {
             long var1 = System.currentTimeMillis();
             boolean var3;
             int var10002;
-            switch (state) {
+            switch (GameState.current) {
                 case GameState.PLAYING:
                     if (++tick == 10000) {
                         tick = 0;
@@ -6677,11 +6572,11 @@ public final class b extends Canvas implements Runnable {
                     } else if (fe >= GameMap.pixelWidth - 24) {
                         if (MapExits.rightMap != MapExits.NONE) {
                             if (!Skills.hide && MapExits.rightMap == 95) {
-                                showMessage(MessageType.LEVEL_UP);
-                                setMessageText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
+                                MessageBox.show(MessageType.LEVEL_UP);
+                                MessageBox.setText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
                                 fe = GameMap.pixelWidth - 60;
                                 B = 4;
-                                state = GameState.MESSAGE;
+                                GameState.current = GameState.MESSAGE;
                                 break;
                             }
 
@@ -6736,8 +6631,9 @@ public final class b extends Canvas implements Runnable {
                     } else {
                         label2614: {
                             if (Input.pressed[Input.KEY_SOFT_LEFT]) {
-                                openGameMenu();
-                                state = GameState.GAME_MENU;
+                                tilesetImage = null;
+                                GameMenu.open();
+                                GameState.current = GameState.GAME_MENU;
                                 Input.clearHeld();
                                 Input.clearPressed();
                             } else if (Input.pressed[Input.KEY_NUM0]) {
@@ -7109,16 +7005,12 @@ public final class b extends Canvas implements Runnable {
                                                     }
 
                                                     if (var4 == 6) {
-                                                        openShop();
-                                                        state = GameState.SHOP;
-                                                        shopMode = SHOP_MODE_MONEY;
+                                                        openShop(ShopScreen.MODE_MONEY);
                                                     }
                                                 }
 
                                                 if (mapId == 2 && var4 == 0) {
-                                                    openShop();
-                                                    state = GameState.SHOP;
-                                                    shopMode = SHOP_MODE_SMS;
+                                                    openShop(ShopScreen.MODE_SMS);
                                                 }
 
                                                 if (mapId == 1 && var4 == 0) {
@@ -8929,7 +8821,7 @@ public final class b extends Canvas implements Runnable {
                         if (a(ff - (fh >> 1) - (questItemY - 7)) < 10 && a(fe - questItemX) < 10) {
                             questItemState = 2;
                             QuestState.itemFound = true;
-                            showNotice("đã lấy được bí kíp");
+                            Notice.show("đã lấy được bí kíp");
                         }
                     } else {
                         ++questItemState;
@@ -8940,9 +8832,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (noticeVisible && ++noticeTimer >= 150) {
-                    noticeVisible = false;
-                }
+                Notice.update();
                 break;
                 case GameState.LOADING:
                     if (loadingProgress < loadingTarget) {
@@ -9008,7 +8898,7 @@ public final class b extends Canvas implements Runnable {
                             } else if (aX == 2) {
                                 titleImage = null;
                                 releaseMapResources();
-                                state = GameState.LOADING;
+                                GameState.current = GameState.LOADING;
                                 resetLoadingProgress();
                                 Midlet.nextGameState = GameState.TUTORIAL;
                                 mapId = 101;
@@ -9090,7 +8980,7 @@ public final class b extends Canvas implements Runnable {
                     if (jD > 51) {
                         logoImage = null;
                         at();
-                        state = GameState.SETUP_PROMPT;
+                        GameState.current = GameState.SETUP_PROMPT;
                     } else if (jD > 46) {
                         jE = 4 - (jD - 46);
                     }
@@ -9100,367 +8990,70 @@ public final class b extends Canvas implements Runnable {
                     ++jD;
                     break;
                 case GameState.GAME_MENU:
-                    if (++kJ > 10000) {
-                        kJ = 0;
-                    }
-
-                    var3 = false;
-                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                        var3 = true;
-                        cornerIcons = null;
-                        ensureMapImages();
-                        state = GameState.PLAYING;
-                        hudDirty = true;
-                    } else if (!Input.pressed[Input.KEY_FIRE] && !Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        if (Input.pressed[Input.KEY_DOWN]) {
-                            var3 = true;
-                            if (++gameMenuSelection > 3) {
-                                gameMenuSelection = 0;
-                            }
-                        } else if (Input.pressed[Input.KEY_UP]) {
-                            var3 = true;
-                            if (--gameMenuSelection < 0) {
-                                gameMenuSelection = 3;
-                            }
-                        } else if (Input.pressed[Input.KEY_LEFT]) {
-                            var3 = true;
-                        } else if (Input.pressed[Input.KEY_RIGHT]) {
-                            var3 = true;
-                        }
-                    } else {
-                        var3 = true;
-                        if (gameMenuSelection == 0) {
-                            openInventory();
-                            state = GameState.INVENTORY;
-                        }
-
-                        if (gameMenuSelection == 1) {
-                            openWorldMap();
-                            state = GameState.WORLD_MAP;
-                        }
-
-                        if (gameMenuSelection == 2) {
+                    switch (GameMenu.update()) {
+                        case GameMenu.RESULT_CLOSE:
+                            UiFrame.release();
+                            ensureMapImages();
+                            GameState.current = GameState.PLAYING;
+                            hudDirty = true;
+                            break;
+                        case GameMenu.ITEM_USE_ITEM:
+                            InventoryScreen.open();
+                            GameState.current = GameState.INVENTORY;
+                            break;
+                        case GameMenu.ITEM_WORLD_MAP:
+                            WorldMap.open(mapId);
+                            GameState.current = GameState.WORLD_MAP;
+                            break;
+                        case GameMenu.ITEM_SAVE_AND_EXIT:
                             if (B != 1) {
-                                cornerIcons = null;
+                                UiFrame.release();
                                 ensureMapImages();
-                                prepareDialog();
-                                showMessage(MessageType.GAME_NOTICE);
-                                setMessageText("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
-                                messageY = Viewport.viewCenterY - 40;
-                                state = GameState.MESSAGE;
+                                MessageBox.show(MessageType.GAME_NOTICE);
+                                MessageBox.setText("Bạn chỉ có thể lưu và thoát khi nhân vật đang đứng yên.");
+                                MessageBox.y = Viewport.viewCenterY - 40;
+                                GameState.current = GameState.MESSAGE;
                             } else {
                                 b = false;
                             }
-                        }
-                    }
-
-                    if (var3) {
-                        Input.clearPressed();
+                            break;
                     }
                     break;
                 case GameState.WORLD_MAP:
-                    if (++kW > 10000) {
-                        kW = 0;
-                    }
-
-                    if (ld != kX || le != kY) {
-                        kZ = kX - ld << 1;
-                        la = kY - le << 1;
-                        lb += kZ;
-                        ld += lb >> 4;
-                        lb &= 15;
-                        lc += la;
-                        le += lc >> 4;
-                        lc &= 15;
-                        if (ld < -40) {
-                            ld = -40;
-                        }
-
-                        if (ld > lf) {
-                            ld = lf;
-                        }
-
-                        if (le < -40) {
-                            le = -40;
-                        }
-
-                        if (le > lg) {
-                            le = lg;
-                        }
-                    }
-
-                    var3 = false;
-                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        Input.clearPressed();
-                        if (worldMapCursor != -1) {
-                            if (!X[worldMapCursor]) {
-                                showMessage(MessageType.TRAVEL_NOT_VISITED);
-                                state = GameState.MESSAGE;
-                            } else if (worldMapCurrent == worldMapCursor) {
-                                showMessage(MessageType.TRAVEL_ALREADY_HERE);
-                                state = GameState.MESSAGE;
-                            } else {
-                                showMessage(MessageType.TRAVEL_CONFIRM);
-                                state = GameState.MESSAGE;
-                            }
-                        }
-                    }
-
-                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                        ar();
-                        cornerIcons = null;
+                    if (WorldMap.update() == WorldMap.RESULT_CLOSE) {
                         ensureMapImages();
-                        state = GameState.PLAYING;
-                        Input.clearPressed();
-                        Input.clearHeld();
-                        Input.pressed[Input.KEY_SOFT_LEFT] = true;
-                    } else {
-                        if (Input.held[Input.KEY_UP]) {
-                            if ((kU -= 4) < -20) {
-                                kU = -20;
-                            }
-
-                            var3 = true;
-                        }
-
-                        if (Input.held[Input.KEY_DOWN]) {
-                            if ((kU += 4) > 279) {
-                                kU = 279;
-                            }
-
-                            var3 = true;
-                        }
-
-                        if (Input.held[Input.KEY_LEFT]) {
-                            if ((kT -= 4) < -20) {
-                                kT = -20;
-                            }
-
-                            var3 = true;
-                        }
-
-                        if (Input.held[Input.KEY_RIGHT]) {
-                            if ((kT += 4) > 279) {
-                                kT = 279;
-                            }
-
-                            var3 = true;
-                        }
-
-                        if (var3) {
-                            kX = kT - Viewport.viewCenterX;
-                            kY = kU - Viewport.viewCenterY;
-                            as();
-                        }
+                        GameState.current = GameState.PLAYING;
                     }
                     break;
                 case GameState.MESSAGE:
-                    if (++lo < 10) {
-                        Input.clearPressed();
-                    }
-
-                    if (Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        Input.clearPressed();
-                        switch (messageType) {
-                            case MessageType.TRAVEL_NOT_VISITED:
-                            case MessageType.TRAVEL_ALREADY_HERE:
-                            case MessageType.NOT_ENOUGH_MONEY:
-                                state = GameState.WORLD_MAP;
-                                break;
-                            case MessageType.TRAVEL_CONFIRM:
-                                if (travelCost >= Inventory.money) {
-                                    showMessage(MessageType.NOT_ENOUGH_MONEY);
-                                } else {
-                                    Inventory.money -= travelCost;
-                                    ar();
-                                    cornerIcons = null;
-                                    ensureMapImages();
-                                    releaseMapResources();
-                                    fp = fe = kP[worldMapCursor] * 24;
-                                    fq = ff = kQ[worldMapCursor] * 24;
-                                    Save.pendingSave = true;
-                                    changeMap(worldMapCursor);
-                                }
-                                break;
-                            case MessageType.GAME_NOTICE:
-                            case MessageType.LEVEL_UP:
-                                cornerIcons = null;
-                                state = GameState.PLAYING;
-                        }
-                    }
-
-                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                        Input.clearPressed();
-                        switch (messageType) {
-                            case MessageType.TRAVEL_NOT_VISITED:
-                            case MessageType.TRAVEL_ALREADY_HERE:
-                            case MessageType.NOT_ENOUGH_MONEY:
-                            case MessageType.GAME_NOTICE:
-                            case MessageType.LEVEL_UP:
-                            default:
-                                break;
-                            case MessageType.TRAVEL_CONFIRM:
-                                state = GameState.WORLD_MAP;
-                                break;
-                            case MessageType.SHOP_NOTICE:
-                                state = GameState.SHOP;
-                        }
+                    switch (MessageBox.update()) {
+                        case MessageBox.RESULT_LEFT:
+                            onMessageConfirmed();
+                            break;
+                        case MessageBox.RESULT_RIGHT:
+                            if (MessageBox.type == MessageType.TRAVEL_CONFIRM) {
+                                GameState.current = GameState.WORLD_MAP;
+                            } else if (MessageBox.type == MessageType.SHOP_NOTICE) {
+                                GameState.current = GameState.SHOP;
+                            }
+                            break;
                     }
 
                     hudDirty = true;
                     break;
                 case GameState.INVENTORY:
-                    if (inventoryBlink > 0) {
-                        --inventoryBlink;
-                    }
-
-                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        if (Inventory.potionCounts[inventoryCursor] > 0) {
-                            var10002 = Inventory.potionCounts[inventoryCursor]--;
-                            inventoryBlink = inventoryBlinkColors.length - 1;
-                            if (inventoryCursor <= 2) {
-                                PlayerStats.restoreHp(Inventory.potionRestoreAmounts[inventoryCursor]);
-                            } else {
-                                PlayerStats.restoreMp(Inventory.potionRestoreAmounts[inventoryCursor]);
-                            }
-                        }
-
-                        Input.clearPressed();
-                    }
-
-                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                        Input.clearPressed();
-                        Input.clearHeld();
-                        state = GameState.GAME_MENU;
-                    } else {
-                        if (Input.pressed[Input.KEY_LEFT]) {
-                            Input.clearPressed();
-                            if (--inventoryCursor < 0) {
-                                inventoryCursor = 5;
-                            }
-                        }
-
-                        if (Input.pressed[Input.KEY_RIGHT]) {
-                            Input.clearPressed();
-                            if (++inventoryCursor == 6) {
-                                inventoryCursor = 0;
-                            }
-                        }
-                    }
+                    InventoryScreen.update();
                     break;
                 case GameState.SHOP:
-                    if (shopBlink > 0) {
-                        --shopBlink;
-                    }
-
-                    if (Input.pressed[Input.KEY_FIRE] || Input.pressed[Input.KEY_SOFT_LEFT]) {
-                        Input.clearPressed();
-                        if (shopRow == 0) {
-                            if (shopMode == SHOP_MODE_MONEY) {
-                                if (shopCursor < 3) {
-                                    if (Inventory.potionCounts[0] + Inventory.potionCounts[1] + Inventory.potionCounts[2] > 99) {
-                                        break;
-                                    }
-                                } else if (Inventory.potionCounts[3] + Inventory.potionCounts[4] + Inventory.potionCounts[5] > 99) {
-                                    break;
-                                }
-
-                                if (Inventory.money >= ShopCatalog.prices[shopRow][shopCursor]) {
-                                    var10002 = Inventory.potionCounts[shopCursor]++;
-                                    Inventory.money -= ShopCatalog.prices[shopRow][shopCursor];
-                                }
-                            } else {
-                                showPurchaseFailed();
-                            }
-                        } else {
-                            if (Inventory.swordLevel >= shopCursor) {
-                                showMessage(MessageType.SHOP_NOTICE);
-                                setMessageText("Không cần thiết phải mua vũ khí này vì vũ khí đang sử dụng mạnh hơn!");
-                                messageY = shopY;
-                                state = GameState.MESSAGE;
-                                break;
-                            }
-
-                            if (PlayerStats.level < ShopCatalog.swordLevelRequirements[shopCursor]) {
-                                showMessage(MessageType.SHOP_NOTICE);
-                                setMessageText("Bạn phải đạt cấp độ " + ShopCatalog.swordLevelRequirements[shopCursor] + " mới có thể mua vũ khí này!");
-                                messageY = shopY;
-                                state = GameState.MESSAGE;
-                                break;
-                            }
-
-                            if (shopMode == SHOP_MODE_MONEY) {
-                                if (Inventory.money >= ShopCatalog.prices[shopRow][shopCursor]) {
-                                    Inventory.money -= ShopCatalog.prices[shopRow][shopCursor];
-                                    Inventory.swordLevel = shopCursor;
-                                    onSwordPurchased();
-                                } else {
-                                    showMessage(MessageType.SHOP_NOTICE);
-                                    setMessageText("Không có đủ tiền: " + ShopCatalog.prices[shopRow][shopCursor] + "$. Bạn chỉ có: " + Inventory.money + "$. Hãy đi tìm thêm.");
-                                    messageY = shopY;
-                                    state = GameState.MESSAGE;
-                                }
-                                break;
-                            }
-
-                            showPurchaseFailed();
-                        }
-                    }
-
-                    if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                        cornerIcons = null;
-                        shopSwordIcons = null;
-                        System.gc();
-                        ensureMapImages();
-                        Input.clearPressed();
-                        Input.clearHeld();
-                        state = GameState.PLAYING;
-                        hudDirty = true;
-                    } else {
-                        if (Input.pressed[Input.KEY_UP]) {
-                            Input.clearPressed();
-                            if (shopRow == 1) {
-                                shopRow = 0;
-                                ++shopCursor;
-                            }
-                        }
-
-                        if (Input.pressed[Input.KEY_DOWN]) {
-                            Input.clearPressed();
-                            if (shopRow == 0) {
-                                shopRow = 1;
-                                if (--shopCursor < 0) {
-                                    shopCursor = 0;
-                                }
-
-                                if (shopCursor > 3) {
-                                    shopCursor = 3;
-                                }
-                            }
-                        }
-
-                        if (Input.pressed[Input.KEY_LEFT]) {
-                            Input.clearPressed();
-                            if (--shopCursor < 0) {
-                                if (shopRow == 0) {
-                                    shopCursor = 5;
-                                } else {
-                                    shopCursor = 3;
-                                }
-                            }
-                        }
-
-                        if (Input.pressed[Input.KEY_RIGHT]) {
-                            Input.clearPressed();
-                            ++shopCursor;
-                            if (shopRow == 0 && shopCursor == 6) {
-                                shopCursor = 0;
-                            }
-
-                            if (shopRow == 1 && shopCursor == 4) {
-                                shopCursor = 0;
-                            }
-                        }
+                    switch (ShopScreen.update()) {
+                        case ShopScreen.RESULT_CLOSE:
+                            ensureMapImages();
+                            GameState.current = GameState.PLAYING;
+                            hudDirty = true;
+                            break;
+                        case ShopScreen.RESULT_SWORD_PURCHASED:
+                            onSwordPurchased();
+                            break;
                     }
                     break;
                 case GameState.SETUP_PROMPT:
@@ -9872,7 +9465,7 @@ public final class b extends Canvas implements Runnable {
 
         if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == jI[var0]) {
             ++QuestState.progress;
-            showNotice(GameText.monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
+            Notice.show(GameText.monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
         }
 
         if (jI[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
@@ -11985,293 +11578,24 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void openShop() {
-        shopY = Viewport.viewCenterY - 40;
-        shopX = Viewport.viewCenterX - 50;
+    private static void openShop(int mode) {
         tilesetImage = null;
-        shopSwordIcons = new Image[4];
-
-        try {
-            for(int var4 = 0; var4 < Ui.SWORD_LEVEL_COUNT; ++var4) {
-                shopSwordIcons[var4] = Ui.loadSwordIcon(var4);
-            }
-        } catch (Exception var3) {
-        }
-
-        if (cornerIcons == null) {
-            cornerIcons = new Image[4];
-
-            for(int var0 = 0; var0 < 4; ++var0) {
-                try {
-                    cornerIcons[var0] = Ui.loadCorner(var0);
-                } catch (IOException var2) {
-                    var2.printStackTrace();
-                }
-            }
-        }
-
-        System.gc();
+        ShopScreen.open(mode);
+        GameState.current = GameState.SHOP;
     }
 
-    private static void drawShop(Graphics var0) {
-        var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        drawHudPanel(var0);
-        drawHudOverlay(var0);
-        var0.setClip(0, 0, Viewport.screenWidth, Viewport.screenHeight);
-        var0.setColor(0);
-        var0.fillRect(Viewport.viewCenterX - 64, shopY - 19, 129, 102);
-        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
-        FontGraph.drawBold(var0, "Mua", 3, Viewport.screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
-        var0.setColor(12281361);
-        var0.drawRect(Viewport.viewCenterX - 63, shopY - 18, 126, 99);
-        var0.setColor(6562304);
-        var0.fillRect(Viewport.viewCenterX - 61, shopY - 16, 123, 97);
-        if (shopMode == SHOP_MODE_MONEY) {
-            FontGraph.drawBold(var0, "Tiền: " + Inventory.money + "$", Viewport.viewCenterX, shopY - 8, 2);
-        } else {
-            FontGraph.drawBold(var0, ShopCatalog.itemNames[shopRow][shopCursor], Viewport.viewCenterX, shopY - 8, 2);
-        }
-
-        int var1;
-        for(var1 = 0; var1 < 3; ++var1) {
-            var0.setColor(0);
-            var0.fillRect(shopX - 10 + var1 * 20, shopY + 10, 19, 20);
-            var0.fillRect(shopX + 50 + var1 * 20, shopY + 10, 19, 20);
-            var0.setColor(4856064);
-            var0.drawRect(shopX - 10 + var1 * 20, shopY + 10, 20, 20);
-            var0.drawRect(shopX + 50 + var1 * 20, shopY + 10, 20, 20);
-            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, shopX + var1 * 20, shopY + 20, 3);
-            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, shopX + 60 + var1 * 20, shopY + 20, 3);
-        }
-
-        for(var1 = 0; var1 < 4; ++var1) {
-            var0.setColor(0);
-            var0.fillRect(shopX + 10 + var1 * 20, shopY + 32, 19, 20);
-            var0.setColor(4856064);
-            var0.drawRect(shopX + 10 + var1 * 20, shopY + 32, 18, 20);
-            var0.drawImage(shopSwordIcons[var1], shopX + 20 + var1 * 20, shopY + 42, 3);
-        }
-
-        var0.setColor(shopBlinkColors[shopBlink]);
-        if (shopRow == 0) {
-            var0.drawRect(shopX - 10 + shopCursor * 20, shopY + 10, 19, 20);
-        } else {
-            var0.drawRect(shopX + 10 + shopCursor * 20, shopY + 32, 19, 20);
-        }
-
-        if (shopMode == SHOP_MODE_MONEY) {
-            FontGraph.drawBold(var0, ShopCatalog.itemNames[shopRow][shopCursor] + "-" + ShopCatalog.prices[shopRow][shopCursor] + "$", Viewport.viewCenterX, shopY + 58, 2);
-        } else {
-            FontGraph.drawBold(var0, ShopCatalog.smsPrices[shopRow][shopCursor], Viewport.viewCenterX, shopY + 58, 2);
-        }
-
-        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, shopY - 19, 20);
-        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, shopY - 19, 24);
-        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, shopY + 83, 36);
-        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, shopY + 83, 40);
+    private static void drawShop(Graphics g) {
+        g.translate(-g.getTranslateX(), -g.getTranslateY());
+        drawHudPanel(g);
+        drawHudOverlay(g);
+        ShopScreen.draw(g, itemPotions);
     }
 
-    private static void openInventory() {
-        inventoryY = Viewport.viewCenterY - 40;
-        inventoryX = Viewport.viewCenterX - 50;
-        if (cornerIcons == null) {
-            cornerIcons = new Image[4];
-
-            for(int var0 = 0; var0 < 4; ++var0) {
-                try {
-                    cornerIcons[var0] = Ui.loadCorner(var0);
-                } catch (IOException var2) {
-                    var2.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    private static void drawInventory(Graphics var0) {
-        var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        drawHudPanel(var0);
-        drawHudOverlay(var0);
-        var0.setClip(0, 0, Viewport.screenWidth, Viewport.screenHeight);
-        var0.setColor(0);
-        var0.fillRect(Viewport.viewCenterX - 64, inventoryY - 19, 129, 102);
-        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
-        FontGraph.drawBold(var0, "Sử dụng", 3, Viewport.screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
-        var0.setColor(12281361);
-        var0.drawRect(Viewport.viewCenterX - 63, inventoryY - 18, 126, 99);
-        var0.setColor(6562304);
-        var0.fillRect(Viewport.viewCenterX - 61, inventoryY - 16, 123, 97);
-        FontGraph.drawBold(var0, "Sử dụng Item", Viewport.viewCenterX, inventoryY - 8, 2);
-
-        for(int var1 = 0; var1 < 3; ++var1) {
-            var0.setColor(0);
-            var0.fillRect(inventoryX - 10 + var1 * 20, inventoryY + 10, 19, 20);
-            var0.fillRect(inventoryX + 50 + var1 * 20, inventoryY + 10, 19, 20);
-            var0.setColor(4856064);
-            var0.drawRect(inventoryX - 10 + var1 * 20, inventoryY + 10, 20, 20);
-            var0.drawRect(inventoryX + 50 + var1 * 20, inventoryY + 10, 20, 20);
-            var0.drawRegion(itemPotions[Item.POTION_HP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + var1 * 20, inventoryY + 20, 3);
-            var0.drawRegion(itemPotions[Item.POTION_MP], 0, var1 * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, inventoryX + 60 + var1 * 20, inventoryY + 20, 3);
-        }
-
-        var0.setColor(inventoryBlinkColors[inventoryBlink]);
-        var0.drawRect(inventoryX - 10 + inventoryCursor * 20, inventoryY + 10, 20, 20);
-        FontGraph.drawBold(var0, Inventory.potionNames[inventoryCursor], Viewport.viewCenterX, inventoryY + 40, 2);
-        FontGraph.drawBold(var0, "Số lượng: " + Inventory.potionCounts[inventoryCursor], Viewport.viewCenterX, inventoryY + 55, 2);
-        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, inventoryY - 19, 20);
-        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, inventoryY - 19, 24);
-        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, inventoryY + 83, 36);
-        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, inventoryY + 83, 40);
-    }
-
-    private static void openGameMenu() {
-        gameMenuY = Viewport.viewCenterY - 40;
-        tilesetImage = null;
-        if (cornerIcons == null) {
-            cornerIcons = new Image[4];
-
-            for(int var0 = 0; var0 < 4; ++var0) {
-                try {
-                    cornerIcons[var0] = Ui.loadCorner(var0);
-                } catch (IOException var2) {
-                    var2.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    private static void drawGameMenu(Graphics var0) {
-        var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setColor(0);
-        var0.fillRect(Viewport.viewCenterX - 64, gameMenuY - 19, 129, 102);
-        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
-        FontGraph.drawBold(var0, "Chọn", 3, Viewport.screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
-        var0.setColor(12281361);
-        var0.drawRect(Viewport.viewCenterX - 63, gameMenuY - 18, 126, 99);
-        var0.setColor(6562304);
-        var0.fillRect(Viewport.viewCenterX - 61, gameMenuY - 16, 123, 97);
-
-        for(int var1 = 0; var1 < 4; ++var1) {
-            FontGraph.drawBold(var0, gameMenuItems[var1], Viewport.screenCenterX - 30, gameMenuY + var1 * 18, 0);
-        }
-
-        var0.drawImage(weaponIcons[0], Viewport.screenCenterX - 55 + kJ % 2, gameMenuY + gameMenuSelection * 18 - kJ % 2, 0);
-        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, gameMenuY - 19, 20);
-        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, gameMenuY - 19, 24);
-        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, gameMenuY + 83, 36);
-        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, gameMenuY + 83, 40);
-    }
-
-    private static void openWorldMap() {
-        lf = 280 - Viewport.viewWidth;
-        lg = 280 - Viewport.viewHeight;
-        worldMapCursor = 0;
-
-        try {
-            worldMapImage = Ui.loadWorldMap();
-            crossIcon = Ui.loadCross();
-        } catch (Exception var0) {
-        }
-
-        worldMapCurrent = mapId;
-        if (mapId == 99) {
-            worldMapCurrent = 0;
-        }
-
-        if (mapId == 97) {
-            worldMapCurrent = 7;
-        }
-
-        if (mapId == 96) {
-            worldMapCurrent = 11;
-        }
-
-        if (mapId == 95) {
-            worldMapCurrent = 18;
-        }
-
-        kT = kN[worldMapCurrent];
-        kU = kO[worldMapCurrent];
-        as();
-        kX = kT - Viewport.viewCenterX;
-        kY = kU - Viewport.viewCenterY;
-        if (ld < -40) {
-            ld = -40;
-        }
-
-        if (ld > lf) {
-            ld = lf;
-        }
-
-        if (le < -40) {
-            le = -40;
-        }
-
-        if (le > lg) {
-            le = lg;
-        }
-
-    }
-
-    private static void ar() {
-        worldMapImage = null;
-        crossIcon = null;
-        System.gc();
-    }
-
-    private static void drawWorldMap(Graphics var0) {
-        var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setColor(0);
-        var0.fillRect(0, 0, Viewport.viewWidth, Viewport.viewHeight);
-        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
-        FontGraph.drawBold(var0, li, 3, Viewport.screenHeight - 13, 0);
-        FontGraph.drawBold(var0, "Quay lại", Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
-        var0.setClip(0, 0, Viewport.viewWidth, Viewport.viewHeight);
-        var0.translate(-ld, -le);
-        var0.drawImage(worldMapImage, 0, 0, 0);
-
-        for(int var1 = 0; var1 < 19; ++var1) {
-            if (var1 == worldMapCurrent) {
-                var0.drawImage(heroHeads[0], kN[var1] + 10, kO[var1], 3);
-            }
-
-            if (X[var1] && (var1 != worldMapCursor || kW % 10 > 5)) {
-                var0.drawImage(crossIcon, kN[var1], kO[var1], 3);
-            }
-        }
-
-        var0.drawImage(weaponIcons[0], kT, kU, 24);
-        if (worldMapCursor != -1) {
-            var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-            var0.setColor(6562304);
-            var0.fillRect(Viewport.screenCenterX - 60, Viewport.viewHeight - 35, 120, 33);
-            var0.setColor(12281361);
-            var0.drawRect(Viewport.screenCenterX - 59, Viewport.viewHeight - 34, 117, 30);
-            FontGraph.drawBold(var0, kL[worldMapCursor], Viewport.screenCenterX, Viewport.viewHeight - 25, 2);
-            var0.drawImage(cornerIcons[0], Viewport.screenCenterX - 60, Viewport.viewHeight - 35, 20);
-            var0.drawImage(cornerIcons[1], Viewport.screenCenterX + 60, Viewport.viewHeight - 35, 24);
-            var0.drawImage(cornerIcons[2], Viewport.screenCenterX - 60, Viewport.viewHeight - 2, 36);
-            var0.drawImage(cornerIcons[3], Viewport.screenCenterX + 60, Viewport.viewHeight - 2, 40);
-        }
-
-    }
-
-    private static void as() {
-        worldMapCursor = -1;
-        li = "";
-
-        for(int var0 = 0; var0 < 19; ++var0) {
-            if (a(kT - kN[var0]) < 8 && a(kU - kO[var0]) < 8) {
-                worldMapCursor = var0;
-                li = "Chuyển đến";
-                return;
-            }
-        }
-
+    private static void drawInventory(Graphics g) {
+        g.translate(-g.getTranslateX(), -g.getTranslateY());
+        drawHudPanel(g);
+        drawHudOverlay(g);
+        InventoryScreen.draw(g, itemPotions);
     }
 
     private static void at() {
@@ -12279,97 +11603,6 @@ public final class b extends Canvas implements Runnable {
             popupImage = Ui.loadSoundIcon();
         } catch (Exception var0) {
         }
-    }
-
-    public static void setMessageText(String var0) {
-        messageLines = FontGraph.wrapBoldText(var0, 100);
-        messageY = Viewport.viewCenterY - messageLines.length * 9;
-    }
-
-    public static void showMessage(int var0) {
-        prepareDialog();
-        messageType = var0;
-        if (var0 == MessageType.TRAVEL_NOT_VISITED) {
-            setMessageText("Không thể chuyển. Vì bạn chưa từng đi bộ đến đây!");
-            messageLeftLabel = "OK";
-            messageRightLabel = "";
-        } else if (var0 == MessageType.TRAVEL_ALREADY_HERE) {
-            setMessageText("Không cần phải chuyển vì bạn đang ở vị trí này!");
-            messageLeftLabel = "OK";
-            messageRightLabel = "";
-        } else if (var0 != MessageType.TRAVEL_CONFIRM) {
-            if (var0 == MessageType.NOT_ENOUGH_MONEY) {
-                setMessageText("Bạn không có đủ tiền!");
-                messageLeftLabel = "OK";
-                messageRightLabel = "";
-            } else if (var0 == MessageType.GAME_NOTICE) {
-                setMessageText("Bạn đã bị trọng thương! Mất một số điểm kinh nghiệm!");
-                messageLeftLabel = "OK";
-                messageRightLabel = "";
-            } else if (var0 == MessageType.LEVEL_UP) {
-                setMessageText("Level up!");
-                messageLeftLabel = "OK";
-                messageRightLabel = "";
-            } else {
-                if (var0 == MessageType.SHOP_NOTICE) {
-                    setMessageText("Buy OK!");
-                    messageLeftLabel = "";
-                    messageRightLabel = "OK";
-                }
-
-            }
-        } else {
-            var0 = worldMapCurrent < worldMapCursor ? worldMapCurrent : worldMapCursor;
-            int var1 = worldMapCurrent > worldMapCursor ? worldMapCurrent : worldMapCursor;
-            int var2 = 0;
-
-            for(var0 = var0; var0 <= var1; ++var0) {
-                var2 += travelCosts[var0];
-            }
-
-            travelCost = var2 = (var2 << 1) / 3;
-            setMessageText("Chuyển đến đây phải trả " + var2 + "$. Bạn có " + Inventory.money + "$. Chuyển?");
-            messageLeftLabel = "Chuyển";
-            messageRightLabel = "Không";
-        }
-    }
-
-    private static void prepareDialog() {
-        lo = 0;
-        if (cornerIcons == null) {
-            cornerIcons = new Image[4];
-
-            for(int var0 = 0; var0 < 4; ++var0) {
-                try {
-                    cornerIcons[var0] = Ui.loadCorner(var0);
-                } catch (IOException var2) {
-                    var2.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    private static void drawMessage(Graphics var0) {
-        var0.translate(-var0.getTranslateX(), -var0.getTranslateY());
-        var0.setColor(0);
-        var0.fillRect(Viewport.viewCenterX - 64, messageY - 19, 129, 102);
-        var0.fillRect(0, Viewport.screenHeight - 13, Viewport.screenWidth, 13);
-        FontGraph.drawBold(var0, messageLeftLabel, 3, Viewport.screenHeight - 13, 0);
-        FontGraph.drawBold(var0, messageRightLabel, Viewport.screenWidth - 3, Viewport.screenHeight - 13, 1);
-        var0.setColor(12281361);
-        var0.drawRect(Viewport.viewCenterX - 63, messageY - 18, 126, 99);
-        var0.setColor(6562304);
-        var0.fillRect(Viewport.viewCenterX - 61, messageY - 16, 123, 97);
-
-        for(int var1 = 0; var1 < messageLines.length; ++var1) {
-            FontGraph.drawBold(var0, messageLines[var1], Viewport.screenCenterX, messageY + var1 * 18, 2);
-        }
-
-        var0.drawImage(cornerIcons[0], Viewport.viewCenterX - 64, messageY - 19, 20);
-        var0.drawImage(cornerIcons[1], Viewport.viewCenterX + 65, messageY - 19, 24);
-        var0.drawImage(cornerIcons[2], Viewport.viewCenterX - 64, messageY + 83, 36);
-        var0.drawImage(cornerIcons[3], Viewport.viewCenterX + 65, messageY + 83, 40);
     }
 
     private static void setNextNpcMarker(int var0) {
@@ -12511,20 +11744,42 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void showPurchaseFailed() {
-        showMessage(MessageType.SHOP_NOTICE);
-        setMessageText("Không thể mua. Xin hãy thử lại sau.");
-        messageY = shopY;
-        state = GameState.MESSAGE;
+    /** Phím mềm trái trên hộp thông báo. */
+    private static void onMessageConfirmed() {
+        switch (MessageBox.type) {
+            case MessageType.TRAVEL_NOT_VISITED:
+            case MessageType.TRAVEL_ALREADY_HERE:
+            case MessageType.NOT_ENOUGH_MONEY:
+                GameState.current = GameState.WORLD_MAP;
+                break;
+            case MessageType.TRAVEL_CONFIRM:
+                // Bản gốc: phải có nhiều hơn (không chỉ bằng) số tiền cần trả.
+                if (WorldMap.travelCost >= Inventory.money) {
+                    MessageBox.show(MessageType.NOT_ENOUGH_MONEY);
+                } else {
+                    Inventory.money -= WorldMap.travelCost;
+                    WorldMap.close();
+                    UiFrame.release();
+                    ensureMapImages();
+                    releaseMapResources();
+                    fp = fe = WorldMap.spawnTileX[WorldMap.selected] * GameMap.TILE_SIZE;
+                    fq = ff = WorldMap.spawnTileY[WorldMap.selected] * GameMap.TILE_SIZE;
+                    Save.pendingSave = true;
+                    changeMap(WorldMap.selected);
+                }
+                break;
+            case MessageType.GAME_NOTICE:
+            case MessageType.LEVEL_UP:
+                UiFrame.release();
+                GameState.current = GameState.PLAYING;
+                break;
+        }
     }
 
     public static void onSwordPurchased() {
         reloadSlashEffects();
         loadHudIcons();
-        showMessage(MessageType.SHOP_NOTICE);
-        setMessageText("Xin chúc mừng. Bạn đã có vũ khí mới: " + ShopCatalog.itemNames[shopRow][shopCursor] + "!");
-        messageY = shopY;
-        state = GameState.MESSAGE;
+        ShopScreen.showSwordPurchased();
     }
 
 }

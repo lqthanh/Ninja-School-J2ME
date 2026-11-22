@@ -5,6 +5,7 @@ import core.player.*;
 import core.quest.*;
 import core.render.*;
 import core.save.*;
+import core.ui.*;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
@@ -81,7 +82,7 @@ public class Midlet extends MIDlet implements Runnable {
             Thread.yield();
             Sky.setup(Save.backgroundIndex, b.mapId, Viewport.viewWidth, Viewport.viewHeight, b.lowGraphics);
             if (b.mapId < 19) {
-                b.X[b.mapId] = true;
+                WorldMap.visited[b.mapId] = true;
             }
 
             b.hudDirty = true;
@@ -153,7 +154,7 @@ public class Midlet extends MIDlet implements Runnable {
             Thread.yield();
         }
 
-        b.state = nextGameState;
+        GameState.current = nextGameState;
     }
 
     // =====================================================================================
