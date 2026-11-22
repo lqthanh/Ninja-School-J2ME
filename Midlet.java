@@ -49,7 +49,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.e(b.mapId);
             b.loadingTarget = 65;
             Thread.yield();
-            b.r(b.mapId);
+            MonsterSpawns.setup(b.mapId);
             b.loadingTarget = 70;
             Thread.yield();
             b.h(b.mapId);

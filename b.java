@@ -368,39 +368,6 @@ public final class b extends Canvas implements Runnable {
     private static int jB;
     static int loadingProgress;
     public static boolean U;
-    private static Image[][][] monsterSprites;
-    private static int jG;
-    private static int jH;
-    private static int[] jI;
-    private static int[] jJ;
-    private static int[] jK;
-    private static int[] jL;
-    private static int[] jM;
-    private static int[] jN;
-    private static int[] jO;
-    private static int[] jP;
-    private static int[] jQ;
-    private static int[] jR;
-    private static int[] jS;
-    private static int[] jT;
-    private static int[] jU;
-    private static int[] jV;
-    private static int[] jW;
-    private static int[] jX;
-    private static int[] jY;
-    private static int[] jZ;
-    private static int[] ka;
-    private static int[] kb;
-    private static int[] kc;
-    private static int[] kd;
-    private static int[] ke;
-    private static int[] kf;
-    private static int[] kg;
-    private static boolean[] kh;
-    private static int[][] ki;
-    private static int[][] kj;
-    private static boolean[][] kk;
-    private static int[] kl;
     private static Image[][] npcSprites;
     private static int npcCount;
     private static int[] npcX;
@@ -489,7 +456,7 @@ public final class b extends Canvas implements Runnable {
         loadingTarget = 0;
         jB = 0;
         loadingProgress = 0;
-        kl = null;
+        Monsters.groupSpriteSets = null;
         String[][] var3 = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
         lF = new int[]{7, 6, 6, 5, 2, 4};
@@ -1058,8 +1025,8 @@ public final class b extends Canvas implements Runnable {
             if (var1 != -1) {
                 fr = true;
                 k(var1, var0, -fm);
-                Blood.spawn(jJ[var1], jK[var1] - (jL[var1] >> 1), fm);
-                FloatingText.spawn("-" + var0, 0, jJ[var1], jK[var1] - jL[var1], 0, -2);
+                Blood.spawn(Monsters.x[var1], Monsters.y[var1] - (Monsters.height[var1] >> 1), fm);
+                FloatingText.spawn("-" + var0, 0, Monsters.x[var1], Monsters.y[var1] - Monsters.height[var1], 0, -2);
                 if (A > 0) {
                     A = -6;
                 }
@@ -1171,12 +1138,12 @@ public final class b extends Canvas implements Runnable {
 
             int var10000;
             while(true) {
-                if (var5 >= jG) {
+                if (var5 >= Monsters.count) {
                     var10000 = -1;
                     break;
                 }
 
-                if (jO[var5] != 5 && jJ[var5] >= var1 && jJ[var5] <= var2 && jK[var5] >= var3 && jK[var5] <= var4) {
+                if (Monsters.state[var5] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[var5] >= var1 && Monsters.x[var5] <= var2 && Monsters.y[var5] >= var3 && Monsters.y[var5] <= var4) {
                     var10000 = var5;
                     break;
                 }
@@ -1187,8 +1154,8 @@ public final class b extends Canvas implements Runnable {
             var1 = var10000;
             if (var10000 != -1) {
                 k(var1, var0, -gz);
-                Blood.spawn(jJ[var1], jK[var1] - (jL[var1] >> 1), gz);
-                FloatingText.spawn("-" + var0, 0, jJ[var1], jK[var1] - jL[var1], 0, -2);
+                Blood.spawn(Monsters.x[var1], Monsters.y[var1] - (Monsters.height[var1] >> 1), gz);
+                FloatingText.spawn("-" + var0, 0, Monsters.x[var1], Monsters.y[var1] - Monsters.height[var1], 0, -2);
             }
 
             if (gN && a(go - gQ) < 30 && a(gn + (gz << 4) - gP) < 40 && !c(var0, -gz)) {
@@ -1543,8 +1510,8 @@ public final class b extends Canvas implements Runnable {
         int var2 = ff - fh - 15;
         int var3 = ff + 5;
 
-        for(int var4 = 0; var4 < jG; ++var4) {
-            if (jO[var4] != 5 && jJ[var4] >= var0 && jJ[var4] <= var1 && jK[var4] >= var2 && jK[var4] <= var3) {
+        for(int var4 = 0; var4 < Monsters.count; ++var4) {
+            if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[var4] >= var0 && Monsters.x[var4] <= var1 && Monsters.y[var4] >= var2 && Monsters.y[var4] <= var3) {
                 return var4;
             }
         }
@@ -1561,7 +1528,7 @@ public final class b extends Canvas implements Runnable {
         System.gc();
         boss1Sprites = null;
         System.gc();
-        monsterSprites = null;
+        Monsters.sprites = null;
         System.gc();
         C();
         classmateHeads = null;
@@ -1578,9 +1545,9 @@ public final class b extends Canvas implements Runnable {
 
     private static void D() {
         int var0;
-        for(var0 = 0; var0 < jG; ++var0) {
-            if (jO[var0] != 5 && a(jK[var0] - go) < 20 && a(jJ[var0] - gn) < 40) {
-                gz = jJ[var0] > gn ? 1 : -1;
+        for(var0 = 0; var0 < Monsters.count; ++var0) {
+            if (Monsters.state[var0] != Monsters.STATE_RESPAWN_WAIT && a(Monsters.y[var0] - go) < 20 && a(Monsters.x[var0] - gn) < 40) {
+                gz = Monsters.x[var0] > gn ? 1 : -1;
                 gr = 5;
                 ih = 0;
                 gA = 0;
@@ -2859,40 +2826,40 @@ public final class b extends Canvas implements Runnable {
             int var10000 = dL[var0];
             int var4 = -dJ[var0];
             int var2 = var10000;
-            if (jO[var2] == 2 || jO[var2] == 3 || jO[var2] == 4) {
-                int[] var5 = jY;
+            if (Monsters.state[var2] == Monsters.STATE_ACTIVE || Monsters.state[var2] == Monsters.STATE_RESTING || Monsters.state[var2] == Monsters.STATE_ATTACKING) {
+                int[] var5 = Monsters.hp;
                 var5[var2] -= var1;
-                if (jY[var2] <= 0) {
-                    jY[var2] = 0;
-                    jT[var2] = -5;
-                    jU[var2] = -(var4 << 3);
-                    jV[var2] = 0;
-                    jN[var2] = 0;
-                    jO[var2] = 1;
+                if (Monsters.hp[var2] <= 0) {
+                    Monsters.hp[var2] = 0;
+                    Monsters.timer[var2] = -5;
+                    Monsters.aux1[var2] = -(var4 << 3);
+                    Monsters.aux2[var2] = 0;
+                    Monsters.healthBarTimer[var2] = 0;
+                    Monsters.state[var2] = Monsters.STATE_KNOCKED_OUT;
                     var6 = true;
                     break label29;
                 }
 
-                jT[var2] = 0;
-                jX[var2] = var4;
-                jO[var2] = 6;
-                jW[var2] = 3;
+                Monsters.timer[var2] = 0;
+                Monsters.direction[var2] = var4;
+                Monsters.state[var2] = Monsters.STATE_HURT;
+                Monsters.frame[var2] = 3;
             }
 
             var6 = false;
         }
 
         if (!var6) {
-            Blood.spawn(jJ[dL[var0]], jK[dL[var0]] - (jL[dL[var0]] >> 1), jX[dL[var0]]);
-            FloatingText.spawn("-" + var1, 0, jJ[dL[var0]], jK[dL[var0]] - jL[dL[var0]], 0, -2);
+            Blood.spawn(Monsters.x[dL[var0]], Monsters.y[dL[var0]] - (Monsters.height[dL[var0]] >> 1), Monsters.direction[dL[var0]]);
+            FloatingText.spawn("-" + var1, 0, Monsters.x[dL[var0]], Monsters.y[dL[var0]] - Monsters.height[dL[var0]], 0, -2);
         }
 
     }
 
     private static void B(int var0) {
-        for(int var1 = 0; var1 < jG; ++var1) {
-            if (jO[var1] != 5 && jK[var1] == dA[var0] && a(dz[var0] + (dJ[var0] << 3) - jJ[var1]) < 20) {
-                if (jJ[var1] < dz[var0]) {
+        for(int var1 = 0; var1 < Monsters.count; ++var1) {
+            if (Monsters.state[var1] != Monsters.STATE_RESPAWN_WAIT && Monsters.y[var1] == dA[var0] && a(dz[var0] + (dJ[var0] << 3) - Monsters.x[var1]) < 20) {
+                if (Monsters.x[var1] < dz[var0]) {
                     dJ[var0] = -1;
                 } else {
                     dJ[var0] = 1;
@@ -3759,9 +3726,9 @@ public final class b extends Canvas implements Runnable {
                                 fr = false;
                                 if (var0 != -1) {
                                     fr = true;
-                                    Blood.spawn(jJ[var0], jK[var0] - (jL[var0] >> 1), fm);
-                                    jO[var0] = 9;
-                                    jT[var0] = -8;
+                                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), fm);
+                                    Monsters.state[var0] = Monsters.STATE_LAUNCHED;
+                                    Monsters.timer[var0] = -8;
                                     Q();
                                 }
                                 break label728;
@@ -4095,10 +4062,10 @@ public final class b extends Canvas implements Runnable {
 
                 Dust.spawn(fm, fe - (fm << 3), ff);
                 S();
-                if ((var0 = A()) != -1 && (jO[var0] == 2 || jO[var0] == 3)) {
+                if ((var0 = A()) != -1 && (Monsters.state[var0] == Monsters.STATE_ACTIVE || Monsters.state[var0] == Monsters.STATE_RESTING)) {
                     k(var0, 2, -fm);
-                    Blood.spawn(jJ[var0], jK[var0] - (jL[var0] >> 1), fm);
-                    FloatingText.spawn("-2", 0, jJ[var0], jK[var0] - jL[var0], 0, -2);
+                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), fm);
+                    FloatingText.spawn("-2", 0, Monsters.x[var0], Monsters.y[var0] - Monsters.height[var0], 0, -2);
                 }
                 break;
             case 20:
@@ -4688,7 +4655,7 @@ public final class b extends Canvas implements Runnable {
                             System.gc();
                             boss1Sprites = null;
                             System.gc();
-                            monsterSprites = null;
+                            Monsters.sprites = null;
                             System.gc();
                             C();
                             classmateHeads = null;
@@ -5633,17 +5600,17 @@ public final class b extends Canvas implements Runnable {
 
                     var1 = var6;
 
-                    for(var2 = 0; var2 < jG; ++var2) {
-                        if (jO[var2] != 5 && jO[var2] != 8 && jJ[var2] >= cameraX - 10 && jJ[var2] <= cameraX + Viewport.viewWidth + 10 && jK[var2] >= cameraY && jK[var2] <= cameraY + Viewport.viewHeight + 20) {
-                            var1.drawImage(monsterSprites[kg[var2]][jX[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][jW[var2]], jJ[var2], jK[var2], 33);
-                            if (jN[var2] != 0) {
+                    for(var2 = 0; var2 < Monsters.count; ++var2) {
+                        if (Monsters.state[var2] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[var2] != Monsters.STATE_GONE && Monsters.x[var2] >= cameraX - 10 && Monsters.x[var2] <= cameraX + Viewport.viewWidth + 10 && Monsters.y[var2] >= cameraY && Monsters.y[var2] <= cameraY + Viewport.viewHeight + 20) {
+                            var1.drawImage(Monsters.sprites[Monsters.group[var2]][Monsters.direction[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][Monsters.frame[var2]], Monsters.x[var2], Monsters.y[var2], 33);
+                            if (Monsters.healthBarTimer[var2] != 0) {
                                 var1.setColor(13073);
-                                var1.drawRect(jJ[var2] - (jM[var2] >> 1) - 1, jK[var2] - jL[var2] - 7, jM[var2] + 2, 4);
-                                var3 = jY[var2] * jM[var2] / jZ[var2];
+                                var1.drawRect(Monsters.x[var2] - (Monsters.width[var2] >> 1) - 1, Monsters.y[var2] - Monsters.height[var2] - 7, Monsters.width[var2] + 2, 4);
+                                var3 = Monsters.hp[var2] * Monsters.width[var2] / Monsters.maxHp[var2];
                                 var1.setColor(60928);
-                                var1.fillRect(jJ[var2] - (jM[var2] >> 1), jK[var2] - jL[var2] - 6, var3, 3);
+                                var1.fillRect(Monsters.x[var2] - (Monsters.width[var2] >> 1), Monsters.y[var2] - Monsters.height[var2] - 6, var3, 3);
                                 var1.setColor(17442);
-                                var1.fillRect(jJ[var2] - (jM[var2] >> 1) + var3, jK[var2] - jL[var2] - 6, jM[var2] - var3 + 1, 3);
+                                var1.fillRect(Monsters.x[var2] - (Monsters.width[var2] >> 1) + var3, Monsters.y[var2] - Monsters.height[var2] - 6, Monsters.width[var2] - var3 + 1, 3);
                             }
                         }
                     }
@@ -6928,15 +6895,15 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 if (da[var13] != 0) {
-                                    for(var4 = 0; var4 < jG; ++var4) {
-                                        if (jO[var4] != 5 && jO[var4] != 1 && a(jJ[var4] - cW[var13]) < jM[var4] && a(jK[var4] - (jL[var4] >> 1) - cX[var13]) < jL[var4]) {
+                                    for(var4 = 0; var4 < Monsters.count; ++var4) {
+                                        if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[var4] != Monsters.STATE_KNOCKED_OUT && a(Monsters.x[var4] - cW[var13]) < Monsters.width[var4] && a(Monsters.y[var4] - (Monsters.height[var4] >> 1) - cX[var13]) < Monsters.height[var4]) {
                                             boolean var14;
                                             label2807: {
                                                 var5 = dc[var13] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
-                                                if (jO[var4] == 2 || jO[var4] == 3 || jO[var4] == 4) {
-                                                    if (jI[var4] == 9 && da[var13] * jX[var4] < 0) {
-                                                        jO[var4] = 4;
-                                                        jT[var4] = 4;
+                                                if (Monsters.state[var4] == Monsters.STATE_ACTIVE || Monsters.state[var4] == Monsters.STATE_RESTING || Monsters.state[var4] == Monsters.STATE_ATTACKING) {
+                                                    if (Monsters.type[var4] == Monsters.TYPE_WIND_NINJA && da[var13] * Monsters.direction[var4] < 0) {
+                                                        Monsters.state[var4] = Monsters.STATE_ATTACKING;
+                                                        Monsters.timer[var4] = 4;
                                                         da[var13] = -da[var13];
                                                         db[var13] = -db[var13];
                                                         var10000 = cW;
@@ -6947,24 +6914,24 @@ public final class b extends Canvas implements Runnable {
                                                         break label2807;
                                                     }
 
-                                                    var10000 = jY;
+                                                    var10000 = Monsters.hp;
                                                     var10000[var4] -= var5;
-                                                    if (jY[var4] <= 0) {
-                                                        jY[var4] = 0;
-                                                        jT[var4] = -5;
-                                                        jU[var4] = da[var13];
-                                                        jV[var4] = 0;
-                                                        jN[var4] = 0;
-                                                        jO[var4] = 1;
+                                                    if (Monsters.hp[var4] <= 0) {
+                                                        Monsters.hp[var4] = 0;
+                                                        Monsters.timer[var4] = -5;
+                                                        Monsters.aux1[var4] = da[var13];
+                                                        Monsters.aux2[var4] = 0;
+                                                        Monsters.healthBarTimer[var4] = 0;
+                                                        Monsters.state[var4] = Monsters.STATE_KNOCKED_OUT;
                                                         L(var4);
                                                         var14 = true;
                                                         break label2807;
                                                     }
 
-                                                    jT[var4] = 0;
-                                                    jX[var4] = da[var13] < 0 ? 1 : -1;
-                                                    jO[var4] = 6;
-                                                    jW[var4] = 3;
+                                                    Monsters.timer[var4] = 0;
+                                                    Monsters.direction[var4] = da[var13] < 0 ? 1 : -1;
+                                                    Monsters.state[var4] = Monsters.STATE_HURT;
+                                                    Monsters.frame[var4] = 3;
                                                     cY[var13] = -1;
                                                 }
 
@@ -6972,8 +6939,8 @@ public final class b extends Canvas implements Runnable {
                                             }
 
                                             if (!var14) {
-                                                Blood.spawn(jJ[var4], jK[var4] - (jL[var4] >> 1), jX[var4]);
-                                                FloatingText.spawn("-" + var5, 0, jJ[var4], jK[var4] - jL[var4], 0, -2);
+                                                Blood.spawn(Monsters.x[var4], Monsters.y[var4] - (Monsters.height[var4] >> 1), Monsters.direction[var4]);
+                                                FloatingText.spawn("-" + var5, 0, Monsters.x[var4], Monsters.y[var4] - Monsters.height[var4], 0, -2);
                                             }
                                             break;
                                         }
@@ -8612,60 +8579,60 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void J(int var0) {
-        if (kb[var0] > 30) {
-            int var2 = jX[var0] > 0 ? jJ[var0] : jJ[var0] - kc[var0];
-            int var3 = jX[var0] >= 0 ? jJ[var0] + kc[var0] : jJ[var0];
-            int var4 = jK[var0] - kd[var0];
-            int var1 = jK[var0] + kd[var0];
+        if (Monsters.attackCooldown[var0] > 30) {
+            int var2 = Monsters.direction[var0] > 0 ? Monsters.x[var0] : Monsters.x[var0] - Monsters.attackRangeX[var0];
+            int var3 = Monsters.direction[var0] >= 0 ? Monsters.x[var0] + Monsters.attackRangeX[var0] : Monsters.x[var0];
+            int var4 = Monsters.y[var0] - Monsters.attackRangeY[var0];
+            int var1 = Monsters.y[var0] + Monsters.attackRangeY[var0];
             if (B == 6 ? false : (fw ? false : (B == 14 ? false : (fe < var2 ? false : (fe > var3 ? false : (ff < var4 ? false : ff <= var1)))))) {
-                kb[var0] = 0;
-                jO[var0] = 4;
-                jT[var0] = 0;
+                Monsters.attackCooldown[var0] = 0;
+                Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                Monsters.timer[var0] = 0;
             }
         }
 
     }
 
     private static void K(int var0) {
-        if (kb[var0] > 30) {
-            int var2 = jX[var0] > 0 ? jJ[var0] : jJ[var0] - kc[var0];
-            int var3 = jX[var0] >= 0 ? jJ[var0] + kc[var0] : jJ[var0];
-            int var4 = jK[var0] - kd[var0];
-            int var1 = jK[var0] + kd[var0];
+        if (Monsters.attackCooldown[var0] > 30) {
+            int var2 = Monsters.direction[var0] > 0 ? Monsters.x[var0] : Monsters.x[var0] - Monsters.attackRangeX[var0];
+            int var3 = Monsters.direction[var0] >= 0 ? Monsters.x[var0] + Monsters.attackRangeX[var0] : Monsters.x[var0];
+            int var4 = Monsters.y[var0] - Monsters.attackRangeY[var0];
+            int var1 = Monsters.y[var0] + Monsters.attackRangeY[var0];
             if (gr == 14 ? false : (gn < var2 ? false : (gn > var3 ? false : (go < var4 ? false : go <= var1)))) {
-                kb[var0] = 0;
-                jO[var0] = 4;
-                jT[var0] = 0;
-                kh[var0] = true;
+                Monsters.attackCooldown[var0] = 0;
+                Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                Monsters.timer[var0] = 0;
+                Monsters.attackingGirl[var0] = true;
             }
         }
 
     }
 
     private static boolean k(int var0, int var1, int var2) {
-        if (jO[var0] == 2 || jO[var0] == 3 || jO[var0] == 4 || jO[var0] == 9) {
-            int[] var10000 = jY;
+        if (Monsters.state[var0] == Monsters.STATE_ACTIVE || Monsters.state[var0] == Monsters.STATE_RESTING || Monsters.state[var0] == Monsters.STATE_ATTACKING || Monsters.state[var0] == Monsters.STATE_LAUNCHED) {
+            int[] var10000 = Monsters.hp;
             var10000[var0] -= var1;
-            if (jY[var0] <= 0) {
-                jY[var0] = 0;
-                jT[var0] = -5;
-                jU[var0] = -(var2 << 3);
-                jV[var0] = 0;
-                jN[var0] = 0;
-                jO[var0] = 1;
+            if (Monsters.hp[var0] <= 0) {
+                Monsters.hp[var0] = 0;
+                Monsters.timer[var0] = -5;
+                Monsters.aux1[var0] = -(var2 << 3);
+                Monsters.aux2[var0] = 0;
+                Monsters.healthBarTimer[var0] = 0;
+                Monsters.state[var0] = Monsters.STATE_KNOCKED_OUT;
                 L(var0);
                 return true;
             }
 
-            if (jO[var0] == 9) {
-                var10000 = jT;
+            if (Monsters.state[var0] == Monsters.STATE_LAUNCHED) {
+                var10000 = Monsters.timer;
                 var10000[var0] -= 7;
-                jX[var0] = var2;
+                Monsters.direction[var0] = var2;
             } else {
-                jT[var0] = 0;
-                jX[var0] = var2;
-                jO[var0] = 6;
-                jW[var0] = 3;
+                Monsters.timer[var0] = 0;
+                Monsters.direction[var0] = var2;
+                Monsters.state[var0] = Monsters.STATE_HURT;
+                Monsters.frame[var0] = 3;
             }
         }
 
@@ -8673,457 +8640,94 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void L(int var0) {
-        gainExp(MonsterStats.exp[jI[var0]]);
+        gainExp(MonsterStats.exp[Monsters.type[var0]]);
         int var1;
         if ((var1 = tick % 20) > 15) {
-            PotionDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (tick + 1) % 2);
+            PotionDrops.spawn(Monsters.x[var0], Monsters.y[var0], -(Monsters.direction[var0] << 3), -5, Monsters.damage[var0] << 2, (tick + 1) % 2);
         } else if (var1 == 15) {
-            MoneyDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + tick % 10);
+            MoneyDrops.spawn(Monsters.x[var0], Monsters.y[var0], -(Monsters.direction[var0] << 2), -4, (Monsters.money[var0] << 3) + tick % 10);
         } else {
-            var1 = ((jI[var0] << 2) / 10 + 1) * 10;
-            MoneyDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 1), -6, var1);
-            MoneyDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 4), -3, var1);
+            var1 = ((Monsters.type[var0] << 2) / 10 + 1) * 10;
+            MoneyDrops.spawn(Monsters.x[var0], Monsters.y[var0], -(Monsters.direction[var0] << 1), -6, var1);
+            MoneyDrops.spawn(Monsters.x[var0], Monsters.y[var0], -(Monsters.direction[var0] << 4), -3, var1);
         }
 
-        if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == jI[var0]) {
+        if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == Monsters.type[var0]) {
             ++QuestState.progress;
             Notice.show(GameText.monsterNames[Quest.TARGET_MONSTER[QuestState.current]] + ": " + QuestState.progress + "#" + Quest.TARGET_COUNT[QuestState.current]);
         }
 
-        if (jI[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
-            placeQuestItem(jJ[var0], jK[var0]);
-            Aura.show(jJ[var0], jK[var0] - 28);
-        }
-
-    }
-
-    public static final void r(int var0) {
-        jG = 0;
-        boolean var1;
-        int var2;
-        boolean var4;
-        switch (var0) {
-            case 0:
-                kl = new int[]{7};
-                al();
-                ki[0] = new int[]{68, 71, 74, 64};
-                kj[0] = new int[]{15, 15, 15, 17};
-                am();
-                M(2);
-                q(0, 2);
-                break;
-            case 1:
-                kl = new int[]{1, 7, 0};
-                al();
-                ki[0] = new int[]{44, 40, 42, 39, 41, 39, 34};
-                kj[0] = new int[]{10, 11, 9, 9, 7, 5, 9};
-                ki[1] = new int[]{48, 51};
-                kj[1] = new int[]{9, 9};
-                ki[2] = new int[]{8, 3, 24, 25, 26};
-                kj[2] = new int[]{9, 9, 10, 8, 6};
-                am();
-                M(7);
-                u(0, 3);
-                q(1, 1);
-                s(2, 3);
-                break;
-            case 2:
-                kl = new int[]{1, 6};
-                al();
-                ki[0] = new int[]{32, 41, 44, 48};
-                kj[0] = new int[]{13, 13, 11, 11};
-                ki[1] = new int[]{41, 47, 57, 36};
-                kj[1] = new int[]{9, 7, 7, 8};
-                am();
-                M(4);
-                u(0, 2);
-                o(1, 2);
-                break;
-            case 3:
-                kl = new int[]{1, 6, 0};
-                al();
-                ki[0] = new int[]{6, 10, 17, 26, 42, 83, 96};
-                kj[0] = new int[]{9, 10, 10, 10, 10, 10, 11};
-                ki[1] = new int[]{10, 19, 24, 32, 41, 49, 59, 68, 80, 87, 110};
-                kj[1] = new int[]{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7};
-                ki[2] = new int[]{17, 24, 28, 35, 42, 49, 59, 69, 78, 86, 97, 107, 113};
-                kj[2] = new int[]{10, 10, 8, 8, 10, 9, 9, 9, 10, 10, 8, 8, 9};
-                am();
-                M(20);
-                u(0, 4);
-                o(1, 8);
-                s(2, 8);
-                break;
-            case 4:
-                kl = new int[]{6, 0, 4, 9, 1};
-                al();
-                ki[0] = new int[]{29, 26, 37, 43, 58, 67, 11, 74, 57};
-                kj[0] = new int[]{11, 10, 11, 10, 8, 3, 8, 7, 7};
-                ki[1] = new int[]{21, 39, 37, 45, 25, 62, 58};
-                kj[1] = new int[]{12, 12, 12, 8, 12, 9, 5};
-                ki[2] = new int[]{29, 33, 68, 42, 57};
-                kj[2] = new int[]{13, 12, 7, 12, 9};
-                ki[3] = new int[]{55, 59, 53};
-                kj[3] = new int[]{5, 5, 5};
-                ki[4] = new int[]{19, 11};
-                kj[4] = new int[]{12, 11};
-                am();
-                M(20);
-                o(0, 6);
-                s(1, 6);
-                r(2, 4);
-                l(3, 2);
-                u(4, 2);
-                break;
-            case 5:
-                kl = new int[]{0, 3, 4};
-                al();
-                ki[0] = new int[]{7, 14, 7, 14, 7, 6, 15, 9};
-                kj[0] = new int[]{9, 13, 18, 28, 29, 35, 42, 70};
-                ki[1] = new int[]{6, 4, 14, 4, 16, 7, 15, 11};
-                kj[1] = new int[]{14, 26, 33, 44, 47, 62, 65, 78};
-                ki[2] = new int[]{14, 14, 7, 12, 8, 14, 8};
-                kj[2] = new int[]{23, 39, 56, 62, 66, 70, 78};
-                am();
-                M(20);
-                s(0, 7);
-                var1 = true;
-                var4 = true;
-
-                for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-                }
-
-                if (var2 != jG) {
-                    for(var0 = var2; var0 < var2 + 7; ++var0) {
-                        kg[var0] = 1;
-                        jI[var0] = 3;
-                        kc[var0] = 30;
-                        kd[var0] = 10;
-                        jL[var0] = 27;
-                        jM[var0] = 15;
-                        jX[var0] = 1;
-                        jO[var0] = 5;
-                        jT[var0] = var0 << 3;
-                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
-                        ka[var0] = MonsterStats.damage[jI[var0]];
-                        kf[var0] = MonsterStats.money[jI[var0]];
-                        kb[var0] = 0;
-                    }
-                }
-
-                r(2, 6);
-                break;
-            case 6:
-                kl = new int[]{9, 2, 5};
-                al();
-                ki[0] = new int[]{42, 47, 72, 82, 85, 93, 104, 130, 139, 151, 165, 182, 189, 200, 207, 214, 225, 225, 237};
-                kj[0] = new int[]{10, 8, 10, 8, 6, 6, 6, 9, 9, 7, 4, 7, 9, 10, 10, 8, 4, 10, 8};
-                ki[1] = new int[]{39, 40, 41, 72, 73, 74, 132, 106, 107, 130, 131, 142, 149, 157, 168, 182, 183, 194, 214, 215, 216, 236, 39, 40, 56, 57};
-                kj[1] = new int[]{5, 5, 6, 6, 4, 3, 2, 3, 4, 5, 5, 5, 2, 1, 3, 4, 5, 6, 6, 5, 4, 5, 6, 6, 6, 6};
-                ki[2] = new int[]{45, 64, 83, 101, 119, 147, 173, 220};
-                kj[2] = new int[]{6, 8, 4, 3, 6, 7, 5, 4};
-                am();
-                M(26);
-                l(0, 5);
-                j(1, 18);
-                var1 = true;
-                var4 = true;
-
-                for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-                }
-
-                if (var2 != jG) {
-                    for(var0 = var2; var0 < var2 + 3; ++var0) {
-                        kg[var0] = 2;
-                        jI[var0] = 5;
-                        kc[var0] = 7;
-                        kd[var0] = 10;
-                        jL[var0] = 16;
-                        jM[var0] = 15;
-                        jX[var0] = 0;
-                        jO[var0] = 5;
-                        jT[var0] = var0 << 3;
-                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
-                        ka[var0] = MonsterStats.damage[jI[var0]];
-                        kf[var0] = MonsterStats.money[jI[var0]];
-                        kb[var0] = 100;
-                    }
-                }
-                break;
-            case 7:
-                kl = new int[]{9, 8, 10};
-                al();
-                ki[0] = new int[]{38, 39, 47, 52, 56, 61, 66, 73, 71};
-                kj[0] = new int[]{5, 5, 3, 8, 4, 4, 4, 4, 8};
-                ki[1] = new int[]{16, 23, 26, 29, 32, 35, 38, 41, 44, 47, 56, 59, 61, 64, 66};
-                kj[1] = new int[]{11, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
-                ki[2] = new int[]{36, 42, 45, 487, 56, 60, 64};
-                kj[2] = new int[]{11, 11, 11, 11, 11, 11, 11};
-                am();
-                M(23);
-                l(0, 7);
-                m(1, 10);
-                n(2, 6);
-                break;
-            case 8:
-                kl = new int[]{11, 8, 10, 2};
-                al();
-                ki[0] = new int[]{12, 29, 6, 12, 24, 18, 37, 50, 65, 72, 47};
-                kj[0] = new int[]{10, 8, 12, 12, 11, 12, 10, 8, 8, 7, 7};
-                ki[1] = new int[]{29, 45, 48, 70, 73};
-                kj[1] = new int[]{12, 12, 12, 12, 12};
-                ki[2] = new int[]{46, 47, 71, 72};
-                kj[2] = new int[]{13, 13, 13, 13};
-                ki[3] = new int[]{25, 7, 69, 69, 50, 51};
-                kj[3] = new int[]{25, 8, 6, 7, 5, 5};
-                am();
-                M(22);
-                var1 = true;
-                var4 = false;
-
-                for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-                }
-
-                if (var2 != jG) {
-                    for(var0 = var2; var0 < var2 + 10; ++var0) {
-                        kg[var0] = 0;
-                        jI[var0] = 11;
-                        kc[var0] = 32;
-                        kd[var0] = 10;
-                        jL[var0] = 27;
-                        jM[var0] = 15;
-                        jX[var0] = 1;
-                        jO[var0] = 5;
-                        jT[var0] = jH - var0;
-                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
-                        ka[var0] = MonsterStats.damage[jI[var0]];
-                        kf[var0] = MonsterStats.money[jI[var0]];
-                        kb[var0] = 0;
-                    }
-                }
-
-                m(1, 4);
-                n(2, 3);
-                j(3, 5);
-                break;
-            case 9:
-                kl = new int[]{13};
-                al();
-                ki[0] = new int[]{10, 37, 23, 65};
-                kj[0] = new int[]{7, 6, 6, 4};
-                am();
-                M(3);
-                k(0, 3);
-                break;
-            case 10:
-                kl = new int[]{13};
-                al();
-                ki[0] = new int[]{31, 12, 25, 12};
-                kj[0] = new int[]{19, 23, 23, 6};
-                am();
-                M(3);
-                k(0, 3);
-                break;
-            case 11:
-                kl = new int[]{14, 8};
-                al();
-                ki[0] = new int[]{15, 16, 17, 31, 32, 33, 68, 69, 72};
-                kj[0] = new int[]{12, 12, 12, 12, 8, 8, 8, 8, 8};
-                ki[1] = new int[]{47, 48, 50, 49};
-                kj[1] = new int[]{12, 12, 12, 12};
-                am();
-                M(10);
-                var1 = true;
-                var4 = false;
-
-                for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-                }
-
-                if (var2 != jG) {
-                    for(var0 = var2; var0 < var2 + 7; ++var0) {
-                        kg[var0] = 0;
-                        jI[var0] = 14;
-                        kc[var0] = 7;
-                        kd[var0] = 10;
-                        jL[var0] = 16;
-                        jM[var0] = 15;
-                        jX[var0] = 1;
-                        jO[var0] = 5;
-                        jT[var0] = var0 << 3;
-                        jY[var0] = jZ[var0] = MonsterStats.maxHp[jI[var0]];
-                        ka[var0] = MonsterStats.damage[jI[var0]];
-                        kf[var0] = MonsterStats.money[jI[var0]];
-                        kb[var0] = 500;
-                    }
-                }
-
-                m(1, 3);
-                break;
-            case 12:
-                kl = new int[]{15, 16, 10};
-                al();
-                ki[0] = new int[]{11, 18, 20, 9, 9, 17, 18, 22, 31};
-                kj[0] = new int[]{7, 5, 10, 14, 17, 15, 20, 19, 21};
-                ki[1] = new int[]{5, 10, 5, 10, 14, 21, 16, 37};
-                kj[1] = new int[]{6, 12, 15, 19, 16, 17, 9, 17};
-                ki[2] = new int[]{25, 26, 27, 34};
-                kj[2] = new int[]{23, 23, 23, 23};
-                am();
-                M(19);
-                t(0, 7);
-                p(1, 8);
-                n(2, 4);
-                break;
-            case 13:
-                kl = new int[]{18, 15, 13};
-                al();
-                ki[0] = new int[]{6, 12, 30, 34, 34, 43, 54, 53, 70, 76};
-                kj[0] = new int[]{9, 11, 11, 10, 5, 5, 5, 11, 11, 11};
-                ki[1] = new int[]{11, 16, 18, 29, 50, 38, 48, 58, 62, 74};
-                kj[1] = new int[]{11, 9, 7, 5, 11, 5, 5, 5, 5, 11};
-                ki[2] = new int[]{22, 41, 42, 61};
-                kj[2] = new int[]{9, 8, 2, 8};
-                am();
-                M(18);
-                v(0, 8);
-                t(1, 6);
-                k(2, 4);
-                break;
-            case 14:
-                kl = new int[]{12, 17, 16};
-                al();
-                ki[0] = new int[]{7, 12, 16, 25, 28, 45, 50};
-                kj[0] = new int[]{4, 7, 11, 14, 8, 14, 9};
-                ki[1] = new int[]{14, 18, 29, 28, 29, 53, 47, 51};
-                kj[1] = new int[]{7, 11, 12, 8, 4, 14, 9, 4};
-                ki[2] = new int[]{4, 41, 26, 26, 34, 41, 49, 56};
-                kj[2] = new int[]{4, 9, 11, 2, 2, 5, 7, 2};
-                am();
-                M(19);
-                y(0, 6);
-                x(1, 7);
-                p(2, 6);
-                break;
-            case 15:
-                kl = new int[]{19, 18, 17};
-                al();
-                ki[0] = new int[]{22, 7, 19, 32};
-                kj[0] = new int[]{28, 25, 28, 14};
-                ki[1] = new int[]{3, 13, 31, 35, 24};
-                kj[1] = new int[]{6, 25, 25, 21, 27};
-                ki[2] = new int[]{35, 29, 24, 17, 13, 2};
-                kj[2] = new int[]{8, 11, 9, 7, 7, 17};
-                am();
-                M(15);
-                w(0, 4);
-                v(1, 5);
-                x(2, 6);
-                break;
-            case 16:
-                kl = new int[]{19, 13};
-                al();
-                ki[0] = new int[]{15, 33, 53};
-                kj[0] = new int[]{12, 10, 10};
-                ki[1] = new int[]{20, 39, 59};
-                kj[1] = new int[]{10, 8, 8};
-                am();
-                M(6);
-                w(0, 3);
-                k(1, 3);
-                break;
-            case 17:
-                kl = new int[]{12};
-                al();
-                ki[0] = new int[]{8, 14, 39, 45};
-                kj[0] = new int[]{12, 12, 9, 16};
-                am();
-                M(4);
-                y(0, 4);
-                break;
-            case 95:
-                kl = new int[]{13};
-                al();
-                ki[0] = new int[]{7, 10, 14, 18};
-                kj[0] = new int[]{8, 8, 8, 8};
-                am();
-                M(4);
-                k(0, 4);
-        }
-
-        if (jG > 0) {
-            monsterSprites = new Image[kl.length][][];
-
-            for(var0 = 0; var0 < kl.length; ++var0) {
-                monsterSprites[var0] = Mob.loadMonster(kl[var0]);
-            }
+        if (Monsters.type[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
+            placeQuestItem(Monsters.x[var0], Monsters.y[var0]);
+            Aura.show(Monsters.x[var0], Monsters.y[var0] - 28);
         }
 
     }
 
     private static void ak() {
-        for(int var0 = 0; var0 < jG; ++var0) {
+        for(int var0 = 0; var0 < Monsters.count; ++var0) {
             int var10002;
-            if (kb[var0] <= 30) {
-                var10002 = kb[var0]++;
+            if (Monsters.attackCooldown[var0] <= 30) {
+                var10002 = Monsters.attackCooldown[var0]++;
             }
 
-            if (jN[var0] > 0) {
-                var10002 = jN[var0]--;
+            if (Monsters.healthBarTimer[var0] > 0) {
+                var10002 = Monsters.healthBarTimer[var0]--;
             }
 
             int[] var10000;
-            switch (jO[var0]) {
-                case 1:
-                    var10002 = jT[var0]++;
-                    var10000 = jK;
-                    var10000[var0] += jT[var0];
+            switch (Monsters.state[var0]) {
+                case Monsters.STATE_KNOCKED_OUT:
+                    var10002 = Monsters.timer[var0]++;
+                    var10000 = Monsters.y;
+                    var10000[var0] += Monsters.timer[var0];
                     if (tick % 2 == 0) {
-                        if (jU[var0] > 1) {
-                            var10002 = jU[var0]--;
-                        } else if (jU[var0] < -1) {
-                            var10002 = jU[var0]++;
+                        if (Monsters.aux1[var0] > 1) {
+                            var10002 = Monsters.aux1[var0]--;
+                        } else if (Monsters.aux1[var0] < -1) {
+                            var10002 = Monsters.aux1[var0]++;
                         }
                     }
 
-                    var10000 = jJ;
-                    var10000[var0] += jU[var0];
-                    jW[var0] = 2;
-                    if (jK[var0] < GameMap.pixelHeight && jJ[var0] >= 0 && jJ[var0] < GameMap.pixelWidth) {
-                        if ((jV[var0] == 0 || jV[var0] < 3 && jT[var0] > 7) && (GameMap.flagsAtPixel(jJ[var0], jK[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
-                            jT[var0] = jT[var0] > 4 ? -4 : -jT[var0];
-                            var10002 = jV[var0]++;
+                    var10000 = Monsters.x;
+                    var10000[var0] += Monsters.aux1[var0];
+                    Monsters.frame[var0] = 2;
+                    if (Monsters.y[var0] < GameMap.pixelHeight && Monsters.x[var0] >= 0 && Monsters.x[var0] < GameMap.pixelWidth) {
+                        if ((Monsters.aux2[var0] == 0 || Monsters.aux2[var0] < 3 && Monsters.timer[var0] > 7) && (GameMap.flagsAtPixel(Monsters.x[var0], Monsters.y[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
+                            Monsters.timer[var0] = Monsters.timer[var0] > 4 ? -4 : -Monsters.timer[var0];
+                            var10002 = Monsters.aux2[var0]++;
                         }
 
-                        if (GameMap.hasFlag(jJ[var0], jK[var0], TileFlags.WATER) && jK[var0] % GameMap.TILE_SIZE > 8) {
-                            WaterSplash.spawn(jJ[var0], H(jK[var0]) + 8);
+                        if (GameMap.hasFlag(Monsters.x[var0], Monsters.y[var0], TileFlags.WATER) && Monsters.y[var0] % GameMap.TILE_SIZE > 8) {
+                            WaterSplash.spawn(Monsters.x[var0], H(Monsters.y[var0]) + 8);
                         }
                         break;
                     }
 
-                    jT[var0] = -300;
-                    jO[var0] = 5;
+                    Monsters.timer[var0] = -300;
+                    Monsters.state[var0] = Monsters.STATE_RESPAWN_WAIT;
                     if (U) {
-                        jO[var0] = 8;
+                        Monsters.state[var0] = Monsters.STATE_GONE;
                     }
 
-                    kk[kg[var0]][ke[var0]] = false;
+                    Monsters.spawnUsed[Monsters.group[var0]][Monsters.spawnPoint[var0]] = false;
                     break;
-                case 2:
-                    switch (jI[var0]) {
-                        case 0:
+                case Monsters.STATE_ACTIVE:
+                    switch (Monsters.type[var0]) {
+                        case Monsters.TYPE_ONE_EYED_GHOST:
                             if (tick % 4 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
                                 }
                             }
 
-                            var10000 = jJ;
-                            var10000[var0] += jX[var0];
-                            if (jJ[var0] > jQ[var0]) {
-                                jX[var0] = -1;
-                            } else if (jJ[var0] < jP[var0]) {
-                                jX[var0] = 1;
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.direction[var0];
+                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                Monsters.direction[var0] = -1;
+                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                Monsters.direction[var0] = 1;
                             }
 
                             J(var0);
@@ -9131,79 +8735,79 @@ public final class b extends Canvas implements Runnable {
                                 K(var0);
                             }
                             continue;
-                        case 1:
+                        case Monsters.TYPE_SNAIL:
                             U(var0);
                             continue;
-                        case 2:
-                            var10000 = jJ;
-                            var10000[var0] += jR[var0];
-                            var10000 = jK;
-                            var10000[var0] += jS[var0];
-                            if (jJ[var0] - jP[var0] > 40) {
-                                jR[var0] = -(tick % 3 + 1);
+                        case Monsters.TYPE_DEMON_BAT:
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.vx[var0];
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.vy[var0];
+                            if (Monsters.x[var0] - Monsters.rangeA[var0] > 40) {
+                                Monsters.vx[var0] = -(tick % 3 + 1);
                             }
 
-                            if (jJ[var0] - jP[var0] < -40) {
-                                jR[var0] = tick % 3 + 1;
+                            if (Monsters.x[var0] - Monsters.rangeA[var0] < -40) {
+                                Monsters.vx[var0] = tick % 3 + 1;
                             }
 
-                            if (jK[var0] - jQ[var0] > 40) {
-                                jS[var0] = -(tick % 3 + 1);
+                            if (Monsters.y[var0] - Monsters.rangeB[var0] > 40) {
+                                Monsters.vy[var0] = -(tick % 3 + 1);
                             }
 
-                            if (jK[var0] - jQ[var0] < -40) {
-                                jS[var0] = tick % 3 + 1;
+                            if (Monsters.y[var0] - Monsters.rangeB[var0] < -40) {
+                                Monsters.vy[var0] = tick % 3 + 1;
                             }
 
                             if (tick % 15 == 0) {
-                                jR[var0] = tick % 4 - 1;
-                                jS[var0] = (tick >> 1) % 4 - 1;
+                                Monsters.vx[var0] = tick % 4 - 1;
+                                Monsters.vy[var0] = (tick >> 1) % 4 - 1;
                             }
 
                             if (tick % 2 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
                                 }
 
-                                if (jW[var0] == 0) {
-                                    var10000 = jK;
+                                if (Monsters.frame[var0] == 0) {
+                                    var10000 = Monsters.y;
                                     var10000[var0] -= 3;
                                 } else {
-                                    var10000 = jK;
+                                    var10000 = Monsters.y;
                                     var10000[var0] += 2;
                                 }
                             }
 
                             J(var0);
                             continue;
-                        case 3:
-                            var10000 = jJ;
-                            var10000[var0] += jT[var0];
-                            if (jT[var0] > 1) {
-                                var10002 = jT[var0]--;
-                            } else if (jT[var0] < -1) {
-                                var10002 = jT[var0]++;
+                        case Monsters.TYPE_ONE_LEGGED_DEMON:
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.timer[var0];
+                            if (Monsters.timer[var0] > 1) {
+                                var10002 = Monsters.timer[var0]--;
+                            } else if (Monsters.timer[var0] < -1) {
+                                var10002 = Monsters.timer[var0]++;
                             }
 
-                            var10000 = jK;
-                            var10000[var0] += jU[var0];
-                            var10002 = jU[var0]++;
-                            if (jU[var0] > 4) {
-                                jU[var0] = -4;
-                                jT[var0] = jX[var0] * 3;
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.aux1[var0];
+                            var10002 = Monsters.aux1[var0]++;
+                            if (Monsters.aux1[var0] > 4) {
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
                             }
 
-                            if (a(jU[var0]) == 3) {
-                                if (jJ[var0] > jQ[var0]) {
-                                    jX[var0] = -1;
-                                } else if (jJ[var0] < jP[var0]) {
-                                    jX[var0] = 1;
+                            if (a(Monsters.aux1[var0]) == 3) {
+                                if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                    Monsters.direction[var0] = -1;
+                                } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                    Monsters.direction[var0] = 1;
                                 }
 
-                                jW[var0] = 0;
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 1;
+                                Monsters.frame[var0] = 1;
                             }
 
                             J(var0);
@@ -9211,37 +8815,37 @@ public final class b extends Canvas implements Runnable {
                                 K(var0);
                             }
                             continue;
-                        case 4:
-                            var10000 = jJ;
-                            var10000[var0] += jV[var0];
-                            if (jV[var0] > 1) {
-                                var10002 = jV[var0]--;
-                            } else if (jV[var0] < -1) {
-                                var10002 = jV[var0]++;
+                        case Monsters.TYPE_GREEN_TOAD:
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.aux2[var0];
+                            if (Monsters.aux2[var0] > 1) {
+                                var10002 = Monsters.aux2[var0]--;
+                            } else if (Monsters.aux2[var0] < -1) {
+                                var10002 = Monsters.aux2[var0]++;
                             }
 
-                            var10000 = jK;
-                            var10000[var0] += jU[var0];
-                            var10002 = jU[var0]++;
-                            if (jU[var0] > 3) {
-                                jU[var0] = -3;
-                                jV[var0] = jX[var0] << 2;
-                                jT[var0] = 0;
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 3;
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.aux1[var0];
+                            var10002 = Monsters.aux1[var0]++;
+                            if (Monsters.aux1[var0] > 3) {
+                                Monsters.aux1[var0] = -3;
+                                Monsters.aux2[var0] = Monsters.direction[var0] << 2;
+                                Monsters.timer[var0] = 0;
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
                             }
 
-                            if (jU[var0] == -2) {
-                                if (jJ[var0] > jQ[var0]) {
-                                    jX[var0] = -1;
-                                } else if (jJ[var0] < jP[var0]) {
-                                    jX[var0] = 1;
+                            if (Monsters.aux1[var0] == -2) {
+                                if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                    Monsters.direction[var0] = -1;
+                                } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                    Monsters.direction[var0] = 1;
                                 }
 
-                                jV[var0] = jX[var0] * 6;
-                                jW[var0] = 0;
+                                Monsters.aux2[var0] = Monsters.direction[var0] * 6;
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 1;
+                                Monsters.frame[var0] = 1;
                             }
 
                             J(var0);
@@ -9249,81 +8853,81 @@ public final class b extends Canvas implements Runnable {
                                 K(var0);
                             }
                             continue;
-                        case 5:
+                        case Monsters.TYPE_SPIDER:
                             if (tick % 4 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
                                 }
 
-                                var10000 = jK;
-                                var10000[var0] += jT[var0];
+                                var10000 = Monsters.y;
+                                var10000[var0] += Monsters.timer[var0];
                             }
 
-                            if (jK[var0] > jQ[var0]) {
-                                jT[var0] = -1;
-                            } else if (jK[var0] < jP[var0]) {
-                                jT[var0] = 1;
+                            if (Monsters.y[var0] > Monsters.rangeB[var0]) {
+                                Monsters.timer[var0] = -1;
+                            } else if (Monsters.y[var0] < Monsters.rangeA[var0]) {
+                                Monsters.timer[var0] = 1;
                             }
 
                             J(var0);
                             continue;
-                        case 6:
+                        case Monsters.TYPE_BEE:
                             P(var0);
-                        case 7:
+                        case Monsters.TYPE_SCARECROW:
                         default:
                             continue;
-                        case 8:
-                            var10002 = jW[var0]++;
-                            if (jW[var0] > 1) {
-                                jW[var0] = 0;
+                        case Monsters.TYPE_TIGER_FISH:
+                            var10002 = Monsters.frame[var0]++;
+                            if (Monsters.frame[var0] > 1) {
+                                Monsters.frame[var0] = 0;
                             }
 
-                            var10000 = jJ;
-                            var10000[var0] += tick % 5 * jX[var0];
-                            if (jJ[var0] > jQ[var0]) {
-                                jX[var0] = -1;
-                            } else if (jJ[var0] < jP[var0]) {
-                                jX[var0] = 1;
+                            var10000 = Monsters.x;
+                            var10000[var0] += tick % 5 * Monsters.direction[var0];
+                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                Monsters.direction[var0] = -1;
+                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                Monsters.direction[var0] = 1;
                             }
 
                             J(var0);
                             continue;
-                        case 9:
+                        case Monsters.TYPE_WIND_NINJA:
                             Q(var0);
                             continue;
-                        case 10:
-                            var10002 = jW[var0]++;
-                            if (jW[var0] > 1) {
-                                jW[var0] = 0;
+                        case Monsters.TYPE_RED_TIGER_FISH:
+                            var10002 = Monsters.frame[var0]++;
+                            if (Monsters.frame[var0] > 1) {
+                                Monsters.frame[var0] = 0;
                             }
 
-                            var10000 = jJ;
-                            var10000[var0] += 5 * jX[var0];
-                            if (jJ[var0] > jQ[var0]) {
-                                jX[var0] = -1;
-                            } else if (jJ[var0] < jP[var0]) {
-                                jX[var0] = 1;
+                            var10000 = Monsters.x;
+                            var10000[var0] += 5 * Monsters.direction[var0];
+                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                Monsters.direction[var0] = -1;
+                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                Monsters.direction[var0] = 1;
                             }
 
                             J(var0);
                             continue;
-                        case 11:
+                        case Monsters.TYPE_ONE_EYED_GHOST_2:
                             if (tick % 4 == 0) {
-                                var10002 = jW[var0]++;
-                                jT[var0] = 0;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
-                                    jT[var0] = 1;
+                                var10002 = Monsters.frame[var0]++;
+                                Monsters.timer[var0] = 0;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
+                                    Monsters.timer[var0] = 1;
                                 }
                             }
 
-                            var10000 = jJ;
-                            var10000[var0] += jT[var0] * jX[var0];
-                            if (jJ[var0] > jQ[var0]) {
-                                jX[var0] = -1;
-                            } else if (jJ[var0] < jP[var0]) {
-                                jX[var0] = 1;
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.timer[var0] * Monsters.direction[var0];
+                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                Monsters.direction[var0] = -1;
+                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                Monsters.direction[var0] = 1;
                             }
 
                             J(var0);
@@ -9331,66 +8935,66 @@ public final class b extends Canvas implements Runnable {
                                 K(var0);
                             }
                             continue;
-                        case 12:
+                        case Monsters.TYPE_DESERT_CENTIPEDE:
                             Q(var0);
                             continue;
-                        case 13:
-                            var10000 = jJ;
-                            var10000[var0] += jR[var0];
-                            if (jJ[var0] - jP[var0] > 100) {
-                                jX[var0] = -1;
-                                jR[var0] = jX[var0] * (tick % 4 + 1);
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 2;
-                            } else if (jJ[var0] - jP[var0] < -100) {
-                                jX[var0] = 1;
-                                jR[var0] = jX[var0] * (tick % 4 + 1);
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 2;
+                        case Monsters.TYPE_GOLDEN_BAT:
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.vx[var0];
+                            if (Monsters.x[var0] - Monsters.rangeA[var0] > 100) {
+                                Monsters.direction[var0] = -1;
+                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 2;
+                            } else if (Monsters.x[var0] - Monsters.rangeA[var0] < -100) {
+                                Monsters.direction[var0] = 1;
+                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 2;
                             }
 
-                            if (jK[var0] - jQ[var0] > 20) {
-                                jS[var0] = -(tick % 4 + 1);
-                            } else if (jK[var0] - jQ[var0] < -20) {
-                                jS[var0] = tick % 4 + 1;
+                            if (Monsters.y[var0] - Monsters.rangeB[var0] > 20) {
+                                Monsters.vy[var0] = -(tick % 4 + 1);
+                            } else if (Monsters.y[var0] - Monsters.rangeB[var0] < -20) {
+                                Monsters.vy[var0] = tick % 4 + 1;
                             } else {
-                                jS[var0] = 0;
+                                Monsters.vy[var0] = 0;
                             }
 
-                            var10000 = jK;
-                            var10000[var0] += jS[var0];
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.vy[var0];
                             if (tick % 2 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
-                                    var10000 = jK;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
+                                    var10000 = Monsters.y;
                                     var10000[var0] -= 12;
                                 } else {
-                                    var10000 = jK;
+                                    var10000 = Monsters.y;
                                     var10000[var0] += 12;
                                 }
                             }
 
                             J(var0);
                             continue;
-                        case 14:
-                            var10002 = jW[var0]++;
-                            if (jW[var0] > 1) {
-                                jW[var0] = 0;
+                        case Monsters.TYPE_RAT:
+                            var10002 = Monsters.frame[var0]++;
+                            if (Monsters.frame[var0] > 1) {
+                                Monsters.frame[var0] = 0;
                             }
 
                             if (tick % 2 == 0) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 2;
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 2;
                             } else {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 1;
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 1;
                             }
 
-                            if (jJ[var0] > jQ[var0]) {
-                                jX[var0] = -1;
-                            } else if (jJ[var0] < jP[var0]) {
-                                jX[var0] = 1;
+                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                Monsters.direction[var0] = -1;
+                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                Monsters.direction[var0] = 1;
                             }
 
                             J(var0);
@@ -9398,33 +9002,33 @@ public final class b extends Canvas implements Runnable {
                                 K(var0);
                             }
                             continue;
-                        case 15:
-                            var10000 = jJ;
-                            var10000[var0] += jT[var0];
-                            if (jT[var0] > 1) {
-                                var10002 = jT[var0]--;
-                            } else if (jT[var0] < -1) {
-                                var10002 = jT[var0]++;
+                        case Monsters.TYPE_NATIVE:
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.timer[var0];
+                            if (Monsters.timer[var0] > 1) {
+                                var10002 = Monsters.timer[var0]--;
+                            } else if (Monsters.timer[var0] < -1) {
+                                var10002 = Monsters.timer[var0]++;
                             }
 
-                            var10000 = jK;
-                            var10000[var0] += jU[var0];
-                            var10002 = jU[var0]++;
-                            if (jU[var0] > 4) {
-                                jU[var0] = -4;
-                                jT[var0] = jX[var0] * 3;
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.aux1[var0];
+                            var10002 = Monsters.aux1[var0]++;
+                            if (Monsters.aux1[var0] > 4) {
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
                             }
 
-                            if (a(jU[var0]) == 3) {
-                                if (jJ[var0] > jQ[var0]) {
-                                    jX[var0] = -1;
-                                } else if (jJ[var0] < jP[var0]) {
-                                    jX[var0] = 1;
+                            if (a(Monsters.aux1[var0]) == 3) {
+                                if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                                    Monsters.direction[var0] = -1;
+                                } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                                    Monsters.direction[var0] = 1;
                                 }
 
-                                jW[var0] = 0;
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 1;
+                                Monsters.frame[var0] = 1;
                             }
 
                             J(var0);
@@ -9432,25 +9036,25 @@ public final class b extends Canvas implements Runnable {
                                 K(var0);
                             }
                             continue;
-                        case 16:
+                        case Monsters.TYPE_RED_BEE:
                             P(var0);
                             continue;
-                        case 17:
+                        case Monsters.TYPE_SCORPION:
                             U(var0);
                             continue;
-                        case 18:
-                        case 19:
+                        case Monsters.TYPE_FLOWER_DEMON:
+                        case Monsters.TYPE_PURPLE_FLOWER_DEMON:
                             if (tick % 4 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
                                 }
                             }
 
-                            if (jJ[var0] > fe) {
-                                jX[var0] = -1;
+                            if (Monsters.x[var0] > fe) {
+                                Monsters.direction[var0] = -1;
                             } else {
-                                jX[var0] = 1;
+                                Monsters.direction[var0] = 1;
                             }
 
                             J(var0);
@@ -9459,1268 +9063,801 @@ public final class b extends Canvas implements Runnable {
                             }
                             continue;
                     }
-                case 3:
-                    var10002 = jT[var0]++;
-                    if (jT[var0] >= 35) {
-                        jT[var0] = 0;
-                        jO[var0] = 2;
+                case Monsters.STATE_RESTING:
+                    var10002 = Monsters.timer[var0]++;
+                    if (Monsters.timer[var0] >= 35) {
+                        Monsters.timer[var0] = 0;
+                        Monsters.state[var0] = Monsters.STATE_ACTIVE;
                     }
 
-                    jW[var0] = 0;
+                    Monsters.frame[var0] = 0;
                     J(var0);
                     break;
-                case 4:
+                case Monsters.STATE_ATTACKING:
                     if (B == 14 || fw) {
-                        jW[var0] = 0;
-                        jO[var0] = 2;
-                        jT[var0] = 0;
-                        jU[var0] = 0;
+                        Monsters.frame[var0] = 0;
+                        Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                        Monsters.timer[var0] = 0;
+                        Monsters.aux1[var0] = 0;
                     }
 
-                    switch (jI[var0]) {
-                        case 0:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 2) {
-                                if (kh[var0]) {
-                                    kh[var0] = false;
-                                    b(ka[var0], jX[var0]);
+                    switch (Monsters.type[var0]) {
+                        case Monsters.TYPE_ONE_EYED_GHOST:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 2) {
+                                if (Monsters.attackingGirl[var0]) {
+                                    Monsters.attackingGirl[var0] = false;
+                                    b(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(ka[var0], jX[var0]);
+                                    a(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
-                            if ((jT[var0] >> 2) % 2 == 0) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0];
-                                jW[var0] = 3;
+                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0];
+                                Monsters.frame[var0] = 3;
                             } else {
-                                jW[var0] = 0;
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0];
+                                Monsters.frame[var0] = 0;
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0];
                             }
 
-                            if (jT[var0] == 12) {
-                                jO[var0] = 3;
-                                jT[var0] = 0;
+                            if (Monsters.timer[var0] == 12) {
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.timer[var0] = 0;
                             }
                             continue;
-                        case 1:
-                            a(ka[var0], -fm);
-                            jO[var0] = 3;
-                            jT[var0] = 0;
-                            jW[var0] = 2;
+                        case Monsters.TYPE_SNAIL:
+                            a(Monsters.damage[var0], -fm);
+                            Monsters.state[var0] = Monsters.STATE_RESTING;
+                            Monsters.timer[var0] = 0;
+                            Monsters.frame[var0] = 2;
                             continue;
-                        case 2:
-                            if (jJ[var0] < fe) {
-                                jR[var0] = 3 + tick % 4;
-                            } else if (jJ[var0] > fe) {
-                                jR[var0] = -(3 + tick % 4);
+                        case Monsters.TYPE_DEMON_BAT:
+                            if (Monsters.x[var0] < fe) {
+                                Monsters.vx[var0] = 3 + tick % 4;
+                            } else if (Monsters.x[var0] > fe) {
+                                Monsters.vx[var0] = -(3 + tick % 4);
                             }
 
-                            if (jK[var0] < ff) {
-                                jS[var0] = tick % 3;
-                            } else if (jK[var0] > ff) {
-                                jS[var0] = -tick % 3;
+                            if (Monsters.y[var0] < ff) {
+                                Monsters.vy[var0] = tick % 3;
+                            } else if (Monsters.y[var0] > ff) {
+                                Monsters.vy[var0] = -tick % 3;
                             }
 
-                            var10000 = jJ;
-                            var10000[var0] += jR[var0];
-                            var10000 = jK;
-                            var10000[var0] += jS[var0];
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.vx[var0];
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.vy[var0];
                             if (tick % 2 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
                                 }
                             }
 
-                            if (a(jJ[var0] - fe) < 5 && a(jK[var0] - ff) < 5) {
-                                kb[var0] = 0;
-                                a(ka[var0], -fm);
-                                jT[var0] = 0;
-                                jO[var0] = 2;
+                            if (a(Monsters.x[var0] - fe) < 5 && a(Monsters.y[var0] - ff) < 5) {
+                                Monsters.attackCooldown[var0] = 0;
+                                a(Monsters.damage[var0], -fm);
+                                Monsters.timer[var0] = 0;
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
                             }
 
-                            if (a(jJ[var0] - fe) > 160 || a(jK[var0] - ff) > 160) {
-                                jO[var0] = 2;
-                                jT[var0] = 0;
-                                jR[var0] = jS[var0] = 0;
-                                kb[var0] = 0;
+                            if (a(Monsters.x[var0] - fe) > 160 || a(Monsters.y[var0] - ff) > 160) {
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[var0] = 0;
+                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
+                                Monsters.attackCooldown[var0] = 0;
                             }
                             continue;
-                        case 3:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 3) {
-                                if (kh[var0]) {
-                                    kh[var0] = false;
-                                    b(ka[var0], jX[var0]);
+                        case Monsters.TYPE_ONE_LEGGED_DEMON:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 3) {
+                                if (Monsters.attackingGirl[var0]) {
+                                    Monsters.attackingGirl[var0] = false;
+                                    b(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(ka[var0], jX[var0]);
+                                    a(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
-                            if ((jT[var0] >> 2) % 2 == 0) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0];
-                                jW[var0] = 0;
+                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0];
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 3;
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0];
+                                Monsters.frame[var0] = 3;
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0];
                             }
 
-                            if (jT[var0] == 12) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 3;
-                                jU[var0] = -4;
-                                jT[var0] = 0;
+                            if (Monsters.timer[var0] == 12) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = 0;
                             }
                             continue;
-                        case 4:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 3) {
-                                if (kh[var0]) {
-                                    kh[var0] = false;
-                                    b(ka[var0], jX[var0]);
+                        case Monsters.TYPE_GREEN_TOAD:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 3) {
+                                if (Monsters.attackingGirl[var0]) {
+                                    Monsters.attackingGirl[var0] = false;
+                                    b(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(ka[var0], jX[var0]);
+                                    a(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
-                            if ((jT[var0] >> 2) % 2 == 0) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0];
-                                jW[var0] = 0;
+                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0];
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 1;
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0];
+                                Monsters.frame[var0] = 1;
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0];
                             }
 
-                            if (jT[var0] == 12) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 3;
-                                jU[var0] = -4;
-                                jT[var0] = 0;
+                            if (Monsters.timer[var0] == 12) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = 0;
                             }
                             continue;
-                        case 5:
-                            a(ka[var0], -fm);
-                            jO[var0] = 2;
-                            jT[var0] = 1;
+                        case Monsters.TYPE_SPIDER:
+                            a(Monsters.damage[var0], -fm);
+                            Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                            Monsters.timer[var0] = 1;
                             continue;
-                        case 6:
+                        case Monsters.TYPE_BEE:
                             N(var0);
-                        case 7:
+                        case Monsters.TYPE_SCARECROW:
                         default:
                             continue;
-                        case 8:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] <= 10) {
-                                if (jK[var0] > ff) {
-                                    var10000 = jK;
+                        case Monsters.TYPE_TIGER_FISH:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] <= 10) {
+                                if (Monsters.y[var0] > ff) {
+                                    var10000 = Monsters.y;
                                     var10000[var0] -= 4;
                                 }
 
-                                if (jJ[var0] < fe) {
-                                    var10000 = jJ;
+                                if (Monsters.x[var0] < fe) {
+                                    var10000 = Monsters.x;
                                     var10000[var0] += 2;
-                                } else if (jJ[var0] > fe) {
-                                    var10000 = jJ;
+                                } else if (Monsters.x[var0] > fe) {
+                                    var10000 = Monsters.x;
                                     var10000[var0] -= 2;
                                 }
 
-                                if (a(jJ[var0] - fe) < 16 && a(jK[var0] - (ff - 16)) < 20) {
-                                    a(ka[var0], -fm);
-                                    jT[var0] = 10;
+                                if (a(Monsters.x[var0] - fe) < 16 && a(Monsters.y[var0] - (ff - 16)) < 20) {
+                                    a(Monsters.damage[var0], -fm);
+                                    Monsters.timer[var0] = 10;
                                 }
                             }
 
-                            if (jT[var0] == 10) {
-                                jU[var0] = 1;
+                            if (Monsters.timer[var0] == 10) {
+                                Monsters.aux1[var0] = 1;
                             }
 
-                            if (jT[var0] > 10) {
-                                var10000 = jK;
-                                var10000[var0] += jU[var0];
-                                var10002 = jU[var0]++;
-                                if (jK[var0] > kj[kg[var0]][ke[var0]]) {
-                                    jK[var0] = kj[kg[var0]][ke[var0]];
-                                    jU[var0] = 0;
-                                    jT[var0] = 0;
-                                    jO[var0] = 2;
+                            if (Monsters.timer[var0] > 10) {
+                                var10000 = Monsters.y;
+                                var10000[var0] += Monsters.aux1[var0];
+                                var10002 = Monsters.aux1[var0]++;
+                                if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
+                                    Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                    Monsters.aux1[var0] = 0;
+                                    Monsters.timer[var0] = 0;
+                                    Monsters.state[var0] = Monsters.STATE_ACTIVE;
                                 }
                             }
 
-                            jW[var0] = jT[var0] % 2 == 0 ? 0 : 1;
+                            Monsters.frame[var0] = Monsters.timer[var0] % 2 == 0 ? 0 : 1;
                             continue;
-                        case 9:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] < 6) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 2;
-                            } else if (jT[var0] == 6) {
-                                if (a(jJ[var0] + (jX[var0] << 3) - fe) < 13 + fi) {
-                                    a(ka[var0], jX[var0]);
+                        case Monsters.TYPE_WIND_NINJA:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] < 6) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 2;
+                            } else if (Monsters.timer[var0] == 6) {
+                                if (a(Monsters.x[var0] + (Monsters.direction[var0] << 3) - fe) < 13 + fi) {
+                                    a(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
-                            } else if (jT[var0] < 12) {
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0] << 1;
-                            } else if (jT[var0] == 12) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 3;
-                                jU[var0] = -4;
-                                jT[var0] = 0;
+                            } else if (Monsters.timer[var0] < 12) {
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0] << 1;
+                            } else if (Monsters.timer[var0] == 12) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = 0;
                             }
 
-                            jW[var0] = 1;
-                            if (jT[var0] > 3 && jT[var0] < 9 && jT[var0] % 2 == 0) {
-                                jW[var0] = 3;
+                            Monsters.frame[var0] = 1;
+                            if (Monsters.timer[var0] > 3 && Monsters.timer[var0] < 9 && Monsters.timer[var0] % 2 == 0) {
+                                Monsters.frame[var0] = 3;
                             }
                             continue;
-                        case 10:
-                            var10002 = jT[var0]++;
-                            jW[var0] = 3;
-                            if (jT[var0] <= 15) {
-                                var10000 = jK;
+                        case Monsters.TYPE_RED_TIGER_FISH:
+                            var10002 = Monsters.timer[var0]++;
+                            Monsters.frame[var0] = 3;
+                            if (Monsters.timer[var0] <= 15) {
+                                var10000 = Monsters.y;
                                 var10000[var0] -= 7;
-                                if (jJ[var0] < fe) {
-                                    var10002 = jJ[var0]++;
-                                } else if (jJ[var0] > fe) {
-                                    var10002 = jJ[var0]--;
+                                if (Monsters.x[var0] < fe) {
+                                    var10002 = Monsters.x[var0]++;
+                                } else if (Monsters.x[var0] > fe) {
+                                    var10002 = Monsters.x[var0]--;
                                 }
 
-                                if (a(jJ[var0] - fe) < 16 && a(jK[var0] - (ff - 16)) < 20) {
-                                    a(ka[var0], -fm);
-                                    jT[var0] = 15;
+                                if (a(Monsters.x[var0] - fe) < 16 && a(Monsters.y[var0] - (ff - 16)) < 20) {
+                                    a(Monsters.damage[var0], -fm);
+                                    Monsters.timer[var0] = 15;
                                 }
                             }
 
-                            if (jT[var0] == 15) {
-                                jU[var0] = 1;
+                            if (Monsters.timer[var0] == 15) {
+                                Monsters.aux1[var0] = 1;
                             }
 
-                            if (jT[var0] > 15) {
-                                jW[var0] = 2;
-                                var10000 = jK;
-                                var10000[var0] += jU[var0];
-                                var10002 = jU[var0]++;
-                                if (a(jJ[var0] - fe) < 16 && a(jK[var0] - (ff - 16)) < 20) {
-                                    a(ka[var0], -fm);
+                            if (Monsters.timer[var0] > 15) {
+                                Monsters.frame[var0] = 2;
+                                var10000 = Monsters.y;
+                                var10000[var0] += Monsters.aux1[var0];
+                                var10002 = Monsters.aux1[var0]++;
+                                if (a(Monsters.x[var0] - fe) < 16 && a(Monsters.y[var0] - (ff - 16)) < 20) {
+                                    a(Monsters.damage[var0], -fm);
                                 }
 
-                                if (jK[var0] > kj[kg[var0]][ke[var0]]) {
-                                    jK[var0] = kj[kg[var0]][ke[var0]];
-                                    jU[var0] = 0;
-                                    jT[var0] = 0;
-                                    jO[var0] = 2;
+                                if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
+                                    Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                    Monsters.aux1[var0] = 0;
+                                    Monsters.timer[var0] = 0;
+                                    Monsters.state[var0] = Monsters.STATE_ACTIVE;
                                 }
                             }
                             continue;
-                        case 11:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 4 && jK[var0] == ff) {
-                                a(ka[var0], jX[var0]);
+                        case Monsters.TYPE_ONE_EYED_GHOST_2:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 4 && Monsters.y[var0] == ff) {
+                                a(Monsters.damage[var0], Monsters.direction[var0]);
                             }
 
-                            if (jT[var0] < 8) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 1;
-                                jW[var0] = 3;
+                            if (Monsters.timer[var0] < 8) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 1;
+                                Monsters.frame[var0] = 3;
                             } else {
-                                jW[var0] = 0;
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0] << 1;
+                                Monsters.frame[var0] = 0;
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0] << 1;
                             }
 
-                            if (jT[var0] == 12) {
-                                jO[var0] = 3;
-                                jT[var0] = 0;
-                                kb[var0] = 25;
+                            if (Monsters.timer[var0] == 12) {
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.timer[var0] = 0;
+                                Monsters.attackCooldown[var0] = 25;
                             }
                             continue;
-                        case 12:
+                        case Monsters.TYPE_DESERT_CENTIPEDE:
                             R(var0);
                             continue;
-                        case 13:
-                            if (jJ[var0] < fe) {
-                                jR[var0] = 4 + tick % 6;
-                            } else if (jJ[var0] > fe) {
-                                jR[var0] = -(4 + tick % 6);
+                        case Monsters.TYPE_GOLDEN_BAT:
+                            if (Monsters.x[var0] < fe) {
+                                Monsters.vx[var0] = 4 + tick % 6;
+                            } else if (Monsters.x[var0] > fe) {
+                                Monsters.vx[var0] = -(4 + tick % 6);
                             }
 
-                            if (jK[var0] < ff) {
-                                jS[var0] = 2 + tick % 4;
-                            } else if (jK[var0] > ff) {
-                                jS[var0] = -(2 + tick % 4);
+                            if (Monsters.y[var0] < ff) {
+                                Monsters.vy[var0] = 2 + tick % 4;
+                            } else if (Monsters.y[var0] > ff) {
+                                Monsters.vy[var0] = -(2 + tick % 4);
                             }
 
-                            var10000 = jJ;
-                            var10000[var0] += jR[var0];
-                            var10000 = jK;
-                            var10000[var0] += jS[var0];
+                            var10000 = Monsters.x;
+                            var10000[var0] += Monsters.vx[var0];
+                            var10000 = Monsters.y;
+                            var10000[var0] += Monsters.vy[var0];
                             if (tick % 2 == 0) {
-                                var10002 = jW[var0]++;
-                                if (jW[var0] > 1) {
-                                    jW[var0] = 0;
+                                var10002 = Monsters.frame[var0]++;
+                                if (Monsters.frame[var0] > 1) {
+                                    Monsters.frame[var0] = 0;
                                 }
                             }
 
-                            if (a(jJ[var0] - fe) < 5 && a(jK[var0] - ff) < 5) {
-                                a(ka[var0], -fm);
-                                jO[var0] = 2;
-                                jT[var0] = 0;
-                                jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] * (tick % 4 + 1);
-                                kb[var0] = 10;
+                            if (a(Monsters.x[var0] - fe) < 5 && a(Monsters.y[var0] - ff) < 5) {
+                                a(Monsters.damage[var0], -fm);
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[var0] = 0;
+                                Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
+                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
+                                Monsters.attackCooldown[var0] = 10;
                             }
 
-                            if (a(jJ[var0] - fe) > 130 || a(jK[var0] - ff) > 130) {
-                                jO[var0] = 2;
-                                jT[var0] = 0;
-                                jR[var0] = jS[var0] = 0;
-                                jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] * (tick % 4 + 1);
-                                kb[var0] = 0;
+                            if (a(Monsters.x[var0] - fe) > 130 || a(Monsters.y[var0] - ff) > 130) {
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[var0] = 0;
+                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
+                                Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
+                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
+                                Monsters.attackCooldown[var0] = 0;
                             }
                             continue;
-                        case 14:
+                        case Monsters.TYPE_RAT:
                             R(var0);
                             continue;
-                        case 15:
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 3) {
-                                if (kh[var0]) {
-                                    kh[var0] = false;
-                                    b(ka[var0], jX[var0]);
+                        case Monsters.TYPE_NATIVE:
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 3) {
+                                if (Monsters.attackingGirl[var0]) {
+                                    Monsters.attackingGirl[var0] = false;
+                                    b(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(ka[var0], jX[var0]);
+                                    a(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
-                            if ((jT[var0] >> 2) % 2 == 0) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0];
-                                jW[var0] = 0;
+                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0];
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 3;
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0];
+                                Monsters.frame[var0] = 3;
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0];
                             }
 
-                            if (jT[var0] == 12) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 3;
-                                jU[var0] = -4;
-                                jT[var0] = 0;
+                            if (Monsters.timer[var0] == 12) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = 0;
                             }
                             continue;
-                        case 16:
+                        case Monsters.TYPE_RED_BEE:
                             N(var0);
                             continue;
-                        case 17:
-                        case 18:
-                            var10002 = jT[var0]++;
-                            jW[var0] = 3;
-                            if (jT[var0] == 3) {
-                                Projectiles.spawn(jJ[var0] + (jX[var0] << 3), jK[var0] - 12, jX[var0] << 3, ka[var0], 2);
-                            } else if (jT[var0] == 6) {
-                                jO[var0] = 3;
-                                jT[var0] = 0;
+                        case Monsters.TYPE_SCORPION:
+                        case Monsters.TYPE_FLOWER_DEMON:
+                            var10002 = Monsters.timer[var0]++;
+                            Monsters.frame[var0] = 3;
+                            if (Monsters.timer[var0] == 3) {
+                                Projectiles.spawn(Monsters.x[var0] + (Monsters.direction[var0] << 3), Monsters.y[var0] - 12, Monsters.direction[var0] << 3, Monsters.damage[var0], 2);
+                            } else if (Monsters.timer[var0] == 6) {
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.timer[var0] = 0;
                             }
                             continue;
-                        case 19:
-                            var10002 = jT[var0]++;
-                            jW[var0] = 3;
-                            if (jT[var0] == 3) {
-                                var10002 = jU[var0]++;
-                                if (jU[var0] == 3) {
-                                    jU[var0] = 0;
+                        case Monsters.TYPE_PURPLE_FLOWER_DEMON:
+                            var10002 = Monsters.timer[var0]++;
+                            Monsters.frame[var0] = 3;
+                            if (Monsters.timer[var0] == 3) {
+                                var10002 = Monsters.aux1[var0]++;
+                                if (Monsters.aux1[var0] == 3) {
+                                    Monsters.aux1[var0] = 0;
                                 }
 
-                                if (jU[var0] == 2) {
-                                    ArcProjectiles.spawn(jJ[var0], jK[var0] - 22, jX[var0], -10, ka[var0]);
-                                } else if (jU[var0] == 0) {
-                                    ArcProjectiles.spawn(jJ[var0], jK[var0] - 22, jX[var0] << 1, -9, ka[var0]);
+                                if (Monsters.aux1[var0] == 2) {
+                                    ArcProjectiles.spawn(Monsters.x[var0], Monsters.y[var0] - 22, Monsters.direction[var0], -10, Monsters.damage[var0]);
+                                } else if (Monsters.aux1[var0] == 0) {
+                                    ArcProjectiles.spawn(Monsters.x[var0], Monsters.y[var0] - 22, Monsters.direction[var0] << 1, -9, Monsters.damage[var0]);
                                 } else {
-                                    ArcProjectiles.spawn(jJ[var0], jK[var0] - 22, 0, -11, ka[var0]);
+                                    ArcProjectiles.spawn(Monsters.x[var0], Monsters.y[var0] - 22, 0, -11, Monsters.damage[var0]);
                                 }
 
-                                WaterSplash.spawn(jJ[var0], jK[var0] - 20);
-                            } else if (jT[var0] == 6) {
-                                jO[var0] = 3;
-                                jT[var0] = 0;
+                                WaterSplash.spawn(Monsters.x[var0], Monsters.y[var0] - 20);
+                            } else if (Monsters.timer[var0] == 6) {
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.timer[var0] = 0;
                             }
                             continue;
                     }
-                case 5:
-                    var10002 = jT[var0]++;
-                    if (jT[var0] >= jH) {
-                        jT[var0] = 0;
-                        int var2 = tick % ki[kg[var0]].length;
-                        if (kk[kg[var0]][var2]) {
-                            jT[var0] = jH;
+                case Monsters.STATE_RESPAWN_WAIT:
+                    var10002 = Monsters.timer[var0]++;
+                    if (Monsters.timer[var0] >= Monsters.respawnDelay) {
+                        Monsters.timer[var0] = 0;
+                        int var2 = tick % Monsters.spawnX[Monsters.group[var0]].length;
+                        if (Monsters.spawnUsed[Monsters.group[var0]][var2]) {
+                            Monsters.timer[var0] = Monsters.respawnDelay;
                         } else {
-                            jJ[var0] = ki[kg[var0]][var2];
-                            jK[var0] = kj[kg[var0]][var2];
-                            kk[kg[var0]][var2] = true;
-                            ke[var0] = var2;
-                            jO[var0] = 2;
-                            jY[var0] = jZ[var0];
-                            switch (jI[var0]) {
-                                case 0:
-                                    jP[var0] = jJ[var0] - 20;
-                                    jQ[var0] = jJ[var0] + 20;
+                            Monsters.x[var0] = Monsters.spawnX[Monsters.group[var0]][var2];
+                            Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][var2];
+                            Monsters.spawnUsed[Monsters.group[var0]][var2] = true;
+                            Monsters.spawnPoint[var0] = var2;
+                            Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                            Monsters.hp[var0] = Monsters.maxHp[var0];
+                            switch (Monsters.type[var0]) {
+                                case Monsters.TYPE_ONE_EYED_GHOST:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
                                     break;
-                                case 1:
-                                    jP[var0] = jJ[var0] - 10;
-                                    jQ[var0] = jJ[var0] + 10;
+                                case Monsters.TYPE_SNAIL:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 10;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 10;
                                     break;
-                                case 2:
-                                    jP[var0] = jJ[var0] + 12;
-                                    jQ[var0] = jK[var0] + 12;
+                                case Monsters.TYPE_DEMON_BAT:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] + 12;
+                                    Monsters.rangeB[var0] = Monsters.y[var0] + 12;
                                     break;
-                                case 3:
-                                    jP[var0] = jJ[var0] - 20;
-                                    jQ[var0] = jJ[var0] + 20;
-                                    jU[var0] = -4;
-                                case 4:
-                                    jP[var0] = jJ[var0] - 20;
-                                    jQ[var0] = jJ[var0] + 20;
-                                    jU[var0] = -3;
+                                case Monsters.TYPE_ONE_LEGGED_DEMON:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
+                                    Monsters.aux1[var0] = -4;
+                                case Monsters.TYPE_GREEN_TOAD:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
+                                    Monsters.aux1[var0] = -3;
                                     break;
-                                case 5:
-                                    jP[var0] = jK[var0] - 10;
-                                    jQ[var0] = jK[var0] + 10;
-                                    jT[var0] = 1;
+                                case Monsters.TYPE_SPIDER:
+                                    Monsters.rangeA[var0] = Monsters.y[var0] - 10;
+                                    Monsters.rangeB[var0] = Monsters.y[var0] + 10;
+                                    Monsters.timer[var0] = 1;
                                     break;
-                                case 6:
-                                    jP[var0] = jJ[var0];
-                                    jQ[var0] = jK[var0];
+                                case Monsters.TYPE_BEE:
+                                    Monsters.rangeA[var0] = Monsters.x[var0];
+                                    Monsters.rangeB[var0] = Monsters.y[var0];
                                     break;
-                                case 7:
-                                    jO[var0] = 3;
+                                case Monsters.TYPE_SCARECROW:
+                                    Monsters.state[var0] = Monsters.STATE_RESTING;
                                     break;
-                                case 8:
-                                case 9:
-                                case 11:
-                                case 12:
-                                    jP[var0] = jJ[var0] - 20;
-                                    jQ[var0] = jJ[var0] + 20;
+                                case Monsters.TYPE_TIGER_FISH:
+                                case Monsters.TYPE_WIND_NINJA:
+                                case Monsters.TYPE_ONE_EYED_GHOST_2:
+                                case Monsters.TYPE_DESERT_CENTIPEDE:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
                                     break;
-                                case 10:
-                                    jP[var0] = jJ[var0] - 30;
-                                    jQ[var0] = jJ[var0] + 30;
+                                case Monsters.TYPE_RED_TIGER_FISH:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 30;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 30;
                                     break;
-                                case 13:
-                                    jP[var0] = jJ[var0] + 12;
-                                    jQ[var0] = jK[var0] + 12;
+                                case Monsters.TYPE_GOLDEN_BAT:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] + 12;
+                                    Monsters.rangeB[var0] = Monsters.y[var0] + 12;
                                     break;
-                                case 14:
-                                    jP[var0] = jJ[var0] - 40;
-                                    jQ[var0] = jJ[var0] + 40;
+                                case Monsters.TYPE_RAT:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 40;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 40;
                                     break;
-                                case 15:
-                                    jP[var0] = jJ[var0] - 20;
-                                    jQ[var0] = jJ[var0] + 20;
-                                    jU[var0] = -4;
+                                case Monsters.TYPE_NATIVE:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
+                                    Monsters.aux1[var0] = -4;
                                     break;
-                                case 16:
-                                    jP[var0] = jJ[var0];
-                                    jQ[var0] = jK[var0];
+                                case Monsters.TYPE_RED_BEE:
+                                    Monsters.rangeA[var0] = Monsters.x[var0];
+                                    Monsters.rangeB[var0] = Monsters.y[var0];
                                     break;
-                                case 17:
-                                    jP[var0] = jJ[var0] - 30;
-                                    jQ[var0] = jJ[var0] + 30;
+                                case Monsters.TYPE_SCORPION:
+                                    Monsters.rangeA[var0] = Monsters.x[var0] - 30;
+                                    Monsters.rangeB[var0] = Monsters.x[var0] + 30;
                             }
                         }
                     }
                     break;
-                case 6:
-                    jN[var0] = 100;
-                    jW[var0] = 2;
-                    switch (jI[var0]) {
-                        case 0:
-                            if (kb[var0] < 30) {
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0] << 1;
+                case Monsters.STATE_HURT:
+                    Monsters.healthBarTimer[var0] = 100;
+                    Monsters.frame[var0] = 2;
+                    switch (Monsters.type[var0]) {
+                        case Monsters.TYPE_ONE_EYED_GHOST:
+                            if (Monsters.attackCooldown[var0] < 30) {
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0] << 1;
                             } else {
-                                var10000 = jJ;
-                                var10000[var0] -= jX[var0];
+                                var10000 = Monsters.x;
+                                var10000[var0] -= Monsters.direction[var0];
                             }
 
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 1) {
-                                var10000 = jK;
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 1) {
+                                var10000 = Monsters.y;
                                 var10000[var0] -= 2;
-                            } else if (jT[var0] == 5) {
-                                var10000 = jK;
+                            } else if (Monsters.timer[var0] == 5) {
+                                var10000 = Monsters.y;
                                 var10000[var0] += 2;
-                                jO[var0] = 2;
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
                             }
                             break;
-                        case 1:
+                        case Monsters.TYPE_SNAIL:
                             S(var0);
                             break;
-                        case 2:
-                            var10002 = jT[var0]++;
-                            var10000 = jJ;
-                            var10000[var0] -= jR[var0] >> 3;
-                            var10000 = jK;
-                            var10000[var0] -= jS[var0] >> 3;
-                            if (jR[var0] == 0) {
-                                jR[var0] = 2;
+                        case Monsters.TYPE_DEMON_BAT:
+                            var10002 = Monsters.timer[var0]++;
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.vx[var0] >> 3;
+                            var10000 = Monsters.y;
+                            var10000[var0] -= Monsters.vy[var0] >> 3;
+                            if (Monsters.vx[var0] == 0) {
+                                Monsters.vx[var0] = 2;
                             }
 
-                            if (jS[var0] == 0) {
-                                jS[var0] = 2;
+                            if (Monsters.vy[var0] == 0) {
+                                Monsters.vy[var0] = 2;
                             }
 
-                            if (jT[var0] == 5) {
-                                jO[var0] = 2;
-                                jT[var0] = 0;
-                                jR[var0] = jS[var0] = 0;
-                                kb[var0] = 10;
+                            if (Monsters.timer[var0] == 5) {
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[var0] = 0;
+                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
+                                Monsters.attackCooldown[var0] = 10;
                             }
                             break;
-                        case 3:
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            jW[var0] = 2;
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 7) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 2;
-                                jU[var0] = -4;
-                                jT[var0] = jX[var0] * 3;
+                        case Monsters.TYPE_ONE_LEGGED_DEMON:
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            Monsters.frame[var0] = 2;
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 7) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
                             }
                             break;
-                        case 4:
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            jW[var0] = 2;
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 7) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 2;
-                                jU[var0] = -4;
-                                jT[var0] = jX[var0] * 3;
+                        case Monsters.TYPE_GREEN_TOAD:
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            Monsters.frame[var0] = 2;
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 7) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
                             }
                             break;
-                        case 5:
-                            var10002 = jT[var0]++;
-                            var10002 = jK[var0]--;
-                            if (jT[var0] == 3) {
-                                jO[var0] = 2;
-                                jT[var0] = 1;
+                        case Monsters.TYPE_SPIDER:
+                            var10002 = Monsters.timer[var0]++;
+                            var10002 = Monsters.y[var0]--;
+                            if (Monsters.timer[var0] == 3) {
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[var0] = 1;
                             }
 
-                            jW[var0] = 2;
+                            Monsters.frame[var0] = 2;
                             break;
-                        case 6:
+                        case Monsters.TYPE_BEE:
                             O(var0);
                             break;
-                        case 7:
-                            var10002 = jT[var0]++;
-                            jX[var0] = -fm;
-                            if (jT[var0] % 4 > 1) {
-                                jW[var0] = 0;
+                        case Monsters.TYPE_SCARECROW:
+                            var10002 = Monsters.timer[var0]++;
+                            Monsters.direction[var0] = -fm;
+                            if (Monsters.timer[var0] % 4 > 1) {
+                                Monsters.frame[var0] = 0;
                             } else {
-                                jW[var0] = 2;
+                                Monsters.frame[var0] = 2;
                             }
 
-                            if (jT[var0] == 8) {
-                                jO[var0] = 3;
-                                jX[var0] = 0;
-                                jR[var0] = jS[var0] = 0;
-                                kb[var0] = 0;
+                            if (Monsters.timer[var0] == 8) {
+                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                                Monsters.direction[var0] = 0;
+                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
+                                Monsters.attackCooldown[var0] = 0;
                             }
                             break;
-                        case 8:
-                            jO[var0] = 4;
+                        case Monsters.TYPE_TIGER_FISH:
+                            Monsters.state[var0] = Monsters.STATE_ATTACKING;
                             break;
-                        case 9:
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            jW[var0] = 2;
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 6) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 4;
-                                jT[var0] = 4;
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 3;
+                        case Monsters.TYPE_WIND_NINJA:
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            Monsters.frame[var0] = 2;
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 6) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                                Monsters.timer[var0] = 4;
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 3;
                             }
                             break;
-                        case 10:
-                            jO[var0] = 4;
+                        case Monsters.TYPE_RED_TIGER_FISH:
+                            Monsters.state[var0] = Monsters.STATE_ATTACKING;
                             break;
-                        case 11:
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            jW[var0] = 2;
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 6) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 4;
-                                jT[var0] = 0;
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 3;
+                        case Monsters.TYPE_ONE_EYED_GHOST_2:
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            Monsters.frame[var0] = 2;
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 6) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                                Monsters.timer[var0] = 0;
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 3;
                             }
                             break;
-                        case 12:
+                        case Monsters.TYPE_DESERT_CENTIPEDE:
                             S(var0);
                             break;
-                        case 13:
-                            var10002 = jT[var0]++;
-                            var10000 = jJ;
-                            var10000[var0] -= jR[var0] >> 3;
-                            var10000 = jK;
-                            var10000[var0] -= jS[var0] >> 3;
-                            if (jR[var0] == 0) {
-                                jR[var0] = 2;
+                        case Monsters.TYPE_GOLDEN_BAT:
+                            var10002 = Monsters.timer[var0]++;
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.vx[var0] >> 3;
+                            var10000 = Monsters.y;
+                            var10000[var0] -= Monsters.vy[var0] >> 3;
+                            if (Monsters.vx[var0] == 0) {
+                                Monsters.vx[var0] = 2;
                             }
 
-                            if (jS[var0] == 0) {
-                                jS[var0] = 2;
+                            if (Monsters.vy[var0] == 0) {
+                                Monsters.vy[var0] = 2;
                             }
 
-                            if (jT[var0] == 5) {
-                                jO[var0] = 2;
-                                jT[var0] = 0;
-                                jX[var0] = jJ[var0] > jP[var0] ? -1 : 1;
-                                jR[var0] = jX[var0] << 3;
-                                kb[var0] = 0;
+                            if (Monsters.timer[var0] == 5) {
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[var0] = 0;
+                                Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
+                                Monsters.vx[var0] = Monsters.direction[var0] << 3;
+                                Monsters.attackCooldown[var0] = 0;
                             }
                             break;
-                        case 14:
+                        case Monsters.TYPE_RAT:
                             T(var0);
                             break;
-                        case 15:
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            jW[var0] = 2;
-                            var10002 = jT[var0]++;
-                            if (jT[var0] == 3) {
-                                jK[var0] = kj[kg[var0]][ke[var0]];
-                                jO[var0] = 2;
-                                jU[var0] = -4;
-                                jT[var0] = jX[var0] * 3;
+                        case Monsters.TYPE_NATIVE:
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            Monsters.frame[var0] = 2;
+                            var10002 = Monsters.timer[var0]++;
+                            if (Monsters.timer[var0] == 3) {
+                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                Monsters.aux1[var0] = -4;
+                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
                             }
                             break;
-                        case 16:
+                        case Monsters.TYPE_RED_BEE:
                             O(var0);
                             break;
-                        case 17:
+                        case Monsters.TYPE_SCORPION:
                             T(var0);
                             break;
-                        case 18:
-                            var10002 = jT[var0]++;
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            if (jT[var0] == 4) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 2;
-                                jO[var0] = 2;
+                        case Monsters.TYPE_FLOWER_DEMON:
+                            var10002 = Monsters.timer[var0]++;
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            if (Monsters.timer[var0] == 4) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 2;
+                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
                             }
                             break;
-                        case 19:
-                            var10002 = jT[var0]++;
-                            var10000 = jJ;
-                            var10000[var0] -= jX[var0];
-                            if (jT[var0] == 4) {
-                                var10000 = jJ;
-                                var10000[var0] += jX[var0] << 2;
-                                jT[var0] = 0;
-                                jO[var0] = 4;
+                        case Monsters.TYPE_PURPLE_FLOWER_DEMON:
+                            var10002 = Monsters.timer[var0]++;
+                            var10000 = Monsters.x;
+                            var10000[var0] -= Monsters.direction[var0];
+                            if (Monsters.timer[var0] == 4) {
+                                var10000 = Monsters.x;
+                                var10000[var0] += Monsters.direction[var0] << 2;
+                                Monsters.timer[var0] = 0;
+                                Monsters.state[var0] = Monsters.STATE_ATTACKING;
                             }
                     }
-                case 7:
-                case 8:
+                case Monsters.STATE_UNUSED_7:
+                case Monsters.STATE_GONE:
                 default:
                     break;
-                case 9:
-                    var10000 = jK;
-                    var10000[var0] += jT[var0];
-                    var10002 = jT[var0]++;
-                    jW[var0] = 2;
-                    if (jK[var0] > kj[kg[var0]][ke[var0]]) {
-                        if (jI[var0] != 2 && jI[var0] != 6 && jI[var0] != 16 && jI[var0] != 13) {
-                            jK[var0] = kj[kg[var0]][ke[var0]];
+                case Monsters.STATE_LAUNCHED:
+                    var10000 = Monsters.y;
+                    var10000[var0] += Monsters.timer[var0];
+                    var10002 = Monsters.timer[var0]++;
+                    Monsters.frame[var0] = 2;
+                    if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
+                        if (Monsters.type[var0] != Monsters.TYPE_DEMON_BAT && Monsters.type[var0] != Monsters.TYPE_BEE && Monsters.type[var0] != Monsters.TYPE_RED_BEE && Monsters.type[var0] != Monsters.TYPE_GOLDEN_BAT) {
+                            Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
                         }
 
-                        jO[var0] = 3;
+                        Monsters.state[var0] = Monsters.STATE_RESTING;
                     }
-            }
-        }
-
-    }
-
-    private static void j(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 2;
-                kc[var3] = 120;
-                kd[var3] = 100;
-                jL[var3] = 20;
-                jM[var3] = 30;
-                jX[var3] = 0;
-                jO[var3] = 5;
-                jT[var3] = var3 * 7 + var3;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-                jR[var3] = 2;
-                jS[var3] = 3;
-            }
-
-        }
-    }
-
-    private static void k(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 13;
-                kc[var3] = 120;
-                kd[var3] = 50;
-                jL[var3] = 20;
-                jM[var3] = 20;
-                jX[var3] = -1;
-                jO[var3] = 5;
-                jT[var3] = var3 << 1;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-                jR[var3] = -3;
-                jS[var3] = 3;
-            }
-
-        }
-    }
-
-    private static void l(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 9;
-                kc[var3] = 36;
-                kd[var3] = 20;
-                jL[var3] = 34;
-                jM[var3] = 32;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = var3 * 6;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-            }
-
-        }
-    }
-
-    private static void m(int var0, int var1) {
-        for(var0 = 0; var0 < jG && jI[var0] != -1; ++var0) {
-        }
-
-        if (var0 != jG) {
-            for(int var2 = var0; var2 < var0 + var1; ++var2) {
-                kg[var2] = 1;
-                jI[var2] = 8;
-                kc[var2] = 40;
-                kd[var2] = 30;
-                jL[var2] = 12;
-                jM[var2] = 16;
-                int[] var10000 = jK;
-                var10000[var2] += 5;
-                jX[var2] = 1;
-                jO[var2] = 5;
-                jT[var2] = var2 * 5;
-                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
-                ka[var2] = MonsterStats.damage[jI[var2]];
-                kf[var2] = MonsterStats.money[jI[var2]];
-                kb[var2] = 60;
-            }
-
-        }
-    }
-
-    private static void n(int var0, int var1) {
-        for(var0 = 0; var0 < jG && jI[var0] != -1; ++var0) {
-        }
-
-        if (var0 != jG) {
-            for(int var2 = var0; var2 < var0 + var1; ++var2) {
-                kg[var2] = 2;
-                jI[var2] = 10;
-                kc[var2] = 80;
-                kd[var2] = 100;
-                jL[var2] = 12;
-                jM[var2] = 16;
-                jX[var2] = 1;
-                jO[var2] = 5;
-                jT[var2] = var2 * 5;
-                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
-                ka[var2] = MonsterStats.damage[jI[var2]];
-                kf[var2] = MonsterStats.money[jI[var2]];
-                kb[var2] = 40;
-            }
-
-        }
-    }
-
-    private static void o(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 6;
-                kc[var3] = 60;
-                kd[var3] = 60;
-                jL[var3] = 16;
-                jM[var3] = 16;
-                jX[var3] = -1;
-                jO[var3] = 5;
-                jT[var3] = var3 << 3;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-                jR[var3] = 2;
-                jS[var3] = 3;
-            }
-
-        }
-    }
-
-    private static void p(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 16;
-                kc[var3] = 60;
-                kd[var3] = 60;
-                jL[var3] = 16;
-                jM[var3] = 16;
-                jX[var3] = -1;
-                jO[var3] = 5;
-                jT[var3] = var3 + 60;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-                jR[var3] = 2;
-                jS[var3] = 3;
-            }
-
-        }
-    }
-
-    private static void q(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 7;
-                kc[var3] = 10;
-                kd[var3] = 10;
-                jL[var3] = 30;
-                jM[var3] = 25;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = var3 << 2;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 0;
-            }
-
-        }
-    }
-
-    private static void r(int var0, int var1) {
-        for(var0 = 0; var0 < jG && jI[var0] != -1; ++var0) {
-        }
-
-        if (var0 != jG) {
-            for(int var2 = var0; var2 < var0 + var1; ++var2) {
-                kg[var2] = 2;
-                jI[var2] = 4;
-                kc[var2] = 20;
-                kd[var2] = 10;
-                jL[var2] = 18;
-                jM[var2] = 18;
-                jX[var2] = 1;
-                jO[var2] = 5;
-                jT[var2] = var2 << 3;
-                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
-                ka[var2] = MonsterStats.damage[jI[var2]];
-                kf[var2] = MonsterStats.money[jI[var2]];
-                kb[var2] = 0;
-            }
-
-        }
-    }
-
-    private static void al() {
-        ki = new int[kl.length][];
-        kj = new int[kl.length][];
-        kk = new boolean[kl.length][];
-    }
-
-    private static void M(int var0) {
-        jG = var0;
-        jH = 70;
-        jI = new int[jG];
-        kg = new int[jG];
-        jJ = new int[jG];
-        jK = new int[jG];
-        jO = new int[jG];
-        jP = new int[jG];
-        jQ = new int[jG];
-        jR = new int[jG];
-        jS = new int[jG];
-        jT = new int[jG];
-        jU = new int[jG];
-        jV = new int[jG];
-        jW = new int[jG];
-        jX = new int[jG];
-        jY = new int[jG];
-        kh = new boolean[jG];
-        jZ = new int[jG];
-        ka = new int[jG];
-        kb = new int[jG];
-        jL = new int[jG];
-        jM = new int[jG];
-        jM = new int[jG];
-        jN = new int[jG];
-        kc = new int[jG];
-        kd = new int[jG];
-        ke = new int[jG];
-        kf = new int[jG];
-
-        for(var0 = 0; var0 < jG; ++var0) {
-            jI[var0] = -1;
-        }
-
-    }
-
-    private static void s(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 0;
-                kc[var3] = 25;
-                kd[var3] = 10;
-                jL[var3] = 27;
-                jM[var3] = 15;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = var3 * 7;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 0;
-            }
-
-        }
-    }
-
-    private static void t(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 15;
-                kc[var3] = 36;
-                kd[var3] = 10;
-                jL[var3] = 27;
-                jM[var3] = 15;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = var3 << 1;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 0;
-            }
-
-        }
-    }
-
-    private static void u(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 1;
-                kc[var3] = 7;
-                kd[var3] = 10;
-                jL[var3] = 16;
-                jM[var3] = 15;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = var3 << 3;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-            }
-
-        }
-    }
-
-    private static void v(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 18;
-                kc[var3] = 120;
-                kd[var3] = 10;
-                jL[var3] = 24;
-                jM[var3] = 20;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = 60;
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 100;
-            }
-
-        }
-    }
-
-    private static void w(int var0, int var1) {
-        for(var0 = 0; var0 < jG && jI[var0] != -1; ++var0) {
-        }
-
-        if (var0 != jG) {
-            for(int var2 = var0; var2 < var0 + var1; ++var2) {
-                kg[var2] = 0;
-                jI[var2] = 19;
-                kc[var2] = 60;
-                kd[var2] = 30;
-                jL[var2] = 24;
-                jM[var2] = 20;
-                jX[var2] = 1;
-                jO[var2] = 5;
-                jT[var2] = 62;
-                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
-                ka[var2] = MonsterStats.damage[jI[var2]];
-                kf[var2] = MonsterStats.money[jI[var2]];
-                kb[var2] = 70;
-            }
-
-        }
-    }
-
-    private static void x(int var0, int var1) {
-        int var2;
-        for(var2 = 0; var2 < jG && jI[var2] != -1; ++var2) {
-        }
-
-        if (var2 != jG) {
-            for(int var3 = var2; var3 < var2 + var1; ++var3) {
-                kg[var3] = var0;
-                jI[var3] = 17;
-                kc[var3] = 60;
-                kd[var3] = 10;
-                jL[var3] = 22;
-                jM[var3] = 22;
-                jX[var3] = 1;
-                jO[var3] = 5;
-                jT[var3] = 50 + (var3 << 1);
-                jY[var3] = jZ[var3] = MonsterStats.maxHp[jI[var3]];
-                ka[var3] = MonsterStats.damage[jI[var3]];
-                kf[var3] = MonsterStats.money[jI[var3]];
-                kb[var3] = 500;
-            }
-
-        }
-    }
-
-    private static void y(int var0, int var1) {
-        for(var0 = 0; var0 < jG && jI[var0] != -1; ++var0) {
-        }
-
-        if (var0 != jG) {
-            for(int var2 = var0; var2 < var0 + var1; ++var2) {
-                kg[var2] = 0;
-                jI[var2] = 12;
-                kc[var2] = 24;
-                kd[var2] = 10;
-                jL[var2] = 16;
-                jM[var2] = 22;
-                jX[var2] = 1;
-                jO[var2] = 5;
-                jT[var2] = 70;
-                jY[var2] = jZ[var2] = MonsterStats.maxHp[jI[var2]];
-                ka[var2] = MonsterStats.damage[jI[var2]];
-                kf[var2] = MonsterStats.money[jI[var2]];
-                kb[var2] = 500;
-            }
-
-        }
-    }
-
-    private static void am() {
-        int var0;
-        for(var0 = 0; var0 < kl.length; ++var0) {
-            kk[var0] = new boolean[ki[var0].length];
-        }
-
-        for(var0 = 0; var0 < ki.length; ++var0) {
-            for(int var1 = 0; var1 < ki[var0].length; ++var1) {
-                ki[var0][var1] = ki[var0][var1] * GameMap.TILE_SIZE + 12;
-                kj[var0][var1] *= GameMap.TILE_SIZE;
-                if (var0 == 8) {
-                    int[] var10000 = kj[var0];
-                    var10000[var1] -= 12;
-                }
             }
         }
 
     }
 
     private static void N(int var0) {
-        if (jJ[var0] < fe) {
-            jR[var0] = tick % 3 + 3;
-            jX[var0] = 1;
-        } else if (jJ[var0] > fe) {
-            jR[var0] = -tick % 3 - 3;
-            jX[var0] = -1;
+        if (Monsters.x[var0] < fe) {
+            Monsters.vx[var0] = tick % 3 + 3;
+            Monsters.direction[var0] = 1;
+        } else if (Monsters.x[var0] > fe) {
+            Monsters.vx[var0] = -tick % 3 - 3;
+            Monsters.direction[var0] = -1;
         }
 
-        if (jK[var0] < ff) {
-            jS[var0] = tick % 3 + 3;
-        } else if (jK[var0] > ff) {
-            jS[var0] = -tick % 3 - 3;
+        if (Monsters.y[var0] < ff) {
+            Monsters.vy[var0] = tick % 3 + 3;
+        } else if (Monsters.y[var0] > ff) {
+            Monsters.vy[var0] = -tick % 3 - 3;
         }
 
-        int[] var10000 = jJ;
-        var10000[var0] += jR[var0];
-        var10000 = jK;
-        var10000[var0] += jS[var0];
-        int var10002 = jW[var0]++;
-        if (jW[var0] > 1) {
-            jW[var0] = 0;
+        int[] var10000 = Monsters.x;
+        var10000[var0] += Monsters.vx[var0];
+        var10000 = Monsters.y;
+        var10000[var0] += Monsters.vy[var0];
+        int var10002 = Monsters.frame[var0]++;
+        if (Monsters.frame[var0] > 1) {
+            Monsters.frame[var0] = 0;
         }
 
-        if (a(jJ[var0] - fe) < 10 && a(jK[var0] - ff) < 10) {
-            kb[var0] = 0;
-            if (kh[var0]) {
-                kh[var0] = false;
-                b(ka[var0], jX[var0]);
+        if (a(Monsters.x[var0] - fe) < 10 && a(Monsters.y[var0] - ff) < 10) {
+            Monsters.attackCooldown[var0] = 0;
+            if (Monsters.attackingGirl[var0]) {
+                Monsters.attackingGirl[var0] = false;
+                b(Monsters.damage[var0], Monsters.direction[var0]);
             } else {
-                a(ka[var0], jX[var0]);
+                a(Monsters.damage[var0], Monsters.direction[var0]);
             }
 
-            jT[var0] = 0;
-            jO[var0] = 2;
+            Monsters.timer[var0] = 0;
+            Monsters.state[var0] = Monsters.STATE_ACTIVE;
         }
 
-        if (a(jJ[var0] - fe) > 160 || a(jK[var0] - ff) > 160) {
-            jO[var0] = 2;
-            jT[var0] = 0;
-            jR[var0] = jS[var0] = 0;
-            kb[var0] = 0;
+        if (a(Monsters.x[var0] - fe) > 160 || a(Monsters.y[var0] - ff) > 160) {
+            Monsters.state[var0] = Monsters.STATE_ACTIVE;
+            Monsters.timer[var0] = 0;
+            Monsters.vx[var0] = Monsters.vy[var0] = 0;
+            Monsters.attackCooldown[var0] = 0;
         }
 
     }
 
     private static void O(int var0) {
-        int var10002 = jT[var0]++;
-        int[] var10000 = jJ;
-        var10000[var0] -= jR[var0];
-        var10000 = jK;
-        var10000[var0] -= jS[var0];
-        if (jR[var0] == 0) {
-            jR[var0] = 2;
+        int var10002 = Monsters.timer[var0]++;
+        int[] var10000 = Monsters.x;
+        var10000[var0] -= Monsters.vx[var0];
+        var10000 = Monsters.y;
+        var10000[var0] -= Monsters.vy[var0];
+        if (Monsters.vx[var0] == 0) {
+            Monsters.vx[var0] = 2;
         }
 
-        if (jS[var0] == 0) {
-            jS[var0] = 2;
+        if (Monsters.vy[var0] == 0) {
+            Monsters.vy[var0] = 2;
         }
 
-        if (jT[var0] == 5) {
-            jO[var0] = 2;
-            jT[var0] = 0;
-            jR[var0] = jS[var0] = 0;
-            kb[var0] = 0;
+        if (Monsters.timer[var0] == 5) {
+            Monsters.state[var0] = Monsters.STATE_ACTIVE;
+            Monsters.timer[var0] = 0;
+            Monsters.vx[var0] = Monsters.vy[var0] = 0;
+            Monsters.attackCooldown[var0] = 0;
         }
 
     }
 
     private static void P(int var0) {
-        int[] var10000 = jJ;
-        var10000[var0] += jR[var0];
-        var10000 = jK;
-        var10000[var0] += jS[var0];
-        if (jJ[var0] - jP[var0] > 40) {
-            jR[var0] = -(tick % 2 + 1);
+        int[] var10000 = Monsters.x;
+        var10000[var0] += Monsters.vx[var0];
+        var10000 = Monsters.y;
+        var10000[var0] += Monsters.vy[var0];
+        if (Monsters.x[var0] - Monsters.rangeA[var0] > 40) {
+            Monsters.vx[var0] = -(tick % 2 + 1);
         }
 
-        if (jJ[var0] - jP[var0] < -40) {
-            jR[var0] = tick % 2 + 1;
+        if (Monsters.x[var0] - Monsters.rangeA[var0] < -40) {
+            Monsters.vx[var0] = tick % 2 + 1;
         }
 
-        if (jK[var0] - jQ[var0] > 40) {
-            jS[var0] = -(tick % 2 + 1);
+        if (Monsters.y[var0] - Monsters.rangeB[var0] > 40) {
+            Monsters.vy[var0] = -(tick % 2 + 1);
         }
 
-        if (jK[var0] - jQ[var0] < -40) {
-            jS[var0] = tick % 2 + 1;
+        if (Monsters.y[var0] - Monsters.rangeB[var0] < -40) {
+            Monsters.vy[var0] = tick % 2 + 1;
         }
 
         if (tick % 15 == 0) {
-            jR[var0] = tick % 3 - 1;
-            jS[var0] = (tick >> 1) % 3 - 1;
+            Monsters.vx[var0] = tick % 3 - 1;
+            Monsters.vy[var0] = (tick >> 1) % 3 - 1;
         }
 
-        int var10002 = jW[var0]++;
-        if (jW[var0] > 1) {
-            jW[var0] = 0;
+        int var10002 = Monsters.frame[var0]++;
+        if (Monsters.frame[var0] > 1) {
+            Monsters.frame[var0] = 0;
         }
 
         J(var0);
@@ -10732,17 +9869,17 @@ public final class b extends Canvas implements Runnable {
 
     private static void Q(int var0) {
         if (tick % 4 == 1) {
-            int var10002 = jW[var0]++;
-            if (jW[var0] > 1) {
-                jW[var0] = 0;
+            int var10002 = Monsters.frame[var0]++;
+            if (Monsters.frame[var0] > 1) {
+                Monsters.frame[var0] = 0;
             }
 
-            int[] var10000 = jJ;
-            var10000[var0] += jX[var0] << 1;
-            if (jJ[var0] > jQ[var0]) {
-                jX[var0] = -1;
-            } else if (jJ[var0] < jP[var0]) {
-                jX[var0] = 1;
+            int[] var10000 = Monsters.x;
+            var10000[var0] += Monsters.direction[var0] << 1;
+            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+                Monsters.direction[var0] = -1;
+            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+                Monsters.direction[var0] = 1;
             }
         }
 
@@ -10750,47 +9887,47 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void R(int var0) {
-        a(ka[var0], -fm);
-        jO[var0] = 2;
-        jT[var0] = 0;
-        jW[var0] = 2;
+        a(Monsters.damage[var0], -fm);
+        Monsters.state[var0] = Monsters.STATE_ACTIVE;
+        Monsters.timer[var0] = 0;
+        Monsters.frame[var0] = 2;
     }
 
     private static void S(int var0) {
-        int var10002 = jT[var0]++;
-        int[] var10000 = jJ;
-        var10000[var0] -= jX[var0];
-        if (jT[var0] == 5) {
-            jO[var0] = 2;
+        int var10002 = Monsters.timer[var0]++;
+        int[] var10000 = Monsters.x;
+        var10000[var0] -= Monsters.direction[var0];
+        if (Monsters.timer[var0] == 5) {
+            Monsters.state[var0] = Monsters.STATE_ACTIVE;
         }
 
     }
 
     private static void T(int var0) {
-        int var10002 = jT[var0]++;
-        int[] var10000 = jJ;
-        var10000[var0] -= jX[var0];
-        if (jT[var0] == 3) {
-            jO[var0] = 2;
+        int var10002 = Monsters.timer[var0]++;
+        int[] var10000 = Monsters.x;
+        var10000[var0] -= Monsters.direction[var0];
+        if (Monsters.timer[var0] == 3) {
+            Monsters.state[var0] = Monsters.STATE_ACTIVE;
         }
 
     }
 
     private static void U(int var0) {
         if (tick % 4 == 0) {
-            int var10002 = jW[var0]++;
-            if (jW[var0] > 1) {
-                jW[var0] = 0;
+            int var10002 = Monsters.frame[var0]++;
+            if (Monsters.frame[var0] > 1) {
+                Monsters.frame[var0] = 0;
             }
 
-            int[] var10000 = jJ;
-            var10000[var0] += jX[var0];
+            int[] var10000 = Monsters.x;
+            var10000[var0] += Monsters.direction[var0];
         }
 
-        if (jJ[var0] > jQ[var0]) {
-            jX[var0] = -1;
-        } else if (jJ[var0] < jP[var0]) {
-            jX[var0] = 1;
+        if (Monsters.x[var0] > Monsters.rangeB[var0]) {
+            Monsters.direction[var0] = -1;
+        } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
+            Monsters.direction[var0] = 1;
         }
 
         J(var0);
