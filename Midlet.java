@@ -117,30 +117,7 @@ public class Midlet extends MIDlet implements Runnable {
                 Save.pendingSave = false;
             }
 
-            switch (b.mapId) {
-                case 0:
-                case 1:
-                case 2:
-                    Sound.loadTrack(1);
-                    break;
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    Sound.loadTrack(2);
-                    break;
-                case 95:
-                case 96:
-                case 97:
-                    Sound.loadTrack(4);
-                    break;
-                case 99:
-                    Sound.loadTrack(0);
-                    break;
-                default:
-                    Sound.loadTrack(3);
-            }
+            Sound.loadTrack(Sound.trackForMap(b.mapId));
 
             if (!Sound.isDisabled()) {
                 Sound.start();

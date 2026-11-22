@@ -1,6 +1,7 @@
 package core.ui;
 
 import assets.FontGraph;
+import assets.Sound;
 import core.input.Input;
 import core.render.Viewport;
 import javax.microedition.lcdui.Graphics;
@@ -11,12 +12,7 @@ public final class GameMenu {
     public static final int ITEM_USE_ITEM = 0;
     public static final int ITEM_WORLD_MAP = 1;
     public static final int ITEM_SAVE_AND_EXIT = 2;
-    /**
-     * Mục "Nhạc". GHI CHÚ (giữ nguyên bản gốc): chọn mục này không làm gì và chữ luôn là
-     * "Nhạc: Bật", kể cả khi đã tắt âm thanh ở màn hỏi lúc khởi động (SetupPrompt). Muốn
-     * bật/tắt nhạc trong lúc chơi cần thêm xử lý: đổi chữ, gán Sound.disabled và dừng hoặc
-     * nạp lại bài nhạc của map hiện tại.
-     */
+    /** Mục "Nhạc: Bật/Tắt": chọn để bật/tắt nhạc (b gọi Sound.setEnabled). */
     public static final int ITEM_MUSIC = 3;
     public static final int ITEM_COUNT = 4;
 
@@ -28,7 +24,7 @@ public final class GameMenu {
     public static String[] items = new String[]{"Sử dụng item",
             "Xem bản đồ",
             "Lưu và thoát",
-            "Nhạc: Bật"};
+            "Nhạc"};
     public static int selection;
     public static int y;
     /** Đếm frame, làm con trỏ (biểu tượng kiếm) rung nhẹ. */
@@ -89,7 +85,12 @@ public final class GameMenu {
         UiFrame.drawPanel(g, y, "Chọn", "Quay lại");
 
         for (int i = 0; i < ITEM_COUNT; ++i) {
-            FontGraph.drawBold(g, items[i], Viewport.screenCenterX - 30, y + i * 18, 0);
+            String label = items[i];
+            if (i == ITEM_MUSIC) {
+                label = label + (Sound.disabled ? ": Tắt" : ": Bật");
+            }
+
+            FontGraph.drawBold(g, label, Viewport.screenCenterX - 30, y + i * 18, 0);
         }
 
         g.drawImage(cursorIcon, Viewport.screenCenterX - 55 + tick % 2, y + selection * 18 - tick % 2, 0);
