@@ -160,39 +160,7 @@ public final class b extends Canvas implements Runnable {
     private static Image[] weaponIcons;
     public static int mapId;
     public static int tick;
-    private static int fc;
-    private static int fd;
-    private static int fe;
-    private static int ff;
-    public static int z;
-    public static int A;
-    public static int B;
-    public static int C;
-    private static int fg;
-    private static int fh;
-    private static int fi;
-    private static int fj;
-    private static int fk;
-    private static int fl;
-    private static int fm;
-    public static int D;
-    public static int E;
-    private static int fn;
-    public static int L;
-    public static int M;
-    private static int fo;
-    private static int fp;
-    private static int fq;
-    private static boolean fr;
-    private static int fs;
-    private static int ft;
     private static boolean fu;
-    private static boolean fv;
-    private static boolean fw;
-    private static boolean fx;
-    private static boolean fB;
-    private static int fD;
-    private static int fE;
     private static int questItemX;
     private static int questItemY;
     private static int questItemState;
@@ -209,8 +177,6 @@ public final class b extends Canvas implements Runnable {
     private static boolean cutscenePlaying;
     private static int cutsceneId;
     private static int cutsceneStep;
-    public static int Q;
-    public static int R;
     private static boolean captionVisible;
     private static String[] captionLines;
     private static int captionY;
@@ -327,7 +293,6 @@ public final class b extends Canvas implements Runnable {
     private static int ig;
     private static int ih;
     private static int ii;
-    private static int ij;
     private static int[] ik;
     private static int[] il;
     private static int[] im;
@@ -335,7 +300,6 @@ public final class b extends Canvas implements Runnable {
     private static int[] io;
     private static int[] ip;
     private static int iq;
-    private static int ir;
     private static int[] is;
     private static int[] it;
     private static int[] iu;
@@ -450,8 +414,6 @@ public final class b extends Canvas implements Runnable {
         hL = 60;
         hO = 50;
         mapEventId = 10;
-        ij = -1;
-        ir = -1;
         Dialogue.visible = false;
         loadingTarget = 0;
         jB = 0;
@@ -495,7 +457,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         var1[11] = gm;
         ++var2;
-        var1[12] = ij;
+        var1[12] = Player.motorbike;
         ++var2;
         var1[13] = Inventory.swordLevel;
         ++var2;
@@ -529,50 +491,50 @@ public final class b extends Canvas implements Runnable {
         var1[var2++] = Skills.hide ? 1 : 0;
         var1[var2++] = Story.gameCompleted ? 1 : 0;
         var1[var2++] = Story.sakuraEscorting ? 1 : 0;
-        var1[var2++] = fc;
-        var1[var2++] = fd;
-        var1[var2++] = fe;
-        var1[var2++] = ff;
-        var1[var2++] = z;
-        var1[var2++] = A;
-        var1[var2++] = B;
-        var1[var2++] = C;
-        var1[var2++] = fg;
-        var1[var2++] = fh;
-        var1[var2++] = fi;
-        var1[var2++] = fj;
-        var1[var2++] = fk;
-        var1[var2++] = fl;
-        var1[var2++] = fm;
-        var1[var2++] = D;
-        var1[var2++] = E;
-        var1[var2++] = fn;
+        var1[var2++] = Player.slashEffect;
+        var1[var2++] = Player.weapon;
+        var1[var2++] = Player.x;
+        var1[var2++] = Player.y;
+        var1[var2++] = Player.vx;
+        var1[var2++] = Player.vy;
+        var1[var2++] = Player.action;
+        var1[var2++] = Player.pose;
+        var1[var2++] = Player.width;
+        var1[var2++] = Player.height;
+        var1[var2++] = Player.halfWidth;
+        var1[var2++] = Player.halfHeight;
+        var1[var2++] = Player.quarterWidth;
+        var1[var2++] = Player.quarterHeight;
+        var1[var2++] = Player.facing;
+        var1[var2++] = Player.actionTimer;
+        var1[var2++] = Player.actionTimer2;
+        var1[var2++] = Player.hurtRecovery;
         var1[var2++] = PlayerStats.attack;
         var1[var2++] = PlayerStats.dartDamage;
         var1[var2++] = PlayerStats.hp;
         var1[var2++] = PlayerStats.maxHp;
         var1[var2++] = PlayerStats.mp;
         var1[var2++] = PlayerStats.maxMp;
-        var1[var2++] = L;
-        var1[var2++] = M;
-        var1[var2++] = fo;
-        var1[var2++] = fp;
-        var1[var2++] = fq;
-        var1[var2++] = fs;
-        var1[var2++] = ft;
+        var1[var2++] = Player.runOnWaterSpeed;
+        var1[var2++] = Player.underwaterSpeed;
+        var1[var2++] = Player.sprintBonus;
+        var1[var2++] = Player.checkpointX;
+        var1[var2++] = Player.checkpointY;
+        var1[var2++] = Player.comboCount;
+        var1[var2++] = Player.comboStep;
         var1[var2++] = PlayerStats.level;
         var1[var2++] = PlayerStats.exp;
         var1[var2++] = fu ? 1 : 0;
-        var1[var2++] = fv ? 1 : 0;
-        var1[var2++] = fw ? 1 : 0;
-        var1[var2++] = fx ? 1 : 0;
+        var1[var2++] = Player.comboQueued ? 1 : 0;
+        var1[var2++] = Player.hidden ? 1 : 0;
+        var1[var2++] = Player.transformed ? 1 : 0;
         var1[var2++] = QuestState.current;
         var1[var2++] = QuestState.dropMonster;
         var1[var2++] = QuestState.dropChance;
         var1[var2++] = QuestState.itemFound ? 1 : 0;
         var1[var2++] = QuestState.progress;
-        var1[var2++] = fD;
-        var1[var2++] = fE;
+        var1[var2++] = Player.nearNpc;
+        var1[var2++] = Player.nearClassmate;
         var1[var2++] = ig;
         var1[var2++] = ih;
         var1[var2++] = questItemX;
@@ -657,7 +619,7 @@ public final class b extends Canvas implements Runnable {
 
         var1[var2++] = iq;
         if (iq > 0) {
-            var1[var2++] = ir;
+            var1[var2++] = Player.crate;
             if (iu != null) {
                 for(var0 = 0; var0 < iu.length; ++var0) {
                     var1[var2++] = iu[var0];
@@ -744,7 +706,7 @@ public final class b extends Canvas implements Runnable {
         ++var2;
         gm = var0[11];
         ++var2;
-        ij = var0[12];
+        Player.motorbike = var0[12];
         ++var2;
         Inventory.swordLevel = var0[13];
         ++var2;
@@ -778,50 +740,50 @@ public final class b extends Canvas implements Runnable {
         Skills.hide = var0[var2++] == 1;
         Story.gameCompleted = var0[var2++] == 1;
         Story.sakuraEscorting = var0[var2++] == 1;
-        fc = var0[var2++];
-        fd = var0[var2++];
-        fe = var0[var2++];
-        ff = var0[var2++];
-        z = var0[var2++];
-        A = var0[var2++];
-        B = var0[var2++];
-        C = var0[var2++];
-        fg = var0[var2++];
-        fh = var0[var2++];
-        fi = var0[var2++];
-        fj = var0[var2++];
-        fk = var0[var2++];
-        fl = var0[var2++];
-        fm = var0[var2++];
-        D = var0[var2++];
-        E = var0[var2++];
-        fn = var0[var2++];
+        Player.slashEffect = var0[var2++];
+        Player.weapon = var0[var2++];
+        Player.x = var0[var2++];
+        Player.y = var0[var2++];
+        Player.vx = var0[var2++];
+        Player.vy = var0[var2++];
+        Player.action = var0[var2++];
+        Player.pose = var0[var2++];
+        Player.width = var0[var2++];
+        Player.height = var0[var2++];
+        Player.halfWidth = var0[var2++];
+        Player.halfHeight = var0[var2++];
+        Player.quarterWidth = var0[var2++];
+        Player.quarterHeight = var0[var2++];
+        Player.facing = var0[var2++];
+        Player.actionTimer = var0[var2++];
+        Player.actionTimer2 = var0[var2++];
+        Player.hurtRecovery = var0[var2++];
         PlayerStats.attack = var0[var2++];
         PlayerStats.dartDamage = var0[var2++];
         PlayerStats.hp = var0[var2++];
         PlayerStats.maxHp = var0[var2++];
         PlayerStats.mp = var0[var2++];
         PlayerStats.maxMp = var0[var2++];
-        L = var0[var2++];
-        M = var0[var2++];
-        fo = var0[var2++];
-        fp = var0[var2++];
-        fq = var0[var2++];
-        fs = var0[var2++];
-        ft = var0[var2++];
+        Player.runOnWaterSpeed = var0[var2++];
+        Player.underwaterSpeed = var0[var2++];
+        Player.sprintBonus = var0[var2++];
+        Player.checkpointX = var0[var2++];
+        Player.checkpointY = var0[var2++];
+        Player.comboCount = var0[var2++];
+        Player.comboStep = var0[var2++];
         PlayerStats.level = var0[var2++];
         PlayerStats.exp = var0[var2++];
         fu = var0[var2++] == 1;
-        fv = var0[var2++] == 1;
-        fw = var0[var2++] == 1;
-        fx = var0[var2++] == 1;
+        Player.comboQueued = var0[var2++] == 1;
+        Player.hidden = var0[var2++] == 1;
+        Player.transformed = var0[var2++] == 1;
         QuestState.current = var0[var2++];
         QuestState.dropMonster = var0[var2++];
         QuestState.dropChance = var0[var2++];
         QuestState.itemFound = var0[var2++] == 1;
         QuestState.progress = var0[var2++];
-        fD = var0[var2++];
-        fE = var0[var2++];
+        Player.nearNpc = var0[var2++];
+        Player.nearClassmate = var0[var2++];
         ig = var0[var2++];
         ih = var0[var2++];
         questItemX = var0[var2++];
@@ -913,7 +875,7 @@ public final class b extends Canvas implements Runnable {
         }
 
         if ((iq = var0[var2++]) > 0) {
-            ir = var0[var2++];
+            Player.crate = var0[var2++];
 
             try {
                 for(var1 = 0; var1 < iu.length; ++var1) {
@@ -947,7 +909,7 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        if (fx) {
+        if (Player.transformed) {
             if (heroTransformHeads == null) {
                 heroTransformHeads = new Image[4];
 
@@ -987,20 +949,22 @@ public final class b extends Canvas implements Runnable {
 
     private static void gainExp(int amount) {
         if (Leveling.addExp(amount)) {
-            FloatingText.spawn("level-up", 2, fe, ff - fh, 0, -2);
+            FloatingText.spawn("level-up", 2, Player.x, Player.y - Player.height, 0, -2);
             MessageBox.show(MessageType.LEVEL_UP);
             MessageBox.setText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(Inventory.swordLevel));
             GameState.current = GameState.MESSAGE;
         } else {
-            FloatingText.spawn("+" + amount, 2, fe, ff - fh, 0, -2);
+            FloatingText.spawn("+" + amount, 2, Player.x, Player.y - Player.height, 0, -2);
         }
 
         hudDirty = true;
     }
 
-    private static void u() {
-        if (QuestState.current == Quest.AIR_HITS && A != 0) {
+    private static void playerSwordHit() {
+        if (QuestState.current == Quest.AIR_HITS && Player.vy != 0) {
             ++QuestState.progress;
+            // LỖI GỐC (giữ nguyên): so mã nhiệm vụ (11) thay vì QuestState.progress nên
+            // thông báo "Thành công 20 hit!" không bao giờ hiện; luôn hiện "Hit: n".
             if (QuestState.current >= 20) {
                 Notice.show("Thành công 20 hit!");
             } else {
@@ -1009,62 +973,62 @@ public final class b extends Canvas implements Runnable {
         }
 
         int var0 = PlayerStats.rollMeleeDamage(tick, Inventory.swordLevel);
-        if (fx) {
+        if (Player.transformed) {
             var0 <<= 1;
         }
 
-        if (fd == 1) {
-            a(fe + (fm << 3), ff - 12, (fm << 3) + z, A << 1, false);
+        if (Player.weapon == 1) {
+            a(Player.x + (Player.facing << 3), Player.y - 12, (Player.facing << 3) + Player.vx, Player.vy << 1, false);
         } else {
-            if (A > 0 && z == 0) {
-                A = -2;
+            if (Player.vy > 0 && Player.vx == 0) {
+                Player.vy = -2;
             }
 
-            int var1 = A();
-            fr = false;
+            int var1 = findLaunchTarget();
+            Player.launchHit = false;
             if (var1 != -1) {
-                fr = true;
-                k(var1, var0, -fm);
-                Blood.spawn(Monsters.x[var1], Monsters.y[var1] - (Monsters.height[var1] >> 1), fm);
+                Player.launchHit = true;
+                k(var1, var0, -Player.facing);
+                Blood.spawn(Monsters.x[var1], Monsters.y[var1] - (Monsters.height[var1] >> 1), Player.facing);
                 FloatingText.spawn("-" + var0, 0, Monsters.x[var1], Monsters.y[var1] - Monsters.height[var1], 0, -2);
-                if (A > 0) {
-                    A = -6;
+                if (Player.vy > 0) {
+                    Player.vy = -6;
                 }
 
-                Q();
+                shakeCameraIfTransformed();
             }
 
             for(var1 = 0; var1 < iq; ++var1) {
-                if (a(ff - fj - it[var1]) < 20 && a(fe + (fm << 4) - is[var1]) < 24) {
+                if (a(Player.y - Player.halfHeight - it[var1]) < 20 && a(Player.x + (Player.facing << 4) - is[var1]) < 24) {
                     iu[var1] = 2;
-                    iv[var1] = fm << 3;
-                    Blood.spawn(is[var1], it[var1] - 12, fm);
-                    Q();
+                    iv[var1] = Player.facing << 3;
+                    Blood.spawn(is[var1], it[var1] - 12, Player.facing);
+                    shakeCameraIfTransformed();
                     break;
                 }
             }
 
-            if (gN && a(ff - gQ) < 30 && a(fe + (fm << 4) - gP) < 40) {
-                if (!c(var0, -fm)) {
-                    Blood.spawn(fe + (gP - fe >> 1), ff - 12, fm);
+            if (gN && a(Player.y - gQ) < 30 && a(Player.x + (Player.facing << 4) - gP) < 40) {
+                if (!c(var0, -Player.facing)) {
+                    Blood.spawn(Player.x + (gP - Player.x >> 1), Player.y - 12, Player.facing);
                     FloatingText.spawn("-" + var0, 0, gP, gQ - gW, 0, -2);
                 }
 
-                Q();
+                shakeCameraIfTransformed();
             }
 
             for(var1 = 0; var1 < cp; ++var1) {
-                if (a(ff - cv[var1]) <= 12 && a(fe + (fm << 4) - cu[var1]) < 24) {
-                    a(var1, var0, -fm);
-                    Blood.spawn(cu[var1], cv[var1] - 15, fm);
+                if (a(Player.y - cv[var1]) <= 12 && a(Player.x + (Player.facing << 4) - cu[var1]) < 24) {
+                    a(var1, var0, -Player.facing);
+                    Blood.spawn(cu[var1], cv[var1] - 15, Player.facing);
                     FloatingText.spawn("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
-                    Q();
+                    shakeCameraIfTransformed();
                     break;
                 }
             }
 
             boolean var10000;
-            if (hJ && a(ff - (hQ - 40)) < 30 && a(fe + (fm << 4) - hP) < 40) {
+            if (hJ && a(Player.y - (hQ - 40)) < 30 && a(Player.x + (Player.facing << 4) - hP) < 40) {
                 if ((hM -= var0) <= 0) {
                     hM = 0;
                     ib = 0;
@@ -1081,21 +1045,21 @@ public final class b extends Canvas implements Runnable {
                     var10000 = false;
                 }
 
-                Blood.spawn(fe + (hP - fe >> 1), ff - 12, fm);
+                Blood.spawn(Player.x + (hP - Player.x >> 1), Player.y - 12, Player.facing);
                 FloatingText.spawn("-" + var0, 0, hP, hQ - hL, 0, -2);
-                Q();
+                shakeCameraIfTransformed();
             }
 
             if (hc) {
-                if (a(ff - dA[0]) < 5 && a(fe + (fm << 4) - dz[0]) < 30) {
-                    d(var0, fm);
+                if (a(Player.y - dA[0]) < 5 && a(Player.x + (Player.facing << 4) - dz[0]) < 30) {
+                    d(var0, Player.facing);
                 }
 
-                Q();
+                shakeCameraIfTransformed();
             }
 
             if (hi) {
-                if (a(ff - (hq - 30)) < 30 && a(fe + (fm << 4) - hp) < 30) {
+                if (a(Player.y - (hq - 30)) < 30 && a(Player.x + (Player.facing << 4) - hp) < 30) {
                     if ((hm -= var0) <= 0) {
                         hm = 0;
                         hv = 0;
@@ -1109,13 +1073,13 @@ public final class b extends Canvas implements Runnable {
                         var10000 = false;
                     } else {
                         ho = 50;
-                        Blood.spawn(hp, hq - 47, fm);
+                        Blood.spawn(hp, hq - 47, Player.facing);
                         FloatingText.spawn("-" + var0, 0, hp, hq - 55, 0, -2);
                         var10000 = false;
                     }
                 }
 
-                Q();
+                shakeCameraIfTransformed();
             }
 
         }
@@ -1126,7 +1090,7 @@ public final class b extends Canvas implements Runnable {
         int var1;
         if (ih == 1) {
             var0 = gz << 3;
-            var1 = ff - go >> 3;
+            var1 = Player.y - go >> 3;
             a(gn + (gz << 3), go - 12, var0, var1 + (var0 - 8), true);
         } else {
             var0 = PlayerStats.attack << 1;
@@ -1175,15 +1139,15 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void w() {
+    private static void landOnCrates() {
         for(int var0 = 0; var0 < iq; ++var0) {
-            if (iu[var0] != 4 && a(fe - is[var0]) < 20 && it[var0] > ff && it[var0] - 24 <= ff) {
-                z = 0;
-                A = 0;
-                ff = it[var0] - 24;
-                B = 1;
-                fc = -1;
-                ir = var0;
+            if (iu[var0] != 4 && a(Player.x - is[var0]) < 20 && it[var0] > Player.y && it[var0] - 24 <= Player.y) {
+                Player.vx = 0;
+                Player.vy = 0;
+                Player.y = it[var0] - 24;
+                Player.action = PlayerAction.STAND;
+                Player.slashEffect = -1;
+                Player.crate = var0;
                 if (iu[var0] == 11) {
                     WaterSplash.spawn(is[var0], it[var0] - 10);
                     int[] var10000 = it;
@@ -1198,19 +1162,19 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void x() {
+    private static void pushCratesInAir() {
         for(int var0 = 0; var0 < iq; ++var0) {
-            if (a(fe - is[var0]) < 20 && a(it[var0] - ff) < 4) {
-                z = 0;
-                if (fe < is[var0]) {
-                    fe = is[var0] - 20;
+            if (a(Player.x - is[var0]) < 20 && a(it[var0] - Player.y) < 4) {
+                Player.vx = 0;
+                if (Player.x < is[var0]) {
+                    Player.x = is[var0] - 20;
                 } else {
-                    fe = is[var0] + 20;
+                    Player.x = is[var0] + 20;
                 }
 
                 if (iu[var0] != 4) {
                     iu[var0] = 2;
-                    iv[var0] = -fm << 1;
+                    iv[var0] = -Player.facing << 1;
                     return;
                 }
             }
@@ -1219,7 +1183,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void v(int var0) {
-        if (a(ff - cv[var0]) <= 24 && a(cu[var0] + (cH[var0] << 3) - fe) < 25 && (cD[var0] == 6 || cD[var0] == 2 || cD[var0] == 3)) {
+        if (a(Player.y - cv[var0]) <= 24 && a(cu[var0] + (cH[var0] << 3) - Player.x) < 25 && (cD[var0] == 6 || cD[var0] == 2 || cD[var0] == 3)) {
             cG[var0] = cF[var0] = 0;
             cE[var0] = 4;
         }
@@ -1227,23 +1191,23 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void w(int var0) {
-        if (!fw) {
-            if (a(cu[var0] - fe) < 100 && a(cv[var0] - ff) < 20) {
+        if (!Player.hidden) {
+            if (a(cu[var0] - Player.x) < 100 && a(cv[var0] - Player.y) < 20) {
                 switch (cD[var0]) {
                     case 0:
                     case 1:
                     case 4:
                     case 5:
-                        cH[var0] = cu[var0] < fe ? 1 : -1;
+                        cH[var0] = cu[var0] < Player.x ? 1 : -1;
                         cG[var0] = cF[var0] = 0;
                         cE[var0] = 4;
                         break;
                     case 2:
                     case 3:
                     case 6:
-                        cG[var0] = fe;
+                        cG[var0] = Player.x;
                         int[] var10000;
-                        if (cu[var0] < fe) {
+                        if (cu[var0] < Player.x) {
                             var10000 = cG;
                             var10000[var0] -= 10;
                         } else {
@@ -1251,7 +1215,7 @@ public final class b extends Canvas implements Runnable {
                             var10000[var0] += 10;
                         }
 
-                        cH[var0] = cG[var0] < fe ? 1 : -1;
+                        cH[var0] = cG[var0] < Player.x ? 1 : -1;
                         cE[var0] = 7;
                         cy[var0] = cH[var0] << 3;
                         if (cG[var0] < cK[var0]) {
@@ -1268,19 +1232,19 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void y() {
+    private static void pushCrates() {
         for(int var0 = 0; var0 < iq; ++var0) {
-            if (a(fe - is[var0]) < 20 && it[var0] == ff) {
-                z = 0;
-                if (fe < is[var0]) {
-                    fe = is[var0] - 20;
+            if (a(Player.x - is[var0]) < 20 && it[var0] == Player.y) {
+                Player.vx = 0;
+                if (Player.x < is[var0]) {
+                    Player.x = is[var0] - 20;
                 } else {
-                    fe = is[var0] + 20;
+                    Player.x = is[var0] + 20;
                 }
 
                 if (iu[var0] != 4) {
                     iu[var0] = 2;
-                    iv[var0] = fm << 2;
+                    iv[var0] = Player.facing << 2;
                     return;
                 }
             }
@@ -1504,11 +1468,11 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static int A() {
-        int var0 = fm > 0 ? fe - 20 : fe - 40;
-        int var1 = fm > 0 ? fe + 40 : fe + 20;
-        int var2 = ff - fh - 15;
-        int var3 = ff + 5;
+    private static int findLaunchTarget() {
+        int var0 = Player.facing > 0 ? Player.x - 20 : Player.x - 40;
+        int var1 = Player.facing > 0 ? Player.x + 40 : Player.x + 20;
+        int var2 = Player.y - Player.height - 15;
+        int var3 = Player.y + 5;
 
         for(int var4 = 0; var4 < Monsters.count; ++var4) {
             if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[var4] >= var0 && Monsters.x[var4] <= var1 && Monsters.y[var4] >= var2 && Monsters.y[var4] <= var3) {
@@ -1567,8 +1531,8 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        if (a(fe - gn) > 25 && ff != go && B == 5) {
-            gz = fe > gn ? 1 : -1;
+        if (a(Player.x - gn) > 25 && Player.y != go && Player.action == PlayerAction.ATTACK) {
+            gz = Player.x > gn ? 1 : -1;
             gr = 5;
             ih = 1;
             gA = 0;
@@ -1578,14 +1542,14 @@ public final class b extends Canvas implements Runnable {
 
     private static void E() {
         if (gk) {
-            if (ff <= go - 24 && GameMap.hasFlag(gn, go - 1, TileFlags.SOLID)) {
+            if (Player.y <= go - 24 && GameMap.hasFlag(gn, go - 1, TileFlags.SOLID)) {
                 gr = 3;
                 gp = 0;
                 gq = -7;
                 return;
             }
 
-            if (ff <= go - 24 && GameMap.hasFlag(gn, go - 25, TileFlags.SOLID)) {
+            if (Player.y <= go - 24 && GameMap.hasFlag(gn, go - 25, TileFlags.SOLID)) {
                 gr = 3;
                 gp = 0;
                 gq = -10;
@@ -1596,9 +1560,9 @@ public final class b extends Canvas implements Runnable {
             int var1;
             if (gn >= cameraX - 24 && gn <= cameraX + Viewport.viewWidth + 24) {
                 if (go < cameraY - 30 || go > cameraY + Viewport.viewHeight + 30) {
-                    gz = fe + (fm << 5) > gn ? 1 : -1;
-                    var0 = fe;
-                    var1 = ff > go ? cameraY - 20 : cameraY + Viewport.viewHeight;
+                    gz = Player.x + (Player.facing << 5) > gn ? 1 : -1;
+                    var0 = Player.x;
+                    var1 = Player.y > go ? cameraY - 20 : cameraY + Viewport.viewHeight;
                     gn = var0;
                     go = var1;
                     gr = 3;
@@ -1607,14 +1571,14 @@ public final class b extends Canvas implements Runnable {
                     return;
                 }
 
-                if (a(fe + (fm << 5) - gn) <= (B == 5 ? 10 : 60)) {
+                if (a(Player.x + (Player.facing << 5) - gn) <= (Player.action == PlayerAction.ATTACK ? 10 : 60)) {
                     gr = 1;
-                } else if (ff >= go) {
-                    if (ff > go) {
+                } else if (Player.y >= go) {
+                    if (Player.y > go) {
                         if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
-                            gz = fe > gn ? 1 : -1;
+                            gz = Player.x > gn ? 1 : -1;
                             gr = 2;
-                            gp = gz * Q;
+                            gp = gz * Player.moveSpeed;
                             return;
                         }
 
@@ -1662,9 +1626,9 @@ public final class b extends Canvas implements Runnable {
                             return;
                         }
                     } else if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
-                        gz = fe + (fm << 5) > gn ? 1 : -1;
+                        gz = Player.x + (Player.facing << 5) > gn ? 1 : -1;
                         gr = 2;
-                        gp = gz * Q;
+                        gp = gz * Player.moveSpeed;
                         return;
                     }
                 } else {
@@ -1722,9 +1686,9 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
             } else {
-                gz = fe + (fm << 5) > gn ? 1 : -1;
-                var0 = fe > gn ? cameraX - 24 : cameraX + Viewport.viewWidth + 24;
-                var1 = ff - 20;
+                gz = Player.x + (Player.facing << 5) > gn ? 1 : -1;
+                var0 = Player.x > gn ? cameraX - 24 : cameraX + Viewport.viewWidth + 24;
+                var1 = Player.y - 20;
                 if (!GameMap.hasFlag(var0, var1, TileFlags.DIGGABLE)) {
                     gn = var0;
                     go = var1;
@@ -1735,7 +1699,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 if (GameMap.hasFlag(gn + gz * gt, go, TileFlags.SOLID)) {
-                    gz = fe > gn ? 1 : -1;
+                    gz = Player.x > gn ? 1 : -1;
                     gr = 2;
                     gp = gz * 12;
                     return;
@@ -1745,29 +1709,29 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void a(int var0, int var1) {
+    private static void damagePlayer(int var0, int var1) {
         boolean dead = PlayerStats.takeDamage(var0);
-        fc = -1;
+        Player.slashEffect = -1;
         hudDirty = true;
-        ir = -1;
+        Player.crate = -1;
         if (dead) {
-            A = -7;
-            z = var1 << 2;
-            B = 6;
-            ij = -1;
-        } else if (ij == -1 && B != 23) {
-            z = var1 << 2;
-            A = -2;
-            D = 0;
-            E = 0;
-            B = 7;
+            Player.vy = -7;
+            Player.vx = var1 << 2;
+            Player.action = PlayerAction.DEAD;
+            Player.motorbike = -1;
+        } else if (Player.motorbike == -1 && Player.action != PlayerAction.TRANSFORM) {
+            Player.vx = var1 << 2;
+            Player.vy = -2;
+            Player.actionTimer = 0;
+            Player.actionTimer2 = 0;
+            Player.action = PlayerAction.HURT;
         }
 
-        Blood.spawn(fe, ff - 12, -fm);
-        FloatingText.spawn("-" + var0, 0, fe, ff - fh, 0, -2);
+        Blood.spawn(Player.x, Player.y - 12, -Player.facing);
+        FloatingText.spawn("-" + var0, 0, Player.x, Player.y - Player.height, 0, -2);
     }
 
-    private static void b(int var0, int var1) {
+    private static void damageGirl(int var0, int var1) {
         ig = -1;
         gp = var1 << 2;
         gq = -2;
@@ -1857,7 +1821,7 @@ public final class b extends Canvas implements Runnable {
             dE[0] = 0;
             dF[0] = 0;
             dD[0] = 7;
-            Blood.spawn(dz[0], dA[0] - 12, fm);
+            Blood.spawn(dz[0], dA[0] - 12, Player.facing);
             FloatingText.spawn("-" + var0, 0, dz[0], dA[0] - 32, 0, -2);
         }
     }
@@ -1878,13 +1842,13 @@ public final class b extends Canvas implements Runnable {
 
     public static final void c(int var0) {
         ii = 0;
-        int var1 = ij == -1 ? 0 : 1;
+        int var1 = Player.motorbike == -1 ? 0 : 1;
         if ((var0 == 0 || var0 == 1 || var0 == 7 || var0 == 5 || var0 == 18 || var0 >= 94) && var1 == 1) {
             ii = 1;
             F();
-            b(0, fe, ff);
-            ij = 0;
-            im[ij] = fm;
+            b(0, Player.x, Player.y);
+            Player.motorbike = 0;
+            im[Player.motorbike] = Player.facing;
         }
 
         if (var0 == 2) {
@@ -1977,28 +1941,28 @@ public final class b extends Canvas implements Runnable {
         iq = 0;
         if (var0 == 1) {
             iq = 2;
-            G();
+            initCrates();
             c(0, 21, 9);
             c(1, 13, 8);
         }
 
         if (var0 == 11) {
             iq = 2;
-            G();
+            initCrates();
             c(0, 33, 7);
             c(1, 44, 10);
         }
 
         if (var0 == 5) {
             iq = 2;
-            G();
+            initCrates();
             c(0, 5, 46);
             c(1, 15, 46);
         }
 
         if (var0 == 97) {
             iq = 4;
-            G();
+            initCrates();
             c(0, 3, 6);
             c(1, 7, 4);
             c(2, 12, 3);
@@ -2007,7 +1971,7 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void G() {
+    private static void initCrates() {
         try {
             itemCrate = Item.ensureCrate(itemCrate);
         } catch (Exception var0) {
@@ -2065,8 +2029,8 @@ public final class b extends Canvas implements Runnable {
 
         cameraMaxX = (GameMap.width - 1) * GameMap.TILE_SIZE - Viewport.viewWidth;
         cameraMaxY = (GameMap.height - 1) * GameMap.TILE_SIZE - Viewport.viewHeight;
-        cameraX = cameraTargetX = fe - Viewport.viewCenterX + cameraLeadX * fm;
-        cameraY = cameraTargetY = ff - cameraOffsetY;
+        cameraX = cameraTargetX = Player.x - Viewport.viewCenterX + cameraLeadX * Player.facing;
+        cameraY = cameraTargetY = Player.y - cameraOffsetY;
         if (cameraX < 0) {
             cameraX = 0;
         }
@@ -2100,8 +2064,8 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    public static final void i() {
-        fc = -1;
+    public static final void loadHeroSprites() {
+        Player.slashEffect = -1;
         if (heroBodies == null) {
             try {
                 heroBodies = new Image[20];
@@ -2127,13 +2091,13 @@ public final class b extends Canvas implements Runnable {
         }
 
         reloadSlashEffects();
-        fg = 22;
-        fh = 32;
-        fi = fg >> 1;
-        fj = fh >> 1;
-        fk = fg >> 2;
-        fl = fh >> 2;
-        fD = -1;
+        Player.width = 22;
+        Player.height = 32;
+        Player.halfWidth = Player.width >> 1;
+        Player.halfHeight = Player.height >> 1;
+        Player.quarterWidth = Player.width >> 2;
+        Player.quarterHeight = Player.height >> 2;
+        Player.nearNpc = -1;
     }
 
     private static void reloadSlashEffects() {
@@ -2262,9 +2226,9 @@ public final class b extends Canvas implements Runnable {
             gx = gt >> 2;
             gy = gu >> 2;
             if (gk) {
-                gn = fe - fm * 10;
-                go = ff;
-                gz = fm;
+                gn = Player.x - Player.facing * 10;
+                go = Player.y;
+                gz = Player.facing;
                 gr = 4;
             }
 
@@ -2688,14 +2652,14 @@ public final class b extends Canvas implements Runnable {
     public static void m(int var0) {
         if (var0 == 94) {
             dw = true;
-            fe = 24;
-            ff = 288;
+            Player.x = 24;
+            Player.y = 288;
             gm = 94;
             gn = 12;
             go = 288;
             gz = 1;
             gk = false;
-            fm = 1;
+            Player.facing = 1;
         }
 
         if (var0 == 0 && QuestState.current == Quest.FIND_HIDE_SCROLL && QuestState.itemFound) {
@@ -2709,8 +2673,8 @@ public final class b extends Canvas implements Runnable {
             gk = true;
             fu = true;
             QuestState.current = Quest.NONE;
-            fe = 984;
-            ff = 408;
+            Player.x = 984;
+            Player.y = 408;
         } else {
             if (var0 == 95 && !Story.sakuraFound) {
                 gk = false;
@@ -2743,16 +2707,16 @@ public final class b extends Canvas implements Runnable {
             Skills.runOnWater = true;
             PlayerStats.setMaxHpMp(1000, 2000);
             PlayerStats.attack = 25;
-            B = 4;
+            Player.action = PlayerAction.FALL;
             ha = 500;
             gZ = 500;
             startMapEvent(0);
         } else if (var0 == 99) {
             Story.prologueActive = true;
             dw = true;
-            fe = 108;
-            ff = 312;
-            fm = -1;
+            Player.x = 108;
+            Player.y = 312;
+            Player.facing = -1;
             startMapEvent(1);
         } else if (var0 == 94) {
             startMapEvent(10);
@@ -2761,19 +2725,19 @@ public final class b extends Canvas implements Runnable {
             Skills.lightness = false;
             Skills.runOnWater = false;
             Skills.transform = false;
-            fx = false;
+            Player.transformed = false;
             PlayerStats.resetForNewGame();
             ha = 1000;
             gZ = 1000;
-            fe = 864;
-            ff = 336;
+            Player.x = 864;
+            Player.y = 336;
 
             for(var1 = 0; var1 < 19; ++var1) {
                 WorldMap.visited[var1] = false;
             }
 
             WorldMap.visited[0] = true;
-            fm = -1;
+            Player.facing = -1;
             dw = false;
             dx = false;
             startMapEvent(2);
@@ -2812,8 +2776,8 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void z(int var0) {
-        if (dA[0] == ff && a(dz[0] + (dJ[0] << 5) - fe) < 25) {
-            a(hf, dJ[0]);
+        if (dA[0] == Player.y && a(dz[0] + (dJ[0] << 5) - Player.x) < 25) {
+            damagePlayer(hf, dJ[0]);
         }
 
     }
@@ -2878,28 +2842,28 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void b(Graphics var0) {
-        if (fw) {
+        if (Player.hidden) {
             if (tick % 20 > 2) {
-                C = 25;
+                Player.pose = 25;
             } else {
-                C = 26;
+                Player.pose = 26;
             }
         }
 
-        if (fm == 1) {
-            var0.drawImage(heroHeads[ar[C][0][0]], fe + ar[C][0][1], ff - ar[C][0][2], 0);
-            var0.drawImage(heroLegs[ar[C][1][0]], fe + ar[C][1][1], ff - ar[C][1][2], 0);
-            var0.drawImage(heroBodies[ar[C][2][0]], fe + ar[C][2][1], ff - ar[C][2][2], 0);
-            if (fc != -1) {
-                var0.drawImage(slashEffects[fc], fe - as[fc], ff - at[fc], 0);
+        if (Player.facing == 1) {
+            var0.drawImage(heroHeads[ar[Player.pose][0][0]], Player.x + ar[Player.pose][0][1], Player.y - ar[Player.pose][0][2], 0);
+            var0.drawImage(heroLegs[ar[Player.pose][1][0]], Player.x + ar[Player.pose][1][1], Player.y - ar[Player.pose][1][2], 0);
+            var0.drawImage(heroBodies[ar[Player.pose][2][0]], Player.x + ar[Player.pose][2][1], Player.y - ar[Player.pose][2][2], 0);
+            if (Player.slashEffect != -1) {
+                var0.drawImage(slashEffects[Player.slashEffect], Player.x - as[Player.slashEffect], Player.y - at[Player.slashEffect], 0);
                 return;
             }
         } else {
-            var0.drawRegion(heroHeads[ar[C][0][0]], 0, 0, heroHeads[ar[C][0][0]].getWidth(), heroHeads[ar[C][0][0]].getHeight(), 2, fe - ar[C][0][1], ff - ar[C][0][2], 24);
-            var0.drawRegion(heroLegs[ar[C][1][0]], 0, 0, heroLegs[ar[C][1][0]].getWidth(), heroLegs[ar[C][1][0]].getHeight(), 2, fe - ar[C][1][1], ff - ar[C][1][2], 24);
-            var0.drawRegion(heroBodies[ar[C][2][0]], 0, 0, heroBodies[ar[C][2][0]].getWidth(), heroBodies[ar[C][2][0]].getHeight(), 2, fe - ar[C][2][1], ff - ar[C][2][2], 24);
-            if (fc != -1) {
-                var0.drawRegion(slashEffects[fc], 0, 0, slashEffects[fc].getWidth(), slashEffects[fc].getHeight(), 2, fe + as[fc], ff - at[fc], 24);
+            var0.drawRegion(heroHeads[ar[Player.pose][0][0]], 0, 0, heroHeads[ar[Player.pose][0][0]].getWidth(), heroHeads[ar[Player.pose][0][0]].getHeight(), 2, Player.x - ar[Player.pose][0][1], Player.y - ar[Player.pose][0][2], 24);
+            var0.drawRegion(heroLegs[ar[Player.pose][1][0]], 0, 0, heroLegs[ar[Player.pose][1][0]].getWidth(), heroLegs[ar[Player.pose][1][0]].getHeight(), 2, Player.x - ar[Player.pose][1][1], Player.y - ar[Player.pose][1][2], 24);
+            var0.drawRegion(heroBodies[ar[Player.pose][2][0]], 0, 0, heroBodies[ar[Player.pose][2][0]].getWidth(), heroBodies[ar[Player.pose][2][0]].getHeight(), 2, Player.x - ar[Player.pose][2][1], Player.y - ar[Player.pose][2][2], 24);
+            if (Player.slashEffect != -1) {
+                var0.drawRegion(slashEffects[Player.slashEffect], 0, 0, slashEffects[Player.slashEffect].getWidth(), slashEffects[Player.slashEffect].getHeight(), 2, Player.x + as[Player.slashEffect], Player.y - at[Player.slashEffect], 24);
             }
         }
 
@@ -2997,7 +2961,7 @@ public final class b extends Canvas implements Runnable {
             var0.setColor(65535);
             var0.fillRect(31, hudY + 32, var1, 1);
             FontGraph.drawSmall(var0, "" + PlayerStats.level, 2, 26, hudY + 11, 2);
-            var0.drawImage(weaponIcons[fd], 43, hudY + 16, 3);
+            var0.drawImage(weaponIcons[Player.weapon], 43, hudY + 16, 3);
             FontGraph.drawSmall(var0, "" + (Inventory.potionCounts[0] + Inventory.potionCounts[1] + Inventory.potionCounts[2]), 2, hudWidth - 29, hudY + 19, 2);
             FontGraph.drawSmall(var0, "" + (Inventory.potionCounts[3] + Inventory.potionCounts[4] + Inventory.potionCounts[5]), 2, hudWidth - 9, hudY + 19, 2);
         }
@@ -3069,7 +3033,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void g(Graphics var0) {
         for(int var1 = 0; var1 < du; ++var1) {
-            if (dz[var1] + fi >= cameraX && dz[var1] - fi <= cameraX + Viewport.viewWidth && dA[var1] >= cameraY && dA[var1] - fh <= cameraY + Viewport.viewHeight) {
+            if (dz[var1] + Player.halfWidth >= cameraX && dz[var1] - Player.halfWidth <= cameraX + Viewport.viewWidth && dA[var1] >= cameraY && dA[var1] - Player.height <= cameraY + Viewport.viewHeight) {
                 if (dJ[var1] == 1) {
                     var0.drawImage(classmateHeads[dH[var1]][aI[dG[var1]][0][0]], dz[var1] + aI[dG[var1]][0][1], dA[var1] - aI[dG[var1]][0][2], 0);
                     var0.drawImage(heroLegs[aI[dG[var1]][1][0]], dz[var1] + aI[dG[var1]][1][1], dA[var1] - aI[dG[var1]][1][2], 0);
@@ -3113,10 +3077,10 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void N() {
-        if (!fw && B != 14 && a(ff - gQ) < 30 && a(fe - gP) < 200) {
+        if (!Player.hidden && Player.action != PlayerAction.BURROWED && a(Player.y - gQ) < 30 && a(Player.x - gP) < 200) {
             gS = 5;
-            gT = gP < fe ? 1 : -1;
-            gY = fe + (gT << 5);
+            gT = gP < Player.x ? 1 : -1;
+            gY = Player.x + (gT << 5);
             gR = gT * 6;
             if (gZ < ha >> 1) {
                 gR = gT << 3;
@@ -3130,9 +3094,9 @@ public final class b extends Canvas implements Runnable {
         F();
         b(0, var1, var2);
         if (var0 == 1) {
-            b(1, fe, ff);
-            ij = 1;
-            im[ij] = fm;
+            b(1, Player.x, Player.y);
+            Player.motorbike = 1;
+            im[Player.motorbike] = Player.facing;
         }
 
     }
@@ -3214,48 +3178,48 @@ public final class b extends Canvas implements Runnable {
         mapEventActive = true;
     }
 
-    private static void Q() {
-        if (fx) {
+    private static void shakeCameraIfTransformed() {
+        if (Player.transformed) {
             aL = 0;
         }
 
     }
 
-    private static void R() {
+    private static void updatePlayer() {
         if (fu) {
-            cameraTargetX = fe - Viewport.viewCenterX + cameraLeadX * fm;
-            cameraTargetY = ff - cameraOffsetY;
+            cameraTargetX = Player.x - Viewport.viewCenterX + cameraLeadX * Player.facing;
+            cameraTargetY = Player.y - cameraOffsetY;
         }
 
         int var0;
         label788:
-        switch (B) {
-            case 1:
-                if (++D > 30) {
-                    D = 0;
+        switch (Player.action) {
+            case PlayerAction.STAND:
+                if (++Player.actionTimer > 30) {
+                    Player.actionTimer = 0;
                 }
 
-                if (D % 15 < 5) {
-                    C = 0;
+                if (Player.actionTimer % 15 < 5) {
+                    Player.pose = 0;
                 } else {
-                    C = 1;
+                    Player.pose = 1;
                 }
 
-                S();
+                updateBridges();
 
                 for(var0 = 0; var0 < du; ++var0) {
-                    if (dD[var0] == 1 && ff == dA[var0] && a(fe - dz[var0]) < 30 && fE == -1) {
+                    if (dD[var0] == 1 && Player.y == dA[var0] && a(Player.x - dz[var0]) < 30 && Player.nearClassmate == -1) {
                         rightSoftKeyLabel = "Trò chuyện";
                         hudDirty = true;
-                        fE = var0;
+                        Player.nearClassmate = var0;
                         break;
                     }
                 }
 
-                if (gm == mapId && gr == 1 && ff == go && a(fe - gn) < 30) {
+                if (gm == mapId && gr == 1 && Player.y == go && a(Player.x - gn) < 30) {
                     rightSoftKeyLabel = "Nói chuyện";
                     hudDirty = true;
-                    fB = true;
+                    Player.nearGirl = true;
                 }
 
                 var0 = 0;
@@ -3265,160 +3229,160 @@ public final class b extends Canvas implements Runnable {
                         break label788;
                     }
 
-                    if (ff == npcY[var0] && a(fe - npcX[var0]) < 30 && fD == -1) {
+                    if (Player.y == npcY[var0] && a(Player.x - npcX[var0]) < 30 && Player.nearNpc == -1) {
                         rightSoftKeyLabel = "Giao tiếp";
                         hudDirty = true;
-                        fD = var0;
+                        Player.nearNpc = var0;
                         break label788;
                     }
 
                     ++var0;
                 }
-            case 2:
-                if (++D >= 10) {
-                    D = 0;
-                    fo = 0;
+            case PlayerAction.RUN:
+                if (++Player.actionTimer >= 10) {
+                    Player.actionTimer = 0;
+                    Player.sprintBonus = 0;
                     if (Skills.sprint) {
-                        fo = fm << 1;
+                        Player.sprintBonus = Player.facing << 1;
                     }
                 }
 
-                C = (D >> 1) + 2;
-                if (fm == 1) {
-                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
-                        z = 0;
-                        fe = I(fe + fi) - fi;
+                Player.pose = (Player.actionTimer >> 1) + 2;
+                if (Player.facing == 1) {
+                    if (GameMap.hasFlag(Player.x + Player.halfWidth, Player.y - Player.halfHeight, TileFlags.WALL_LEFT_SIDE)) {
+                        Player.vx = 0;
+                        Player.x = I(Player.x + Player.halfWidth) - Player.halfWidth;
                     }
-                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
-                    z = 0;
-                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
+                } else if (GameMap.hasFlag(Player.x - Player.halfWidth - 1, Player.y - Player.halfHeight, TileFlags.WALL_RIGHT_SIDE)) {
+                    Player.vx = 0;
+                    Player.x = I(Player.x - Player.halfWidth - 1) + GameMap.TILE_SIZE + Player.halfWidth;
                 }
 
-                if ((GameMap.flagsAtPixel(fe, ff - 1) & TileFlags.WATER) == TileFlags.WATER) {
-                    fe += z >> 1;
+                if ((GameMap.flagsAtPixel(Player.x, Player.y - 1) & TileFlags.WATER) == TileFlags.WATER) {
+                    Player.x += Player.vx >> 1;
                 } else {
-                    fe += z;
+                    Player.x += Player.vx;
                 }
 
-                if (z > 0) {
-                    --z;
-                } else if (z < 0) {
-                    ++z;
+                if (Player.vx > 0) {
+                    --Player.vx;
+                } else if (Player.vx < 0) {
+                    ++Player.vx;
                 } else {
-                    B = 1;
-                    fo = 0;
+                    Player.action = PlayerAction.STAND;
+                    Player.sprintBonus = 0;
                 }
 
-                if (ir != -1) {
-                    if (a(fe - is[ir]) >= 20) {
-                        ir = -1;
-                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
-                            B = 1;
+                if (Player.crate != -1) {
+                    if (a(Player.x - is[Player.crate]) >= 20) {
+                        Player.crate = -1;
+                        if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
+                            Player.action = PlayerAction.STAND;
                         } else {
-                            B = 4;
-                            A = 2;
-                            z = 3 * fm;
-                            E = 0;
+                            Player.action = PlayerAction.FALL;
+                            Player.vy = 2;
+                            Player.vx = 3 * Player.facing;
+                            Player.actionTimer2 = 0;
                         }
                     }
-                } else if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
-                    B = 4;
-                    z = 3 * fm;
-                    E = 0;
+                } else if ((GameMap.flagsAtPixel(Player.x, Player.y) & TileFlags.SOLID) != TileFlags.SOLID) {
+                    Player.action = PlayerAction.FALL;
+                    Player.vx = 3 * Player.facing;
+                    Player.actionTimer2 = 0;
                 }
 
-                y();
-                Dust.spawn(fm, fe - (fm << 3), ff);
-                S();
+                pushCrates();
+                Dust.spawn(Player.facing, Player.x - (Player.facing << 3), Player.y);
+                updateBridges();
                 break;
-            case 3:
-                fe += z;
-                if ((ff += A) < 0) {
-                    ff = 0;
-                    A = -1;
+            case PlayerAction.JUMP:
+                Player.x += Player.vx;
+                if ((Player.y += Player.vy) < 0) {
+                    Player.y = 0;
+                    Player.vy = -1;
                 }
 
-                if (D == 0) {
-                    C = 7;
+                if (Player.actionTimer == 0) {
+                    Player.pose = 7;
                 } else {
-                    C = 23;
+                    Player.pose = 23;
                 }
 
-                ++A;
-                if (Skills.lightness && !fx) {
-                    if (A == -3) {
-                        C = 8;
-                    } else if (A == -2) {
-                        C = 9;
-                    } else if (A == -1) {
-                        C = 10;
-                    } else if (A == 0) {
-                        C = 11;
+                ++Player.vy;
+                if (Skills.lightness && !Player.transformed) {
+                    if (Player.vy == -3) {
+                        Player.pose = 8;
+                    } else if (Player.vy == -2) {
+                        Player.pose = 9;
+                    } else if (Player.vy == -1) {
+                        Player.pose = 10;
+                    } else if (Player.vy == 0) {
+                        Player.pose = 11;
                     }
                 }
 
-                if (A == 0) {
-                    B = 4;
-                    D = 0;
-                    E = Skills.lightness ? 1 : 0;
-                    A = 1;
+                if (Player.vy == 0) {
+                    Player.action = PlayerAction.FALL;
+                    Player.actionTimer = 0;
+                    Player.actionTimer2 = Skills.lightness ? 1 : 0;
+                    Player.vy = 1;
                     hudDirty = true;
                 }
 
-                if (fn < 0) {
-                    ++fn;
+                if (Player.hurtRecovery < 0) {
+                    ++Player.hurtRecovery;
                 }
 
-                if (fm == 1) {
-                    if ((GameMap.flagsAtPixel(fe + fi, ff) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                        fe = I(fe + fi) - fi;
-                        z = 0;
+                if (Player.facing == 1) {
+                    if ((GameMap.flagsAtPixel(Player.x + Player.halfWidth, Player.y) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                        Player.x = I(Player.x + Player.halfWidth) - Player.halfWidth;
+                        Player.vx = 0;
                     }
-                } else if ((GameMap.flagsAtPixel(fe - fi, ff) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                    fe = I(fe + 24 - fi) + fi;
-                    z = 0;
+                } else if ((GameMap.flagsAtPixel(Player.x - Player.halfWidth, Player.y) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                    Player.x = I(Player.x + 24 - Player.halfWidth) + Player.halfWidth;
+                    Player.vx = 0;
                 }
                 break;
-            case 4:
-                fc = -1;
-                fe += z;
-                ff += A;
-                if (A < 18) {
-                    ++A;
+            case PlayerAction.FALL:
+                Player.slashEffect = -1;
+                Player.x += Player.vx;
+                Player.y += Player.vy;
+                if (Player.vy < 18) {
+                    ++Player.vy;
                 }
 
-                if (z > 0) {
-                    --z;
+                if (Player.vx > 0) {
+                    --Player.vx;
                 }
 
-                C = 7;
-                if (ff >= GameMap.pixelHeight) {
-                    B = 6;
+                Player.pose = 7;
+                if (Player.y >= GameMap.pixelHeight) {
+                    Player.action = PlayerAction.DEAD;
                     PlayerStats.kill();
-                } else if (ff + 4 >= GameMap.pixelHeight) {
-                    B = 6;
+                } else if (Player.y + 4 >= GameMap.pixelHeight) {
+                    Player.action = PlayerAction.DEAD;
                     PlayerStats.kill();
-                } else if (A > 4 && (GameMap.flagsAtPixel(fe, ff + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
-                    if (A > 12) {
-                        B = 8;
+                } else if (Player.vy > 4 && (GameMap.flagsAtPixel(Player.x, Player.y + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
+                    if (Player.vy > 12) {
+                        Player.action = PlayerAction.CROUCH;
                     } else {
-                        B = 1;
+                        Player.action = PlayerAction.STAND;
                     }
 
-                    A = 0;
-                    z = 0;
-                    E = 0;
-                    D = 0;
-                    ff = I(ff + 3);
-                    Dust.spawn(-1, fe - -8, ff);
-                    Dust.spawn(1, fe - 8, ff);
+                    Player.vy = 0;
+                    Player.vx = 0;
+                    Player.actionTimer2 = 0;
+                    Player.actionTimer = 0;
+                    Player.y = I(Player.y + 3);
+                    Dust.spawn(-1, Player.x - -8, Player.y);
+                    Dust.spawn(1, Player.x - 8, Player.y);
                     if (Skills.motorbikeLicense) {
                         for(var0 = 0; var0 < ii; ++var0) {
-                            if (ff == il[var0] && a(fe - ik[var0]) < 16) {
-                                fe = ik[var0];
-                                B = 18;
-                                ij = var0;
-                                im[var0] = fm;
+                            if (Player.y == il[var0] && a(Player.x - ik[var0]) < 16) {
+                                Player.x = ik[var0];
+                                Player.action = PlayerAction.MOTORBIKE_STAND;
+                                Player.motorbike = var0;
+                                im[var0] = Player.facing;
                                 in[var0] = 0;
                             }
                         }
@@ -3429,275 +3393,275 @@ public final class b extends Canvas implements Runnable {
                         Notice.show("Hit: " + QuestState.progress);
                     }
                 } else {
-                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
-                        WaterSplash.spawn(fe, H(ff) + 8);
-                        ff = H(ff) + 8;
-                        B = 11;
-                        z = fm << 1;
-                        A >>= 2;
-                        ff = H(ff) + 12;
+                    if (GameMap.hasFlag(Player.x, Player.y, TileFlags.WATER) && Player.y % GameMap.TILE_SIZE > 8) {
+                        WaterSplash.spawn(Player.x, H(Player.y) + 8);
+                        Player.y = H(Player.y) + 8;
+                        Player.action = PlayerAction.RUN_ON_WATER;
+                        Player.vx = Player.facing << 1;
+                        Player.vy >>= 2;
+                        Player.y = H(Player.y) + 12;
                         if (!PlayerStats.hasMp() || !Skills.runOnWater) {
-                            B = 12;
+                            Player.action = PlayerAction.SINK;
                         }
                     }
 
-                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
-                        B = 12;
+                    if (GameMap.hasFlag(Player.x, Player.y, TileFlags.DEEP_WATER)) {
+                        Player.action = PlayerAction.SINK;
                     }
 
-                    if (E == 1 && !fx) {
-                        if (A == 3) {
-                            C = 11;
-                        } else if (A == 2) {
-                            C = 8;
-                        } else if (A == 1) {
-                            C = 9;
-                        } else if (A == 0) {
-                            C = 10;
+                    if (Player.actionTimer2 == 1 && !Player.transformed) {
+                        if (Player.vy == 3) {
+                            Player.pose = 11;
+                        } else if (Player.vy == 2) {
+                            Player.pose = 8;
+                        } else if (Player.vy == 1) {
+                            Player.pose = 9;
+                        } else if (Player.vy == 0) {
+                            Player.pose = 10;
                         }
                     } else {
-                        C = 23;
+                        Player.pose = 23;
                     }
 
-                    if (A > 6) {
-                        C = 12;
+                    if (Player.vy > 6) {
+                        Player.pose = 12;
                     }
 
-                    if (fn < 0) {
-                        ++fn;
+                    if (Player.hurtRecovery < 0) {
+                        ++Player.hurtRecovery;
                     }
 
-                    if (fm == 1) {
-                        if ((GameMap.flagsAtPixel(fe + fi, ff) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                            fe = I(fe + fi) - fi;
-                            z = 0;
+                    if (Player.facing == 1) {
+                        if ((GameMap.flagsAtPixel(Player.x + Player.halfWidth, Player.y) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                            Player.x = I(Player.x + Player.halfWidth) - Player.halfWidth;
+                            Player.vx = 0;
                         }
-                    } else if ((GameMap.flagsAtPixel(fe - fi, ff) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                        fe = I(fe + 24 - fi) + fi;
-                        z = 0;
+                    } else if ((GameMap.flagsAtPixel(Player.x - Player.halfWidth, Player.y) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                        Player.x = I(Player.x + 24 - Player.halfWidth) + Player.halfWidth;
+                        Player.vx = 0;
                     }
 
-                    w();
-                    if (gN && A >= 4 && a(fe - gP) < 30 && a(ff - (gQ - 25)) < 5) {
-                        A = -(A >> 1);
-                        z = fm << 3;
-                        D = 0;
+                    landOnCrates();
+                    if (gN && Player.vy >= 4 && a(Player.x - gP) < 30 && a(Player.y - (gQ - 25)) < 5) {
+                        Player.vy = -(Player.vy >> 1);
+                        Player.vx = Player.facing << 3;
+                        Player.actionTimer = 0;
                     }
                 }
                 break;
-            case 5:
-                ++D;
-                if (fm == 1) {
-                    if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                        z = 0;
+            case PlayerAction.ATTACK:
+                ++Player.actionTimer;
+                if (Player.facing == 1) {
+                    if ((GameMap.flagsAtPixel(Player.x + Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                        Player.vx = 0;
                     }
-                } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                    z = 0;
+                } else if ((GameMap.flagsAtPixel(Player.x - Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                    Player.vx = 0;
                 }
 
-                fe += z;
-                if ((ff += A) < 0) {
-                    A = 0;
-                    ff = 0;
+                Player.x += Player.vx;
+                if ((Player.y += Player.vy) < 0) {
+                    Player.vy = 0;
+                    Player.y = 0;
                 }
 
-                if (A == 0) {
-                    if (ir == -1 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
-                        B = 4;
-                        fc = -1;
-                        z = (Q >> 1) * fm;
-                        E = 0;
-                        D = 0;
+                if (Player.vy == 0) {
+                    if (Player.crate == -1 && (GameMap.flagsAtPixel(Player.x, Player.y) & TileFlags.SOLID) != TileFlags.SOLID) {
+                        Player.action = PlayerAction.FALL;
+                        Player.slashEffect = -1;
+                        Player.vx = (Player.moveSpeed >> 1) * Player.facing;
+                        Player.actionTimer2 = 0;
+                        Player.actionTimer = 0;
                     }
 
-                    if (ir != -1 && a(fe - is[ir]) >= 20) {
-                        ir = -1;
-                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
-                            B = 1;
+                    if (Player.crate != -1 && a(Player.x - is[Player.crate]) >= 20) {
+                        Player.crate = -1;
+                        if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
+                            Player.action = PlayerAction.STAND;
                         } else {
-                            B = 4;
-                            A = 2;
-                            z = 3 * fm;
-                            fc = -1;
-                            E = 0;
+                            Player.action = PlayerAction.FALL;
+                            Player.vy = 2;
+                            Player.vx = 3 * Player.facing;
+                            Player.slashEffect = -1;
+                            Player.actionTimer2 = 0;
                         }
                     }
-                } else if (A < 0) {
-                    if (++A == 0) {
-                        A = 1;
+                } else if (Player.vy < 0) {
+                    if (++Player.vy == 0) {
+                        Player.vy = 1;
                     }
                 } else {
-                    if (A < 20 && D % 5 == 0) {
-                        ++A;
+                    if (Player.vy < 20 && Player.actionTimer % 5 == 0) {
+                        ++Player.vy;
                     }
 
-                    if (A > 3) {
-                        A = 3;
+                    if (Player.vy > 3) {
+                        Player.vy = 3;
                     }
 
-                    if (A > 2 && (GameMap.flagsAtPixel(fe, ff + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
-                        A = 0;
-                        z = 0;
-                        ff = I(ff + 3);
+                    if (Player.vy > 2 && (GameMap.flagsAtPixel(Player.x, Player.y + 3) & TileFlags.SOLID) == TileFlags.SOLID) {
+                        Player.vy = 0;
+                        Player.vx = 0;
+                        Player.y = I(Player.y + 3);
                         if (QuestState.current == Quest.AIR_HITS && QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
                             QuestState.progress = 0;
                             Notice.show("Hit: " + QuestState.progress);
                         }
                     }
 
-                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
-                        WaterSplash.spawn(fe, H(ff) + 8);
-                        B = 11;
-                        z = fm << 1;
-                        A >>= 2;
-                        ff = H(ff) + 12;
-                        fc = -1;
+                    if (GameMap.hasFlag(Player.x, Player.y, TileFlags.WATER) && Player.y % GameMap.TILE_SIZE > 8) {
+                        WaterSplash.spawn(Player.x, H(Player.y) + 8);
+                        Player.action = PlayerAction.RUN_ON_WATER;
+                        Player.vx = Player.facing << 1;
+                        Player.vy >>= 2;
+                        Player.y = H(Player.y) + 12;
+                        Player.slashEffect = -1;
                         if (!PlayerStats.hasMp() || !Skills.runOnWater) {
-                            B = 12;
+                            Player.action = PlayerAction.SINK;
                         }
                         break;
                     }
 
-                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
-                        B = 12;
-                        fc = -1;
+                    if (GameMap.hasFlag(Player.x, Player.y, TileFlags.DEEP_WATER)) {
+                        Player.action = PlayerAction.SINK;
+                        Player.slashEffect = -1;
                         break;
                     }
 
-                    w();
+                    landOnCrates();
                 }
 
-                if (z > 0) {
-                    --z;
-                } else if (z < 0) {
-                    ++z;
+                if (Player.vx > 0) {
+                    --Player.vx;
+                } else if (Player.vx < 0) {
+                    ++Player.vx;
                 }
 
-                if (z != 0) {
-                    y();
+                if (Player.vx != 0) {
+                    pushCrates();
                 }
 
                 label728:
-                switch (ft) {
+                switch (Player.comboStep) {
                     case 0:
-                        switch (D) {
+                        switch (Player.actionTimer) {
                             case 1:
                             case 2:
                             case 3:
-                                fc = -1;
-                                C = 13;
+                                Player.slashEffect = -1;
+                                Player.pose = 13;
                                 break label728;
                             case 4:
-                                fc = 0;
-                                C = 14;
+                                Player.slashEffect = 0;
+                                Player.pose = 14;
                                 break label728;
                             case 5:
-                                fc = 1;
-                                C = 15;
+                                Player.slashEffect = 1;
+                                Player.pose = 15;
                                 break label728;
                             case 6:
-                                fc = 1;
-                                C = 15;
-                                u();
+                                Player.slashEffect = 1;
+                                Player.pose = 15;
+                                playerSwordHit();
                                 break label728;
                             case 7:
-                                fc = 2;
-                                C = 16;
+                                Player.slashEffect = 2;
+                                Player.pose = 16;
                                 break label728;
                             case 8:
-                                fc = 2;
-                                C = 16;
-                                if (fv) {
-                                    fv = false;
-                                    ft = 2;
+                                Player.slashEffect = 2;
+                                Player.pose = 16;
+                                if (Player.comboQueued) {
+                                    Player.comboQueued = false;
+                                    Player.comboStep = 2;
                                 } else {
-                                    ft = 1;
+                                    Player.comboStep = 1;
                                 }
 
-                                D = 1;
+                                Player.actionTimer = 1;
                             default:
                                 break label728;
                         }
                     case 1:
-                        switch (D) {
+                        switch (Player.actionTimer) {
                             case 1:
-                                fc = 1;
-                                C = 15;
+                                Player.slashEffect = 1;
+                                Player.pose = 15;
                                 break label728;
                             case 2:
-                                fc = 1;
-                                C = 15;
-                                ft = 10;
+                                Player.slashEffect = 1;
+                                Player.pose = 15;
+                                Player.comboStep = 10;
                             default:
                                 break label728;
                         }
                     case 2:
-                        switch (D) {
+                        switch (Player.actionTimer) {
                             case 1:
                             case 2:
                             case 3:
-                                fc = 3;
-                                C = 17;
+                                Player.slashEffect = 3;
+                                Player.pose = 17;
                                 break label728;
                             case 4:
-                                fc = 4;
-                                C = 18;
+                                Player.slashEffect = 4;
+                                Player.pose = 18;
                                 break label728;
                             case 5:
-                                fc = 5;
-                                C = 19;
+                                Player.slashEffect = 5;
+                                Player.pose = 19;
                                 break label728;
                             case 6:
-                                fc = 6;
-                                C = 20;
-                                u();
+                                Player.slashEffect = 6;
+                                Player.pose = 20;
+                                playerSwordHit();
                                 break label728;
                             case 7:
-                                fc = 6;
-                                C = 20;
-                                if (fv && fs < 2) {
-                                    if (A == 0 && fr) {
-                                        D = 0;
-                                        fv = false;
-                                        ft = 9;
+                                Player.slashEffect = 6;
+                                Player.pose = 20;
+                                if (Player.comboQueued && Player.comboCount < 2) {
+                                    if (Player.vy == 0 && Player.launchHit) {
+                                        Player.actionTimer = 0;
+                                        Player.comboQueued = false;
+                                        Player.comboStep = 9;
                                     } else {
-                                        fv = false;
-                                        ft = 3;
-                                        ++fs;
+                                        Player.comboQueued = false;
+                                        Player.comboStep = 3;
+                                        ++Player.comboCount;
                                     }
                                 } else {
-                                    ft = 10;
+                                    Player.comboStep = 10;
                                 }
 
-                                D = 1;
+                                Player.actionTimer = 1;
                             default:
                                 break label728;
                         }
                     case 3:
-                        switch (D) {
+                        switch (Player.actionTimer) {
                             case 1:
-                                fc = 1;
-                                C = 15;
+                                Player.slashEffect = 1;
+                                Player.pose = 15;
                                 break;
                             case 2:
-                                fc = 1;
-                                C = 15;
+                                Player.slashEffect = 1;
+                                Player.pose = 15;
                                 break;
                             case 3:
-                                fc = 2;
-                                C = 16;
+                                Player.slashEffect = 2;
+                                Player.pose = 16;
                                 break;
                             case 4:
-                                fc = 2;
-                                C = 16;
-                                if (fv) {
-                                    fv = false;
-                                    ft = 2;
+                                Player.slashEffect = 2;
+                                Player.pose = 16;
+                                if (Player.comboQueued) {
+                                    Player.comboQueued = false;
+                                    Player.comboStep = 2;
                                 } else {
-                                    ft = 1;
+                                    Player.comboStep = 1;
                                 }
 
-                                D = 1;
+                                Player.actionTimer = 1;
                         }
                     case 4:
                     case 5:
@@ -3707,114 +3671,114 @@ public final class b extends Canvas implements Runnable {
                     default:
                         break;
                     case 9:
-                        switch (D) {
+                        switch (Player.actionTimer) {
                             case 1:
                             case 2:
                             case 3:
-                                fc = -1;
-                                C = 13;
+                                Player.slashEffect = -1;
+                                Player.pose = 13;
                                 break label728;
                             case 4:
-                                fc = 0;
-                                C = 14;
+                                Player.slashEffect = 0;
+                                Player.pose = 14;
                                 break label728;
                             case 5:
                             case 6:
-                                fc = 9;
-                                C = 15;
-                                var0 = A();
-                                fr = false;
+                                Player.slashEffect = 9;
+                                Player.pose = 15;
+                                var0 = findLaunchTarget();
+                                Player.launchHit = false;
                                 if (var0 != -1) {
-                                    fr = true;
-                                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), fm);
+                                    Player.launchHit = true;
+                                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), Player.facing);
                                     Monsters.state[var0] = Monsters.STATE_LAUNCHED;
                                     Monsters.timer[var0] = -8;
-                                    Q();
+                                    shakeCameraIfTransformed();
                                 }
                                 break label728;
                             case 7:
                             case 8:
-                                fc = 10;
-                                C = 16;
+                                Player.slashEffect = 10;
+                                Player.pose = 16;
                                 break label728;
                             case 9:
-                                fc = -1;
-                                C = 16;
-                                if (fr) {
-                                    B = 3;
-                                    z = 0;
-                                    A = -8;
+                                Player.slashEffect = -1;
+                                Player.pose = 16;
+                                if (Player.launchHit) {
+                                    Player.action = PlayerAction.JUMP;
+                                    Player.vx = 0;
+                                    Player.vy = -8;
                                 } else {
-                                    D = 0;
-                                    E = 0;
-                                    ft = 10;
+                                    Player.actionTimer = 0;
+                                    Player.actionTimer2 = 0;
+                                    Player.comboStep = 10;
                                 }
                             default:
                                 break label728;
                         }
                     case 10:
-                        switch (D) {
+                        switch (Player.actionTimer) {
                             case 1:
-                                fc = 2;
-                                C = 16;
+                                Player.slashEffect = 2;
+                                Player.pose = 16;
                                 break;
                             case 2:
-                                fc = 0;
-                                C = 14;
+                                Player.slashEffect = 0;
+                                Player.pose = 14;
                                 break;
                             case 3:
                             case 4:
-                                C = 13;
-                                fc = -1;
+                                Player.pose = 13;
+                                Player.slashEffect = -1;
                                 break;
                             case 5:
-                                C = 13;
-                                fc = -1;
-                                if (A != 0) {
-                                    B = 4;
+                                Player.pose = 13;
+                                Player.slashEffect = -1;
+                                if (Player.vy != 0) {
+                                    Player.action = PlayerAction.FALL;
                                 } else {
-                                    B = 1;
+                                    Player.action = PlayerAction.STAND;
                                 }
 
-                                fs = 0;
-                                E = 0;
+                                Player.comboCount = 0;
+                                Player.actionTimer2 = 0;
                         }
                 }
 
-                if (fd == 1) {
-                    fc = -1;
+                if (Player.weapon == 1) {
+                    Player.slashEffect = -1;
                 }
 
-                if (B == 5) {
-                    if (A != 0) {
-                        C += 14;
-                    } else if (z != 0) {
-                        C += 22;
+                if (Player.action == PlayerAction.ATTACK) {
+                    if (Player.vy != 0) {
+                        Player.pose += 14;
+                    } else if (Player.vx != 0) {
+                        Player.pose += 22;
                     }
                 }
                 break;
-            case 6:
-                fe += z;
-                if (z > 1) {
-                    --z;
+            case PlayerAction.DEAD:
+                Player.x += Player.vx;
+                if (Player.vx > 1) {
+                    --Player.vx;
                 }
 
-                if (z < -1) {
-                    ++z;
+                if (Player.vx < -1) {
+                    ++Player.vx;
                 }
 
-                ++A;
-                ff += A;
-                C = 21;
-                if (ff >= GameMap.pixelHeight || ff > cameraY + Viewport.viewHeight + fh || GameMap.hasFlag(fe, ff - fh, TileFlags.DEEP_WATER)) {
-                    fe = fp;
-                    ff = fq;
-                    B = 4;
+                ++Player.vy;
+                Player.y += Player.vy;
+                Player.pose = 21;
+                if (Player.y >= GameMap.pixelHeight || Player.y > cameraY + Viewport.viewHeight + Player.height || GameMap.hasFlag(Player.x, Player.y - Player.height, TileFlags.DEEP_WATER)) {
+                    Player.x = Player.checkpointX;
+                    Player.y = Player.checkpointY;
+                    Player.action = PlayerAction.FALL;
                     PlayerStats.revive();
-                    A = 0;
-                    z = 0;
-                    E = 0;
-                    D = 0;
+                    Player.vy = 0;
+                    Player.vx = 0;
+                    Player.actionTimer2 = 0;
+                    Player.actionTimer = 0;
                     Leveling.applyDeathPenalty();
                     hudDirty = true;
                     if (hc) {
@@ -3829,363 +3793,363 @@ public final class b extends Canvas implements Runnable {
                     GameState.current = GameState.MESSAGE;
                 }
                 break;
-            case 7:
-                if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                    z = -z;
+            case PlayerAction.HURT:
+                if ((GameMap.flagsAtPixel(Player.x + Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                    Player.vx = -Player.vx;
                 }
 
-                if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                    z = -z;
+                if ((GameMap.flagsAtPixel(Player.x - Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                    Player.vx = -Player.vx;
                 }
 
-                fe += z;
-                ff += A;
-                C = 21;
-                if (z > 1) {
-                    --z;
+                Player.x += Player.vx;
+                Player.y += Player.vy;
+                Player.pose = 21;
+                if (Player.vx > 1) {
+                    --Player.vx;
                 }
 
-                if (z < -1) {
-                    ++z;
+                if (Player.vx < -1) {
+                    ++Player.vx;
                 }
 
-                if (++A > 0) {
-                    A = 0;
+                if (++Player.vy > 0) {
+                    Player.vy = 0;
                 }
 
-                if (++D >= 7) {
-                    B = 4;
-                    fn = -20;
-                    E = 0;
-                    D = 0;
-                    A = 0;
+                if (++Player.actionTimer >= 7) {
+                    Player.action = PlayerAction.FALL;
+                    Player.hurtRecovery = -20;
+                    Player.actionTimer2 = 0;
+                    Player.actionTimer = 0;
+                    Player.vy = 0;
                 }
 
-                x();
+                pushCratesInAir();
                 break;
-            case 8:
-                C = 22;
-                if (D < 5) {
-                    ++D;
+            case PlayerAction.CROUCH:
+                Player.pose = 22;
+                if (Player.actionTimer < 5) {
+                    ++Player.actionTimer;
                 } else if (!Input.held[Input.KEY_DOWN]) {
-                    B = 1;
+                    Player.action = PlayerAction.STAND;
                 }
 
-                if (++E > 6 && GameMap.hasFlag(fe + fi, ff + 2, TileFlags.DIGGABLE) && GameMap.hasFlag(fe - fi, ff + 2, TileFlags.DIGGABLE) && Skills.burrow & PlayerStats.hasMp()) {
-                    B = 13;
+                if (++Player.actionTimer2 > 6 && GameMap.hasFlag(Player.x + Player.halfWidth, Player.y + 2, TileFlags.DIGGABLE) && GameMap.hasFlag(Player.x - Player.halfWidth, Player.y + 2, TileFlags.DIGGABLE) && Skills.burrow & PlayerStats.hasMp()) {
+                    Player.action = PlayerAction.BURROW_START;
                 }
-            case 9:
-            case 10:
-            case 22:
+            case PlayerAction.UNUSED_9:
+            case PlayerAction.UNUSED_10:
+            case PlayerAction.UNUSED_22:
             default:
                 break;
-            case 11:
-                U();
+            case PlayerAction.RUN_ON_WATER:
+                updateRunOnWater();
                 break;
-            case 12:
-                ff += A;
-                if (A < 20 && tick % 2 == 0) {
-                    ++A;
+            case PlayerAction.SINK:
+                Player.y += Player.vy;
+                if (Player.vy < 20 && tick % 2 == 0) {
+                    ++Player.vy;
                 }
 
-                C = 7;
-                if (ff >= GameMap.pixelHeight) {
+                Player.pose = 7;
+                if (Player.y >= GameMap.pixelHeight) {
                     PlayerStats.kill();
-                    B = 6;
-                    fc = -1;
-                } else if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
-                    ff = H(ff);
-                    if (GameMap.hasFlag(fe, ff - 2, TileFlags.WATER)) {
-                        B = 1;
-                        A = 0;
-                        z = 0;
-                        E = 0;
-                        D = 0;
+                    Player.action = PlayerAction.DEAD;
+                    Player.slashEffect = -1;
+                } else if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
+                    Player.y = H(Player.y);
+                    if (GameMap.hasFlag(Player.x, Player.y - 2, TileFlags.WATER)) {
+                        Player.action = PlayerAction.STAND;
+                        Player.vy = 0;
+                        Player.vx = 0;
+                        Player.actionTimer2 = 0;
+                        Player.actionTimer = 0;
                     } else if (Skills.dive) {
-                        B = 17;
-                        A = 0;
-                        z = 0;
-                        E = 0;
-                        D = 0;
+                        Player.action = PlayerAction.UNDERWATER_STAND;
+                        Player.vy = 0;
+                        Player.vx = 0;
+                        Player.actionTimer2 = 0;
+                        Player.actionTimer = 0;
                     } else {
-                        B = 6;
+                        Player.action = PlayerAction.DEAD;
                     }
 
-                    ff = I(ff);
-                } else if (GameMap.hasFlag(fe, ff - fh - 5, TileFlags.DEEP_WATER)) {
+                    Player.y = I(Player.y);
+                } else if (GameMap.hasFlag(Player.x, Player.y - Player.height - 5, TileFlags.DEEP_WATER)) {
                     PlayerStats.kill();
-                    B = 6;
-                    fc = -1;
+                    Player.action = PlayerAction.DEAD;
+                    Player.slashEffect = -1;
                 }
                 break;
-            case 13:
-                C = 24;
-                ff += 28;
-                B = 14;
+            case PlayerAction.BURROW_START:
+                Player.pose = 24;
+                Player.y += 28;
+                Player.action = PlayerAction.BURROWED;
                 break;
-            case 14:
+            case PlayerAction.BURROWED:
                 if (tick % 20 > 2) {
-                    C = 25;
+                    Player.pose = 25;
                 } else {
-                    C = 26;
+                    Player.pose = 26;
                 }
 
                 if (tick % 8 == 0) {
                     if (PlayerStats.drainMp(1)) {
-                        B = 15;
+                        Player.action = PlayerAction.BURROW_EXIT;
                     }
 
                     hudDirty = true;
                 }
                 break;
-            case 15:
-                ff -= 10;
-                A = -10;
-                B = 3;
+            case PlayerAction.BURROW_EXIT:
+                Player.y -= 10;
+                Player.vy = -10;
+                Player.action = PlayerAction.JUMP;
                 break;
-            case 16:
-                if (++D >= 20) {
-                    D = 0;
+            case PlayerAction.UNDERWATER_WALK:
+                if (++Player.actionTimer >= 20) {
+                    Player.actionTimer = 0;
                 }
 
-                if ((C = (D >> 2) + 2) % 2 == 0) {
-                    fc = 7;
+                if ((Player.pose = (Player.actionTimer >> 2) + 2) % 2 == 0) {
+                    Player.slashEffect = 7;
                 } else {
-                    fc = 8;
+                    Player.slashEffect = 8;
                 }
 
-                if (fm == 1) {
-                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
-                        z = 0;
-                        fe = I(fe + fi) - fi;
+                if (Player.facing == 1) {
+                    if (GameMap.hasFlag(Player.x + Player.halfWidth, Player.y - Player.halfHeight, TileFlags.WALL_LEFT_SIDE)) {
+                        Player.vx = 0;
+                        Player.x = I(Player.x + Player.halfWidth) - Player.halfWidth;
                     }
-                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
-                    z = 0;
-                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
+                } else if (GameMap.hasFlag(Player.x - Player.halfWidth - 1, Player.y - Player.halfHeight, TileFlags.WALL_RIGHT_SIDE)) {
+                    Player.vx = 0;
+                    Player.x = I(Player.x - Player.halfWidth - 1) + GameMap.TILE_SIZE + Player.halfWidth;
                 }
 
-                fe += z;
-                if (z > 0) {
-                    --z;
-                } else if (z < 0) {
-                    ++z;
+                Player.x += Player.vx;
+                if (Player.vx > 0) {
+                    --Player.vx;
+                } else if (Player.vx < 0) {
+                    ++Player.vx;
                 } else {
-                    B = 17;
+                    Player.action = PlayerAction.UNDERWATER_STAND;
                 }
 
-                if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
-                    B = 12;
-                    z = fm << 2;
-                    E = 0;
+                if ((GameMap.flagsAtPixel(Player.x, Player.y) & TileFlags.SOLID) != TileFlags.SOLID) {
+                    Player.action = PlayerAction.SINK;
+                    Player.vx = Player.facing << 2;
+                    Player.actionTimer2 = 0;
                 }
                 break;
-            case 17:
-                if (++D > 30) {
-                    D = 0;
+            case PlayerAction.UNDERWATER_STAND:
+                if (++Player.actionTimer > 30) {
+                    Player.actionTimer = 0;
                 }
 
-                if (D % 15 < 5) {
-                    C = 0;
-                    fc = 7;
+                if (Player.actionTimer % 15 < 5) {
+                    Player.pose = 0;
+                    Player.slashEffect = 7;
                 } else {
-                    C = 1;
-                    fc = 8;
+                    Player.pose = 1;
+                    Player.slashEffect = 8;
                 }
                 break;
-            case 18:
+            case PlayerAction.MOTORBIKE_STAND:
                 if (tick % 8 > 3) {
-                    C = 43;
+                    Player.pose = 43;
                 } else {
-                    C = 44;
-                    Dust.spawn(fm, fe - (fm << 4), ff - 5);
+                    Player.pose = 44;
+                    Dust.spawn(Player.facing, Player.x - (Player.facing << 4), Player.y - 5);
                 }
 
-                D = 0;
+                Player.actionTimer = 0;
                 break;
-            case 19:
+            case PlayerAction.MOTORBIKE_RIDE:
                 if (tick % 8 > 3) {
-                    C = 43;
+                    Player.pose = 43;
                 } else {
-                    C = 44;
-                    Dust.spawn(fm, fe - (fm << 4), ff - 5);
+                    Player.pose = 44;
+                    Dust.spawn(Player.facing, Player.x - (Player.facing << 4), Player.y - 5);
                 }
 
-                if (D > 0) {
-                    --D;
-                    C = 45;
+                if (Player.actionTimer > 0) {
+                    --Player.actionTimer;
+                    Player.pose = 45;
                 }
 
-                if (fm == 1) {
-                    if (GameMap.hasFlag(fe + fi, ff - fj, TileFlags.WALL_LEFT_SIDE)) {
-                        z = 0;
-                        fe = I(fe + fi) - fi;
+                if (Player.facing == 1) {
+                    if (GameMap.hasFlag(Player.x + Player.halfWidth, Player.y - Player.halfHeight, TileFlags.WALL_LEFT_SIDE)) {
+                        Player.vx = 0;
+                        Player.x = I(Player.x + Player.halfWidth) - Player.halfWidth;
                     }
-                } else if (GameMap.hasFlag(fe - fi - 1, ff - fj, TileFlags.WALL_RIGHT_SIDE)) {
-                    z = 0;
-                    fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
+                } else if (GameMap.hasFlag(Player.x - Player.halfWidth - 1, Player.y - Player.halfHeight, TileFlags.WALL_RIGHT_SIDE)) {
+                    Player.vx = 0;
+                    Player.x = I(Player.x - Player.halfWidth - 1) + GameMap.TILE_SIZE + Player.halfWidth;
                 }
 
-                if ((GameMap.flagsAtPixel(fe, ff - 1) & TileFlags.WATER) == TileFlags.WATER) {
-                    fe += z >> 1;
+                if ((GameMap.flagsAtPixel(Player.x, Player.y - 1) & TileFlags.WATER) == TileFlags.WATER) {
+                    Player.x += Player.vx >> 1;
                 } else {
-                    fe += z;
+                    Player.x += Player.vx;
                 }
 
-                ik[ij] = fe;
-                il[ij] = ff;
-                if (z > 0) {
-                    --z;
-                } else if (z < 0) {
-                    ++z;
+                ik[Player.motorbike] = Player.x;
+                il[Player.motorbike] = Player.y;
+                if (Player.vx > 0) {
+                    --Player.vx;
+                } else if (Player.vx < 0) {
+                    ++Player.vx;
                 } else {
-                    B = 18;
-                    fo = 0;
+                    Player.action = PlayerAction.MOTORBIKE_STAND;
+                    Player.sprintBonus = 0;
                 }
 
-                if (ir != -1) {
-                    if (a(fe - is[ir]) >= 20) {
-                        ir = -1;
-                        if (GameMap.hasFlag(fe, ff, TileFlags.SOLID)) {
-                            B = 18;
+                if (Player.crate != -1) {
+                    if (a(Player.x - is[Player.crate]) >= 20) {
+                        Player.crate = -1;
+                        if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
+                            Player.action = PlayerAction.MOTORBIKE_STAND;
                         } else {
-                            B = 20;
-                            A = 2;
-                            z = 3 * fm;
-                            E = 0;
+                            Player.action = PlayerAction.MOTORBIKE_FALL;
+                            Player.vy = 2;
+                            Player.vx = 3 * Player.facing;
+                            Player.actionTimer2 = 0;
                         }
                     }
-                } else if ((GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) != TileFlags.SOLID) {
-                    B = 20;
-                    z = 3 * fm;
-                    E = 0;
+                } else if ((GameMap.flagsAtPixel(Player.x, Player.y) & TileFlags.SOLID) != TileFlags.SOLID) {
+                    Player.action = PlayerAction.MOTORBIKE_FALL;
+                    Player.vx = 3 * Player.facing;
+                    Player.actionTimer2 = 0;
                 }
 
-                Dust.spawn(fm, fe - (fm << 3), ff);
-                S();
-                if ((var0 = A()) != -1 && (Monsters.state[var0] == Monsters.STATE_ACTIVE || Monsters.state[var0] == Monsters.STATE_RESTING)) {
-                    k(var0, 2, -fm);
-                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), fm);
+                Dust.spawn(Player.facing, Player.x - (Player.facing << 3), Player.y);
+                updateBridges();
+                if ((var0 = findLaunchTarget()) != -1 && (Monsters.state[var0] == Monsters.STATE_ACTIVE || Monsters.state[var0] == Monsters.STATE_RESTING)) {
+                    k(var0, 2, -Player.facing);
+                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), Player.facing);
                     FloatingText.spawn("-2", 0, Monsters.x[var0], Monsters.y[var0] - Monsters.height[var0], 0, -2);
                 }
                 break;
-            case 20:
+            case PlayerAction.MOTORBIKE_FALL:
                 try {
-                    if (fm == 1) {
-                        if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                            z = 0;
+                    if (Player.facing == 1) {
+                        if ((GameMap.flagsAtPixel(Player.x + Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                            Player.vx = 0;
                         }
-                    } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                        z = 0;
+                    } else if ((GameMap.flagsAtPixel(Player.x - Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                        Player.vx = 0;
                     }
 
-                    fc = -1;
-                    fe += z;
-                    ff += A;
-                    if (A < 20) {
-                        ++A;
+                    Player.slashEffect = -1;
+                    Player.x += Player.vx;
+                    Player.y += Player.vy;
+                    if (Player.vy < 20) {
+                        ++Player.vy;
                     }
 
-                    if (z > 0) {
-                        --z;
+                    if (Player.vx > 0) {
+                        --Player.vx;
                     }
 
                     if (tick % 8 > 3) {
-                        C = 43;
+                        Player.pose = 43;
                     } else {
-                        C = 44;
-                        Dust.spawn(fm, fe - (fm << 4), ff - 5);
+                        Player.pose = 44;
+                        Dust.spawn(Player.facing, Player.x - (Player.facing << 4), Player.y - 5);
                     }
 
-                    if (A > 4 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) == TileFlags.SOLID) {
-                        if (A < 8) {
-                            B = 18;
-                            A = 0;
-                            z = 0;
-                            E = 0;
-                            D = 0;
-                            ff = I(ff);
+                    if (Player.vy > 4 && (GameMap.flagsAtPixel(Player.x, Player.y) & TileFlags.SOLID) == TileFlags.SOLID) {
+                        if (Player.vy < 8) {
+                            Player.action = PlayerAction.MOTORBIKE_STAND;
+                            Player.vy = 0;
+                            Player.vx = 0;
+                            Player.actionTimer2 = 0;
+                            Player.actionTimer = 0;
+                            Player.y = I(Player.y);
                         } else {
-                            B = 21;
-                            A = -(A / 3);
-                            ff = I(ff);
+                            Player.action = PlayerAction.MOTORBIKE_JUMP;
+                            Player.vy = -(Player.vy / 3);
+                            Player.y = I(Player.y);
                         }
                     }
 
-                    if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
-                        WaterSplash.spawn(fe, H(ff) + 8);
+                    if (GameMap.hasFlag(Player.x, Player.y, TileFlags.WATER) && Player.y % GameMap.TILE_SIZE > 8) {
+                        WaterSplash.spawn(Player.x, H(Player.y) + 8);
                     }
 
-                    ik[ij] = fe;
-                    il[ij] = ff;
-                    if (GameMap.hasFlag(fe, ff, TileFlags.DEEP_WATER)) {
-                        io[ij] = 1;
-                        ij = -1;
-                        B = 12;
+                    ik[Player.motorbike] = Player.x;
+                    il[Player.motorbike] = Player.y;
+                    if (GameMap.hasFlag(Player.x, Player.y, TileFlags.DEEP_WATER)) {
+                        io[Player.motorbike] = 1;
+                        Player.motorbike = -1;
+                        Player.action = PlayerAction.SINK;
                     }
                 } catch (Exception var2) {
                 }
 
-                if (fn < 0) {
-                    ++fn;
+                if (Player.hurtRecovery < 0) {
+                    ++Player.hurtRecovery;
                 }
                 break;
-            case 21:
-                if (fm == 1) {
-                    if ((GameMap.flagsAtPixel(fe + fi, ff - fj) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                        z = 0;
+            case PlayerAction.MOTORBIKE_JUMP:
+                if (Player.facing == 1) {
+                    if ((GameMap.flagsAtPixel(Player.x + Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                        Player.vx = 0;
                     }
-                } else if ((GameMap.flagsAtPixel(fe - fi, ff - fj) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                    z = 0;
+                } else if ((GameMap.flagsAtPixel(Player.x - Player.halfWidth, Player.y - Player.halfHeight) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                    Player.vx = 0;
                 }
 
-                fe += z;
-                ff += A;
-                ik[ij] = fe;
-                il[ij] = ff;
-                if (z > 0) {
-                    --z;
+                Player.x += Player.vx;
+                Player.y += Player.vy;
+                ik[Player.motorbike] = Player.x;
+                il[Player.motorbike] = Player.y;
+                if (Player.vx > 0) {
+                    --Player.vx;
                 }
 
-                if (++A == 0) {
-                    B = 20;
-                    D = 0;
-                    E = Skills.lightness ? 1 : 0;
-                    A = 1;
+                if (++Player.vy == 0) {
+                    Player.action = PlayerAction.MOTORBIKE_FALL;
+                    Player.actionTimer = 0;
+                    Player.actionTimer2 = Skills.lightness ? 1 : 0;
+                    Player.vy = 1;
                     hudDirty = true;
                 }
 
-                if (fn < 0) {
-                    ++fn;
+                if (Player.hurtRecovery < 0) {
+                    ++Player.hurtRecovery;
                 }
 
                 if (tick % 8 > 3) {
-                    C = 43;
+                    Player.pose = 43;
                 } else {
-                    C = 44;
-                    Dust.spawn(fm, fe - (fm << 4), ff - 5);
+                    Player.pose = 44;
+                    Dust.spawn(Player.facing, Player.x - (Player.facing << 4), Player.y - 5);
                 }
 
-                if (D > 0) {
-                    --D;
-                    C = 45;
+                if (Player.actionTimer > 0) {
+                    --Player.actionTimer;
+                    Player.pose = 45;
                 }
                 break;
-            case 23:
-                T();
+            case PlayerAction.TRANSFORM:
+                updateTransform();
         }
 
         if (tick % 3 == 0) {
-            if (fw) {
+            if (Player.hidden) {
                 if (PlayerStats.drainMp(1)) {
-                    fw = false;
+                    Player.hidden = false;
                 }
 
                 hudDirty = true;
             }
 
-            if (fx) {
+            if (Player.transformed) {
                 if (PlayerStats.drainMp(1)) {
-                    fx = false;
+                    Player.transformed = false;
 
                     for(int var1 = 0; var1 < 4; ++var1) {
                         Image var3 = heroHeads[var1];
@@ -4200,29 +4164,29 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static final void S() {
+    private static final void updateBridges() {
         if (!Settings.lowGraphics) {
-            if (GameMap.hasFlag(fe, ff + 1, TileFlags.BRIDGE)) {
-                GameMap.pressBridge(fe, ff + 1);
-                GameMap.pressBridge(fe, ff - 2);
+            if (GameMap.hasFlag(Player.x, Player.y + 1, TileFlags.BRIDGE)) {
+                GameMap.pressBridge(Player.x, Player.y + 1);
+                GameMap.pressBridge(Player.x, Player.y - 2);
             }
 
-            if (GameMap.hasFlag(fe - GameMap.TILE_SIZE, ff + 1, TileFlags.BRIDGE_PRESSED)) {
-                GameMap.releaseBridge(fe - GameMap.TILE_SIZE, ff + 1);
-                GameMap.releaseBridge(fe - GameMap.TILE_SIZE, ff - 2);
+            if (GameMap.hasFlag(Player.x - GameMap.TILE_SIZE, Player.y + 1, TileFlags.BRIDGE_PRESSED)) {
+                GameMap.releaseBridge(Player.x - GameMap.TILE_SIZE, Player.y + 1);
+                GameMap.releaseBridge(Player.x - GameMap.TILE_SIZE, Player.y - 2);
             }
 
-            if (GameMap.hasFlag(fe + GameMap.TILE_SIZE, ff + 1, TileFlags.BRIDGE_PRESSED)) {
-                GameMap.releaseBridge(fe + GameMap.TILE_SIZE, ff + 1);
-                GameMap.releaseBridge(fe + GameMap.TILE_SIZE, ff - 2);
+            if (GameMap.hasFlag(Player.x + GameMap.TILE_SIZE, Player.y + 1, TileFlags.BRIDGE_PRESSED)) {
+                GameMap.releaseBridge(Player.x + GameMap.TILE_SIZE, Player.y + 1);
+                GameMap.releaseBridge(Player.x + GameMap.TILE_SIZE, Player.y - 2);
             }
 
         }
     }
 
-    private static void T() {
-        if (++D == 1) {
-            Aura.show(fe, ff - 40);
+    private static void updateTransform() {
+        if (++Player.actionTimer == 1) {
+            Aura.show(Player.x, Player.y - 40);
             aL = 0;
             if (heroTransformHeads == null) {
                 heroTransformHeads = new Image[4];
@@ -4239,9 +4203,9 @@ public final class b extends Canvas implements Runnable {
         } else {
             Image var0;
             int var1;
-            if (D >= 30) {
-                B = 1;
-                D = 0;
+            if (Player.actionTimer >= 30) {
+                Player.action = PlayerAction.STAND;
+                Player.actionTimer = 0;
                 if (!PlayerStats.hasMp()) {
                     return;
                 }
@@ -4252,24 +4216,24 @@ public final class b extends Canvas implements Runnable {
                     heroTransformHeads[var1] = var0;
                 }
 
-                fx = !fx;
-            } else if (D <= 10) {
-                if (D % 5 == 0) {
+                Player.transformed = !Player.transformed;
+            } else if (Player.actionTimer <= 10) {
+                if (Player.actionTimer % 5 == 0) {
                     for(var1 = 0; var1 < 4; ++var1) {
                         var0 = heroHeads[var1];
                         heroHeads[var1] = heroTransformHeads[var1];
                         heroTransformHeads[var1] = var0;
                     }
                 }
-            } else if (D < 20) {
-                if (D % 3 == 0) {
+            } else if (Player.actionTimer < 20) {
+                if (Player.actionTimer % 3 == 0) {
                     for(var1 = 0; var1 < 4; ++var1) {
                         var0 = heroHeads[var1];
                         heroHeads[var1] = heroTransformHeads[var1];
                         heroTransformHeads[var1] = var0;
                     }
                 }
-            } else if (D < 30 && D % 2 == 0) {
+            } else if (Player.actionTimer < 30 && Player.actionTimer % 2 == 0) {
                 for(var1 = 0; var1 < 4; ++var1) {
                     var0 = heroHeads[var1];
                     heroHeads[var1] = heroTransformHeads[var1];
@@ -4278,70 +4242,70 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        if (D % 2 > 0) {
-            C = 0;
+        if (Player.actionTimer % 2 > 0) {
+            Player.pose = 0;
         } else {
-            C = 1;
+            Player.pose = 1;
         }
     }
 
-    private static void U() {
-        if (++D >= 5) {
-            D = 0;
-            fo = 0;
+    private static void updateRunOnWater() {
+        if (++Player.actionTimer >= 5) {
+            Player.actionTimer = 0;
+            Player.sprintBonus = 0;
         }
 
-        C = D + 2;
-        if (fm == 1) {
-            if (GameMap.hasFlag(fe + fi, ff - 1, TileFlags.WALL_LEFT_SIDE)) {
-                z = 0;
-                fe = I(fe + fi) - fi;
+        Player.pose = Player.actionTimer + 2;
+        if (Player.facing == 1) {
+            if (GameMap.hasFlag(Player.x + Player.halfWidth, Player.y - 1, TileFlags.WALL_LEFT_SIDE)) {
+                Player.vx = 0;
+                Player.x = I(Player.x + Player.halfWidth) - Player.halfWidth;
             }
-        } else if (GameMap.hasFlag(fe - fi - 1, ff - 1, TileFlags.WALL_RIGHT_SIDE)) {
-            z = 0;
-            fe = I(fe - fi - 1) + GameMap.TILE_SIZE + fi;
+        } else if (GameMap.hasFlag(Player.x - Player.halfWidth - 1, Player.y - 1, TileFlags.WALL_RIGHT_SIDE)) {
+            Player.vx = 0;
+            Player.x = I(Player.x - Player.halfWidth - 1) + GameMap.TILE_SIZE + Player.halfWidth;
         }
 
-        fe += z;
-        if (z > 0) {
-            --z;
-        } else if (z < 0) {
-            ++z;
+        Player.x += Player.vx;
+        if (Player.vx > 0) {
+            --Player.vx;
+        } else if (Player.vx < 0) {
+            ++Player.vx;
         } else if (!Skills.standOnWater) {
-            B = 12;
-            fo = 0;
+            Player.action = PlayerAction.SINK;
+            Player.sprintBonus = 0;
         } else {
-            B = 3;
-            A = -8;
-            E = 0;
-            D = 0;
+            Player.action = PlayerAction.JUMP;
+            Player.vy = -8;
+            Player.actionTimer2 = 0;
+            Player.actionTimer = 0;
         }
 
         if (tick % 8 == 0) {
             if (PlayerStats.drainMp(3)) {
-                z = 0;
-                B = 12;
+                Player.vx = 0;
+                Player.action = PlayerAction.SINK;
             }
 
             hudDirty = true;
         }
 
         for(int var0 = 0; var0 < iq; ++var0) {
-            if (a(fe - is[var0]) < 20 && it[var0] > ff && it[var0] - 24 < ff) {
-                z = 0;
-                if (fe < is[var0]) {
-                    fe = is[var0] - 20;
+            if (a(Player.x - is[var0]) < 20 && it[var0] > Player.y && it[var0] - 24 < Player.y) {
+                Player.vx = 0;
+                if (Player.x < is[var0]) {
+                    Player.x = is[var0] - 20;
                 } else {
-                    fe = is[var0] + 20;
+                    Player.x = is[var0] + 20;
                 }
 
-                B = 12;
+                Player.action = PlayerAction.SINK;
                 break;
             }
         }
 
-        WaterSplash.spawn(fe, ff);
-        Dust.spawn(fm, fe - (fm << 3), ff);
+        WaterSplash.spawn(Player.x, Player.y);
+        Dust.spawn(Player.facing, Player.x - (Player.facing << 3), Player.y);
     }
 
     private static boolean updateCutscene() {
@@ -4394,14 +4358,14 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case Cutscene.CMD_SAY:
-                            if (B == 1) {
+                            if (Player.action == PlayerAction.STAND) {
                                 captionVisible = false;
                                 var0 = 0;
                                 int var1 = 0;
                                 switch (Cutscene.lineSpeakerKind[Cutscene.args[cutsceneId][cutsceneStep]]) {
                                     case Cutscene.SPEAKER_PLAYER:
-                                        var0 = fe;
-                                        var1 = ff;
+                                        var0 = Player.x;
+                                        var1 = Player.y;
                                         break;
                                     case Cutscene.SPEAKER_NPC:
                                         var0 = npcX[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
@@ -4424,7 +4388,7 @@ public final class b extends Canvas implements Runnable {
                             }
                             break;
                         case Cutscene.CMD_SHOW_GUIDE_MARKER:
-                            setGuideMarker(mapId, Cutscene.args[cutsceneId][cutsceneStep], ff - 50, -1);
+                            setGuideMarker(mapId, Cutscene.args[cutsceneId][cutsceneStep], Player.y - 50, -1);
                             ++cutsceneStep;
                             break;
                         case Cutscene.CMD_HIDE_GUIDE_MARKER:
@@ -4534,8 +4498,8 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case Cutscene.CMD_CHANGE_MAP:
-                            fp = fe = MapExits.rightSpawnX;
-                            fq = ff = MapExits.rightSpawnY;
+                            Player.checkpointX = Player.x = MapExits.rightSpawnX;
+                            Player.checkpointY = Player.y = MapExits.rightSpawnY;
                             releaseMapResources();
                             Save.pendingSave = true;
                             changeMap(Cutscene.args[cutsceneId][cutsceneStep]);
@@ -4761,7 +4725,7 @@ public final class b extends Canvas implements Runnable {
 
                         var10002 = dF[var0]++;
                         if (dF[var0] > (dK[var0] + dz[var0]) % 20 + (dK[var0] >> 1)) {
-                            if (Dialogue.visible && fE == var0) {
+                            if (Dialogue.visible && Player.nearClassmate == var0) {
                                 break;
                             }
 
@@ -4777,8 +4741,8 @@ public final class b extends Canvas implements Runnable {
                             dJ[var0] = var2 > 0 ? 1 : -1;
                             dB[var0] = dJ[var0] << 2;
                             dD[var0] = 2;
-                            if (fE == var0) {
-                                fE = -1;
+                            if (Player.nearClassmate == var0) {
+                                Player.nearClassmate = -1;
                                 rightSoftKeyLabel = " ";
                                 hudDirty = true;
                             }
@@ -4955,7 +4919,7 @@ public final class b extends Canvas implements Runnable {
         updateMapEvent();
         if (!updateCutscene()) {
             Y();
-            R();
+            updatePlayer();
             Dialogue.typeTick();
         }
     }
@@ -5097,8 +5061,8 @@ public final class b extends Canvas implements Runnable {
                             case 2:
                             case 3:
                             case 6:
-                                if (a(ff - cv[var0]) < 5 && a(fe - cu[var0]) < 30) {
-                                    a(NinjaStats.damage[cD[var0]], cH[var0]);
+                                if (a(Player.y - cv[var0]) < 5 && a(Player.x - cu[var0]) < 30) {
+                                    damagePlayer(NinjaStats.damage[cD[var0]], cH[var0]);
                                 }
                         }
                     }
@@ -5124,8 +5088,8 @@ public final class b extends Canvas implements Runnable {
                     cJ[var0] = 0;
                     var10002 = cF[var0]++;
                     if (cF[var0] >= 5) {
-                        cG[var0] = fe;
-                        if (cu[var0] < fe) {
+                        cG[var0] = Player.x;
+                        if (cu[var0] < Player.x) {
                             var10000 = cG;
                             var10000[var0] -= 80;
                         } else {
@@ -5134,7 +5098,7 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         cF[var0] = 0;
-                        cH[var0] = cG[var0] < fe ? -1 : 1;
+                        cH[var0] = cG[var0] < Player.x ? -1 : 1;
                         cE[var0] = 7;
                         cy[var0] = cH[var0] << 3;
                         if (cG[var0] < cK[var0]) {
@@ -5173,8 +5137,8 @@ public final class b extends Canvas implements Runnable {
     private static void ac() {
         if (hi) {
             int var0 = tick % 10;
-            int var1 = a(fe - hp);
-            int var2 = a(ff - hq);
+            int var1 = a(Player.x - hp);
+            int var2 = a(Player.y - hq);
             switch (hr) {
                 case 0:
                     if (var0 < 7) {
@@ -5195,21 +5159,21 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (var1 > 90 && var1 < 100 && var0 < 2) {
-                        hs = hp < fe ? 1 : -1;
+                        hs = hp < Player.x ? 1 : -1;
                         hr = 23;
                         hv = 0;
-                    } else if ((var1 > 120 && var1 < 150 || ff < hq && var1 > 40) && var0 < 2) {
-                        hs = hp < fe ? 1 : -1;
+                    } else if ((var1 > 120 && var1 < 150 || Player.y < hq && var1 > 40) && var0 < 2) {
+                        hs = hp < Player.x ? 1 : -1;
                         hv = 0;
                         hr = 8;
                     } else if (var1 < 40 && var0 == 1) {
-                        hs = hp < fe ? 1 : -1;
+                        hs = hp < Player.x ? 1 : -1;
                         hv = 0;
                         hr = 5;
                     } else if (var1 > 40 && var1 < 100 && var0 < 3) {
-                        hs = hp < fe ? 1 : -1;
+                        hs = hp < Player.x ? 1 : -1;
                         hv = 0;
-                        if ((hw = fe) > hu) {
+                        if ((hw = Player.x) > hu) {
                             hw = hu;
                         } else if (hw < ht) {
                             hw = ht;
@@ -5219,7 +5183,7 @@ public final class b extends Canvas implements Runnable {
                     } else if (var1 > 80 && var0 == 2) {
                         hv = 0;
                         hr = 2;
-                        if ((hw = fe) > hu) {
+                        if ((hw = Player.x) > hu) {
                             hw = hu;
                         } else if (hw < ht) {
                             hw = ht;
@@ -5239,7 +5203,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (var1 > 50 && var1 < 100 && var0 == 1) {
-                        hs = hp < fe ? 1 : -1;
+                        hs = hp < Player.x ? 1 : -1;
                         hr = 23;
                         hv = 0;
                     }
@@ -5263,7 +5227,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (hv == 3 && var1 < 40 && var2 < 10) {
-                        a(hj, hs);
+                        damagePlayer(hj, hs);
                     }
                     break;
                 case 6:
@@ -5311,9 +5275,9 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (hv == 100) {
-                        hs = hp < fe ? 1 : -1;
+                        hs = hp < Player.x ? 1 : -1;
                         hv = 0;
-                        if ((hw = fe) > hu) {
+                        if ((hw = Player.x) > hu) {
                             hw = hu;
                         } else if (hw < ht) {
                             hw = ht;
@@ -5349,7 +5313,7 @@ public final class b extends Canvas implements Runnable {
         if (mapEventActive) {
             switch (MapEvent.conditions[mapEventId][mapEventStep]) {
                 case MapEvent.WAIT_PLAYER_PAST_X:
-                    if (fe > MapEvent.paramX[mapEventId][mapEventStep]) {
+                    if (Player.x > MapEvent.paramX[mapEventId][mapEventStep]) {
                     startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                     ++mapEventStep;
                     return;
@@ -5363,14 +5327,14 @@ public final class b extends Canvas implements Runnable {
                 default:
                     return;
                 case MapEvent.WAIT_PLAYER_OFFSCREEN_RIGHT:
-                    if (fe > cameraX + Viewport.viewWidth) {
+                    if (Player.x > cameraX + Viewport.viewWidth) {
                         startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                         return;
                     }
                     break;
                 case MapEvent.WAIT_PLAYER_AT:
-                    if (fe < MapEvent.paramX[mapEventId][mapEventStep] && fe > MapEvent.paramX[mapEventId][mapEventStep] - 96 && ff == MapEvent.paramY[mapEventId][mapEventStep]) {
+                    if (Player.x < MapEvent.paramX[mapEventId][mapEventStep] && Player.x > MapEvent.paramX[mapEventId][mapEventStep] - 96 && Player.y == MapEvent.paramY[mapEventId][mapEventStep]) {
                         startCutscene(MapEvent.cutscenes[mapEventId][mapEventStep]);
                         ++mapEventStep;
                     }
@@ -5666,7 +5630,7 @@ public final class b extends Canvas implements Runnable {
                         var6.fillRect(var2 - 35 + var7, var3 - 6, 70 - var7 + 1, 3);
                     }
 
-                    if (dz[0] + fi >= cameraX && dz[0] - fi <= cameraX + Viewport.viewWidth && dA[0] >= cameraY && dA[0] - fh <= cameraY + Viewport.viewHeight) {
+                    if (dz[0] + Player.halfWidth >= cameraX && dz[0] - Player.halfWidth <= cameraX + Viewport.viewWidth && dA[0] >= cameraY && dA[0] - Player.height <= cameraY + Viewport.viewHeight) {
                         if (dJ[0] == 1) {
                             var6.drawImage(classmateHeads[dH[0]][aI[dG[0]][0][0]], dz[0] + aI[dG[0]][0][1], dA[0] - aI[dG[0]][0][2], 0);
                             var6.drawImage(heroLegs[aI[dG[0]][1][0]], dz[0] + aI[dG[0]][1][1], dA[0] - aI[dG[0]][1][2], 0);
@@ -5843,48 +5807,48 @@ public final class b extends Canvas implements Runnable {
                         tick = 0;
                     }
 
-                    if (fe < 0) {
+                    if (Player.x < 0) {
                         if (MapExits.leftMap != MapExits.NONE) {
                             releaseMapResources();
-                            fp = fe = MapExits.leftSpawnX - 1;
-                            fq = ff = MapExits.leftSpawnY;
+                            Player.checkpointX = Player.x = MapExits.leftSpawnX - 1;
+                            Player.checkpointY = Player.y = MapExits.leftSpawnY;
                             Save.pendingSave = true;
                             changeMap(MapExits.leftMap);
                             break;
                         }
-                    } else if (fe >= GameMap.pixelWidth - 24) {
+                    } else if (Player.x >= GameMap.pixelWidth - 24) {
                         if (MapExits.rightMap != MapExits.NONE) {
                             if (!Skills.hide && MapExits.rightMap == 95) {
                                 MessageBox.show(MessageType.LEVEL_UP);
                                 MessageBox.setText("Khu vực phía trước rất nguy hiểm! Chỉ những người có thể ẩn thân có thể vào!");
-                                fe = GameMap.pixelWidth - 60;
-                                B = 4;
+                                Player.x = GameMap.pixelWidth - 60;
+                                Player.action = PlayerAction.FALL;
                                 GameState.current = GameState.MESSAGE;
                                 break;
                             }
 
                             releaseMapResources();
-                            if (MapExits.rightLowerMap != MapExits.NONE && ff > MapExits.rightLowerMinY) {
-                                fp = fe = MapExits.rightLowerSpawnX;
-                                fq = ff = MapExits.rightLowerSpawnY;
+                            if (MapExits.rightLowerMap != MapExits.NONE && Player.y > MapExits.rightLowerMinY) {
+                                Player.checkpointX = Player.x = MapExits.rightLowerSpawnX;
+                                Player.checkpointY = Player.y = MapExits.rightLowerSpawnY;
                                 Save.pendingSave = true;
                                 changeMap(MapExits.rightLowerMap);
                                 break;
                             }
 
-                            fp = fe = MapExits.rightSpawnX;
-                            fq = ff = MapExits.rightSpawnY;
+                            Player.checkpointX = Player.x = MapExits.rightSpawnX;
+                            Player.checkpointY = Player.y = MapExits.rightSpawnY;
                             Save.pendingSave = true;
                             changeMap(MapExits.rightMap);
                             break;
                         }
-                    } else if (ff + A >= GameMap.pixelHeight && B != 6 && MapExits.bottomMap != MapExits.NONE) {
+                    } else if (Player.y + Player.vy >= GameMap.pixelHeight && Player.action != PlayerAction.DEAD && MapExits.bottomMap != MapExits.NONE) {
                         releaseMapResources();
-                        fp = fe = MapExits.bottomSpawnX;
-                        fq = ff = MapExits.bottomSpawnY;
+                        Player.checkpointX = Player.x = MapExits.bottomSpawnX;
+                        Player.checkpointY = Player.y = MapExits.bottomSpawnY;
                         Save.pendingSave = true;
                         changeMap(MapExits.bottomMap);
-                        B = 4;
+                        Player.action = PlayerAction.FALL;
                         break;
                     }
 
@@ -5920,26 +5884,26 @@ public final class b extends Canvas implements Runnable {
                                 Input.clearHeld();
                                 Input.clearPressed();
                             } else if (Input.pressed[Input.KEY_NUM0]) {
-                                if (fd == 0) {
+                                if (Player.weapon == 0) {
                                     if (Skills.darts) {
-                                        fd = 1;
+                                        Player.weapon = 1;
                                     }
                                 } else {
-                                    fd = 0;
+                                    Player.weapon = 0;
                                 }
 
                                 hudDirty = true;
                                 Input.pressed[Input.KEY_NUM0] = false;
                             } else if (Input.pressed[Input.KEY_RIGHT]) {
-                                fo = 2;
+                                Player.sprintBonus = 2;
                                 Input.pressed[Input.KEY_RIGHT] = false;
                             } else if (Input.pressed[Input.KEY_LEFT]) {
-                                fo = -2;
+                                Player.sprintBonus = -2;
                                 Input.pressed[Input.KEY_LEFT] = false;
                             } else {
                                 if (Input.pressed[Input.KEY_NUM9]) {
                                     if (Skills.hide) {
-                                        fw = !fw;
+                                        Player.hidden = !Player.hidden;
                                     }
 
                                     Input.pressed[Input.KEY_NUM9] = false;
@@ -5947,9 +5911,9 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 if (Input.pressed[Input.KEY_NUM7]) {
-                                    if (B == 1 && Skills.transform) {
-                                        B = 23;
-                                        D = 0;
+                                    if (Player.action == PlayerAction.STAND && Skills.transform) {
+                                        Player.action = PlayerAction.TRANSFORM;
+                                        Player.actionTimer = 0;
                                     }
 
                                     Input.pressed[Input.KEY_NUM7] = false;
@@ -5982,11 +5946,11 @@ public final class b extends Canvas implements Runnable {
                                 }
                             }
 
-                            if (B == 1) {
+                            if (Player.action == PlayerAction.STAND) {
                                 if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                                     Input.clearPressed();
                                     if (rightSoftKeyLabel.equals("Giao tiếp")) {
-                                        var4 = fD;
+                                        var4 = Player.nearNpc;
                                         switch (npcTypes[var4]) {
                                             case 0:
                                                 if (Story.sakuraEscorting) {
@@ -6314,9 +6278,9 @@ public final class b extends Canvas implements Runnable {
                                         }
                                     } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
                                         Input.clearPressed();
-                                        dJ[fE] = -fm;
-                                        startDialogue(classmateLines[fE], QuestAction.TALK, dz[fE], dA[fE] - 44);
-                                    } else if (rightSoftKeyLabel.equals("Nói chuyện") && fB) {
+                                        dJ[Player.nearClassmate] = -Player.facing;
+                                        startDialogue(classmateLines[Player.nearClassmate], QuestAction.TALK, dz[Player.nearClassmate], dA[Player.nearClassmate] - 44);
+                                    } else if (rightSoftKeyLabel.equals("Nói chuyện") && Player.nearGirl) {
                                         if (gk) {
                                             startDialogue(DialogueText.girlLines[0], QuestAction.TALK, gn, go - 44);
                                         } else if (Story.girlOutingDone) {
@@ -6334,12 +6298,12 @@ public final class b extends Canvas implements Runnable {
                                         if (Input.held[Input.KEY_UP]) {
                                             if (Skills.motorbikeLicense) {
                                                 for(var13 = 0; var13 < ii; ++var13) {
-                                                    if (ff == il[var13] && a(fe - ik[var13]) < 20) {
-                                                        fe = ik[var13];
-                                                        B = 18;
+                                                    if (Player.y == il[var13] && a(Player.x - ik[var13]) < 20) {
+                                                        Player.x = ik[var13];
+                                                        Player.action = PlayerAction.MOTORBIKE_STAND;
                                                         Input.clearHeld();
-                                                        ij = var13;
-                                                        im[var13] = fm;
+                                                        Player.motorbike = var13;
+                                                        im[var13] = Player.facing;
                                                         in[var13] = 0;
                                                         break label2585;
                                                     }
@@ -6347,356 +6311,356 @@ public final class b extends Canvas implements Runnable {
                                             }
 
                                             if (Skills.lightness) {
-                                                A = -10;
+                                                Player.vy = -10;
                                             } else {
-                                                A = -8;
+                                                Player.vy = -8;
                                             }
 
-                                            B = 3;
-                                            ir = -1;
-                                            D = 0;
-                                            fD = -1;
-                                            fE = -1;
+                                            Player.action = PlayerAction.JUMP;
+                                            Player.crate = -1;
+                                            Player.actionTimer = 0;
+                                            Player.nearNpc = -1;
+                                            Player.nearClassmate = -1;
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         } else if (Input.held[Input.KEY_LEFT]) {
-                                            if (fm == 1) {
-                                                fm = -1;
+                                            if (Player.facing == 1) {
+                                                Player.facing = -1;
                                             } else {
-                                                B = 2;
-                                                z = -Q;
+                                                Player.action = PlayerAction.RUN;
+                                                Player.vx = -Player.moveSpeed;
                                             }
 
-                                            fD = -1;
-                                            fE = -1;
+                                            Player.nearNpc = -1;
+                                            Player.nearClassmate = -1;
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         } else if (Input.held[Input.KEY_RIGHT]) {
-                                            if (fm == -1) {
-                                                fm = 1;
+                                            if (Player.facing == -1) {
+                                                Player.facing = 1;
                                             } else {
-                                                B = 2;
-                                                z = Q;
+                                                Player.action = PlayerAction.RUN;
+                                                Player.vx = Player.moveSpeed;
                                             }
 
-                                            fE = -1;
-                                            fD = -1;
+                                            Player.nearClassmate = -1;
+                                            Player.nearNpc = -1;
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         } else if (Input.held[Input.KEY_DOWN]) {
-                                            D = 0;
-                                            E = 0;
-                                            B = 8;
+                                            Player.actionTimer = 0;
+                                            Player.actionTimer2 = 0;
+                                            Player.action = PlayerAction.CROUCH;
                                         } else if (Input.held[Input.KEY_NUM1]) {
                                             if (Skills.lightness) {
-                                                A = -10;
+                                                Player.vy = -10;
                                             } else {
-                                                A = -8;
+                                                Player.vy = -8;
                                             }
 
-                                            fm = -1;
-                                            z = -4;
-                                            B = 3;
-                                            ir = -1;
-                                            D = 0;
-                                            fD = -1;
-                                            fE = -1;
+                                            Player.facing = -1;
+                                            Player.vx = -4;
+                                            Player.action = PlayerAction.JUMP;
+                                            Player.crate = -1;
+                                            Player.actionTimer = 0;
+                                            Player.nearNpc = -1;
+                                            Player.nearClassmate = -1;
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         } else if (Input.held[Input.KEY_NUM3]) {
                                             if (Skills.lightness) {
-                                                A = -10;
+                                                Player.vy = -10;
                                             } else {
-                                                A = -8;
+                                                Player.vy = -8;
                                             }
 
-                                            fm = 1;
-                                            z = 4;
-                                            B = 3;
-                                            ir = -1;
-                                            D = 0;
-                                            fD = -1;
-                                            fE = -1;
+                                            Player.facing = 1;
+                                            Player.vx = 4;
+                                            Player.action = PlayerAction.JUMP;
+                                            Player.crate = -1;
+                                            Player.actionTimer = 0;
+                                            Player.nearNpc = -1;
+                                            Player.nearClassmate = -1;
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         }
 
                                         if (Input.pressed[Input.KEY_FIRE]) {
-                                            B = 5;
-                                            ft = 0;
-                                            D = 0;
-                                            A = 0;
+                                            Player.action = PlayerAction.ATTACK;
+                                            Player.comboStep = 0;
+                                            Player.actionTimer = 0;
+                                            Player.vy = 0;
                                             Input.pressed[Input.KEY_FIRE] = false;
-                                            fD = -1;
-                                            fE = -1;
+                                            Player.nearNpc = -1;
+                                            Player.nearClassmate = -1;
                                             rightSoftKeyLabel = " ";
                                             hudDirty = true;
                                         }
                                     }
                                 }
-                            } else if (B == 2) {
+                            } else if (Player.action == PlayerAction.RUN) {
                                 if (Input.held[Input.KEY_UP]) {
-                                    ir = -1;
+                                    Player.crate = -1;
                                     if (Skills.lightness) {
-                                        A = -10;
+                                        Player.vy = -10;
                                     } else {
-                                        A = -8;
+                                        Player.vy = -8;
                                     }
 
-                                    B = 3;
-                                    D = 0;
+                                    Player.action = PlayerAction.JUMP;
+                                    Player.actionTimer = 0;
                                 } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        z = -Q + fo;
+                                        Player.vx = -Player.moveSpeed + Player.sprintBonus;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        z = Q + fo;
+                                        Player.vx = Player.moveSpeed + Player.sprintBonus;
                                     }
                                 }
 
                                 if (Input.pressed[Input.KEY_FIRE]) {
-                                    B = 5;
-                                    ft = 0;
-                                    D = 0;
-                                    A = 0;
+                                    Player.action = PlayerAction.ATTACK;
+                                    Player.comboStep = 0;
+                                    Player.actionTimer = 0;
+                                    Player.vy = 0;
                                     Input.pressed[Input.KEY_FIRE] = false;
                                 }
-                            } else if (B == 11) {
+                            } else if (Player.action == PlayerAction.RUN_ON_WATER) {
                                 if (Input.held[Input.KEY_UP]) {
                                     if (Skills.lightness) {
-                                        A = -10;
+                                        Player.vy = -10;
                                     } else {
-                                        A = -8;
+                                        Player.vy = -8;
                                     }
 
-                                    B = 3;
-                                    D = 0;
+                                    Player.action = PlayerAction.JUMP;
+                                    Player.actionTimer = 0;
                                 } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        z = -L + fo;
+                                        Player.vx = -Player.runOnWaterSpeed + Player.sprintBonus;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        z = L + fo;
+                                        Player.vx = Player.runOnWaterSpeed + Player.sprintBonus;
                                     }
                                 }
-                            } else if (B == 3) {
+                            } else if (Player.action == PlayerAction.JUMP) {
                                 if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        z = -Q;
+                                        Player.vx = -Player.moveSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        z = Q;
+                                        Player.vx = Player.moveSpeed;
                                     }
                                 }
 
                                 if (Input.pressed[Input.KEY_FIRE]) {
-                                    B = 5;
-                                    ft = 0;
-                                    D = 0;
+                                    Player.action = PlayerAction.ATTACK;
+                                    Player.comboStep = 0;
+                                    Player.actionTimer = 0;
                                     Input.pressed[Input.KEY_FIRE] = false;
                                 }
 
-                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && A > -4 && (D == 0 && Skills.doubleJump || D == 1 && Skills.tripleJump)) {
-                                    ++D;
-                                    A = -7;
+                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && Player.vy > -4 && (Player.actionTimer == 0 && Skills.doubleJump || Player.actionTimer == 1 && Skills.tripleJump)) {
+                                    ++Player.actionTimer;
+                                    Player.vy = -7;
                                     PlayerStats.drainMp(3);
 
                                     hudDirty = true;
-                                    Dust.spawn(-1, fe - -8, ff);
-                                    Dust.spawn(1, fe - 8, ff);
-                                    WaterSplash.spawn(fe, ff);
+                                    Dust.spawn(-1, Player.x - -8, Player.y);
+                                    Dust.spawn(1, Player.x - 8, Player.y);
+                                    WaterSplash.spawn(Player.x, Player.y);
                                 }
-                            } else if (B == 4) {
+                            } else if (Player.action == PlayerAction.FALL) {
                                 if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        z = -Q;
+                                        Player.vx = -Player.moveSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        z = Q;
+                                        Player.vx = Player.moveSpeed;
                                     }
                                 }
 
-                                if (Input.pressed[Input.KEY_FIRE] && A > 4) {
-                                    B = 5;
-                                    D = 0;
-                                    ft = 0;
+                                if (Input.pressed[Input.KEY_FIRE] && Player.vy > 4) {
+                                    Player.action = PlayerAction.ATTACK;
+                                    Player.actionTimer = 0;
+                                    Player.comboStep = 0;
                                     Input.pressed[Input.KEY_FIRE] = false;
                                 }
-                            } else if (B == 5) {
+                            } else if (Player.action == PlayerAction.ATTACK) {
                                 if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        z = -Q + 2;
+                                        Player.vx = -Player.moveSpeed + 2;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        z = Q - 2;
+                                        Player.vx = Player.moveSpeed - 2;
                                     }
                                 }
 
                                 if (Input.pressed[Input.KEY_FIRE]) {
-                                    fv = true;
+                                    Player.comboQueued = true;
                                     Input.pressed[Input.KEY_FIRE] = false;
                                 }
-                            } else if (B == 18) {
+                            } else if (Player.action == PlayerAction.MOTORBIKE_STAND) {
                                 if (Input.held[Input.KEY_UP]) {
-                                    A = -10;
-                                    B = 21;
-                                    D = 10;
-                                    ir = -1;
+                                    Player.vy = -10;
+                                    Player.action = PlayerAction.MOTORBIKE_JUMP;
+                                    Player.actionTimer = 10;
+                                    Player.crate = -1;
                                 } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
-                                        im[ij] = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
+                                        im[Player.motorbike] = -1;
                                     } else {
-                                        D = 1;
-                                        B = 19;
-                                        D = 10;
-                                        z = -R;
+                                        Player.actionTimer = 1;
+                                        Player.action = PlayerAction.MOTORBIKE_RIDE;
+                                        Player.actionTimer = 10;
+                                        Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
-                                        im[ij] = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
+                                        im[Player.motorbike] = 1;
                                     } else {
-                                        B = 19;
-                                        D = 10;
-                                        z = R;
+                                        Player.action = PlayerAction.MOTORBIKE_RIDE;
+                                        Player.actionTimer = 10;
+                                        Player.vx = Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_DOWN]) {
-                                    B = 1;
-                                    ij = -1;
+                                    Player.action = PlayerAction.STAND;
+                                    Player.motorbike = -1;
                                 }
-                            } else if (B == 19) {
+                            } else if (Player.action == PlayerAction.MOTORBIKE_RIDE) {
                                 if (Input.held[Input.KEY_UP]) {
-                                    A = -10;
-                                    B = 21;
-                                    ir = -1;
-                                    D = 10;
+                                    Player.vy = -10;
+                                    Player.action = PlayerAction.MOTORBIKE_JUMP;
+                                    Player.crate = -1;
+                                    Player.actionTimer = 10;
                                 } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
-                                        im[ij] = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
+                                        im[Player.motorbike] = -1;
                                     } else {
-                                        z = -R;
+                                        Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
-                                        im[ij] = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
+                                        im[Player.motorbike] = 1;
                                     } else {
-                                        z = R;
+                                        Player.vx = Player.motorbikeSpeed;
                                     }
                                 }
-                            } else if (B == 21) {
+                            } else if (Player.action == PlayerAction.MOTORBIKE_JUMP) {
                                 if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
-                                        im[ij] = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
+                                        im[Player.motorbike] = -1;
                                     } else {
-                                        z = -R;
+                                        Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
-                                        im[ij] = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
+                                        im[Player.motorbike] = 1;
                                     } else {
-                                        z = R;
+                                        Player.vx = Player.motorbikeSpeed;
                                     }
                                 }
-                            } else if (B == 20) {
+                            } else if (Player.action == PlayerAction.MOTORBIKE_FALL) {
                                 if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
-                                        im[ij] = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
+                                        im[Player.motorbike] = -1;
                                     } else {
-                                        z = -R;
+                                        Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
-                                        im[ij] = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
+                                        im[Player.motorbike] = 1;
                                     } else {
-                                        z = R;
+                                        Player.vx = Player.motorbikeSpeed;
                                     }
                                 }
-                            } else if (B == 17) {
+                            } else if (Player.action == PlayerAction.UNDERWATER_STAND) {
                                 if (Input.held[Input.KEY_UP]) {
-                                    A = -10;
-                                    B = 3;
-                                    fc = -1;
-                                    D = 0;
+                                    Player.vy = -10;
+                                    Player.action = PlayerAction.JUMP;
+                                    Player.slashEffect = -1;
+                                    Player.actionTimer = 0;
                                 } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        B = 16;
-                                        z = -M;
+                                        Player.action = PlayerAction.UNDERWATER_WALK;
+                                        Player.vx = -Player.underwaterSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        B = 16;
-                                        z = M;
+                                        Player.action = PlayerAction.UNDERWATER_WALK;
+                                        Player.vx = Player.underwaterSpeed;
                                     }
                                 }
-                            } else if (B == 16) {
+                            } else if (Player.action == PlayerAction.UNDERWATER_WALK) {
                                 if (Input.held[Input.KEY_UP]) {
-                                    A = -10;
-                                    B = 3;
-                                    fc = -1;
-                                    D = 0;
+                                    Player.vy = -10;
+                                    Player.action = PlayerAction.JUMP;
+                                    Player.slashEffect = -1;
+                                    Player.actionTimer = 0;
                                 } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (fm == 1) {
-                                        fm = -1;
+                                    if (Player.facing == 1) {
+                                        Player.facing = -1;
                                     } else {
-                                        z = -M;
+                                        Player.vx = -Player.underwaterSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (fm == -1) {
-                                        fm = 1;
+                                    if (Player.facing == -1) {
+                                        Player.facing = 1;
                                     } else {
-                                        z = M;
+                                        Player.vx = Player.underwaterSpeed;
                                     }
                                 }
-                            } else if (B == 12) {
+                            } else if (Player.action == PlayerAction.SINK) {
                                 if (Input.held[Input.KEY_UP] && Skills.runOnWater) {
-                                    A = -10;
-                                    B = 3;
-                                    fc = -1;
-                                    D = 0;
+                                    Player.vy = -10;
+                                    Player.action = PlayerAction.JUMP;
+                                    Player.slashEffect = -1;
+                                    Player.actionTimer = 0;
                                 }
-                            } else if (B == 14) {
+                            } else if (Player.action == PlayerAction.BURROWED) {
                                 if (Input.held[Input.KEY_LEFT]) {
-                                    fm = -1;
+                                    Player.facing = -1;
                                 } else if (Input.held[Input.KEY_RIGHT]) {
-                                    fm = 1;
+                                    Player.facing = 1;
                                 } else if (Input.held[Input.KEY_UP]) {
-                                    B = 15;
+                                    Player.action = PlayerAction.BURROW_EXIT;
                                 }
                             }
                         }
@@ -6830,9 +6794,9 @@ public final class b extends Canvas implements Runnable {
 
                                     var10000 = is;
                                     var10000[var13] += iy[var13];
-                                    if (var13 == ir) {
-                                        ff = it[ir] - 24;
-                                        fe += iy[var13];
+                                    if (var13 == Player.crate) {
+                                        Player.y = it[Player.crate] - 24;
+                                        Player.x += iy[var13];
                                     }
 
                                     if (GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.WALL_RIGHT_SIDE)) {
@@ -6843,8 +6807,8 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     for(var13 = 0; var13 < ii; ++var13) {
-                        if (var13 == ij) {
-                            if (D > 1) {
+                        if (var13 == Player.motorbike) {
+                            if (Player.actionTimer > 1) {
                                 in[var13] = 2;
                             } else if (tick % 8 > 3) {
                                 in[var13] = 1;
@@ -6964,12 +6928,12 @@ public final class b extends Canvas implements Runnable {
                                         }
                                     }
 
-                                    if (!dc[var13] && a(fe - cW[var13]) < fi && a(ff - fj - cX[var13]) < fj) {
-                                        if (B == 5 && fd == 0) {
+                                    if (!dc[var13] && a(Player.x - cW[var13]) < Player.halfWidth && a(Player.y - Player.halfHeight - cX[var13]) < Player.halfHeight) {
+                                        if (Player.action == PlayerAction.ATTACK && Player.weapon == 0) {
                                             da[var13] = -da[var13];
                                             db[var13] = -3;
                                         } else {
-                                            a(PlayerStats.dartDamage, -fm);
+                                            damagePlayer(PlayerStats.dartDamage, -Player.facing);
                                             cY[var13] = -1;
                                         }
                                         break;
@@ -7013,14 +6977,14 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    if (Projectiles.update(fe, ff, fi, fj, cameraX, cameraY, B == 5 && fd == 0)) {
-                        a(Projectiles.hitDamage, Projectiles.hitDirection);
+                    if (Projectiles.update(Player.x, Player.y, Player.halfWidth, Player.halfHeight, cameraX, cameraY, Player.action == PlayerAction.ATTACK && Player.weapon == 0)) {
+                        damagePlayer(Projectiles.hitDamage, Projectiles.hitDirection);
                     }
 
                     Aura.update();
 
-                    if (ArcProjectiles.update(fe, ff, fi, fj, cameraY)) {
-                        a(ArcProjectiles.hitDamage, ArcProjectiles.hitDirection);
+                    if (ArcProjectiles.update(Player.x, Player.y, Player.halfWidth, Player.halfHeight, cameraY)) {
+                        damagePlayer(ArcProjectiles.hitDamage, ArcProjectiles.hitDirection);
                     }
 
                     if (guideMarkerMap >= 0) {
@@ -7028,8 +6992,8 @@ public final class b extends Canvas implements Runnable {
                             ge = 2;
                             gf = guideMarkerX;
                             gg = guideMarkerY + gi;
-                        } else if (a(fe - guideMarkerX) > a(ff - guideMarkerY)) {
-                            if (fe > guideMarkerX) {
+                        } else if (a(Player.x - guideMarkerX) > a(Player.y - guideMarkerY)) {
+                            if (Player.x > guideMarkerX) {
                                 ge = 1;
                                 gf = cameraX + 20 + gi;
                             } else {
@@ -7044,13 +7008,13 @@ public final class b extends Canvas implements Runnable {
                             if (gg > cameraY + Viewport.viewHeight - 10) {
                                 gg = cameraY + Viewport.viewHeight - 10;
                             }
-                        } else if (ff > guideMarkerY) {
+                        } else if (Player.y > guideMarkerY) {
                             ge = 3;
-                            gf = fe;
+                            gf = Player.x;
                             gg = cameraY + 20 + gi;
                         } else {
                             ge = 2;
-                            gf = fe;
+                            gf = Player.x;
                             gg = cameraY + Viewport.viewHeight - 20 + gi;
                         }
 
@@ -7059,7 +7023,7 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    R();
+                    updatePlayer();
                     if (gm == mapId) {
                         try {
                             switch (gr) {
@@ -7106,9 +7070,9 @@ public final class b extends Canvas implements Runnable {
                                         gn = GameMap.pixelWidth - 1;
                                     }
 
-                                    if (ir != -1) {
-                                        if (a(gn - is[ir]) >= 20) {
-                                            ir = -1;
+                                    if (Player.crate != -1) {
+                                        if (a(gn - is[Player.crate]) >= 20) {
+                                            Player.crate = -1;
                                             if (GameMap.hasFlag(gn, go, TileFlags.SOLID)) {
                                                 gr = 1;
                                             } else {
@@ -7146,9 +7110,9 @@ public final class b extends Canvas implements Runnable {
                                         gp = 0;
                                     }
 
-                                    if (ff < 0) {
-                                        ff = 0;
-                                        A = -1;
+                                    if (Player.y < 0) {
+                                        Player.y = 0;
+                                        Player.vy = -1;
                                     }
 
                                     if ((gn += gp) < 0) {
@@ -7233,7 +7197,7 @@ public final class b extends Canvas implements Runnable {
                                     if (GameMap.hasFlag(gn, go, TileFlags.WATER) && GameMap.hasFlag(gn, go + 24, TileFlags.DEEP_WATER) && go % GameMap.TILE_SIZE > 8) {
                                         WaterSplash.spawn(gn, H(go) + 8);
                                         gr = 3;
-                                        gp = (gz = fe > gn ? 1 : -1) << 2;
+                                        gp = (gz = Player.x > gn ? 1 : -1) << 2;
                                         gq = -11;
                                     }
 
@@ -7318,8 +7282,8 @@ public final class b extends Canvas implements Runnable {
                                     }
                             }
                         } catch (Exception var11) {
-                            gn = fe;
-                            go = ff;
+                            gn = Player.x;
+                            go = Player.y;
                             gp = 0;
                             gq = 0;
                             gr = 4;
@@ -7402,8 +7366,8 @@ public final class b extends Canvas implements Runnable {
                                     gX = 35;
                                 }
 
-                                if (a(ff - gQ) < 18 && a(gP + (gT << 4) - fe) < 10) {
-                                    a(gO, gT);
+                                if (a(Player.y - gQ) < 18 && a(gP + (gT << 4) - Player.x) < 10) {
+                                    damagePlayer(gO, gT);
                                     gS = 1;
                                     gX = 45;
                                     if (gZ < ha >> 1) {
@@ -7480,10 +7444,10 @@ public final class b extends Canvas implements Runnable {
                                 --ib;
                             }
 
-                            if (ib == 0 && a(fe - (hP - 40)) < 30) {
+                            if (ib == 0 && a(Player.x - (hP - 40)) < 30) {
                                 ib = 0;
                                 hX = 4;
-                                hY = hP < fe ? 1 : -1;
+                                hY = hP < Player.x ? 1 : -1;
                             }
 
                             if (tick % 122 == 0) {
@@ -7533,7 +7497,7 @@ public final class b extends Canvas implements Runnable {
                                 hX = 2;
                                 ib = 1;
                             } else if (ib == 30) {
-                                if ((hP = fe + (fm << 6)) > ia) {
+                                if ((hP = Player.x + (Player.facing << 6)) > ia) {
                                     hP = ia - 30;
                                 }
 
@@ -7541,7 +7505,7 @@ public final class b extends Canvas implements Runnable {
                                     hP = hZ + 30;
                                 }
 
-                                hY = hP < fe ? 1 : -1;
+                                hY = hP < Player.x ? 1 : -1;
                             } else if (ib < 10) {
                                 hQ += 10;
                             } else if (ib > 40) {
@@ -7584,7 +7548,7 @@ public final class b extends Canvas implements Runnable {
                 if (hc) {
                     label2824: {
                         var13 = tick % 50;
-                        var5 = a(dz[0] - fe);
+                        var5 = a(dz[0] - Player.x);
                         switch (dD[0]) {
                             case 0:
                                 var10002 = dE[0]++;
@@ -7608,18 +7572,18 @@ public final class b extends Canvas implements Runnable {
                                     break label2824;
                                 }
 
-                                if (var5 >= 40 || B != 5) {
+                                if (var5 >= 40 || Player.action != PlayerAction.ATTACK) {
                                     break label2824;
                                 }
 
                                 hd = true;
                                 dD[0] = 3;
-                                dJ[0] = -fm;
+                                dJ[0] = -Player.facing;
                                 if (var13 > 35) {
-                                    dB[0] = fm * 5;
+                                    dB[0] = Player.facing * 5;
                                     dC[0] = -9;
                                 } else {
-                                    dB[0] = -fm * 6;
+                                    dB[0] = -Player.facing * 6;
                                     dC[0] = -9;
                                 }
 
@@ -7648,14 +7612,14 @@ public final class b extends Canvas implements Runnable {
                                     dE[0] = dF[0] = 0;
                                 }
 
-                                if (var5 < 40 && B == 5 && fm != dJ[0]) {
+                                if (var5 < 40 && Player.action == PlayerAction.ATTACK && Player.facing != dJ[0]) {
                                     dD[0] = 3;
-                                    dJ[0] = -fm;
+                                    dJ[0] = -Player.facing;
                                     if (var13 > 35) {
-                                        dB[0] = fm * 5;
+                                        dB[0] = Player.facing * 5;
                                         dC[0] = -9;
                                     } else {
-                                        dB[0] = -fm * 6;
+                                        dB[0] = -Player.facing * 6;
                                         dC[0] = -9;
                                     }
 
@@ -7669,21 +7633,21 @@ public final class b extends Canvas implements Runnable {
 
                                     dE[0] = dF[0] = 0;
                                 } else if (var5 < 40 && var13 < 10) {
-                                    dJ[0] = fe > dz[0] ? 1 : -1;
+                                    dJ[0] = Player.x > dz[0] ? 1 : -1;
                                     dD[0] = 5;
                                     dE[0] = dF[0] = dL[0] = 0;
                                 } else if (var5 < 100 && var5 > 40 && var13 < 1) {
-                                    dJ[0] = fe > dz[0] ? 1 : -1;
+                                    dJ[0] = Player.x > dz[0] ? 1 : -1;
                                     dD[0] = 24;
                                     dE[0] = dF[0] = dL[0] = 0;
-                                    dB[0] = (a(dz[0] - fe) >> 3) * dJ[0];
+                                    dB[0] = (a(dz[0] - Player.x) >> 3) * dJ[0];
                                 } else if (var5 > 100 && var5 < 160 && var13 < 30) {
-                                    dJ[0] = fe > dz[0] ? 1 : -1;
+                                    dJ[0] = Player.x > dz[0] ? 1 : -1;
                                     dD[0] = 8;
                                     dE[0] = dF[0] = dL[0] = 0;
                                 } else if (var5 >= 20 && var13 != 42) {
                                     if (var5 > 160) {
-                                        dJ[0] = fe > dz[0] ? 1 : -1;
+                                        dJ[0] = Player.x > dz[0] ? 1 : -1;
                                         dF[0] = dz[0] + (dJ[0] << 7);
                                         if (dF[0] < dM[0]) {
                                             dF[0] = dM[0];
@@ -7696,7 +7660,7 @@ public final class b extends Canvas implements Runnable {
                                         dB[0] = dJ[0] << 2;
                                     }
                                 } else {
-                                    dJ[0] = -fm;
+                                    dJ[0] = -Player.facing;
                                     dF[0] = dz[0] + (dJ[0] << 6);
                                     if (dF[0] < dM[0] || dF[0] > dN[0]) {
                                         dJ[0] = -dJ[0];
@@ -7718,7 +7682,7 @@ public final class b extends Canvas implements Runnable {
                                 var10000 = dz;
                                 var10000[0] += dB[0];
                                 if (!dx && (dJ[0] > 0 && dz[0] > dF[0] || dJ[0] < 0 && dz[0] < dF[0])) {
-                                    dJ[0] = fe > dz[0] ? 1 : -1;
+                                    dJ[0] = Player.x > dz[0] ? 1 : -1;
                                     dF[0] = dE[0] = 0;
                                     dD[0] = 1;
                                 }
@@ -7781,14 +7745,14 @@ public final class b extends Canvas implements Runnable {
                                     dA[0] = I(dA[0]);
                                     Dust.spawn(-1, dz[0] - -8, dA[0]);
                                     Dust.spawn(1, dz[0] - 8, dA[0]);
-                                    if (a(dz[0] - fe) < 40 && var13 < 25) {
-                                        dJ[0] = fe > dz[0] ? 1 : -1;
+                                    if (a(dz[0] - Player.x) < 40 && var13 < 25) {
+                                        dJ[0] = Player.x > dz[0] ? 1 : -1;
                                         dD[0] = 5;
                                         dE[0] = dF[0] = dL[0] = 0;
                                     }
 
                                     if (var5 < 40) {
-                                        dJ[0] = fm;
+                                        dJ[0] = Player.facing;
                                         dF[0] = dz[0] + dJ[0] * 110;
                                         if (dF[0] < dM[0] || dF[0] > dN[0]) {
                                             dJ[0] = -dJ[0];
@@ -7974,11 +7938,11 @@ public final class b extends Canvas implements Runnable {
                                     dG[0] = (dE[0] >> 1) + 2;
                                     var10000 = dz;
                                     var10000[0] += dB[0];
-                                    if (a(dz[0] - fe) < 30) {
-                                        if (B == 5 && fm != dJ[0]) {
+                                    if (a(dz[0] - Player.x) < 30) {
+                                        if (Player.action == PlayerAction.ATTACK && Player.facing != dJ[0]) {
                                             dD[0] = 3;
-                                            dJ[0] = -fm;
-                                            dB[0] = fm << 1;
+                                            dJ[0] = -Player.facing;
+                                            dB[0] = Player.facing << 1;
                                             if (dz[0] < dM[0] + 30) {
                                                 dB[0] = 6;
                                                 dJ[0] = -1;
@@ -8042,16 +8006,16 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (MoneyDrops.update(fe, ff, fh)) {
+                if (MoneyDrops.update(Player.x, Player.y, Player.height)) {
                     hudDirty = true;
                 }
 
-                if (PotionDrops.update(fe, ff, fh)) {
+                if (PotionDrops.update(Player.x, Player.y, Player.height)) {
                     hudDirty = true;
                 }
                 if (questItemState != 0) {
                     if (questItemState == 1) {
-                        if (a(ff - (fh >> 1) - (questItemY - 7)) < 10 && a(fe - questItemX) < 10) {
+                        if (a(Player.y - (Player.height >> 1) - (questItemY - 7)) < 10 && a(Player.x - questItemX) < 10) {
                             questItemState = 2;
                             QuestState.itemFound = true;
                             Notice.show("đã lấy được bí kíp");
@@ -8122,7 +8086,7 @@ public final class b extends Canvas implements Runnable {
                                 gk = var12[9] == 1;
                                 gl = var12[10];
                                 gm = var12[11];
-                                ij = var12[12];
+                                Player.motorbike = var12[12];
                                 Inventory.swordLevel = var12[13];
                                 Skills.dartsLevel2 = var12[14] == 1;
                                 Save.pendingLoad = true;
@@ -8234,7 +8198,7 @@ public final class b extends Canvas implements Runnable {
                             Sound.setEnabled(Sound.disabled, mapId);
                             break;
                         case GameMenu.ITEM_SAVE_AND_EXIT:
-                            if (B != 1) {
+                            if (Player.action != PlayerAction.STAND) {
                                 UiFrame.release();
                                 ensureMapImages();
                                 MessageBox.show(MessageType.GAME_NOTICE);
@@ -8584,7 +8548,7 @@ public final class b extends Canvas implements Runnable {
             int var3 = Monsters.direction[var0] >= 0 ? Monsters.x[var0] + Monsters.attackRangeX[var0] : Monsters.x[var0];
             int var4 = Monsters.y[var0] - Monsters.attackRangeY[var0];
             int var1 = Monsters.y[var0] + Monsters.attackRangeY[var0];
-            if (B == 6 ? false : (fw ? false : (B == 14 ? false : (fe < var2 ? false : (fe > var3 ? false : (ff < var4 ? false : ff <= var1)))))) {
+            if (Player.action == PlayerAction.DEAD ? false : (Player.hidden ? false : (Player.action == PlayerAction.BURROWED ? false : (Player.x < var2 ? false : (Player.x > var3 ? false : (Player.y < var4 ? false : Player.y <= var1)))))) {
                 Monsters.attackCooldown[var0] = 0;
                 Monsters.state[var0] = Monsters.STATE_ATTACKING;
                 Monsters.timer[var0] = 0;
@@ -9051,7 +9015,7 @@ public final class b extends Canvas implements Runnable {
                                 }
                             }
 
-                            if (Monsters.x[var0] > fe) {
+                            if (Monsters.x[var0] > Player.x) {
                                 Monsters.direction[var0] = -1;
                             } else {
                                 Monsters.direction[var0] = 1;
@@ -9074,7 +9038,7 @@ public final class b extends Canvas implements Runnable {
                     J(var0);
                     break;
                 case Monsters.STATE_ATTACKING:
-                    if (B == 14 || fw) {
+                    if (Player.action == PlayerAction.BURROWED || Player.hidden) {
                         Monsters.frame[var0] = 0;
                         Monsters.state[var0] = Monsters.STATE_ACTIVE;
                         Monsters.timer[var0] = 0;
@@ -9087,9 +9051,9 @@ public final class b extends Canvas implements Runnable {
                             if (Monsters.timer[var0] == 2) {
                                 if (Monsters.attackingGirl[var0]) {
                                     Monsters.attackingGirl[var0] = false;
-                                    b(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
@@ -9109,21 +9073,21 @@ public final class b extends Canvas implements Runnable {
                             }
                             continue;
                         case Monsters.TYPE_SNAIL:
-                            a(Monsters.damage[var0], -fm);
+                            damagePlayer(Monsters.damage[var0], -Player.facing);
                             Monsters.state[var0] = Monsters.STATE_RESTING;
                             Monsters.timer[var0] = 0;
                             Monsters.frame[var0] = 2;
                             continue;
                         case Monsters.TYPE_DEMON_BAT:
-                            if (Monsters.x[var0] < fe) {
+                            if (Monsters.x[var0] < Player.x) {
                                 Monsters.vx[var0] = 3 + tick % 4;
-                            } else if (Monsters.x[var0] > fe) {
+                            } else if (Monsters.x[var0] > Player.x) {
                                 Monsters.vx[var0] = -(3 + tick % 4);
                             }
 
-                            if (Monsters.y[var0] < ff) {
+                            if (Monsters.y[var0] < Player.y) {
                                 Monsters.vy[var0] = tick % 3;
-                            } else if (Monsters.y[var0] > ff) {
+                            } else if (Monsters.y[var0] > Player.y) {
                                 Monsters.vy[var0] = -tick % 3;
                             }
 
@@ -9138,14 +9102,14 @@ public final class b extends Canvas implements Runnable {
                                 }
                             }
 
-                            if (a(Monsters.x[var0] - fe) < 5 && a(Monsters.y[var0] - ff) < 5) {
+                            if (a(Monsters.x[var0] - Player.x) < 5 && a(Monsters.y[var0] - Player.y) < 5) {
                                 Monsters.attackCooldown[var0] = 0;
-                                a(Monsters.damage[var0], -fm);
+                                damagePlayer(Monsters.damage[var0], -Player.facing);
                                 Monsters.timer[var0] = 0;
                                 Monsters.state[var0] = Monsters.STATE_ACTIVE;
                             }
 
-                            if (a(Monsters.x[var0] - fe) > 160 || a(Monsters.y[var0] - ff) > 160) {
+                            if (a(Monsters.x[var0] - Player.x) > 160 || a(Monsters.y[var0] - Player.y) > 160) {
                                 Monsters.state[var0] = Monsters.STATE_ACTIVE;
                                 Monsters.timer[var0] = 0;
                                 Monsters.vx[var0] = Monsters.vy[var0] = 0;
@@ -9157,9 +9121,9 @@ public final class b extends Canvas implements Runnable {
                             if (Monsters.timer[var0] == 3) {
                                 if (Monsters.attackingGirl[var0]) {
                                     Monsters.attackingGirl[var0] = false;
-                                    b(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
@@ -9185,9 +9149,9 @@ public final class b extends Canvas implements Runnable {
                             if (Monsters.timer[var0] == 3) {
                                 if (Monsters.attackingGirl[var0]) {
                                     Monsters.attackingGirl[var0] = false;
-                                    b(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
@@ -9209,7 +9173,7 @@ public final class b extends Canvas implements Runnable {
                             }
                             continue;
                         case Monsters.TYPE_SPIDER:
-                            a(Monsters.damage[var0], -fm);
+                            damagePlayer(Monsters.damage[var0], -Player.facing);
                             Monsters.state[var0] = Monsters.STATE_ACTIVE;
                             Monsters.timer[var0] = 1;
                             continue;
@@ -9221,21 +9185,21 @@ public final class b extends Canvas implements Runnable {
                         case Monsters.TYPE_TIGER_FISH:
                             var10002 = Monsters.timer[var0]++;
                             if (Monsters.timer[var0] <= 10) {
-                                if (Monsters.y[var0] > ff) {
+                                if (Monsters.y[var0] > Player.y) {
                                     var10000 = Monsters.y;
                                     var10000[var0] -= 4;
                                 }
 
-                                if (Monsters.x[var0] < fe) {
+                                if (Monsters.x[var0] < Player.x) {
                                     var10000 = Monsters.x;
                                     var10000[var0] += 2;
-                                } else if (Monsters.x[var0] > fe) {
+                                } else if (Monsters.x[var0] > Player.x) {
                                     var10000 = Monsters.x;
                                     var10000[var0] -= 2;
                                 }
 
-                                if (a(Monsters.x[var0] - fe) < 16 && a(Monsters.y[var0] - (ff - 16)) < 20) {
-                                    a(Monsters.damage[var0], -fm);
+                                if (a(Monsters.x[var0] - Player.x) < 16 && a(Monsters.y[var0] - (Player.y - 16)) < 20) {
+                                    damagePlayer(Monsters.damage[var0], -Player.facing);
                                     Monsters.timer[var0] = 10;
                                 }
                             }
@@ -9264,8 +9228,8 @@ public final class b extends Canvas implements Runnable {
                                 var10000 = Monsters.x;
                                 var10000[var0] += Monsters.direction[var0] << 2;
                             } else if (Monsters.timer[var0] == 6) {
-                                if (a(Monsters.x[var0] + (Monsters.direction[var0] << 3) - fe) < 13 + fi) {
-                                    a(Monsters.damage[var0], Monsters.direction[var0]);
+                                if (a(Monsters.x[var0] + (Monsters.direction[var0] << 3) - Player.x) < 13 + Player.halfWidth) {
+                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             } else if (Monsters.timer[var0] < 12) {
                                 var10000 = Monsters.x;
@@ -9288,14 +9252,14 @@ public final class b extends Canvas implements Runnable {
                             if (Monsters.timer[var0] <= 15) {
                                 var10000 = Monsters.y;
                                 var10000[var0] -= 7;
-                                if (Monsters.x[var0] < fe) {
+                                if (Monsters.x[var0] < Player.x) {
                                     var10002 = Monsters.x[var0]++;
-                                } else if (Monsters.x[var0] > fe) {
+                                } else if (Monsters.x[var0] > Player.x) {
                                     var10002 = Monsters.x[var0]--;
                                 }
 
-                                if (a(Monsters.x[var0] - fe) < 16 && a(Monsters.y[var0] - (ff - 16)) < 20) {
-                                    a(Monsters.damage[var0], -fm);
+                                if (a(Monsters.x[var0] - Player.x) < 16 && a(Monsters.y[var0] - (Player.y - 16)) < 20) {
+                                    damagePlayer(Monsters.damage[var0], -Player.facing);
                                     Monsters.timer[var0] = 15;
                                 }
                             }
@@ -9309,8 +9273,8 @@ public final class b extends Canvas implements Runnable {
                                 var10000 = Monsters.y;
                                 var10000[var0] += Monsters.aux1[var0];
                                 var10002 = Monsters.aux1[var0]++;
-                                if (a(Monsters.x[var0] - fe) < 16 && a(Monsters.y[var0] - (ff - 16)) < 20) {
-                                    a(Monsters.damage[var0], -fm);
+                                if (a(Monsters.x[var0] - Player.x) < 16 && a(Monsters.y[var0] - (Player.y - 16)) < 20) {
+                                    damagePlayer(Monsters.damage[var0], -Player.facing);
                                 }
 
                                 if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
@@ -9323,8 +9287,8 @@ public final class b extends Canvas implements Runnable {
                             continue;
                         case Monsters.TYPE_ONE_EYED_GHOST_2:
                             var10002 = Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 4 && Monsters.y[var0] == ff) {
-                                a(Monsters.damage[var0], Monsters.direction[var0]);
+                            if (Monsters.timer[var0] == 4 && Monsters.y[var0] == Player.y) {
+                                damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
                             }
 
                             if (Monsters.timer[var0] < 8) {
@@ -9347,15 +9311,15 @@ public final class b extends Canvas implements Runnable {
                             R(var0);
                             continue;
                         case Monsters.TYPE_GOLDEN_BAT:
-                            if (Monsters.x[var0] < fe) {
+                            if (Monsters.x[var0] < Player.x) {
                                 Monsters.vx[var0] = 4 + tick % 6;
-                            } else if (Monsters.x[var0] > fe) {
+                            } else if (Monsters.x[var0] > Player.x) {
                                 Monsters.vx[var0] = -(4 + tick % 6);
                             }
 
-                            if (Monsters.y[var0] < ff) {
+                            if (Monsters.y[var0] < Player.y) {
                                 Monsters.vy[var0] = 2 + tick % 4;
-                            } else if (Monsters.y[var0] > ff) {
+                            } else if (Monsters.y[var0] > Player.y) {
                                 Monsters.vy[var0] = -(2 + tick % 4);
                             }
 
@@ -9370,8 +9334,8 @@ public final class b extends Canvas implements Runnable {
                                 }
                             }
 
-                            if (a(Monsters.x[var0] - fe) < 5 && a(Monsters.y[var0] - ff) < 5) {
-                                a(Monsters.damage[var0], -fm);
+                            if (a(Monsters.x[var0] - Player.x) < 5 && a(Monsters.y[var0] - Player.y) < 5) {
+                                damagePlayer(Monsters.damage[var0], -Player.facing);
                                 Monsters.state[var0] = Monsters.STATE_ACTIVE;
                                 Monsters.timer[var0] = 0;
                                 Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
@@ -9379,7 +9343,7 @@ public final class b extends Canvas implements Runnable {
                                 Monsters.attackCooldown[var0] = 10;
                             }
 
-                            if (a(Monsters.x[var0] - fe) > 130 || a(Monsters.y[var0] - ff) > 130) {
+                            if (a(Monsters.x[var0] - Player.x) > 130 || a(Monsters.y[var0] - Player.y) > 130) {
                                 Monsters.state[var0] = Monsters.STATE_ACTIVE;
                                 Monsters.timer[var0] = 0;
                                 Monsters.vx[var0] = Monsters.vy[var0] = 0;
@@ -9396,9 +9360,9 @@ public final class b extends Canvas implements Runnable {
                             if (Monsters.timer[var0] == 3) {
                                 if (Monsters.attackingGirl[var0]) {
                                     Monsters.attackingGirl[var0] = false;
-                                    b(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
                                 } else {
-                                    a(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
                                 }
                             }
 
@@ -9626,7 +9590,7 @@ public final class b extends Canvas implements Runnable {
                             break;
                         case Monsters.TYPE_SCARECROW:
                             var10002 = Monsters.timer[var0]++;
-                            Monsters.direction[var0] = -fm;
+                            Monsters.direction[var0] = -Player.facing;
                             if (Monsters.timer[var0] % 4 > 1) {
                                 Monsters.frame[var0] = 0;
                             } else {
@@ -9761,17 +9725,17 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void N(int var0) {
-        if (Monsters.x[var0] < fe) {
+        if (Monsters.x[var0] < Player.x) {
             Monsters.vx[var0] = tick % 3 + 3;
             Monsters.direction[var0] = 1;
-        } else if (Monsters.x[var0] > fe) {
+        } else if (Monsters.x[var0] > Player.x) {
             Monsters.vx[var0] = -tick % 3 - 3;
             Monsters.direction[var0] = -1;
         }
 
-        if (Monsters.y[var0] < ff) {
+        if (Monsters.y[var0] < Player.y) {
             Monsters.vy[var0] = tick % 3 + 3;
-        } else if (Monsters.y[var0] > ff) {
+        } else if (Monsters.y[var0] > Player.y) {
             Monsters.vy[var0] = -tick % 3 - 3;
         }
 
@@ -9784,20 +9748,20 @@ public final class b extends Canvas implements Runnable {
             Monsters.frame[var0] = 0;
         }
 
-        if (a(Monsters.x[var0] - fe) < 10 && a(Monsters.y[var0] - ff) < 10) {
+        if (a(Monsters.x[var0] - Player.x) < 10 && a(Monsters.y[var0] - Player.y) < 10) {
             Monsters.attackCooldown[var0] = 0;
             if (Monsters.attackingGirl[var0]) {
                 Monsters.attackingGirl[var0] = false;
-                b(Monsters.damage[var0], Monsters.direction[var0]);
+                damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
             } else {
-                a(Monsters.damage[var0], Monsters.direction[var0]);
+                damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
             }
 
             Monsters.timer[var0] = 0;
             Monsters.state[var0] = Monsters.STATE_ACTIVE;
         }
 
-        if (a(Monsters.x[var0] - fe) > 160 || a(Monsters.y[var0] - ff) > 160) {
+        if (a(Monsters.x[var0] - Player.x) > 160 || a(Monsters.y[var0] - Player.y) > 160) {
             Monsters.state[var0] = Monsters.STATE_ACTIVE;
             Monsters.timer[var0] = 0;
             Monsters.vx[var0] = Monsters.vy[var0] = 0;
@@ -9887,7 +9851,7 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void R(int var0) {
-        a(Monsters.damage[var0], -fm);
+        damagePlayer(Monsters.damage[var0], -Player.facing);
         Monsters.state[var0] = Monsters.STATE_ACTIVE;
         Monsters.timer[var0] = 0;
         Monsters.frame[var0] = 2;
@@ -10114,8 +10078,8 @@ public final class b extends Canvas implements Runnable {
                     UiFrame.release();
                     ensureMapImages();
                     releaseMapResources();
-                    fp = fe = WorldMap.spawnTileX[WorldMap.selected] * GameMap.TILE_SIZE;
-                    fq = ff = WorldMap.spawnTileY[WorldMap.selected] * GameMap.TILE_SIZE;
+                    Player.checkpointX = Player.x = WorldMap.spawnTileX[WorldMap.selected] * GameMap.TILE_SIZE;
+                    Player.checkpointY = Player.y = WorldMap.spawnTileY[WorldMap.selected] * GameMap.TILE_SIZE;
                     Save.pendingSave = true;
                     changeMap(WorldMap.selected);
                 }

@@ -43,7 +43,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.loadingTarget = 50;
             Thread.yield();
             b.setupNpcs(b.mapId);
-            b.i();
+            b.loadHeroSprites();
             b.f(b.mapId);
             b.setupClassmates(b.mapId);
             b.e(b.mapId);
@@ -98,16 +98,16 @@ public class Midlet extends MIDlet implements Runnable {
                 needsDefaultsInit = false;
                 PlayerStats.initDefaults();
                 QuestState.current = Quest.NONE;
-                b.Q = 5;
-                b.L = 6;
-                b.M = 2;
-                b.R = 8;
-                b.B = 4;
-                b.z = 1;
-                b.A = 1;
-                b.C = 0;
-                b.E = 0;
-                b.D = 0;
+                Player.moveSpeed = 5;
+                Player.runOnWaterSpeed = 6;
+                Player.underwaterSpeed = 2;
+                Player.motorbikeSpeed = 8;
+                Player.action = PlayerAction.FALL;
+                Player.vx = 1;
+                Player.vy = 1;
+                Player.pose = 0;
+                Player.actionTimer2 = 0;
+                Player.actionTimer = 0;
             }
 
             Input.clearPressed();
