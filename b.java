@@ -2,6 +2,7 @@ import assets.*;
 import assets.Character;
 import core.app.*;
 import core.debug.*;
+import core.fx.*;
 import core.input.*;
 import core.item.*;
 import core.map.*;
@@ -75,32 +76,6 @@ public final class b extends Canvas implements Runnable {
     private static int bJ;
     private static int bK;
     private static int bL;
-    private static int bM;
-    private static int[] bN;
-    private static int[] bO;
-    private static int[] bP;
-    private static int[] bQ;
-    private static int[] bR;
-    private static int[] bS;
-    private static int bT;
-    private static int[] bU;
-    private static int[] bV;
-    private static int[] bW;
-    private static int[] bX;
-    private static int[] bY;
-    private static int[] bZ;
-    private static int[] ca;
-    private static int[] cb;
-    private static int[] cc;
-    private static int[] cd;
-    private static int[] ce;
-    private static int[] cf;
-    private static int[] cg;
-    private static int[] ch;
-    private static int[] ci;
-    private static int[] cj;
-    private static int[] ck;
-    private static int[] cl;
     private static int cp;
     private static int[] cq;
     private static int[] cr;
@@ -124,15 +99,6 @@ public final class b extends Canvas implements Runnable {
     private static int[] cJ;
     private static int[] cK;
     private static int[] cL;
-    private static int cM;
-    private static int[] cN;
-    private static int[] cO;
-    private static int[] cP;
-    private static int[] cQ;
-    private static int[] cR;
-    private static int[] cS;
-    private static int[] cT;
-    private static int[] cU;
     private static int cV;
     private static int[] cW;
     private static int[] cX;
@@ -141,15 +107,6 @@ public final class b extends Canvas implements Runnable {
     private static int[] da;
     private static int[] db;
     private static boolean[] dc;
-    private static int de;
-    private static int[] df;
-    private static int[] dg;
-    private static int[] dh;
-    private static int[] di;
-    private static int[] dj;
-    private static int[] dk;
-    private static int[] dl;
-    private static int[] dm;
     private static boolean dn;
     private static int doSt;
     private static int dp;
@@ -177,28 +134,14 @@ public final class b extends Canvas implements Runnable {
     private static int[] dL;
     private static int[] dM;
     private static int[] dN;
-    private static String[] dO;
-    private static int[] dP;
-    private static int[] dQ;
-    private static int[] dR;
-    private static int[] dS;
-    private static int[] dT;
-    private static int[] dU;
-    private static int dV;
-    private static int dW;
-    private static int dX;
-    private static Image[][] enemyProjectiles;
     private static Image[] arrowIcons;
-    private static Image healSprite;
     private static Image[] motorbikeFrames;
     private static Image itemScroll;
     private static Image[] heroBodies;
     private static Image itemCrate;
     private static Image[] hudFrames;
-    private static Image[] itemMoney;
     private static Image markerIcon;
     private static Image[] npcDog;
-    private static Image[][] dustSprites;
     private static Image[] dartFrames;
     private static Image[] girlBodies;
     private static Image[] girlHeads;
@@ -206,19 +149,15 @@ public final class b extends Canvas implements Runnable {
     private static Image[] heroHeads;
     private static Image[] heroTransformHeads;
     private static Image[] heroLegs;
-    private static Image[] auraSprites;
     private static Image[][] classmateHeads;
     private static Image[][] ninjaBodies;
     private static Image[] ninjaLegs;
     private static Image[] boss0Sprites;
-    private static Image[] itemPotions;
     private static Image[] boss1Sprites;
-    private static Image[] bloodSprites;
     private static Image[] boss2Sprites;
     private static Image titleImage;
     private static Image[] slashEffects;
     private static Image[] weaponIcons;
-    private static Image[] waterSplashSprites;
     public static int mapId;
     public static int tick;
     private static int fc;
@@ -1079,58 +1018,14 @@ public final class b extends Canvas implements Runnable {
         return var0 > 0 ? var0 : -var0;
     }
 
-    private static void a(int var0, int var1, int var2, int var3, int var4) {
-        int var5;
-        for(var5 = 0; var5 < de && dh[var5] != 0; ++var5) {
-        }
-
-        if (var5 != de) {
-            df[var5] = var0;
-            dg[var5] = var1;
-            di[var5] = var2;
-            dj[var5] = var3;
-            dh[var5] = 1;
-            dl[var5] = var4;
-            if (var4 < 160) {
-                dm[var5] = Item.MONEY_GOLD;
-            } else if (var4 < 600) {
-                dm[var5] = Item.MONEY_BLUE_GEM;
-            } else {
-                dm[var5] = Item.MONEY_RED_GEM;
-            }
-        }
-    }
-
-    private static void a(int var0, int var1, int var2, int var3, int var4, int var5) {
-        for(var3 = 0; var3 < cM && cQ[var3] != 0; ++var3) {
-        }
-
-        if (var3 != cM) {
-            cO[var3] = var0;
-            cP[var3] = var1;
-            cR[var3] = var2;
-            cS[var3] = -5;
-            cQ[var3] = 1;
-            cU[var3] = var4;
-            cN[var3] = var5;
-            if (var4 < 100) {
-                cT[var3] = 0;
-            } else if (var4 < 200) {
-                cT[var3] = 1;
-            } else {
-                cT[var3] = 2;
-            }
-        }
-    }
-
     private static void gainExp(int amount) {
         if (Leveling.addExp(amount)) {
-            a("level-up", 2, fe, ff - fh, 0, -2);
+            FloatingText.spawn("level-up", 2, fe, ff - fh, 0, -2);
             MessageBox.show(MessageType.LEVEL_UP);
             MessageBox.setText("Chúc mừng! Bạn đạt được cấp " + PlayerStats.level + '\n' + "HP: " + PlayerStats.maxHp + '\n' + "MP: " + PlayerStats.maxMp + '\n' + "Sức đánh: " + PlayerStats.getDisplayedAttack(Inventory.swordLevel));
             GameState.current = GameState.MESSAGE;
         } else {
-            a("+" + amount, 2, fe, ff - fh, 0, -2);
+            FloatingText.spawn("+" + amount, 2, fe, ff - fh, 0, -2);
         }
 
         hudDirty = true;
@@ -1163,8 +1058,8 @@ public final class b extends Canvas implements Runnable {
             if (var1 != -1) {
                 fr = true;
                 k(var1, var0, -fm);
-                f(jJ[var1], jK[var1] - (jL[var1] >> 1), fm);
-                a("-" + var0, 0, jJ[var1], jK[var1] - jL[var1], 0, -2);
+                Blood.spawn(jJ[var1], jK[var1] - (jL[var1] >> 1), fm);
+                FloatingText.spawn("-" + var0, 0, jJ[var1], jK[var1] - jL[var1], 0, -2);
                 if (A > 0) {
                     A = -6;
                 }
@@ -1176,7 +1071,7 @@ public final class b extends Canvas implements Runnable {
                 if (a(ff - fj - it[var1]) < 20 && a(fe + (fm << 4) - is[var1]) < 24) {
                     iu[var1] = 2;
                     iv[var1] = fm << 3;
-                    f(is[var1], it[var1] - 12, fm);
+                    Blood.spawn(is[var1], it[var1] - 12, fm);
                     Q();
                     break;
                 }
@@ -1184,8 +1079,8 @@ public final class b extends Canvas implements Runnable {
 
             if (gN && a(ff - gQ) < 30 && a(fe + (fm << 4) - gP) < 40) {
                 if (!c(var0, -fm)) {
-                    f(fe + (gP - fe >> 1), ff - 12, fm);
-                    a("-" + var0, 0, gP, gQ - gW, 0, -2);
+                    Blood.spawn(fe + (gP - fe >> 1), ff - 12, fm);
+                    FloatingText.spawn("-" + var0, 0, gP, gQ - gW, 0, -2);
                 }
 
                 Q();
@@ -1194,8 +1089,8 @@ public final class b extends Canvas implements Runnable {
             for(var1 = 0; var1 < cp; ++var1) {
                 if (a(ff - cv[var1]) <= 12 && a(fe + (fm << 4) - cu[var1]) < 24) {
                     a(var1, var0, -fm);
-                    f(cu[var1], cv[var1] - 15, fm);
-                    a("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
+                    Blood.spawn(cu[var1], cv[var1] - 15, fm);
+                    FloatingText.spawn("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
                     Q();
                     break;
                 }
@@ -1208,19 +1103,19 @@ public final class b extends Canvas implements Runnable {
                     ib = 0;
                     ic = 0;
                     hX = 1;
-                    a(hP, hQ, 4, -10, 600);
-                    a(hP, hQ, -4, -17, 600);
-                    a(hP, hQ, -3, -18, 600);
-                    a(hP, hQ, 4, -19, 600);
-                    a(hP, hQ, 0, -10, 600);
+                    MoneyDrops.spawn(hP, hQ, 4, -10, 600);
+                    MoneyDrops.spawn(hP, hQ, -4, -17, 600);
+                    MoneyDrops.spawn(hP, hQ, -3, -18, 600);
+                    MoneyDrops.spawn(hP, hQ, 4, -19, 600);
+                    MoneyDrops.spawn(hP, hQ, 0, -10, 600);
                     var10000 = false;
                 } else {
                     ic = 50;
                     var10000 = false;
                 }
 
-                f(fe + (hP - fe >> 1), ff - 12, fm);
-                a("-" + var0, 0, hP, hQ - hL, 0, -2);
+                Blood.spawn(fe + (hP - fe >> 1), ff - 12, fm);
+                FloatingText.spawn("-" + var0, 0, hP, hQ - hL, 0, -2);
                 Q();
             }
 
@@ -1239,16 +1134,16 @@ public final class b extends Canvas implements Runnable {
                         hv = 0;
                         ho = 0;
                         hr = 6;
-                        a(hp, hq, 4, -10, 500);
-                        a(hp, hq, -4, -17, 500);
-                        a(hp, hq, -3, -18, 500);
-                        a(hp, hq, 4, -19, 500);
-                        a(hp, hq, 0, -10, 500);
+                        MoneyDrops.spawn(hp, hq, 4, -10, 500);
+                        MoneyDrops.spawn(hp, hq, -4, -17, 500);
+                        MoneyDrops.spawn(hp, hq, -3, -18, 500);
+                        MoneyDrops.spawn(hp, hq, 4, -19, 500);
+                        MoneyDrops.spawn(hp, hq, 0, -10, 500);
                         var10000 = false;
                     } else {
                         ho = 50;
-                        f(hp, hq - 47, fm);
-                        a("-" + var0, 0, hp, hq - 55, 0, -2);
+                        Blood.spawn(hp, hq - 47, fm);
+                        FloatingText.spawn("-" + var0, 0, hp, hq - 55, 0, -2);
                         var10000 = false;
                     }
                 }
@@ -1292,20 +1187,20 @@ public final class b extends Canvas implements Runnable {
             var1 = var10000;
             if (var10000 != -1) {
                 k(var1, var0, -gz);
-                f(jJ[var1], jK[var1] - (jL[var1] >> 1), gz);
-                a("-" + var0, 0, jJ[var1], jK[var1] - jL[var1], 0, -2);
+                Blood.spawn(jJ[var1], jK[var1] - (jL[var1] >> 1), gz);
+                FloatingText.spawn("-" + var0, 0, jJ[var1], jK[var1] - jL[var1], 0, -2);
             }
 
             if (gN && a(go - gQ) < 30 && a(gn + (gz << 4) - gP) < 40 && !c(var0, -gz)) {
-                f(gn + (gP - gn >> 1), go - 12, gz);
-                a("-" + var0, 0, gP, gQ - gW, 0, -2);
+                Blood.spawn(gn + (gP - gn >> 1), go - 12, gz);
+                FloatingText.spawn("-" + var0, 0, gP, gQ - gW, 0, -2);
             }
 
             for(var1 = 0; var1 < cp; ++var1) {
                 if (go == cv[var1] && a(gn + (gz << 4) - cu[var1]) < 24) {
                     a(var1, var0, -gz);
-                    f(cu[var1], cv[var1] - 15, gz);
-                    a("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
+                    Blood.spawn(cu[var1], cv[var1] - 15, gz);
+                    FloatingText.spawn("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
                     return;
                 }
             }
@@ -1323,7 +1218,7 @@ public final class b extends Canvas implements Runnable {
                 fc = -1;
                 ir = var0;
                 if (iu[var0] == 11) {
-                    g(is[var0], it[var0] - 10);
+                    WaterSplash.spawn(is[var0], it[var0] - 10);
                     int[] var10000 = it;
                     var10000[var0] += 4;
                     var10000 = iw;
@@ -1671,7 +1566,7 @@ public final class b extends Canvas implements Runnable {
         C();
         classmateHeads = null;
         npcDog = null;
-        enemyProjectiles = null;
+        Projectiles.sprites = null;
         System.gc();
     }
 
@@ -1901,8 +1796,8 @@ public final class b extends Canvas implements Runnable {
             B = 7;
         }
 
-        f(fe, ff - 12, -fm);
-        a("-" + var0, 0, fe, ff - fh, 0, -2);
+        Blood.spawn(fe, ff - 12, -fm);
+        FloatingText.spawn("-" + var0, 0, fe, ff - fh, 0, -2);
     }
 
     private static void b(int var0, int var1) {
@@ -1912,8 +1807,8 @@ public final class b extends Canvas implements Runnable {
         gA = 0;
         gB = 0;
         gr = 7;
-        f(gn, go - 12, -gz);
-        a("-" + var0, 0, gn, go - gu, 0, -2);
+        Blood.spawn(gn, go - 12, -gz);
+        FloatingText.spawn("-" + var0, 0, gn, go - gu, 0, -2);
     }
 
     private static boolean a(int var0, int var1, int var2) {
@@ -1931,9 +1826,9 @@ public final class b extends Canvas implements Runnable {
                 cq[var0] = 0;
                 cE[var0] = 1;
                 gainExp(NinjaStats.exp[cD[var0]]);
-                a(cu[var0], cv[var0], -(cH[var0] << 2), -4, NinjaStats.money[cD[var0]] + tick % 10);
+                MoneyDrops.spawn(cu[var0], cv[var0], -(cH[var0] << 2), -4, NinjaStats.money[cD[var0]] + tick % 10);
                 if (tick % 20 > 5) {
-                    a(cu[var0], cv[var0], -(cH[var0] << 3), -5, NinjaStats.damage[cD[var0]] << 2, (tick + 1) % 2);
+                    PotionDrops.spawn(cu[var0], cv[var0], -(cH[var0] << 3), -5, NinjaStats.damage[cD[var0]] << 2, (tick + 1) % 2);
                 }
 
                 return true;
@@ -1957,11 +1852,11 @@ public final class b extends Canvas implements Runnable {
                 gR = -(var1 << 3);
                 hb = 0;
                 gS = 6;
-                a(gP, gQ, 4, -6, 50);
-                a(gP, gQ, -5, -7, 50);
-                a(gP, gQ, -4, -8, 50);
-                a(gP, gQ, 5, -9, 50);
-                a(gP, gQ, 0, -10, 50);
+                MoneyDrops.spawn(gP, gQ, 4, -6, 50);
+                MoneyDrops.spawn(gP, gQ, -5, -7, 50);
+                MoneyDrops.spawn(gP, gQ, -4, -8, 50);
+                MoneyDrops.spawn(gP, gQ, 5, -9, 50);
+                MoneyDrops.spawn(gP, gQ, 0, -10, 50);
                 if (QuestState.current == Quest.KILL_WILD_BOAR) {
                     placeQuestItem(gP, gQ);
                 }
@@ -1995,30 +1890,8 @@ public final class b extends Canvas implements Runnable {
             dE[0] = 0;
             dF[0] = 0;
             dD[0] = 7;
-            f(dz[0], dA[0] - 12, fm);
-            a("-" + var0, 0, dz[0], dA[0] - 32, 0, -2);
-        }
-    }
-
-    public static final void b(int var0) {
-        bM = 0;
-        if (var0 == 0) {
-            bM = 0;
-        } else {
-            enemyProjectiles = Effect.ensureProjectiles(enemyProjectiles);
-
-            bM = 10;
-            bN = new int[10];
-            bO = new int[bM];
-            bP = new int[bM];
-            bQ = new int[bM];
-            bR = new int[bM];
-            bS = new int[bM];
-
-            for(var0 = 0; var0 < bM; ++var0) {
-                bP[var0] = -1;
-            }
-
+            Blood.spawn(dz[0], dA[0] - 12, fm);
+            FloatingText.spawn("-" + var0, 0, dz[0], dA[0] - 32, 0, -2);
         }
     }
 
@@ -2034,21 +1907,6 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-    }
-
-    public static void f() {
-        bT = 8;
-        bU = new int[8];
-        bV = new int[bT];
-        bW = new int[bT];
-        bX = new int[bT];
-        bY = new int[bT];
-        bZ = new int[bT];
-
-        try {
-            healSprite = Effect.loadHeal();
-        } catch (Exception var0) {
-        }
     }
 
     public static final void c(int var0) {
@@ -2355,23 +2213,6 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    public static void k() {
-        de = 5;
-        try {
-            itemMoney = Item.ensureMoney(itemMoney);
-        } catch (Exception var1) {
-        }
-
-        df = new int[de];
-        dg = new int[de];
-        dh = new int[de];
-        di = new int[de];
-        dj = new int[de];
-        dk = new int[de];
-        dm = new int[de];
-        dl = new int[de];
-    }
-
     public static void e(int var0) {
         dn = false;
         if (var0 == 0) {
@@ -2385,27 +2226,6 @@ public final class b extends Canvas implements Runnable {
             ds = 708;
         }
 
-    }
-
-    public static final void l() {
-        if (!Settings.lowGraphics) {
-            if (dustSprites == null) {
-                dustSprites = new Image[2][5];
-
-                for(int var0 = 0; var0 < 2; ++var0) {
-                    for(int var1 = 0; var1 < 5; ++var1) {
-                        try {
-                            dustSprites[var0][var1] = Effect.loadDust(var0, var1);
-                        } catch (IOException var2) {
-                        }
-                    }
-                }
-            }
-
-            cj = new int[2];
-            ck = new int[2];
-            (cl = new int[2])[0] = cl[1] = -1;
-        }
     }
 
     public static final void m() {
@@ -2426,21 +2246,6 @@ public final class b extends Canvas implements Runnable {
 
         for(var0 = 0; var0 < cV; ++var0) {
             cY[var0] = -1;
-        }
-
-    }
-
-    public static final void n() {
-        dP = new int[5];
-        dQ = new int[5];
-        dR = new int[5];
-        dS = new int[5];
-        dT = new int[5];
-        dU = new int[5];
-        dO = new String[5];
-
-        for(int var0 = 0; var0 < 5; ++var0) {
-            dT[var0] = -1;
         }
 
     }
@@ -2497,20 +2302,6 @@ public final class b extends Canvas implements Runnable {
             }
 
         }
-    }
-
-    public static void o() {
-        if (auraSprites == null) {
-            auraSprites = new Image[2];
-
-            for(int var0 = 0; var0 < 2; ++var0) {
-                try {
-                    auraSprites[var0] = Effect.loadAura(var0);
-                } catch (IOException var1) {
-                }
-            }
-        }
-
     }
 
     public static void setupClassmates(int var0) {
@@ -2851,23 +2642,6 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    public static void p() {
-        cM = 5;
-        try {
-            itemPotions = Item.ensurePotions(itemPotions);
-        } catch (Exception var0) {
-        }
-
-        cO = new int[cM];
-        cP = new int[cM];
-        cQ = new int[cM];
-        cR = new int[cM];
-        cS = new int[cM];
-        cT = new int[cM];
-        cU = new int[cM];
-        cN = new int[cM];
-    }
-
     public static void j(int var0) {
         hJ = false;
         if (var0 == 97 && !Story.riverMonsterDefeated) {
@@ -2884,26 +2658,6 @@ public final class b extends Canvas implements Runnable {
             hM = 8000;
         }
 
-    }
-
-    public static final void q() {
-        if (bloodSprites == null) {
-            bloodSprites = new Image[3];
-
-            for(int var0 = 0; var0 < 3; ++var0) {
-                try {
-                    bloodSprites[var0] = Effect.loadBlood(var0);
-                } catch (IOException var1) {
-                }
-            }
-        }
-
-        ca = new int[2];
-        cb = new int[2];
-        cc = new int[2];
-        cd = new int[2];
-        ce = new int[2];
-        cc[0] = cc[1] = -1;
     }
 
     public static void k(int var0) {
@@ -3090,25 +2844,6 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    public static final void r() {
-        if (!Settings.lowGraphics) {
-            waterSplashSprites = new Image[3];
-
-            for(int var0 = 0; var0 < 3; ++var0) {
-                try {
-                    waterSplashSprites[var0] = Effect.loadWaterSplash(var0);
-                } catch (IOException var1) {
-                }
-            }
-
-            cf = new int[2];
-            cg = new int[2];
-            ch = new int[2];
-            ci = new int[2];
-            ch[0] = ch[1] = -1;
-        }
-    }
-
     private static void z(int var0) {
         if (dA[0] == ff && a(dz[0] + (dJ[0] << 5) - fe) < 25) {
             a(hf, dJ[0]);
@@ -3148,8 +2883,8 @@ public final class b extends Canvas implements Runnable {
         }
 
         if (!var6) {
-            f(jJ[dL[var0]], jK[dL[var0]] - (jL[dL[var0]] >> 1), jX[dL[var0]]);
-            a("-" + var1, 0, jJ[dL[var0]], jK[dL[var0]] - jL[dL[var0]], 0, -2);
+            Blood.spawn(jJ[dL[var0]], jK[dL[var0]] - (jL[dL[var0]] >> 1), jX[dL[var0]]);
+            FloatingText.spawn("-" + var1, 0, jJ[dL[var0]], jK[dL[var0]] - jL[dL[var0]], 0, -2);
         }
 
     }
@@ -3435,51 +3170,11 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void b(int var0, int var1, int var2, int var3, int var4) {
-        int var5 = -1;
-
-        for(int var6 = 0; var6 < bM; ++var6) {
-            if (bP[var6] == -1) {
-                var5 = var6;
-                break;
-            }
-        }
-
-        if (var5 != -1) {
-            bP[var5] = 1;
-            bN[var5] = var0;
-            bO[var5] = var1;
-            bQ[var5] = var2;
-            bR[var5] = var3;
-            bS[var5] = var4;
-        }
-    }
-
     private static void setGuideMarker(int var0, int var1, int var2, int var3) {
         guideMarkerMap = var0;
         guideMarkerX = var1;
         guideMarkerY = var2;
         guideMarkerNpc = var3;
-    }
-
-    private static void c(int var0, int var1, int var2, int var3, int var4) {
-        int var5 = -1;
-
-        for(int var6 = 0; var6 < bT; ++var6) {
-            if (bW[var6] == 0) {
-                var5 = var6;
-                break;
-            }
-        }
-
-        if (var5 != -1) {
-            bW[var5] = 1;
-            bU[var5] = var0;
-            bV[var5] = var1;
-            bX[var5] = var2;
-            bY[var5] = var3;
-            bZ[var5] = var4;
-        }
     }
 
     private static void placeQuestItem(int var0, int var1) {
@@ -3526,22 +3221,6 @@ public final class b extends Canvas implements Runnable {
         Dialogue.shownLines = 0;
     }
 
-    private static boolean e(int var0, int var1, int var2) {
-        if (Settings.lowGraphics) {
-            return false;
-        } else {
-            var0 = var0 == 1 ? 0 : 1;
-            if (cl[var0] != -1) {
-                return false;
-            } else {
-                cl[var0] = 0;
-                cj[var0] = var1;
-                ck[var0] = var2;
-                return true;
-            }
-        }
-    }
-
     private static void a(int var0, int var1, int var2, int var3, boolean var4) {
         int var5 = -1;
 
@@ -3562,114 +3241,10 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void a(String var0, int var1, int var2, int var3, int var4, int var5) {
-        var4 = -1;
-
-        for(int var6 = 0; var6 < 5; ++var6) {
-            if (dT[var6] == -1) {
-                var4 = var6;
-                break;
-            }
-        }
-
-        if (var4 != -1) {
-            dO[var4] = var0;
-            dP[var4] = var2;
-            dQ[var4] = var3;
-            dR[var4] = 0;
-            dS[var4] = var5;
-            dT[var4] = 0;
-            dU[var4] = var1;
-        }
-    }
-
-    private static void f(int var0, int var1) {
-        dX = 1;
-        dV = var0;
-        dW = var1;
-    }
-
-    private static boolean f(int var0, int var1, int var2) {
-        int var3 = cc[0] == -1 ? 0 : 1;
-        if (cc[var3] != -1) {
-            return false;
-        } else {
-            cc[var3] = 0;
-            ce[var3] = var2;
-            ca[var3] = var0;
-            cb[var3] = var1;
-            return true;
-        }
-    }
-
     private static void startMapEvent(int var0) {
         mapEventStep = 0;
         mapEventId = var0;
         mapEventActive = true;
-    }
-
-    private static boolean g(int var0, int var1) {
-        if (Settings.lowGraphics) {
-            return false;
-        } else {
-            int var2 = ch[0] == -1 ? 0 : 1;
-            if (ch[var2] != -1) {
-                return false;
-            } else {
-                ch[var2] = 0;
-                cf[var2] = var0;
-                cg[var2] = var1;
-                return true;
-            }
-        }
-    }
-
-    private static void O() {
-        for(int var0 = 0; var0 < bM; ++var0) {
-            if (bP[var0] == 1) {
-                int[] var10000 = bN;
-                var10000[var0] += bQ[var0];
-                if (bN[var0] >= cameraX && bN[var0] <= cameraX + Viewport.viewWidth && bO[var0] >= cameraY && bO[var0] <= cameraY + Viewport.viewHeight) {
-                    if (a(fe - bN[var0]) < fi && a(ff - fj - bO[var0]) < fj) {
-                        if (B == 5 && fd == 0 && bS[var0] < 3) {
-                            bQ[var0] = -bQ[var0];
-                            var10000 = bN;
-                            var10000[var0] += bQ[var0];
-                            return;
-                        }
-
-                        a(bR[var0], bN[var0] < fe ? 1 : -1);
-                        bP[var0] = -1;
-                        return;
-                    }
-                } else {
-                    bP[var0] = -1;
-                }
-            }
-        }
-
-    }
-
-    private static void P() {
-        for(int var0 = 0; var0 < bT; ++var0) {
-            if (bW[var0] != 0) {
-                int[] var10000 = bU;
-                var10000[var0] += bX[var0];
-                var10000 = bV;
-                var10000[var0] += bY[var0];
-                int var10002 = bY[var0]++;
-                if (bV[var0] > cameraY + Viewport.viewHeight) {
-                    bW[var0] = 0;
-                }
-
-                if (a(fe - bU[var0]) < fi && a(ff - fj - bV[var0]) < fj) {
-                    a(bZ[var0], bU[var0] < fe ? 1 : -1);
-                    bW[var0] = -1;
-                    return;
-                }
-            }
-        }
-
     }
 
     private static void Q() {
@@ -3786,7 +3361,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 y();
-                e(fm, fe - (fm << 3), ff);
+                Dust.spawn(fm, fe - (fm << 3), ff);
                 S();
                 break;
             case 3:
@@ -3868,8 +3443,8 @@ public final class b extends Canvas implements Runnable {
                     E = 0;
                     D = 0;
                     ff = I(ff + 3);
-                    e(-1, fe - -8, ff);
-                    e(1, fe - 8, ff);
+                    Dust.spawn(-1, fe - -8, ff);
+                    Dust.spawn(1, fe - 8, ff);
                     if (Skills.motorbikeLicense) {
                         for(var0 = 0; var0 < ii; ++var0) {
                             if (ff == il[var0] && a(fe - ik[var0]) < 16) {
@@ -3888,7 +3463,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 } else {
                     if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
-                        g(fe, H(ff) + 8);
+                        WaterSplash.spawn(fe, H(ff) + 8);
                         ff = H(ff) + 8;
                         B = 11;
                         z = fm << 1;
@@ -4004,7 +3579,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
-                        g(fe, H(ff) + 8);
+                        WaterSplash.spawn(fe, H(ff) + 8);
                         B = 11;
                         z = fm << 1;
                         A >>= 2;
@@ -4184,7 +3759,7 @@ public final class b extends Canvas implements Runnable {
                                 fr = false;
                                 if (var0 != -1) {
                                     fr = true;
-                                    f(jJ[var0], jK[var0] - (jL[var0] >> 1), fm);
+                                    Blood.spawn(jJ[var0], jK[var0] - (jL[var0] >> 1), fm);
                                     jO[var0] = 9;
                                     jT[var0] = -8;
                                     Q();
@@ -4455,7 +4030,7 @@ public final class b extends Canvas implements Runnable {
                     C = 43;
                 } else {
                     C = 44;
-                    e(fm, fe - (fm << 4), ff - 5);
+                    Dust.spawn(fm, fe - (fm << 4), ff - 5);
                 }
 
                 D = 0;
@@ -4465,7 +4040,7 @@ public final class b extends Canvas implements Runnable {
                     C = 43;
                 } else {
                     C = 44;
-                    e(fm, fe - (fm << 4), ff - 5);
+                    Dust.spawn(fm, fe - (fm << 4), ff - 5);
                 }
 
                 if (D > 0) {
@@ -4518,12 +4093,12 @@ public final class b extends Canvas implements Runnable {
                     E = 0;
                 }
 
-                e(fm, fe - (fm << 3), ff);
+                Dust.spawn(fm, fe - (fm << 3), ff);
                 S();
                 if ((var0 = A()) != -1 && (jO[var0] == 2 || jO[var0] == 3)) {
                     k(var0, 2, -fm);
-                    f(jJ[var0], jK[var0] - (jL[var0] >> 1), fm);
-                    a("-2", 0, jJ[var0], jK[var0] - jL[var0], 0, -2);
+                    Blood.spawn(jJ[var0], jK[var0] - (jL[var0] >> 1), fm);
+                    FloatingText.spawn("-2", 0, jJ[var0], jK[var0] - jL[var0], 0, -2);
                 }
                 break;
             case 20:
@@ -4551,7 +4126,7 @@ public final class b extends Canvas implements Runnable {
                         C = 43;
                     } else {
                         C = 44;
-                        e(fm, fe - (fm << 4), ff - 5);
+                        Dust.spawn(fm, fe - (fm << 4), ff - 5);
                     }
 
                     if (A > 4 && (GameMap.flagsAtPixel(fe, ff) & TileFlags.SOLID) == TileFlags.SOLID) {
@@ -4570,7 +4145,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (GameMap.hasFlag(fe, ff, TileFlags.WATER) && ff % GameMap.TILE_SIZE > 8) {
-                        g(fe, H(ff) + 8);
+                        WaterSplash.spawn(fe, H(ff) + 8);
                     }
 
                     ik[ij] = fe;
@@ -4620,7 +4195,7 @@ public final class b extends Canvas implements Runnable {
                     C = 43;
                 } else {
                     C = 44;
-                    e(fm, fe - (fm << 4), ff - 5);
+                    Dust.spawn(fm, fe - (fm << 4), ff - 5);
                 }
 
                 if (D > 0) {
@@ -4680,7 +4255,7 @@ public final class b extends Canvas implements Runnable {
 
     private static void T() {
         if (++D == 1) {
-            f(fe, ff - 40);
+            Aura.show(fe, ff - 40);
             aL = 0;
             if (heroTransformHeads == null) {
                 heroTransformHeads = new Image[4];
@@ -4798,8 +4373,8 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        g(fe, ff);
-        e(fm, fe - (fm << 3), ff);
+        WaterSplash.spawn(fe, ff);
+        Dust.spawn(fm, fe - (fm << 3), ff);
     }
 
     private static boolean updateCutscene() {
@@ -5108,7 +4683,7 @@ public final class b extends Canvas implements Runnable {
                             System.gc();
                             motorbikeFrames = null;
                             itemCrate = null;
-                            itemMoney = null;
+                            MoneyDrops.sprites = null;
                             boss0Sprites = null;
                             System.gc();
                             boss1Sprites = null;
@@ -5118,12 +4693,12 @@ public final class b extends Canvas implements Runnable {
                             C();
                             classmateHeads = null;
                             npcDog = null;
-                            enemyProjectiles = null;
-                            dustSprites = null;
+                            Projectiles.sprites = null;
+                            Dust.sprites = null;
                             dartFrames = null;
-                            auraSprites = null;
-                            bloodSprites = null;
-                            waterSplashSprites = null;
+                            Aura.sprites = null;
+                            Blood.sprites = null;
+                            WaterSplash.sprites = null;
                             arrowIcons = null;
                             System.gc();
                             heroLegs = null;
@@ -5188,64 +4763,6 @@ public final class b extends Canvas implements Runnable {
             Input.pressed[Input.KEY_FIRE] = false;
             return false;
         }
-    }
-
-    private static void W() {
-        for(int var0 = 0; var0 < de; ++var0) {
-            if (dh[var0] != 0) {
-                if (a(ff - (fh >> 1) - (dg[var0] - 7)) < 10 && a(fe - df[var0]) < 10) {
-                    Inventory.money += dl[var0];
-                    hudDirty = true;
-                    dh[var0] = 301;
-                    a("+" + dl[var0], 1, df[var0], dg[var0] - 15, 0, -1);
-                }
-
-                int[] var10000 = df;
-                var10000[var0] += di[var0];
-                var10000 = dg;
-                var10000[var0] += dj[var0];
-                int var10002;
-                if (di[var0] > 1) {
-                    var10002 = di[var0]--;
-                }
-
-                if (di[var0] < -1) {
-                    var10002 = di[var0]++;
-                }
-
-                if (dj[var0] < 20) {
-                    var10002 = dj[var0]++;
-                }
-
-                var10002 = dh[var0]++;
-                if (dh[var0] > 200) {
-                    dh[var0] = 0;
-                }
-
-                if (dh[var0] % 20 > 18) {
-                    dk[var0] = 0;
-                } else if (dh[var0] % 20 > 16) {
-                    dk[var0] = 1;
-                } else {
-                    dk[var0] = 2;
-                }
-
-                if (dg[var0] >= 0 && dg[var0] < GameMap.pixelHeight && df[var0] < GameMap.pixelWidth && df[var0] >= 0) {
-                    if (dj[var0] > 2 && (GameMap.flagsAtPixel(df[var0], dg[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
-                        dg[var0] = H(dg[var0]);
-                        if (dj[var0] > 2) {
-                            dj[var0] = -(dj[var0] >> 1);
-                        } else {
-                            di[var0] = 0;
-                            dj[var0] = 0;
-                        }
-                    }
-                } else {
-                    dh[var0] = 0;
-                }
-            }
-        }
-
     }
 
     private static void Y() {
@@ -5604,11 +5121,11 @@ public final class b extends Canvas implements Runnable {
                         switch (cD[var0]) {
                             case 0:
                             case 4:
-                                b(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] * 12, NinjaStats.damage[cD[var0]], 0);
+                                Projectiles.spawn(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] * 12, NinjaStats.damage[cD[var0]], 0);
                                 break label143;
                             case 1:
                             case 5:
-                                b(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] << 3, NinjaStats.damage[cD[var0]], 1);
+                                Projectiles.spawn(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] << 3, NinjaStats.damage[cD[var0]], 1);
                                 break label143;
                             case 2:
                             case 3:
@@ -5682,64 +5199,6 @@ public final class b extends Canvas implements Runnable {
 
             cw[var0] = cu[var0];
             cx[var0] = cv[var0] - 9 + cC[var0] + NinjaStats.bodyOffsetY[cD[var0]][cJ[var0]];
-        }
-
-    }
-
-    private static void ab() {
-        for(int var0 = 0; var0 < cM; ++var0) {
-            if (cQ[var0] != 0) {
-                if (a(ff - (fh >> 1) - (cP[var0] - 7)) < 10 && a(fe - cO[var0]) < 10) {
-                    if (cN[var0] == 0) {
-                        PlayerStats.restoreHp(cU[var0]);
-
-                        a("+" + cU[var0], 0, cO[var0], cP[var0] - 15, 0, -1);
-                    } else {
-                        PlayerStats.restoreMp(cU[var0]);
-
-                        a("+" + cU[var0], 2, cO[var0], cP[var0] - 15, 0, -1);
-                    }
-
-                    hudDirty = true;
-                    cQ[var0] = 301;
-                }
-
-                int[] var10000 = cO;
-                var10000[var0] += cR[var0];
-                var10000 = cP;
-                var10000[var0] += cS[var0];
-                int var10002;
-                if (cR[var0] > 1) {
-                    var10002 = cR[var0]--;
-                }
-
-                if (cR[var0] < -1) {
-                    var10002 = cR[var0]++;
-                }
-
-                if (cS[var0] < 20) {
-                    var10002 = cS[var0]++;
-                }
-
-                var10002 = cQ[var0]++;
-                if (cQ[var0] > 200) {
-                    cQ[var0] = 0;
-                }
-
-                if (cP[var0] < GameMap.pixelHeight && cP[var0] >= 0 && cO[var0] < GameMap.pixelWidth && cO[var0] >= 0) {
-                    if (cS[var0] > 2 && (GameMap.flagsAtPixel(cO[var0], cP[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
-                        cP[var0] = H(cP[var0]);
-                        if (cS[var0] > 2) {
-                            cS[var0] = -(cS[var0] >> 1);
-                        } else {
-                            cR[var0] = 0;
-                            cS[var0] = 0;
-                        }
-                    }
-                } else {
-                    cQ[var0] = 0;
-                }
-            }
         }
 
     }
@@ -5881,7 +5340,7 @@ public final class b extends Canvas implements Runnable {
                     hH = hz[var0];
                     hI = hA[var0];
                     if (hv > 20 && hv % 10 == 0) {
-                        b(hp + (hs << 3), hq - 24, hs << 3, hj, 3);
+                        Projectiles.spawn(hp + (hs << 3), hq - 24, hs << 3, hj, 3);
                     }
 
                     if (hv == 100) {
@@ -6105,19 +5564,8 @@ public final class b extends Canvas implements Runnable {
 
                     var1 = var6;
 
-                    for(var2 = 0; var2 < de; ++var2) {
-                        if (dh[var2] != 0 && df[var2] >= cameraX - 10 && df[var2] <= cameraX + Viewport.viewWidth + 10 && dg[var2] >= cameraY && dg[var2] <= cameraY + Viewport.viewHeight + 20) {
-                            var1.drawRegion(itemMoney[dm[var2]], 0, dk[var2] * Item.FRAME_HEIGHT, Item.MONEY_WIDTH, Item.FRAME_HEIGHT, 0, df[var2], dg[var2], 33);
-                        }
-                    }
-
-                    var1 = var6;
-
-                    for(var2 = 0; var2 < cM; ++var2) {
-                        if (cQ[var2] != 0 && cO[var2] >= cameraX - 10 && cO[var2] <= cameraX + Viewport.viewWidth + 10 && cP[var2] >= cameraY && cP[var2] <= cameraY + Viewport.viewHeight + 20) {
-                            var1.drawRegion(itemPotions[cN[var2]], 0, cT[var2] * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, cO[var2], cP[var2], 33);
-                        }
-                    }
+                    MoneyDrops.draw(var1, cameraX, cameraY);
+                    PotionDrops.draw(var1, cameraX, cameraY);
 
                     int var3;
                     if (gN && gS != 22 && cameraX + Viewport.viewWidth >= gP - (gV >> 1) && cameraX <= gP + (gV >> 1) && cameraY <= gQ && cameraY + Viewport.viewHeight >= gQ - gW) {
@@ -6270,9 +5718,7 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                if (dX != 0 && (var2 = dX % 3) < 2) {
-                    var6.drawImage(auraSprites[var2], dV, dW, 17);
-                }
+                Aura.draw(var6);
 
                 if (gm == mapId) {
                     if (gz == 1) {
@@ -6297,35 +5743,11 @@ public final class b extends Canvas implements Runnable {
                     var6.drawImage(itemScroll, questItemX, questItemY, 33);
                 }
 
+                Blood.draw(var6);
+                Dust.draw(var6);
                 var1 = var6;
 
-                for(var2 = 0; var2 < 2; ++var2) {
-                    if (cc[var2] != -1) {
-                        if (ce[var2] == 1) {
-                            var1.drawImage(bloodSprites[cd[var2]], ca[var2], cb[var2], 3);
-                        } else {
-                            var1.drawRegion(bloodSprites[cd[var2]], 0, 0, bloodSprites[cd[var2]].getWidth(), bloodSprites[cd[var2]].getHeight(), 2, ca[var2], cb[var2], 3);
-                        }
-                    }
-                }
-
-                var1 = var6;
-                if (!Settings.lowGraphics) {
-                    for(var2 = 0; var2 < 2; ++var2) {
-                        if (cl[var2] != -1) {
-                            var1.drawImage(dustSprites[var2][cl[var2]], cj[var2], ck[var2], 3);
-                        }
-                    }
-                }
-
-                var1 = var6;
-
-                for(var2 = 0; var2 < bM; ++var2) {
-                    if (bP[var2] != -1) {
-                        var1.drawImage(enemyProjectiles[bS[var2]][bQ[var2] > 0 ? Effect.PROJECTILE_DIR_RIGHT : Effect.PROJECTILE_DIR_LEFT], bN[var2], bO[var2], 3);
-                    }
-                }
-
+                Projectiles.draw(var6);
                 var1 = var6;
 
                 for(var2 = 0; var2 < cV; ++var2) {
@@ -6336,30 +5758,10 @@ public final class b extends Canvas implements Runnable {
 
                 var1 = var6;
 
-                for(var2 = 0; var2 < bT; ++var2) {
-                    if (bW[var2] != 0) {
-                        var1.drawImage(healSprite, bU[var2], bV[var2], 3);
-                    }
-                }
-
-                var1 = var6;
-                if (!Settings.lowGraphics) {
-                    for(var2 = 0; var2 < 2; ++var2) {
-                        if (ch[var2] != -1) {
-                            var1.drawImage(waterSplashSprites[ci[var2]], cf[var2], cg[var2], 3);
-                        }
-                    }
-                }
-
+                ArcProjectiles.draw(var6);
+                WaterSplash.draw(var6);
                 l(var6);
-                var1 = var6;
-
-                for(var2 = 0; var2 < 5; ++var2) {
-                    if (dT[var2] != -1) {
-                        FontGraph.drawSmall(var1, dO[var2], dU[var2], dP[var2], dQ[var2], 0);
-                    }
-                }
-
+                FloatingText.draw(var6);
                 if (guideMarkerMap == mapId) {
                     var6.drawImage(arrowIcons[ge], gf, gg, 3);
                 }
@@ -7148,9 +6550,9 @@ public final class b extends Canvas implements Runnable {
                                     PlayerStats.drainMp(3);
 
                                     hudDirty = true;
-                                    e(-1, fe - -8, ff);
-                                    e(1, fe - 8, ff);
-                                    g(fe, ff);
+                                    Dust.spawn(-1, fe - -8, ff);
+                                    Dust.spawn(1, fe - 8, ff);
+                                    WaterSplash.spawn(fe, ff);
                                 }
                             } else if (B == 4) {
                                 if (Input.held[Input.KEY_LEFT]) {
@@ -7431,8 +6833,8 @@ public final class b extends Canvas implements Runnable {
                                 if (!GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.SOLID) && !GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.SOLID)) {
                                     if (GameMap.hasFlag(is[var13], it[var13] - GameMap.TILE_SIZE, TileFlags.WATER)) {
                                         it[var13] = H(it[var13]) + 1;
-                                        g(is[var13], it[var13] - 13);
-                                        g(is[var13] + 1, it[var13] - 10);
+                                        WaterSplash.spawn(is[var13], it[var13] - 13);
+                                        WaterSplash.spawn(is[var13] + 1, it[var13] - 10);
                                         iw[var13] = 1;
                                         ix[var13] = -1;
                                         iy[var13] = 1;
@@ -7499,69 +6901,10 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    for(var13 = 0; var13 < 5; ++var13) {
-                        if (dT[var13] != -1) {
-                            var10000 = dT;
-                            var10000[var13] += a(dS[var13]);
-                            if (dT[var13] > 30) {
-                                dT[var13] = -1;
-                            }
-
-                            var10000 = dP;
-                            var10000[var13] += dR[var13];
-                            var10000 = dQ;
-                            var10000[var13] += dS[var13];
-                        }
-                    }
-
-                    if (!Settings.lowGraphics) {
-                        for(var13 = 0; var13 < 2; ++var13) {
-                            if (ch[var13] != -1) {
-                                var10002 = cg[var13]--;
-                                if (tick % 2 == 0) {
-                                    var10002 = ch[var13]++;
-                                    if (ch[var13] > 2) {
-                                        ch[var13] = -1;
-                                    } else {
-                                        ci[var13] = ch[var13];
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (!Settings.lowGraphics) {
-                        for(var13 = 0; var13 < 2; ++var13) {
-                            if (cl[var13] != -1) {
-                                var10002 = cl[var13]++;
-                                if (cl[var13] >= 5) {
-                                    cl[var13] = -1;
-                                }
-
-                                if (var13 == 0) {
-                                    var10002 = cj[var13]--;
-                                } else {
-                                    var10002 = cj[var13]++;
-                                }
-
-                                var10002 = ck[var13]--;
-                            }
-                        }
-                    }
-
-                    for(var13 = 0; var13 < 2; ++var13) {
-                        if (cc[var13] != -1) {
-                            var10002 = cc[var13]++;
-                            var10000 = ca;
-                            var10000[var13] += ce[var13] << 2;
-                            var10002 = cb[var13]--;
-                            if (cc[var13] >= 6) {
-                                cc[var13] = -1;
-                            } else {
-                                cd[var13] = (cc[var13] >> 1) % 3;
-                            }
-                        }
-                    }
+                    FloatingText.update();
+                    WaterSplash.update(tick);
+                    Dust.update();
+                    Blood.update();
 
                     int var5;
                     for(var13 = 0; var13 < cV; ++var13) {
@@ -7629,8 +6972,8 @@ public final class b extends Canvas implements Runnable {
                                             }
 
                                             if (!var14) {
-                                                f(jJ[var4], jK[var4] - (jL[var4] >> 1), jX[var4]);
-                                                a("-" + var5, 0, jJ[var4], jK[var4] - jL[var4], 0, -2);
+                                                Blood.spawn(jJ[var4], jK[var4] - (jL[var4] >> 1), jX[var4]);
+                                                FloatingText.spawn("-" + var5, 0, jJ[var4], jK[var4] - jL[var4], 0, -2);
                                             }
                                             break;
                                         }
@@ -7640,8 +6983,8 @@ public final class b extends Canvas implements Runnable {
                                         if (cE[var4] != 5 && cE[var4] != 1 && a(cu[var4] - cW[var13]) < 20 && a(cv[var4] - 15 - cX[var13]) < 20) {
                                             if (dc[var13]) {
                                                 a(var4, PlayerStats.dartDamage << 1, cH[var13]);
-                                                f(cu[var4], cv[var4] - 15, cH[var4]);
-                                                a("-" + (PlayerStats.dartDamage << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
+                                                Blood.spawn(cu[var4], cv[var4] - 15, cH[var4]);
+                                                FloatingText.spawn("-" + (PlayerStats.dartDamage << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
                                                 cY[var13] = -1;
                                             } else {
                                                 cE[var4] = 4;
@@ -7667,8 +7010,8 @@ public final class b extends Canvas implements Runnable {
 
                                     if (gN && a(gP - cW[var13]) < gV >> 1 && a(gQ - (gW >> 1) - cX[var13]) < gW >> 1) {
                                         c(PlayerStats.dartDamage, -gT);
-                                        f(cW[var13], cX[var13], gT);
-                                        a("-" + PlayerStats.dartDamage, 0, gP, gQ - gW, 0, -2);
+                                        Blood.spawn(cW[var13], cX[var13], gT);
+                                        FloatingText.spawn("-" + PlayerStats.dartDamage, 0, gP, gQ - gW, 0, -2);
                                         cY[var13] = -1;
                                     }
 
@@ -7703,12 +7046,16 @@ public final class b extends Canvas implements Runnable {
                         }
                     }
 
-                    O();
-                    if (dX > 0 && ++dX > 30) {
-                        dX = 0;
+                    if (Projectiles.update(fe, ff, fi, fj, cameraX, cameraY, B == 5 && fd == 0)) {
+                        a(Projectiles.hitDamage, Projectiles.hitDirection);
                     }
 
-                    P();
+                    Aura.update();
+
+                    if (ArcProjectiles.update(fe, ff, fi, fj, cameraY)) {
+                        a(ArcProjectiles.hitDamage, ArcProjectiles.hitDirection);
+                    }
+
                     if (guideMarkerMap >= 0) {
                         if (guideMarkerX > cameraX + 10 && guideMarkerX < cameraX + Viewport.viewWidth - 10 && guideMarkerY > cameraY + 10 && guideMarkerY < cameraY + Viewport.viewHeight - 10) {
                             ge = 2;
@@ -7812,7 +7159,7 @@ public final class b extends Canvas implements Runnable {
                                         gB = 0;
                                     }
 
-                                    e(gz, gn - (gz << 3), go);
+                                    Dust.spawn(gz, gn - (gz << 3), go);
                                     if (gK > 0) {
                                         --gK;
                                     } else {
@@ -7912,12 +7259,12 @@ public final class b extends Canvas implements Runnable {
                                         gB = 0;
                                         gA = 0;
                                         go = I(go);
-                                        e(-1, gn - -8, go);
-                                        e(1, gn - 8, go);
+                                        Dust.spawn(-1, gn - -8, go);
+                                        Dust.spawn(1, gn - 8, go);
                                     }
 
                                     if (GameMap.hasFlag(gn, go, TileFlags.WATER) && GameMap.hasFlag(gn, go + 24, TileFlags.DEEP_WATER) && go % GameMap.TILE_SIZE > 8) {
-                                        g(gn, H(go) + 8);
+                                        WaterSplash.spawn(gn, H(go) + 8);
                                         gr = 3;
                                         gp = (gz = fe > gn ? 1 : -1) << 2;
                                         gq = -11;
@@ -8050,7 +7397,7 @@ public final class b extends Canvas implements Runnable {
 
                             gU = 0;
                             if (tick % 10 == 6) {
-                                e(-gT, gP + gT * 28, gQ - 5);
+                                Dust.spawn(-gT, gP + gT * 28, gQ - 5);
                             }
                             break;
                         case 2:
@@ -8173,9 +7520,9 @@ public final class b extends Canvas implements Runnable {
                             }
 
                             if (tick % 122 == 0) {
-                                c(hP, hQ - 45, -1, -12, hK);
-                                c(hP, hQ - 50, 0, -15, hK);
-                                c(hP, hQ - 45, 1, -12, hK);
+                                ArcProjectiles.spawn(hP, hQ - 45, -1, -12, hK);
+                                ArcProjectiles.spawn(hP, hQ - 50, 0, -15, hK);
+                                ArcProjectiles.spawn(hP, hQ - 45, 1, -12, hK);
                             } else if (tick % 200 == 0) {
                                 hX = 7;
                                 ib = 0;
@@ -8194,16 +7541,16 @@ public final class b extends Canvas implements Runnable {
                             } else if (ib >= 75) {
                                 ++hQ;
                                 if (var13 == 5) {
-                                    c(hP, hQ - 45, -2, -10, hK);
+                                    ArcProjectiles.spawn(hP, hQ - 45, -2, -10, hK);
                                 } else if (var13 == 7 && hM < hN >> 1) {
-                                    c(hP, hQ - 50, 0, -11, hK);
+                                    ArcProjectiles.spawn(hP, hQ - 50, 0, -11, hK);
                                 } else if (var13 == 9) {
-                                    c(hP, hQ - 45, 2, -10, hK);
+                                    ArcProjectiles.spawn(hP, hQ - 45, 2, -10, hK);
                                 }
                             }
 
                             if (ib > 20 && ib < 50 && var13 == 0) {
-                                b(hP + hY * 20, hQ - 29, hY << 3, hK, 2);
+                                Projectiles.spawn(hP + hY * 20, hQ - 29, hY << 3, hK, 2);
                             }
 
                             if (ib > 45 && ib < 50) {
@@ -8465,8 +7812,8 @@ public final class b extends Canvas implements Runnable {
                                     dE[0] = dF[0] = 0;
                                     dB[0] = dC[0] = 0;
                                     dA[0] = I(dA[0]);
-                                    e(-1, dz[0] - -8, dA[0]);
-                                    e(1, dz[0] - 8, dA[0]);
+                                    Dust.spawn(-1, dz[0] - -8, dA[0]);
+                                    Dust.spawn(1, dz[0] - 8, dA[0]);
                                     if (a(dz[0] - fe) < 40 && var13 < 25) {
                                         dJ[0] = fe > dz[0] ? 1 : -1;
                                         dD[0] = 5;
@@ -8728,8 +8075,13 @@ public final class b extends Canvas implements Runnable {
                     }
                 }
 
-                W();
-                ab();
+                if (MoneyDrops.update(fe, ff, fh)) {
+                    hudDirty = true;
+                }
+
+                if (PotionDrops.update(fe, ff, fh)) {
+                    hudDirty = true;
+                }
                 if (questItemState != 0) {
                     if (questItemState == 1) {
                         if (a(ff - (fh >> 1) - (questItemY - 7)) < 10 && a(fe - questItemX) < 10) {
@@ -9324,13 +8676,13 @@ public final class b extends Canvas implements Runnable {
         gainExp(MonsterStats.exp[jI[var0]]);
         int var1;
         if ((var1 = tick % 20) > 15) {
-            a(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (tick + 1) % 2);
+            PotionDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 3), -5, ka[var0] << 2, (tick + 1) % 2);
         } else if (var1 == 15) {
-            a(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + tick % 10);
+            MoneyDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 2), -4, (kf[var0] << 3) + tick % 10);
         } else {
             var1 = ((jI[var0] << 2) / 10 + 1) * 10;
-            a(jJ[var0], jK[var0], -(jX[var0] << 1), -6, var1);
-            a(jJ[var0], jK[var0], -(jX[var0] << 4), -3, var1);
+            MoneyDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 1), -6, var1);
+            MoneyDrops.spawn(jJ[var0], jK[var0], -(jX[var0] << 4), -3, var1);
         }
 
         if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == jI[var0]) {
@@ -9340,7 +8692,7 @@ public final class b extends Canvas implements Runnable {
 
         if (jI[var0] == QuestState.dropMonster - QuestState.DROP_MONSTER_BASE && tick % 10 < QuestState.dropChance) {
             placeQuestItem(jJ[var0], jK[var0]);
-            f(jJ[var0], jK[var0] - 28);
+            Aura.show(jJ[var0], jK[var0] - 28);
         }
 
     }
@@ -9743,7 +9095,7 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         if (GameMap.hasFlag(jJ[var0], jK[var0], TileFlags.WATER) && jK[var0] % GameMap.TILE_SIZE > 8) {
-                            g(jJ[var0], H(jK[var0]) + 8);
+                            WaterSplash.spawn(jJ[var0], H(jK[var0]) + 8);
                         }
                         break;
                     }
@@ -10471,7 +9823,7 @@ public final class b extends Canvas implements Runnable {
                             var10002 = jT[var0]++;
                             jW[var0] = 3;
                             if (jT[var0] == 3) {
-                                b(jJ[var0] + (jX[var0] << 3), jK[var0] - 12, jX[var0] << 3, ka[var0], 2);
+                                Projectiles.spawn(jJ[var0] + (jX[var0] << 3), jK[var0] - 12, jX[var0] << 3, ka[var0], 2);
                             } else if (jT[var0] == 6) {
                                 jO[var0] = 3;
                                 jT[var0] = 0;
@@ -10487,14 +9839,14 @@ public final class b extends Canvas implements Runnable {
                                 }
 
                                 if (jU[var0] == 2) {
-                                    c(jJ[var0], jK[var0] - 22, jX[var0], -10, ka[var0]);
+                                    ArcProjectiles.spawn(jJ[var0], jK[var0] - 22, jX[var0], -10, ka[var0]);
                                 } else if (jU[var0] == 0) {
-                                    c(jJ[var0], jK[var0] - 22, jX[var0] << 1, -9, ka[var0]);
+                                    ArcProjectiles.spawn(jJ[var0], jK[var0] - 22, jX[var0] << 1, -9, ka[var0]);
                                 } else {
-                                    c(jJ[var0], jK[var0] - 22, 0, -11, ka[var0]);
+                                    ArcProjectiles.spawn(jJ[var0], jK[var0] - 22, 0, -11, ka[var0]);
                                 }
 
-                                g(jJ[var0], jK[var0] - 20);
+                                WaterSplash.spawn(jJ[var0], jK[var0] - 20);
                             } else if (jT[var0] == 6) {
                                 jO[var0] = 3;
                                 jT[var0] = 0;
@@ -11458,14 +10810,14 @@ public final class b extends Canvas implements Runnable {
         g.translate(-g.getTranslateX(), -g.getTranslateY());
         drawHudPanel(g);
         drawHudOverlay(g);
-        ShopScreen.draw(g, itemPotions);
+        ShopScreen.draw(g, PotionDrops.sprites);
     }
 
     private static void drawInventory(Graphics g) {
         g.translate(-g.getTranslateX(), -g.getTranslateY());
         drawHudPanel(g);
         drawHudOverlay(g);
-        InventoryScreen.draw(g, itemPotions);
+        InventoryScreen.draw(g, PotionDrops.sprites);
     }
 
     private static void setNextNpcMarker(int var0) {
