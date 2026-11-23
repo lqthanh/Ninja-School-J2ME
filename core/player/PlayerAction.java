@@ -1,6 +1,6 @@
 package core.player;
 
-/** Hành động hiện tại của nhân vật ({@link Player#action}); b.R() cập nhật theo hành động. */
+/** Hành động hiện tại của nhân vật ({@link Player#action}); b.updatePlayer() cập nhật theo hành động. */
 public final class PlayerAction {
     /** Đứng yên (hiện gợi ý nói chuyện khi đứng gần NPC, bạn học, cô gái). */
     public static final int STAND = 1;

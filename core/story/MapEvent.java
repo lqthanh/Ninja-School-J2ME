@@ -13,16 +13,16 @@ public final class MapEvent {
     public static final int END = 3;
     /** Chờ nhân vật ra khỏi mép phải màn hình. */
     public static final int WAIT_PLAYER_OFFSCREEN_RIGHT = 4;
-    /** Chờ boss rừng trúc bị hạ. */
-    public static final int WAIT_BAMBOO_BOSS_DEFEATED = 5;
+    /** Chờ boss lợn rừng bị hạ. */
+    public static final int WAIT_BOAR_BOSS_DEFEATED = 5;
     /**
      * Chờ nhân vật đứng trong khoảng (paramX - 96, paramX) và ở đúng y = {@link #paramY}.
      *
      * <p>Chỉ sự kiện 4 dùng điều kiện này: về map 0 cùng em gái cô Ayumi, tới chỗ thầy
      * (x 1152..1248, y 408) thì phát cutscene 9 (khen, cô bé đứng lại, nhận bằng lái mô tô).
-     * Bản gốc thiếu break nên rơi xuống {@link #WAIT_BAMBOO_BOSS_DEFEATED}; vì trạng thái boss
-     * (b.gS) không được reset khi đổi map, cảnh thưởng thường phát ngay khi vào map 0. Đã sửa:
-     * thêm return và reset b.gS khi nạp map.</p>
+     * Bản gốc thiếu break nên rơi xuống {@link #WAIT_BOAR_BOSS_DEFEATED}; vì trạng thái boss
+     * (BoarBoss.state) không được reset khi đổi map, cảnh thưởng thường phát ngay khi vào map 0. Đã sửa:
+     * thêm return và reset BoarBoss.state khi nạp map.</p>
      */
     public static final int WAIT_PLAYER_AT = 6;
     /** Chờ thủy quái chìm xuống (bị hạ). */

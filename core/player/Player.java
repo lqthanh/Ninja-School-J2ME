@@ -2,7 +2,7 @@ package core.player;
 
 /**
  * Trạng thái của nhân vật chính: vị trí, vận tốc, hành động, hộp va chạm...
- * Chỉ số (HP, MP, cấp...) nằm ở {@link PlayerStats}. Cập nhật ở b.R().
+ * Chỉ số (HP, MP, cấp...) nằm ở {@link PlayerStats}. Cập nhật ở b.updatePlayer().
  */
 public final class Player {
     /** Vị trí chân (pixel trên map). */

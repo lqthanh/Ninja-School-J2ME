@@ -29,8 +29,8 @@ public final class Cutscene {
     public static final int CMD_CAMERA_JUMP = 9;
     /** Lia camera tới {@link #cameraPoints}[arg]. */
     public static final int CMD_CAMERA_PAN = 10;
-    /** Lia camera tới boss rừng trúc. */
-    public static final int CMD_CAMERA_PAN_TO_BAMBOO_BOSS = 11;
+    /** Lia camera tới boss lợn rừng. */
+    public static final int CMD_CAMERA_PAN_TO_BOAR_BOSS = 11;
     /** Cuộn camera xuống 2px/frame tới y của {@link #cameraPoints}[arg]. */
     public static final int CMD_CAMERA_SCROLL_DOWN = 12;
     /** Không làm gì (chờ). */
@@ -39,7 +39,7 @@ public final class Cutscene {
     public static final int CMD_CAMERA_SCROLL_LEFT = 14;
     /** Hiện chú thích {@code DialogueText.cutsceneCaptions[arg]} trên dải đen. */
     public static final int CMD_CAPTION = 15;
-    /** Bắt đầu cảnh diễn của bạn học (b.dy = arg); giống {@link #CMD_CLASSMATE_SCENE_2}. */
+    /** Bắt đầu cảnh diễn của bạn học (Classmates.gatherX = arg); giống {@link #CMD_CLASSMATE_SCENE_2}. */
     public static final int CMD_CLASSMATE_SCENE = 16;
     /** Chuyển sang map arg, xuất hiện ở lối ra bên phải. */
     public static final int CMD_CHANGE_MAP = 17;
