@@ -13,9 +13,7 @@ public final class MonsterSpawns {
 
     public static void setup(int mapId) {
         Monsters.count = 0;
-        boolean var1;
-        int var2;
-        boolean var4;
+        int start;
         switch (mapId) {
             case 0:
                 Monsters.groupSpriteSets = new int[]{7};
@@ -101,14 +99,12 @@ public final class MonsterSpawns {
                 Monsters.finishGroups();
                 Monsters.init(20);
                 Monsters.spawnOneEyedGhosts(0, 7);
-                var1 = true;
-                var4 = true;
 
-                for(var2 = 0; var2 < Monsters.count && Monsters.type[var2] != Monsters.FREE; ++var2) {
+                for(start = 0; start < Monsters.count && Monsters.type[start] != Monsters.FREE; ++start) {
                 }
 
-                if (var2 != Monsters.count) {
-                    for(int i = var2; i < var2 + 7; ++i) {
+                if (start != Monsters.count) {
+                    for(int i = start; i < start + 7; ++i) {
                         Monsters.group[i] = 1;
                         Monsters.type[i] = Monsters.TYPE_ONE_LEGGED_DEMON;
                         Monsters.attackRangeX[i] = 30;
@@ -140,14 +136,12 @@ public final class MonsterSpawns {
                 Monsters.init(26);
                 Monsters.spawnWindNinjas(0, 5);
                 Monsters.spawnDemonBats(1, 18);
-                var1 = true;
-                var4 = true;
 
-                for(var2 = 0; var2 < Monsters.count && Monsters.type[var2] != Monsters.FREE; ++var2) {
+                for(start = 0; start < Monsters.count && Monsters.type[start] != Monsters.FREE; ++start) {
                 }
 
-                if (var2 != Monsters.count) {
-                    for(int i = var2; i < var2 + 3; ++i) {
+                if (start != Monsters.count) {
+                    for(int i = start; i < start + 3; ++i) {
                         Monsters.group[i] = 2;
                         Monsters.type[i] = Monsters.TYPE_SPIDER;
                         Monsters.attackRangeX[i] = 7;
@@ -192,14 +186,12 @@ public final class MonsterSpawns {
                 Monsters.spawnY[3] = new int[]{25, 8, 6, 7, 5, 5};
                 Monsters.finishGroups();
                 Monsters.init(22);
-                var1 = true;
-                var4 = false;
 
-                for(var2 = 0; var2 < Monsters.count && Monsters.type[var2] != Monsters.FREE; ++var2) {
+                for(start = 0; start < Monsters.count && Monsters.type[start] != Monsters.FREE; ++start) {
                 }
 
-                if (var2 != Monsters.count) {
-                    for(int i = var2; i < var2 + 10; ++i) {
+                if (start != Monsters.count) {
+                    for(int i = start; i < start + 10; ++i) {
                         Monsters.group[i] = 0;
                         Monsters.type[i] = Monsters.TYPE_ONE_EYED_GHOST_2;
                         Monsters.attackRangeX[i] = 32;
@@ -247,14 +239,12 @@ public final class MonsterSpawns {
                 Monsters.spawnY[1] = new int[]{12, 12, 12, 12};
                 Monsters.finishGroups();
                 Monsters.init(10);
-                var1 = true;
-                var4 = false;
 
-                for(var2 = 0; var2 < Monsters.count && Monsters.type[var2] != Monsters.FREE; ++var2) {
+                for(start = 0; start < Monsters.count && Monsters.type[start] != Monsters.FREE; ++start) {
                 }
 
-                if (var2 != Monsters.count) {
-                    for(int i = var2; i < var2 + 7; ++i) {
+                if (start != Monsters.count) {
+                    for(int i = start; i < start + 7; ++i) {
                         Monsters.group[i] = 0;
                         Monsters.type[i] = Monsters.TYPE_RAT;
                         Monsters.attackRangeX[i] = 7;

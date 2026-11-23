@@ -160,19 +160,19 @@ public final class b extends Canvas implements Runnable {
     static {
         classmatePoses = new int[heroPoses.length][3][3];
 
-        int var0;
-        for(var0 = 0; var0 < heroPoses.length; ++var0) {
-            for(int var1 = 0; var1 < 3; ++var1) {
-                for(int var2 = 0; var2 < 3; ++var2) {
-                    classmatePoses[var0][var1][var2] = heroPoses[var0][var1][var2];
-                    if (var1 == 0 && var2 == 0) {
-                        switch (heroPoses[var0][var1][var2]) {
+        int pose;
+        for(pose = 0; pose < heroPoses.length; ++pose) {
+            for(int part = 0; part < 3; ++part) {
+                for(int k = 0; k < 3; ++k) {
+                    classmatePoses[pose][part][k] = heroPoses[pose][part][k];
+                    if (part == 0 && k == 0) {
+                        switch (heroPoses[pose][part][k]) {
                             case 1:
                             case 2:
-                                classmatePoses[var0][var1][var2] = 1;
+                                classmatePoses[pose][part][k] = 1;
                                 break;
                             default:
-                                classmatePoses[var0][var1][var2] = 0;
+                                classmatePoses[pose][part][k] = 0;
                         }
                     }
                 }
@@ -231,7 +231,8 @@ public final class b extends Canvas implements Runnable {
         unusedLoadingCounter = 0;
         loadingProgress = 0;
         Monsters.groupSpriteSets = null;
-        String[][] var3 = new String[][]{{"Ta đang bận."}, 
+        // Bảng thoại không được dùng ở đâu (còn sót lại trong bản gốc).
+        String[][] unusedBusyLines = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
         npcBodyOffsetY = new int[]{7, 6, 6, 5, 2, 4};
         pendingMarkerMap = -1;
@@ -241,481 +242,481 @@ public final class b extends Canvas implements Runnable {
     }
 
     public static void saveGame() {
-        int[] var1 = new int[500];
-        int var2 = 0;
+        int[] data = new int[500];
+        int index = 0;
         PlayTime.checkpoint();
-        ++var2;
-        var1[0] = PlayTime.savedSeconds;
-        ++var2;
-        var1[1] = mapId;
-        ++var2;
-        var1[2] = tick;
-        ++var2;
-        var1[3] = Story.prologueActive ? 1 : 0;
-        ++var2;
-        var1[4] = Inventory.money;
-        ++var2;
-        var1[5] = Classmates.stayPut ? 1 : 0;
-        ++var2;
-        var1[6] = Story.riverMonsterDefeated ? 1 : 0;
-        ++var2;
-        var1[7] = Story.tonikuDefeated ? 1 : 0;
-        ++var2;
-        var1[8] = Story.sakuraFound ? 1 : 0;
-        ++var2;
-        var1[9] = Girl.following ? 1 : 0;
-        ++var2;
-        var1[10] = Girl.unusedSaveSlot;
-        ++var2;
-        var1[11] = Girl.mapId;
-        ++var2;
-        var1[12] = Player.motorbike;
-        ++var2;
-        var1[13] = Inventory.swordLevel;
-        ++var2;
-        var1[14] = Skills.dartsLevel2 ? 1 : 0;
+        ++index;
+        data[0] = PlayTime.savedSeconds;
+        ++index;
+        data[1] = mapId;
+        ++index;
+        data[2] = tick;
+        ++index;
+        data[3] = Story.prologueActive ? 1 : 0;
+        ++index;
+        data[4] = Inventory.money;
+        ++index;
+        data[5] = Classmates.stayPut ? 1 : 0;
+        ++index;
+        data[6] = Story.riverMonsterDefeated ? 1 : 0;
+        ++index;
+        data[7] = Story.tonikuDefeated ? 1 : 0;
+        ++index;
+        data[8] = Story.sakuraFound ? 1 : 0;
+        ++index;
+        data[9] = Girl.following ? 1 : 0;
+        ++index;
+        data[10] = Girl.unusedSaveSlot;
+        ++index;
+        data[11] = Girl.mapId;
+        ++index;
+        data[12] = Player.motorbike;
+        ++index;
+        data[13] = Inventory.swordLevel;
+        ++index;
+        data[14] = Skills.dartsLevel2 ? 1 : 0;
 
-        int var0;
-        for(var0 = 0; var0 < WorldMap.visited.length; ++var0) {
-            var1[var2++] = WorldMap.visited[var0] ? 1 : 0;
+        int i;
+        for(i = 0; i < WorldMap.visited.length; ++i) {
+            data[index++] = WorldMap.visited[i] ? 1 : 0;
         }
 
-        for(var0 = 0; var0 < Inventory.potionCounts.length; ++var0) {
-            var1[var2++] = Inventory.potionCounts[var0];
+        for(i = 0; i < Inventory.potionCounts.length; ++i) {
+            data[index++] = Inventory.potionCounts[i];
         }
 
-        var1[var2++] = Skills.lightness ? 1 : 0;
-        var1[var2++] = Skills.doubleJump ? 1 : 0;
-        var1[var2++] = Skills.darts ? 1 : 0;
-        var1[var2++] = Skills.burrow ? 1 : 0;
-        var1[var2++] = Skills.motorbikeLicense ? 1 : 0;
-        var1[var2++] = Skills.doubleStrength ? 1 : 0;
-        var1[var2++] = Skills.dive ? 1 : 0;
-        var1[var2++] = Skills.runOnWater ? 1 : 0;
-        var1[var2++] = Skills.transform ? 1 : 0;
-        var1[var2++] = Story.goldenBatQuestDone ? 1 : 0;
-        var1[var2++] = Story.tonikuQuestDone ? 1 : 0;
-        var1[var2++] = Story.girlWaiting ? 1 : 0;
-        var1[var2++] = Story.girlOutingDone ? 1 : 0;
-        var1[var2++] = Skills.tripleJump ? 1 : 0;
-        var1[var2++] = Skills.sprint ? 1 : 0;
-        var1[var2++] = Skills.standOnWater ? 1 : 0;
-        var1[var2++] = Skills.hide ? 1 : 0;
-        var1[var2++] = Story.gameCompleted ? 1 : 0;
-        var1[var2++] = Story.sakuraEscorting ? 1 : 0;
-        var1[var2++] = Player.slashEffect;
-        var1[var2++] = Player.weapon;
-        var1[var2++] = Player.x;
-        var1[var2++] = Player.y;
-        var1[var2++] = Player.vx;
-        var1[var2++] = Player.vy;
-        var1[var2++] = Player.action;
-        var1[var2++] = Player.pose;
-        var1[var2++] = Player.width;
-        var1[var2++] = Player.height;
-        var1[var2++] = Player.halfWidth;
-        var1[var2++] = Player.halfHeight;
-        var1[var2++] = Player.quarterWidth;
-        var1[var2++] = Player.quarterHeight;
-        var1[var2++] = Player.facing;
-        var1[var2++] = Player.actionTimer;
-        var1[var2++] = Player.actionTimer2;
-        var1[var2++] = Player.hurtRecovery;
-        var1[var2++] = PlayerStats.attack;
-        var1[var2++] = PlayerStats.dartDamage;
-        var1[var2++] = PlayerStats.hp;
-        var1[var2++] = PlayerStats.maxHp;
-        var1[var2++] = PlayerStats.mp;
-        var1[var2++] = PlayerStats.maxMp;
-        var1[var2++] = Player.runOnWaterSpeed;
-        var1[var2++] = Player.underwaterSpeed;
-        var1[var2++] = Player.sprintBonus;
-        var1[var2++] = Player.checkpointX;
-        var1[var2++] = Player.checkpointY;
-        var1[var2++] = Player.comboCount;
-        var1[var2++] = Player.comboStep;
-        var1[var2++] = PlayerStats.level;
-        var1[var2++] = PlayerStats.exp;
-        var1[var2++] = cameraFollowsPlayer ? 1 : 0;
-        var1[var2++] = Player.comboQueued ? 1 : 0;
-        var1[var2++] = Player.hidden ? 1 : 0;
-        var1[var2++] = Player.transformed ? 1 : 0;
-        var1[var2++] = QuestState.current;
-        var1[var2++] = QuestState.dropMonster;
-        var1[var2++] = QuestState.dropChance;
-        var1[var2++] = QuestState.itemFound ? 1 : 0;
-        var1[var2++] = QuestState.progress;
-        var1[var2++] = Player.nearNpc;
-        var1[var2++] = Player.nearClassmate;
-        var1[var2++] = Girl.slashEffect;
-        var1[var2++] = Girl.weapon;
-        var1[var2++] = questItemX;
-        var1[var2++] = questItemY;
-        var1[var2++] = questItemState;
-        var1[var2++] = cameraTargetX;
-        var1[var2++] = cameraTargetY;
-        var1[var2++] = cameraVx;
-        var1[var2++] = cameraVy;
-        var1[var2++] = cameraSubpixelX;
-        var1[var2++] = cameraSubpixelY;
-        var1[var2++] = cameraX;
-        var1[var2++] = cameraY;
-        var1[var2++] = cameraMaxX;
-        var1[var2++] = cameraMaxY;
-        var1[var2++] = mapEventActive ? 1 : 0;
-        var1[var2++] = mapEventId;
-        var1[var2++] = mapEventStep;
-        var1[var2++] = guideMarkerMap;
-        var1[var2++] = guideMarkerX;
-        var1[var2++] = guideMarkerY;
-        var1[var2++] = guideArrowIcon;
-        var1[var2++] = guideArrowX;
-        var1[var2++] = guideArrowY;
-        var1[var2++] = guideArrowBobDirection;
-        var1[var2++] = guideArrowBob;
-        var1[var2++] = guideMarkerNpc;
-        var1[var2++] = Girl.x;
-        var1[var2++] = Girl.y;
-        var1[var2++] = Girl.vx;
-        var1[var2++] = Girl.vy;
-        var1[var2++] = Girl.action;
-        var1[var2++] = Girl.pose;
-        var1[var2++] = Girl.width;
-        var1[var2++] = Girl.height;
-        var1[var2++] = Girl.halfWidth;
-        var1[var2++] = Girl.halfHeight;
-        var1[var2++] = Girl.quarterWidth;
-        var1[var2++] = Girl.quarterHeight;
-        var1[var2++] = Girl.facing;
-        var1[var2++] = Girl.actionTimer;
-        var1[var2++] = Girl.actionTimer2;
-        var1[var2++] = Girl.airTimer;
-        var1[var2++] = Girl.unused1;
-        var1[var2++] = Girl.unused2;
-        var1[var2++] = Girl.unused3;
-        var1[var2++] = Girl.unused4;
-        var1[var2++] = Girl.unused5;
-        var1[var2++] = Girl.unused6;
-        var1[var2++] = Girl.unused7;
-        var1[var2++] = BoarBoss.hp;
-        var1[var2++] = Toniku.hp;
-        var1[var2++] = FinalBoss.hp;
-        var1[var2++] = RiverMonster.hp;
-        var1[var2++] = FinalBoss.state;
-        var1[var2++] = Motorbikes.count;
+        data[index++] = Skills.lightness ? 1 : 0;
+        data[index++] = Skills.doubleJump ? 1 : 0;
+        data[index++] = Skills.darts ? 1 : 0;
+        data[index++] = Skills.burrow ? 1 : 0;
+        data[index++] = Skills.motorbikeLicense ? 1 : 0;
+        data[index++] = Skills.doubleStrength ? 1 : 0;
+        data[index++] = Skills.dive ? 1 : 0;
+        data[index++] = Skills.runOnWater ? 1 : 0;
+        data[index++] = Skills.transform ? 1 : 0;
+        data[index++] = Story.goldenBatQuestDone ? 1 : 0;
+        data[index++] = Story.tonikuQuestDone ? 1 : 0;
+        data[index++] = Story.girlWaiting ? 1 : 0;
+        data[index++] = Story.girlOutingDone ? 1 : 0;
+        data[index++] = Skills.tripleJump ? 1 : 0;
+        data[index++] = Skills.sprint ? 1 : 0;
+        data[index++] = Skills.standOnWater ? 1 : 0;
+        data[index++] = Skills.hide ? 1 : 0;
+        data[index++] = Story.gameCompleted ? 1 : 0;
+        data[index++] = Story.sakuraEscorting ? 1 : 0;
+        data[index++] = Player.slashEffect;
+        data[index++] = Player.weapon;
+        data[index++] = Player.x;
+        data[index++] = Player.y;
+        data[index++] = Player.vx;
+        data[index++] = Player.vy;
+        data[index++] = Player.action;
+        data[index++] = Player.pose;
+        data[index++] = Player.width;
+        data[index++] = Player.height;
+        data[index++] = Player.halfWidth;
+        data[index++] = Player.halfHeight;
+        data[index++] = Player.quarterWidth;
+        data[index++] = Player.quarterHeight;
+        data[index++] = Player.facing;
+        data[index++] = Player.actionTimer;
+        data[index++] = Player.actionTimer2;
+        data[index++] = Player.hurtRecovery;
+        data[index++] = PlayerStats.attack;
+        data[index++] = PlayerStats.dartDamage;
+        data[index++] = PlayerStats.hp;
+        data[index++] = PlayerStats.maxHp;
+        data[index++] = PlayerStats.mp;
+        data[index++] = PlayerStats.maxMp;
+        data[index++] = Player.runOnWaterSpeed;
+        data[index++] = Player.underwaterSpeed;
+        data[index++] = Player.sprintBonus;
+        data[index++] = Player.checkpointX;
+        data[index++] = Player.checkpointY;
+        data[index++] = Player.comboCount;
+        data[index++] = Player.comboStep;
+        data[index++] = PlayerStats.level;
+        data[index++] = PlayerStats.exp;
+        data[index++] = cameraFollowsPlayer ? 1 : 0;
+        data[index++] = Player.comboQueued ? 1 : 0;
+        data[index++] = Player.hidden ? 1 : 0;
+        data[index++] = Player.transformed ? 1 : 0;
+        data[index++] = QuestState.current;
+        data[index++] = QuestState.dropMonster;
+        data[index++] = QuestState.dropChance;
+        data[index++] = QuestState.itemFound ? 1 : 0;
+        data[index++] = QuestState.progress;
+        data[index++] = Player.nearNpc;
+        data[index++] = Player.nearClassmate;
+        data[index++] = Girl.slashEffect;
+        data[index++] = Girl.weapon;
+        data[index++] = questItemX;
+        data[index++] = questItemY;
+        data[index++] = questItemState;
+        data[index++] = cameraTargetX;
+        data[index++] = cameraTargetY;
+        data[index++] = cameraVx;
+        data[index++] = cameraVy;
+        data[index++] = cameraSubpixelX;
+        data[index++] = cameraSubpixelY;
+        data[index++] = cameraX;
+        data[index++] = cameraY;
+        data[index++] = cameraMaxX;
+        data[index++] = cameraMaxY;
+        data[index++] = mapEventActive ? 1 : 0;
+        data[index++] = mapEventId;
+        data[index++] = mapEventStep;
+        data[index++] = guideMarkerMap;
+        data[index++] = guideMarkerX;
+        data[index++] = guideMarkerY;
+        data[index++] = guideArrowIcon;
+        data[index++] = guideArrowX;
+        data[index++] = guideArrowY;
+        data[index++] = guideArrowBobDirection;
+        data[index++] = guideArrowBob;
+        data[index++] = guideMarkerNpc;
+        data[index++] = Girl.x;
+        data[index++] = Girl.y;
+        data[index++] = Girl.vx;
+        data[index++] = Girl.vy;
+        data[index++] = Girl.action;
+        data[index++] = Girl.pose;
+        data[index++] = Girl.width;
+        data[index++] = Girl.height;
+        data[index++] = Girl.halfWidth;
+        data[index++] = Girl.halfHeight;
+        data[index++] = Girl.quarterWidth;
+        data[index++] = Girl.quarterHeight;
+        data[index++] = Girl.facing;
+        data[index++] = Girl.actionTimer;
+        data[index++] = Girl.actionTimer2;
+        data[index++] = Girl.airTimer;
+        data[index++] = Girl.unused1;
+        data[index++] = Girl.unused2;
+        data[index++] = Girl.unused3;
+        data[index++] = Girl.unused4;
+        data[index++] = Girl.unused5;
+        data[index++] = Girl.unused6;
+        data[index++] = Girl.unused7;
+        data[index++] = BoarBoss.hp;
+        data[index++] = Toniku.hp;
+        data[index++] = FinalBoss.hp;
+        data[index++] = RiverMonster.hp;
+        data[index++] = FinalBoss.state;
+        data[index++] = Motorbikes.count;
         if (Motorbikes.count > 0) {
-            for(var0 = 0; var0 < Motorbikes.falling.length; ++var0) {
-                var1[var2++] = Motorbikes.falling[var0];
+            for(i = 0; i < Motorbikes.falling.length; ++i) {
+                data[index++] = Motorbikes.falling[i];
             }
 
-            for(var0 = 0; var0 < Motorbikes.facing.length; ++var0) {
-                var1[var2++] = Motorbikes.facing[var0];
+            for(i = 0; i < Motorbikes.facing.length; ++i) {
+                data[index++] = Motorbikes.facing[i];
             }
 
-            for(var0 = 0; var0 < Motorbikes.frame.length; ++var0) {
-                var1[var2++] = Motorbikes.frame[var0];
+            for(i = 0; i < Motorbikes.frame.length; ++i) {
+                data[index++] = Motorbikes.frame[i];
             }
 
-            for(var0 = 0; var0 < Motorbikes.vy.length; ++var0) {
-                var1[var2++] = Motorbikes.vy[var0];
+            for(i = 0; i < Motorbikes.vy.length; ++i) {
+                data[index++] = Motorbikes.vy[i];
             }
 
-            for(var0 = 0; var0 < Motorbikes.x.length; ++var0) {
-                var1[var2++] = Motorbikes.x[var0];
+            for(i = 0; i < Motorbikes.x.length; ++i) {
+                data[index++] = Motorbikes.x[i];
             }
 
-            for(var0 = 0; var0 < Motorbikes.y.length; ++var0) {
-                var1[var2++] = Motorbikes.y[var0];
+            for(i = 0; i < Motorbikes.y.length; ++i) {
+                data[index++] = Motorbikes.y[i];
             }
         }
 
-        var1[var2++] = Crates.count;
+        data[index++] = Crates.count;
         if (Crates.count > 0) {
-            var1[var2++] = Player.crate;
+            data[index++] = Player.crate;
             if (Crates.state != null) {
-                for(var0 = 0; var0 < Crates.state.length; ++var0) {
-                    var1[var2++] = Crates.state[var0];
+                for(i = 0; i < Crates.state.length; ++i) {
+                    data[index++] = Crates.state[i];
                 }
             }
 
             if (Crates.driftVx != null) {
-                for(var0 = 0; var0 < Crates.driftVx.length; ++var0) {
-                    var1[var2++] = Crates.driftVx[var0];
+                for(i = 0; i < Crates.driftVx.length; ++i) {
+                    data[index++] = Crates.driftVx[i];
                 }
             }
 
             if (Crates.bobDirection != null) {
-                for(var0 = 0; var0 < Crates.bobDirection.length; ++var0) {
-                    var1[var2++] = Crates.bobDirection[var0];
+                for(i = 0; i < Crates.bobDirection.length; ++i) {
+                    data[index++] = Crates.bobDirection[i];
                 }
             }
 
             if (Crates.vx != null) {
-                for(var0 = 0; var0 < Crates.vx.length; ++var0) {
-                    var1[var2++] = Crates.vx[var0];
+                for(i = 0; i < Crates.vx.length; ++i) {
+                    data[index++] = Crates.vx[i];
                 }
             }
 
             if (Crates.vy != null) {
-                for(var0 = 0; var0 < Crates.vy.length; ++var0) {
-                    var1[var2++] = Crates.vy[var0];
+                for(i = 0; i < Crates.vy.length; ++i) {
+                    data[index++] = Crates.vy[i];
                 }
             }
 
             if (Crates.x != null) {
-                for(var0 = 0; var0 < Crates.x.length; ++var0) {
-                    var1[var2++] = Crates.x[var0];
+                for(i = 0; i < Crates.x.length; ++i) {
+                    data[index++] = Crates.x[i];
                 }
             }
 
             if (Crates.y != null) {
-                for(var0 = 0; var0 < Crates.y.length; ++var0) {
-                    var1[var2++] = Crates.y[var0];
+                for(i = 0; i < Crates.y.length; ++i) {
+                    data[index++] = Crates.y[i];
                 }
             }
         }
 
-        int[] var5 = var1;
-        int var4;
-        byte[] var6 = new byte[(var4 = var1.length) << 2];
+        int[] ints = data;
+        int length;
+        byte[] bytes = new byte[(length = data.length) << 2];
 
-        for(int var3 = 0; var3 < var4; ++var3) {
-            var6[var3 << 2] = (byte)(var5[var3] >> 24);
-            var6[(var3 << 2) + 1] = (byte)(var5[var3] >>> 16);
-            var6[(var3 << 2) + 2] = (byte)(var5[var3] >>> 8);
-            var6[(var3 << 2) + 3] = (byte)var5[var3];
+        for(int j = 0; j < length; ++j) {
+            bytes[j << 2] = (byte)(ints[j] >> 24);
+            bytes[(j << 2) + 1] = (byte)(ints[j] >>> 16);
+            bytes[(j << 2) + 2] = (byte)(ints[j] >>> 8);
+            bytes[(j << 2) + 3] = (byte)ints[j];
         }
 
-        Save.saveRecord("ninjasave", var6);
+        Save.saveRecord("ninjasave", bytes);
         Save.markSaved();
     }
 
     public static void loadGame() {
-        int[] var0 = bytesToInts(Save.loadRecord("ninjasave"));
-        int var2 = 0;
-        ++var2;
-        PlayTime.savedSeconds = var0[0];
-        ++var2;
-        mapId = var0[1];
-        ++var2;
-        tick = var0[2];
-        ++var2;
-        Story.prologueActive = var0[3] == 1;
-        ++var2;
-        Inventory.money = var0[4];
-        ++var2;
-        Classmates.stayPut = var0[5] == 1;
-        ++var2;
-        Story.riverMonsterDefeated = var0[6] == 1;
-        ++var2;
-        Story.tonikuDefeated = var0[7] == 1;
-        ++var2;
-        Story.sakuraFound = var0[8] == 1;
-        ++var2;
-        Girl.following = var0[9] == 1;
-        ++var2;
-        Girl.unusedSaveSlot = var0[10];
-        ++var2;
-        Girl.mapId = var0[11];
-        ++var2;
-        Player.motorbike = var0[12];
-        ++var2;
-        Inventory.swordLevel = var0[13];
-        ++var2;
-        Skills.dartsLevel2 = var0[14] == 1;
+        int[] data = bytesToInts(Save.loadRecord("ninjasave"));
+        int index = 0;
+        ++index;
+        PlayTime.savedSeconds = data[0];
+        ++index;
+        mapId = data[1];
+        ++index;
+        tick = data[2];
+        ++index;
+        Story.prologueActive = data[3] == 1;
+        ++index;
+        Inventory.money = data[4];
+        ++index;
+        Classmates.stayPut = data[5] == 1;
+        ++index;
+        Story.riverMonsterDefeated = data[6] == 1;
+        ++index;
+        Story.tonikuDefeated = data[7] == 1;
+        ++index;
+        Story.sakuraFound = data[8] == 1;
+        ++index;
+        Girl.following = data[9] == 1;
+        ++index;
+        Girl.unusedSaveSlot = data[10];
+        ++index;
+        Girl.mapId = data[11];
+        ++index;
+        Player.motorbike = data[12];
+        ++index;
+        Inventory.swordLevel = data[13];
+        ++index;
+        Skills.dartsLevel2 = data[14] == 1;
 
-        int var1;
-        for(var1 = 0; var1 < WorldMap.visited.length; ++var1) {
-            WorldMap.visited[var1] = var0[var2++] == 1;
+        int i;
+        for(i = 0; i < WorldMap.visited.length; ++i) {
+            WorldMap.visited[i] = data[index++] == 1;
         }
 
-        for(var1 = 0; var1 < Inventory.potionCounts.length; ++var1) {
-            Inventory.potionCounts[var1] = var0[var2++];
+        for(i = 0; i < Inventory.potionCounts.length; ++i) {
+            Inventory.potionCounts[i] = data[index++];
         }
 
-        Skills.lightness = var0[var2++] == 1;
-        Skills.doubleJump = var0[var2++] == 1;
-        Skills.darts = var0[var2++] == 1;
-        Skills.burrow = var0[var2++] == 1;
-        Skills.motorbikeLicense = var0[var2++] == 1;
-        Skills.doubleStrength = var0[var2++] == 1;
-        Skills.dive = var0[var2++] == 1;
-        Skills.runOnWater = var0[var2++] == 1;
-        Skills.transform = var0[var2++] == 1;
-        Story.goldenBatQuestDone = var0[var2++] == 1;
-        Story.tonikuQuestDone = var0[var2++] == 1;
-        Story.girlWaiting = var0[var2++] == 1;
-        Story.girlOutingDone = var0[var2++] == 1;
-        Skills.tripleJump = var0[var2++] == 1;
-        Skills.sprint = var0[var2++] == 1;
-        Skills.standOnWater = var0[var2++] == 1;
-        Skills.hide = var0[var2++] == 1;
-        Story.gameCompleted = var0[var2++] == 1;
-        Story.sakuraEscorting = var0[var2++] == 1;
-        Player.slashEffect = var0[var2++];
-        Player.weapon = var0[var2++];
-        Player.x = var0[var2++];
-        Player.y = var0[var2++];
-        Player.vx = var0[var2++];
-        Player.vy = var0[var2++];
-        Player.action = var0[var2++];
-        Player.pose = var0[var2++];
-        Player.width = var0[var2++];
-        Player.height = var0[var2++];
-        Player.halfWidth = var0[var2++];
-        Player.halfHeight = var0[var2++];
-        Player.quarterWidth = var0[var2++];
-        Player.quarterHeight = var0[var2++];
-        Player.facing = var0[var2++];
-        Player.actionTimer = var0[var2++];
-        Player.actionTimer2 = var0[var2++];
-        Player.hurtRecovery = var0[var2++];
-        PlayerStats.attack = var0[var2++];
-        PlayerStats.dartDamage = var0[var2++];
-        PlayerStats.hp = var0[var2++];
-        PlayerStats.maxHp = var0[var2++];
-        PlayerStats.mp = var0[var2++];
-        PlayerStats.maxMp = var0[var2++];
-        Player.runOnWaterSpeed = var0[var2++];
-        Player.underwaterSpeed = var0[var2++];
-        Player.sprintBonus = var0[var2++];
-        Player.checkpointX = var0[var2++];
-        Player.checkpointY = var0[var2++];
-        Player.comboCount = var0[var2++];
-        Player.comboStep = var0[var2++];
-        PlayerStats.level = var0[var2++];
-        PlayerStats.exp = var0[var2++];
-        cameraFollowsPlayer = var0[var2++] == 1;
-        Player.comboQueued = var0[var2++] == 1;
-        Player.hidden = var0[var2++] == 1;
-        Player.transformed = var0[var2++] == 1;
-        QuestState.current = var0[var2++];
-        QuestState.dropMonster = var0[var2++];
-        QuestState.dropChance = var0[var2++];
-        QuestState.itemFound = var0[var2++] == 1;
-        QuestState.progress = var0[var2++];
-        Player.nearNpc = var0[var2++];
-        Player.nearClassmate = var0[var2++];
-        Girl.slashEffect = var0[var2++];
-        Girl.weapon = var0[var2++];
-        questItemX = var0[var2++];
-        questItemY = var0[var2++];
-        questItemState = var0[var2++];
-        cameraTargetX = var0[var2++];
-        cameraTargetY = var0[var2++];
-        cameraVx = var0[var2++];
-        cameraVy = var0[var2++];
-        cameraSubpixelX = var0[var2++];
-        cameraSubpixelY = var0[var2++];
-        cameraX = var0[var2++];
-        cameraY = var0[var2++];
-        cameraMaxX = var0[var2++];
-        cameraMaxY = var0[var2++];
-        mapEventActive = var0[var2++] == 1;
-        mapEventId = var0[var2++];
-        mapEventStep = var0[var2++];
-        guideMarkerMap = var0[var2++];
-        guideMarkerX = var0[var2++];
-        guideMarkerY = var0[var2++];
-        guideArrowIcon = var0[var2++];
-        guideArrowX = var0[var2++];
-        guideArrowY = var0[var2++];
-        guideArrowBobDirection = var0[var2++];
-        guideArrowBob = var0[var2++];
-        guideMarkerNpc = var0[var2++];
-        Girl.x = var0[var2++];
-        Girl.y = var0[var2++];
-        Girl.vx = var0[var2++];
-        Girl.vy = var0[var2++];
-        Girl.action = var0[var2++];
-        Girl.pose = var0[var2++];
-        Girl.width = var0[var2++];
-        Girl.height = var0[var2++];
-        Girl.halfWidth = var0[var2++];
-        Girl.halfHeight = var0[var2++];
-        Girl.quarterWidth = var0[var2++];
-        Girl.quarterHeight = var0[var2++];
-        Girl.facing = var0[var2++];
-        Girl.actionTimer = var0[var2++];
-        Girl.actionTimer2 = var0[var2++];
-        Girl.airTimer = var0[var2++];
-        Girl.unused1 = var0[var2++];
-        Girl.unused2 = var0[var2++];
-        Girl.unused3 = var0[var2++];
-        Girl.unused4 = var0[var2++];
-        Girl.unused5 = var0[var2++];
-        Girl.unused6 = var0[var2++];
-        Girl.unused7 = var0[var2++];
-        if ((BoarBoss.hp = var0[var2++]) <= 0) {
+        Skills.lightness = data[index++] == 1;
+        Skills.doubleJump = data[index++] == 1;
+        Skills.darts = data[index++] == 1;
+        Skills.burrow = data[index++] == 1;
+        Skills.motorbikeLicense = data[index++] == 1;
+        Skills.doubleStrength = data[index++] == 1;
+        Skills.dive = data[index++] == 1;
+        Skills.runOnWater = data[index++] == 1;
+        Skills.transform = data[index++] == 1;
+        Story.goldenBatQuestDone = data[index++] == 1;
+        Story.tonikuQuestDone = data[index++] == 1;
+        Story.girlWaiting = data[index++] == 1;
+        Story.girlOutingDone = data[index++] == 1;
+        Skills.tripleJump = data[index++] == 1;
+        Skills.sprint = data[index++] == 1;
+        Skills.standOnWater = data[index++] == 1;
+        Skills.hide = data[index++] == 1;
+        Story.gameCompleted = data[index++] == 1;
+        Story.sakuraEscorting = data[index++] == 1;
+        Player.slashEffect = data[index++];
+        Player.weapon = data[index++];
+        Player.x = data[index++];
+        Player.y = data[index++];
+        Player.vx = data[index++];
+        Player.vy = data[index++];
+        Player.action = data[index++];
+        Player.pose = data[index++];
+        Player.width = data[index++];
+        Player.height = data[index++];
+        Player.halfWidth = data[index++];
+        Player.halfHeight = data[index++];
+        Player.quarterWidth = data[index++];
+        Player.quarterHeight = data[index++];
+        Player.facing = data[index++];
+        Player.actionTimer = data[index++];
+        Player.actionTimer2 = data[index++];
+        Player.hurtRecovery = data[index++];
+        PlayerStats.attack = data[index++];
+        PlayerStats.dartDamage = data[index++];
+        PlayerStats.hp = data[index++];
+        PlayerStats.maxHp = data[index++];
+        PlayerStats.mp = data[index++];
+        PlayerStats.maxMp = data[index++];
+        Player.runOnWaterSpeed = data[index++];
+        Player.underwaterSpeed = data[index++];
+        Player.sprintBonus = data[index++];
+        Player.checkpointX = data[index++];
+        Player.checkpointY = data[index++];
+        Player.comboCount = data[index++];
+        Player.comboStep = data[index++];
+        PlayerStats.level = data[index++];
+        PlayerStats.exp = data[index++];
+        cameraFollowsPlayer = data[index++] == 1;
+        Player.comboQueued = data[index++] == 1;
+        Player.hidden = data[index++] == 1;
+        Player.transformed = data[index++] == 1;
+        QuestState.current = data[index++];
+        QuestState.dropMonster = data[index++];
+        QuestState.dropChance = data[index++];
+        QuestState.itemFound = data[index++] == 1;
+        QuestState.progress = data[index++];
+        Player.nearNpc = data[index++];
+        Player.nearClassmate = data[index++];
+        Girl.slashEffect = data[index++];
+        Girl.weapon = data[index++];
+        questItemX = data[index++];
+        questItemY = data[index++];
+        questItemState = data[index++];
+        cameraTargetX = data[index++];
+        cameraTargetY = data[index++];
+        cameraVx = data[index++];
+        cameraVy = data[index++];
+        cameraSubpixelX = data[index++];
+        cameraSubpixelY = data[index++];
+        cameraX = data[index++];
+        cameraY = data[index++];
+        cameraMaxX = data[index++];
+        cameraMaxY = data[index++];
+        mapEventActive = data[index++] == 1;
+        mapEventId = data[index++];
+        mapEventStep = data[index++];
+        guideMarkerMap = data[index++];
+        guideMarkerX = data[index++];
+        guideMarkerY = data[index++];
+        guideArrowIcon = data[index++];
+        guideArrowX = data[index++];
+        guideArrowY = data[index++];
+        guideArrowBobDirection = data[index++];
+        guideArrowBob = data[index++];
+        guideMarkerNpc = data[index++];
+        Girl.x = data[index++];
+        Girl.y = data[index++];
+        Girl.vx = data[index++];
+        Girl.vy = data[index++];
+        Girl.action = data[index++];
+        Girl.pose = data[index++];
+        Girl.width = data[index++];
+        Girl.height = data[index++];
+        Girl.halfWidth = data[index++];
+        Girl.halfHeight = data[index++];
+        Girl.quarterWidth = data[index++];
+        Girl.quarterHeight = data[index++];
+        Girl.facing = data[index++];
+        Girl.actionTimer = data[index++];
+        Girl.actionTimer2 = data[index++];
+        Girl.airTimer = data[index++];
+        Girl.unused1 = data[index++];
+        Girl.unused2 = data[index++];
+        Girl.unused3 = data[index++];
+        Girl.unused4 = data[index++];
+        Girl.unused5 = data[index++];
+        Girl.unused6 = data[index++];
+        Girl.unused7 = data[index++];
+        if ((BoarBoss.hp = data[index++]) <= 0) {
             BoarBoss.hp = BoarBoss.maxHp;
         }
 
-        Toniku.hp = var0[var2++];
-        FinalBoss.hp = var0[var2++];
-        RiverMonster.hp = var0[var2++];
-        FinalBoss.state = var0[var2++];
-        int savedMotorbikeCount = var0[var2++];
+        Toniku.hp = data[index++];
+        FinalBoss.hp = data[index++];
+        RiverMonster.hp = data[index++];
+        FinalBoss.state = data[index++];
+        int savedMotorbikeCount = data[index++];
         if (savedMotorbikeCount > 0) {
             try {
-                for(var1 = 0; var1 < Motorbikes.falling.length; ++var1) {
-                    ++var2;
+                for(i = 0; i < Motorbikes.falling.length; ++i) {
+                    ++index;
                 }
 
-                for(var1 = 0; var1 < Motorbikes.facing.length; ++var1) {
-                    ++var2;
+                for(i = 0; i < Motorbikes.facing.length; ++i) {
+                    ++index;
                 }
 
-                for(var1 = 0; var1 < Motorbikes.frame.length; ++var1) {
-                    ++var2;
+                for(i = 0; i < Motorbikes.frame.length; ++i) {
+                    ++index;
                 }
 
-                for(var1 = 0; var1 < Motorbikes.vy.length; ++var1) {
-                    ++var2;
+                for(i = 0; i < Motorbikes.vy.length; ++i) {
+                    ++index;
                 }
 
-                for(var1 = 0; var1 < Motorbikes.x.length; ++var1) {
-                    ++var2;
+                for(i = 0; i < Motorbikes.x.length; ++i) {
+                    ++index;
                 }
 
-                for(var1 = 0; var1 < Motorbikes.y.length; ++var1) {
-                    ++var2;
+                for(i = 0; i < Motorbikes.y.length; ++i) {
+                    ++index;
                 }
-            } catch (Exception var5) {
+            } catch (Exception e) {
             }
         }
 
-        if ((Crates.count = var0[var2++]) > 0) {
-            Player.crate = var0[var2++];
+        if ((Crates.count = data[index++]) > 0) {
+            Player.crate = data[index++];
 
             try {
-                for(var1 = 0; var1 < Crates.state.length; ++var1) {
-                    Crates.state[var1] = var0[var2++];
+                for(i = 0; i < Crates.state.length; ++i) {
+                    Crates.state[i] = data[index++];
                 }
 
-                for(var1 = 0; var1 < Crates.driftVx.length; ++var1) {
-                    Crates.driftVx[var1] = var0[var2++];
+                for(i = 0; i < Crates.driftVx.length; ++i) {
+                    Crates.driftVx[i] = data[index++];
                 }
 
-                for(var1 = 0; var1 < Crates.bobDirection.length; ++var1) {
-                    Crates.bobDirection[var1] = var0[var2++];
+                for(i = 0; i < Crates.bobDirection.length; ++i) {
+                    Crates.bobDirection[i] = data[index++];
                 }
 
-                for(var1 = 0; var1 < Crates.vx.length; ++var1) {
-                    Crates.vx[var1] = var0[var2++];
+                for(i = 0; i < Crates.vx.length; ++i) {
+                    Crates.vx[i] = data[index++];
                 }
 
-                for(var1 = 0; var1 < Crates.vy.length; ++var1) {
-                    Crates.vy[var1] = var0[var2++];
+                for(i = 0; i < Crates.vy.length; ++i) {
+                    Crates.vy[i] = data[index++];
                 }
 
-                for(var1 = 0; var1 < Crates.x.length; ++var1) {
-                    Crates.x[var1] = var0[var2++];
+                for(i = 0; i < Crates.x.length; ++i) {
+                    Crates.x[i] = data[index++];
                 }
 
-                for(var1 = 0; var1 < Crates.y.length; ++var1) {
-                    Crates.y[var1] = var0[var2++];
+                for(i = 0; i < Crates.y.length; ++i) {
+                    Crates.y[i] = data[index++];
                 }
-            } catch (Exception var4) {
+            } catch (Exception e) {
             }
         }
 
@@ -726,17 +727,17 @@ public final class b extends Canvas implements Runnable {
                 try {
                     heroTransformHeads[0] = Character.loadHeroTransformHead(0);
                     heroTransformHeads[1] = Character.loadHeroTransformHead(1);
-                } catch (Exception var3) {
+                } catch (Exception e) {
                 }
 
                 heroTransformHeads[2] = heroTransformHeads[1];
                 heroTransformHeads[3] = heroTransformHeads[0];
             }
 
-            for(var1 = 0; var1 < 4; ++var1) {
-                Image var6 = heroHeads[var1];
-                heroHeads[var1] = heroTransformHeads[var1];
-                heroTransformHeads[var1] = var6;
+            for(i = 0; i < 4; ++i) {
+                Image swap = heroHeads[i];
+                heroHeads[i] = heroTransformHeads[i];
+                heroTransformHeads[i] = swap;
             }
         }
 
@@ -782,9 +783,9 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        int var0 = PlayerStats.rollMeleeDamage(tick, Inventory.swordLevel);
+        int damage = PlayerStats.rollMeleeDamage(tick, Inventory.swordLevel);
         if (Player.transformed) {
-            var0 <<= 1;
+            damage <<= 1;
         }
 
         if (Player.weapon == 1) {
@@ -794,13 +795,13 @@ public final class b extends Canvas implements Runnable {
                 Player.vy = -2;
             }
 
-            int var1 = findLaunchTarget();
+            int i = findLaunchTarget();
             Player.launchHit = false;
-            if (var1 != -1) {
+            if (i != -1) {
                 Player.launchHit = true;
-                damageMonster(var1, var0, -Player.facing);
-                Blood.spawn(Monsters.x[var1], Monsters.y[var1] - (Monsters.height[var1] >> 1), Player.facing);
-                FloatingText.spawn("-" + var0, 0, Monsters.x[var1], Monsters.y[var1] - Monsters.height[var1], 0, -2);
+                damageMonster(i, damage, -Player.facing);
+                Blood.spawn(Monsters.x[i], Monsters.y[i] - (Monsters.height[i] >> 1), Player.facing);
+                FloatingText.spawn("-" + damage, 0, Monsters.x[i], Monsters.y[i] - Monsters.height[i], 0, -2);
                 if (Player.vy > 0) {
                     Player.vy = -6;
                 }
@@ -808,37 +809,37 @@ public final class b extends Canvas implements Runnable {
                 shakeCameraIfTransformed();
             }
 
-            for(var1 = 0; var1 < Crates.count; ++var1) {
-                if (abs(Player.y - Player.halfHeight - Crates.y[var1]) < 20 && abs(Player.x + (Player.facing << 4) - Crates.x[var1]) < 24) {
-                    Crates.state[var1] = Crates.STATE_SLIDING;
-                    Crates.vx[var1] = Player.facing << 3;
-                    Blood.spawn(Crates.x[var1], Crates.y[var1] - 12, Player.facing);
+            for(i = 0; i < Crates.count; ++i) {
+                if (abs(Player.y - Player.halfHeight - Crates.y[i]) < 20 && abs(Player.x + (Player.facing << 4) - Crates.x[i]) < 24) {
+                    Crates.state[i] = Crates.STATE_SLIDING;
+                    Crates.vx[i] = Player.facing << 3;
+                    Blood.spawn(Crates.x[i], Crates.y[i] - 12, Player.facing);
                     shakeCameraIfTransformed();
                     break;
                 }
             }
 
             if (BoarBoss.active && abs(Player.y - BoarBoss.y) < 30 && abs(Player.x + (Player.facing << 4) - BoarBoss.x) < 40) {
-                if (!damageBoarBoss(var0, -Player.facing)) {
+                if (!damageBoarBoss(damage, -Player.facing)) {
                     Blood.spawn(Player.x + (BoarBoss.x - Player.x >> 1), Player.y - 12, Player.facing);
-                    FloatingText.spawn("-" + var0, 0, BoarBoss.x, BoarBoss.y - BoarBoss.height, 0, -2);
+                    FloatingText.spawn("-" + damage, 0, BoarBoss.x, BoarBoss.y - BoarBoss.height, 0, -2);
                 }
 
                 shakeCameraIfTransformed();
             }
 
-            for(var1 = 0; var1 < Ninjas.count; ++var1) {
-                if (abs(Player.y - Ninjas.y[var1]) <= 12 && abs(Player.x + (Player.facing << 4) - Ninjas.x[var1]) < 24) {
-                    damageNinja(var1, var0, -Player.facing);
-                    Blood.spawn(Ninjas.x[var1], Ninjas.y[var1] - 15, Player.facing);
-                    FloatingText.spawn("-" + var0, 0, Ninjas.x[var1], Ninjas.y[var1] - 28, 0, -2);
+            for(i = 0; i < Ninjas.count; ++i) {
+                if (abs(Player.y - Ninjas.y[i]) <= 12 && abs(Player.x + (Player.facing << 4) - Ninjas.x[i]) < 24) {
+                    damageNinja(i, damage, -Player.facing);
+                    Blood.spawn(Ninjas.x[i], Ninjas.y[i] - 15, Player.facing);
+                    FloatingText.spawn("-" + damage, 0, Ninjas.x[i], Ninjas.y[i] - 28, 0, -2);
                     shakeCameraIfTransformed();
                     break;
                 }
             }
 
             if (RiverMonster.active && abs(Player.y - (RiverMonster.y - 40)) < 30 && abs(Player.x + (Player.facing << 4) - RiverMonster.x) < 40) {
-                if ((RiverMonster.hp -= var0) <= 0) {
+                if ((RiverMonster.hp -= damage) <= 0) {
                     RiverMonster.hp = 0;
                     RiverMonster.timer = 0;
                     RiverMonster.healthBarTimer = 0;
@@ -853,13 +854,13 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 Blood.spawn(Player.x + (RiverMonster.x - Player.x >> 1), Player.y - 12, Player.facing);
-                FloatingText.spawn("-" + var0, 0, RiverMonster.x, RiverMonster.y - RiverMonster.height, 0, -2);
+                FloatingText.spawn("-" + damage, 0, RiverMonster.x, RiverMonster.y - RiverMonster.height, 0, -2);
                 shakeCameraIfTransformed();
             }
 
             if (Toniku.active) {
                 if (abs(Player.y - Classmates.y[0]) < 5 && abs(Player.x + (Player.facing << 4) - Classmates.x[0]) < 30) {
-                    damageToniku(var0, Player.facing);
+                    damageToniku(damage, Player.facing);
                 }
 
                 shakeCameraIfTransformed();
@@ -867,7 +868,7 @@ public final class b extends Canvas implements Runnable {
 
             if (FinalBoss.active) {
                 if (abs(Player.y - (FinalBoss.y - 30)) < 30 && abs(Player.x + (Player.facing << 4) - FinalBoss.x) < 30) {
-                    if ((FinalBoss.hp -= var0) <= 0) {
+                    if ((FinalBoss.hp -= damage) <= 0) {
                         FinalBoss.hp = 0;
                         FinalBoss.timer = 0;
                         FinalBoss.healthBarTimer = 0;
@@ -880,7 +881,7 @@ public final class b extends Canvas implements Runnable {
                     } else {
                         FinalBoss.healthBarTimer = 50;
                         Blood.spawn(FinalBoss.x, FinalBoss.y - 47, Player.facing);
-                        FloatingText.spawn("-" + var0, 0, FinalBoss.x, FinalBoss.y - 55, 0, -2);
+                        FloatingText.spawn("-" + damage, 0, FinalBoss.x, FinalBoss.y - 55, 0, -2);
                     }
                 }
 
@@ -891,72 +892,61 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void girlAttackHit() {
-        int var0;
-        int var1;
         if (Girl.weapon == 1) {
-            var0 = Girl.facing << 3;
-            var1 = Player.y - Girl.y >> 3;
-            Darts.spawn(Girl.x + (Girl.facing << 3), Girl.y - 12, var0, var1 + (var0 - 8), true);
+            int vx = Girl.facing << 3;
+            int aimY = Player.y - Girl.y >> 3;
+            Darts.spawn(Girl.x + (Girl.facing << 3), Girl.y - 12, vx, aimY + (vx - 8), true);
         } else {
-            var0 = PlayerStats.attack << 1;
-            var1 = Girl.facing > 0 ? Girl.x - 20 : Girl.x - 40;
-            int var2 = Girl.facing > 0 ? Girl.x + 40 : Girl.x + 20;
-            int var3 = Girl.y - Girl.height - 15;
-            int var4 = Girl.y + 5;
-            int var5 = 0;
+            int damage = PlayerStats.attack << 1;
+            int left = Girl.facing > 0 ? Girl.x - 20 : Girl.x - 40;
+            int right = Girl.facing > 0 ? Girl.x + 40 : Girl.x + 20;
+            int top = Girl.y - Girl.height - 15;
+            int bottom = Girl.y + 5;
 
-            int var10000;
-            while(true) {
-                if (var5 >= Monsters.count) {
-                    var10000 = -1;
+            // Quái đầu tiên trong vùng chém (giống findLaunchTarget nhưng tính từ cô gái).
+            int target = -1;
+            for(int m = 0; m < Monsters.count; ++m) {
+                if (Monsters.state[m] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[m] >= left && Monsters.x[m] <= right && Monsters.y[m] >= top && Monsters.y[m] <= bottom) {
+                    target = m;
                     break;
                 }
-
-                if (Monsters.state[var5] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[var5] >= var1 && Monsters.x[var5] <= var2 && Monsters.y[var5] >= var3 && Monsters.y[var5] <= var4) {
-                    var10000 = var5;
-                    break;
-                }
-
-                ++var5;
             }
 
-            var1 = var10000;
-            if (var10000 != -1) {
-                damageMonster(var1, var0, -Girl.facing);
-                Blood.spawn(Monsters.x[var1], Monsters.y[var1] - (Monsters.height[var1] >> 1), Girl.facing);
-                FloatingText.spawn("-" + var0, 0, Monsters.x[var1], Monsters.y[var1] - Monsters.height[var1], 0, -2);
+            if (target != -1) {
+                damageMonster(target, damage, -Girl.facing);
+                Blood.spawn(Monsters.x[target], Monsters.y[target] - (Monsters.height[target] >> 1), Girl.facing);
+                FloatingText.spawn("-" + damage, 0, Monsters.x[target], Monsters.y[target] - Monsters.height[target], 0, -2);
             }
 
-            if (BoarBoss.active && abs(Girl.y - BoarBoss.y) < 30 && abs(Girl.x + (Girl.facing << 4) - BoarBoss.x) < 40 && !damageBoarBoss(var0, -Girl.facing)) {
+            if (BoarBoss.active && abs(Girl.y - BoarBoss.y) < 30 && abs(Girl.x + (Girl.facing << 4) - BoarBoss.x) < 40 && !damageBoarBoss(damage, -Girl.facing)) {
                 Blood.spawn(Girl.x + (BoarBoss.x - Girl.x >> 1), Girl.y - 12, Girl.facing);
-                FloatingText.spawn("-" + var0, 0, BoarBoss.x, BoarBoss.y - BoarBoss.height, 0, -2);
+                FloatingText.spawn("-" + damage, 0, BoarBoss.x, BoarBoss.y - BoarBoss.height, 0, -2);
             }
 
-            for(var1 = 0; var1 < Ninjas.count; ++var1) {
-                if (Girl.y == Ninjas.y[var1] && abs(Girl.x + (Girl.facing << 4) - Ninjas.x[var1]) < 24) {
-                    damageNinja(var1, var0, -Girl.facing);
-                    Blood.spawn(Ninjas.x[var1], Ninjas.y[var1] - 15, Girl.facing);
-                    FloatingText.spawn("-" + var0, 0, Ninjas.x[var1], Ninjas.y[var1] - 28, 0, -2);
+            for(int i = 0; i < Ninjas.count; ++i) {
+                if (Girl.y == Ninjas.y[i] && abs(Girl.x + (Girl.facing << 4) - Ninjas.x[i]) < 24) {
+                    damageNinja(i, damage, -Girl.facing);
+                    Blood.spawn(Ninjas.x[i], Ninjas.y[i] - 15, Girl.facing);
+                    FloatingText.spawn("-" + damage, 0, Ninjas.x[i], Ninjas.y[i] - 28, 0, -2);
                     return;
                 }
             }
-
         }
     }
 
     private static void landOnCrates() {
-        for(int var0 = 0; var0 < Crates.count; ++var0) {
-            if (Crates.state[var0] != Crates.STATE_FALLING && abs(Player.x - Crates.x[var0]) < 20 && Crates.y[var0] > Player.y && Crates.y[var0] - 24 <= Player.y) {
+        for(int i = 0; i < Crates.count; ++i) {
+            if (Crates.state[i] != Crates.STATE_FALLING && abs(Player.x - Crates.x[i]) < 20 && Crates.y[i] > Player.y && Crates.y[i] - 24 <= Player.y) {
                 Player.vx = 0;
                 Player.vy = 0;
-                Player.y = Crates.y[var0] - 24;
+                Player.y = Crates.y[i] - 24;
                 Player.action = PlayerAction.STAND;
                 Player.slashEffect = -1;
-                Player.crate = var0;
-                if (Crates.state[var0] == Crates.STATE_FLOATING) {
-                    WaterSplash.spawn(Crates.x[var0], Crates.y[var0] - 10);
-                    Crates.y[var0] += 4;
-                    Crates.vy[var0] += 4;
+                Player.crate = i;
+                if (Crates.state[i] == Crates.STATE_FLOATING) {
+                    WaterSplash.spawn(Crates.x[i], Crates.y[i] - 10);
+                    Crates.y[i] += 4;
+                    Crates.vy[i] += 4;
                     return;
                 }
                 break;
@@ -966,18 +956,18 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void pushCratesInAir() {
-        for(int var0 = 0; var0 < Crates.count; ++var0) {
-            if (abs(Player.x - Crates.x[var0]) < 20 && abs(Crates.y[var0] - Player.y) < 4) {
+        for(int i = 0; i < Crates.count; ++i) {
+            if (abs(Player.x - Crates.x[i]) < 20 && abs(Crates.y[i] - Player.y) < 4) {
                 Player.vx = 0;
-                if (Player.x < Crates.x[var0]) {
-                    Player.x = Crates.x[var0] - 20;
+                if (Player.x < Crates.x[i]) {
+                    Player.x = Crates.x[i] - 20;
                 } else {
-                    Player.x = Crates.x[var0] + 20;
+                    Player.x = Crates.x[i] + 20;
                 }
 
-                if (Crates.state[var0] != Crates.STATE_FALLING) {
-                    Crates.state[var0] = Crates.STATE_SLIDING;
-                    Crates.vx[var0] = -Player.facing << 1;
+                if (Crates.state[i] != Crates.STATE_FALLING) {
+                    Crates.state[i] = Crates.STATE_SLIDING;
+                    Crates.vx[i] = -Player.facing << 1;
                     return;
                 }
             }
@@ -1033,18 +1023,18 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void pushCrates() {
-        for(int var0 = 0; var0 < Crates.count; ++var0) {
-            if (abs(Player.x - Crates.x[var0]) < 20 && Crates.y[var0] == Player.y) {
+        for(int i = 0; i < Crates.count; ++i) {
+            if (abs(Player.x - Crates.x[i]) < 20 && Crates.y[i] == Player.y) {
                 Player.vx = 0;
-                if (Player.x < Crates.x[var0]) {
-                    Player.x = Crates.x[var0] - 20;
+                if (Player.x < Crates.x[i]) {
+                    Player.x = Crates.x[i] - 20;
                 } else {
-                    Player.x = Crates.x[var0] + 20;
+                    Player.x = Crates.x[i] + 20;
                 }
 
-                if (Crates.state[var0] != Crates.STATE_FALLING) {
-                    Crates.state[var0] = Crates.STATE_SLIDING;
-                    Crates.vx[var0] = Player.facing << 2;
+                if (Crates.state[i] != Crates.STATE_FALLING) {
+                    Crates.state[i] = Crates.STATE_SLIDING;
+                    Crates.vx[i] = Player.facing << 2;
                     return;
                 }
             }
@@ -1269,14 +1259,14 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static int findLaunchTarget() {
-        int var0 = Player.facing > 0 ? Player.x - 20 : Player.x - 40;
-        int var1 = Player.facing > 0 ? Player.x + 40 : Player.x + 20;
-        int var2 = Player.y - Player.height - 15;
-        int var3 = Player.y + 5;
+        int left = Player.facing > 0 ? Player.x - 20 : Player.x - 40;
+        int right = Player.facing > 0 ? Player.x + 40 : Player.x + 20;
+        int top = Player.y - Player.height - 15;
+        int bottom = Player.y + 5;
 
-        for(int var4 = 0; var4 < Monsters.count; ++var4) {
-            if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[var4] >= var0 && Monsters.x[var4] <= var1 && Monsters.y[var4] >= var2 && Monsters.y[var4] <= var3) {
-                return var4;
+        for(int i = 0; i < Monsters.count; ++i) {
+            if (Monsters.state[i] != Monsters.STATE_RESPAWN_WAIT && Monsters.x[i] >= left && Monsters.x[i] <= right && Monsters.y[i] >= top && Monsters.y[i] <= bottom) {
+                return i;
             }
         }
 
@@ -1302,10 +1292,10 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void girlFindTarget() {
-        int var0;
-        for(var0 = 0; var0 < Monsters.count; ++var0) {
-            if (Monsters.state[var0] != Monsters.STATE_RESPAWN_WAIT && abs(Monsters.y[var0] - Girl.y) < 20 && abs(Monsters.x[var0] - Girl.x) < 40) {
-                Girl.facing = Monsters.x[var0] > Girl.x ? 1 : -1;
+        int i;
+        for(i = 0; i < Monsters.count; ++i) {
+            if (Monsters.state[i] != Monsters.STATE_RESPAWN_WAIT && abs(Monsters.y[i] - Girl.y) < 20 && abs(Monsters.x[i] - Girl.x) < 40) {
+                Girl.facing = Monsters.x[i] > Girl.x ? 1 : -1;
                 Girl.action = PlayerAction.ATTACK;
                 Girl.weapon = 0;
                 Girl.actionTimer = 0;
@@ -1314,9 +1304,9 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        for(var0 = 0; var0 < Ninjas.count; ++var0) {
-            if (Ninjas.state[var0] != Ninjas.STATE_DEAD && Ninjas.y[var0] == Girl.y && abs(Ninjas.x[var0] - Girl.x) < 40) {
-                Girl.facing = Ninjas.x[var0] > Girl.x ? 1 : -1;
+        for(i = 0; i < Ninjas.count; ++i) {
+            if (Ninjas.state[i] != Ninjas.STATE_DEAD && Ninjas.y[i] == Girl.y && abs(Ninjas.x[i] - Girl.x) < 40) {
+                Girl.facing = Ninjas.x[i] > Girl.x ? 1 : -1;
                 Girl.action = PlayerAction.ATTACK;
                 Girl.weapon = 0;
                 Girl.actionTimer = 0;
@@ -1350,15 +1340,15 @@ public final class b extends Canvas implements Runnable {
                 return;
             }
 
-            int var0;
-            int var1;
+            int tx;
+            int ty;
             if (Girl.x >= cameraX - 24 && Girl.x <= cameraX + Viewport.viewWidth + 24) {
                 if (Girl.y < cameraY - 30 || Girl.y > cameraY + Viewport.viewHeight + 30) {
                     Girl.facing = Player.x + (Player.facing << 5) > Girl.x ? 1 : -1;
-                    var0 = Player.x;
-                    var1 = Player.y > Girl.y ? cameraY - 20 : cameraY + Viewport.viewHeight;
-                    Girl.x = var0;
-                    Girl.y = var1;
+                    tx = Player.x;
+                    ty = Player.y > Girl.y ? cameraY - 20 : cameraY + Viewport.viewHeight;
+                    Girl.x = tx;
+                    Girl.y = ty;
                     Girl.action = PlayerAction.JUMP;
                     Girl.vx = Girl.facing << 2;
                     Girl.vy = -4;
@@ -1383,15 +1373,15 @@ public final class b extends Canvas implements Runnable {
                             return;
                         }
 
-                        for(var0 = 1; var0 <= 5 && Girl.y + var0 * 24 < GameMap.pixelHeight && !GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + var0 * 24, TileFlags.WATER); ++var0) {
-                            if (GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + var0 * 24, TileFlags.SOLID)) {
+                        for(int step = 1; step <= 5 && Girl.y + step * 24 < GameMap.pixelHeight && !GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + step * 24, TileFlags.WATER); ++step) {
+                            if (GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + step * 24, TileFlags.SOLID)) {
                                 Girl.action = PlayerAction.JUMP;
                                 Girl.vx = Girl.facing << 2;
                                 Girl.vy = -4;
                                 return;
                             }
 
-                            if (GameMap.hasFlag(Girl.x + Girl.facing * 48, Girl.y + var0 * 24, TileFlags.SOLID)) {
+                            if (GameMap.hasFlag(Girl.x + Girl.facing * 48, Girl.y + step * 24, TileFlags.SOLID)) {
                                 Girl.action = PlayerAction.JUMP;
                                 Girl.vx = Girl.facing * 6;
                                 Girl.vy = -4;
@@ -1433,11 +1423,11 @@ public final class b extends Canvas implements Runnable {
                         return;
                     }
 
-                    for(var0 = 1; var0 <= 3; ++var0) {
-                        if (GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y - var0 * 24, TileFlags.SOLID)) {
+                    for(int step = 1; step <= 3; ++step) {
+                        if (GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y - step * 24, TileFlags.SOLID)) {
                             Girl.action = PlayerAction.JUMP;
                             Girl.vx = Girl.facing * 6;
-                            Girl.vy = -5 - var0 * 3;
+                            Girl.vy = -5 - step * 3;
                             return;
                         }
                     }
@@ -1450,42 +1440,42 @@ public final class b extends Canvas implements Runnable {
                             return;
                         }
 
-                        var0 = 1;
+                        int step = 1;
 
                         while(true) {
-                            if (var0 > 5) {
+                            if (step > 5) {
                                 return;
                             }
 
-                            if (Girl.y + var0 * 24 >= GameMap.pixelHeight || GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + var0 * 24, TileFlags.WATER)) {
+                            if (Girl.y + step * 24 >= GameMap.pixelHeight || GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + step * 24, TileFlags.WATER)) {
                                 break;
                             }
 
-                            if (GameMap.hasFlag(Girl.x + Girl.facing * 48, Girl.y + var0 * 24, TileFlags.SOLID)) {
+                            if (GameMap.hasFlag(Girl.x + Girl.facing * 48, Girl.y + step * 24, TileFlags.SOLID)) {
                                 Girl.action = PlayerAction.JUMP;
                                 Girl.vx = Girl.facing * 6;
                                 Girl.vy = -4;
                                 return;
                             }
 
-                            if (GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + var0 * 24, TileFlags.SOLID)) {
+                            if (GameMap.hasFlag(Girl.x + Girl.facing * 24, Girl.y + step * 24, TileFlags.SOLID)) {
                                 Girl.action = PlayerAction.JUMP;
                                 Girl.vx = Girl.facing << 2;
                                 Girl.vy = -4;
                                 return;
                             }
 
-                            ++var0;
+                            ++step;
                         }
                     }
                 }
             } else {
                 Girl.facing = Player.x + (Player.facing << 5) > Girl.x ? 1 : -1;
-                var0 = Player.x > Girl.x ? cameraX - 24 : cameraX + Viewport.viewWidth + 24;
-                var1 = Player.y - 20;
-                if (!GameMap.hasFlag(var0, var1, TileFlags.DIGGABLE)) {
-                    Girl.x = var0;
-                    Girl.y = var1;
+                tx = Player.x > Girl.x ? cameraX - 24 : cameraX + Viewport.viewWidth + 24;
+                ty = Player.y - 20;
+                if (!GameMap.hasFlag(tx, ty, TileFlags.DIGGABLE)) {
+                    Girl.x = tx;
+                    Girl.y = ty;
                     Girl.action = PlayerAction.FALL;
                     Girl.vx = 4;
                     Girl.vy = 3;
@@ -1623,10 +1613,10 @@ public final class b extends Canvas implements Runnable {
         if (arrowIcons == null) {
             arrowIcons = new Image[4];
 
-            for(int var0 = 0; var0 < 4; ++var0) {
+            for(int i = 0; i < 4; ++i) {
                 try {
-                    arrowIcons[var0] = Ui.loadArrow(var0);
-                } catch (Exception var1) {
+                    arrowIcons[i] = Ui.loadArrow(i);
+                } catch (Exception e) {
                 }
             }
         }
@@ -1636,7 +1626,7 @@ public final class b extends Canvas implements Runnable {
     public static void loadScrollIcon() {
         try {
             itemScroll = Item.loadScroll();
-        } catch (Exception var0) {
+        } catch (Exception e) {
         }
     }
 
@@ -1718,23 +1708,23 @@ public final class b extends Canvas implements Runnable {
             try {
                 heroBodies = new Image[20];
 
-                int var0;
-                for(var0 = 0; var0 < 20; ++var0) {
-                    heroBodies[var0] = Character.loadHeroBody(var0);
+                int i;
+                for(i = 0; i < 20; ++i) {
+                    heroBodies[i] = Character.loadHeroBody(i);
                 }
 
                 heroHeads = new Image[11];
 
-                for(var0 = 0; var0 < 11; ++var0) {
-                    heroHeads[var0] = Character.loadHeroHead(var0);
+                for(i = 0; i < 11; ++i) {
+                    heroHeads[i] = Character.loadHeroHead(i);
                 }
 
                 heroLegs = new Image[10];
 
-                for(var0 = 0; var0 < 10; ++var0) {
-                    heroLegs[var0] = Character.loadHeroLegs(var0);
+                for(i = 0; i < 10; ++i) {
+                    heroLegs[i] = Character.loadHeroLegs(i);
                 }
-            } catch (Exception var1) {
+            } catch (Exception e) {
             }
         }
 
@@ -1762,8 +1752,8 @@ public final class b extends Canvas implements Runnable {
                 if (hudFrames == null) {
                     hudFrames = new Image[2];
 
-                    for(int var0 = 0; var0 < 2; ++var0) {
-                        hudFrames[var0] = Ui.loadHud(var0);
+                    for(int i = 0; i < 2; ++i) {
+                        hudFrames[i] = Ui.loadHud(i);
                     }
                 }
 
@@ -1775,7 +1765,7 @@ public final class b extends Canvas implements Runnable {
                 hudBarMaxWidth = Viewport.viewWidth - 134;
                 hudExpBarMaxWidth = Viewport.viewWidth - 84;
                 hudMpBarHeight = 5;
-            } catch (IOException var1) {
+            } catch (IOException e) {
             }
         }
     }
@@ -1788,7 +1778,7 @@ public final class b extends Canvas implements Runnable {
 
             (weaponIcons = new Image[2])[1] = Ui.loadDartIcon();
             weaponIcons[0] = Ui.loadSwordIcon(Inventory.swordLevel);
-        } catch (Exception var0) {
+        } catch (Exception e) {
         }
     }
 
@@ -1808,7 +1798,7 @@ public final class b extends Canvas implements Runnable {
 
         try {
             titleImage = Ui.loadTitle();
-        } catch (Exception var1) {
+        } catch (Exception e) {
         }
 
         menuTextTargetY = Viewport.screenHeight - 30;
@@ -1873,7 +1863,7 @@ public final class b extends Canvas implements Runnable {
             placeQuestItem(72, 240);
         }
 
-        int var1;
+        int i;
         if (map == 4 && Story.prologueActive) {
             prologueNoRespawn = true;
             Skills.lightness = true;
@@ -1906,8 +1896,8 @@ public final class b extends Canvas implements Runnable {
             Player.x = 864;
             Player.y = 336;
 
-            for(var1 = 0; var1 < 19; ++var1) {
-                WorldMap.visited[var1] = false;
+            for(i = 0; i < 19; ++i) {
+                WorldMap.visited[i] = false;
             }
 
             WorldMap.visited[0] = true;
@@ -1936,14 +1926,14 @@ public final class b extends Canvas implements Runnable {
         }
 
         if (map == 97 && Story.riverMonsterDefeated) {
-            for(var1 = 0; var1 <= 6; ++var1) {
-                GameMap.clearFlags(24, var1);
+            for(i = 0; i <= 6; ++i) {
+                GameMap.clearFlags(24, i);
             }
         }
 
         if (map == 96 && Story.tonikuDefeated) {
-            for(var1 = 0; var1 <= 11; ++var1) {
-                GameMap.clearFlags(24, var1);
+            for(i = 0; i <= 11; ++i) {
+                GameMap.clearFlags(24, i);
             }
         }
 
@@ -1957,47 +1947,38 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void classmateHitMonster(int i) {
-        int var1;
-        boolean var6;
-        label29: {
-            var1 = PlayerStats.attack;
-            int var10000 = Classmates.targetMonster[i];
-            int var4 = -Classmates.facing[i];
-            int var2 = var10000;
-            if (Monsters.state[var2] == Monsters.STATE_ACTIVE || Monsters.state[var2] == Monsters.STATE_RESTING || Monsters.state[var2] == Monsters.STATE_ATTACKING) {
-                int[] var5 = Monsters.hp;
-                var5[var2] -= var1;
-                if (Monsters.hp[var2] <= 0) {
-                    Monsters.hp[var2] = 0;
-                    Monsters.timer[var2] = -5;
-                    Monsters.aux1[var2] = -(var4 << 3);
-                    Monsters.aux2[var2] = 0;
-                    Monsters.healthBarTimer[var2] = 0;
-                    Monsters.state[var2] = Monsters.STATE_KNOCKED_OUT;
-                    var6 = true;
-                    break label29;
-                }
-
-                Monsters.timer[var2] = 0;
-                Monsters.direction[var2] = var4;
-                Monsters.state[var2] = Monsters.STATE_HURT;
-                Monsters.frame[var2] = 3;
+        int damage = PlayerStats.attack;
+        int m = Classmates.targetMonster[i];
+        int direction = -Classmates.facing[i];
+        boolean killed = false;
+        if (Monsters.state[m] == Monsters.STATE_ACTIVE || Monsters.state[m] == Monsters.STATE_RESTING || Monsters.state[m] == Monsters.STATE_ATTACKING) {
+            Monsters.hp[m] -= damage;
+            if (Monsters.hp[m] <= 0) {
+                Monsters.hp[m] = 0;
+                Monsters.timer[m] = -5;
+                Monsters.aux1[m] = -(direction << 3);
+                Monsters.aux2[m] = 0;
+                Monsters.healthBarTimer[m] = 0;
+                Monsters.state[m] = Monsters.STATE_KNOCKED_OUT;
+                killed = true;
+            } else {
+                Monsters.timer[m] = 0;
+                Monsters.direction[m] = direction;
+                Monsters.state[m] = Monsters.STATE_HURT;
+                Monsters.frame[m] = 3;
             }
-
-            var6 = false;
         }
 
-        if (!var6) {
-            Blood.spawn(Monsters.x[Classmates.targetMonster[i]], Monsters.y[Classmates.targetMonster[i]] - (Monsters.height[Classmates.targetMonster[i]] >> 1), Monsters.direction[Classmates.targetMonster[i]]);
-            FloatingText.spawn("-" + var1, 0, Monsters.x[Classmates.targetMonster[i]], Monsters.y[Classmates.targetMonster[i]] - Monsters.height[Classmates.targetMonster[i]], 0, -2);
+        if (!killed) {
+            Blood.spawn(Monsters.x[m], Monsters.y[m] - (Monsters.height[m] >> 1), Monsters.direction[m]);
+            FloatingText.spawn("-" + damage, 0, Monsters.x[m], Monsters.y[m] - Monsters.height[m], 0, -2);
         }
-
     }
 
     private static void classmateFindMonster(int i) {
-        for(int var1 = 0; var1 < Monsters.count; ++var1) {
-            if (Monsters.state[var1] != Monsters.STATE_RESPAWN_WAIT && Monsters.y[var1] == Classmates.y[i] && abs(Classmates.x[i] + (Classmates.facing[i] << 3) - Monsters.x[var1]) < 20) {
-                if (Monsters.x[var1] < Classmates.x[i]) {
+        for(int m = 0; m < Monsters.count; ++m) {
+            if (Monsters.state[m] != Monsters.STATE_RESPAWN_WAIT && Monsters.y[m] == Classmates.y[i] && abs(Classmates.x[i] + (Classmates.facing[i] << 3) - Monsters.x[m]) < 20) {
+                if (Monsters.x[m] < Classmates.x[i]) {
                     Classmates.facing[i] = -1;
                 } else {
                     Classmates.facing[i] = 1;
@@ -2005,7 +1986,7 @@ public final class b extends Canvas implements Runnable {
 
                 Classmates.state[i] = Classmates.STATE_ATTACK;
                 Classmates.animTimer[i] = Classmates.target[i] = 0;
-                Classmates.targetMonster[i] = var1;
+                Classmates.targetMonster[i] = m;
             }
         }
 
@@ -2052,20 +2033,20 @@ public final class b extends Canvas implements Runnable {
             g.drawRect(23, 8, hudBarMaxWidth + 1, 4);
             g.drawRect(23, 14, hudBarMaxWidth + 1, 3);
             g.setColor(16711680);
-            int var1 = PlayerStats.hpBarWidth(hudBarMaxWidth);
-            g.fillRect(24, 3, var1, 3);
+            int barWidth = PlayerStats.hpBarWidth(hudBarMaxWidth);
+            g.fillRect(24, 3, barWidth, 3);
             g.setColor(5570560);
-            g.fillRect(var1 + 24, 3, hudBarMaxWidth - var1, 3);
+            g.fillRect(barWidth + 24, 3, hudBarMaxWidth - barWidth, 3);
             g.setColor(255);
-            var1 = PlayerStats.mpBarWidth(hudBarMaxWidth);
-            g.fillRect(24, 9, var1, 3);
+            barWidth = PlayerStats.mpBarWidth(hudBarMaxWidth);
+            g.fillRect(24, 9, barWidth, 3);
             g.setColor(5570560);
-            g.fillRect(var1 + 24, 9, hudBarMaxWidth - var1, 3);
+            g.fillRect(barWidth + 24, 9, hudBarMaxWidth - barWidth, 3);
             g.setColor(7274435);
-            var1 = Leveling.expBarWidth(hudBarMaxWidth);
-            g.fillRect(24, 15, var1, 2);
+            barWidth = Leveling.expBarWidth(hudBarMaxWidth);
+            g.fillRect(24, 15, barWidth, 2);
             g.setColor(19506);
-            g.fillRect(var1 + 24, 15, hudBarMaxWidth - var1, 2);
+            g.fillRect(barWidth + 24, 15, hudBarMaxWidth - barWidth, 2);
             FontGraph.drawSmall(g, "lv:" + PlayerStats.level, 2, hudLevelX, 7, 0);
             FontGraph.drawSmall(g, Inventory.money + "$", 1, hudMoneyX, 7, 0);
         }
@@ -2118,22 +2099,22 @@ public final class b extends Canvas implements Runnable {
             g.fillRect(hudLeftFrameWidth, hudY + 13, hudStripWidth, 1);
             g.drawImage(hudFrames[0], 0, hudY, 0);
             g.drawImage(hudFrames[1], 0 + hudWidth, hudY, 24);
-            int var1 = PlayerStats.hpBarWidth(hudBarMaxWidth);
+            int barWidth = PlayerStats.hpBarWidth(hudBarMaxWidth);
             g.setColor(7798784);
-            g.fillRect(hudBarX, hudBarY, var1, 2);
+            g.fillRect(hudBarX, hudBarY, barWidth, 2);
             g.setColor(13369344);
-            g.fillRect(hudBarX, hudBarY + 1, var1, 4);
-            var1 = PlayerStats.mpBarWidth(hudBarMaxWidth);
+            g.fillRect(hudBarX, hudBarY + 1, barWidth, 4);
+            barWidth = PlayerStats.mpBarWidth(hudBarMaxWidth);
             g.setColor(119);
-            g.fillRect(hudBarX, hudBarY + 12, var1, 2);
+            g.fillRect(hudBarX, hudBarY + 12, barWidth, 2);
             g.setColor(204);
-            g.fillRect(hudBarX, hudBarY + 14, var1, hudMpBarHeight - 2);
+            g.fillRect(hudBarX, hudBarY + 14, barWidth, hudMpBarHeight - 2);
             FontGraph.drawSmall(g, "" + Inventory.money, 1, hudWidth - 18, hudY + 6, 2);
-            var1 = Leveling.expBarWidth(hudExpBarMaxWidth);
+            barWidth = Leveling.expBarWidth(hudExpBarMaxWidth);
             g.setColor(94373);
-            g.fillRect(31, hudY + 31, var1, 1);
+            g.fillRect(31, hudY + 31, barWidth, 1);
             g.setColor(65535);
-            g.fillRect(31, hudY + 32, var1, 1);
+            g.fillRect(31, hudY + 32, barWidth, 1);
             FontGraph.drawSmall(g, "" + PlayerStats.level, 2, 26, hudY + 11, 2);
             g.drawImage(weaponIcons[Player.weapon], 43, hudY + 16, 3);
             FontGraph.drawSmall(g, "" + (Inventory.potionCounts[0] + Inventory.potionCounts[1] + Inventory.potionCounts[2]), 2, hudWidth - 29, hudY + 19, 2);
@@ -2153,8 +2134,8 @@ public final class b extends Canvas implements Runnable {
         }
 
         if (captionVisible) {
-            for(int var1 = 0; var1 < captionLines.length; ++var1) {
-                FontGraph.drawBold(g, captionLines[var1], Viewport.viewCenterX, captionY + (var1 << 4), 2);
+            for(int i = 0; i < captionLines.length; ++i) {
+                FontGraph.drawBold(g, captionLines[i], Viewport.viewCenterX, captionY + (i << 4), 2);
             }
         }
 
@@ -2164,38 +2145,38 @@ public final class b extends Canvas implements Runnable {
         g.translate(-g.getTranslateX(), -g.getTranslateY());
         g.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 2);
         dialogueBoxLines = Dialogue.pages[Dialogue.page].length;
-        int var1 = Dialogue.speakerY - cameraY - (dialogueBoxLines << 4);
-        boolean var2 = true;
-        if (var1 < 10) {
-            var2 = false;
-            var1 = 10;
+        int boxY = Dialogue.speakerY - cameraY - (dialogueBoxLines << 4);
+        boolean boxBelowSpeaker = true;
+        if (boxY < 10) {
+            boxBelowSpeaker = false;
+            boxY = 10;
         }
 
         g.setColor(16777215);
         if (Settings.lowGraphics) {
-            g.fillRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7);
+            g.fillRect(Dialogue.boxX, boxY - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7);
         } else {
-            g.fillRoundRect(Dialogue.boxX, var1 - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7, 10, 10);
+            g.fillRoundRect(Dialogue.boxX, boxY - 5, Dialogue.boxWidth, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
         g.setColor(17408);
         if (Settings.lowGraphics) {
-            g.drawRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7);
+            g.drawRect(Dialogue.boxX - 1, boxY - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7);
         } else {
-            g.drawRoundRect(Dialogue.boxX - 1, var1 - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7, 10, 10);
+            g.drawRoundRect(Dialogue.boxX - 1, boxY - 5, Dialogue.boxWidth + 1, (dialogueBoxLines << 4) + 7, 10, 10);
         }
 
-        for(int var3 = 0; var3 < Dialogue.shownLines; ++var3) {
-            FontGraph.drawRegular(g, Dialogue.pages[Dialogue.page][var3], Dialogue.boxX + (Dialogue.boxWidth >> 1), var1 + (var3 << 4), 2);
+        for(int line = 0; line < Dialogue.shownLines; ++line) {
+            FontGraph.drawRegular(g, Dialogue.pages[Dialogue.page][line], Dialogue.boxX + (Dialogue.boxWidth >> 1), boxY + (line << 4), 2);
         }
 
         if (Dialogue.shownLines < Dialogue.pages[Dialogue.page].length) {
-            FontGraph.drawRegular(g, Dialogue.pages[Dialogue.page][Dialogue.shownLines].substring(0, Dialogue.shownChars), Dialogue.boxX + (Dialogue.boxWidth >> 1), var1 + (Dialogue.shownLines << 4), 2);
+            FontGraph.drawRegular(g, Dialogue.pages[Dialogue.page][Dialogue.shownLines].substring(0, Dialogue.shownChars), Dialogue.boxX + (Dialogue.boxWidth >> 1), boxY + (Dialogue.shownLines << 4), 2);
         }
 
         g.setColor(0);
         g.fillRect(0, hudY + 33, hudWidth, 15);
-        if (var2 && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + Viewport.viewWidth - 10) {
+        if (boxBelowSpeaker && Dialogue.speakerX > cameraX + 10 && Dialogue.speakerX < cameraX + Viewport.viewWidth - 10) {
             g.drawImage(markerIcon, Dialogue.speakerX - cameraX, Dialogue.speakerY - cameraY + 2, 17);
         }
 
@@ -2206,21 +2187,21 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawClassmates(Graphics g) {
-        for(int var1 = 0; var1 < Classmates.count; ++var1) {
-            if (Classmates.x[var1] + Player.halfWidth >= cameraX && Classmates.x[var1] - Player.halfWidth <= cameraX + Viewport.viewWidth && Classmates.y[var1] >= cameraY && Classmates.y[var1] - Player.height <= cameraY + Viewport.viewHeight) {
-                if (Classmates.facing[var1] == 1) {
-                    g.drawImage(Classmates.heads[Classmates.skin[var1]][classmatePoses[Classmates.pose[var1]][0][0]], Classmates.x[var1] + classmatePoses[Classmates.pose[var1]][0][1], Classmates.y[var1] - classmatePoses[Classmates.pose[var1]][0][2], 0);
-                    g.drawImage(heroLegs[classmatePoses[Classmates.pose[var1]][1][0]], Classmates.x[var1] + classmatePoses[Classmates.pose[var1]][1][1], Classmates.y[var1] - classmatePoses[Classmates.pose[var1]][1][2], 0);
-                    g.drawImage(heroBodies[classmatePoses[Classmates.pose[var1]][2][0]], Classmates.x[var1] + classmatePoses[Classmates.pose[var1]][2][1], Classmates.y[var1] - classmatePoses[Classmates.pose[var1]][2][2], 0);
-                    if (Classmates.slashEffect[var1] != -1) {
-                        g.drawImage(slashEffects[Classmates.slashEffect[var1]], Classmates.x[var1] - slashOffsetX[Classmates.slashEffect[var1]], Classmates.y[var1] - slashOffsetY[Classmates.slashEffect[var1]], 0);
+        for(int i = 0; i < Classmates.count; ++i) {
+            if (Classmates.x[i] + Player.halfWidth >= cameraX && Classmates.x[i] - Player.halfWidth <= cameraX + Viewport.viewWidth && Classmates.y[i] >= cameraY && Classmates.y[i] - Player.height <= cameraY + Viewport.viewHeight) {
+                if (Classmates.facing[i] == 1) {
+                    g.drawImage(Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]], Classmates.x[i] + classmatePoses[Classmates.pose[i]][0][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][0][2], 0);
+                    g.drawImage(heroLegs[classmatePoses[Classmates.pose[i]][1][0]], Classmates.x[i] + classmatePoses[Classmates.pose[i]][1][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][1][2], 0);
+                    g.drawImage(heroBodies[classmatePoses[Classmates.pose[i]][2][0]], Classmates.x[i] + classmatePoses[Classmates.pose[i]][2][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][2][2], 0);
+                    if (Classmates.slashEffect[i] != -1) {
+                        g.drawImage(slashEffects[Classmates.slashEffect[i]], Classmates.x[i] - slashOffsetX[Classmates.slashEffect[i]], Classmates.y[i] - slashOffsetY[Classmates.slashEffect[i]], 0);
                     }
                 } else {
-                    g.drawRegion(Classmates.heads[Classmates.skin[var1]][classmatePoses[Classmates.pose[var1]][0][0]], 0, 0, Classmates.heads[Classmates.skin[var1]][classmatePoses[Classmates.pose[var1]][0][0]].getWidth(), Classmates.heads[Classmates.skin[var1]][classmatePoses[Classmates.pose[var1]][0][0]].getHeight(), 2, Classmates.x[var1] - classmatePoses[Classmates.pose[var1]][0][1], Classmates.y[var1] - classmatePoses[Classmates.pose[var1]][0][2], 24);
-                    g.drawRegion(heroLegs[classmatePoses[Classmates.pose[var1]][1][0]], 0, 0, heroLegs[classmatePoses[Classmates.pose[var1]][1][0]].getWidth(), heroLegs[classmatePoses[Classmates.pose[var1]][1][0]].getHeight(), 2, Classmates.x[var1] - classmatePoses[Classmates.pose[var1]][1][1], Classmates.y[var1] - classmatePoses[Classmates.pose[var1]][1][2], 24);
-                    g.drawRegion(heroBodies[classmatePoses[Classmates.pose[var1]][2][0]], 0, 0, heroBodies[classmatePoses[Classmates.pose[var1]][2][0]].getWidth(), heroBodies[classmatePoses[Classmates.pose[var1]][2][0]].getHeight(), 2, Classmates.x[var1] - classmatePoses[Classmates.pose[var1]][2][1], Classmates.y[var1] - classmatePoses[Classmates.pose[var1]][2][2], 24);
-                    if (Classmates.slashEffect[var1] != -1) {
-                        g.drawRegion(slashEffects[Classmates.slashEffect[var1]], 0, 0, slashEffects[Classmates.slashEffect[var1]].getWidth(), slashEffects[Classmates.slashEffect[var1]].getHeight(), 2, Classmates.x[var1] + slashOffsetX[Classmates.slashEffect[var1]], Classmates.y[var1] - slashOffsetY[Classmates.slashEffect[var1]], 24);
+                    g.drawRegion(Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]], 0, 0, Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]].getWidth(), Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]].getHeight(), 2, Classmates.x[i] - classmatePoses[Classmates.pose[i]][0][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][0][2], 24);
+                    g.drawRegion(heroLegs[classmatePoses[Classmates.pose[i]][1][0]], 0, 0, heroLegs[classmatePoses[Classmates.pose[i]][1][0]].getWidth(), heroLegs[classmatePoses[Classmates.pose[i]][1][0]].getHeight(), 2, Classmates.x[i] - classmatePoses[Classmates.pose[i]][1][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][1][2], 24);
+                    g.drawRegion(heroBodies[classmatePoses[Classmates.pose[i]][2][0]], 0, 0, heroBodies[classmatePoses[Classmates.pose[i]][2][0]].getWidth(), heroBodies[classmatePoses[Classmates.pose[i]][2][0]].getHeight(), 2, Classmates.x[i] - classmatePoses[Classmates.pose[i]][2][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][2][2], 24);
+                    if (Classmates.slashEffect[i] != -1) {
+                        g.drawRegion(slashEffects[Classmates.slashEffect[i]], 0, 0, slashEffects[Classmates.slashEffect[i]].getWidth(), slashEffects[Classmates.slashEffect[i]].getHeight(), 2, Classmates.x[i] + slashOffsetX[Classmates.slashEffect[i]], Classmates.y[i] - slashOffsetY[Classmates.slashEffect[i]], 24);
                     }
                 }
             }
@@ -2333,7 +2314,7 @@ public final class b extends Canvas implements Runnable {
             cameraTargetY = Player.y - cameraOffsetY;
         }
 
-        int var0;
+        int i;
         label788:
         switch (Player.action) {
             case PlayerAction.STAND:
@@ -2349,11 +2330,11 @@ public final class b extends Canvas implements Runnable {
 
                 updateBridges();
 
-                for(var0 = 0; var0 < Classmates.count; ++var0) {
-                    if (Classmates.state[var0] == Classmates.STATE_IDLE && Player.y == Classmates.y[var0] && abs(Player.x - Classmates.x[var0]) < 30 && Player.nearClassmate == -1) {
+                for(i = 0; i < Classmates.count; ++i) {
+                    if (Classmates.state[i] == Classmates.STATE_IDLE && Player.y == Classmates.y[i] && abs(Player.x - Classmates.x[i]) < 30 && Player.nearClassmate == -1) {
                         rightSoftKeyLabel = "Trò chuyện";
                         hudDirty = true;
-                        Player.nearClassmate = var0;
+                        Player.nearClassmate = i;
                         break;
                     }
                 }
@@ -2364,21 +2345,21 @@ public final class b extends Canvas implements Runnable {
                     Player.nearGirl = true;
                 }
 
-                var0 = 0;
+                i = 0;
 
                 while(true) {
-                    if (var0 >= npcCount) {
+                    if (i >= npcCount) {
                         break label788;
                     }
 
-                    if (Player.y == npcY[var0] && abs(Player.x - npcX[var0]) < 30 && Player.nearNpc == -1) {
+                    if (Player.y == npcY[i] && abs(Player.x - npcX[i]) < 30 && Player.nearNpc == -1) {
                         rightSoftKeyLabel = "Giao tiếp";
                         hudDirty = true;
-                        Player.nearNpc = var0;
+                        Player.nearNpc = i;
                         break label788;
                     }
 
-                    ++var0;
+                    ++i;
                 }
             case PlayerAction.RUN:
                 if (++Player.actionTimer >= 10) {
@@ -2519,13 +2500,13 @@ public final class b extends Canvas implements Runnable {
                     Dust.spawn(-1, Player.x - -8, Player.y);
                     Dust.spawn(1, Player.x - 8, Player.y);
                     if (Skills.motorbikeLicense) {
-                        for(var0 = 0; var0 < Motorbikes.count; ++var0) {
-                            if (Player.y == Motorbikes.y[var0] && abs(Player.x - Motorbikes.x[var0]) < 16) {
-                                Player.x = Motorbikes.x[var0];
+                        for(i = 0; i < Motorbikes.count; ++i) {
+                            if (Player.y == Motorbikes.y[i] && abs(Player.x - Motorbikes.x[i]) < 16) {
+                                Player.x = Motorbikes.x[i];
                                 Player.action = PlayerAction.MOTORBIKE_STAND;
-                                Player.motorbike = var0;
-                                Motorbikes.facing[var0] = Player.facing;
-                                Motorbikes.frame[var0] = 0;
+                                Player.motorbike = i;
+                                Motorbikes.facing[i] = Player.facing;
+                                Motorbikes.frame[i] = 0;
                             }
                         }
                     }
@@ -2828,13 +2809,13 @@ public final class b extends Canvas implements Runnable {
                             case 6:
                                 Player.slashEffect = 9;
                                 Player.pose = 15;
-                                var0 = findLaunchTarget();
+                                i = findLaunchTarget();
                                 Player.launchHit = false;
-                                if (var0 != -1) {
+                                if (i != -1) {
                                     Player.launchHit = true;
-                                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), Player.facing);
-                                    Monsters.state[var0] = Monsters.STATE_LAUNCHED;
-                                    Monsters.timer[var0] = -8;
+                                    Blood.spawn(Monsters.x[i], Monsters.y[i] - (Monsters.height[i] >> 1), Player.facing);
+                                    Monsters.state[i] = Monsters.STATE_LAUNCHED;
+                                    Monsters.timer[i] = -8;
                                     shakeCameraIfTransformed();
                                 }
                                 break label728;
@@ -3168,10 +3149,10 @@ public final class b extends Canvas implements Runnable {
 
                 Dust.spawn(Player.facing, Player.x - (Player.facing << 3), Player.y);
                 updateBridges();
-                if ((var0 = findLaunchTarget()) != -1 && (Monsters.state[var0] == Monsters.STATE_ACTIVE || Monsters.state[var0] == Monsters.STATE_RESTING)) {
-                    damageMonster(var0, 2, -Player.facing);
-                    Blood.spawn(Monsters.x[var0], Monsters.y[var0] - (Monsters.height[var0] >> 1), Player.facing);
-                    FloatingText.spawn("-2", 0, Monsters.x[var0], Monsters.y[var0] - Monsters.height[var0], 0, -2);
+                if ((i = findLaunchTarget()) != -1 && (Monsters.state[i] == Monsters.STATE_ACTIVE || Monsters.state[i] == Monsters.STATE_RESTING)) {
+                    damageMonster(i, 2, -Player.facing);
+                    Blood.spawn(Monsters.x[i], Monsters.y[i] - (Monsters.height[i] >> 1), Player.facing);
+                    FloatingText.spawn("-2", 0, Monsters.x[i], Monsters.y[i] - Monsters.height[i], 0, -2);
                 }
                 break;
             case PlayerAction.MOTORBIKE_FALL:
@@ -3228,7 +3209,7 @@ public final class b extends Canvas implements Runnable {
                         Player.motorbike = -1;
                         Player.action = PlayerAction.SINK;
                     }
-                } catch (Exception var2) {
+                } catch (Exception e) {
                 }
 
                 if (Player.hurtRecovery < 0) {
@@ -3293,10 +3274,10 @@ public final class b extends Canvas implements Runnable {
                 if (PlayerStats.drainMp(1)) {
                     Player.transformed = false;
 
-                    for(int var1 = 0; var1 < 4; ++var1) {
-                        Image var3 = heroHeads[var1];
-                        heroHeads[var1] = heroTransformHeads[var1];
-                        heroTransformHeads[var1] = var3;
+                    for(int k = 0; k < 4; ++k) {
+                        Image swap = heroHeads[k];
+                        heroHeads[k] = heroTransformHeads[k];
+                        heroTransformHeads[k] = swap;
                     }
                 }
 
@@ -3336,15 +3317,15 @@ public final class b extends Canvas implements Runnable {
                 try {
                     heroTransformHeads[0] = Character.loadHeroTransformHead(0);
                     heroTransformHeads[1] = Character.loadHeroTransformHead(1);
-                } catch (Exception var2) {
+                } catch (Exception e) {
                 }
 
                 heroTransformHeads[2] = heroTransformHeads[1];
                 heroTransformHeads[3] = heroTransformHeads[0];
             }
         } else {
-            Image var0;
-            int var1;
+            Image swap;
+            int i;
             if (Player.actionTimer >= 30) {
                 Player.action = PlayerAction.STAND;
                 Player.actionTimer = 0;
@@ -3352,34 +3333,34 @@ public final class b extends Canvas implements Runnable {
                     return;
                 }
 
-                for(var1 = 0; var1 < 4; ++var1) {
-                    var0 = heroHeads[var1];
-                    heroHeads[var1] = heroTransformHeads[var1];
-                    heroTransformHeads[var1] = var0;
+                for(i = 0; i < 4; ++i) {
+                    swap = heroHeads[i];
+                    heroHeads[i] = heroTransformHeads[i];
+                    heroTransformHeads[i] = swap;
                 }
 
                 Player.transformed = !Player.transformed;
             } else if (Player.actionTimer <= 10) {
                 if (Player.actionTimer % 5 == 0) {
-                    for(var1 = 0; var1 < 4; ++var1) {
-                        var0 = heroHeads[var1];
-                        heroHeads[var1] = heroTransformHeads[var1];
-                        heroTransformHeads[var1] = var0;
+                    for(i = 0; i < 4; ++i) {
+                        swap = heroHeads[i];
+                        heroHeads[i] = heroTransformHeads[i];
+                        heroTransformHeads[i] = swap;
                     }
                 }
             } else if (Player.actionTimer < 20) {
                 if (Player.actionTimer % 3 == 0) {
-                    for(var1 = 0; var1 < 4; ++var1) {
-                        var0 = heroHeads[var1];
-                        heroHeads[var1] = heroTransformHeads[var1];
-                        heroTransformHeads[var1] = var0;
+                    for(i = 0; i < 4; ++i) {
+                        swap = heroHeads[i];
+                        heroHeads[i] = heroTransformHeads[i];
+                        heroTransformHeads[i] = swap;
                     }
                 }
             } else if (Player.actionTimer < 30 && Player.actionTimer % 2 == 0) {
-                for(var1 = 0; var1 < 4; ++var1) {
-                    var0 = heroHeads[var1];
-                    heroHeads[var1] = heroTransformHeads[var1];
-                    heroTransformHeads[var1] = var0;
+                for(i = 0; i < 4; ++i) {
+                    swap = heroHeads[i];
+                    heroHeads[i] = heroTransformHeads[i];
+                    heroTransformHeads[i] = swap;
                 }
             }
         }
@@ -3432,13 +3413,13 @@ public final class b extends Canvas implements Runnable {
             hudDirty = true;
         }
 
-        for(int var0 = 0; var0 < Crates.count; ++var0) {
-            if (abs(Player.x - Crates.x[var0]) < 20 && Crates.y[var0] > Player.y && Crates.y[var0] - 24 < Player.y) {
+        for(int i = 0; i < Crates.count; ++i) {
+            if (abs(Player.x - Crates.x[i]) < 20 && Crates.y[i] > Player.y && Crates.y[i] - 24 < Player.y) {
                 Player.vx = 0;
-                if (Player.x < Crates.x[var0]) {
-                    Player.x = Crates.x[var0] - 20;
+                if (Player.x < Crates.x[i]) {
+                    Player.x = Crates.x[i] - 20;
                 } else {
-                    Player.x = Crates.x[var0] + 20;
+                    Player.x = Crates.x[i] + 20;
                 }
 
                 Player.action = PlayerAction.SINK;
@@ -3484,7 +3465,7 @@ public final class b extends Canvas implements Runnable {
 
                 if (++cutsceneWaitTimer >= Cutscene.triggerFrames[cutsceneId][cutsceneStep]) {
                     cutsceneWaitTimer = Cutscene.triggerFrames[cutsceneId][cutsceneStep];
-                    int var0;
+                    int speakerX;
                     switch (Cutscene.commands[cutsceneId][cutsceneStep]) {
                         case Cutscene.CMD_KEY_DOWN:
                             Input.keyDown(Cutscene.args[cutsceneId][cutsceneStep]);
@@ -3502,29 +3483,29 @@ public final class b extends Canvas implements Runnable {
                         case Cutscene.CMD_SAY:
                             if (Player.action == PlayerAction.STAND) {
                                 captionVisible = false;
-                                var0 = 0;
-                                int var1 = 0;
+                                speakerX = 0;
+                                int speakerY = 0;
                                 switch (Cutscene.lineSpeakerKind[Cutscene.args[cutsceneId][cutsceneStep]]) {
                                     case Cutscene.SPEAKER_PLAYER:
-                                        var0 = Player.x;
-                                        var1 = Player.y;
+                                        speakerX = Player.x;
+                                        speakerY = Player.y;
                                         break;
                                     case Cutscene.SPEAKER_NPC:
-                                        var0 = npcX[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
-                                        var1 = npcY[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        speakerX = npcX[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        speakerY = npcY[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
                                         break;
                                     case Cutscene.SPEAKER_CLASSMATE:
-                                        var0 = Classmates.x[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
-                                        var1 = Classmates.y[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        speakerX = Classmates.x[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        speakerY = Classmates.y[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
                                         break;
                                     case Cutscene.SPEAKER_GIRL:
                                     case Cutscene.SPEAKER_GIRL_2:
-                                        var0 = Girl.x;
-                                        var1 = Girl.y;
+                                        speakerX = Girl.x;
+                                        speakerY = Girl.y;
                                 }
 
-                                var1 -= 40;
-                                startDialogue(DialogueText.cutsceneLines[Cutscene.args[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, var0, var1);
+                                speakerY -= 40;
+                                startDialogue(DialogueText.cutsceneLines[Cutscene.args[cutsceneId][cutsceneStep]], Dialogue.NO_ACTION, speakerX, speakerY);
                                 ++cutsceneStep;
                                 cutsceneDialogueOpen = true;
                             }
@@ -3670,8 +3651,8 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case Cutscene.CMD_RIVER_MONSTER_DEFEATED:
-                            for(var0 = 0; var0 <= 6; ++var0) {
-                                GameMap.clearFlags(24, var0);
+                            for(int row = 0; row <= 6; ++row) {
+                                GameMap.clearFlags(24, row);
                             }
 
                             Story.riverMonsterDefeated = true;
@@ -3709,8 +3690,8 @@ public final class b extends Canvas implements Runnable {
                             ++cutsceneStep;
                             break;
                         case Cutscene.CMD_TONIKU_DEFEATED:
-                            for(var0 = 0; var0 <= 10; ++var0) {
-                                GameMap.clearFlags(24, var0);
+                            for(int row = 0; row <= 10; ++row) {
+                                GameMap.clearFlags(24, row);
                             }
 
                             Story.tonikuDefeated = true;
@@ -3839,50 +3820,50 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void updateClassmates() {
-        for(int var0 = 0; var0 < Classmates.count; ++var0) {
-            switch (Classmates.state[var0]) {
+        for(int i = 0; i < Classmates.count; ++i) {
+            switch (Classmates.state[i]) {
                 case Classmates.STATE_IDLE:
-                    Classmates.animTimer[var0]++;
-                    if (Classmates.animTimer[var0] > 30) {
-                        Classmates.animTimer[var0] = 0;
+                    Classmates.animTimer[i]++;
+                    if (Classmates.animTimer[i] > 30) {
+                        Classmates.animTimer[i] = 0;
                     }
 
-                    if (Classmates.animTimer[var0] % (var0 + 18) < var0 + 6) {
-                        Classmates.pose[var0] = 0;
+                    if (Classmates.animTimer[i] % (i + 18) < i + 6) {
+                        Classmates.pose[i] = 0;
                     } else {
-                        Classmates.pose[var0] = 1;
+                        Classmates.pose[i] = 1;
                     }
 
                     if (Classmates.gathering) {
-                        Classmates.target[var0] = Classmates.gatherX;
-                        Classmates.facing[var0] = Classmates.gatherX > Classmates.x[var0] ? 1 : -1;
-                        Classmates.vx[var0] = Classmates.facing[var0] << 2;
-                        Classmates.vx[var0] = Classmates.facing[var0] > 0 ? Classmates.vx[var0] + var0 % 2 : Classmates.vx[var0] - var0 % 2;
-                        Classmates.state[var0] = Classmates.STATE_WALK;
+                        Classmates.target[i] = Classmates.gatherX;
+                        Classmates.facing[i] = Classmates.gatherX > Classmates.x[i] ? 1 : -1;
+                        Classmates.vx[i] = Classmates.facing[i] << 2;
+                        Classmates.vx[i] = Classmates.facing[i] > 0 ? Classmates.vx[i] + i % 2 : Classmates.vx[i] - i % 2;
+                        Classmates.state[i] = Classmates.STATE_WALK;
                     } else {
                         if (Classmates.stayPut) {
                             break;
                         }
 
-                        Classmates.target[var0]++;
-                        if (Classmates.target[var0] > (Classmates.wanderRange[var0] + Classmates.x[var0]) % 20 + (Classmates.wanderRange[var0] >> 1)) {
-                            if (Dialogue.visible && Player.nearClassmate == var0) {
+                        Classmates.target[i]++;
+                        if (Classmates.target[i] > (Classmates.wanderRange[i] + Classmates.x[i]) % 20 + (Classmates.wanderRange[i] >> 1)) {
+                            if (Dialogue.visible && Player.nearClassmate == i) {
                                 break;
                             }
 
-                            Classmates.target[var0] = 0;
-                            int var2;
-                            if ((var2 = (tick + Classmates.wanderRange[var0]) % 120 - 60) > 0) {
-                                var2 += Classmates.wanderRange[var0];
+                            Classmates.target[i] = 0;
+                            int offset;
+                            if ((offset = (tick + Classmates.wanderRange[i]) % 120 - 60) > 0) {
+                                offset += Classmates.wanderRange[i];
                             } else {
-                                var2 -= Classmates.wanderRange[var0];
+                                offset -= Classmates.wanderRange[i];
                             }
 
-                            Classmates.target[var0] = Classmates.x[var0] + var2;
-                            Classmates.facing[var0] = var2 > 0 ? 1 : -1;
-                            Classmates.vx[var0] = Classmates.facing[var0] << 2;
-                            Classmates.state[var0] = Classmates.STATE_WALK;
-                            if (Player.nearClassmate == var0) {
+                            Classmates.target[i] = Classmates.x[i] + offset;
+                            Classmates.facing[i] = offset > 0 ? 1 : -1;
+                            Classmates.vx[i] = Classmates.facing[i] << 2;
+                            Classmates.state[i] = Classmates.STATE_WALK;
+                            if (Player.nearClassmate == i) {
                                 Player.nearClassmate = -1;
                                 rightSoftKeyLabel = " ";
                                 hudDirty = true;
@@ -3890,129 +3871,129 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         if (tick % 10 == 1) {
-                            classmateFindMonster(var0);
+                            classmateFindMonster(i);
                         }
                     }
                     break;
                 case Classmates.STATE_WALK:
-                    Classmates.animTimer[var0]++;
-                    if (Classmates.animTimer[var0] >= 10) {
-                        Classmates.animTimer[var0] = 0;
+                    Classmates.animTimer[i]++;
+                    if (Classmates.animTimer[i] >= 10) {
+                        Classmates.animTimer[i] = 0;
                     }
 
-                    Classmates.pose[var0] = (Classmates.animTimer[var0] >> 1) + 2;
-                    Classmates.x[var0] += Classmates.vx[var0];
-                    if (Classmates.x[var0] <= Classmates.maxX[var0] && Classmates.x[var0] >= Classmates.minX[var0] && abs(Classmates.x[var0] - Classmates.target[var0]) >= 8) {
+                    Classmates.pose[i] = (Classmates.animTimer[i] >> 1) + 2;
+                    Classmates.x[i] += Classmates.vx[i];
+                    if (Classmates.x[i] <= Classmates.maxX[i] && Classmates.x[i] >= Classmates.minX[i] && abs(Classmates.x[i] - Classmates.target[i]) >= 8) {
                         if (tick % 10 == 0) {
-                            classmateFindMonster(var0);
+                            classmateFindMonster(i);
                         }
                     } else {
-                        Classmates.animTimer[var0] = Classmates.target[var0] = 0;
-                        Classmates.x[var0] -= Classmates.vx[var0];
-                        Classmates.vx[var0] = 0;
-                        Classmates.state[var0] = Classmates.STATE_IDLE;
+                        Classmates.animTimer[i] = Classmates.target[i] = 0;
+                        Classmates.x[i] -= Classmates.vx[i];
+                        Classmates.vx[i] = 0;
+                        Classmates.state[i] = Classmates.STATE_IDLE;
                     }
                 case Classmates.STATE_JUMP:
                 case Classmates.STATE_FALL:
                 default:
                     break;
                 case Classmates.STATE_ATTACK:
-                    Classmates.animTimer[var0]++;
-                    switch (Classmates.target[var0]) {
+                    Classmates.animTimer[i]++;
+                    switch (Classmates.target[i]) {
                         case 0:
-                            switch (Classmates.animTimer[var0]) {
+                            switch (Classmates.animTimer[i]) {
                                 case 1:
                                 case 2:
                                 case 3:
-                                    Classmates.slashEffect[var0] = -1;
-                                    Classmates.pose[var0] = 13;
+                                    Classmates.slashEffect[i] = -1;
+                                    Classmates.pose[i] = 13;
                                     continue;
                                 case 4:
-                                    Classmates.slashEffect[var0] = 0;
-                                    Classmates.pose[var0] = 14;
+                                    Classmates.slashEffect[i] = 0;
+                                    Classmates.pose[i] = 14;
                                     continue;
                                 case 5:
-                                    Classmates.slashEffect[var0] = 1;
-                                    Classmates.pose[var0] = 15;
+                                    Classmates.slashEffect[i] = 1;
+                                    Classmates.pose[i] = 15;
                                     continue;
                                 case 6:
-                                    Classmates.slashEffect[var0] = 1;
-                                    Classmates.pose[var0] = 15;
-                                    classmateHitMonster(var0);
+                                    Classmates.slashEffect[i] = 1;
+                                    Classmates.pose[i] = 15;
+                                    classmateHitMonster(i);
                                     continue;
                                 case 7:
-                                    Classmates.slashEffect[var0] = 2;
-                                    Classmates.pose[var0] = 16;
+                                    Classmates.slashEffect[i] = 2;
+                                    Classmates.pose[i] = 16;
                                     continue;
                                 case 8:
-                                    Classmates.slashEffect[var0] = 2;
-                                    Classmates.pose[var0] = 16;
-                                    Classmates.target[var0] = 2;
-                                    Classmates.animTimer[var0] = 1;
+                                    Classmates.slashEffect[i] = 2;
+                                    Classmates.pose[i] = 16;
+                                    Classmates.target[i] = 2;
+                                    Classmates.animTimer[i] = 1;
                                 default:
                                     continue;
                             }
                         case 1:
-                            switch (Classmates.animTimer[var0]) {
+                            switch (Classmates.animTimer[i]) {
                                 case 1:
-                                    Classmates.slashEffect[var0] = 1;
-                                    Classmates.pose[var0] = 15;
+                                    Classmates.slashEffect[i] = 1;
+                                    Classmates.pose[i] = 15;
                                     continue;
                                 case 2:
-                                    Classmates.slashEffect[var0] = 1;
-                                    Classmates.pose[var0] = 15;
-                                    Classmates.target[var0] = 10;
+                                    Classmates.slashEffect[i] = 1;
+                                    Classmates.pose[i] = 15;
+                                    Classmates.target[i] = 10;
                                 default:
                                     continue;
                             }
                         case 2:
-                            switch (Classmates.animTimer[var0]) {
+                            switch (Classmates.animTimer[i]) {
                                 case 1:
                                 case 2:
                                 case 3:
-                                    Classmates.slashEffect[var0] = 3;
-                                    Classmates.pose[var0] = 17;
+                                    Classmates.slashEffect[i] = 3;
+                                    Classmates.pose[i] = 17;
                                     continue;
                                 case 4:
-                                    Classmates.slashEffect[var0] = 4;
-                                    Classmates.pose[var0] = 18;
+                                    Classmates.slashEffect[i] = 4;
+                                    Classmates.pose[i] = 18;
                                     continue;
                                 case 5:
-                                    Classmates.slashEffect[var0] = 5;
-                                    Classmates.pose[var0] = 19;
+                                    Classmates.slashEffect[i] = 5;
+                                    Classmates.pose[i] = 19;
                                     continue;
                                 case 6:
-                                    Classmates.slashEffect[var0] = 6;
-                                    Classmates.pose[var0] = 20;
-                                    classmateHitMonster(var0);
+                                    Classmates.slashEffect[i] = 6;
+                                    Classmates.pose[i] = 20;
+                                    classmateHitMonster(i);
                                     continue;
                                 case 7:
-                                    Classmates.slashEffect[var0] = 6;
-                                    Classmates.pose[var0] = 20;
-                                    Classmates.target[var0] = 3;
-                                    Classmates.animTimer[var0] = 1;
+                                    Classmates.slashEffect[i] = 6;
+                                    Classmates.pose[i] = 20;
+                                    Classmates.target[i] = 3;
+                                    Classmates.animTimer[i] = 1;
                                 default:
                                     continue;
                             }
                         case 3:
-                            switch (Classmates.animTimer[var0]) {
+                            switch (Classmates.animTimer[i]) {
                                 case 1:
-                                    Classmates.slashEffect[var0] = 1;
-                                    Classmates.pose[var0] = 15;
+                                    Classmates.slashEffect[i] = 1;
+                                    Classmates.pose[i] = 15;
                                     break;
                                 case 2:
-                                    Classmates.slashEffect[var0] = 1;
-                                    Classmates.pose[var0] = 15;
+                                    Classmates.slashEffect[i] = 1;
+                                    Classmates.pose[i] = 15;
                                     break;
                                 case 3:
-                                    Classmates.slashEffect[var0] = 2;
-                                    Classmates.pose[var0] = 16;
+                                    Classmates.slashEffect[i] = 2;
+                                    Classmates.pose[i] = 16;
                                     break;
                                 case 4:
-                                    Classmates.slashEffect[var0] = 2;
-                                    Classmates.pose[var0] = 16;
-                                    Classmates.target[var0] = 1;
-                                    Classmates.animTimer[var0] = 1;
+                                    Classmates.slashEffect[i] = 2;
+                                    Classmates.pose[i] = 16;
+                                    Classmates.target[i] = 1;
+                                    Classmates.animTimer[i] = 1;
                             }
                         case 4:
                         case 5:
@@ -4023,26 +4004,26 @@ public final class b extends Canvas implements Runnable {
                         default:
                             break;
                         case 10:
-                            switch (Classmates.animTimer[var0]) {
+                            switch (Classmates.animTimer[i]) {
                                 case 1:
-                                    Classmates.slashEffect[var0] = 2;
-                                    Classmates.pose[var0] = 16;
+                                    Classmates.slashEffect[i] = 2;
+                                    Classmates.pose[i] = 16;
                                     break;
                                 case 2:
-                                    Classmates.slashEffect[var0] = 0;
-                                    Classmates.pose[var0] = 14;
+                                    Classmates.slashEffect[i] = 0;
+                                    Classmates.pose[i] = 14;
                                     break;
                                 case 3:
                                 case 4:
-                                    Classmates.pose[var0] = 13;
-                                    Classmates.slashEffect[var0] = -1;
+                                    Classmates.pose[i] = 13;
+                                    Classmates.slashEffect[i] = -1;
                                     break;
                                 case 5:
-                                    Classmates.pose[var0] = 13;
-                                    Classmates.slashEffect[var0] = -1;
-                                    Classmates.state[var0] = Classmates.STATE_IDLE;
-                                    Classmates.target[var0] = 120;
-                                    Classmates.animTimer[var0] = 0;
+                                    Classmates.pose[i] = 13;
+                                    Classmates.slashEffect[i] = -1;
+                                    Classmates.state[i] = Classmates.STATE_IDLE;
+                                    Classmates.target[i] = 120;
+                                    Classmates.animTimer[i] = 0;
                             }
                     }
             }
@@ -4064,213 +4045,214 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void updateNinjas() {
-        for(int var0 = 0; var0 < Ninjas.count; ++var0) {
-            if (Ninjas.healthBarTimer[var0] > 0) {
-                Ninjas.healthBarTimer[var0]--;
+        for(int i = 0; i < Ninjas.count; ++i) {
+            if (Ninjas.healthBarTimer[i] > 0) {
+                Ninjas.healthBarTimer[i]--;
             }
 
             label143:
-            switch (Ninjas.state[var0]) {
+            switch (Ninjas.state[i]) {
                 case Ninjas.STATE_KNOCKED_OUT:
-                    Ninjas.bodyFrame[var0] = 1;
-                    Ninjas.timer[var0]++;
-                    Ninjas.x[var0] += Ninjas.vx[var0];
-                    Ninjas.y[var0] += Ninjas.vy[var0];
-                    Ninjas.bodyX[var0] += Ninjas.bodyVx[var0];
-                    Ninjas.bodyY[var0] += Ninjas.bodyVy[var0];
-                    if (Ninjas.timer[var0] > 14) {
-                        if (Ninjas.vx[var0] > 1) {
-                            Ninjas.vx[var0]--;
-                        } else if (Ninjas.vx[var0] < -1) {
-                            Ninjas.vx[var0]++;
+                    Ninjas.bodyFrame[i] = 1;
+                    Ninjas.timer[i]++;
+                    Ninjas.x[i] += Ninjas.vx[i];
+                    Ninjas.y[i] += Ninjas.vy[i];
+                    Ninjas.bodyX[i] += Ninjas.bodyVx[i];
+                    Ninjas.bodyY[i] += Ninjas.bodyVy[i];
+                    if (Ninjas.timer[i] > 14) {
+                        if (Ninjas.vx[i] > 1) {
+                            Ninjas.vx[i]--;
+                        } else if (Ninjas.vx[i] < -1) {
+                            Ninjas.vx[i]++;
                         }
 
-                        Ninjas.vy[var0]++;
+                        Ninjas.vy[i]++;
                     }
 
-                    if (Ninjas.bodyVx[var0] > 1) {
-                        Ninjas.bodyVx[var0]--;
-                    } else if (Ninjas.bodyVx[var0] < -1) {
-                        Ninjas.bodyVx[var0]++;
+                    if (Ninjas.bodyVx[i] > 1) {
+                        Ninjas.bodyVx[i]--;
+                    } else if (Ninjas.bodyVx[i] < -1) {
+                        Ninjas.bodyVx[i]++;
                     }
 
-                    Ninjas.bodyVy[var0]++;
-                    if (Ninjas.y[var0] <= cameraY + Viewport.viewHeight + 32 && Ninjas.y[var0] < GameMap.pixelHeight) {
+                    Ninjas.bodyVy[i]++;
+                    if (Ninjas.y[i] <= cameraY + Viewport.viewHeight + 32 && Ninjas.y[i] < GameMap.pixelHeight) {
                         continue;
                     }
 
-                    Ninjas.timer[var0] = 0;
-                    Ninjas.targetX[var0] = 0;
-                    Ninjas.state[var0] = Ninjas.STATE_DEAD;
+                    Ninjas.timer[i] = 0;
+                    Ninjas.targetX[i] = 0;
+                    Ninjas.state[i] = Ninjas.STATE_DEAD;
                     break;
                 case Ninjas.STATE_WALK:
                     if (tick % 12 > 7) {
-                        Ninjas.bob[var0] = 1;
-                        Ninjas.legsFrame[var0] = 1;
+                        Ninjas.bob[i] = 1;
+                        Ninjas.legsFrame[i] = 1;
                         if (tick % 12 < 10) {
-                            if (abs(Ninjas.x[var0] - Ninjas.targetX[var0]) < 4) {
-                                Ninjas.timer[var0] = Ninjas.targetX[var0] = 0;
-                                Ninjas.state[var0] = Ninjas.STATE_IDLE;
+                            if (abs(Ninjas.x[i] - Ninjas.targetX[i]) < 4) {
+                                Ninjas.timer[i] = Ninjas.targetX[i] = 0;
+                                Ninjas.state[i] = Ninjas.STATE_IDLE;
                                 break;
                             }
 
-                            Ninjas.x[var0] += Ninjas.vx[var0];
+                            Ninjas.x[i] += Ninjas.vx[i];
                         }
 
-                        ninjaReactToPlayer(var0);
+                        ninjaReactToPlayer(i);
                     } else {
-                        Ninjas.legsFrame[var0] = 0;
-                        Ninjas.bob[var0] = 0;
+                        Ninjas.legsFrame[i] = 0;
+                        Ninjas.bob[i] = 0;
                     }
                     break;
                 case Ninjas.STATE_IDLE:
-                    if ((tick + var0) % 10 > 5) {
-                        Ninjas.bob[var0] = 1;
+                    if ((tick + i) % 10 > 5) {
+                        Ninjas.bob[i] = 1;
                     } else {
-                        Ninjas.bob[var0] = 0;
+                        Ninjas.bob[i] = 0;
                     }
 
-                    Ninjas.timer[var0]++;
-                    Ninjas.legsFrame[var0] = 0;
-                    Ninjas.bodyFrame[var0] = 0;
-                    if (Ninjas.timer[var0] > 50) {
-                        int var1;
-                        if ((var1 = (tick - var0) % (var0 + 80) - 40) > 0) {
-                            var1 += 20;
+                    Ninjas.timer[i]++;
+                    Ninjas.legsFrame[i] = 0;
+                    Ninjas.bodyFrame[i] = 0;
+                    if (Ninjas.timer[i] > 50) {
+                        int offset;
+                        if ((offset = (tick - i) % (i + 80) - 40) > 0) {
+                            offset += 20;
                         } else {
-                            var1 -= 20;
+                            offset -= 20;
                         }
 
-                        Ninjas.targetX[var0] = Ninjas.x[var0] + var1;
-                        Ninjas.direction[var0] = var1 > 0 ? 1 : -1;
+                        Ninjas.targetX[i] = Ninjas.x[i] + offset;
+                        Ninjas.direction[i] = offset > 0 ? 1 : -1;
                         if (tick % 4 > 1) {
-                            Ninjas.state[var0] = Ninjas.STATE_WALK;
-                            Ninjas.vx[var0] = Ninjas.direction[var0] << 1;
+                            Ninjas.state[i] = Ninjas.STATE_WALK;
+                            Ninjas.vx[i] = Ninjas.direction[i] << 1;
                         } else {
-                            Ninjas.state[var0] = Ninjas.STATE_DASH;
-                            Ninjas.vx[var0] = Ninjas.direction[var0] << 2;
+                            Ninjas.state[i] = Ninjas.STATE_DASH;
+                            Ninjas.vx[i] = Ninjas.direction[i] << 2;
                         }
 
-                        if (Ninjas.targetX[var0] < Ninjas.minX[var0]) {
-                            Ninjas.targetX[var0] = Ninjas.minX[var0];
+                        if (Ninjas.targetX[i] < Ninjas.minX[i]) {
+                            Ninjas.targetX[i] = Ninjas.minX[i];
                         }
 
-                        if (Ninjas.targetX[var0] > Ninjas.maxX[var0]) {
-                            Ninjas.targetX[var0] = Ninjas.maxX[var0];
+                        if (Ninjas.targetX[i] > Ninjas.maxX[i]) {
+                            Ninjas.targetX[i] = Ninjas.maxX[i];
                         }
                     }
 
                     if (tick % 30 == 28) {
-                        ninjaReactToPlayer(var0);
-                        ninjaMeleeIfPlayerClose(var0);
+                        ninjaReactToPlayer(i);
+                        ninjaMeleeIfPlayerClose(i);
                     }
                     break;
                 case Ninjas.STATE_ATTACK:
-                    Ninjas.timer[var0]++;
-                    if (Ninjas.timer[var0] < 3) {
-                        Ninjas.bob[var0] = 0;
-                        Ninjas.legsFrame[var0] = 0;
-                        Ninjas.bodyFrame[var0] = 0;
-                    } else if (Ninjas.timer[var0] < 14) {
-                        Ninjas.bob[var0] = 1;
-                        Ninjas.legsFrame[var0] = 1;
-                        Ninjas.bodyFrame[var0] = 1;
+                    Ninjas.timer[i]++;
+                    if (Ninjas.timer[i] < 3) {
+                        Ninjas.bob[i] = 0;
+                        Ninjas.legsFrame[i] = 0;
+                        Ninjas.bodyFrame[i] = 0;
+                    } else if (Ninjas.timer[i] < 14) {
+                        Ninjas.bob[i] = 1;
+                        Ninjas.legsFrame[i] = 1;
+                        Ninjas.bodyFrame[i] = 1;
                     } else {
-                        Ninjas.state[var0] = Ninjas.STATE_IDLE;
-                        Ninjas.timer[var0] = 1;
+                        Ninjas.state[i] = Ninjas.STATE_IDLE;
+                        Ninjas.timer[i] = 1;
                     }
 
-                    if (Ninjas.timer[var0] == 3) {
-                        switch (Ninjas.type[var0]) {
+                    if (Ninjas.timer[i] == 3) {
+                        switch (Ninjas.type[i]) {
                             case 0:
                             case 4:
-                                Projectiles.spawn(Ninjas.x[var0] + (Ninjas.direction[var0] << 3), Ninjas.y[var0] - 15, Ninjas.direction[var0] * 12, NinjaStats.damage[Ninjas.type[var0]], 0);
+                                Projectiles.spawn(Ninjas.x[i] + (Ninjas.direction[i] << 3), Ninjas.y[i] - 15, Ninjas.direction[i] * 12, NinjaStats.damage[Ninjas.type[i]], 0);
                                 break label143;
                             case 1:
                             case 5:
-                                Projectiles.spawn(Ninjas.x[var0] + (Ninjas.direction[var0] << 3), Ninjas.y[var0] - 15, Ninjas.direction[var0] << 3, NinjaStats.damage[Ninjas.type[var0]], 1);
+                                Projectiles.spawn(Ninjas.x[i] + (Ninjas.direction[i] << 3), Ninjas.y[i] - 15, Ninjas.direction[i] << 3, NinjaStats.damage[Ninjas.type[i]], 1);
                                 break label143;
                             case 2:
                             case 3:
                             case 6:
-                                if (abs(Player.y - Ninjas.y[var0]) < 5 && abs(Player.x - Ninjas.x[var0]) < 30) {
-                                    damagePlayer(NinjaStats.damage[Ninjas.type[var0]], Ninjas.direction[var0]);
+                                if (abs(Player.y - Ninjas.y[i]) < 5 && abs(Player.x - Ninjas.x[i]) < 30) {
+                                    damagePlayer(NinjaStats.damage[Ninjas.type[i]], Ninjas.direction[i]);
                                 }
                         }
                     }
                     break;
                 case Ninjas.STATE_DEAD:
-                    Ninjas.timer[var0]++;
-                    if (Ninjas.timer[var0] > 550 + var0 * 5) {
-                        Ninjas.x[var0] = Ninjas.spawnX[var0];
-                        Ninjas.y[var0] = Ninjas.spawnY[var0];
-                        Ninjas.timer[var0] = 0;
-                        Ninjas.state[var0] = Ninjas.STATE_IDLE;
-                        Ninjas.hp[var0] = NinjaStats.maxHp[Ninjas.type[var0]];
+                    Ninjas.timer[i]++;
+                    if (Ninjas.timer[i] > 550 + i * 5) {
+                        Ninjas.x[i] = Ninjas.spawnX[i];
+                        Ninjas.y[i] = Ninjas.spawnY[i];
+                        Ninjas.timer[i] = 0;
+                        Ninjas.state[i] = Ninjas.STATE_IDLE;
+                        Ninjas.hp[i] = NinjaStats.maxHp[Ninjas.type[i]];
                     }
                     break;
                 case Ninjas.STATE_HURT:
-                    if ((tick + var0) % 10 > 5) {
-                        Ninjas.bob[var0] = 1;
+                    if ((tick + i) % 10 > 5) {
+                        Ninjas.bob[i] = 1;
                     } else {
-                        Ninjas.bob[var0] = 0;
+                        Ninjas.bob[i] = 0;
                     }
 
-                    Ninjas.legsFrame[var0] = 0;
-                    Ninjas.bodyFrame[var0] = 0;
-                    Ninjas.timer[var0]++;
-                    if (Ninjas.timer[var0] >= 5) {
-                        Ninjas.targetX[var0] = Player.x;
-                        if (Ninjas.x[var0] < Player.x) {
-                            Ninjas.targetX[var0] -= 80;
+                    Ninjas.legsFrame[i] = 0;
+                    Ninjas.bodyFrame[i] = 0;
+                    Ninjas.timer[i]++;
+                    if (Ninjas.timer[i] >= 5) {
+                        Ninjas.targetX[i] = Player.x;
+                        if (Ninjas.x[i] < Player.x) {
+                            Ninjas.targetX[i] -= 80;
                         } else {
-                            Ninjas.targetX[var0] += 80;
+                            Ninjas.targetX[i] += 80;
                         }
 
-                        Ninjas.timer[var0] = 0;
-                        Ninjas.direction[var0] = Ninjas.targetX[var0] < Player.x ? -1 : 1;
-                        Ninjas.state[var0] = Ninjas.STATE_DASH;
-                        Ninjas.vx[var0] = Ninjas.direction[var0] << 3;
-                        if (Ninjas.targetX[var0] < Ninjas.minX[var0]) {
-                            Ninjas.targetX[var0] = Ninjas.minX[var0];
+                        Ninjas.timer[i] = 0;
+                        Ninjas.direction[i] = Ninjas.targetX[i] < Player.x ? -1 : 1;
+                        Ninjas.state[i] = Ninjas.STATE_DASH;
+                        Ninjas.vx[i] = Ninjas.direction[i] << 3;
+                        if (Ninjas.targetX[i] < Ninjas.minX[i]) {
+                            Ninjas.targetX[i] = Ninjas.minX[i];
                         }
 
-                        if (Ninjas.targetX[var0] > Ninjas.maxX[var0]) {
-                            Ninjas.targetX[var0] = Ninjas.maxX[var0];
+                        if (Ninjas.targetX[i] > Ninjas.maxX[i]) {
+                            Ninjas.targetX[i] = Ninjas.maxX[i];
                         }
                     }
                     break;
                 case Ninjas.STATE_DASH:
-                    if (abs(Ninjas.x[var0] - Ninjas.targetX[var0]) < 12) {
-                        Ninjas.timer[var0] = Ninjas.targetX[var0] = 0;
-                        Ninjas.state[var0] = Ninjas.STATE_IDLE;
-                        ninjaMeleeIfPlayerClose(var0);
+                    if (abs(Ninjas.x[i] - Ninjas.targetX[i]) < 12) {
+                        Ninjas.timer[i] = Ninjas.targetX[i] = 0;
+                        Ninjas.state[i] = Ninjas.STATE_IDLE;
+                        ninjaMeleeIfPlayerClose(i);
                     } else {
-                        Ninjas.x[var0] += Ninjas.vx[var0];
+                        Ninjas.x[i] += Ninjas.vx[i];
                         if (tick % 2 == 1) {
-                            Ninjas.bob[var0] = 1;
-                            Ninjas.legsFrame[var0] = 3;
+                            Ninjas.bob[i] = 1;
+                            Ninjas.legsFrame[i] = 3;
                         } else {
-                            Ninjas.legsFrame[var0] = 2;
-                            Ninjas.bob[var0] = 0;
+                            Ninjas.legsFrame[i] = 2;
+                            Ninjas.bob[i] = 0;
                         }
                     }
             }
 
-            Ninjas.bodyX[var0] = Ninjas.x[var0];
-            Ninjas.bodyY[var0] = Ninjas.y[var0] - 9 + Ninjas.bob[var0] + NinjaStats.bodyOffsetY[Ninjas.type[var0]][Ninjas.bodyFrame[var0]];
+            Ninjas.bodyX[i] = Ninjas.x[i];
+            Ninjas.bodyY[i] = Ninjas.y[i] - 9 + Ninjas.bob[i] + NinjaStats.bodyOffsetY[Ninjas.type[i]][Ninjas.bodyFrame[i]];
         }
 
     }
 
     private static void updateFinalBoss() {
         if (FinalBoss.active) {
-            int var0 = tick % 10;
-            int var1 = abs(Player.x - FinalBoss.x);
-            int var2 = abs(Player.y - FinalBoss.y);
+            int phase = tick % 10;
+            int dx = abs(Player.x - FinalBoss.x);
+            int dy = abs(Player.y - FinalBoss.y);
+            int frame;
             switch (FinalBoss.state) {
                 case FinalBoss.STATE_WAITING:
-                    if (var0 < 7) {
+                    if (phase < 7) {
                         FinalBoss.poseX = FinalBoss.idlePoseX[0];
                         FinalBoss.poseY = FinalBoss.idlePoseY[0];
                     } else {
@@ -4279,7 +4261,7 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case FinalBoss.STATE_IDLE:
-                    if (var0 < 7) {
+                    if (phase < 7) {
                         FinalBoss.poseX = FinalBoss.idlePoseX[0];
                         FinalBoss.poseY = FinalBoss.idlePoseY[0];
                     } else {
@@ -4287,19 +4269,19 @@ public final class b extends Canvas implements Runnable {
                         FinalBoss.poseY = FinalBoss.idlePoseY[1];
                     }
 
-                    if (var1 > 90 && var1 < 100 && var0 < 2) {
+                    if (dx > 90 && dx < 100 && phase < 2) {
                         FinalBoss.direction = FinalBoss.x < Player.x ? 1 : -1;
                         FinalBoss.state = FinalBoss.STATE_SHOOT;
                         FinalBoss.timer = 0;
-                    } else if ((var1 > 120 && var1 < 150 || Player.y < FinalBoss.y && var1 > 40) && var0 < 2) {
+                    } else if ((dx > 120 && dx < 150 || Player.y < FinalBoss.y && dx > 40) && phase < 2) {
                         FinalBoss.direction = FinalBoss.x < Player.x ? 1 : -1;
                         FinalBoss.timer = 0;
                         FinalBoss.state = FinalBoss.STATE_THROW_DARTS;
-                    } else if (var1 < 40 && var0 == 1) {
+                    } else if (dx < 40 && phase == 1) {
                         FinalBoss.direction = FinalBoss.x < Player.x ? 1 : -1;
                         FinalBoss.timer = 0;
                         FinalBoss.state = FinalBoss.STATE_MELEE;
-                    } else if (var1 > 40 && var1 < 100 && var0 < 3) {
+                    } else if (dx > 40 && dx < 100 && phase < 3) {
                         FinalBoss.direction = FinalBoss.x < Player.x ? 1 : -1;
                         FinalBoss.timer = 0;
                         if ((FinalBoss.targetX = Player.x) > FinalBoss.maxX) {
@@ -4309,7 +4291,7 @@ public final class b extends Canvas implements Runnable {
                         }
 
                         FinalBoss.state = FinalBoss.STATE_DASH;
-                    } else if (var1 > 80 && var0 == 2) {
+                    } else if (dx > 80 && phase == 2) {
                         FinalBoss.timer = 0;
                         FinalBoss.state = FinalBoss.STATE_WALK;
                         if ((FinalBoss.targetX = Player.x) > FinalBoss.maxX) {
@@ -4320,18 +4302,18 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case FinalBoss.STATE_WALK:
-                    if ((var2 = ++FinalBoss.timer % 6 >> 1) == 3) {
+                    if ((frame = ++FinalBoss.timer % 6 >> 1) == 3) {
                         shakeStep = 0;
                     }
 
-                    FinalBoss.poseX = FinalBoss.walkPoseX[var2];
-                    FinalBoss.poseY = FinalBoss.walkPoseY[var2];
+                    FinalBoss.poseX = FinalBoss.walkPoseX[frame];
+                    FinalBoss.poseY = FinalBoss.walkPoseY[frame];
                     if ((FinalBoss.x += FinalBoss.direction << 2) > FinalBoss.targetX && FinalBoss.direction > 0 || FinalBoss.x < FinalBoss.targetX && FinalBoss.direction < 0 || FinalBoss.x > FinalBoss.maxX || FinalBoss.x < FinalBoss.minX || FinalBoss.timer > 100) {
                         FinalBoss.timer = 0;
                         FinalBoss.state = FinalBoss.STATE_IDLE;
                     }
 
-                    if (var1 > 50 && var1 < 100 && var0 == 1) {
+                    if (dx > 50 && dx < 100 && phase == 1) {
                         FinalBoss.direction = FinalBoss.x < Player.x ? 1 : -1;
                         FinalBoss.state = FinalBoss.STATE_SHOOT;
                         FinalBoss.timer = 0;
@@ -4355,16 +4337,16 @@ public final class b extends Canvas implements Runnable {
                         FinalBoss.state = FinalBoss.STATE_IDLE;
                     }
 
-                    if (FinalBoss.timer == 3 && var1 < 40 && var2 < 10) {
+                    if (FinalBoss.timer == 3 && dx < 40 && dy < 10) {
                         damagePlayer(FinalBoss.damage, FinalBoss.direction);
                     }
                     break;
                 case FinalBoss.STATE_DYING:
                     ++FinalBoss.timer;
 
-                    for(var0 = 0; var0 < FinalBoss.partBaseY.length; ++var0) {
-                        FinalBoss.partBaseY[var0] += abs(var0 - 3) + 2;
-                        FinalBoss.partBaseX[var0] += var0 - 3 << 1;
+                    for(int p = 0; p < FinalBoss.partBaseY.length; ++p) {
+                        FinalBoss.partBaseY[p] += abs(p - 3) + 2;
+                        FinalBoss.partBaseX[p] += p - 3 << 1;
                     }
 
                     if (FinalBoss.timer >= 50) {
@@ -4390,13 +4372,13 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (FinalBoss.timer % 5 == 0) {
-                        Darts.spawn(FinalBoss.x + (FinalBoss.direction << 3), FinalBoss.y - 20, FinalBoss.direction << 3, -var0 + 2, false);
+                        Darts.spawn(FinalBoss.x + (FinalBoss.direction << 3), FinalBoss.y - 20, FinalBoss.direction << 3, -phase + 2, false);
                     }
                     break;
                 case FinalBoss.STATE_SHOOT:
-                    var0 = ++FinalBoss.timer % 4 >> 1;
-                    FinalBoss.poseX = FinalBoss.attackPoseX[var0];
-                    FinalBoss.poseY = FinalBoss.attackPoseY[var0];
+                    frame = ++FinalBoss.timer % 4 >> 1;
+                    FinalBoss.poseX = FinalBoss.attackPoseX[frame];
+                    FinalBoss.poseY = FinalBoss.attackPoseY[frame];
                     if (FinalBoss.timer > 20 && FinalBoss.timer % 10 == 0) {
                         Projectiles.spawn(FinalBoss.x + (FinalBoss.direction << 3), FinalBoss.y - 24, FinalBoss.direction << 3, FinalBoss.damage, 3);
                     }
@@ -4414,23 +4396,23 @@ public final class b extends Canvas implements Runnable {
                     }
                     break;
                 case FinalBoss.STATE_DASH:
-                    var0 = ++FinalBoss.timer % 6 >> 1;
-                    FinalBoss.poseX = FinalBoss.walkPoseX[var0];
-                    FinalBoss.poseY = FinalBoss.walkPoseY[var0];
+                    frame = ++FinalBoss.timer % 6 >> 1;
+                    FinalBoss.poseX = FinalBoss.walkPoseX[frame];
+                    FinalBoss.poseY = FinalBoss.walkPoseY[frame];
                     if ((FinalBoss.x += FinalBoss.direction << 3) > FinalBoss.targetX && FinalBoss.direction > 0 || FinalBoss.x < FinalBoss.targetX && FinalBoss.direction < 0 || FinalBoss.x > FinalBoss.maxX || FinalBoss.x < FinalBoss.minX || FinalBoss.timer > 100) {
                         FinalBoss.timer = 0;
                         FinalBoss.state = FinalBoss.STATE_MELEE;
                     }
             }
 
-            for(var2 = 0; var2 < 6; ++var2) {
+            for(int p = 0; p < 6; ++p) {
                 if (FinalBoss.direction == 1) {
-                    FinalBoss.partX[var2] = FinalBoss.x + FinalBoss.partBaseX[var2] + FinalBoss.poseX[var2];
+                    FinalBoss.partX[p] = FinalBoss.x + FinalBoss.partBaseX[p] + FinalBoss.poseX[p];
                 } else {
-                    FinalBoss.partX[var2] = FinalBoss.x - FinalBoss.partBaseX[var2] - FinalBoss.poseX[var2];
+                    FinalBoss.partX[p] = FinalBoss.x - FinalBoss.partBaseX[p] - FinalBoss.poseX[p];
                 }
 
-                FinalBoss.partY[var2] = FinalBoss.y + FinalBoss.partBaseY[var2] + FinalBoss.poseY[var2];
+                FinalBoss.partY[p] = FinalBoss.y + FinalBoss.partBaseY[p] + FinalBoss.poseY[p];
             }
 
         }
@@ -4507,11 +4489,11 @@ public final class b extends Canvas implements Runnable {
     public static void start() {
         Midlet.canvas = new b();
         updateMapEvent();
-        b var0 = Midlet.canvas;
+        b canvas = Midlet.canvas;
         Save.setBackgroundIndex((Save.backgroundIndex = Save.getBackgroundIndex()) == 0 ? 1 : 0);
         LogoScreen.load();
         GameState.current = GameState.LOGO;
-        (new Thread(var0)).start();
+        (new Thread(canvas)).start();
     }
 
     public b() {
@@ -4553,292 +4535,281 @@ public final class b extends Canvas implements Runnable {
         try {
             switch (GameState.current) {
                 case GameState.PLAYING:
-                    Graphics var6 = g;
                     g.setClip(-1, -1, Viewport.viewWidth + 2, Viewport.viewHeight + 2);
                     drawSky(g);
                     g.translate(-cameraX, -cameraY);
-                    g = g;
 
-                    int var2;
-                    for(var2 = 0; var2 < houseCount; ++var2) {
-                        if (houseX[var2] + houseHalfWidth[var2] >= cameraX && houseX[var2] - houseHalfWidth[var2] <= cameraX + Viewport.viewWidth && houseY[var2] >= cameraY && houseY[var2] - houseHeight[var2] <= cameraY + Viewport.viewHeight) {
-                            parallaxFromCenter = (parallaxScreenX = houseX[var2] - cameraX) - Viewport.viewCenterX;
+                    int i;
+                    for(i = 0; i < houseCount; ++i) {
+                        if (houseX[i] + houseHalfWidth[i] >= cameraX && houseX[i] - houseHalfWidth[i] <= cameraX + Viewport.viewWidth && houseY[i] >= cameraY && houseY[i] - houseHeight[i] <= cameraY + Viewport.viewHeight) {
+                            parallaxFromCenter = (parallaxScreenX = houseX[i] - cameraX) - Viewport.viewCenterX;
                             parallaxDrawX = (parallaxScaled = (GameMap.TILE_SIZE - 2) * parallaxFromCenter / GameMap.TILE_SIZE) + Viewport.viewCenterX;
-                            g.drawImage(houseImages[houseTypes[var2]], cameraX + parallaxDrawX, houseY[var2], 33);
+                            g.drawImage(houseImages[houseTypes[i]], cameraX + parallaxDrawX, houseY[i], 33);
                         }
                     }
 
                     if (Settings.lowGraphics) {
-                        drawTilesLowGraphics(var6);
+                        drawTilesLowGraphics(g);
                     } else {
-                        drawTiles(var6);
+                        drawTiles(g);
                     }
 
-                    drawSigns(var6);
-                    drawNpcs(var6);
+                    drawSigns(g);
+                    drawNpcs(g);
                     if (RiverMonster.active) {
                         if (RiverMonster.direction < 0) {
-                            var6.drawImage(RiverMonster.sprites[0], RiverMonster.x, RiverMonster.y, 33);
-                            var6.drawImage(RiverMonster.sprites[2], RiverMonster.part2X, RiverMonster.part2Y, 33);
-                            var6.drawImage(RiverMonster.sprites[3], RiverMonster.part3X, RiverMonster.part3Y, 33);
-                            var6.drawImage(RiverMonster.sprites[1], RiverMonster.part1X, RiverMonster.part1Y, 33);
+                            g.drawImage(RiverMonster.sprites[0], RiverMonster.x, RiverMonster.y, 33);
+                            g.drawImage(RiverMonster.sprites[2], RiverMonster.part2X, RiverMonster.part2Y, 33);
+                            g.drawImage(RiverMonster.sprites[3], RiverMonster.part3X, RiverMonster.part3Y, 33);
+                            g.drawImage(RiverMonster.sprites[1], RiverMonster.part1X, RiverMonster.part1Y, 33);
                         } else {
-                            var6.drawRegion(RiverMonster.sprites[0], 0, 0, RiverMonster.sprites[0].getWidth(), RiverMonster.sprites[0].getHeight(), 2, RiverMonster.x, RiverMonster.y, 33);
-                            var6.drawRegion(RiverMonster.sprites[2], 0, 0, RiverMonster.sprites[2].getWidth(), RiverMonster.sprites[2].getHeight(), 2, RiverMonster.part2X, RiverMonster.part2Y, 33);
-                            var6.drawRegion(RiverMonster.sprites[3], 0, 0, RiverMonster.sprites[3].getWidth(), RiverMonster.sprites[3].getHeight(), 2, RiverMonster.part3X, RiverMonster.part3Y, 33);
-                            var6.drawRegion(RiverMonster.sprites[1], 0, 0, RiverMonster.sprites[1].getWidth(), RiverMonster.sprites[1].getHeight(), 2, RiverMonster.part1X, RiverMonster.part1Y, 33);
+                            g.drawRegion(RiverMonster.sprites[0], 0, 0, RiverMonster.sprites[0].getWidth(), RiverMonster.sprites[0].getHeight(), 2, RiverMonster.x, RiverMonster.y, 33);
+                            g.drawRegion(RiverMonster.sprites[2], 0, 0, RiverMonster.sprites[2].getWidth(), RiverMonster.sprites[2].getHeight(), 2, RiverMonster.part2X, RiverMonster.part2Y, 33);
+                            g.drawRegion(RiverMonster.sprites[3], 0, 0, RiverMonster.sprites[3].getWidth(), RiverMonster.sprites[3].getHeight(), 2, RiverMonster.part3X, RiverMonster.part3Y, 33);
+                            g.drawRegion(RiverMonster.sprites[1], 0, 0, RiverMonster.sprites[1].getWidth(), RiverMonster.sprites[1].getHeight(), 2, RiverMonster.part1X, RiverMonster.part1Y, 33);
                         }
 
                         if (RiverMonster.healthBarTimer != 0) {
-                            var6.setColor(3342353);
-                            var6.drawRect(RiverMonster.x - (RiverMonster.width >> 1) - 1, RiverMonster.y - RiverMonster.height - 7, RiverMonster.width + 2, 4);
-                            var2 = RiverMonster.hp * RiverMonster.width / RiverMonster.maxHp;
-                            var6.setColor(15597568);
-                            var6.fillRect(RiverMonster.x - (RiverMonster.width >> 1), RiverMonster.y - RiverMonster.height - 6, var2, 3);
-                            var6.setColor(4456482);
-                            var6.fillRect(RiverMonster.x - (RiverMonster.width >> 1) + var2, RiverMonster.y - RiverMonster.height - 6, RiverMonster.width - var2 + 1, 3);
+                            g.setColor(3342353);
+                            g.drawRect(RiverMonster.x - (RiverMonster.width >> 1) - 1, RiverMonster.y - RiverMonster.height - 7, RiverMonster.width + 2, 4);
+                            int riverBarWidth = RiverMonster.hp * RiverMonster.width / RiverMonster.maxHp;
+                            g.setColor(15597568);
+                            g.fillRect(RiverMonster.x - (RiverMonster.width >> 1), RiverMonster.y - RiverMonster.height - 6, riverBarWidth, 3);
+                            g.setColor(4456482);
+                            g.fillRect(RiverMonster.x - (RiverMonster.width >> 1) + riverBarWidth, RiverMonster.y - RiverMonster.height - 6, RiverMonster.width - riverBarWidth + 1, 3);
                         }
                     }
 
-                    g = var6;
 
-                    for(var2 = 0; var2 < Crates.count; ++var2) {
-                        if (cameraX <= Crates.x[var2] + 12 && cameraX + Viewport.viewWidth >= Crates.x[var2] - 12 && cameraY <= Crates.y[var2] && cameraY + Viewport.viewHeight >= Crates.y[var2] - 24) {
-                            g.drawImage(Crates.sprite, Crates.x[var2], Crates.y[var2], 33);
+                    for(i = 0; i < Crates.count; ++i) {
+                        if (cameraX <= Crates.x[i] + 12 && cameraX + Viewport.viewWidth >= Crates.x[i] - 12 && cameraY <= Crates.y[i] && cameraY + Viewport.viewHeight >= Crates.y[i] - 24) {
+                            g.drawImage(Crates.sprite, Crates.x[i], Crates.y[i], 33);
                         }
                     }
 
-                    g = var6;
 
-                    for(var2 = 0; var2 < Motorbikes.count; ++var2) {
-                        if (cameraX <= Motorbikes.x[var2] + 12 && cameraX + Viewport.viewWidth >= Motorbikes.x[var2] - 12 && cameraY <= Motorbikes.y[var2] && cameraY + Viewport.viewHeight >= Motorbikes.y[var2] - 24) {
-                            if (Motorbikes.facing[var2] == 1) {
-                                g.drawImage(Motorbikes.sprites[Motorbikes.frame[var2]], Motorbikes.x[var2], Motorbikes.y[var2], 33);
+                    for(i = 0; i < Motorbikes.count; ++i) {
+                        if (cameraX <= Motorbikes.x[i] + 12 && cameraX + Viewport.viewWidth >= Motorbikes.x[i] - 12 && cameraY <= Motorbikes.y[i] && cameraY + Viewport.viewHeight >= Motorbikes.y[i] - 24) {
+                            if (Motorbikes.facing[i] == 1) {
+                                g.drawImage(Motorbikes.sprites[Motorbikes.frame[i]], Motorbikes.x[i], Motorbikes.y[i], 33);
                             } else {
-                                g.drawRegion(Motorbikes.sprites[Motorbikes.frame[var2]], 0, 0, Motorbikes.sprites[Motorbikes.frame[var2]].getWidth(), Motorbikes.sprites[Motorbikes.frame[var2]].getHeight(), 2, Motorbikes.x[var2], Motorbikes.y[var2], 33);
+                                g.drawRegion(Motorbikes.sprites[Motorbikes.frame[i]], 0, 0, Motorbikes.sprites[Motorbikes.frame[i]].getWidth(), Motorbikes.sprites[Motorbikes.frame[i]].getHeight(), 2, Motorbikes.x[i], Motorbikes.y[i], 33);
                             }
                         }
                     }
 
-                    g = var6;
 
                     MoneyDrops.draw(g, cameraX, cameraY);
                     PotionDrops.draw(g, cameraX, cameraY);
 
-                    int var3;
+                    int barWidth;
                     if (BoarBoss.active && BoarBoss.state != BoarBoss.STATE_GONE && cameraX + Viewport.viewWidth >= BoarBoss.x - (BoarBoss.width >> 1) && cameraX <= BoarBoss.x + (BoarBoss.width >> 1) && cameraY <= BoarBoss.y && cameraY + Viewport.viewHeight >= BoarBoss.y - BoarBoss.height) {
-                        byte var8 = 0;
+                        byte bob = 0;
                         if (BoarBoss.frame == 0) {
-                            var8 = -2;
+                            bob = -2;
                             if (BoarBoss.state == BoarBoss.STATE_IDLE && tick % 10 > 5) {
-                                var8 = -1;
+                                bob = -1;
                             }
 
                             if (BoarBoss.direction == 1) {
-                                var6.drawImage(BoarBoss.sprites[4], BoarBoss.x, BoarBoss.y + 1, 33);
+                                g.drawImage(BoarBoss.sprites[4], BoarBoss.x, BoarBoss.y + 1, 33);
                             } else {
-                                var6.drawRegion(BoarBoss.sprites[4], 0, 0, BoarBoss.sprites[4].getWidth(), BoarBoss.sprites[4].getHeight(), 2, BoarBoss.x, BoarBoss.y + 1, 33);
+                                g.drawRegion(BoarBoss.sprites[4], 0, 0, BoarBoss.sprites[4].getWidth(), BoarBoss.sprites[4].getHeight(), 2, BoarBoss.x, BoarBoss.y + 1, 33);
                             }
                         }
 
                         if (BoarBoss.direction == 1) {
-                            var6.drawImage(BoarBoss.sprites[BoarBoss.frame], BoarBoss.x, BoarBoss.y + var8 + 1, 33);
+                            g.drawImage(BoarBoss.sprites[BoarBoss.frame], BoarBoss.x, BoarBoss.y + bob + 1, 33);
                         } else {
-                            var6.drawRegion(BoarBoss.sprites[BoarBoss.frame], 0, 0, BoarBoss.sprites[BoarBoss.frame].getWidth(), BoarBoss.sprites[BoarBoss.frame].getHeight(), 2, BoarBoss.x, BoarBoss.y + var8 + 1, 33);
+                            g.drawRegion(BoarBoss.sprites[BoarBoss.frame], 0, 0, BoarBoss.sprites[BoarBoss.frame].getWidth(), BoarBoss.sprites[BoarBoss.frame].getHeight(), 2, BoarBoss.x, BoarBoss.y + bob + 1, 33);
                         }
 
                         if (BoarBoss.state == BoarBoss.STATE_HURT) {
                             if (BoarBoss.direction == 1) {
-                                var6.drawImage(BoarBoss.sprites[3], BoarBoss.x + 10, BoarBoss.y - 25 + 1, 0);
+                                g.drawImage(BoarBoss.sprites[3], BoarBoss.x + 10, BoarBoss.y - 25 + 1, 0);
                             } else {
-                                var6.drawRegion(BoarBoss.sprites[3], 0, 0, BoarBoss.sprites[3].getWidth(), BoarBoss.sprites[3].getHeight(), 2, BoarBoss.x - 10, BoarBoss.y - 25 + 1, 24);
+                                g.drawRegion(BoarBoss.sprites[3], 0, 0, BoarBoss.sprites[3].getWidth(), BoarBoss.sprites[3].getHeight(), 2, BoarBoss.x - 10, BoarBoss.y - 25 + 1, 24);
                             }
                         }
 
                         if (BoarBoss.hurtFlash != 0) {
-                            var6.setColor(3342353);
-                            var6.drawRect(BoarBoss.x - (BoarBoss.width >> 1) - 1, BoarBoss.y - BoarBoss.height - 7, BoarBoss.width + 2, 4);
-                            var3 = BoarBoss.hp * BoarBoss.width / BoarBoss.maxHp;
-                            var6.setColor(15597568);
-                            var6.fillRect(BoarBoss.x - (BoarBoss.width >> 1), BoarBoss.y - BoarBoss.height - 6, var3, 3);
-                            var6.setColor(4456482);
-                            var6.fillRect(BoarBoss.x - (BoarBoss.width >> 1) + var3, BoarBoss.y - BoarBoss.height - 6, BoarBoss.width - var3 + 1, 3);
+                            g.setColor(3342353);
+                            g.drawRect(BoarBoss.x - (BoarBoss.width >> 1) - 1, BoarBoss.y - BoarBoss.height - 7, BoarBoss.width + 2, 4);
+                            barWidth = BoarBoss.hp * BoarBoss.width / BoarBoss.maxHp;
+                            g.setColor(15597568);
+                            g.fillRect(BoarBoss.x - (BoarBoss.width >> 1), BoarBoss.y - BoarBoss.height - 6, barWidth, 3);
+                            g.setColor(4456482);
+                            g.fillRect(BoarBoss.x - (BoarBoss.width >> 1) + barWidth, BoarBoss.y - BoarBoss.height - 6, BoarBoss.width - barWidth + 1, 3);
                         }
                     }
 
-                    g = var6;
                     if (FinalBoss.active) {
                         if (FinalBoss.direction > 0) {
-                            for(var2 = 0; var2 < 6; ++var2) {
-                                g.drawImage(FinalBoss.sprites[var2], FinalBoss.partX[var2], FinalBoss.partY[var2], 33);
+                            for(i = 0; i < 6; ++i) {
+                                g.drawImage(FinalBoss.sprites[i], FinalBoss.partX[i], FinalBoss.partY[i], 33);
                             }
                         } else {
-                            for(var2 = 0; var2 < 6; ++var2) {
-                                g.drawRegion(FinalBoss.sprites[var2], 0, 0, FinalBoss.sprites[var2].getWidth(), FinalBoss.sprites[var2].getHeight(), 2, FinalBoss.partX[var2], FinalBoss.partY[var2], 33);
+                            for(i = 0; i < 6; ++i) {
+                                g.drawRegion(FinalBoss.sprites[i], 0, 0, FinalBoss.sprites[i].getWidth(), FinalBoss.sprites[i].getHeight(), 2, FinalBoss.partX[i], FinalBoss.partY[i], 33);
                             }
                         }
 
                         if (FinalBoss.healthBarTimer != 0) {
                             g.setColor(3342353);
                             g.drawRect(FinalBoss.x - (FinalBoss.width >> 1) - 1, FinalBoss.y - FinalBoss.height - 7, FinalBoss.width + 2, 4);
-                            var2 = FinalBoss.hp * FinalBoss.width / FinalBoss.maxHp;
+                            int bossBarWidth = FinalBoss.hp * FinalBoss.width / FinalBoss.maxHp;
                             g.setColor(15597568);
-                            g.fillRect(FinalBoss.x - (FinalBoss.width >> 1), FinalBoss.y - FinalBoss.height - 6, var2, 3);
+                            g.fillRect(FinalBoss.x - (FinalBoss.width >> 1), FinalBoss.y - FinalBoss.height - 6, bossBarWidth, 3);
                             g.setColor(4456482);
-                            g.fillRect(FinalBoss.x - (FinalBoss.width >> 1) + var2, FinalBoss.y - FinalBoss.height - 6, FinalBoss.width - var2 + 1, 3);
+                            g.fillRect(FinalBoss.x - (FinalBoss.width >> 1) + bossBarWidth, FinalBoss.y - FinalBoss.height - 6, FinalBoss.width - bossBarWidth + 1, 3);
                         }
                     }
 
-                    g = var6;
 
-                    for(var2 = 0; var2 < Monsters.count; ++var2) {
-                        if (Monsters.state[var2] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[var2] != Monsters.STATE_GONE && Monsters.x[var2] >= cameraX - 10 && Monsters.x[var2] <= cameraX + Viewport.viewWidth + 10 && Monsters.y[var2] >= cameraY && Monsters.y[var2] <= cameraY + Viewport.viewHeight + 20) {
-                            g.drawImage(Monsters.sprites[Monsters.group[var2]][Monsters.direction[var2] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][Monsters.frame[var2]], Monsters.x[var2], Monsters.y[var2], 33);
-                            if (Monsters.healthBarTimer[var2] != 0) {
+                    for(i = 0; i < Monsters.count; ++i) {
+                        if (Monsters.state[i] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[i] != Monsters.STATE_GONE && Monsters.x[i] >= cameraX - 10 && Monsters.x[i] <= cameraX + Viewport.viewWidth + 10 && Monsters.y[i] >= cameraY && Monsters.y[i] <= cameraY + Viewport.viewHeight + 20) {
+                            g.drawImage(Monsters.sprites[Monsters.group[i]][Monsters.direction[i] >= 0 ? Mob.MONSTER_DIR_RIGHT : Mob.MONSTER_DIR_LEFT][Monsters.frame[i]], Monsters.x[i], Monsters.y[i], 33);
+                            if (Monsters.healthBarTimer[i] != 0) {
                                 g.setColor(13073);
-                                g.drawRect(Monsters.x[var2] - (Monsters.width[var2] >> 1) - 1, Monsters.y[var2] - Monsters.height[var2] - 7, Monsters.width[var2] + 2, 4);
-                                var3 = Monsters.hp[var2] * Monsters.width[var2] / Monsters.maxHp[var2];
+                                g.drawRect(Monsters.x[i] - (Monsters.width[i] >> 1) - 1, Monsters.y[i] - Monsters.height[i] - 7, Monsters.width[i] + 2, 4);
+                                barWidth = Monsters.hp[i] * Monsters.width[i] / Monsters.maxHp[i];
                                 g.setColor(60928);
-                                g.fillRect(Monsters.x[var2] - (Monsters.width[var2] >> 1), Monsters.y[var2] - Monsters.height[var2] - 6, var3, 3);
+                                g.fillRect(Monsters.x[i] - (Monsters.width[i] >> 1), Monsters.y[i] - Monsters.height[i] - 6, barWidth, 3);
                                 g.setColor(17442);
-                                g.fillRect(Monsters.x[var2] - (Monsters.width[var2] >> 1) + var3, Monsters.y[var2] - Monsters.height[var2] - 6, Monsters.width[var2] - var3 + 1, 3);
+                                g.fillRect(Monsters.x[i] - (Monsters.width[i] >> 1) + barWidth, Monsters.y[i] - Monsters.height[i] - 6, Monsters.width[i] - barWidth + 1, 3);
                             }
                         }
                     }
 
-                    g = var6;
 
-                    for(var2 = 0; var2 < Ninjas.count; ++var2) {
-                        if (Ninjas.state[var2] != Ninjas.STATE_DEAD && Ninjas.x[var2] + 15 >= cameraX && Ninjas.x[var2] - 15 <= cameraX + Viewport.viewWidth && Ninjas.y[var2] >= cameraY && Ninjas.y[var2] - 30 <= cameraY + Viewport.viewHeight) {
-                            if (Ninjas.direction[var2] == -1) {
-                                g.drawImage(Ninjas.legSprites[Ninjas.legsFrame[var2]], Ninjas.x[var2] + NinjaStats.legsOffsetX[Ninjas.type[var2]], Ninjas.y[var2], 33);
-                                g.drawImage(Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], Ninjas.bodyX[var2] + NinjaStats.bodyOffsetX[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], Ninjas.bodyY[var2], 33);
+                    for(i = 0; i < Ninjas.count; ++i) {
+                        if (Ninjas.state[i] != Ninjas.STATE_DEAD && Ninjas.x[i] + 15 >= cameraX && Ninjas.x[i] - 15 <= cameraX + Viewport.viewWidth && Ninjas.y[i] >= cameraY && Ninjas.y[i] - 30 <= cameraY + Viewport.viewHeight) {
+                            if (Ninjas.direction[i] == -1) {
+                                g.drawImage(Ninjas.legSprites[Ninjas.legsFrame[i]], Ninjas.x[i] + NinjaStats.legsOffsetX[Ninjas.type[i]], Ninjas.y[i], 33);
+                                g.drawImage(Ninjas.bodySprites[Ninjas.type[i]][Ninjas.bodyFrame[i]], Ninjas.bodyX[i] + NinjaStats.bodyOffsetX[Ninjas.type[i]][Ninjas.bodyFrame[i]], Ninjas.bodyY[i], 33);
                             } else {
-                                g.drawRegion(Ninjas.legSprites[Ninjas.legsFrame[var2]], 0, 0, Ninjas.legSprites[Ninjas.legsFrame[var2]].getWidth(), Ninjas.legSprites[Ninjas.legsFrame[var2]].getHeight(), 2, Ninjas.x[var2] - NinjaStats.legsOffsetX[Ninjas.type[var2]], Ninjas.y[var2], 33);
-                                g.drawRegion(Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], 0, 0, Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]].getWidth(), Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]].getHeight(), 2, Ninjas.bodyX[var2] - NinjaStats.bodyOffsetX[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], Ninjas.bodyY[var2], 33);
+                                g.drawRegion(Ninjas.legSprites[Ninjas.legsFrame[i]], 0, 0, Ninjas.legSprites[Ninjas.legsFrame[i]].getWidth(), Ninjas.legSprites[Ninjas.legsFrame[i]].getHeight(), 2, Ninjas.x[i] - NinjaStats.legsOffsetX[Ninjas.type[i]], Ninjas.y[i], 33);
+                                g.drawRegion(Ninjas.bodySprites[Ninjas.type[i]][Ninjas.bodyFrame[i]], 0, 0, Ninjas.bodySprites[Ninjas.type[i]][Ninjas.bodyFrame[i]].getWidth(), Ninjas.bodySprites[Ninjas.type[i]][Ninjas.bodyFrame[i]].getHeight(), 2, Ninjas.bodyX[i] - NinjaStats.bodyOffsetX[Ninjas.type[i]][Ninjas.bodyFrame[i]], Ninjas.bodyY[i], 33);
                             }
 
-                            if (Ninjas.healthBarTimer[var2] != 0) {
+                            if (Ninjas.healthBarTimer[i] != 0) {
                                 g.setColor(13073);
-                                g.drawRect(Ninjas.x[var2] - 13, Ninjas.y[var2] - 40, 26, 4);
-                                var3 = Ninjas.hp[var2] * 24 / NinjaStats.maxHp[Ninjas.type[var2]];
+                                g.drawRect(Ninjas.x[i] - 13, Ninjas.y[i] - 40, 26, 4);
+                                barWidth = Ninjas.hp[i] * 24 / NinjaStats.maxHp[Ninjas.type[i]];
                                 g.setColor(15597568);
-                                g.fillRect(Ninjas.x[var2] - 12, Ninjas.y[var2] - 39, var3, 3);
+                                g.fillRect(Ninjas.x[i] - 12, Ninjas.y[i] - 39, barWidth, 3);
                                 g.setColor(4456482);
-                                g.fillRect(Ninjas.x[var2] - 12 + var3, Ninjas.y[var2] - 39, 24 - var3 + 1, 3);
+                                g.fillRect(Ninjas.x[i] - 12 + barWidth, Ninjas.y[i] - 39, 24 - barWidth + 1, 3);
                             }
                         }
                     }
 
-                    drawClassmates(var6);
+                    drawClassmates(g);
                     if (Dog.visible && Dog.x + 15 >= cameraX && Dog.x - 15 <= cameraX + Viewport.viewWidth && Dog.y >= cameraY && Dog.y - 10 <= cameraY + Viewport.viewHeight) {
-                    var2 = tick % 8 > 3 ? 0 : 1;
+                    int dogFrame = tick % 8 > 3 ? 0 : 1;
                     if (Dog.vx > 0) {
-                        var6.drawImage(Dog.sprites[var2], Dog.x, Dog.y, 33);
+                        g.drawImage(Dog.sprites[dogFrame], Dog.x, Dog.y, 33);
                     } else {
-                        var6.drawRegion(Dog.sprites[var2], 0, 0, Dog.sprites[var2].getWidth(), Dog.sprites[var2].getHeight(), 2, Dog.x, Dog.y, 33);
+                        g.drawRegion(Dog.sprites[i], 0, 0, Dog.sprites[i].getWidth(), Dog.sprites[i].getHeight(), 2, Dog.x, Dog.y, 33);
                     }
                 }
 
                 if (Toniku.active) {
                     if (Toniku.healthBarVisible) {
-                        var6.setColor(16768477);
-                        var2 = cameraX + 50;
-                        var3 = cameraY + 15;
+                        g.setColor(16768477);
+                        int barX = cameraX + 50;
+                        int barY = cameraY + 15;
                         if (!hudPanelVisible) {
-                            var3 += 20;
+                            barY += 20;
                         }
 
-                        var6.drawRect(var2 - 35 - 1, var3 - 7, 72, 4);
-                        int var7 = Toniku.hp * 70 / Toniku.maxHp;
-                        var6.setColor(15597568);
-                        var6.fillRect(var2 - 35, var3 - 6, var7, 3);
-                        var6.setColor(4456482);
-                        var6.fillRect(var2 - 35 + var7, var3 - 6, 70 - var7 + 1, 3);
+                        g.drawRect(barX - 35 - 1, barY - 7, 72, 4);
+                        int tonikuBarWidth = Toniku.hp * 70 / Toniku.maxHp;
+                        g.setColor(15597568);
+                        g.fillRect(barX - 35, barY - 6, tonikuBarWidth, 3);
+                        g.setColor(4456482);
+                        g.fillRect(barX - 35 + tonikuBarWidth, barY - 6, 70 - tonikuBarWidth + 1, 3);
                     }
 
                     if (Classmates.x[0] + Player.halfWidth >= cameraX && Classmates.x[0] - Player.halfWidth <= cameraX + Viewport.viewWidth && Classmates.y[0] >= cameraY && Classmates.y[0] - Player.height <= cameraY + Viewport.viewHeight) {
                         if (Classmates.facing[0] == 1) {
-                            var6.drawImage(Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][0][2], 0);
-                            var6.drawImage(heroLegs[classmatePoses[Classmates.pose[0]][1][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][1][2], 0);
-                            var6.drawImage(heroBodies[classmatePoses[Classmates.pose[0]][2][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][2][2], 0);
+                            g.drawImage(Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][0][2], 0);
+                            g.drawImage(heroLegs[classmatePoses[Classmates.pose[0]][1][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][1][2], 0);
+                            g.drawImage(heroBodies[classmatePoses[Classmates.pose[0]][2][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][2][2], 0);
                             if (Classmates.slashEffect[0] != -1) {
-                                var6.drawImage(slashEffects[Classmates.slashEffect[0]], Classmates.x[0] - slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - slashOffsetY[Classmates.slashEffect[0]], 0);
+                                g.drawImage(slashEffects[Classmates.slashEffect[0]], Classmates.x[0] - slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - slashOffsetY[Classmates.slashEffect[0]], 0);
                             }
                         } else {
-                            var6.drawRegion(Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]], 0, 0, Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]].getWidth(), Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][0][2], 24);
-                            var6.drawRegion(heroLegs[classmatePoses[Classmates.pose[0]][1][0]], 0, 0, heroLegs[classmatePoses[Classmates.pose[0]][1][0]].getWidth(), heroLegs[classmatePoses[Classmates.pose[0]][1][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][1][2], 24);
-                            var6.drawRegion(heroBodies[classmatePoses[Classmates.pose[0]][2][0]], 0, 0, heroBodies[classmatePoses[Classmates.pose[0]][2][0]].getWidth(), heroBodies[classmatePoses[Classmates.pose[0]][2][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][2][2], 24);
+                            g.drawRegion(Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]], 0, 0, Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]].getWidth(), Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][0][2], 24);
+                            g.drawRegion(heroLegs[classmatePoses[Classmates.pose[0]][1][0]], 0, 0, heroLegs[classmatePoses[Classmates.pose[0]][1][0]].getWidth(), heroLegs[classmatePoses[Classmates.pose[0]][1][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][1][2], 24);
+                            g.drawRegion(heroBodies[classmatePoses[Classmates.pose[0]][2][0]], 0, 0, heroBodies[classmatePoses[Classmates.pose[0]][2][0]].getWidth(), heroBodies[classmatePoses[Classmates.pose[0]][2][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][2][2], 24);
                             if (Classmates.slashEffect[0] != -1) {
-                                var6.drawRegion(slashEffects[Classmates.slashEffect[0]], 0, 0, slashEffects[Classmates.slashEffect[0]].getWidth(), slashEffects[Classmates.slashEffect[0]].getHeight(), 2, Classmates.x[0] + slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - slashOffsetY[Classmates.slashEffect[0]], 24);
+                                g.drawRegion(slashEffects[Classmates.slashEffect[0]], 0, 0, slashEffects[Classmates.slashEffect[0]].getWidth(), slashEffects[Classmates.slashEffect[0]].getHeight(), 2, Classmates.x[0] + slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - slashOffsetY[Classmates.slashEffect[0]], 24);
                             }
                         }
                     }
                 }
 
-                Aura.draw(var6);
+                Aura.draw(g);
 
                 if (Girl.mapId == mapId) {
                     if (Girl.facing == 1) {
-                        var6.drawImage(Girl.heads[girlPoses[Girl.pose][0][0]], Girl.x + girlPoses[Girl.pose][0][1], Girl.y - girlPoses[Girl.pose][0][2], 0);
-                        var6.drawImage(Girl.legs[girlPoses[Girl.pose][1][0]], Girl.x + girlPoses[Girl.pose][1][1], Girl.y - girlPoses[Girl.pose][1][2], 0);
-                        var6.drawImage(Girl.bodies[girlPoses[Girl.pose][2][0]], Girl.x + girlPoses[Girl.pose][2][1], Girl.y - girlPoses[Girl.pose][2][2], 0);
+                        g.drawImage(Girl.heads[girlPoses[Girl.pose][0][0]], Girl.x + girlPoses[Girl.pose][0][1], Girl.y - girlPoses[Girl.pose][0][2], 0);
+                        g.drawImage(Girl.legs[girlPoses[Girl.pose][1][0]], Girl.x + girlPoses[Girl.pose][1][1], Girl.y - girlPoses[Girl.pose][1][2], 0);
+                        g.drawImage(Girl.bodies[girlPoses[Girl.pose][2][0]], Girl.x + girlPoses[Girl.pose][2][1], Girl.y - girlPoses[Girl.pose][2][2], 0);
                         if (Girl.slashEffect != -1) {
-                            var6.drawImage(slashEffects[Girl.slashEffect], Girl.x - slashOffsetX[Girl.slashEffect], Girl.y - slashOffsetY[Girl.slashEffect], 0);
+                            g.drawImage(slashEffects[Girl.slashEffect], Girl.x - slashOffsetX[Girl.slashEffect], Girl.y - slashOffsetY[Girl.slashEffect], 0);
                         }
                     } else {
-                        var6.drawRegion(Girl.heads[girlPoses[Girl.pose][0][0]], 0, 0, Girl.heads[girlPoses[Girl.pose][0][0]].getWidth(), Girl.heads[girlPoses[Girl.pose][0][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][0][1], Girl.y - girlPoses[Girl.pose][0][2], 24);
-                        var6.drawRegion(Girl.legs[girlPoses[Girl.pose][1][0]], 0, 0, Girl.legs[girlPoses[Girl.pose][1][0]].getWidth(), Girl.legs[girlPoses[Girl.pose][1][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][1][1], Girl.y - girlPoses[Girl.pose][1][2], 24);
-                        var6.drawRegion(Girl.bodies[girlPoses[Girl.pose][2][0]], 0, 0, Girl.bodies[girlPoses[Girl.pose][2][0]].getWidth(), Girl.bodies[girlPoses[Girl.pose][2][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][2][1], Girl.y - girlPoses[Girl.pose][2][2], 24);
+                        g.drawRegion(Girl.heads[girlPoses[Girl.pose][0][0]], 0, 0, Girl.heads[girlPoses[Girl.pose][0][0]].getWidth(), Girl.heads[girlPoses[Girl.pose][0][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][0][1], Girl.y - girlPoses[Girl.pose][0][2], 24);
+                        g.drawRegion(Girl.legs[girlPoses[Girl.pose][1][0]], 0, 0, Girl.legs[girlPoses[Girl.pose][1][0]].getWidth(), Girl.legs[girlPoses[Girl.pose][1][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][1][1], Girl.y - girlPoses[Girl.pose][1][2], 24);
+                        g.drawRegion(Girl.bodies[girlPoses[Girl.pose][2][0]], 0, 0, Girl.bodies[girlPoses[Girl.pose][2][0]].getWidth(), Girl.bodies[girlPoses[Girl.pose][2][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][2][1], Girl.y - girlPoses[Girl.pose][2][2], 24);
                         if (Girl.slashEffect != -1) {
-                            var6.drawRegion(slashEffects[Girl.slashEffect], 0, 0, slashEffects[Girl.slashEffect].getWidth(), slashEffects[Girl.slashEffect].getHeight(), 2, Girl.x + slashOffsetX[Girl.slashEffect], Girl.y - slashOffsetY[Girl.slashEffect], 24);
+                            g.drawRegion(slashEffects[Girl.slashEffect], 0, 0, slashEffects[Girl.slashEffect].getWidth(), slashEffects[Girl.slashEffect].getHeight(), 2, Girl.x + slashOffsetX[Girl.slashEffect], Girl.y - slashOffsetY[Girl.slashEffect], 24);
                         }
                     }
                 }
 
-                drawPlayer(var6);
+                drawPlayer(g);
                 if (questItemState != 0) {
-                    var6.drawImage(itemScroll, questItemX, questItemY, 33);
+                    g.drawImage(itemScroll, questItemX, questItemY, 33);
                 }
 
-                Blood.draw(var6);
-                Dust.draw(var6);
-                g = var6;
+                Blood.draw(g);
+                Dust.draw(g);
 
-                Projectiles.draw(var6);
-                g = var6;
+                Projectiles.draw(g);
 
-                for(var2 = 0; var2 < Darts.count; ++var2) {
-                    if (Darts.state[var2] != Darts.STATE_FREE) {
-                        g.drawImage(Darts.sprites[Darts.frame[var2]], Darts.x[var2], Darts.y[var2], 3);
+                for(i = 0; i < Darts.count; ++i) {
+                    if (Darts.state[i] != Darts.STATE_FREE) {
+                        g.drawImage(Darts.sprites[Darts.frame[i]], Darts.x[i], Darts.y[i], 3);
                     }
                 }
 
-                g = var6;
 
-                ArcProjectiles.draw(var6);
-                WaterSplash.draw(var6);
-                drawForegroundTiles(var6);
-                FloatingText.draw(var6);
+                ArcProjectiles.draw(g);
+                WaterSplash.draw(g);
+                drawForegroundTiles(g);
+                FloatingText.draw(g);
                 if (guideMarkerMap == mapId) {
-                    var6.drawImage(arrowIcons[guideArrowIcon], guideArrowX, guideArrowY, 3);
+                    g.drawImage(arrowIcons[guideArrowIcon], guideArrowX, guideArrowY, 3);
                 }
 
-                drawHudOverlay(var6);
+                drawHudOverlay(g);
                 if (hudDirty) {
-                    drawHudPanel(var6);
+                    drawHudPanel(g);
                 }
 
                 if (letterboxHeight > 1) {
-                    drawLetterbox(var6);
+                    drawLetterbox(g);
                 }
 
                 if (Notice.visible) {
-                    Notice.draw(var6, tick);
+                    Notice.draw(g, tick);
                 }
 
                 if (Dialogue.visible) {
-                    drawDialogue(var6);
+                    drawDialogue(g);
                 }
 
                 return;
@@ -4901,8 +4872,8 @@ public final class b extends Canvas implements Runnable {
                 default:
                     return;
             }
-        } catch (Exception var5) {
-            var5.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -4925,8 +4896,7 @@ public final class b extends Canvas implements Runnable {
 
     public final void run() {
         while(running) {
-            long var1 = System.currentTimeMillis();
-            boolean var3;
+            long frameStart = System.currentTimeMillis();
             switch (GameState.current) {
                 case GameState.PLAYING:
                     if (++tick == 10000) {
@@ -4984,12 +4954,12 @@ public final class b extends Canvas implements Runnable {
                         break;
                     }
 
-                    int var13;
+                    int i;
                     if (!Settings.lowGraphics) {
                         Sky.updateClouds(tick, Viewport.viewWidth);
                     }
 
-                    int var4;
+                    int j;
                     if (Dialogue.visible) {
                         if (Input.pressed[Input.KEY_FIRE]) {
                             Input.clearPressed();
@@ -5046,10 +5016,10 @@ public final class b extends Canvas implements Runnable {
                                 } else if (Input.pressed[Input.KEY_STAR]) {
                                     Input.pressed[Input.KEY_STAR] = false;
                                     if (!PlayerStats.isHpFull()) {
-                                        for(var13 = 0; var13 < 3; ++var13) {
-                                            if (Inventory.potionCounts[var13] > 0) {
-                                                Inventory.potionCounts[var13]--;
-                                                PlayerStats.restoreHp(Inventory.potionRestoreAmounts[var13]);
+                                        for(i = 0; i < 3; ++i) {
+                                            if (Inventory.potionCounts[i] > 0) {
+                                                Inventory.potionCounts[i]--;
+                                                PlayerStats.restoreHp(Inventory.potionRestoreAmounts[i]);
 
                                                 hudDirty = true;
                                                 break;
@@ -5059,10 +5029,10 @@ public final class b extends Canvas implements Runnable {
                                 } else if (Input.pressed[Input.KEY_POUND]) {
                                     Input.pressed[Input.KEY_POUND] = false;
                                     if (!PlayerStats.isMpFull()) {
-                                        for(var13 = 3; var13 < 6; ++var13) {
-                                            if (Inventory.potionCounts[var13] > 0) {
-                                                Inventory.potionCounts[var13]--;
-                                                PlayerStats.restoreMp(Inventory.potionRestoreAmounts[var13]);
+                                        for(i = 3; i < 6; ++i) {
+                                            if (Inventory.potionCounts[i] > 0) {
+                                                Inventory.potionCounts[i]--;
+                                                PlayerStats.restoreMp(Inventory.potionRestoreAmounts[i]);
 
                                                 hudDirty = true;
                                                 break;
@@ -5076,172 +5046,168 @@ public final class b extends Canvas implements Runnable {
                                 if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
                                     Input.clearPressed();
                                     if (rightSoftKeyLabel.equals("Giao tiếp")) {
-                                        var4 = Player.nearNpc;
-                                        switch (npcTypes[var4]) {
+                                        j = Player.nearNpc;
+                                        switch (npcTypes[j]) {
                                             case 0:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (!Skills.lightness) {
                                                     setNextNpcMarker(2);
-                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else {
                                                     if (Skills.hide && !Story.gameCompleted) {
                                                         if (QuestState.current == Quest.RESCUE_SAKURA) {
                                                             if (Story.sakuraFound) {
-                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[j], npcY[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[j], npcY[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
                                                 break;
                                             case 1:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (!Skills.lightness) {
                                                     if (QuestState.current == Quest.KILL_SNAILS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
-                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else {
-                                                            var3 = true;
-                                                            boolean var8 = true;
-                                                            boolean var7 = true;
-                                                            boolean var6 = false;
                                                             pendingMarkerMap = 0;
                                                             pendingMarkerNpc = 4;
                                                             pendingMarkerX = 1044;
                                                             pendingMarkerY = 240;
-                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else if (!Story.goldenBatQuestDone && Skills.transform) {
                                                     if (PlayerStats.level < 10) {
-                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                     } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
-                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(2);
-                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else if (Story.girlOutingDone && !Skills.tripleJump) {
                                                     if (PlayerStats.level < 12) {
-                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                     } else if (QuestState.current == Quest.AIR_HITS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
-                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(4);
-                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else {
                                                     if (!Skills.sprint && Skills.dartsLevel2) {
                                                         if (PlayerStats.level < 15) {
-                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else if (QuestState.current == Quest.KILL_SCORPIONS) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
-                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                             } else {
                                                                 setNextNpcMarker(3);
-                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[j], npcY[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[j], npcY[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
                                                 break;
                                             case 2:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (!Skills.lightness) {
                                                     setNextNpcMarker(1);
-                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (Skills.burrow && !Skills.motorbikeLicense) {
                                                     if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
-                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
                                                     if (QuestState.current == Quest.FIGHT_TONIKU) {
                                                         if (Story.tonikuDefeated) {
                                                             setNextNpcMarker(2);
-                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[j], npcY[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else {
                                                     if (Story.tonikuQuestDone && !Story.girlWaiting) {
                                                         if (QuestState.current == Quest.KILL_NATIVES) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
-                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                             } else {
                                                                 setNextNpcMarker(3);
-                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[j], npcY[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[j], npcY[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
                                                 break;
                                             case 3:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else {
                                                     if (Skills.lightness && Skills.darts) {
                                                         if (!Skills.burrow) {
                                                             if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(2);
-                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, npcX[j], npcY[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[j], npcY[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                             }
                                                             break;
                                                         }
@@ -5249,33 +5215,33 @@ public final class b extends Canvas implements Runnable {
                                                         if (!Skills.dive && Skills.doubleStrength) {
                                                             if (QuestState.current == Quest.KILL_WILD_BOAR) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(4);
-                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[j], npcY[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[j], npcY[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                             }
                                                             break;
                                                         }
 
                                                         if (!Skills.standOnWater && Skills.sprint) {
                                                             if (PlayerStats.level < 16) {
-                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                             } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
                                                                 if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
-                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(3);
-                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[j], npcY[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[j], npcY[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                             }
                                                             break;
                                                         }
@@ -5283,123 +5249,123 @@ public final class b extends Canvas implements Runnable {
                                                         if (!Skills.hide && Skills.standOnWater) {
                                                             if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(0);
-                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, npcX[var4], npcY[var4] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, npcX[j], npcY[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[j], npcY[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
                                                 break;
                                             case 4:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (mapId == 99) {
-                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (!Skills.lightness) {
-                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 } else if (!Skills.darts) {
                                                     if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
-                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(3);
-                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
                                                     if (QuestState.current == Quest.KILL_BEES) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
-                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(3);
-                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else if (Skills.dive && !Skills.transform) {
                                                     if (PlayerStats.level < 8) {
-                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                     } else if (QuestState.current == Quest.CROSS_RIVER) {
                                                         if (!QuestState.itemFound) {
-                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(1);
-                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[j], npcY[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[j], npcY[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                     }
                                                 } else {
                                                     if (!Skills.dartsLevel2 && Skills.tripleJump) {
                                                         if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
-                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                             } else {
                                                                 setNextNpcMarker(1);
-                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[var4], npcY[var4] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[j], npcY[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[j], npcY[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[var4], npcY[var4] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
                                                 break;
                                             case 5:
                                                 if (mapId == 0) {
-                                                    if (var4 == 5) {
-                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                    if (j == 5) {
+                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                     }
 
-                                                    if (var4 == 6) {
+                                                    if (j == 6) {
                                                         openShop(ShopScreen.MODE_MONEY);
                                                     }
                                                 }
 
-                                                if (mapId == 2 && var4 == 0) {
+                                                if (mapId == 2 && j == 0) {
                                                     openShop(ShopScreen.MODE_SMS);
                                                 }
 
-                                                if (mapId == 1 && var4 == 0) {
-                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                if (mapId == 1 && j == 0) {
+                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
 
-                                                if (mapId == 5 && var4 == 0) {
-                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                if (mapId == 5 && j == 0) {
+                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
 
-                                                if (mapId == 6 && var4 == 0) {
-                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, npcX[var4], npcY[var4] - 40);
+                                                if (mapId == 6 && j == 0) {
+                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
                                                 }
                                         }
 
-                                        if (mapId == guideMarkerMap && var4 == guideMarkerNpc) {
+                                        if (mapId == guideMarkerMap && j == guideMarkerNpc) {
                                             guideMarkerMap = -1;
                                         }
                                     } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
@@ -5423,14 +5389,14 @@ public final class b extends Canvas implements Runnable {
                                     label2585: {
                                         if (Input.held[Input.KEY_UP]) {
                                             if (Skills.motorbikeLicense) {
-                                                for(var13 = 0; var13 < Motorbikes.count; ++var13) {
-                                                    if (Player.y == Motorbikes.y[var13] && abs(Player.x - Motorbikes.x[var13]) < 20) {
-                                                        Player.x = Motorbikes.x[var13];
+                                                for(i = 0; i < Motorbikes.count; ++i) {
+                                                    if (Player.y == Motorbikes.y[i] && abs(Player.x - Motorbikes.x[i]) < 20) {
+                                                        Player.x = Motorbikes.x[i];
                                                         Player.action = PlayerAction.MOTORBIKE_STAND;
                                                         Input.clearHeld();
-                                                        Player.motorbike = var13;
-                                                        Motorbikes.facing[var13] = Player.facing;
-                                                        Motorbikes.frame[var13] = 0;
+                                                        Player.motorbike = i;
+                                                        Motorbikes.facing[i] = Player.facing;
+                                                        Motorbikes.frame[i] = 0;
                                                         break label2585;
                                                     }
                                                 }
@@ -5857,96 +5823,96 @@ public final class b extends Canvas implements Runnable {
                         lastVisibleRow = GameMap.height - 1;
                     }
 
-                    for(var13 = 0; var13 < Crates.count; ++var13) {
-                        switch (Crates.state[var13]) {
+                    for(i = 0; i < Crates.count; ++i) {
+                        switch (Crates.state[i]) {
                             case Crates.STATE_SLIDING:
-                                Crates.x[var13] += Crates.vx[var13];
-                                if (Crates.vx[var13] > 0) {
-                                    Crates.vx[var13]--;
-                                } else if (Crates.vx[var13] < 0) {
-                                    Crates.vx[var13]++;
+                                Crates.x[i] += Crates.vx[i];
+                                if (Crates.vx[i] > 0) {
+                                    Crates.vx[i]--;
+                                } else if (Crates.vx[i] < 0) {
+                                    Crates.vx[i]++;
                                 } else {
-                                    Crates.state[var13] = Crates.STATE_RESTING;
+                                    Crates.state[i] = Crates.STATE_RESTING;
                                 }
 
-                                if (!GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13] + 1, TileFlags.SOLID) && !GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13] + 1, TileFlags.SOLID)) {
-                                    Crates.state[var13] = Crates.STATE_FALLING;
-                                    Crates.vy[var13] = 2;
+                                if (!GameMap.hasFlag(Crates.x[i] - 12, Crates.y[i] + 1, TileFlags.SOLID) && !GameMap.hasFlag(Crates.x[i] + 12, Crates.y[i] + 1, TileFlags.SOLID)) {
+                                    Crates.state[i] = Crates.STATE_FALLING;
+                                    Crates.vy[i] = 2;
                                 }
 
-                                if (GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13] - 2, TileFlags.WALL_RIGHT_SIDE)) {
-                                    Crates.x[var13] = alignToTileX(Crates.x[var13]) + 12;
+                                if (GameMap.hasFlag(Crates.x[i] + 12, Crates.y[i] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(Crates.x[i] - 12, Crates.y[i] - 2, TileFlags.WALL_RIGHT_SIDE)) {
+                                    Crates.x[i] = alignToTileX(Crates.x[i]) + 12;
                                 }
                                 break;
                             case Crates.STATE_FALLING:
-                                Crates.y[var13] += Crates.vy[var13];
-                                if (Crates.vy[var13] < 20) {
-                                    Crates.vy[var13]++;
+                                Crates.y[i] += Crates.vy[i];
+                                if (Crates.vy[i] < 20) {
+                                    Crates.vy[i]++;
                                 }
 
-                                if (!GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13], TileFlags.SOLID) && !GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13], TileFlags.SOLID)) {
-                                    if (GameMap.hasFlag(Crates.x[var13], Crates.y[var13] - GameMap.TILE_SIZE, TileFlags.WATER)) {
-                                        Crates.y[var13] = alignToTileY(Crates.y[var13]) + 1;
-                                        WaterSplash.spawn(Crates.x[var13], Crates.y[var13] - 13);
-                                        WaterSplash.spawn(Crates.x[var13] + 1, Crates.y[var13] - 10);
-                                        Crates.vy[var13] = 1;
-                                        Crates.bobDirection[var13] = -1;
-                                        Crates.driftVx[var13] = 1;
-                                        Crates.state[var13] = Crates.STATE_FLOATING;
+                                if (!GameMap.hasFlag(Crates.x[i] + 12, Crates.y[i], TileFlags.SOLID) && !GameMap.hasFlag(Crates.x[i] - 12, Crates.y[i], TileFlags.SOLID)) {
+                                    if (GameMap.hasFlag(Crates.x[i], Crates.y[i] - GameMap.TILE_SIZE, TileFlags.WATER)) {
+                                        Crates.y[i] = alignToTileY(Crates.y[i]) + 1;
+                                        WaterSplash.spawn(Crates.x[i], Crates.y[i] - 13);
+                                        WaterSplash.spawn(Crates.x[i] + 1, Crates.y[i] - 10);
+                                        Crates.vy[i] = 1;
+                                        Crates.bobDirection[i] = -1;
+                                        Crates.driftVx[i] = 1;
+                                        Crates.state[i] = Crates.STATE_FLOATING;
                                     }
                                     break;
                                 }
 
-                                Crates.y[var13] = alignToTileY(Crates.y[var13]);
-                                Crates.vy[var13] = 0;
-                                Crates.state[var13] = Crates.STATE_RESTING;
+                                Crates.y[i] = alignToTileY(Crates.y[i]);
+                                Crates.vy[i] = 0;
+                                Crates.state[i] = Crates.STATE_RESTING;
                                 break;
                             case Crates.STATE_FLOATING:
                                 if (tick % 2 == 0) {
-                                    Crates.y[var13] += Crates.bobDirection[var13];
-                                    Crates.vy[var13] += Crates.bobDirection[var13];
-                                    if (Crates.vy[var13] >= 1) {
-                                        Crates.bobDirection[var13] = -1;
+                                    Crates.y[i] += Crates.bobDirection[i];
+                                    Crates.vy[i] += Crates.bobDirection[i];
+                                    if (Crates.vy[i] >= 1) {
+                                        Crates.bobDirection[i] = -1;
                                     }
 
-                                    if (Crates.vy[var13] <= -1) {
-                                        Crates.bobDirection[var13] = 1;
+                                    if (Crates.vy[i] <= -1) {
+                                        Crates.bobDirection[i] = 1;
                                     }
 
-                                    Crates.x[var13] += Crates.driftVx[var13];
-                                    if (var13 == Player.crate) {
+                                    Crates.x[i] += Crates.driftVx[i];
+                                    if (i == Player.crate) {
                                         Player.y = Crates.y[Player.crate] - 24;
-                                        Player.x += Crates.driftVx[var13];
+                                        Player.x += Crates.driftVx[i];
                                     }
 
-                                    if (GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13], TileFlags.WALL_RIGHT_SIDE)) {
-                                        Crates.driftVx[var13] = -Crates.driftVx[var13];
+                                    if (GameMap.hasFlag(Crates.x[i] + 12, Crates.y[i], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(Crates.x[i] - 12, Crates.y[i], TileFlags.WALL_RIGHT_SIDE)) {
+                                        Crates.driftVx[i] = -Crates.driftVx[i];
                                     }
                                 }
                         }
                     }
 
-                    for(var13 = 0; var13 < Motorbikes.count; ++var13) {
-                        if (var13 == Player.motorbike) {
+                    for(i = 0; i < Motorbikes.count; ++i) {
+                        if (i == Player.motorbike) {
                             if (Player.actionTimer > 1) {
-                                Motorbikes.frame[var13] = 2;
+                                Motorbikes.frame[i] = 2;
                             } else if (tick % 8 > 3) {
-                                Motorbikes.frame[var13] = 1;
+                                Motorbikes.frame[i] = 1;
                             } else {
-                                Motorbikes.frame[var13] = 0;
+                                Motorbikes.frame[i] = 0;
                             }
                         }
 
-                        if (Motorbikes.falling[var13] == 1) {
-                            Motorbikes.y[var13] += Motorbikes.vy[var13];
-                            if (Motorbikes.vy[var13] < 20) {
-                                Motorbikes.vy[var13]++;
+                        if (Motorbikes.falling[i] == 1) {
+                            Motorbikes.y[i] += Motorbikes.vy[i];
+                            if (Motorbikes.vy[i] < 20) {
+                                Motorbikes.vy[i]++;
                             }
 
-                            if (Motorbikes.y[var13] >= GameMap.pixelHeight || GameMap.hasFlag(Motorbikes.x[var13], Motorbikes.y[var13], TileFlags.SOLID)) {
-                                Motorbikes.vy[var13] = 0;
-                                Motorbikes.falling[var13] = 0;
-                                Motorbikes.y[var13] = alignToTileY(Motorbikes.y[var13]);
+                            if (Motorbikes.y[i] >= GameMap.pixelHeight || GameMap.hasFlag(Motorbikes.x[i], Motorbikes.y[i], TileFlags.SOLID)) {
+                                Motorbikes.vy[i] = 0;
+                                Motorbikes.falling[i] = 0;
+                                Motorbikes.y[i] = alignToTileY(Motorbikes.y[i]);
                             }
                         }
                     }
@@ -5956,137 +5922,137 @@ public final class b extends Canvas implements Runnable {
                     Dust.update();
                     Blood.update();
 
-                    int var5;
-                    for(var13 = 0; var13 < Darts.count; ++var13) {
-                        if (Darts.state[var13] == Darts.STATE_FLYING) {
-                            Darts.x[var13] += Darts.vx[var13];
-                            Darts.y[var13] += Darts.vy[var13];
-                            if (Darts.x[var13] >= cameraX && Darts.x[var13] <= cameraX + Viewport.viewWidth && Darts.y[var13] >= cameraY && Darts.y[var13] <= cameraY + Viewport.viewHeight) {
-                                if (Darts.vx[var13] > 0 && (GameMap.flagsAtPixel(Darts.x[var13], Darts.y[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                                    Darts.state[var13] = Darts.STATE_STUCK;
-                                    Darts.x[var13] = alignToTileX(Darts.x[var13]);
-                                } else if (Darts.vx[var13] < 0 && (GameMap.flagsAtPixel(Darts.x[var13], Darts.y[var13]) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                                    Darts.state[var13] = Darts.STATE_STUCK;
-                                    Darts.x[var13] = alignToTileX(Darts.x[var13]) + GameMap.TILE_SIZE;
+                    int damage;
+                    for(i = 0; i < Darts.count; ++i) {
+                        if (Darts.state[i] == Darts.STATE_FLYING) {
+                            Darts.x[i] += Darts.vx[i];
+                            Darts.y[i] += Darts.vy[i];
+                            if (Darts.x[i] >= cameraX && Darts.x[i] <= cameraX + Viewport.viewWidth && Darts.y[i] >= cameraY && Darts.y[i] <= cameraY + Viewport.viewHeight) {
+                                if (Darts.vx[i] > 0 && (GameMap.flagsAtPixel(Darts.x[i], Darts.y[i]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                                    Darts.state[i] = Darts.STATE_STUCK;
+                                    Darts.x[i] = alignToTileX(Darts.x[i]);
+                                } else if (Darts.vx[i] < 0 && (GameMap.flagsAtPixel(Darts.x[i], Darts.y[i]) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                                    Darts.state[i] = Darts.STATE_STUCK;
+                                    Darts.x[i] = alignToTileX(Darts.x[i]) + GameMap.TILE_SIZE;
                                 }
 
-                                Darts.frame[var13]++;
-                                if (Darts.frame[var13] > 1) {
-                                    Darts.frame[var13] = 0;
+                                Darts.frame[i]++;
+                                if (Darts.frame[i] > 1) {
+                                    Darts.frame[i] = 0;
                                 }
 
-                                if (Darts.vx[var13] != 0) {
-                                    for(var4 = 0; var4 < Monsters.count; ++var4) {
-                                        if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[var4] != Monsters.STATE_KNOCKED_OUT && abs(Monsters.x[var4] - Darts.x[var13]) < Monsters.width[var4] && abs(Monsters.y[var4] - (Monsters.height[var4] >> 1) - Darts.y[var13]) < Monsters.height[var4]) {
-                                            boolean var14;
+                                if (Darts.vx[i] != 0) {
+                                    for(j = 0; j < Monsters.count; ++j) {
+                                        if (Monsters.state[j] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[j] != Monsters.STATE_KNOCKED_OUT && abs(Monsters.x[j] - Darts.x[i]) < Monsters.width[j] && abs(Monsters.y[j] - (Monsters.height[j] >> 1) - Darts.y[i]) < Monsters.height[j]) {
+                                            boolean killed;
                                             label2807: {
-                                                var5 = Darts.powered[var13] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
-                                                if (Monsters.state[var4] == Monsters.STATE_ACTIVE || Monsters.state[var4] == Monsters.STATE_RESTING || Monsters.state[var4] == Monsters.STATE_ATTACKING) {
-                                                    if (Monsters.type[var4] == Monsters.TYPE_WIND_NINJA && Darts.vx[var13] * Monsters.direction[var4] < 0) {
-                                                        Monsters.state[var4] = Monsters.STATE_ATTACKING;
-                                                        Monsters.timer[var4] = 4;
-                                                        Darts.vx[var13] = -Darts.vx[var13];
-                                                        Darts.vy[var13] = -Darts.vy[var13];
-                                                        Darts.x[var13] += Darts.vx[var13];
-                                                        Darts.y[var13] += Darts.vy[var13];
-                                                        var14 = true;
+                                                damage = Darts.powered[i] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
+                                                if (Monsters.state[j] == Monsters.STATE_ACTIVE || Monsters.state[j] == Monsters.STATE_RESTING || Monsters.state[j] == Monsters.STATE_ATTACKING) {
+                                                    if (Monsters.type[j] == Monsters.TYPE_WIND_NINJA && Darts.vx[i] * Monsters.direction[j] < 0) {
+                                                        Monsters.state[j] = Monsters.STATE_ATTACKING;
+                                                        Monsters.timer[j] = 4;
+                                                        Darts.vx[i] = -Darts.vx[i];
+                                                        Darts.vy[i] = -Darts.vy[i];
+                                                        Darts.x[i] += Darts.vx[i];
+                                                        Darts.y[i] += Darts.vy[i];
+                                                        killed = true;
                                                         break label2807;
                                                     }
 
-                                                    Monsters.hp[var4] -= var5;
-                                                    if (Monsters.hp[var4] <= 0) {
-                                                        Monsters.hp[var4] = 0;
-                                                        Monsters.timer[var4] = -5;
-                                                        Monsters.aux1[var4] = Darts.vx[var13];
-                                                        Monsters.aux2[var4] = 0;
-                                                        Monsters.healthBarTimer[var4] = 0;
-                                                        Monsters.state[var4] = Monsters.STATE_KNOCKED_OUT;
-                                                        onMonsterKilled(var4);
-                                                        var14 = true;
+                                                    Monsters.hp[j] -= damage;
+                                                    if (Monsters.hp[j] <= 0) {
+                                                        Monsters.hp[j] = 0;
+                                                        Monsters.timer[j] = -5;
+                                                        Monsters.aux1[j] = Darts.vx[i];
+                                                        Monsters.aux2[j] = 0;
+                                                        Monsters.healthBarTimer[j] = 0;
+                                                        Monsters.state[j] = Monsters.STATE_KNOCKED_OUT;
+                                                        onMonsterKilled(j);
+                                                        killed = true;
                                                         break label2807;
                                                     }
 
-                                                    Monsters.timer[var4] = 0;
-                                                    Monsters.direction[var4] = Darts.vx[var13] < 0 ? 1 : -1;
-                                                    Monsters.state[var4] = Monsters.STATE_HURT;
-                                                    Monsters.frame[var4] = 3;
-                                                    Darts.state[var13] = Darts.STATE_FREE;
+                                                    Monsters.timer[j] = 0;
+                                                    Monsters.direction[j] = Darts.vx[i] < 0 ? 1 : -1;
+                                                    Monsters.state[j] = Monsters.STATE_HURT;
+                                                    Monsters.frame[j] = 3;
+                                                    Darts.state[i] = Darts.STATE_FREE;
                                                 }
 
-                                                var14 = false;
+                                                killed = false;
                                             }
 
-                                            if (!var14) {
-                                                Blood.spawn(Monsters.x[var4], Monsters.y[var4] - (Monsters.height[var4] >> 1), Monsters.direction[var4]);
-                                                FloatingText.spawn("-" + var5, 0, Monsters.x[var4], Monsters.y[var4] - Monsters.height[var4], 0, -2);
+                                            if (!killed) {
+                                                Blood.spawn(Monsters.x[j], Monsters.y[j] - (Monsters.height[j] >> 1), Monsters.direction[j]);
+                                                FloatingText.spawn("-" + damage, 0, Monsters.x[j], Monsters.y[j] - Monsters.height[j], 0, -2);
                                             }
                                             break;
                                         }
                                     }
 
-                                    for(var4 = 0; var4 < Ninjas.count; ++var4) {
-                                        if (Ninjas.state[var4] != Ninjas.STATE_DEAD && Ninjas.state[var4] != Ninjas.STATE_KNOCKED_OUT && abs(Ninjas.x[var4] - Darts.x[var13]) < 20 && abs(Ninjas.y[var4] - 15 - Darts.y[var13]) < 20) {
-                                            if (Darts.powered[var13]) {
-                                                damageNinja(var4, PlayerStats.dartDamage << 1, Ninjas.direction[var13]);
-                                                Blood.spawn(Ninjas.x[var4], Ninjas.y[var4] - 15, Ninjas.direction[var4]);
-                                                FloatingText.spawn("-" + (PlayerStats.dartDamage << 1), 0, Ninjas.x[var4], Ninjas.y[var4] - 32, 0, -2);
-                                                Darts.state[var13] = Darts.STATE_FREE;
+                                    for(j = 0; j < Ninjas.count; ++j) {
+                                        if (Ninjas.state[j] != Ninjas.STATE_DEAD && Ninjas.state[j] != Ninjas.STATE_KNOCKED_OUT && abs(Ninjas.x[j] - Darts.x[i]) < 20 && abs(Ninjas.y[j] - 15 - Darts.y[i]) < 20) {
+                                            if (Darts.powered[i]) {
+                                                damageNinja(j, PlayerStats.dartDamage << 1, Ninjas.direction[i]);
+                                                Blood.spawn(Ninjas.x[j], Ninjas.y[j] - 15, Ninjas.direction[j]);
+                                                FloatingText.spawn("-" + (PlayerStats.dartDamage << 1), 0, Ninjas.x[j], Ninjas.y[j] - 32, 0, -2);
+                                                Darts.state[i] = Darts.STATE_FREE;
                                             } else {
-                                                Ninjas.state[var4] = Ninjas.STATE_ATTACK;
-                                                Ninjas.timer[var4] = 0;
-                                                Ninjas.targetX[var4] = 0;
-                                                Ninjas.direction[var4] = Darts.vx[var13] > 0 ? -1 : 1;
-                                                Darts.vx[var13] = -Darts.vx[var13];
+                                                Ninjas.state[j] = Ninjas.STATE_ATTACK;
+                                                Ninjas.timer[j] = 0;
+                                                Ninjas.targetX[j] = 0;
+                                                Ninjas.direction[j] = Darts.vx[i] > 0 ? -1 : 1;
+                                                Darts.vx[i] = -Darts.vx[i];
                                             }
                                             break;
                                         }
                                     }
 
-                                    if (!Darts.powered[var13] && abs(Player.x - Darts.x[var13]) < Player.halfWidth && abs(Player.y - Player.halfHeight - Darts.y[var13]) < Player.halfHeight) {
+                                    if (!Darts.powered[i] && abs(Player.x - Darts.x[i]) < Player.halfWidth && abs(Player.y - Player.halfHeight - Darts.y[i]) < Player.halfHeight) {
                                         if (Player.action == PlayerAction.ATTACK && Player.weapon == 0) {
-                                            Darts.vx[var13] = -Darts.vx[var13];
-                                            Darts.vy[var13] = -3;
+                                            Darts.vx[i] = -Darts.vx[i];
+                                            Darts.vy[i] = -3;
                                         } else {
                                             damagePlayer(PlayerStats.dartDamage, -Player.facing);
-                                            Darts.state[var13] = Darts.STATE_FREE;
+                                            Darts.state[i] = Darts.STATE_FREE;
                                         }
                                         break;
                                     }
 
-                                    if (BoarBoss.active && abs(BoarBoss.x - Darts.x[var13]) < BoarBoss.width >> 1 && abs(BoarBoss.y - (BoarBoss.height >> 1) - Darts.y[var13]) < BoarBoss.height >> 1) {
+                                    if (BoarBoss.active && abs(BoarBoss.x - Darts.x[i]) < BoarBoss.width >> 1 && abs(BoarBoss.y - (BoarBoss.height >> 1) - Darts.y[i]) < BoarBoss.height >> 1) {
                                         damageBoarBoss(PlayerStats.dartDamage, -BoarBoss.direction);
-                                        Blood.spawn(Darts.x[var13], Darts.y[var13], BoarBoss.direction);
+                                        Blood.spawn(Darts.x[i], Darts.y[i], BoarBoss.direction);
                                         FloatingText.spawn("-" + PlayerStats.dartDamage, 0, BoarBoss.x, BoarBoss.y - BoarBoss.height, 0, -2);
-                                        Darts.state[var13] = Darts.STATE_FREE;
+                                        Darts.state[i] = Darts.STATE_FREE;
                                     }
 
-                                    if (RiverMonster.active && abs(RiverMonster.x - Darts.x[var13]) < RiverMonster.width >> 1 && abs(RiverMonster.y - (RiverMonster.height >> 1) - Darts.y[var13]) < RiverMonster.height >> 1) {
-                                        Darts.vx[var13] = -Darts.vx[var13];
-                                        Darts.vy[var13] = -1;
+                                    if (RiverMonster.active && abs(RiverMonster.x - Darts.x[i]) < RiverMonster.width >> 1 && abs(RiverMonster.y - (RiverMonster.height >> 1) - Darts.y[i]) < RiverMonster.height >> 1) {
+                                        Darts.vx[i] = -Darts.vx[i];
+                                        Darts.vy[i] = -1;
                                     }
 
-                                    if (Toniku.active && abs(Classmates.x[0] - Darts.x[var13]) < 12 && abs(Classmates.y[0] - 16 - Darts.y[var13]) < 32) {
-                                        if (Classmates.state[0] == Classmates.STATE_ATTACK && Darts.vx[var13] * Classmates.facing[0] < 0) {
-                                            Darts.vx[var13] = -Darts.vx[var13];
-                                        } else if (Classmates.state[0] == Classmates.STATE_IDLE && Darts.vx[var13] * Classmates.facing[0] < 0) {
-                                            Darts.vx[var13] = -Darts.vx[var13];
+                                    if (Toniku.active && abs(Classmates.x[0] - Darts.x[i]) < 12 && abs(Classmates.y[0] - 16 - Darts.y[i]) < 32) {
+                                        if (Classmates.state[0] == Classmates.STATE_ATTACK && Darts.vx[i] * Classmates.facing[0] < 0) {
+                                            Darts.vx[i] = -Darts.vx[i];
+                                        } else if (Classmates.state[0] == Classmates.STATE_IDLE && Darts.vx[i] * Classmates.facing[0] < 0) {
+                                            Darts.vx[i] = -Darts.vx[i];
                                             Classmates.animTimer[0] = Classmates.target[0] = 0;
                                             Classmates.state[0] = Classmates.STATE_ATTACK;
                                         } else {
                                             damageToniku(PlayerStats.dartDamage, -Classmates.facing[0]);
-                                            Darts.state[var13] = Darts.STATE_FREE;
+                                            Darts.state[i] = Darts.STATE_FREE;
                                         }
                                     }
                                 }
                             } else {
-                                Darts.state[var13] = Darts.STATE_FREE;
+                                Darts.state[i] = Darts.STATE_FREE;
                             }
-                        } else if (Darts.state[var13] > Darts.STATE_FLYING) {
-                            Darts.state[var13]++;
-                            if (Darts.state[var13] >= 10) {
-                                Darts.state[var13] = Darts.STATE_FLYING;
-                                Darts.vy[var13] = 12;
-                                Darts.vx[var13] = 0;
+                        } else if (Darts.state[i] > Darts.STATE_FLYING) {
+                            Darts.state[i]++;
+                            if (Darts.state[i] >= 10) {
+                                Darts.state[i] = Darts.STATE_FLYING;
+                                Darts.vy[i] = 12;
+                                Darts.vx[i] = 0;
                             }
                         }
                     }
@@ -6395,7 +6361,7 @@ public final class b extends Canvas implements Runnable {
                                         Girl.vy = 1;
                                     }
                             }
-                        } catch (Exception var11) {
+                        } catch (Exception e) {
                             Girl.x = Player.x;
                             Girl.y = Player.y;
                             Girl.vx = 0;
@@ -6422,14 +6388,15 @@ public final class b extends Canvas implements Runnable {
                             if (BoarBoss.timer > 0) {
                                 --BoarBoss.timer;
                             } else {
-                                if ((var13 = tick % 80 - 40) > 0) {
-                                    var13 += 20;
+                                int offset;
+                                if ((offset = tick % 80 - 40) > 0) {
+                                    offset += 20;
                                 } else {
-                                    var13 -= 20;
+                                    offset -= 20;
                                 }
 
-                                BoarBoss.targetX = BoarBoss.x + var13;
-                                BoarBoss.vx = (BoarBoss.direction = var13 > 0 ? 1 : -1) << 2;
+                                BoarBoss.targetX = BoarBoss.x + offset;
+                                BoarBoss.vx = (BoarBoss.direction = offset > 0 ? 1 : -1) << 2;
                                 if (BoarBoss.hp < BoarBoss.maxHp >> 1) {
                                     BoarBoss.vx = BoarBoss.direction << 3;
                                 }
@@ -6523,7 +6490,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 if (RiverMonster.active) {
-                    var13 = tick % 10;
+                    int phase = tick % 10;
                     if (RiverMonster.healthBarTimer > 0) {
                         --RiverMonster.healthBarTimer;
                     }
@@ -6585,16 +6552,16 @@ public final class b extends Canvas implements Runnable {
                                 --RiverMonster.y;
                             } else if (RiverMonster.timer >= 75) {
                                 ++RiverMonster.y;
-                                if (var13 == 5) {
+                                if (phase == 5) {
                                     ArcProjectiles.spawn(RiverMonster.x, RiverMonster.y - 45, -2, -10, RiverMonster.damage);
-                                } else if (var13 == 7 && RiverMonster.hp < RiverMonster.maxHp >> 1) {
+                                } else if (phase == 7 && RiverMonster.hp < RiverMonster.maxHp >> 1) {
                                     ArcProjectiles.spawn(RiverMonster.x, RiverMonster.y - 50, 0, -11, RiverMonster.damage);
-                                } else if (var13 == 9) {
+                                } else if (phase == 9) {
                                     ArcProjectiles.spawn(RiverMonster.x, RiverMonster.y - 45, 2, -10, RiverMonster.damage);
                                 }
                             }
 
-                            if (RiverMonster.timer > 20 && RiverMonster.timer < 50 && var13 == 0) {
+                            if (RiverMonster.timer > 20 && RiverMonster.timer < 50 && phase == 0) {
                                 Projectiles.spawn(RiverMonster.x + RiverMonster.direction * 20, RiverMonster.y - 29, RiverMonster.direction << 3, RiverMonster.damage, 2);
                             }
 
@@ -6627,13 +6594,13 @@ public final class b extends Canvas implements Runnable {
                             }
                     }
 
-                    if (var13 < 4) {
+                    if (phase < 4) {
                         --RiverMonster.y;
-                    } else if (var13 < 8) {
+                    } else if (phase < 8) {
                         ++RiverMonster.y;
                     }
 
-                    if (var13 > 4) {
+                    if (phase > 4) {
                         --RiverMonster.part2OffsetY;
                         ++RiverMonster.part3OffsetY;
                     } else {
@@ -6661,8 +6628,8 @@ public final class b extends Canvas implements Runnable {
                 updateFinalBoss();
                 if (Toniku.active) {
                     label2824: {
-                        var13 = tick % 50;
-                        var5 = abs(Classmates.x[0] - Player.x);
+                        int phase = tick % 50;
+                        int distance = abs(Classmates.x[0] - Player.x);
                         switch (Classmates.state[0]) {
                             case Classmates.STATE_TONIKU_WAITING:
                                 Classmates.animTimer[0]++;
@@ -6686,14 +6653,14 @@ public final class b extends Canvas implements Runnable {
                                     break label2824;
                                 }
 
-                                if (var5 >= 40 || Player.action != PlayerAction.ATTACK) {
+                                if (distance >= 40 || Player.action != PlayerAction.ATTACK) {
                                     break label2824;
                                 }
 
                                 Toniku.healthBarVisible = true;
                                 Classmates.state[0] = Classmates.STATE_JUMP;
                                 Classmates.facing[0] = -Player.facing;
-                                if (var13 > 35) {
+                                if (phase > 35) {
                                     Classmates.vx[0] = Player.facing * 5;
                                     Classmates.vy[0] = -9;
                                 } else {
@@ -6726,10 +6693,10 @@ public final class b extends Canvas implements Runnable {
                                     Classmates.animTimer[0] = Classmates.target[0] = 0;
                                 }
 
-                                if (var5 < 40 && Player.action == PlayerAction.ATTACK && Player.facing != Classmates.facing[0]) {
+                                if (distance < 40 && Player.action == PlayerAction.ATTACK && Player.facing != Classmates.facing[0]) {
                                     Classmates.state[0] = Classmates.STATE_JUMP;
                                     Classmates.facing[0] = -Player.facing;
-                                    if (var13 > 35) {
+                                    if (phase > 35) {
                                         Classmates.vx[0] = Player.facing * 5;
                                         Classmates.vy[0] = -9;
                                     } else {
@@ -6746,21 +6713,21 @@ public final class b extends Canvas implements Runnable {
                                     }
 
                                     Classmates.animTimer[0] = Classmates.target[0] = 0;
-                                } else if (var5 < 40 && var13 < 10) {
+                                } else if (distance < 40 && phase < 10) {
                                     Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
                                     Classmates.state[0] = Classmates.STATE_ATTACK;
                                     Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
-                                } else if (var5 < 100 && var5 > 40 && var13 < 1) {
+                                } else if (distance < 100 && distance > 40 && phase < 1) {
                                     Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
                                     Classmates.state[0] = Classmates.STATE_DASH_ATTACK;
                                     Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
                                     Classmates.vx[0] = (abs(Classmates.x[0] - Player.x) >> 3) * Classmates.facing[0];
-                                } else if (var5 > 100 && var5 < 160 && var13 < 30) {
+                                } else if (distance > 100 && distance < 160 && phase < 30) {
                                     Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
                                     Classmates.state[0] = Classmates.STATE_THROW_DART;
                                     Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
-                                } else if (var5 >= 20 && var13 != 42) {
-                                    if (var5 > 160) {
+                                } else if (distance >= 20 && phase != 42) {
+                                    if (distance > 160) {
                                         Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
                                         Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 7);
                                         if (Classmates.target[0] < Classmates.minX[0]) {
@@ -6854,13 +6821,13 @@ public final class b extends Canvas implements Runnable {
                                     Classmates.y[0] = alignToTileX(Classmates.y[0]);
                                     Dust.spawn(-1, Classmates.x[0] - -8, Classmates.y[0]);
                                     Dust.spawn(1, Classmates.x[0] - 8, Classmates.y[0]);
-                                    if (abs(Classmates.x[0] - Player.x) < 40 && var13 < 25) {
+                                    if (abs(Classmates.x[0] - Player.x) < 40 && phase < 25) {
                                         Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
                                         Classmates.state[0] = Classmates.STATE_ATTACK;
                                         Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
                                     }
 
-                                    if (var5 < 40) {
+                                    if (distance < 40) {
                                         Classmates.facing[0] = Player.facing;
                                         Classmates.target[0] = Classmates.x[0] + Classmates.facing[0] * 110;
                                         if (Classmates.target[0] < Classmates.minX[0] || Classmates.target[0] > Classmates.maxX[0]) {
@@ -7181,22 +7148,22 @@ public final class b extends Canvas implements Runnable {
 
                                 titleImage = null;
                                 releaseMapResources();
-                                int[] var12;
-                                PlayTime.savedSeconds = (var12 = bytesToInts(Save.loadRecord("ninjasave")))[0];
-                                mapId = var12[1];
-                                tick = var12[2];
-                                Story.prologueActive = var12[3] == 1;
-                                Inventory.money = var12[4];
-                                Classmates.stayPut = var12[5] == 1;
-                                Story.riverMonsterDefeated = var12[6] == 1;
-                                Story.tonikuDefeated = var12[7] == 1;
-                                Story.sakuraFound = var12[8] == 1;
-                                Girl.following = var12[9] == 1;
-                                Girl.unusedSaveSlot = var12[10];
-                                Girl.mapId = var12[11];
-                                Player.motorbike = var12[12];
-                                Inventory.swordLevel = var12[13];
-                                Skills.dartsLevel2 = var12[14] == 1;
+                                int[] saveData;
+                                PlayTime.savedSeconds = (saveData = bytesToInts(Save.loadRecord("ninjasave")))[0];
+                                mapId = saveData[1];
+                                tick = saveData[2];
+                                Story.prologueActive = saveData[3] == 1;
+                                Inventory.money = saveData[4];
+                                Classmates.stayPut = saveData[5] == 1;
+                                Story.riverMonsterDefeated = saveData[6] == 1;
+                                Story.tonikuDefeated = saveData[7] == 1;
+                                Story.sakuraFound = saveData[8] == 1;
+                                Girl.following = saveData[9] == 1;
+                                Girl.unusedSaveSlot = saveData[10];
+                                Girl.mapId = saveData[11];
+                                Player.motorbike = saveData[12];
+                                Inventory.swordLevel = saveData[13];
+                                Skills.dartsLevel2 = saveData[14] == 1;
                                 Save.pendingLoad = true;
                                 PlayTime.start();
                                 changeMap(mapId);
@@ -7211,7 +7178,7 @@ public final class b extends Canvas implements Runnable {
                             } else if (mainMenuIndex == 3) {
                                 try {
                                     Midlet.instance.platformRequest("http://wap.teamobi.com/");
-                                } catch (Exception var10) {
+                                } catch (Exception e) {
                                 }
                             } else if (mainMenuIndex == 4) {
                                 Midlet.instance.notifyDestroyed();
@@ -7375,7 +7342,7 @@ public final class b extends Canvas implements Runnable {
             this.repaint();
             this.serviceRepaints();
 
-            while(System.currentTimeMillis() - var1 < (long)frameDurationMs) {
+            while(System.currentTimeMillis() - frameStart < (long)frameDurationMs) {
                 Thread.yield();
             }
         }
@@ -7458,9 +7425,9 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawSigns(Graphics g) {
-        for(int var1 = 0; var1 < signCount; ++var1) {
-            if (signX[var1] + signWidth[var1] >= cameraX && signX[var1] <= cameraX + Viewport.viewWidth && signY[var1] >= cameraY && signY[var1] - 14 <= cameraY + Viewport.viewHeight) {
-                FontGraph.drawBold(g, signTexts[var1], signX[var1], signY[var1], 0);
+        for(int i = 0; i < signCount; ++i) {
+            if (signX[i] + signWidth[i] >= cameraX && signX[i] <= cameraX + Viewport.viewWidth && signY[i] >= cameraY && signY[i] - 14 <= cameraY + Viewport.viewHeight) {
+                FontGraph.drawBold(g, signTexts[i], signX[i], signY[i], 0);
             }
         }
 
@@ -7478,7 +7445,7 @@ public final class b extends Canvas implements Runnable {
         if (map == 2) {
             try {
                 houseImages = Tile.ensureHouses(houseImages);
-            } catch (Exception var2) {
+            } catch (Exception e) {
             }
 
             houseCount = 5;
@@ -7493,7 +7460,7 @@ public final class b extends Canvas implements Runnable {
         if (map == 16) {
             try {
                 houseImages = Tile.ensureHouses(houseImages);
-            } catch (Exception var1) {
+            } catch (Exception e) {
             }
 
             houseCount = 5;
@@ -7533,7 +7500,7 @@ public final class b extends Canvas implements Runnable {
             }
 
             System.gc();
-        } catch (Exception var0) {
+        } catch (Exception e) {
             Midlet.instance.shutdownApp();
         }
     }
@@ -7549,33 +7516,33 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawTilesLowGraphics(Graphics g) {
-        for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
-            for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
-                int var3;
-                if ((var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1) != -1) {
-                    g.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+        for(int col = firstVisibleCol; col < lastVisibleCol; ++col) {
+            for(int row = firstVisibleRow; row < lastVisibleRow; ++row) {
+                int tile;
+                if ((tile = GameMap.tiles[row * GameMap.width + col] - 1) != -1) {
+                    g.drawRegion(tilesetImage, 0, tile * GameMap.TILE_SIZE, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                 }
 
-                if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                    g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
-                } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
-                    if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
-                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
-                        g.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                if ((GameMap.flagsAt(col, row) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                    g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
+                } else if ((GameMap.flagsAt(col, row) & TileFlags.WATER) == TileFlags.WATER) {
+                    if ((GameMap.flagsAt(col, row - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(col, row - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        g.drawRegion(tilesetImage, 0, 504, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                     }
 
-                    g.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    g.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                 }
 
-                if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
-                    if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
-                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
-                        g.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                if ((GameMap.flagsAt(col, row) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
+                    if ((GameMap.flagsAt(col, row - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(col, row - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        g.drawRegion(tilesetImage, 0, 504, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                     }
 
-                    g.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    g.drawRegion(tilesetImage, 0, (GameMap.tiles[row * GameMap.width + col] - 1) * GameMap.TILE_SIZE, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                 }
             }
         }
@@ -7583,26 +7550,26 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawTiles(Graphics g) {
-        for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
-            for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
-                int var3 = GameMap.tiles[var2 * GameMap.width + var1] - 1;
-                if ((GameMap.flagsAt(var1, var2) & TileFlags.PARALLAX) == TileFlags.PARALLAX) {
-                    parallaxFromCenter = (parallaxScreenX = var1 * GameMap.TILE_SIZE - cameraX) - Viewport.viewCenterX;
+        for(int col = firstVisibleCol; col < lastVisibleCol; ++col) {
+            for(int row = firstVisibleRow; row < lastVisibleRow; ++row) {
+                int tile = GameMap.tiles[row * GameMap.width + col] - 1;
+                if ((GameMap.flagsAt(col, row) & TileFlags.PARALLAX) == TileFlags.PARALLAX) {
+                    parallaxFromCenter = (parallaxScreenX = col * GameMap.TILE_SIZE - cameraX) - Viewport.viewCenterX;
                     parallaxDrawX = (parallaxScaled = (GameMap.TILE_SIZE - 2) * parallaxFromCenter / GameMap.TILE_SIZE) + Viewport.viewCenterX;
-                    g.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, parallaxDrawX + cameraX, var2 * GameMap.TILE_SIZE, 0);
-                } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) != TileFlags.FOREGROUND_BUSH && (GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) != TileFlags.FOREGROUND) {
-                    if ((GameMap.flagsAt(var1, var2) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
-                    } else if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) != TileFlags.WATER && (GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) != TileFlags.DEEP_WATER) {
-                        if ((GameMap.flagsAt(var1, var2) & TileFlags.BRIDGE_PRESSED) == TileFlags.BRIDGE_PRESSED) {
-                            g.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 1, 0);
-                        } else if (var3 != -1) {
-                            g.drawRegion(tilesetImage, 0, var3 * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    g.drawRegion(tilesetImage, 0, tile * GameMap.TILE_SIZE, 24, 24, 0, parallaxDrawX + cameraX, row * GameMap.TILE_SIZE, 0);
+                } else if ((GameMap.flagsAt(col, row) & TileFlags.FOREGROUND_BUSH) != TileFlags.FOREGROUND_BUSH && (GameMap.flagsAt(col, row) & TileFlags.FOREGROUND) != TileFlags.FOREGROUND) {
+                    if ((GameMap.flagsAt(col, row) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(col, row) & TileFlags.WATER) != TileFlags.WATER && (GameMap.flagsAt(col, row) & TileFlags.DEEP_WATER) != TileFlags.DEEP_WATER) {
+                        if ((GameMap.flagsAt(col, row) & TileFlags.BRIDGE_PRESSED) == TileFlags.BRIDGE_PRESSED) {
+                            g.drawRegion(tilesetImage, 0, tile * GameMap.TILE_SIZE, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE + 1, 0);
+                        } else if (tile != -1) {
+                            g.drawRegion(tilesetImage, 0, tile * GameMap.TILE_SIZE, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                         }
-                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
-                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
-                    } else if ((GameMap.flagsAt(var1, var2 - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
-                        g.drawRegion(tilesetImage, 0, 504, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(col, row - 1) & TileFlags.WATERFALL) == TileFlags.WATERFALL) {
+                        g.drawRegion(waterfallImage, 0, 24 * (tick % 4), 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(col, row - 1) & TileFlags.DIGGABLE) == TileFlags.DIGGABLE) {
+                        g.drawRegion(tilesetImage, 0, 504, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                     }
                 }
             }
@@ -7612,22 +7579,22 @@ public final class b extends Canvas implements Runnable {
 
     private static void drawForegroundTiles(Graphics g) {
         if (!Settings.lowGraphics) {
-            for(int var1 = firstVisibleCol; var1 < lastVisibleCol; ++var1) {
-                for(int var2 = firstVisibleRow; var2 < lastVisibleRow; ++var2) {
-                    if ((GameMap.flagsAt(var1, var2) & TileFlags.WATER) == TileFlags.WATER) {
-                        g.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
-                    } else if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND_BUSH) == TileFlags.FOREGROUND_BUSH) {
-                        parallaxFromCenter = (parallaxScreenX = var1 * GameMap.TILE_SIZE - cameraX) - Viewport.viewCenterX;
+            for(int col = firstVisibleCol; col < lastVisibleCol; ++col) {
+                for(int row = firstVisibleRow; row < lastVisibleRow; ++row) {
+                    if ((GameMap.flagsAt(col, row) & TileFlags.WATER) == TileFlags.WATER) {
+                        g.drawRegion(waterSurfaceImage, 0, (tick % 8 >> 2) * 24, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
+                    } else if ((GameMap.flagsAt(col, row) & TileFlags.FOREGROUND_BUSH) == TileFlags.FOREGROUND_BUSH) {
+                        parallaxFromCenter = (parallaxScreenX = col * GameMap.TILE_SIZE - cameraX) - Viewport.viewCenterX;
                         parallaxDrawX = (parallaxScaled = (GameMap.TILE_SIZE - 1) * parallaxFromCenter / GameMap.TILE_SIZE) + Viewport.viewCenterX;
-                        g.drawImage(bushImage, parallaxDrawX + cameraX - 2 + (var1 + var2) % 5, var2 * GameMap.TILE_SIZE - 3 + var2 % 5, 0);
+                        g.drawImage(bushImage, parallaxDrawX + cameraX - 2 + (col + row) % 5, row * GameMap.TILE_SIZE - 3 + row % 5, 0);
                     }
 
-                    if ((GameMap.flagsAt(var1, var2) & TileFlags.FOREGROUND) == TileFlags.FOREGROUND) {
-                        g.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE + 2, 0);
+                    if ((GameMap.flagsAt(col, row) & TileFlags.FOREGROUND) == TileFlags.FOREGROUND) {
+                        g.drawRegion(tilesetImage, 0, (GameMap.tiles[row * GameMap.width + col] - 1) * GameMap.TILE_SIZE, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE + 2, 0);
                     }
 
-                    if ((GameMap.flagsAt(var1, var2) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
-                        g.drawRegion(tilesetImage, 0, (GameMap.tiles[var2 * GameMap.width + var1] - 1) * GameMap.TILE_SIZE, 24, 24, 0, var1 * GameMap.TILE_SIZE, var2 * GameMap.TILE_SIZE, 0);
+                    if ((GameMap.flagsAt(col, row) & TileFlags.DEEP_WATER) == TileFlags.DEEP_WATER) {
+                        g.drawRegion(tilesetImage, 0, (GameMap.tiles[row * GameMap.width + col] - 1) * GameMap.TILE_SIZE, 24, 24, 0, col * GameMap.TILE_SIZE, row * GameMap.TILE_SIZE, 0);
                     }
                 }
             }
@@ -7651,11 +7618,11 @@ public final class b extends Canvas implements Runnable {
 
     private static void monsterTryAttackPlayer(int i) {
         if (Monsters.attackCooldown[i] > 30) {
-            int var2 = Monsters.direction[i] > 0 ? Monsters.x[i] : Monsters.x[i] - Monsters.attackRangeX[i];
-            int var3 = Monsters.direction[i] >= 0 ? Monsters.x[i] + Monsters.attackRangeX[i] : Monsters.x[i];
-            int var4 = Monsters.y[i] - Monsters.attackRangeY[i];
-            int var1 = Monsters.y[i] + Monsters.attackRangeY[i];
-            if (Player.action == PlayerAction.DEAD ? false : (Player.hidden ? false : (Player.action == PlayerAction.BURROWED ? false : (Player.x < var2 ? false : (Player.x > var3 ? false : (Player.y < var4 ? false : Player.y <= var1)))))) {
+            int left = Monsters.direction[i] > 0 ? Monsters.x[i] : Monsters.x[i] - Monsters.attackRangeX[i];
+            int right = Monsters.direction[i] >= 0 ? Monsters.x[i] + Monsters.attackRangeX[i] : Monsters.x[i];
+            int top = Monsters.y[i] - Monsters.attackRangeY[i];
+            int bottom = Monsters.y[i] + Monsters.attackRangeY[i];
+            if (Player.action == PlayerAction.DEAD ? false : (Player.hidden ? false : (Player.action == PlayerAction.BURROWED ? false : (Player.x < left ? false : (Player.x > right ? false : (Player.y < top ? false : Player.y <= bottom)))))) {
                 Monsters.attackCooldown[i] = 0;
                 Monsters.state[i] = Monsters.STATE_ATTACKING;
                 Monsters.timer[i] = 0;
@@ -7666,11 +7633,11 @@ public final class b extends Canvas implements Runnable {
 
     private static void monsterTryAttackGirl(int i) {
         if (Monsters.attackCooldown[i] > 30) {
-            int var2 = Monsters.direction[i] > 0 ? Monsters.x[i] : Monsters.x[i] - Monsters.attackRangeX[i];
-            int var3 = Monsters.direction[i] >= 0 ? Monsters.x[i] + Monsters.attackRangeX[i] : Monsters.x[i];
-            int var4 = Monsters.y[i] - Monsters.attackRangeY[i];
-            int var1 = Monsters.y[i] + Monsters.attackRangeY[i];
-            if (Girl.action == PlayerAction.BURROWED ? false : (Girl.x < var2 ? false : (Girl.x > var3 ? false : (Girl.y < var4 ? false : Girl.y <= var1)))) {
+            int left = Monsters.direction[i] > 0 ? Monsters.x[i] : Monsters.x[i] - Monsters.attackRangeX[i];
+            int right = Monsters.direction[i] >= 0 ? Monsters.x[i] + Monsters.attackRangeX[i] : Monsters.x[i];
+            int top = Monsters.y[i] - Monsters.attackRangeY[i];
+            int bottom = Monsters.y[i] + Monsters.attackRangeY[i];
+            if (Girl.action == PlayerAction.BURROWED ? false : (Girl.x < left ? false : (Girl.x > right ? false : (Girl.y < top ? false : Girl.y <= bottom)))) {
                 Monsters.attackCooldown[i] = 0;
                 Monsters.state[i] = Monsters.STATE_ATTACKING;
                 Monsters.timer[i] = 0;
@@ -7710,15 +7677,15 @@ public final class b extends Canvas implements Runnable {
 
     private static void onMonsterKilled(int i) {
         gainExp(MonsterStats.exp[Monsters.type[i]]);
-        int var1;
-        if ((var1 = tick % 20) > 15) {
+        int roll;
+        if ((roll = tick % 20) > 15) {
             PotionDrops.spawn(Monsters.x[i], Monsters.y[i], -(Monsters.direction[i] << 3), -5, Monsters.damage[i] << 2, (tick + 1) % 2);
-        } else if (var1 == 15) {
+        } else if (roll == 15) {
             MoneyDrops.spawn(Monsters.x[i], Monsters.y[i], -(Monsters.direction[i] << 2), -4, (Monsters.money[i] << 3) + tick % 10);
         } else {
-            var1 = ((Monsters.type[i] << 2) / 10 + 1) * 10;
-            MoneyDrops.spawn(Monsters.x[i], Monsters.y[i], -(Monsters.direction[i] << 1), -6, var1);
-            MoneyDrops.spawn(Monsters.x[i], Monsters.y[i], -(Monsters.direction[i] << 4), -3, var1);
+            int amount = ((Monsters.type[i] << 2) / 10 + 1) * 10;
+            MoneyDrops.spawn(Monsters.x[i], Monsters.y[i], -(Monsters.direction[i] << 1), -6, amount);
+            MoneyDrops.spawn(Monsters.x[i], Monsters.y[i], -(Monsters.direction[i] << 4), -3, amount);
         }
 
         if (QuestState.current != Quest.NONE && Quest.TARGET_MONSTER[QuestState.current] == Monsters.type[i]) {
@@ -7734,1010 +7701,1010 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void updateMonsters() {
-        for(int var0 = 0; var0 < Monsters.count; ++var0) {
-            if (Monsters.attackCooldown[var0] <= 30) {
-                Monsters.attackCooldown[var0]++;
+        for(int i = 0; i < Monsters.count; ++i) {
+            if (Monsters.attackCooldown[i] <= 30) {
+                Monsters.attackCooldown[i]++;
             }
 
-            if (Monsters.healthBarTimer[var0] > 0) {
-                Monsters.healthBarTimer[var0]--;
+            if (Monsters.healthBarTimer[i] > 0) {
+                Monsters.healthBarTimer[i]--;
             }
 
-            switch (Monsters.state[var0]) {
+            switch (Monsters.state[i]) {
                 case Monsters.STATE_KNOCKED_OUT:
-                    Monsters.timer[var0]++;
-                    Monsters.y[var0] += Monsters.timer[var0];
+                    Monsters.timer[i]++;
+                    Monsters.y[i] += Monsters.timer[i];
                     if (tick % 2 == 0) {
-                        if (Monsters.aux1[var0] > 1) {
-                            Monsters.aux1[var0]--;
-                        } else if (Monsters.aux1[var0] < -1) {
-                            Monsters.aux1[var0]++;
+                        if (Monsters.aux1[i] > 1) {
+                            Monsters.aux1[i]--;
+                        } else if (Monsters.aux1[i] < -1) {
+                            Monsters.aux1[i]++;
                         }
                     }
 
-                    Monsters.x[var0] += Monsters.aux1[var0];
-                    Monsters.frame[var0] = 2;
-                    if (Monsters.y[var0] < GameMap.pixelHeight && Monsters.x[var0] >= 0 && Monsters.x[var0] < GameMap.pixelWidth) {
-                        if ((Monsters.aux2[var0] == 0 || Monsters.aux2[var0] < 3 && Monsters.timer[var0] > 7) && (GameMap.flagsAtPixel(Monsters.x[var0], Monsters.y[var0]) & TileFlags.SOLID) == TileFlags.SOLID) {
-                            Monsters.timer[var0] = Monsters.timer[var0] > 4 ? -4 : -Monsters.timer[var0];
-                            Monsters.aux2[var0]++;
+                    Monsters.x[i] += Monsters.aux1[i];
+                    Monsters.frame[i] = 2;
+                    if (Monsters.y[i] < GameMap.pixelHeight && Monsters.x[i] >= 0 && Monsters.x[i] < GameMap.pixelWidth) {
+                        if ((Monsters.aux2[i] == 0 || Monsters.aux2[i] < 3 && Monsters.timer[i] > 7) && (GameMap.flagsAtPixel(Monsters.x[i], Monsters.y[i]) & TileFlags.SOLID) == TileFlags.SOLID) {
+                            Monsters.timer[i] = Monsters.timer[i] > 4 ? -4 : -Monsters.timer[i];
+                            Monsters.aux2[i]++;
                         }
 
-                        if (GameMap.hasFlag(Monsters.x[var0], Monsters.y[var0], TileFlags.WATER) && Monsters.y[var0] % GameMap.TILE_SIZE > 8) {
-                            WaterSplash.spawn(Monsters.x[var0], alignToTileY(Monsters.y[var0]) + 8);
+                        if (GameMap.hasFlag(Monsters.x[i], Monsters.y[i], TileFlags.WATER) && Monsters.y[i] % GameMap.TILE_SIZE > 8) {
+                            WaterSplash.spawn(Monsters.x[i], alignToTileY(Monsters.y[i]) + 8);
                         }
                         break;
                     }
 
-                    Monsters.timer[var0] = -300;
-                    Monsters.state[var0] = Monsters.STATE_RESPAWN_WAIT;
+                    Monsters.timer[i] = -300;
+                    Monsters.state[i] = Monsters.STATE_RESPAWN_WAIT;
                     if (prologueNoRespawn) {
-                        Monsters.state[var0] = Monsters.STATE_GONE;
+                        Monsters.state[i] = Monsters.STATE_GONE;
                     }
 
-                    Monsters.spawnUsed[Monsters.group[var0]][Monsters.spawnPoint[var0]] = false;
+                    Monsters.spawnUsed[Monsters.group[i]][Monsters.spawnPoint[i]] = false;
                     break;
                 case Monsters.STATE_ACTIVE:
-                    switch (Monsters.type[var0]) {
+                    switch (Monsters.type[i]) {
                         case Monsters.TYPE_ONE_EYED_GHOST:
                             if (tick % 4 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
                                 }
                             }
 
-                            Monsters.x[var0] += Monsters.direction[var0];
-                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                Monsters.direction[var0] = -1;
-                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                Monsters.direction[var0] = 1;
+                            Monsters.x[i] += Monsters.direction[i];
+                            if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                Monsters.direction[i] = -1;
+                            } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                Monsters.direction[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 9 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                         case Monsters.TYPE_SNAIL:
-                            monsterPatrolSlow(var0);
+                            monsterPatrolSlow(i);
                             continue;
                         case Monsters.TYPE_DEMON_BAT:
-                            Monsters.x[var0] += Monsters.vx[var0];
-                            Monsters.y[var0] += Monsters.vy[var0];
-                            if (Monsters.x[var0] - Monsters.rangeA[var0] > 40) {
-                                Monsters.vx[var0] = -(tick % 3 + 1);
+                            Monsters.x[i] += Monsters.vx[i];
+                            Monsters.y[i] += Monsters.vy[i];
+                            if (Monsters.x[i] - Monsters.rangeA[i] > 40) {
+                                Monsters.vx[i] = -(tick % 3 + 1);
                             }
 
-                            if (Monsters.x[var0] - Monsters.rangeA[var0] < -40) {
-                                Monsters.vx[var0] = tick % 3 + 1;
+                            if (Monsters.x[i] - Monsters.rangeA[i] < -40) {
+                                Monsters.vx[i] = tick % 3 + 1;
                             }
 
-                            if (Monsters.y[var0] - Monsters.rangeB[var0] > 40) {
-                                Monsters.vy[var0] = -(tick % 3 + 1);
+                            if (Monsters.y[i] - Monsters.rangeB[i] > 40) {
+                                Monsters.vy[i] = -(tick % 3 + 1);
                             }
 
-                            if (Monsters.y[var0] - Monsters.rangeB[var0] < -40) {
-                                Monsters.vy[var0] = tick % 3 + 1;
+                            if (Monsters.y[i] - Monsters.rangeB[i] < -40) {
+                                Monsters.vy[i] = tick % 3 + 1;
                             }
 
                             if (tick % 15 == 0) {
-                                Monsters.vx[var0] = tick % 4 - 1;
-                                Monsters.vy[var0] = (tick >> 1) % 4 - 1;
+                                Monsters.vx[i] = tick % 4 - 1;
+                                Monsters.vy[i] = (tick >> 1) % 4 - 1;
                             }
 
                             if (tick % 2 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
                                 }
 
-                                if (Monsters.frame[var0] == 0) {
-                                    Monsters.y[var0] -= 3;
+                                if (Monsters.frame[i] == 0) {
+                                    Monsters.y[i] -= 3;
                                 } else {
-                                    Monsters.y[var0] += 2;
+                                    Monsters.y[i] += 2;
                                 }
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             continue;
                         case Monsters.TYPE_ONE_LEGGED_DEMON:
-                            Monsters.x[var0] += Monsters.timer[var0];
-                            if (Monsters.timer[var0] > 1) {
-                                Monsters.timer[var0]--;
-                            } else if (Monsters.timer[var0] < -1) {
-                                Monsters.timer[var0]++;
+                            Monsters.x[i] += Monsters.timer[i];
+                            if (Monsters.timer[i] > 1) {
+                                Monsters.timer[i]--;
+                            } else if (Monsters.timer[i] < -1) {
+                                Monsters.timer[i]++;
                             }
 
-                            Monsters.y[var0] += Monsters.aux1[var0];
-                            Monsters.aux1[var0]++;
-                            if (Monsters.aux1[var0] > 4) {
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
+                            Monsters.y[i] += Monsters.aux1[i];
+                            Monsters.aux1[i]++;
+                            if (Monsters.aux1[i] > 4) {
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = Monsters.direction[i] * 3;
                             }
 
-                            if (abs(Monsters.aux1[var0]) == 3) {
-                                if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                    Monsters.direction[var0] = -1;
-                                } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                    Monsters.direction[var0] = 1;
+                            if (abs(Monsters.aux1[i]) == 3) {
+                                if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                    Monsters.direction[i] = -1;
+                                } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                    Monsters.direction[i] = 1;
                                 }
 
-                                Monsters.frame[var0] = 0;
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 1;
+                                Monsters.frame[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 9 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                         case Monsters.TYPE_GREEN_TOAD:
-                            Monsters.x[var0] += Monsters.aux2[var0];
-                            if (Monsters.aux2[var0] > 1) {
-                                Monsters.aux2[var0]--;
-                            } else if (Monsters.aux2[var0] < -1) {
-                                Monsters.aux2[var0]++;
+                            Monsters.x[i] += Monsters.aux2[i];
+                            if (Monsters.aux2[i] > 1) {
+                                Monsters.aux2[i]--;
+                            } else if (Monsters.aux2[i] < -1) {
+                                Monsters.aux2[i]++;
                             }
 
-                            Monsters.y[var0] += Monsters.aux1[var0];
-                            Monsters.aux1[var0]++;
-                            if (Monsters.aux1[var0] > 3) {
-                                Monsters.aux1[var0] = -3;
-                                Monsters.aux2[var0] = Monsters.direction[var0] << 2;
-                                Monsters.timer[var0] = 0;
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
+                            Monsters.y[i] += Monsters.aux1[i];
+                            Monsters.aux1[i]++;
+                            if (Monsters.aux1[i] > 3) {
+                                Monsters.aux1[i] = -3;
+                                Monsters.aux2[i] = Monsters.direction[i] << 2;
+                                Monsters.timer[i] = 0;
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_RESTING;
                             }
 
-                            if (Monsters.aux1[var0] == -2) {
-                                if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                    Monsters.direction[var0] = -1;
-                                } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                    Monsters.direction[var0] = 1;
+                            if (Monsters.aux1[i] == -2) {
+                                if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                    Monsters.direction[i] = -1;
+                                } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                    Monsters.direction[i] = 1;
                                 }
 
-                                Monsters.aux2[var0] = Monsters.direction[var0] * 6;
-                                Monsters.frame[var0] = 0;
+                                Monsters.aux2[i] = Monsters.direction[i] * 6;
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 1;
+                                Monsters.frame[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 9 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                         case Monsters.TYPE_SPIDER:
                             if (tick % 4 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
                                 }
 
-                                Monsters.y[var0] += Monsters.timer[var0];
+                                Monsters.y[i] += Monsters.timer[i];
                             }
 
-                            if (Monsters.y[var0] > Monsters.rangeB[var0]) {
-                                Monsters.timer[var0] = -1;
-                            } else if (Monsters.y[var0] < Monsters.rangeA[var0]) {
-                                Monsters.timer[var0] = 1;
+                            if (Monsters.y[i] > Monsters.rangeB[i]) {
+                                Monsters.timer[i] = -1;
+                            } else if (Monsters.y[i] < Monsters.rangeA[i]) {
+                                Monsters.timer[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             continue;
                         case Monsters.TYPE_BEE:
-                            monsterHover(var0);
+                            monsterHover(i);
                         case Monsters.TYPE_SCARECROW:
                         default:
                             continue;
                         case Monsters.TYPE_TIGER_FISH:
-                            Monsters.frame[var0]++;
-                            if (Monsters.frame[var0] > 1) {
-                                Monsters.frame[var0] = 0;
+                            Monsters.frame[i]++;
+                            if (Monsters.frame[i] > 1) {
+                                Monsters.frame[i] = 0;
                             }
 
-                            Monsters.x[var0] += tick % 5 * Monsters.direction[var0];
-                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                Monsters.direction[var0] = -1;
-                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                Monsters.direction[var0] = 1;
+                            Monsters.x[i] += tick % 5 * Monsters.direction[i];
+                            if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                Monsters.direction[i] = -1;
+                            } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                Monsters.direction[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             continue;
                         case Monsters.TYPE_WIND_NINJA:
-                            monsterPatrolFast(var0);
+                            monsterPatrolFast(i);
                             continue;
                         case Monsters.TYPE_RED_TIGER_FISH:
-                            Monsters.frame[var0]++;
-                            if (Monsters.frame[var0] > 1) {
-                                Monsters.frame[var0] = 0;
+                            Monsters.frame[i]++;
+                            if (Monsters.frame[i] > 1) {
+                                Monsters.frame[i] = 0;
                             }
 
-                            Monsters.x[var0] += 5 * Monsters.direction[var0];
-                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                Monsters.direction[var0] = -1;
-                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                Monsters.direction[var0] = 1;
+                            Monsters.x[i] += 5 * Monsters.direction[i];
+                            if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                Monsters.direction[i] = -1;
+                            } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                Monsters.direction[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             continue;
                         case Monsters.TYPE_ONE_EYED_GHOST_2:
                             if (tick % 4 == 0) {
-                                Monsters.frame[var0]++;
-                                Monsters.timer[var0] = 0;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
-                                    Monsters.timer[var0] = 1;
+                                Monsters.frame[i]++;
+                                Monsters.timer[i] = 0;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
+                                    Monsters.timer[i] = 1;
                                 }
                             }
 
-                            Monsters.x[var0] += Monsters.timer[var0] * Monsters.direction[var0];
-                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                Monsters.direction[var0] = -1;
-                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                Monsters.direction[var0] = 1;
+                            Monsters.x[i] += Monsters.timer[i] * Monsters.direction[i];
+                            if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                Monsters.direction[i] = -1;
+                            } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                Monsters.direction[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 9 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                         case Monsters.TYPE_DESERT_CENTIPEDE:
-                            monsterPatrolFast(var0);
+                            monsterPatrolFast(i);
                             continue;
                         case Monsters.TYPE_GOLDEN_BAT:
-                            Monsters.x[var0] += Monsters.vx[var0];
-                            if (Monsters.x[var0] - Monsters.rangeA[var0] > 100) {
-                                Monsters.direction[var0] = -1;
-                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
-                                Monsters.x[var0] += Monsters.direction[var0] << 2;
-                            } else if (Monsters.x[var0] - Monsters.rangeA[var0] < -100) {
-                                Monsters.direction[var0] = 1;
-                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
-                                Monsters.x[var0] += Monsters.direction[var0] << 2;
+                            Monsters.x[i] += Monsters.vx[i];
+                            if (Monsters.x[i] - Monsters.rangeA[i] > 100) {
+                                Monsters.direction[i] = -1;
+                                Monsters.vx[i] = Monsters.direction[i] * (tick % 4 + 1);
+                                Monsters.x[i] += Monsters.direction[i] << 2;
+                            } else if (Monsters.x[i] - Monsters.rangeA[i] < -100) {
+                                Monsters.direction[i] = 1;
+                                Monsters.vx[i] = Monsters.direction[i] * (tick % 4 + 1);
+                                Monsters.x[i] += Monsters.direction[i] << 2;
                             }
 
-                            if (Monsters.y[var0] - Monsters.rangeB[var0] > 20) {
-                                Monsters.vy[var0] = -(tick % 4 + 1);
-                            } else if (Monsters.y[var0] - Monsters.rangeB[var0] < -20) {
-                                Monsters.vy[var0] = tick % 4 + 1;
+                            if (Monsters.y[i] - Monsters.rangeB[i] > 20) {
+                                Monsters.vy[i] = -(tick % 4 + 1);
+                            } else if (Monsters.y[i] - Monsters.rangeB[i] < -20) {
+                                Monsters.vy[i] = tick % 4 + 1;
                             } else {
-                                Monsters.vy[var0] = 0;
+                                Monsters.vy[i] = 0;
                             }
 
-                            Monsters.y[var0] += Monsters.vy[var0];
+                            Monsters.y[i] += Monsters.vy[i];
                             if (tick % 2 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
-                                    Monsters.y[var0] -= 12;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
+                                    Monsters.y[i] -= 12;
                                 } else {
-                                    Monsters.y[var0] += 12;
+                                    Monsters.y[i] += 12;
                                 }
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             continue;
                         case Monsters.TYPE_RAT:
-                            Monsters.frame[var0]++;
-                            if (Monsters.frame[var0] > 1) {
-                                Monsters.frame[var0] = 0;
+                            Monsters.frame[i]++;
+                            if (Monsters.frame[i] > 1) {
+                                Monsters.frame[i] = 0;
                             }
 
                             if (tick % 2 == 0) {
-                                Monsters.x[var0] += Monsters.direction[var0] << 2;
+                                Monsters.x[i] += Monsters.direction[i] << 2;
                             } else {
-                                Monsters.x[var0] += Monsters.direction[var0] << 1;
+                                Monsters.x[i] += Monsters.direction[i] << 1;
                             }
 
-                            if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                Monsters.direction[var0] = -1;
-                            } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                Monsters.direction[var0] = 1;
+                            if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                Monsters.direction[i] = -1;
+                            } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                Monsters.direction[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 5 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                         case Monsters.TYPE_NATIVE:
-                            Monsters.x[var0] += Monsters.timer[var0];
-                            if (Monsters.timer[var0] > 1) {
-                                Monsters.timer[var0]--;
-                            } else if (Monsters.timer[var0] < -1) {
-                                Monsters.timer[var0]++;
+                            Monsters.x[i] += Monsters.timer[i];
+                            if (Monsters.timer[i] > 1) {
+                                Monsters.timer[i]--;
+                            } else if (Monsters.timer[i] < -1) {
+                                Monsters.timer[i]++;
                             }
 
-                            Monsters.y[var0] += Monsters.aux1[var0];
-                            Monsters.aux1[var0]++;
-                            if (Monsters.aux1[var0] > 4) {
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
+                            Monsters.y[i] += Monsters.aux1[i];
+                            Monsters.aux1[i]++;
+                            if (Monsters.aux1[i] > 4) {
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = Monsters.direction[i] * 3;
                             }
 
-                            if (abs(Monsters.aux1[var0]) == 3) {
-                                if (Monsters.x[var0] > Monsters.rangeB[var0]) {
-                                    Monsters.direction[var0] = -1;
-                                } else if (Monsters.x[var0] < Monsters.rangeA[var0]) {
-                                    Monsters.direction[var0] = 1;
+                            if (abs(Monsters.aux1[i]) == 3) {
+                                if (Monsters.x[i] > Monsters.rangeB[i]) {
+                                    Monsters.direction[i] = -1;
+                                } else if (Monsters.x[i] < Monsters.rangeA[i]) {
+                                    Monsters.direction[i] = 1;
                                 }
 
-                                Monsters.frame[var0] = 0;
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 1;
+                                Monsters.frame[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 9 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                         case Monsters.TYPE_RED_BEE:
-                            monsterHover(var0);
+                            monsterHover(i);
                             continue;
                         case Monsters.TYPE_SCORPION:
-                            monsterPatrolSlow(var0);
+                            monsterPatrolSlow(i);
                             continue;
                         case Monsters.TYPE_FLOWER_DEMON:
                         case Monsters.TYPE_PURPLE_FLOWER_DEMON:
                             if (tick % 4 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
                                 }
                             }
 
-                            if (Monsters.x[var0] > Player.x) {
-                                Monsters.direction[var0] = -1;
+                            if (Monsters.x[i] > Player.x) {
+                                Monsters.direction[i] = -1;
                             } else {
-                                Monsters.direction[var0] = 1;
+                                Monsters.direction[i] = 1;
                             }
 
-                            monsterTryAttackPlayer(var0);
+                            monsterTryAttackPlayer(i);
                             if (tick % 9 == 0) {
-                                monsterTryAttackGirl(var0);
+                                monsterTryAttackGirl(i);
                             }
                             continue;
                     }
                 case Monsters.STATE_RESTING:
-                    Monsters.timer[var0]++;
-                    if (Monsters.timer[var0] >= 35) {
-                        Monsters.timer[var0] = 0;
-                        Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                    Monsters.timer[i]++;
+                    if (Monsters.timer[i] >= 35) {
+                        Monsters.timer[i] = 0;
+                        Monsters.state[i] = Monsters.STATE_ACTIVE;
                     }
 
-                    Monsters.frame[var0] = 0;
-                    monsterTryAttackPlayer(var0);
+                    Monsters.frame[i] = 0;
+                    monsterTryAttackPlayer(i);
                     break;
                 case Monsters.STATE_ATTACKING:
                     if (Player.action == PlayerAction.BURROWED || Player.hidden) {
-                        Monsters.frame[var0] = 0;
-                        Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                        Monsters.timer[var0] = 0;
-                        Monsters.aux1[var0] = 0;
+                        Monsters.frame[i] = 0;
+                        Monsters.state[i] = Monsters.STATE_ACTIVE;
+                        Monsters.timer[i] = 0;
+                        Monsters.aux1[i] = 0;
                     }
 
-                    switch (Monsters.type[var0]) {
+                    switch (Monsters.type[i]) {
                         case Monsters.TYPE_ONE_EYED_GHOST:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 2) {
-                                if (Monsters.attackingGirl[var0]) {
-                                    Monsters.attackingGirl[var0] = false;
-                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 2) {
+                                if (Monsters.attackingGirl[i]) {
+                                    Monsters.attackingGirl[i] = false;
+                                    damageGirl(Monsters.damage[i], Monsters.direction[i]);
                                 } else {
-                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[i], Monsters.direction[i]);
                                 }
                             }
 
-                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
-                                Monsters.x[var0] += Monsters.direction[var0];
-                                Monsters.frame[var0] = 3;
+                            if ((Monsters.timer[i] >> 2) % 2 == 0) {
+                                Monsters.x[i] += Monsters.direction[i];
+                                Monsters.frame[i] = 3;
                             } else {
-                                Monsters.frame[var0] = 0;
-                                Monsters.x[var0] -= Monsters.direction[var0];
+                                Monsters.frame[i] = 0;
+                                Monsters.x[i] -= Monsters.direction[i];
                             }
 
-                            if (Monsters.timer[var0] == 12) {
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.timer[var0] = 0;
+                            if (Monsters.timer[i] == 12) {
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.timer[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_SNAIL:
-                            damagePlayer(Monsters.damage[var0], -Player.facing);
-                            Monsters.state[var0] = Monsters.STATE_RESTING;
-                            Monsters.timer[var0] = 0;
-                            Monsters.frame[var0] = 2;
+                            damagePlayer(Monsters.damage[i], -Player.facing);
+                            Monsters.state[i] = Monsters.STATE_RESTING;
+                            Monsters.timer[i] = 0;
+                            Monsters.frame[i] = 2;
                             continue;
                         case Monsters.TYPE_DEMON_BAT:
-                            if (Monsters.x[var0] < Player.x) {
-                                Monsters.vx[var0] = 3 + tick % 4;
-                            } else if (Monsters.x[var0] > Player.x) {
-                                Monsters.vx[var0] = -(3 + tick % 4);
+                            if (Monsters.x[i] < Player.x) {
+                                Monsters.vx[i] = 3 + tick % 4;
+                            } else if (Monsters.x[i] > Player.x) {
+                                Monsters.vx[i] = -(3 + tick % 4);
                             }
 
-                            if (Monsters.y[var0] < Player.y) {
-                                Monsters.vy[var0] = tick % 3;
-                            } else if (Monsters.y[var0] > Player.y) {
-                                Monsters.vy[var0] = -tick % 3;
+                            if (Monsters.y[i] < Player.y) {
+                                Monsters.vy[i] = tick % 3;
+                            } else if (Monsters.y[i] > Player.y) {
+                                Monsters.vy[i] = -tick % 3;
                             }
 
-                            Monsters.x[var0] += Monsters.vx[var0];
-                            Monsters.y[var0] += Monsters.vy[var0];
+                            Monsters.x[i] += Monsters.vx[i];
+                            Monsters.y[i] += Monsters.vy[i];
                             if (tick % 2 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
                                 }
                             }
 
-                            if (abs(Monsters.x[var0] - Player.x) < 5 && abs(Monsters.y[var0] - Player.y) < 5) {
-                                Monsters.attackCooldown[var0] = 0;
-                                damagePlayer(Monsters.damage[var0], -Player.facing);
-                                Monsters.timer[var0] = 0;
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                            if (abs(Monsters.x[i] - Player.x) < 5 && abs(Monsters.y[i] - Player.y) < 5) {
+                                Monsters.attackCooldown[i] = 0;
+                                damagePlayer(Monsters.damage[i], -Player.facing);
+                                Monsters.timer[i] = 0;
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
                             }
 
-                            if (abs(Monsters.x[var0] - Player.x) > 160 || abs(Monsters.y[var0] - Player.y) > 160) {
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.timer[var0] = 0;
-                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
-                                Monsters.attackCooldown[var0] = 0;
+                            if (abs(Monsters.x[i] - Player.x) > 160 || abs(Monsters.y[i] - Player.y) > 160) {
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[i] = 0;
+                                Monsters.vx[i] = Monsters.vy[i] = 0;
+                                Monsters.attackCooldown[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_ONE_LEGGED_DEMON:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 3) {
-                                if (Monsters.attackingGirl[var0]) {
-                                    Monsters.attackingGirl[var0] = false;
-                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 3) {
+                                if (Monsters.attackingGirl[i]) {
+                                    Monsters.attackingGirl[i] = false;
+                                    damageGirl(Monsters.damage[i], Monsters.direction[i]);
                                 } else {
-                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[i], Monsters.direction[i]);
                                 }
                             }
 
-                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
-                                Monsters.x[var0] += Monsters.direction[var0];
-                                Monsters.frame[var0] = 0;
+                            if ((Monsters.timer[i] >> 2) % 2 == 0) {
+                                Monsters.x[i] += Monsters.direction[i];
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 3;
-                                Monsters.x[var0] -= Monsters.direction[var0];
+                                Monsters.frame[i] = 3;
+                                Monsters.x[i] -= Monsters.direction[i];
                             }
 
-                            if (Monsters.timer[var0] == 12) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = 0;
+                            if (Monsters.timer[i] == 12) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_GREEN_TOAD:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 3) {
-                                if (Monsters.attackingGirl[var0]) {
-                                    Monsters.attackingGirl[var0] = false;
-                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 3) {
+                                if (Monsters.attackingGirl[i]) {
+                                    Monsters.attackingGirl[i] = false;
+                                    damageGirl(Monsters.damage[i], Monsters.direction[i]);
                                 } else {
-                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[i], Monsters.direction[i]);
                                 }
                             }
 
-                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
-                                Monsters.x[var0] += Monsters.direction[var0];
-                                Monsters.frame[var0] = 0;
+                            if ((Monsters.timer[i] >> 2) % 2 == 0) {
+                                Monsters.x[i] += Monsters.direction[i];
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 1;
-                                Monsters.x[var0] -= Monsters.direction[var0];
+                                Monsters.frame[i] = 1;
+                                Monsters.x[i] -= Monsters.direction[i];
                             }
 
-                            if (Monsters.timer[var0] == 12) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = 0;
+                            if (Monsters.timer[i] == 12) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_SPIDER:
-                            damagePlayer(Monsters.damage[var0], -Player.facing);
-                            Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                            Monsters.timer[var0] = 1;
+                            damagePlayer(Monsters.damage[i], -Player.facing);
+                            Monsters.state[i] = Monsters.STATE_ACTIVE;
+                            Monsters.timer[i] = 1;
                             continue;
                         case Monsters.TYPE_BEE:
-                            monsterChasePlayer(var0);
+                            monsterChasePlayer(i);
                         case Monsters.TYPE_SCARECROW:
                         default:
                             continue;
                         case Monsters.TYPE_TIGER_FISH:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] <= 10) {
-                                if (Monsters.y[var0] > Player.y) {
-                                    Monsters.y[var0] -= 4;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] <= 10) {
+                                if (Monsters.y[i] > Player.y) {
+                                    Monsters.y[i] -= 4;
                                 }
 
-                                if (Monsters.x[var0] < Player.x) {
-                                    Monsters.x[var0] += 2;
-                                } else if (Monsters.x[var0] > Player.x) {
-                                    Monsters.x[var0] -= 2;
+                                if (Monsters.x[i] < Player.x) {
+                                    Monsters.x[i] += 2;
+                                } else if (Monsters.x[i] > Player.x) {
+                                    Monsters.x[i] -= 2;
                                 }
 
-                                if (abs(Monsters.x[var0] - Player.x) < 16 && abs(Monsters.y[var0] - (Player.y - 16)) < 20) {
-                                    damagePlayer(Monsters.damage[var0], -Player.facing);
-                                    Monsters.timer[var0] = 10;
-                                }
-                            }
-
-                            if (Monsters.timer[var0] == 10) {
-                                Monsters.aux1[var0] = 1;
-                            }
-
-                            if (Monsters.timer[var0] > 10) {
-                                Monsters.y[var0] += Monsters.aux1[var0];
-                                Monsters.aux1[var0]++;
-                                if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
-                                    Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                    Monsters.aux1[var0] = 0;
-                                    Monsters.timer[var0] = 0;
-                                    Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                if (abs(Monsters.x[i] - Player.x) < 16 && abs(Monsters.y[i] - (Player.y - 16)) < 20) {
+                                    damagePlayer(Monsters.damage[i], -Player.facing);
+                                    Monsters.timer[i] = 10;
                                 }
                             }
 
-                            Monsters.frame[var0] = Monsters.timer[var0] % 2 == 0 ? 0 : 1;
+                            if (Monsters.timer[i] == 10) {
+                                Monsters.aux1[i] = 1;
+                            }
+
+                            if (Monsters.timer[i] > 10) {
+                                Monsters.y[i] += Monsters.aux1[i];
+                                Monsters.aux1[i]++;
+                                if (Monsters.y[i] > Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]]) {
+                                    Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                    Monsters.aux1[i] = 0;
+                                    Monsters.timer[i] = 0;
+                                    Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                }
+                            }
+
+                            Monsters.frame[i] = Monsters.timer[i] % 2 == 0 ? 0 : 1;
                             continue;
                         case Monsters.TYPE_WIND_NINJA:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] < 6) {
-                                Monsters.x[var0] += Monsters.direction[var0] << 2;
-                            } else if (Monsters.timer[var0] == 6) {
-                                if (abs(Monsters.x[var0] + (Monsters.direction[var0] << 3) - Player.x) < 13 + Player.halfWidth) {
-                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] < 6) {
+                                Monsters.x[i] += Monsters.direction[i] << 2;
+                            } else if (Monsters.timer[i] == 6) {
+                                if (abs(Monsters.x[i] + (Monsters.direction[i] << 3) - Player.x) < 13 + Player.halfWidth) {
+                                    damagePlayer(Monsters.damage[i], Monsters.direction[i]);
                                 }
-                            } else if (Monsters.timer[var0] < 12) {
-                                Monsters.x[var0] -= Monsters.direction[var0] << 1;
-                            } else if (Monsters.timer[var0] == 12) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = 0;
+                            } else if (Monsters.timer[i] < 12) {
+                                Monsters.x[i] -= Monsters.direction[i] << 1;
+                            } else if (Monsters.timer[i] == 12) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = 0;
                             }
 
-                            Monsters.frame[var0] = 1;
-                            if (Monsters.timer[var0] > 3 && Monsters.timer[var0] < 9 && Monsters.timer[var0] % 2 == 0) {
-                                Monsters.frame[var0] = 3;
+                            Monsters.frame[i] = 1;
+                            if (Monsters.timer[i] > 3 && Monsters.timer[i] < 9 && Monsters.timer[i] % 2 == 0) {
+                                Monsters.frame[i] = 3;
                             }
                             continue;
                         case Monsters.TYPE_RED_TIGER_FISH:
-                            Monsters.timer[var0]++;
-                            Monsters.frame[var0] = 3;
-                            if (Monsters.timer[var0] <= 15) {
-                                Monsters.y[var0] -= 7;
-                                if (Monsters.x[var0] < Player.x) {
-                                    Monsters.x[var0]++;
-                                } else if (Monsters.x[var0] > Player.x) {
-                                    Monsters.x[var0]--;
+                            Monsters.timer[i]++;
+                            Monsters.frame[i] = 3;
+                            if (Monsters.timer[i] <= 15) {
+                                Monsters.y[i] -= 7;
+                                if (Monsters.x[i] < Player.x) {
+                                    Monsters.x[i]++;
+                                } else if (Monsters.x[i] > Player.x) {
+                                    Monsters.x[i]--;
                                 }
 
-                                if (abs(Monsters.x[var0] - Player.x) < 16 && abs(Monsters.y[var0] - (Player.y - 16)) < 20) {
-                                    damagePlayer(Monsters.damage[var0], -Player.facing);
-                                    Monsters.timer[var0] = 15;
+                                if (abs(Monsters.x[i] - Player.x) < 16 && abs(Monsters.y[i] - (Player.y - 16)) < 20) {
+                                    damagePlayer(Monsters.damage[i], -Player.facing);
+                                    Monsters.timer[i] = 15;
                                 }
                             }
 
-                            if (Monsters.timer[var0] == 15) {
-                                Monsters.aux1[var0] = 1;
+                            if (Monsters.timer[i] == 15) {
+                                Monsters.aux1[i] = 1;
                             }
 
-                            if (Monsters.timer[var0] > 15) {
-                                Monsters.frame[var0] = 2;
-                                Monsters.y[var0] += Monsters.aux1[var0];
-                                Monsters.aux1[var0]++;
-                                if (abs(Monsters.x[var0] - Player.x) < 16 && abs(Monsters.y[var0] - (Player.y - 16)) < 20) {
-                                    damagePlayer(Monsters.damage[var0], -Player.facing);
+                            if (Monsters.timer[i] > 15) {
+                                Monsters.frame[i] = 2;
+                                Monsters.y[i] += Monsters.aux1[i];
+                                Monsters.aux1[i]++;
+                                if (abs(Monsters.x[i] - Player.x) < 16 && abs(Monsters.y[i] - (Player.y - 16)) < 20) {
+                                    damagePlayer(Monsters.damage[i], -Player.facing);
                                 }
 
-                                if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
-                                    Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                    Monsters.aux1[var0] = 0;
-                                    Monsters.timer[var0] = 0;
-                                    Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                                if (Monsters.y[i] > Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]]) {
+                                    Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                    Monsters.aux1[i] = 0;
+                                    Monsters.timer[i] = 0;
+                                    Monsters.state[i] = Monsters.STATE_ACTIVE;
                                 }
                             }
                             continue;
                         case Monsters.TYPE_ONE_EYED_GHOST_2:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 4 && Monsters.y[var0] == Player.y) {
-                                damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 4 && Monsters.y[i] == Player.y) {
+                                damagePlayer(Monsters.damage[i], Monsters.direction[i]);
                             }
 
-                            if (Monsters.timer[var0] < 8) {
-                                Monsters.x[var0] += Monsters.direction[var0] << 1;
-                                Monsters.frame[var0] = 3;
+                            if (Monsters.timer[i] < 8) {
+                                Monsters.x[i] += Monsters.direction[i] << 1;
+                                Monsters.frame[i] = 3;
                             } else {
-                                Monsters.frame[var0] = 0;
-                                Monsters.x[var0] -= Monsters.direction[var0] << 1;
+                                Monsters.frame[i] = 0;
+                                Monsters.x[i] -= Monsters.direction[i] << 1;
                             }
 
-                            if (Monsters.timer[var0] == 12) {
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.timer[var0] = 0;
-                                Monsters.attackCooldown[var0] = 25;
+                            if (Monsters.timer[i] == 12) {
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.timer[i] = 0;
+                                Monsters.attackCooldown[i] = 25;
                             }
                             continue;
                         case Monsters.TYPE_DESERT_CENTIPEDE:
-                            monsterHitPlayer(var0);
+                            monsterHitPlayer(i);
                             continue;
                         case Monsters.TYPE_GOLDEN_BAT:
-                            if (Monsters.x[var0] < Player.x) {
-                                Monsters.vx[var0] = 4 + tick % 6;
-                            } else if (Monsters.x[var0] > Player.x) {
-                                Monsters.vx[var0] = -(4 + tick % 6);
+                            if (Monsters.x[i] < Player.x) {
+                                Monsters.vx[i] = 4 + tick % 6;
+                            } else if (Monsters.x[i] > Player.x) {
+                                Monsters.vx[i] = -(4 + tick % 6);
                             }
 
-                            if (Monsters.y[var0] < Player.y) {
-                                Monsters.vy[var0] = 2 + tick % 4;
-                            } else if (Monsters.y[var0] > Player.y) {
-                                Monsters.vy[var0] = -(2 + tick % 4);
+                            if (Monsters.y[i] < Player.y) {
+                                Monsters.vy[i] = 2 + tick % 4;
+                            } else if (Monsters.y[i] > Player.y) {
+                                Monsters.vy[i] = -(2 + tick % 4);
                             }
 
-                            Monsters.x[var0] += Monsters.vx[var0];
-                            Monsters.y[var0] += Monsters.vy[var0];
+                            Monsters.x[i] += Monsters.vx[i];
+                            Monsters.y[i] += Monsters.vy[i];
                             if (tick % 2 == 0) {
-                                Monsters.frame[var0]++;
-                                if (Monsters.frame[var0] > 1) {
-                                    Monsters.frame[var0] = 0;
+                                Monsters.frame[i]++;
+                                if (Monsters.frame[i] > 1) {
+                                    Monsters.frame[i] = 0;
                                 }
                             }
 
-                            if (abs(Monsters.x[var0] - Player.x) < 5 && abs(Monsters.y[var0] - Player.y) < 5) {
-                                damagePlayer(Monsters.damage[var0], -Player.facing);
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.timer[var0] = 0;
-                                Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
-                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
-                                Monsters.attackCooldown[var0] = 10;
+                            if (abs(Monsters.x[i] - Player.x) < 5 && abs(Monsters.y[i] - Player.y) < 5) {
+                                damagePlayer(Monsters.damage[i], -Player.facing);
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[i] = 0;
+                                Monsters.direction[i] = Monsters.x[i] > Monsters.rangeA[i] ? -1 : 1;
+                                Monsters.vx[i] = Monsters.direction[i] * (tick % 4 + 1);
+                                Monsters.attackCooldown[i] = 10;
                             }
 
-                            if (abs(Monsters.x[var0] - Player.x) > 130 || abs(Monsters.y[var0] - Player.y) > 130) {
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.timer[var0] = 0;
-                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
-                                Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
-                                Monsters.vx[var0] = Monsters.direction[var0] * (tick % 4 + 1);
-                                Monsters.attackCooldown[var0] = 0;
+                            if (abs(Monsters.x[i] - Player.x) > 130 || abs(Monsters.y[i] - Player.y) > 130) {
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[i] = 0;
+                                Monsters.vx[i] = Monsters.vy[i] = 0;
+                                Monsters.direction[i] = Monsters.x[i] > Monsters.rangeA[i] ? -1 : 1;
+                                Monsters.vx[i] = Monsters.direction[i] * (tick % 4 + 1);
+                                Monsters.attackCooldown[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_RAT:
-                            monsterHitPlayer(var0);
+                            monsterHitPlayer(i);
                             continue;
                         case Monsters.TYPE_NATIVE:
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 3) {
-                                if (Monsters.attackingGirl[var0]) {
-                                    Monsters.attackingGirl[var0] = false;
-                                    damageGirl(Monsters.damage[var0], Monsters.direction[var0]);
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 3) {
+                                if (Monsters.attackingGirl[i]) {
+                                    Monsters.attackingGirl[i] = false;
+                                    damageGirl(Monsters.damage[i], Monsters.direction[i]);
                                 } else {
-                                    damagePlayer(Monsters.damage[var0], Monsters.direction[var0]);
+                                    damagePlayer(Monsters.damage[i], Monsters.direction[i]);
                                 }
                             }
 
-                            if ((Monsters.timer[var0] >> 2) % 2 == 0) {
-                                Monsters.x[var0] += Monsters.direction[var0];
-                                Monsters.frame[var0] = 0;
+                            if ((Monsters.timer[i] >> 2) % 2 == 0) {
+                                Monsters.x[i] += Monsters.direction[i];
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 3;
-                                Monsters.x[var0] -= Monsters.direction[var0];
+                                Monsters.frame[i] = 3;
+                                Monsters.x[i] -= Monsters.direction[i];
                             }
 
-                            if (Monsters.timer[var0] == 12) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = 0;
+                            if (Monsters.timer[i] == 12) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_RED_BEE:
-                            monsterChasePlayer(var0);
+                            monsterChasePlayer(i);
                             continue;
                         case Monsters.TYPE_SCORPION:
                         case Monsters.TYPE_FLOWER_DEMON:
-                            Monsters.timer[var0]++;
-                            Monsters.frame[var0] = 3;
-                            if (Monsters.timer[var0] == 3) {
-                                Projectiles.spawn(Monsters.x[var0] + (Monsters.direction[var0] << 3), Monsters.y[var0] - 12, Monsters.direction[var0] << 3, Monsters.damage[var0], 2);
-                            } else if (Monsters.timer[var0] == 6) {
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.timer[var0] = 0;
+                            Monsters.timer[i]++;
+                            Monsters.frame[i] = 3;
+                            if (Monsters.timer[i] == 3) {
+                                Projectiles.spawn(Monsters.x[i] + (Monsters.direction[i] << 3), Monsters.y[i] - 12, Monsters.direction[i] << 3, Monsters.damage[i], 2);
+                            } else if (Monsters.timer[i] == 6) {
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.timer[i] = 0;
                             }
                             continue;
                         case Monsters.TYPE_PURPLE_FLOWER_DEMON:
-                            Monsters.timer[var0]++;
-                            Monsters.frame[var0] = 3;
-                            if (Monsters.timer[var0] == 3) {
-                                Monsters.aux1[var0]++;
-                                if (Monsters.aux1[var0] == 3) {
-                                    Monsters.aux1[var0] = 0;
+                            Monsters.timer[i]++;
+                            Monsters.frame[i] = 3;
+                            if (Monsters.timer[i] == 3) {
+                                Monsters.aux1[i]++;
+                                if (Monsters.aux1[i] == 3) {
+                                    Monsters.aux1[i] = 0;
                                 }
 
-                                if (Monsters.aux1[var0] == 2) {
-                                    ArcProjectiles.spawn(Monsters.x[var0], Monsters.y[var0] - 22, Monsters.direction[var0], -10, Monsters.damage[var0]);
-                                } else if (Monsters.aux1[var0] == 0) {
-                                    ArcProjectiles.spawn(Monsters.x[var0], Monsters.y[var0] - 22, Monsters.direction[var0] << 1, -9, Monsters.damage[var0]);
+                                if (Monsters.aux1[i] == 2) {
+                                    ArcProjectiles.spawn(Monsters.x[i], Monsters.y[i] - 22, Monsters.direction[i], -10, Monsters.damage[i]);
+                                } else if (Monsters.aux1[i] == 0) {
+                                    ArcProjectiles.spawn(Monsters.x[i], Monsters.y[i] - 22, Monsters.direction[i] << 1, -9, Monsters.damage[i]);
                                 } else {
-                                    ArcProjectiles.spawn(Monsters.x[var0], Monsters.y[var0] - 22, 0, -11, Monsters.damage[var0]);
+                                    ArcProjectiles.spawn(Monsters.x[i], Monsters.y[i] - 22, 0, -11, Monsters.damage[i]);
                                 }
 
-                                WaterSplash.spawn(Monsters.x[var0], Monsters.y[var0] - 20);
-                            } else if (Monsters.timer[var0] == 6) {
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.timer[var0] = 0;
+                                WaterSplash.spawn(Monsters.x[i], Monsters.y[i] - 20);
+                            } else if (Monsters.timer[i] == 6) {
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.timer[i] = 0;
                             }
                             continue;
                     }
                 case Monsters.STATE_RESPAWN_WAIT:
-                    Monsters.timer[var0]++;
-                    if (Monsters.timer[var0] >= Monsters.respawnDelay) {
-                        Monsters.timer[var0] = 0;
-                        int var2 = tick % Monsters.spawnX[Monsters.group[var0]].length;
-                        if (Monsters.spawnUsed[Monsters.group[var0]][var2]) {
-                            Monsters.timer[var0] = Monsters.respawnDelay;
+                    Monsters.timer[i]++;
+                    if (Monsters.timer[i] >= Monsters.respawnDelay) {
+                        Monsters.timer[i] = 0;
+                        int spawnIndex = tick % Monsters.spawnX[Monsters.group[i]].length;
+                        if (Monsters.spawnUsed[Monsters.group[i]][spawnIndex]) {
+                            Monsters.timer[i] = Monsters.respawnDelay;
                         } else {
-                            Monsters.x[var0] = Monsters.spawnX[Monsters.group[var0]][var2];
-                            Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][var2];
-                            Monsters.spawnUsed[Monsters.group[var0]][var2] = true;
-                            Monsters.spawnPoint[var0] = var2;
-                            Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                            Monsters.hp[var0] = Monsters.maxHp[var0];
-                            switch (Monsters.type[var0]) {
+                            Monsters.x[i] = Monsters.spawnX[Monsters.group[i]][spawnIndex];
+                            Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][spawnIndex];
+                            Monsters.spawnUsed[Monsters.group[i]][spawnIndex] = true;
+                            Monsters.spawnPoint[i] = spawnIndex;
+                            Monsters.state[i] = Monsters.STATE_ACTIVE;
+                            Monsters.hp[i] = Monsters.maxHp[i];
+                            switch (Monsters.type[i]) {
                                 case Monsters.TYPE_ONE_EYED_GHOST:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 20;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 20;
                                     break;
                                 case Monsters.TYPE_SNAIL:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 10;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 10;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 10;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 10;
                                     break;
                                 case Monsters.TYPE_DEMON_BAT:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] + 12;
-                                    Monsters.rangeB[var0] = Monsters.y[var0] + 12;
+                                    Monsters.rangeA[i] = Monsters.x[i] + 12;
+                                    Monsters.rangeB[i] = Monsters.y[i] + 12;
                                     break;
                                 case Monsters.TYPE_ONE_LEGGED_DEMON:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
-                                    Monsters.aux1[var0] = -4;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 20;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 20;
+                                    Monsters.aux1[i] = -4;
                                 case Monsters.TYPE_GREEN_TOAD:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
-                                    Monsters.aux1[var0] = -3;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 20;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 20;
+                                    Monsters.aux1[i] = -3;
                                     break;
                                 case Monsters.TYPE_SPIDER:
-                                    Monsters.rangeA[var0] = Monsters.y[var0] - 10;
-                                    Monsters.rangeB[var0] = Monsters.y[var0] + 10;
-                                    Monsters.timer[var0] = 1;
+                                    Monsters.rangeA[i] = Monsters.y[i] - 10;
+                                    Monsters.rangeB[i] = Monsters.y[i] + 10;
+                                    Monsters.timer[i] = 1;
                                     break;
                                 case Monsters.TYPE_BEE:
-                                    Monsters.rangeA[var0] = Monsters.x[var0];
-                                    Monsters.rangeB[var0] = Monsters.y[var0];
+                                    Monsters.rangeA[i] = Monsters.x[i];
+                                    Monsters.rangeB[i] = Monsters.y[i];
                                     break;
                                 case Monsters.TYPE_SCARECROW:
-                                    Monsters.state[var0] = Monsters.STATE_RESTING;
+                                    Monsters.state[i] = Monsters.STATE_RESTING;
                                     break;
                                 case Monsters.TYPE_TIGER_FISH:
                                 case Monsters.TYPE_WIND_NINJA:
                                 case Monsters.TYPE_ONE_EYED_GHOST_2:
                                 case Monsters.TYPE_DESERT_CENTIPEDE:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 20;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 20;
                                     break;
                                 case Monsters.TYPE_RED_TIGER_FISH:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 30;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 30;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 30;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 30;
                                     break;
                                 case Monsters.TYPE_GOLDEN_BAT:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] + 12;
-                                    Monsters.rangeB[var0] = Monsters.y[var0] + 12;
+                                    Monsters.rangeA[i] = Monsters.x[i] + 12;
+                                    Monsters.rangeB[i] = Monsters.y[i] + 12;
                                     break;
                                 case Monsters.TYPE_RAT:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 40;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 40;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 40;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 40;
                                     break;
                                 case Monsters.TYPE_NATIVE:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 20;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 20;
-                                    Monsters.aux1[var0] = -4;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 20;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 20;
+                                    Monsters.aux1[i] = -4;
                                     break;
                                 case Monsters.TYPE_RED_BEE:
-                                    Monsters.rangeA[var0] = Monsters.x[var0];
-                                    Monsters.rangeB[var0] = Monsters.y[var0];
+                                    Monsters.rangeA[i] = Monsters.x[i];
+                                    Monsters.rangeB[i] = Monsters.y[i];
                                     break;
                                 case Monsters.TYPE_SCORPION:
-                                    Monsters.rangeA[var0] = Monsters.x[var0] - 30;
-                                    Monsters.rangeB[var0] = Monsters.x[var0] + 30;
+                                    Monsters.rangeA[i] = Monsters.x[i] - 30;
+                                    Monsters.rangeB[i] = Monsters.x[i] + 30;
                             }
                         }
                     }
                     break;
                 case Monsters.STATE_HURT:
-                    Monsters.healthBarTimer[var0] = 100;
-                    Monsters.frame[var0] = 2;
-                    switch (Monsters.type[var0]) {
+                    Monsters.healthBarTimer[i] = 100;
+                    Monsters.frame[i] = 2;
+                    switch (Monsters.type[i]) {
                         case Monsters.TYPE_ONE_EYED_GHOST:
-                            if (Monsters.attackCooldown[var0] < 30) {
-                                Monsters.x[var0] -= Monsters.direction[var0] << 1;
+                            if (Monsters.attackCooldown[i] < 30) {
+                                Monsters.x[i] -= Monsters.direction[i] << 1;
                             } else {
-                                Monsters.x[var0] -= Monsters.direction[var0];
+                                Monsters.x[i] -= Monsters.direction[i];
                             }
 
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 1) {
-                                Monsters.y[var0] -= 2;
-                            } else if (Monsters.timer[var0] == 5) {
-                                Monsters.y[var0] += 2;
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 1) {
+                                Monsters.y[i] -= 2;
+                            } else if (Monsters.timer[i] == 5) {
+                                Monsters.y[i] += 2;
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
                             }
                             break;
                         case Monsters.TYPE_SNAIL:
-                            monsterRecoil5(var0);
+                            monsterRecoil5(i);
                             break;
                         case Monsters.TYPE_DEMON_BAT:
-                            Monsters.timer[var0]++;
-                            Monsters.x[var0] -= Monsters.vx[var0] >> 3;
-                            Monsters.y[var0] -= Monsters.vy[var0] >> 3;
-                            if (Monsters.vx[var0] == 0) {
-                                Monsters.vx[var0] = 2;
+                            Monsters.timer[i]++;
+                            Monsters.x[i] -= Monsters.vx[i] >> 3;
+                            Monsters.y[i] -= Monsters.vy[i] >> 3;
+                            if (Monsters.vx[i] == 0) {
+                                Monsters.vx[i] = 2;
                             }
 
-                            if (Monsters.vy[var0] == 0) {
-                                Monsters.vy[var0] = 2;
+                            if (Monsters.vy[i] == 0) {
+                                Monsters.vy[i] = 2;
                             }
 
-                            if (Monsters.timer[var0] == 5) {
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.timer[var0] = 0;
-                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
-                                Monsters.attackCooldown[var0] = 10;
+                            if (Monsters.timer[i] == 5) {
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[i] = 0;
+                                Monsters.vx[i] = Monsters.vy[i] = 0;
+                                Monsters.attackCooldown[i] = 10;
                             }
                             break;
                         case Monsters.TYPE_ONE_LEGGED_DEMON:
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            Monsters.frame[var0] = 2;
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 7) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            Monsters.frame[i] = 2;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 7) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = Monsters.direction[i] * 3;
                             }
                             break;
                         case Monsters.TYPE_GREEN_TOAD:
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            Monsters.frame[var0] = 2;
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 7) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            Monsters.frame[i] = 2;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 7) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = Monsters.direction[i] * 3;
                             }
                             break;
                         case Monsters.TYPE_SPIDER:
-                            Monsters.timer[var0]++;
-                            Monsters.y[var0]--;
-                            if (Monsters.timer[var0] == 3) {
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.timer[var0] = 1;
+                            Monsters.timer[i]++;
+                            Monsters.y[i]--;
+                            if (Monsters.timer[i] == 3) {
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[i] = 1;
                             }
 
-                            Monsters.frame[var0] = 2;
+                            Monsters.frame[i] = 2;
                             break;
                         case Monsters.TYPE_BEE:
-                            monsterFlyBack(var0);
+                            monsterFlyBack(i);
                             break;
                         case Monsters.TYPE_SCARECROW:
-                            Monsters.timer[var0]++;
-                            Monsters.direction[var0] = -Player.facing;
-                            if (Monsters.timer[var0] % 4 > 1) {
-                                Monsters.frame[var0] = 0;
+                            Monsters.timer[i]++;
+                            Monsters.direction[i] = -Player.facing;
+                            if (Monsters.timer[i] % 4 > 1) {
+                                Monsters.frame[i] = 0;
                             } else {
-                                Monsters.frame[var0] = 2;
+                                Monsters.frame[i] = 2;
                             }
 
-                            if (Monsters.timer[var0] == 8) {
-                                Monsters.state[var0] = Monsters.STATE_RESTING;
-                                Monsters.direction[var0] = 0;
-                                Monsters.vx[var0] = Monsters.vy[var0] = 0;
-                                Monsters.attackCooldown[var0] = 0;
+                            if (Monsters.timer[i] == 8) {
+                                Monsters.state[i] = Monsters.STATE_RESTING;
+                                Monsters.direction[i] = 0;
+                                Monsters.vx[i] = Monsters.vy[i] = 0;
+                                Monsters.attackCooldown[i] = 0;
                             }
                             break;
                         case Monsters.TYPE_TIGER_FISH:
-                            Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                            Monsters.state[i] = Monsters.STATE_ATTACKING;
                             break;
                         case Monsters.TYPE_WIND_NINJA:
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            Monsters.frame[var0] = 2;
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 6) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_ATTACKING;
-                                Monsters.timer[var0] = 4;
-                                Monsters.x[var0] += Monsters.direction[var0] << 3;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            Monsters.frame[i] = 2;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 6) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_ATTACKING;
+                                Monsters.timer[i] = 4;
+                                Monsters.x[i] += Monsters.direction[i] << 3;
                             }
                             break;
                         case Monsters.TYPE_RED_TIGER_FISH:
-                            Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                            Monsters.state[i] = Monsters.STATE_ATTACKING;
                             break;
                         case Monsters.TYPE_ONE_EYED_GHOST_2:
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            Monsters.frame[var0] = 2;
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 6) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_ATTACKING;
-                                Monsters.timer[var0] = 0;
-                                Monsters.x[var0] += Monsters.direction[var0] << 3;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            Monsters.frame[i] = 2;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 6) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_ATTACKING;
+                                Monsters.timer[i] = 0;
+                                Monsters.x[i] += Monsters.direction[i] << 3;
                             }
                             break;
                         case Monsters.TYPE_DESERT_CENTIPEDE:
-                            monsterRecoil5(var0);
+                            monsterRecoil5(i);
                             break;
                         case Monsters.TYPE_GOLDEN_BAT:
-                            Monsters.timer[var0]++;
-                            Monsters.x[var0] -= Monsters.vx[var0] >> 3;
-                            Monsters.y[var0] -= Monsters.vy[var0] >> 3;
-                            if (Monsters.vx[var0] == 0) {
-                                Monsters.vx[var0] = 2;
+                            Monsters.timer[i]++;
+                            Monsters.x[i] -= Monsters.vx[i] >> 3;
+                            Monsters.y[i] -= Monsters.vy[i] >> 3;
+                            if (Monsters.vx[i] == 0) {
+                                Monsters.vx[i] = 2;
                             }
 
-                            if (Monsters.vy[var0] == 0) {
-                                Monsters.vy[var0] = 2;
+                            if (Monsters.vy[i] == 0) {
+                                Monsters.vy[i] = 2;
                             }
 
-                            if (Monsters.timer[var0] == 5) {
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.timer[var0] = 0;
-                                Monsters.direction[var0] = Monsters.x[var0] > Monsters.rangeA[var0] ? -1 : 1;
-                                Monsters.vx[var0] = Monsters.direction[var0] << 3;
-                                Monsters.attackCooldown[var0] = 0;
+                            if (Monsters.timer[i] == 5) {
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.timer[i] = 0;
+                                Monsters.direction[i] = Monsters.x[i] > Monsters.rangeA[i] ? -1 : 1;
+                                Monsters.vx[i] = Monsters.direction[i] << 3;
+                                Monsters.attackCooldown[i] = 0;
                             }
                             break;
                         case Monsters.TYPE_RAT:
-                            monsterRecoil3(var0);
+                            monsterRecoil3(i);
                             break;
                         case Monsters.TYPE_NATIVE:
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            Monsters.frame[var0] = 2;
-                            Monsters.timer[var0]++;
-                            if (Monsters.timer[var0] == 3) {
-                                Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
-                                Monsters.aux1[var0] = -4;
-                                Monsters.timer[var0] = Monsters.direction[var0] * 3;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            Monsters.frame[i] = 2;
+                            Monsters.timer[i]++;
+                            if (Monsters.timer[i] == 3) {
+                                Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
+                                Monsters.aux1[i] = -4;
+                                Monsters.timer[i] = Monsters.direction[i] * 3;
                             }
                             break;
                         case Monsters.TYPE_RED_BEE:
-                            monsterFlyBack(var0);
+                            monsterFlyBack(i);
                             break;
                         case Monsters.TYPE_SCORPION:
-                            monsterRecoil3(var0);
+                            monsterRecoil3(i);
                             break;
                         case Monsters.TYPE_FLOWER_DEMON:
-                            Monsters.timer[var0]++;
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            if (Monsters.timer[var0] == 4) {
-                                Monsters.x[var0] += Monsters.direction[var0] << 2;
-                                Monsters.state[var0] = Monsters.STATE_ACTIVE;
+                            Monsters.timer[i]++;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            if (Monsters.timer[i] == 4) {
+                                Monsters.x[i] += Monsters.direction[i] << 2;
+                                Monsters.state[i] = Monsters.STATE_ACTIVE;
                             }
                             break;
                         case Monsters.TYPE_PURPLE_FLOWER_DEMON:
-                            Monsters.timer[var0]++;
-                            Monsters.x[var0] -= Monsters.direction[var0];
-                            if (Monsters.timer[var0] == 4) {
-                                Monsters.x[var0] += Monsters.direction[var0] << 2;
-                                Monsters.timer[var0] = 0;
-                                Monsters.state[var0] = Monsters.STATE_ATTACKING;
+                            Monsters.timer[i]++;
+                            Monsters.x[i] -= Monsters.direction[i];
+                            if (Monsters.timer[i] == 4) {
+                                Monsters.x[i] += Monsters.direction[i] << 2;
+                                Monsters.timer[i] = 0;
+                                Monsters.state[i] = Monsters.STATE_ATTACKING;
                             }
                     }
                 case Monsters.STATE_UNUSED_7:
@@ -8745,15 +8712,15 @@ public final class b extends Canvas implements Runnable {
                 default:
                     break;
                 case Monsters.STATE_LAUNCHED:
-                    Monsters.y[var0] += Monsters.timer[var0];
-                    Monsters.timer[var0]++;
-                    Monsters.frame[var0] = 2;
-                    if (Monsters.y[var0] > Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]]) {
-                        if (Monsters.type[var0] != Monsters.TYPE_DEMON_BAT && Monsters.type[var0] != Monsters.TYPE_BEE && Monsters.type[var0] != Monsters.TYPE_RED_BEE && Monsters.type[var0] != Monsters.TYPE_GOLDEN_BAT) {
-                            Monsters.y[var0] = Monsters.spawnY[Monsters.group[var0]][Monsters.spawnPoint[var0]];
+                    Monsters.y[i] += Monsters.timer[i];
+                    Monsters.timer[i]++;
+                    Monsters.frame[i] = 2;
+                    if (Monsters.y[i] > Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]]) {
+                        if (Monsters.type[i] != Monsters.TYPE_DEMON_BAT && Monsters.type[i] != Monsters.TYPE_BEE && Monsters.type[i] != Monsters.TYPE_RED_BEE && Monsters.type[i] != Monsters.TYPE_GOLDEN_BAT) {
+                            Monsters.y[i] = Monsters.spawnY[Monsters.group[i]][Monsters.spawnPoint[i]];
                         }
 
-                        Monsters.state[var0] = Monsters.STATE_RESTING;
+                        Monsters.state[i] = Monsters.STATE_RESTING;
                     }
             }
         }
@@ -8966,7 +8933,7 @@ public final class b extends Canvas implements Runnable {
                 Npc.loadSprite(npcSprites, 3);
                 Npc.loadSprite(npcSprites, 4);
                 Npc.loadSprite(npcSprites, 5);
-            } catch (Exception var7) {
+            } catch (Exception e) {
             }
 
             npcCount = 7;
@@ -8985,7 +8952,7 @@ public final class b extends Canvas implements Runnable {
 
             try {
                 Npc.loadSprite(npcSprites, 5);
-            } catch (Exception var6) {
+            } catch (Exception e) {
             }
 
             npcCount = 1;
@@ -8998,7 +8965,7 @@ public final class b extends Canvas implements Runnable {
 
             try {
                 Npc.loadSprite(npcSprites, 5);
-            } catch (Exception var5) {
+            } catch (Exception e) {
             }
 
             npcCount = 1;
@@ -9011,7 +8978,7 @@ public final class b extends Canvas implements Runnable {
 
             try {
                 Npc.loadSprite(npcSprites, 5);
-            } catch (Exception var4) {
+            } catch (Exception e) {
             }
 
             npcCount = 1;
@@ -9024,7 +8991,7 @@ public final class b extends Canvas implements Runnable {
 
             try {
                 Npc.loadSprite(npcSprites, 5);
-            } catch (Exception var3) {
+            } catch (Exception e) {
             }
 
             npcCount = 1;
@@ -9037,7 +9004,7 @@ public final class b extends Canvas implements Runnable {
 
             try {
                 Npc.loadSprite(npcSprites, 4);
-            } catch (Exception var2) {
+            } catch (Exception e) {
             }
 
             npcCount = 1;
@@ -9052,7 +9019,7 @@ public final class b extends Canvas implements Runnable {
                 Npc.loadSprite(npcSprites, 0);
                 Npc.loadSprite(npcSprites, 4);
                 Npc.loadSprite(npcSprites, 2);
-            } catch (Exception var1) {
+            } catch (Exception e) {
             }
 
             npcCount = 3;
@@ -9077,10 +9044,10 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void drawNpcs(Graphics g) {
-        for(int var1 = 0; var1 < npcCount; ++var1) {
-            if (npcX[var1] + 10 >= cameraX && npcX[var1] - 10 <= cameraX + Viewport.viewWidth && npcY[var1] >= cameraY && npcY[var1] - 32 <= cameraY + Viewport.viewHeight) {
-                g.drawImage(npcSprites[npcTypes[var1]][Npc.PART_LEGS], npcX[var1], npcY[var1], 33);
-                g.drawImage(npcSprites[npcTypes[var1]][Npc.PART_BODY], npcX[var1], npcY[var1] - npcBodyOffsetY[npcTypes[var1]] + (tick % (15 + npcTypes[var1]) > 4 ? 0 : 1), 33);
+        for(int i = 0; i < npcCount; ++i) {
+            if (npcX[i] + 10 >= cameraX && npcX[i] - 10 <= cameraX + Viewport.viewWidth && npcY[i] >= cameraY && npcY[i] - 32 <= cameraY + Viewport.viewHeight) {
+                g.drawImage(npcSprites[npcTypes[i]][Npc.PART_LEGS], npcX[i], npcY[i], 33);
+                g.drawImage(npcSprites[npcTypes[i]][Npc.PART_BODY], npcX[i], npcY[i] - npcBodyOffsetY[npcTypes[i]] + (tick % (15 + npcTypes[i]) > 4 ? 0 : 1), 33);
             }
         }
 

@@ -129,27 +129,27 @@ public final class Monsters {
 
     /** Thêm {@code amount} con dơi quỷ vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnDemonBats(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_DEMON_BAT;
-                attackRangeX[var3] = 120;
-                attackRangeY[var3] = 100;
-                height[var3] = 20;
-                width[var3] = 30;
-                direction[var3] = 0;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 * 7 + var3;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
-                vx[var3] = 2;
-                vy[var3] = 3;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_DEMON_BAT;
+                attackRangeX[i] = 120;
+                attackRangeY[i] = 100;
+                height[i] = 20;
+                width[i] = 30;
+                direction[i] = 0;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i * 7 + i;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
+                vx[i] = 2;
+                vy[i] = 3;
             }
 
         }
@@ -157,27 +157,27 @@ public final class Monsters {
 
     /** Thêm {@code amount} con dơi vàng vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnGoldenBats(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_GOLDEN_BAT;
-                attackRangeX[var3] = 120;
-                attackRangeY[var3] = 50;
-                height[var3] = 20;
-                width[var3] = 20;
-                direction[var3] = -1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 << 1;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
-                vx[var3] = -3;
-                vy[var3] = 3;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_GOLDEN_BAT;
+                attackRangeX[i] = 120;
+                attackRangeY[i] = 50;
+                height[i] = 20;
+                width[i] = 20;
+                direction[i] = -1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i << 1;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
+                vx[i] = -3;
+                vy[i] = 3;
             }
 
         }
@@ -185,25 +185,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con ninja gió vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnWindNinjas(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_WIND_NINJA;
-                attackRangeX[var3] = 36;
-                attackRangeY[var3] = 20;
-                height[var3] = 34;
-                width[var3] = 32;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 * 6;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_WIND_NINJA;
+                attackRangeX[i] = 36;
+                attackRangeY[i] = 20;
+                height[i] = 34;
+                width[i] = 32;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i * 6;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
             }
 
         }
@@ -216,22 +216,21 @@ public final class Monsters {
         }
 
         if (start != count) {
-            for(int var2 = start; var2 < start + amount; ++var2) {
-                group[var2] = 1;
-                type[var2] = TYPE_TIGER_FISH;
-                attackRangeX[var2] = 40;
-                attackRangeY[var2] = 30;
-                height[var2] = 12;
-                width[var2] = 16;
-                int[] var10000 = y;
-                var10000[var2] += 5;
-                direction[var2] = 1;
-                state[var2] = STATE_RESPAWN_WAIT;
-                timer[var2] = var2 * 5;
-                hp[var2] = maxHp[var2] = MonsterStats.maxHp[type[var2]];
-                damage[var2] = MonsterStats.damage[type[var2]];
-                money[var2] = MonsterStats.money[type[var2]];
-                attackCooldown[var2] = 60;
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = 1;
+                type[i] = TYPE_TIGER_FISH;
+                attackRangeX[i] = 40;
+                attackRangeY[i] = 30;
+                height[i] = 12;
+                width[i] = 16;
+                y[i] += 5;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i * 5;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 60;
             }
 
         }
@@ -244,20 +243,20 @@ public final class Monsters {
         }
 
         if (start != count) {
-            for(int var2 = start; var2 < start + amount; ++var2) {
-                group[var2] = 2;
-                type[var2] = TYPE_RED_TIGER_FISH;
-                attackRangeX[var2] = 80;
-                attackRangeY[var2] = 100;
-                height[var2] = 12;
-                width[var2] = 16;
-                direction[var2] = 1;
-                state[var2] = STATE_RESPAWN_WAIT;
-                timer[var2] = var2 * 5;
-                hp[var2] = maxHp[var2] = MonsterStats.maxHp[type[var2]];
-                damage[var2] = MonsterStats.damage[type[var2]];
-                money[var2] = MonsterStats.money[type[var2]];
-                attackCooldown[var2] = 40;
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = 2;
+                type[i] = TYPE_RED_TIGER_FISH;
+                attackRangeX[i] = 80;
+                attackRangeY[i] = 100;
+                height[i] = 12;
+                width[i] = 16;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i * 5;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 40;
             }
 
         }
@@ -265,27 +264,27 @@ public final class Monsters {
 
     /** Thêm {@code amount} con ong bò vẽ vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnBees(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_BEE;
-                attackRangeX[var3] = 60;
-                attackRangeY[var3] = 60;
-                height[var3] = 16;
-                width[var3] = 16;
-                direction[var3] = -1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 << 3;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
-                vx[var3] = 2;
-                vy[var3] = 3;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_BEE;
+                attackRangeX[i] = 60;
+                attackRangeY[i] = 60;
+                height[i] = 16;
+                width[i] = 16;
+                direction[i] = -1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i << 3;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
+                vx[i] = 2;
+                vy[i] = 3;
             }
 
         }
@@ -293,27 +292,27 @@ public final class Monsters {
 
     /** Thêm {@code amount} con ong đỏ vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnRedBees(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_RED_BEE;
-                attackRangeX[var3] = 60;
-                attackRangeY[var3] = 60;
-                height[var3] = 16;
-                width[var3] = 16;
-                direction[var3] = -1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 + 60;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
-                vx[var3] = 2;
-                vy[var3] = 3;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_RED_BEE;
+                attackRangeX[i] = 60;
+                attackRangeY[i] = 60;
+                height[i] = 16;
+                width[i] = 16;
+                direction[i] = -1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i + 60;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
+                vx[i] = 2;
+                vy[i] = 3;
             }
 
         }
@@ -321,25 +320,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con bù nhìn rơm vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnScarecrows(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_SCARECROW;
-                attackRangeX[var3] = 10;
-                attackRangeY[var3] = 10;
-                height[var3] = 30;
-                width[var3] = 25;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 << 2;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 0;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_SCARECROW;
+                attackRangeX[i] = 10;
+                attackRangeY[i] = 10;
+                height[i] = 30;
+                width[i] = 25;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i << 2;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 0;
             }
 
         }
@@ -352,20 +351,20 @@ public final class Monsters {
         }
 
         if (start != count) {
-            for(int var2 = start; var2 < start + amount; ++var2) {
-                group[var2] = 2;
-                type[var2] = TYPE_GREEN_TOAD;
-                attackRangeX[var2] = 20;
-                attackRangeY[var2] = 10;
-                height[var2] = 18;
-                width[var2] = 18;
-                direction[var2] = 1;
-                state[var2] = STATE_RESPAWN_WAIT;
-                timer[var2] = var2 << 3;
-                hp[var2] = maxHp[var2] = MonsterStats.maxHp[type[var2]];
-                damage[var2] = MonsterStats.damage[type[var2]];
-                money[var2] = MonsterStats.money[type[var2]];
-                attackCooldown[var2] = 0;
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = 2;
+                type[i] = TYPE_GREEN_TOAD;
+                attackRangeX[i] = 20;
+                attackRangeY[i] = 10;
+                height[i] = 18;
+                width[i] = 18;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i << 3;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 0;
             }
 
         }
@@ -373,25 +372,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con ma một mắt vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnOneEyedGhosts(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_ONE_EYED_GHOST;
-                attackRangeX[var3] = 25;
-                attackRangeY[var3] = 10;
-                height[var3] = 27;
-                width[var3] = 15;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 * 7;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 0;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_ONE_EYED_GHOST;
+                attackRangeX[i] = 25;
+                attackRangeY[i] = 10;
+                height[i] = 27;
+                width[i] = 15;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i * 7;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 0;
             }
 
         }
@@ -399,25 +398,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con thổ dân vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnNatives(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_NATIVE;
-                attackRangeX[var3] = 36;
-                attackRangeY[var3] = 10;
-                height[var3] = 27;
-                width[var3] = 15;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 << 1;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 0;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_NATIVE;
+                attackRangeX[i] = 36;
+                attackRangeY[i] = 10;
+                height[i] = 27;
+                width[i] = 15;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i << 1;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 0;
             }
 
         }
@@ -425,25 +424,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con ốc sên vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnSnails(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_SNAIL;
-                attackRangeX[var3] = 7;
-                attackRangeY[var3] = 10;
-                height[var3] = 16;
-                width[var3] = 15;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = var3 << 3;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_SNAIL;
+                attackRangeX[i] = 7;
+                attackRangeY[i] = 10;
+                height[i] = 16;
+                width[i] = 15;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = i << 3;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
             }
 
         }
@@ -451,25 +450,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con quỷ hoa vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnFlowerDemons(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_FLOWER_DEMON;
-                attackRangeX[var3] = 120;
-                attackRangeY[var3] = 10;
-                height[var3] = 24;
-                width[var3] = 20;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = 60;
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 100;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_FLOWER_DEMON;
+                attackRangeX[i] = 120;
+                attackRangeY[i] = 10;
+                height[i] = 24;
+                width[i] = 20;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = 60;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 100;
             }
 
         }
@@ -482,20 +481,20 @@ public final class Monsters {
         }
 
         if (start != count) {
-            for(int var2 = start; var2 < start + amount; ++var2) {
-                group[var2] = 0;
-                type[var2] = TYPE_PURPLE_FLOWER_DEMON;
-                attackRangeX[var2] = 60;
-                attackRangeY[var2] = 30;
-                height[var2] = 24;
-                width[var2] = 20;
-                direction[var2] = 1;
-                state[var2] = STATE_RESPAWN_WAIT;
-                timer[var2] = 62;
-                hp[var2] = maxHp[var2] = MonsterStats.maxHp[type[var2]];
-                damage[var2] = MonsterStats.damage[type[var2]];
-                money[var2] = MonsterStats.money[type[var2]];
-                attackCooldown[var2] = 70;
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = 0;
+                type[i] = TYPE_PURPLE_FLOWER_DEMON;
+                attackRangeX[i] = 60;
+                attackRangeY[i] = 30;
+                height[i] = 24;
+                width[i] = 20;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = 62;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 70;
             }
 
         }
@@ -503,25 +502,25 @@ public final class Monsters {
 
     /** Thêm {@code amount} con bò cạp vào các ô trống liên tiếp, thuộc nhóm {@code spawnGroup}. */
     public static void spawnScorpions(int spawnGroup, int amount) {
-        int var2;
-        for(var2 = 0; var2 < count && type[var2] != FREE; ++var2) {
+        int start;
+        for(start = 0; start < count && type[start] != FREE; ++start) {
         }
 
-        if (var2 != count) {
-            for(int var3 = var2; var3 < var2 + amount; ++var3) {
-                group[var3] = spawnGroup;
-                type[var3] = TYPE_SCORPION;
-                attackRangeX[var3] = 60;
-                attackRangeY[var3] = 10;
-                height[var3] = 22;
-                width[var3] = 22;
-                direction[var3] = 1;
-                state[var3] = STATE_RESPAWN_WAIT;
-                timer[var3] = 50 + (var3 << 1);
-                hp[var3] = maxHp[var3] = MonsterStats.maxHp[type[var3]];
-                damage[var3] = MonsterStats.damage[type[var3]];
-                money[var3] = MonsterStats.money[type[var3]];
-                attackCooldown[var3] = 500;
+        if (start != count) {
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = spawnGroup;
+                type[i] = TYPE_SCORPION;
+                attackRangeX[i] = 60;
+                attackRangeY[i] = 10;
+                height[i] = 22;
+                width[i] = 22;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = 50 + (i << 1);
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 500;
             }
 
         }
@@ -534,20 +533,20 @@ public final class Monsters {
         }
 
         if (start != count) {
-            for(int var2 = start; var2 < start + amount; ++var2) {
-                group[var2] = 0;
-                type[var2] = TYPE_DESERT_CENTIPEDE;
-                attackRangeX[var2] = 24;
-                attackRangeY[var2] = 10;
-                height[var2] = 16;
-                width[var2] = 22;
-                direction[var2] = 1;
-                state[var2] = STATE_RESPAWN_WAIT;
-                timer[var2] = 70;
-                hp[var2] = maxHp[var2] = MonsterStats.maxHp[type[var2]];
-                damage[var2] = MonsterStats.damage[type[var2]];
-                money[var2] = MonsterStats.money[type[var2]];
-                attackCooldown[var2] = 500;
+            for(int i = start; i < start + amount; ++i) {
+                group[i] = 0;
+                type[i] = TYPE_DESERT_CENTIPEDE;
+                attackRangeX[i] = 24;
+                attackRangeY[i] = 10;
+                height[i] = 16;
+                width[i] = 22;
+                direction[i] = 1;
+                state[i] = STATE_RESPAWN_WAIT;
+                timer[i] = 70;
+                hp[i] = maxHp[i] = MonsterStats.maxHp[type[i]];
+                damage[i] = MonsterStats.damage[type[i]];
+                money[i] = MonsterStats.money[type[i]];
+                attackCooldown[i] = 500;
             }
 
         }
@@ -600,20 +599,20 @@ public final class Monsters {
 
     /** Đổi điểm xuất hiện từ ô tile sang pixel (giữa ô theo x, đáy ô theo y; nhóm 8 cao hơn 12px). */
     public static void finishGroups() {
-        int var0;
-        for(var0 = 0; var0 < groupSpriteSets.length; ++var0) {
-            spawnUsed[var0] = new boolean[spawnX[var0].length];
+        int g;
+        for(g = 0; g < groupSpriteSets.length; ++g) {
+            spawnUsed[g] = new boolean[spawnX[g].length];
         }
 
-        for(var0 = 0; var0 < spawnX.length; ++var0) {
-            for(int var1 = 0; var1 < spawnX[var0].length; ++var1) {
-                spawnX[var0][var1] = spawnX[var0][var1] * GameMap.TILE_SIZE + 12;
-                spawnY[var0][var1] *= GameMap.TILE_SIZE;
-                if (var0 == 8) {
-                    int[] var10000 = spawnY[var0];
-                    var10000[var1] -= 12;
+        for(g = 0; g < spawnX.length; ++g) {
+            for(int k = 0; k < spawnX[g].length; ++k) {
+                spawnX[g][k] = spawnX[g][k] * GameMap.TILE_SIZE + 12;
+                spawnY[g][k] *= GameMap.TILE_SIZE;
+                if (g == 8) {
+                    spawnY[g][k] -= 12;
                 }
             }
         }
 
-    }}
+    }
+}
