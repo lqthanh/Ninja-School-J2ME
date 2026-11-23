@@ -32,11 +32,6 @@ import javax.microedition.lcdui.Image;
  */
 public final class GameCanvas extends Canvas implements Runnable {
     private static int frameDurationMs = 40;
-    private static int[][][] girlPoses = new int[][][]{{{0, -13, 31}, {0, -7, 8}, {0, -11, 14}}, {{0, -13, 32}, {0, -7, 8}, {0, -11, 15}}, {{1, -11, 31}, {1, -9, 16}, {6, -1000, 0}}, {{2, -11, 32}, {2, -10, 16}, {6, -1000, 0}}, {{1, -11, 31}, {3, -8, 16}, {6, -1000, 0}}, {{2, -10, 32}, {7, -9, 17}, {6, -1000, 0}}, {{1, -10, 31}, {8, -8, 16}, {6, -1000, 0}}, {{0, -8, 35}, {4, -5, 15}, {2, -10, 21}}, {{0, -8, 34}, {5, -6, 13}, {3, -11, 22}}, {{0, -8, 31}, {6, -13, 9}, {4, -10, 18}}, {{1, -8, 30}, {6, -13, 9}, {5, -8, 17}}, {{2, -10, 30}, {6, -13, 9}, {6, -8, 16}}, {{2, -10, 29}, {6, -13, 9}, {7, -11, 17}}, {{3, -11, 33}, {8, -4, 13}, {8, -15, 25}}};
-    private static int[][][] heroPoses = new int[][][]{{{0, -10, 32}, {1, -7, 7}, {1, -11, 15}}, {{0, -10, 33}, {1, -7, 7}, {1, -11, 16}}, {{1, -10, 33}, {2, -10, 11}, {2, -9, 16}}, {{1, -10, 32}, {3, -11, 9}, {3, -11, 16}}, {{1, -10, 34}, {4, -9, 9}, {4, -8, 16}}, {{1, -10, 34}, {5, -11, 11}, {5, -10, 17}}, {{1, -10, 33}, {6, -9, 9}, {6, -8, 16}}, {{0, -9, 36}, {7, -5, 15}, {7, -10, 21}}, {{4, -13, 26}, new int[3], new int[3]}, {{5, -13, 25}, new int[3], new int[3]}, {{6, -12, 26}, new int[3], new int[3]}, {{7, -13, 25}, new int[3], new int[3]}, {{0, -9, 35}, {8, -4, 13}, {8, -14, 27}}, {{0, -9, 32}, {9, -11, 9}, {10, -10, 18}}, {{2, -7, 34}, {9, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {9, -11, 9}, {12, -8, 15}}, {{2, -7, 33}, {9, -11, 9}, {13, -12, 16}}, {{0, -11, 32}, {9, -11, 9}, {14, -15, 19}}, {{2, -9, 33}, {9, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {9, -11, 9}, {16, -7, 23}}, {{2, -9, 33}, {9, -11, 9}, {17, -11, 19}}, {{3, -12, 34}, {8, -4, 13}, {8, -15, 25}}, {{0, -10, 28}, new int[3], {19, -8, 12}}, {{0, -9, 35}, {8, -4, 13}, {9, -9, 22}}, {{0, -10, 33}, new int[3], new int[3]}, {{9, -4, 24}, new int[3], new int[3]}, {{10, -4, 22}, new int[3], new int[3]}, {{0, -9, 32}, {8, -4, 9}, {10, -10, 18}}, {{2, -7, 34}, {8, -4, 9}, {11, -8, 16}}, {{2, -8, 33}, {8, -4, 9}, {12, -8, 15}}, {{2, -7, 33}, {8, -4, 9}, {13, -12, 16}}, {{0, -11, 32}, {7, -5, 9}, {14, -15, 19}}, {{2, -9, 33}, {7, -5, 9}, {15, -13, 20}}, {{2, -9, 32}, {7, -5, 9}, {16, -7, 23}}, {{2, -9, 33}, {7, -5, 9}, {17, -11, 19}}, {{0, -9, 32}, {2, -10, 11}, {10, -10, 18}}, {{2, -7, 34}, {3, -11, 9}, {11, -8, 16}}, {{2, -8, 33}, {4, -9, 9}, {12, -8, 15}}, {{2, -7, 33}, {5, -11, 11}, {13, -12, 16}}, {{0, -11, 32}, {2, -10, 11}, {14, -15, 19}}, {{2, -9, 33}, {3, -11, 9}, {15, -13, 20}}, {{2, -9, 32}, {4, -9, 9}, {16, -7, 23}}, {{2, -9, 33}, {5, -11, 11}, {17, -11, 19}}, {{1, -8, 38}, new int[3], {18, -8, 21}}, {{1, -8, 39}, new int[3], {18, -8, 22}}, {{1, -10, 43}, new int[3], {18, -11, 26}}};
-    private static int[] slashOffsetX = new int[]{-2, -6, 22, 21, 19, 22, 10, -2, -2, 5, 19};
-    private static int[] slashOffsetY = new int[]{9, 22, 25, 17, 26, 37, 36, 49, 50, 52, 36};
-    private static int[][][] classmatePoses;
     private static int[] shakeOffsetX;
     private static int[] shakeOffsetY;
     private static int shakeStep;
@@ -129,33 +124,15 @@ public final class GameCanvas extends Canvas implements Runnable {
     private static Image tilesetImage;
     private static Image waterfallImage;
     private static Image waterSurfaceImage;
-    private static Image[] houseImages;
-    private static int houseCount;
-    private static int[] houseTypes;
-    private static int[] houseX;
-    private static int[] houseY;
-    private static int[] houseHalfWidth;
-    private static int[] houseHeight;
     private static Image bushImage;
     private static int parallaxScreenX;
     private static int parallaxFromCenter;
     private static int parallaxDrawX;
     private static int parallaxScaled;
-    private static String[] signTexts;
-    private static int[] signX;
-    private static int[] signY;
-    private static int[] signWidth;
-    private static int signCount;
     static int loadingTarget;
     private static int unusedLoadingCounter;
     static int loadingProgress;
     public static boolean prologueNoRespawn;
-    private static Image[][] npcSprites;
-    private static int npcCount;
-    private static int[] npcX;
-    private static int[] npcY;
-    private static int[] npcTypes;
-    private static int[] npcBodyOffsetY;
     private static int pendingMarkerMap;
     private static int pendingMarkerX;
     private static int pendingMarkerY;
@@ -164,27 +141,6 @@ public final class GameCanvas extends Canvas implements Runnable {
     private static int unusedFontLineHeight;
 
     static {
-        classmatePoses = new int[heroPoses.length][3][3];
-
-        int pose;
-        for(pose = 0; pose < heroPoses.length; ++pose) {
-            for(int part = 0; part < 3; ++part) {
-                for(int k = 0; k < 3; ++k) {
-                    classmatePoses[pose][part][k] = heroPoses[pose][part][k];
-                    if (part == 0 && k == 0) {
-                        switch (heroPoses[pose][part][k]) {
-                            case 1:
-                            case 2:
-                                classmatePoses[pose][part][k] = 1;
-                                break;
-                            default:
-                                classmatePoses[pose][part][k] = 0;
-                        }
-                    }
-                }
-            }
-        }
-
         shakeOffsetX = new int[]{-1, 2, 1, -2};
         shakeOffsetY = new int[]{-3, 2, -1, 1};
         shakeStep = -1;
@@ -240,7 +196,6 @@ public final class GameCanvas extends Canvas implements Runnable {
         // Bảng thoại không được dùng ở đâu (còn sót lại trong bản gốc).
         String[][] unusedBusyLines = new String[][]{{"Ta đang bận."}, 
             {"Ngươi đã học được chiêu shuriken cuối cùng, ta ko còn gì dạy ngươi nữa. Đi đi."}};
-        npcBodyOffsetY = new int[]{7, 6, 6, 5, 2, 4};
         pendingMarkerMap = -1;
         unusedFont = Font.getFont(0, 0, 0);
         unusedFontLineHeight = unusedFont.getHeight() + 6;
@@ -1280,7 +1235,7 @@ public final class GameCanvas extends Canvas implements Runnable {
     }
 
     private static void releaseMapResources() {
-        npcSprites = null;
+        Npcs.sprites = null;
         System.gc();
         Motorbikes.sprites = null;
         Crates.sprite = null;
@@ -2012,19 +1967,19 @@ public final class GameCanvas extends Canvas implements Runnable {
         }
 
         if (Player.facing == 1) {
-            g.drawImage(heroHeads[heroPoses[Player.pose][0][0]], Player.x + heroPoses[Player.pose][0][1], Player.y - heroPoses[Player.pose][0][2], 0);
-            g.drawImage(heroLegs[heroPoses[Player.pose][1][0]], Player.x + heroPoses[Player.pose][1][1], Player.y - heroPoses[Player.pose][1][2], 0);
-            g.drawImage(heroBodies[heroPoses[Player.pose][2][0]], Player.x + heroPoses[Player.pose][2][1], Player.y - heroPoses[Player.pose][2][2], 0);
+            g.drawImage(heroHeads[Poses.heroPoses[Player.pose][0][0]], Player.x + Poses.heroPoses[Player.pose][0][1], Player.y - Poses.heroPoses[Player.pose][0][2], 0);
+            g.drawImage(heroLegs[Poses.heroPoses[Player.pose][1][0]], Player.x + Poses.heroPoses[Player.pose][1][1], Player.y - Poses.heroPoses[Player.pose][1][2], 0);
+            g.drawImage(heroBodies[Poses.heroPoses[Player.pose][2][0]], Player.x + Poses.heroPoses[Player.pose][2][1], Player.y - Poses.heroPoses[Player.pose][2][2], 0);
             if (Player.slashEffect != -1) {
-                g.drawImage(slashEffects[Player.slashEffect], Player.x - slashOffsetX[Player.slashEffect], Player.y - slashOffsetY[Player.slashEffect], 0);
+                g.drawImage(slashEffects[Player.slashEffect], Player.x - Poses.slashOffsetX[Player.slashEffect], Player.y - Poses.slashOffsetY[Player.slashEffect], 0);
                 return;
             }
         } else {
-            g.drawRegion(heroHeads[heroPoses[Player.pose][0][0]], 0, 0, heroHeads[heroPoses[Player.pose][0][0]].getWidth(), heroHeads[heroPoses[Player.pose][0][0]].getHeight(), 2, Player.x - heroPoses[Player.pose][0][1], Player.y - heroPoses[Player.pose][0][2], 24);
-            g.drawRegion(heroLegs[heroPoses[Player.pose][1][0]], 0, 0, heroLegs[heroPoses[Player.pose][1][0]].getWidth(), heroLegs[heroPoses[Player.pose][1][0]].getHeight(), 2, Player.x - heroPoses[Player.pose][1][1], Player.y - heroPoses[Player.pose][1][2], 24);
-            g.drawRegion(heroBodies[heroPoses[Player.pose][2][0]], 0, 0, heroBodies[heroPoses[Player.pose][2][0]].getWidth(), heroBodies[heroPoses[Player.pose][2][0]].getHeight(), 2, Player.x - heroPoses[Player.pose][2][1], Player.y - heroPoses[Player.pose][2][2], 24);
+            g.drawRegion(heroHeads[Poses.heroPoses[Player.pose][0][0]], 0, 0, heroHeads[Poses.heroPoses[Player.pose][0][0]].getWidth(), heroHeads[Poses.heroPoses[Player.pose][0][0]].getHeight(), 2, Player.x - Poses.heroPoses[Player.pose][0][1], Player.y - Poses.heroPoses[Player.pose][0][2], 24);
+            g.drawRegion(heroLegs[Poses.heroPoses[Player.pose][1][0]], 0, 0, heroLegs[Poses.heroPoses[Player.pose][1][0]].getWidth(), heroLegs[Poses.heroPoses[Player.pose][1][0]].getHeight(), 2, Player.x - Poses.heroPoses[Player.pose][1][1], Player.y - Poses.heroPoses[Player.pose][1][2], 24);
+            g.drawRegion(heroBodies[Poses.heroPoses[Player.pose][2][0]], 0, 0, heroBodies[Poses.heroPoses[Player.pose][2][0]].getWidth(), heroBodies[Poses.heroPoses[Player.pose][2][0]].getHeight(), 2, Player.x - Poses.heroPoses[Player.pose][2][1], Player.y - Poses.heroPoses[Player.pose][2][2], 24);
             if (Player.slashEffect != -1) {
-                g.drawRegion(slashEffects[Player.slashEffect], 0, 0, slashEffects[Player.slashEffect].getWidth(), slashEffects[Player.slashEffect].getHeight(), 2, Player.x + slashOffsetX[Player.slashEffect], Player.y - slashOffsetY[Player.slashEffect], 24);
+                g.drawRegion(slashEffects[Player.slashEffect], 0, 0, slashEffects[Player.slashEffect].getWidth(), slashEffects[Player.slashEffect].getHeight(), 2, Player.x + Poses.slashOffsetX[Player.slashEffect], Player.y - Poses.slashOffsetY[Player.slashEffect], 24);
             }
         }
 
@@ -2196,18 +2151,18 @@ public final class GameCanvas extends Canvas implements Runnable {
         for(int i = 0; i < Classmates.count; ++i) {
             if (Classmates.x[i] + Player.halfWidth >= cameraX && Classmates.x[i] - Player.halfWidth <= cameraX + Viewport.viewWidth && Classmates.y[i] >= cameraY && Classmates.y[i] - Player.height <= cameraY + Viewport.viewHeight) {
                 if (Classmates.facing[i] == 1) {
-                    g.drawImage(Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]], Classmates.x[i] + classmatePoses[Classmates.pose[i]][0][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][0][2], 0);
-                    g.drawImage(heroLegs[classmatePoses[Classmates.pose[i]][1][0]], Classmates.x[i] + classmatePoses[Classmates.pose[i]][1][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][1][2], 0);
-                    g.drawImage(heroBodies[classmatePoses[Classmates.pose[i]][2][0]], Classmates.x[i] + classmatePoses[Classmates.pose[i]][2][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][2][2], 0);
+                    g.drawImage(Classmates.heads[Classmates.skin[i]][Poses.classmatePoses[Classmates.pose[i]][0][0]], Classmates.x[i] + Poses.classmatePoses[Classmates.pose[i]][0][1], Classmates.y[i] - Poses.classmatePoses[Classmates.pose[i]][0][2], 0);
+                    g.drawImage(heroLegs[Poses.classmatePoses[Classmates.pose[i]][1][0]], Classmates.x[i] + Poses.classmatePoses[Classmates.pose[i]][1][1], Classmates.y[i] - Poses.classmatePoses[Classmates.pose[i]][1][2], 0);
+                    g.drawImage(heroBodies[Poses.classmatePoses[Classmates.pose[i]][2][0]], Classmates.x[i] + Poses.classmatePoses[Classmates.pose[i]][2][1], Classmates.y[i] - Poses.classmatePoses[Classmates.pose[i]][2][2], 0);
                     if (Classmates.slashEffect[i] != -1) {
-                        g.drawImage(slashEffects[Classmates.slashEffect[i]], Classmates.x[i] - slashOffsetX[Classmates.slashEffect[i]], Classmates.y[i] - slashOffsetY[Classmates.slashEffect[i]], 0);
+                        g.drawImage(slashEffects[Classmates.slashEffect[i]], Classmates.x[i] - Poses.slashOffsetX[Classmates.slashEffect[i]], Classmates.y[i] - Poses.slashOffsetY[Classmates.slashEffect[i]], 0);
                     }
                 } else {
-                    g.drawRegion(Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]], 0, 0, Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]].getWidth(), Classmates.heads[Classmates.skin[i]][classmatePoses[Classmates.pose[i]][0][0]].getHeight(), 2, Classmates.x[i] - classmatePoses[Classmates.pose[i]][0][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][0][2], 24);
-                    g.drawRegion(heroLegs[classmatePoses[Classmates.pose[i]][1][0]], 0, 0, heroLegs[classmatePoses[Classmates.pose[i]][1][0]].getWidth(), heroLegs[classmatePoses[Classmates.pose[i]][1][0]].getHeight(), 2, Classmates.x[i] - classmatePoses[Classmates.pose[i]][1][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][1][2], 24);
-                    g.drawRegion(heroBodies[classmatePoses[Classmates.pose[i]][2][0]], 0, 0, heroBodies[classmatePoses[Classmates.pose[i]][2][0]].getWidth(), heroBodies[classmatePoses[Classmates.pose[i]][2][0]].getHeight(), 2, Classmates.x[i] - classmatePoses[Classmates.pose[i]][2][1], Classmates.y[i] - classmatePoses[Classmates.pose[i]][2][2], 24);
+                    g.drawRegion(Classmates.heads[Classmates.skin[i]][Poses.classmatePoses[Classmates.pose[i]][0][0]], 0, 0, Classmates.heads[Classmates.skin[i]][Poses.classmatePoses[Classmates.pose[i]][0][0]].getWidth(), Classmates.heads[Classmates.skin[i]][Poses.classmatePoses[Classmates.pose[i]][0][0]].getHeight(), 2, Classmates.x[i] - Poses.classmatePoses[Classmates.pose[i]][0][1], Classmates.y[i] - Poses.classmatePoses[Classmates.pose[i]][0][2], 24);
+                    g.drawRegion(heroLegs[Poses.classmatePoses[Classmates.pose[i]][1][0]], 0, 0, heroLegs[Poses.classmatePoses[Classmates.pose[i]][1][0]].getWidth(), heroLegs[Poses.classmatePoses[Classmates.pose[i]][1][0]].getHeight(), 2, Classmates.x[i] - Poses.classmatePoses[Classmates.pose[i]][1][1], Classmates.y[i] - Poses.classmatePoses[Classmates.pose[i]][1][2], 24);
+                    g.drawRegion(heroBodies[Poses.classmatePoses[Classmates.pose[i]][2][0]], 0, 0, heroBodies[Poses.classmatePoses[Classmates.pose[i]][2][0]].getWidth(), heroBodies[Poses.classmatePoses[Classmates.pose[i]][2][0]].getHeight(), 2, Classmates.x[i] - Poses.classmatePoses[Classmates.pose[i]][2][1], Classmates.y[i] - Poses.classmatePoses[Classmates.pose[i]][2][2], 24);
                     if (Classmates.slashEffect[i] != -1) {
-                        g.drawRegion(slashEffects[Classmates.slashEffect[i]], 0, 0, slashEffects[Classmates.slashEffect[i]].getWidth(), slashEffects[Classmates.slashEffect[i]].getHeight(), 2, Classmates.x[i] + slashOffsetX[Classmates.slashEffect[i]], Classmates.y[i] - slashOffsetY[Classmates.slashEffect[i]], 24);
+                        g.drawRegion(slashEffects[Classmates.slashEffect[i]], 0, 0, slashEffects[Classmates.slashEffect[i]].getWidth(), slashEffects[Classmates.slashEffect[i]].getHeight(), 2, Classmates.x[i] + Poses.slashOffsetX[Classmates.slashEffect[i]], Classmates.y[i] - Poses.slashOffsetY[Classmates.slashEffect[i]], 24);
                     }
                 }
             }
@@ -2225,10 +2180,10 @@ public final class GameCanvas extends Canvas implements Runnable {
             drawTiles(g);
         }
 
-        drawSigns(g);
+        Signs.draw(g, cameraX, cameraY);
         drawClassmates(g);
         drawPlayer(g);
-        drawNpcs(g);
+        Npcs.draw(g, cameraX, cameraY, tick);
         drawForegroundTiles(g);
         drawLetterbox(g);
         if (Dialogue.visible) {
@@ -2354,11 +2309,11 @@ public final class GameCanvas extends Canvas implements Runnable {
                 i = 0;
 
                 while(true) {
-                    if (i >= npcCount) {
+                    if (i >= Npcs.count) {
                         break label788;
                     }
 
-                    if (Player.y == npcY[i] && abs(Player.x - npcX[i]) < 30 && Player.nearNpc == -1) {
+                    if (Player.y == Npcs.y[i] && abs(Player.x - Npcs.x[i]) < 30 && Player.nearNpc == -1) {
                         rightSoftKeyLabel = "Giao tiếp";
                         hudDirty = true;
                         Player.nearNpc = i;
@@ -3497,8 +3452,8 @@ public final class GameCanvas extends Canvas implements Runnable {
                                         speakerY = Player.y;
                                         break;
                                     case Cutscene.SPEAKER_NPC:
-                                        speakerX = npcX[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
-                                        speakerY = npcY[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        speakerX = Npcs.x[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
+                                        speakerY = Npcs.y[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
                                         break;
                                     case Cutscene.SPEAKER_CLASSMATE:
                                         speakerX = Classmates.x[Cutscene.lineSpeakerIndex[Cutscene.args[cutsceneId][cutsceneStep]]];
@@ -3653,7 +3608,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                             // Thưởng nhiệm vụ ESCORT_AYUMI_SISTER được trao trong cutscene, không qua onDialogueFinished.
                             Skills.motorbikeLicense = true;
                             Notice.show("nhận bằng lái môtô");
-                            setGuideMarker(0, npcX[4], npcY[4] - 40, 4);
+                            setGuideMarker(0, Npcs.x[4], Npcs.y[4] - 40, 4);
                             ++cutsceneStep;
                             break;
                         case Cutscene.CMD_RIVER_MONSTER_DEFEATED:
@@ -3735,11 +3690,11 @@ public final class GameCanvas extends Canvas implements Runnable {
                             tilesetImage = null;
                             waterfallImage = null;
                             waterSurfaceImage = null;
-                            houseImages = null;
+                            Houses.images = null;
                             GameMap.tiles = null;
                             GameMap.flags = null;
                             System.gc();
-                            npcSprites = null;
+                            Npcs.sprites = null;
                             System.gc();
                             Motorbikes.sprites = null;
                             Crates.sprite = null;
@@ -4546,11 +4501,11 @@ public final class GameCanvas extends Canvas implements Runnable {
                     g.translate(-cameraX, -cameraY);
 
                     int i;
-                    for(i = 0; i < houseCount; ++i) {
-                        if (houseX[i] + houseHalfWidth[i] >= cameraX && houseX[i] - houseHalfWidth[i] <= cameraX + Viewport.viewWidth && houseY[i] >= cameraY && houseY[i] - houseHeight[i] <= cameraY + Viewport.viewHeight) {
-                            parallaxFromCenter = (parallaxScreenX = houseX[i] - cameraX) - Viewport.viewCenterX;
+                    for(i = 0; i < Houses.count; ++i) {
+                        if (Houses.x[i] + Houses.halfWidth[i] >= cameraX && Houses.x[i] - Houses.halfWidth[i] <= cameraX + Viewport.viewWidth && Houses.y[i] >= cameraY && Houses.y[i] - Houses.height[i] <= cameraY + Viewport.viewHeight) {
+                            parallaxFromCenter = (parallaxScreenX = Houses.x[i] - cameraX) - Viewport.viewCenterX;
                             parallaxDrawX = (parallaxScaled = (GameMap.TILE_SIZE - 2) * parallaxFromCenter / GameMap.TILE_SIZE) + Viewport.viewCenterX;
-                            g.drawImage(houseImages[houseTypes[i]], cameraX + parallaxDrawX, houseY[i], 33);
+                            g.drawImage(Houses.images[Houses.types[i]], cameraX + parallaxDrawX, Houses.y[i], 33);
                         }
                     }
 
@@ -4560,8 +4515,8 @@ public final class GameCanvas extends Canvas implements Runnable {
                         drawTiles(g);
                     }
 
-                    drawSigns(g);
-                    drawNpcs(g);
+                    Signs.draw(g, cameraX, cameraY);
+                    Npcs.draw(g, cameraX, cameraY, tick);
                     if (RiverMonster.active) {
                         if (RiverMonster.direction < 0) {
                             g.drawImage(RiverMonster.sprites[0], RiverMonster.x, RiverMonster.y, 33);
@@ -4739,18 +4694,18 @@ public final class GameCanvas extends Canvas implements Runnable {
 
                     if (Classmates.x[0] + Player.halfWidth >= cameraX && Classmates.x[0] - Player.halfWidth <= cameraX + Viewport.viewWidth && Classmates.y[0] >= cameraY && Classmates.y[0] - Player.height <= cameraY + Viewport.viewHeight) {
                         if (Classmates.facing[0] == 1) {
-                            g.drawImage(Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][0][2], 0);
-                            g.drawImage(heroLegs[classmatePoses[Classmates.pose[0]][1][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][1][2], 0);
-                            g.drawImage(heroBodies[classmatePoses[Classmates.pose[0]][2][0]], Classmates.x[0] + classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][2][2], 0);
+                            g.drawImage(Classmates.heads[Classmates.skin[0]][Poses.classmatePoses[Classmates.pose[0]][0][0]], Classmates.x[0] + Poses.classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - Poses.classmatePoses[Classmates.pose[0]][0][2], 0);
+                            g.drawImage(heroLegs[Poses.classmatePoses[Classmates.pose[0]][1][0]], Classmates.x[0] + Poses.classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - Poses.classmatePoses[Classmates.pose[0]][1][2], 0);
+                            g.drawImage(heroBodies[Poses.classmatePoses[Classmates.pose[0]][2][0]], Classmates.x[0] + Poses.classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - Poses.classmatePoses[Classmates.pose[0]][2][2], 0);
                             if (Classmates.slashEffect[0] != -1) {
-                                g.drawImage(slashEffects[Classmates.slashEffect[0]], Classmates.x[0] - slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - slashOffsetY[Classmates.slashEffect[0]], 0);
+                                g.drawImage(slashEffects[Classmates.slashEffect[0]], Classmates.x[0] - Poses.slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - Poses.slashOffsetY[Classmates.slashEffect[0]], 0);
                             }
                         } else {
-                            g.drawRegion(Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]], 0, 0, Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]].getWidth(), Classmates.heads[Classmates.skin[0]][classmatePoses[Classmates.pose[0]][0][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][0][2], 24);
-                            g.drawRegion(heroLegs[classmatePoses[Classmates.pose[0]][1][0]], 0, 0, heroLegs[classmatePoses[Classmates.pose[0]][1][0]].getWidth(), heroLegs[classmatePoses[Classmates.pose[0]][1][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][1][2], 24);
-                            g.drawRegion(heroBodies[classmatePoses[Classmates.pose[0]][2][0]], 0, 0, heroBodies[classmatePoses[Classmates.pose[0]][2][0]].getWidth(), heroBodies[classmatePoses[Classmates.pose[0]][2][0]].getHeight(), 2, Classmates.x[0] - classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - classmatePoses[Classmates.pose[0]][2][2], 24);
+                            g.drawRegion(Classmates.heads[Classmates.skin[0]][Poses.classmatePoses[Classmates.pose[0]][0][0]], 0, 0, Classmates.heads[Classmates.skin[0]][Poses.classmatePoses[Classmates.pose[0]][0][0]].getWidth(), Classmates.heads[Classmates.skin[0]][Poses.classmatePoses[Classmates.pose[0]][0][0]].getHeight(), 2, Classmates.x[0] - Poses.classmatePoses[Classmates.pose[0]][0][1], Classmates.y[0] - Poses.classmatePoses[Classmates.pose[0]][0][2], 24);
+                            g.drawRegion(heroLegs[Poses.classmatePoses[Classmates.pose[0]][1][0]], 0, 0, heroLegs[Poses.classmatePoses[Classmates.pose[0]][1][0]].getWidth(), heroLegs[Poses.classmatePoses[Classmates.pose[0]][1][0]].getHeight(), 2, Classmates.x[0] - Poses.classmatePoses[Classmates.pose[0]][1][1], Classmates.y[0] - Poses.classmatePoses[Classmates.pose[0]][1][2], 24);
+                            g.drawRegion(heroBodies[Poses.classmatePoses[Classmates.pose[0]][2][0]], 0, 0, heroBodies[Poses.classmatePoses[Classmates.pose[0]][2][0]].getWidth(), heroBodies[Poses.classmatePoses[Classmates.pose[0]][2][0]].getHeight(), 2, Classmates.x[0] - Poses.classmatePoses[Classmates.pose[0]][2][1], Classmates.y[0] - Poses.classmatePoses[Classmates.pose[0]][2][2], 24);
                             if (Classmates.slashEffect[0] != -1) {
-                                g.drawRegion(slashEffects[Classmates.slashEffect[0]], 0, 0, slashEffects[Classmates.slashEffect[0]].getWidth(), slashEffects[Classmates.slashEffect[0]].getHeight(), 2, Classmates.x[0] + slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - slashOffsetY[Classmates.slashEffect[0]], 24);
+                                g.drawRegion(slashEffects[Classmates.slashEffect[0]], 0, 0, slashEffects[Classmates.slashEffect[0]].getWidth(), slashEffects[Classmates.slashEffect[0]].getHeight(), 2, Classmates.x[0] + Poses.slashOffsetX[Classmates.slashEffect[0]], Classmates.y[0] - Poses.slashOffsetY[Classmates.slashEffect[0]], 24);
                             }
                         }
                     }
@@ -4760,18 +4715,18 @@ public final class GameCanvas extends Canvas implements Runnable {
 
                 if (Girl.mapId == mapId) {
                     if (Girl.facing == 1) {
-                        g.drawImage(Girl.heads[girlPoses[Girl.pose][0][0]], Girl.x + girlPoses[Girl.pose][0][1], Girl.y - girlPoses[Girl.pose][0][2], 0);
-                        g.drawImage(Girl.legs[girlPoses[Girl.pose][1][0]], Girl.x + girlPoses[Girl.pose][1][1], Girl.y - girlPoses[Girl.pose][1][2], 0);
-                        g.drawImage(Girl.bodies[girlPoses[Girl.pose][2][0]], Girl.x + girlPoses[Girl.pose][2][1], Girl.y - girlPoses[Girl.pose][2][2], 0);
+                        g.drawImage(Girl.heads[Poses.girlPoses[Girl.pose][0][0]], Girl.x + Poses.girlPoses[Girl.pose][0][1], Girl.y - Poses.girlPoses[Girl.pose][0][2], 0);
+                        g.drawImage(Girl.legs[Poses.girlPoses[Girl.pose][1][0]], Girl.x + Poses.girlPoses[Girl.pose][1][1], Girl.y - Poses.girlPoses[Girl.pose][1][2], 0);
+                        g.drawImage(Girl.bodies[Poses.girlPoses[Girl.pose][2][0]], Girl.x + Poses.girlPoses[Girl.pose][2][1], Girl.y - Poses.girlPoses[Girl.pose][2][2], 0);
                         if (Girl.slashEffect != -1) {
-                            g.drawImage(slashEffects[Girl.slashEffect], Girl.x - slashOffsetX[Girl.slashEffect], Girl.y - slashOffsetY[Girl.slashEffect], 0);
+                            g.drawImage(slashEffects[Girl.slashEffect], Girl.x - Poses.slashOffsetX[Girl.slashEffect], Girl.y - Poses.slashOffsetY[Girl.slashEffect], 0);
                         }
                     } else {
-                        g.drawRegion(Girl.heads[girlPoses[Girl.pose][0][0]], 0, 0, Girl.heads[girlPoses[Girl.pose][0][0]].getWidth(), Girl.heads[girlPoses[Girl.pose][0][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][0][1], Girl.y - girlPoses[Girl.pose][0][2], 24);
-                        g.drawRegion(Girl.legs[girlPoses[Girl.pose][1][0]], 0, 0, Girl.legs[girlPoses[Girl.pose][1][0]].getWidth(), Girl.legs[girlPoses[Girl.pose][1][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][1][1], Girl.y - girlPoses[Girl.pose][1][2], 24);
-                        g.drawRegion(Girl.bodies[girlPoses[Girl.pose][2][0]], 0, 0, Girl.bodies[girlPoses[Girl.pose][2][0]].getWidth(), Girl.bodies[girlPoses[Girl.pose][2][0]].getHeight(), 2, Girl.x - girlPoses[Girl.pose][2][1], Girl.y - girlPoses[Girl.pose][2][2], 24);
+                        g.drawRegion(Girl.heads[Poses.girlPoses[Girl.pose][0][0]], 0, 0, Girl.heads[Poses.girlPoses[Girl.pose][0][0]].getWidth(), Girl.heads[Poses.girlPoses[Girl.pose][0][0]].getHeight(), 2, Girl.x - Poses.girlPoses[Girl.pose][0][1], Girl.y - Poses.girlPoses[Girl.pose][0][2], 24);
+                        g.drawRegion(Girl.legs[Poses.girlPoses[Girl.pose][1][0]], 0, 0, Girl.legs[Poses.girlPoses[Girl.pose][1][0]].getWidth(), Girl.legs[Poses.girlPoses[Girl.pose][1][0]].getHeight(), 2, Girl.x - Poses.girlPoses[Girl.pose][1][1], Girl.y - Poses.girlPoses[Girl.pose][1][2], 24);
+                        g.drawRegion(Girl.bodies[Poses.girlPoses[Girl.pose][2][0]], 0, 0, Girl.bodies[Poses.girlPoses[Girl.pose][2][0]].getWidth(), Girl.bodies[Poses.girlPoses[Girl.pose][2][0]].getHeight(), 2, Girl.x - Poses.girlPoses[Girl.pose][2][1], Girl.y - Poses.girlPoses[Girl.pose][2][2], 24);
                         if (Girl.slashEffect != -1) {
-                            g.drawRegion(slashEffects[Girl.slashEffect], 0, 0, slashEffects[Girl.slashEffect].getWidth(), slashEffects[Girl.slashEffect].getHeight(), 2, Girl.x + slashOffsetX[Girl.slashEffect], Girl.y - slashOffsetY[Girl.slashEffect], 24);
+                            g.drawRegion(slashEffects[Girl.slashEffect], 0, 0, slashEffects[Girl.slashEffect].getWidth(), slashEffects[Girl.slashEffect].getHeight(), 2, Girl.x + Poses.slashOffsetX[Girl.slashEffect], Girl.y - Poses.slashOffsetY[Girl.slashEffect], 24);
                         }
                     }
                 }
@@ -4834,7 +4789,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                         drawTiles(g);
                     }
 
-                    drawSigns(g);
+                    Signs.draw(g, cameraX, cameraY);
                     drawForegroundTiles(g);
                     g.translate(-g.getTranslateX(), -g.getTranslateY());
                     g.setColor(0);
@@ -5053,167 +5008,167 @@ public final class GameCanvas extends Canvas implements Runnable {
                                     Input.clearPressed();
                                     if (rightSoftKeyLabel.equals("Giao tiếp")) {
                                         j = Player.nearNpc;
-                                        switch (npcTypes[j]) {
+                                        switch (Npcs.types[j]) {
                                             case 0:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (!Skills.lightness) {
                                                     setNextNpcMarker(2);
-                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else {
                                                     if (Skills.hide && !Story.gameCompleted) {
                                                         if (QuestState.current == Quest.RESCUE_SAKURA) {
                                                             if (Story.sakuraFound) {
-                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
                                                 break;
                                             case 1:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (!Skills.lightness) {
                                                     if (QuestState.current == Quest.KILL_SNAILS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
-                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
                                                             pendingMarkerMap = 0;
                                                             pendingMarkerNpc = 4;
                                                             pendingMarkerX = 1044;
                                                             pendingMarkerY = 240;
-                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else if (!Story.goldenBatQuestDone && Skills.transform) {
                                                     if (PlayerStats.level < 10) {
-                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
-                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(2);
-                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else if (Story.girlOutingDone && !Skills.tripleJump) {
                                                     if (PlayerStats.level < 12) {
-                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else if (QuestState.current == Quest.AIR_HITS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
-                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(4);
-                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else {
                                                     if (!Skills.sprint && Skills.dartsLevel2) {
                                                         if (PlayerStats.level < 15) {
-                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else if (QuestState.current == Quest.KILL_SCORPIONS) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
-                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
                                                                 setNextNpcMarker(3);
-                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
                                                 break;
                                             case 2:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (!Skills.lightness) {
                                                     setNextNpcMarker(1);
-                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (Skills.burrow && !Skills.motorbikeLicense) {
                                                     if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
-                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
                                                     if (QuestState.current == Quest.FIGHT_TONIKU) {
                                                         if (Story.tonikuDefeated) {
                                                             setNextNpcMarker(2);
-                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else {
                                                     if (Story.tonikuQuestDone && !Story.girlWaiting) {
                                                         if (QuestState.current == Quest.KILL_NATIVES) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
-                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
                                                                 setNextNpcMarker(3);
-                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
                                                 break;
                                             case 3:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else {
                                                     if (Skills.lightness && Skills.darts) {
                                                         if (!Skills.burrow) {
                                                             if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(2);
-                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, Npcs.x[j], Npcs.y[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                             break;
                                                         }
@@ -5221,33 +5176,33 @@ public final class GameCanvas extends Canvas implements Runnable {
                                                         if (!Skills.dive && Skills.doubleStrength) {
                                                             if (QuestState.current == Quest.KILL_WILD_BOAR) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(4);
-                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, Npcs.x[j], Npcs.y[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                             break;
                                                         }
 
                                                         if (!Skills.standOnWater && Skills.sprint) {
                                                             if (PlayerStats.level < 16) {
-                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
                                                                 if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
-                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(3);
-                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, Npcs.x[j], Npcs.y[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                             break;
                                                         }
@@ -5255,98 +5210,98 @@ public final class GameCanvas extends Canvas implements Runnable {
                                                         if (!Skills.hide && Skills.standOnWater) {
                                                             if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
                                                                 if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                                 } else {
                                                                     setNextNpcMarker(0);
-                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, npcX[j], npcY[j] - 40);
+                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, Npcs.x[j], Npcs.y[j] - 40);
                                                                 }
                                                             } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                             break;
                                                         }
 
-                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
                                                 break;
                                             case 4:
                                                 if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (mapId == 99) {
-                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (!Skills.lightness) {
-                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 } else if (!Skills.darts) {
                                                     if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
-                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(3);
-                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
                                                     if (QuestState.current == Quest.KILL_BEES) {
                                                         if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
-                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(3);
-                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else if (Skills.dive && !Skills.transform) {
                                                     if (PlayerStats.level < 8) {
-                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else if (QuestState.current == Quest.CROSS_RIVER) {
                                                         if (!QuestState.itemFound) {
-                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
                                                             setNextNpcMarker(1);
-                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                     } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, Npcs.x[j], Npcs.y[j] - 40);
                                                     } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
                                                 } else {
                                                     if (!Skills.dartsLevel2 && Skills.tripleJump) {
                                                         if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
                                                             if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
-                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                             } else {
                                                                 setNextNpcMarker(1);
-                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, npcX[j], npcY[j] - 40);
+                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, Npcs.x[j], Npcs.y[j] - 40);
                                                             }
                                                         } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, Npcs.x[j], Npcs.y[j] - 40);
                                                         } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, npcX[j], npcY[j] - 40);
+                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
                                                         }
                                                         break;
                                                     }
 
-                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
                                                 break;
                                             case 5:
                                                 if (mapId == 0) {
                                                     if (j == 5) {
-                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                     }
 
                                                     if (j == 6) {
@@ -5359,15 +5314,15 @@ public final class GameCanvas extends Canvas implements Runnable {
                                                 }
 
                                                 if (mapId == 1 && j == 0) {
-                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
 
                                                 if (mapId == 5 && j == 0) {
-                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
 
                                                 if (mapId == 6 && j == 0) {
-                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, npcX[j], npcY[j] - 40);
+                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
                                                 }
                                         }
 
@@ -7357,145 +7312,6 @@ public final class GameCanvas extends Canvas implements Runnable {
         Midlet.instance.notifyDestroyed();
     }
 
-    public static void setupSigns(int map) {
-        signCount = 0;
-        if (map == 0) {
-            signCount = 16;
-            allocSigns();
-            placeSign(0, "Bộ môn Khí", 1044, 336);
-            placeSign(1, "Cô Ayumi", 1044, 347);
-            placeSign(2, "Phòng chủ nhiệm", 1212, 336);
-            placeSign(3, "Thầy Takanashi", 1212, 347);
-            placeSign(4, "Phòng", 1380, 336);
-            placeSign(5, "đào tạo", 1380, 347);
-            placeSign(6, "Phòng", 1212, 216);
-            placeSign(7, "Hiệu trưởng", 1212, 227);
-            placeSign(8, "Bộ môn Lực", 1044, 216);
-            placeSign(9, "Thầy Hiroyaki", 1044, 227);
-            placeSign(10, "Bộ môn Thuật", 1380, 216);
-            placeSign(11, "Thầy Honda", 1380, 227);
-            placeSign(12, "Kí Túc Xá", 444, 341);
-            placeSign(13, "* Khu luyện tập", 72, 341);
-            placeSign(14, "Cổng /", 1860, 317);
-            placeSign(15, "Bán HP-MP", 612, 341);
-        } else if (map == 1) {
-            signCount = 2;
-            allocSigns();
-            placeSign(0, "Trường /", 1356, 173);
-            placeSign(1, "* Thác nước", 48, 173);
-        } else if (map == 2) {
-            signCount = 4;
-            allocSigns();
-            placeSign(0, "* Lối vào", 60, 245);
-            placeSign(1, "Trường Hirosaki", 240, 197);
-            placeSign(2, "Lối ra /", 420, 245);
-            placeSign(2, "Mua đồ tiền thật", 552, 245);
-            placeSign(3, "đường hoa đào /", 1356, 221);
-        } else if (map == 3) {
-            signCount = 2;
-            allocSigns();
-            placeSign(0, "* Ngôi làng", 48, 173);
-            placeSign(1, "Rừng trúc /", 2808, 173);
-        } else if (map == 4) {
-            signCount = 2;
-            allocSigns();
-            placeSign(0, "* Vườn đào", 48, 101);
-            placeSign(1, "Rừng tối", 1704, 245);
-        } else if (map == 5) {
-            signCount = 2;
-            allocSigns();
-            placeSign(0, "Trường /", 420, 77);
-            placeSign(1, "Rừng tối /", 408, 1829);
-        } else if (map == 6) {
-            signCount = 3;
-            allocSigns();
-            placeSign(0, "* Thác nước", 72, 101);
-            placeSign(1, "Rừng tối /", 504, 53);
-            placeSign(2, "Sông Watamoro /", 5916, 197);
-        } else {
-            if (map == 99) {
-                signCount = 1;
-                allocSigns();
-                placeSign(0, "Trường Hirosaki", 744, 173);
-            }
-
-        }
-    }
-
-    private static void placeSign(int i, String text, int x, int y) {
-        signTexts[i] = text;
-        signX[i] = x;
-        signY[i] = y;
-        signX[i] -= FontGraph.getBoldWidth(text) >> 1;
-        signWidth[i] = FontGraph.getBoldWidth(text);
-    }
-
-    private static void drawSigns(Graphics g) {
-        for(int i = 0; i < signCount; ++i) {
-            if (signX[i] + signWidth[i] >= cameraX && signX[i] <= cameraX + Viewport.viewWidth && signY[i] >= cameraY && signY[i] - 14 <= cameraY + Viewport.viewHeight) {
-                FontGraph.drawBold(g, signTexts[i], signX[i], signY[i], 0);
-            }
-        }
-
-    }
-
-    private static void allocSigns() {
-        signTexts = new String[signCount];
-        signX = new int[signCount];
-        signY = new int[signCount];
-        signWidth = new int[signCount];
-    }
-
-    public static void setupHouses(int map) {
-        houseCount = 0;
-        if (map == 2) {
-            try {
-                houseImages = Tile.ensureHouses(houseImages);
-            } catch (Exception e) {
-            }
-
-            houseCount = 5;
-            allocHouses();
-            placeHouse(0, 0, 29, 13);
-            placeHouse(1, 1, 34, 13);
-            placeHouse(2, 2, 39, 13);
-            placeHouse(3, 1, 46, 11);
-            placeHouse(4, 2, 51, 11);
-        }
-
-        if (map == 16) {
-            try {
-                houseImages = Tile.ensureHouses(houseImages);
-            } catch (Exception e) {
-            }
-
-            houseCount = 5;
-            allocHouses();
-            placeHouse(0, 0, 5, 11);
-            placeHouse(1, 1, 14, 12);
-            placeHouse(2, 2, 33, 10);
-            placeHouse(3, 1, 53, 10);
-            placeHouse(4, 0, 59, 11);
-        }
-
-    }
-
-    private static void placeHouse(int i, int type, int tileX, int tileY) {
-        houseTypes[i] = type;
-        houseX[i] = tileX * GameMap.TILE_SIZE + 12;
-        houseY[i] = tileY * GameMap.TILE_SIZE;
-        houseHalfWidth[i] = houseImages[type].getWidth() >> 1;
-        houseHeight[i] = houseImages[type].getHeight();
-    }
-
-    private static void allocHouses() {
-        houseTypes = new int[houseCount];
-        houseX = new int[houseCount];
-        houseY = new int[houseCount];
-        houseHalfWidth = new int[houseCount];
-        houseHeight = new int[houseCount];
-    }
-
     private static void ensureMapImages() {
         try {
             tilesetImage = Tile.ensureTileset(tilesetImage);
@@ -8923,140 +8739,8 @@ public final class GameCanvas extends Canvas implements Runnable {
     private static void setNextNpcMarker(int npc) {
         pendingMarkerMap = mapId;
         pendingMarkerNpc = npc;
-        pendingMarkerX = npcX[npc];
-        pendingMarkerY = npcY[npc] - 44;
-    }
-
-    public static void setupNpcs(int map) {
-        npcCount = 0;
-        if (map == 0) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 0);
-                Npc.loadSprite(npcSprites, 1);
-                Npc.loadSprite(npcSprites, 2);
-                Npc.loadSprite(npcSprites, 3);
-                Npc.loadSprite(npcSprites, 4);
-                Npc.loadSprite(npcSprites, 5);
-            } catch (Exception e) {
-            }
-
-            npcCount = 7;
-            allocNpcs();
-            placeNpc(0, 0, 34, 13);
-            placeNpc(1, 1, 43, 17);
-            placeNpc(2, 2, 50, 17);
-            placeNpc(3, 3, 57, 12);
-            placeNpc(4, 4, 43, 12);
-            placeNpc(5, 5, 77, 15);
-            placeNpc(6, 5, 25, 17);
-        }
-
-        if (map == 1) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 5);
-            } catch (Exception e) {
-            }
-
-            npcCount = 1;
-            allocNpcs();
-            placeNpc(0, 5, 54, 9);
-        }
-
-        if (map == 2) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 5);
-            } catch (Exception e) {
-            }
-
-            npcCount = 1;
-            allocNpcs();
-            placeNpc(0, 5, 23, 12);
-        }
-
-        if (map == 5) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 5);
-            } catch (Exception e) {
-            }
-
-            npcCount = 1;
-            allocNpcs();
-            placeNpc(0, 5, 12, 5);
-        }
-
-        if (map == 6) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 5);
-            } catch (Exception e) {
-            }
-
-            npcCount = 1;
-            allocNpcs();
-            placeNpc(0, 5, 14, 9);
-        }
-
-        if (map == 99 || map == 101) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 4);
-            } catch (Exception e) {
-            }
-
-            npcCount = 1;
-            allocNpcs();
-            placeNpc(0, 4, 3, 12);
-        }
-
-        if (map == 94) {
-            npcSprites = Npc.createSpriteTable();
-
-            try {
-                Npc.loadSprite(npcSprites, 0);
-                Npc.loadSprite(npcSprites, 4);
-                Npc.loadSprite(npcSprites, 2);
-            } catch (Exception e) {
-            }
-
-            npcCount = 3;
-            allocNpcs();
-            placeNpc(0, 4, 2, 10);
-            placeNpc(1, 0, 3, 10);
-            placeNpc(2, 2, 4, 10);
-        }
-
-    }
-
-    private static void placeNpc(int i, int type, int tileX, int tileY) {
-        npcTypes[i] = type;
-        npcX[i] = tileX * GameMap.TILE_SIZE + 12;
-        npcY[i] = tileY * GameMap.TILE_SIZE;
-    }
-
-    private static void allocNpcs() {
-        npcX = new int[npcCount];
-        npcY = new int[npcCount];
-        npcTypes = new int[npcCount];
-    }
-
-    private static void drawNpcs(Graphics g) {
-        for(int i = 0; i < npcCount; ++i) {
-            if (npcX[i] + 10 >= cameraX && npcX[i] - 10 <= cameraX + Viewport.viewWidth && npcY[i] >= cameraY && npcY[i] - 32 <= cameraY + Viewport.viewHeight) {
-                g.drawImage(npcSprites[npcTypes[i]][Npc.PART_LEGS], npcX[i], npcY[i], 33);
-                g.drawImage(npcSprites[npcTypes[i]][Npc.PART_BODY], npcX[i], npcY[i] - npcBodyOffsetY[npcTypes[i]] + (tick % (15 + npcTypes[i]) > 4 ? 0 : 1), 33);
-            }
-        }
-
+        pendingMarkerX = Npcs.x[npc];
+        pendingMarkerY = Npcs.y[npc] - 44;
     }
 
     /** Phím mềm trái trên hộp thông báo. */

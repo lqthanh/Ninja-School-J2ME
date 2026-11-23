@@ -40,11 +40,11 @@ public class Midlet extends MIDlet implements Runnable {
             Thread.yield();
             GameCanvas.applyMapStory(GameCanvas.mapId);
             GameCanvas.loadMap(GameCanvas.mapId);
-            GameCanvas.setupHouses(GameCanvas.mapId);
-            GameCanvas.setupSigns(GameCanvas.mapId);
+            Houses.setup(GameCanvas.mapId);
+            Signs.setup(GameCanvas.mapId);
             GameCanvas.loadingTarget = 50;
             Thread.yield();
-            GameCanvas.setupNpcs(GameCanvas.mapId);
+            Npcs.setup(GameCanvas.mapId);
             GameCanvas.loadHeroSprites();
             Girl.setup(GameCanvas.mapId);
             Classmates.setup(GameCanvas.mapId);

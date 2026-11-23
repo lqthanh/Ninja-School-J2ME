@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Image;
 /**
  * Cô gái (Ayumi/Sakura) đi theo và đánh quái cùng nhân vật. Trạng thái giống nhân vật:
  * {@link #action} dùng các giá trị STAND..HURT của {@link PlayerAction}, {@link #pose} là
- * chỉ số trong bảng tư thế của cô gái (GameCanvas.girlPoses). Cập nhật: GameCanvas.run() và GameCanvas.girlFollowPlayer().
+ * chỉ số trong bảng tư thế của cô gái ({@link core.player.Poses#girlPoses}). Cập nhật: GameCanvas.run() và GameCanvas.girlFollowPlayer().
  */
 public final class Girl {
     /** Đang đi theo nhân vật (được lưu trong save). */

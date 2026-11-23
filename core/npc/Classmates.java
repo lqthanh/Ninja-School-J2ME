@@ -51,7 +51,7 @@ public final class Classmates {
     public static int[] animTimer;
     /** Điểm đến khi đi, bộ đếm chờ khi đứng, hoặc bước của chuỗi đòn khi chém. */
     public static int[] target;
-    /** Tư thế (chỉ số trong bảng tư thế của nhân vật). */
+    /** Tư thế (chỉ số trong {@link core.player.Poses#classmatePoses}). */
     public static int[] pose;
     /** Ảnh đầu (chỉ số trong {@link #heads}). */
     public static int[] skin;
