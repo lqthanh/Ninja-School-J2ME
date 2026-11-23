@@ -10,7 +10,7 @@ import javax.microedition.lcdui.Image;
  * Quái thuộc một nhóm ({@link #group}); mỗi nhóm có bộ ảnh riêng ({@link #groupSpriteSets})
  * và danh sách điểm xuất hiện ({@link #spawnX}, {@link #spawnY}). Khi bị hạ, quái chờ
  * {@link #respawnDelay} frame rồi hồi sinh ở một điểm trống ngẫu nhiên của nhóm.
- * Bảng quái theo map nằm ở b.r(int); AI nằm ở b.ak().
+ * Bảng quái theo map nằm ở {@link MonsterSpawns}; AI nằm ở b.ak().
  */
 public final class Monsters {
     public static final int FREE = -1;

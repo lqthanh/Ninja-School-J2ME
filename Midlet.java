@@ -2,6 +2,7 @@ import assets.*;
 import core.app.*;
 import core.fx.*;
 import core.item.*;
+import core.map.*;
 import core.monster.*;
 import core.input.*;
 import core.player.*;
@@ -52,7 +53,7 @@ public class Midlet extends MIDlet implements Runnable {
             MonsterSpawns.setup(b.mapId);
             b.loadingTarget = 70;
             Thread.yield();
-            b.h(b.mapId);
+            Ninjas.setup(b.mapId);
             b.i(b.mapId);
             b.j(b.mapId);
             b.k(b.mapId);
@@ -63,8 +64,8 @@ public class Midlet extends MIDlet implements Runnable {
             PotionDrops.init();
             b.loadingTarget = 78;
             Thread.yield();
-            b.d(b.mapId);
-            b.c(b.mapId);
+            Crates.setup(b.mapId);
+            Motorbikes.setup(b.mapId);
             b.loadingTarget = 80;
             Dust.init();
             WaterSplash.init();
@@ -72,7 +73,7 @@ public class Midlet extends MIDlet implements Runnable {
             Thread.yield();
             Blood.init();
             FloatingText.init();
-            b.m();
+            Darts.init();
             b.loadingTarget = 85;
             Projectiles.init(b.mapId);
             ArcProjectiles.init();

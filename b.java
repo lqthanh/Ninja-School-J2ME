@@ -76,44 +76,12 @@ public final class b extends Canvas implements Runnable {
     private static int bJ;
     private static int bK;
     private static int bL;
-    private static int cp;
-    private static int[] cq;
-    private static int[] cr;
-    private static int[] cs;
-    private static int[] ct;
-    private static int[] cu;
-    private static int[] cv;
-    private static int[] cw;
-    private static int[] cx;
-    private static int[] cy;
-    private static int[] cz;
-    private static int[] cA;
-    private static int[] cB;
-    private static int[] cC;
-    private static int[] cD;
-    private static int[] cE;
-    private static int[] cF;
-    private static int[] cG;
-    private static int[] cH;
-    private static int[] cI;
-    private static int[] cJ;
-    private static int[] cK;
-    private static int[] cL;
-    private static int cV;
-    private static int[] cW;
-    private static int[] cX;
-    private static int[] cY;
-    private static int[] cZ;
-    private static int[] da;
-    private static int[] db;
-    private static boolean[] dc;
     private static boolean dn;
     private static int doSt;
     private static int dp;
     private static int dq;
     private static int dr;
     private static int ds;
-    private static boolean[] dt;
     private static int du;
     private static String[][] classmateLines;
     private static boolean dw;
@@ -135,14 +103,11 @@ public final class b extends Canvas implements Runnable {
     private static int[] dM;
     private static int[] dN;
     private static Image[] arrowIcons;
-    private static Image[] motorbikeFrames;
     private static Image itemScroll;
     private static Image[] heroBodies;
-    private static Image itemCrate;
     private static Image[] hudFrames;
     private static Image markerIcon;
     private static Image[] npcDog;
-    private static Image[] dartFrames;
     private static Image[] girlBodies;
     private static Image[] girlHeads;
     private static Image[] girlLegs;
@@ -150,8 +115,6 @@ public final class b extends Canvas implements Runnable {
     private static Image[] heroTransformHeads;
     private static Image[] heroLegs;
     private static Image[][] classmateHeads;
-    private static Image[][] ninjaBodies;
-    private static Image[] ninjaLegs;
     private static Image[] boss0Sprites;
     private static Image[] boss1Sprites;
     private static Image[] boss2Sprites;
@@ -292,21 +255,6 @@ public final class b extends Canvas implements Runnable {
     private static int mapEventStep;
     private static int ig;
     private static int ih;
-    private static int ii;
-    private static int[] ik;
-    private static int[] il;
-    private static int[] im;
-    private static int[] in;
-    private static int[] io;
-    private static int[] ip;
-    private static int iq;
-    private static int[] is;
-    private static int[] it;
-    private static int[] iu;
-    private static int[] iv;
-    private static int[] iw;
-    private static int[] ix;
-    private static int[] iy;
     private static int dialogueBoxLines;
     private static Image tilesetImage;
     private static Image waterfallImage;
@@ -590,75 +538,75 @@ public final class b extends Canvas implements Runnable {
         var1[var2++] = hm;
         var1[var2++] = hM;
         var1[var2++] = hr;
-        var1[var2++] = ii;
-        if (ii > 0) {
-            for(var0 = 0; var0 < io.length; ++var0) {
-                var1[var2++] = io[var0];
+        var1[var2++] = Motorbikes.count;
+        if (Motorbikes.count > 0) {
+            for(var0 = 0; var0 < Motorbikes.falling.length; ++var0) {
+                var1[var2++] = Motorbikes.falling[var0];
             }
 
-            for(var0 = 0; var0 < im.length; ++var0) {
-                var1[var2++] = im[var0];
+            for(var0 = 0; var0 < Motorbikes.facing.length; ++var0) {
+                var1[var2++] = Motorbikes.facing[var0];
             }
 
-            for(var0 = 0; var0 < in.length; ++var0) {
-                var1[var2++] = in[var0];
+            for(var0 = 0; var0 < Motorbikes.frame.length; ++var0) {
+                var1[var2++] = Motorbikes.frame[var0];
             }
 
-            for(var0 = 0; var0 < ip.length; ++var0) {
-                var1[var2++] = ip[var0];
+            for(var0 = 0; var0 < Motorbikes.vy.length; ++var0) {
+                var1[var2++] = Motorbikes.vy[var0];
             }
 
-            for(var0 = 0; var0 < ik.length; ++var0) {
-                var1[var2++] = ik[var0];
+            for(var0 = 0; var0 < Motorbikes.x.length; ++var0) {
+                var1[var2++] = Motorbikes.x[var0];
             }
 
-            for(var0 = 0; var0 < il.length; ++var0) {
-                var1[var2++] = il[var0];
+            for(var0 = 0; var0 < Motorbikes.y.length; ++var0) {
+                var1[var2++] = Motorbikes.y[var0];
             }
         }
 
-        var1[var2++] = iq;
-        if (iq > 0) {
+        var1[var2++] = Crates.count;
+        if (Crates.count > 0) {
             var1[var2++] = Player.crate;
-            if (iu != null) {
-                for(var0 = 0; var0 < iu.length; ++var0) {
-                    var1[var2++] = iu[var0];
+            if (Crates.state != null) {
+                for(var0 = 0; var0 < Crates.state.length; ++var0) {
+                    var1[var2++] = Crates.state[var0];
                 }
             }
 
-            if (iy != null) {
-                for(var0 = 0; var0 < iy.length; ++var0) {
-                    var1[var2++] = iy[var0];
+            if (Crates.driftVx != null) {
+                for(var0 = 0; var0 < Crates.driftVx.length; ++var0) {
+                    var1[var2++] = Crates.driftVx[var0];
                 }
             }
 
-            if (ix != null) {
-                for(var0 = 0; var0 < ix.length; ++var0) {
-                    var1[var2++] = ix[var0];
+            if (Crates.bobDirection != null) {
+                for(var0 = 0; var0 < Crates.bobDirection.length; ++var0) {
+                    var1[var2++] = Crates.bobDirection[var0];
                 }
             }
 
-            if (iv != null) {
-                for(var0 = 0; var0 < iv.length; ++var0) {
-                    var1[var2++] = iv[var0];
+            if (Crates.vx != null) {
+                for(var0 = 0; var0 < Crates.vx.length; ++var0) {
+                    var1[var2++] = Crates.vx[var0];
                 }
             }
 
-            if (iw != null) {
-                for(var0 = 0; var0 < iw.length; ++var0) {
-                    var1[var2++] = iw[var0];
+            if (Crates.vy != null) {
+                for(var0 = 0; var0 < Crates.vy.length; ++var0) {
+                    var1[var2++] = Crates.vy[var0];
                 }
             }
 
-            if (is != null) {
-                for(var0 = 0; var0 < is.length; ++var0) {
-                    var1[var2++] = is[var0];
+            if (Crates.x != null) {
+                for(var0 = 0; var0 < Crates.x.length; ++var0) {
+                    var1[var2++] = Crates.x[var0];
                 }
             }
 
-            if (it != null) {
-                for(var0 = 0; var0 < it.length; ++var0) {
-                    var1[var2++] = it[var0];
+            if (Crates.y != null) {
+                for(var0 = 0; var0 < Crates.y.length; ++var0) {
+                    var1[var2++] = Crates.y[var0];
                 }
             }
         }
@@ -847,63 +795,63 @@ public final class b extends Canvas implements Runnable {
         var10001 = var0[var10001];
         if (var10000 > 0) {
             try {
-                for(var1 = 0; var1 < io.length; ++var1) {
+                for(var1 = 0; var1 < Motorbikes.falling.length; ++var1) {
                     ++var2;
                 }
 
-                for(var1 = 0; var1 < im.length; ++var1) {
+                for(var1 = 0; var1 < Motorbikes.facing.length; ++var1) {
                     ++var2;
                 }
 
-                for(var1 = 0; var1 < in.length; ++var1) {
+                for(var1 = 0; var1 < Motorbikes.frame.length; ++var1) {
                     ++var2;
                 }
 
-                for(var1 = 0; var1 < ip.length; ++var1) {
+                for(var1 = 0; var1 < Motorbikes.vy.length; ++var1) {
                     ++var2;
                 }
 
-                for(var1 = 0; var1 < ik.length; ++var1) {
+                for(var1 = 0; var1 < Motorbikes.x.length; ++var1) {
                     ++var2;
                 }
 
-                for(var1 = 0; var1 < il.length; ++var1) {
+                for(var1 = 0; var1 < Motorbikes.y.length; ++var1) {
                     ++var2;
                 }
             } catch (Exception var5) {
             }
         }
 
-        if ((iq = var0[var2++]) > 0) {
+        if ((Crates.count = var0[var2++]) > 0) {
             Player.crate = var0[var2++];
 
             try {
-                for(var1 = 0; var1 < iu.length; ++var1) {
-                    iu[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.state.length; ++var1) {
+                    Crates.state[var1] = var0[var2++];
                 }
 
-                for(var1 = 0; var1 < iy.length; ++var1) {
-                    iy[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.driftVx.length; ++var1) {
+                    Crates.driftVx[var1] = var0[var2++];
                 }
 
-                for(var1 = 0; var1 < ix.length; ++var1) {
-                    ix[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.bobDirection.length; ++var1) {
+                    Crates.bobDirection[var1] = var0[var2++];
                 }
 
-                for(var1 = 0; var1 < iv.length; ++var1) {
-                    iv[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.vx.length; ++var1) {
+                    Crates.vx[var1] = var0[var2++];
                 }
 
-                for(var1 = 0; var1 < iw.length; ++var1) {
-                    iw[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.vy.length; ++var1) {
+                    Crates.vy[var1] = var0[var2++];
                 }
 
-                for(var1 = 0; var1 < is.length; ++var1) {
-                    is[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.x.length; ++var1) {
+                    Crates.x[var1] = var0[var2++];
                 }
 
-                for(var1 = 0; var1 < it.length; ++var1) {
-                    it[var1] = var0[var2++];
+                for(var1 = 0; var1 < Crates.y.length; ++var1) {
+                    Crates.y[var1] = var0[var2++];
                 }
             } catch (Exception var4) {
             }
@@ -978,7 +926,7 @@ public final class b extends Canvas implements Runnable {
         }
 
         if (Player.weapon == 1) {
-            a(Player.x + (Player.facing << 3), Player.y - 12, (Player.facing << 3) + Player.vx, Player.vy << 1, false);
+            Darts.spawn(Player.x + (Player.facing << 3), Player.y - 12, (Player.facing << 3) + Player.vx, Player.vy << 1, false);
         } else {
             if (Player.vy > 0 && Player.vx == 0) {
                 Player.vy = -2;
@@ -998,11 +946,11 @@ public final class b extends Canvas implements Runnable {
                 shakeCameraIfTransformed();
             }
 
-            for(var1 = 0; var1 < iq; ++var1) {
-                if (a(Player.y - Player.halfHeight - it[var1]) < 20 && a(Player.x + (Player.facing << 4) - is[var1]) < 24) {
-                    iu[var1] = 2;
-                    iv[var1] = Player.facing << 3;
-                    Blood.spawn(is[var1], it[var1] - 12, Player.facing);
+            for(var1 = 0; var1 < Crates.count; ++var1) {
+                if (a(Player.y - Player.halfHeight - Crates.y[var1]) < 20 && a(Player.x + (Player.facing << 4) - Crates.x[var1]) < 24) {
+                    Crates.state[var1] = Crates.STATE_SLIDING;
+                    Crates.vx[var1] = Player.facing << 3;
+                    Blood.spawn(Crates.x[var1], Crates.y[var1] - 12, Player.facing);
                     shakeCameraIfTransformed();
                     break;
                 }
@@ -1017,11 +965,11 @@ public final class b extends Canvas implements Runnable {
                 shakeCameraIfTransformed();
             }
 
-            for(var1 = 0; var1 < cp; ++var1) {
-                if (a(Player.y - cv[var1]) <= 12 && a(Player.x + (Player.facing << 4) - cu[var1]) < 24) {
-                    a(var1, var0, -Player.facing);
-                    Blood.spawn(cu[var1], cv[var1] - 15, Player.facing);
-                    FloatingText.spawn("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
+            for(var1 = 0; var1 < Ninjas.count; ++var1) {
+                if (a(Player.y - Ninjas.y[var1]) <= 12 && a(Player.x + (Player.facing << 4) - Ninjas.x[var1]) < 24) {
+                    damageNinja(var1, var0, -Player.facing);
+                    Blood.spawn(Ninjas.x[var1], Ninjas.y[var1] - 15, Player.facing);
+                    FloatingText.spawn("-" + var0, 0, Ninjas.x[var1], Ninjas.y[var1] - 28, 0, -2);
                     shakeCameraIfTransformed();
                     break;
                 }
@@ -1091,7 +1039,7 @@ public final class b extends Canvas implements Runnable {
         if (ih == 1) {
             var0 = gz << 3;
             var1 = Player.y - go >> 3;
-            a(gn + (gz << 3), go - 12, var0, var1 + (var0 - 8), true);
+            Darts.spawn(gn + (gz << 3), go - 12, var0, var1 + (var0 - 8), true);
         } else {
             var0 = PlayerStats.attack << 1;
             var1 = gz > 0 ? gn - 20 : gn - 40;
@@ -1127,11 +1075,11 @@ public final class b extends Canvas implements Runnable {
                 FloatingText.spawn("-" + var0, 0, gP, gQ - gW, 0, -2);
             }
 
-            for(var1 = 0; var1 < cp; ++var1) {
-                if (go == cv[var1] && a(gn + (gz << 4) - cu[var1]) < 24) {
-                    a(var1, var0, -gz);
-                    Blood.spawn(cu[var1], cv[var1] - 15, gz);
-                    FloatingText.spawn("-" + var0, 0, cu[var1], cv[var1] - 28, 0, -2);
+            for(var1 = 0; var1 < Ninjas.count; ++var1) {
+                if (go == Ninjas.y[var1] && a(gn + (gz << 4) - Ninjas.x[var1]) < 24) {
+                    damageNinja(var1, var0, -gz);
+                    Blood.spawn(Ninjas.x[var1], Ninjas.y[var1] - 15, gz);
+                    FloatingText.spawn("-" + var0, 0, Ninjas.x[var1], Ninjas.y[var1] - 28, 0, -2);
                     return;
                 }
             }
@@ -1140,19 +1088,19 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void landOnCrates() {
-        for(int var0 = 0; var0 < iq; ++var0) {
-            if (iu[var0] != 4 && a(Player.x - is[var0]) < 20 && it[var0] > Player.y && it[var0] - 24 <= Player.y) {
+        for(int var0 = 0; var0 < Crates.count; ++var0) {
+            if (Crates.state[var0] != Crates.STATE_FALLING && a(Player.x - Crates.x[var0]) < 20 && Crates.y[var0] > Player.y && Crates.y[var0] - 24 <= Player.y) {
                 Player.vx = 0;
                 Player.vy = 0;
-                Player.y = it[var0] - 24;
+                Player.y = Crates.y[var0] - 24;
                 Player.action = PlayerAction.STAND;
                 Player.slashEffect = -1;
                 Player.crate = var0;
-                if (iu[var0] == 11) {
-                    WaterSplash.spawn(is[var0], it[var0] - 10);
-                    int[] var10000 = it;
+                if (Crates.state[var0] == Crates.STATE_FLOATING) {
+                    WaterSplash.spawn(Crates.x[var0], Crates.y[var0] - 10);
+                    int[] var10000 = Crates.y;
                     var10000[var0] += 4;
-                    var10000 = iw;
+                    var10000 = Crates.vy;
                     var10000[var0] += 4;
                     return;
                 }
@@ -1163,18 +1111,18 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void pushCratesInAir() {
-        for(int var0 = 0; var0 < iq; ++var0) {
-            if (a(Player.x - is[var0]) < 20 && a(it[var0] - Player.y) < 4) {
+        for(int var0 = 0; var0 < Crates.count; ++var0) {
+            if (a(Player.x - Crates.x[var0]) < 20 && a(Crates.y[var0] - Player.y) < 4) {
                 Player.vx = 0;
-                if (Player.x < is[var0]) {
-                    Player.x = is[var0] - 20;
+                if (Player.x < Crates.x[var0]) {
+                    Player.x = Crates.x[var0] - 20;
                 } else {
-                    Player.x = is[var0] + 20;
+                    Player.x = Crates.x[var0] + 20;
                 }
 
-                if (iu[var0] != 4) {
-                    iu[var0] = 2;
-                    iv[var0] = -Player.facing << 1;
+                if (Crates.state[var0] != Crates.STATE_FALLING) {
+                    Crates.state[var0] = Crates.STATE_SLIDING;
+                    Crates.vx[var0] = -Player.facing << 1;
                     return;
                 }
             }
@@ -1182,48 +1130,48 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void v(int var0) {
-        if (a(Player.y - cv[var0]) <= 24 && a(cu[var0] + (cH[var0] << 3) - Player.x) < 25 && (cD[var0] == 6 || cD[var0] == 2 || cD[var0] == 3)) {
-            cG[var0] = cF[var0] = 0;
-            cE[var0] = 4;
+    private static void ninjaMeleeIfPlayerClose(int var0) {
+        if (a(Player.y - Ninjas.y[var0]) <= 24 && a(Ninjas.x[var0] + (Ninjas.direction[var0] << 3) - Player.x) < 25 && (Ninjas.type[var0] == 6 || Ninjas.type[var0] == 2 || Ninjas.type[var0] == 3)) {
+            Ninjas.targetX[var0] = Ninjas.timer[var0] = 0;
+            Ninjas.state[var0] = Ninjas.STATE_ATTACK;
         }
 
     }
 
-    private static void w(int var0) {
+    private static void ninjaReactToPlayer(int var0) {
         if (!Player.hidden) {
-            if (a(cu[var0] - Player.x) < 100 && a(cv[var0] - Player.y) < 20) {
-                switch (cD[var0]) {
+            if (a(Ninjas.x[var0] - Player.x) < 100 && a(Ninjas.y[var0] - Player.y) < 20) {
+                switch (Ninjas.type[var0]) {
                     case 0:
                     case 1:
                     case 4:
                     case 5:
-                        cH[var0] = cu[var0] < Player.x ? 1 : -1;
-                        cG[var0] = cF[var0] = 0;
-                        cE[var0] = 4;
+                        Ninjas.direction[var0] = Ninjas.x[var0] < Player.x ? 1 : -1;
+                        Ninjas.targetX[var0] = Ninjas.timer[var0] = 0;
+                        Ninjas.state[var0] = Ninjas.STATE_ATTACK;
                         break;
                     case 2:
                     case 3:
                     case 6:
-                        cG[var0] = Player.x;
+                        Ninjas.targetX[var0] = Player.x;
                         int[] var10000;
-                        if (cu[var0] < Player.x) {
-                            var10000 = cG;
+                        if (Ninjas.x[var0] < Player.x) {
+                            var10000 = Ninjas.targetX;
                             var10000[var0] -= 10;
                         } else {
-                            var10000 = cG;
+                            var10000 = Ninjas.targetX;
                             var10000[var0] += 10;
                         }
 
-                        cH[var0] = cG[var0] < Player.x ? 1 : -1;
-                        cE[var0] = 7;
-                        cy[var0] = cH[var0] << 3;
-                        if (cG[var0] < cK[var0]) {
-                            cG[var0] = cK[var0];
+                        Ninjas.direction[var0] = Ninjas.targetX[var0] < Player.x ? 1 : -1;
+                        Ninjas.state[var0] = Ninjas.STATE_DASH;
+                        Ninjas.vx[var0] = Ninjas.direction[var0] << 3;
+                        if (Ninjas.targetX[var0] < Ninjas.minX[var0]) {
+                            Ninjas.targetX[var0] = Ninjas.minX[var0];
                         }
 
-                        if (cG[var0] > cL[var0]) {
-                            cG[var0] = cL[var0];
+                        if (Ninjas.targetX[var0] > Ninjas.maxX[var0]) {
+                            Ninjas.targetX[var0] = Ninjas.maxX[var0];
                             return;
                         }
                 }
@@ -1233,18 +1181,18 @@ public final class b extends Canvas implements Runnable {
     }
 
     private static void pushCrates() {
-        for(int var0 = 0; var0 < iq; ++var0) {
-            if (a(Player.x - is[var0]) < 20 && it[var0] == Player.y) {
+        for(int var0 = 0; var0 < Crates.count; ++var0) {
+            if (a(Player.x - Crates.x[var0]) < 20 && Crates.y[var0] == Player.y) {
                 Player.vx = 0;
-                if (Player.x < is[var0]) {
-                    Player.x = is[var0] - 20;
+                if (Player.x < Crates.x[var0]) {
+                    Player.x = Crates.x[var0] - 20;
                 } else {
-                    Player.x = is[var0] + 20;
+                    Player.x = Crates.x[var0] + 20;
                 }
 
-                if (iu[var0] != 4) {
-                    iu[var0] = 2;
-                    iv[var0] = Player.facing << 2;
+                if (Crates.state[var0] != Crates.STATE_FALLING) {
+                    Crates.state[var0] = Crates.STATE_SLIDING;
+                    Crates.vx[var0] = Player.facing << 2;
                     return;
                 }
             }
@@ -1419,7 +1367,7 @@ public final class b extends Canvas implements Runnable {
                 QuestState.current = Quest.NONE;
                 QuestState.progress = 0;
                 Notice.show("đã học phi tiêu cấp 2");
-                Effect.loadDarts(dartFrames, Effect.DART_LEVEL_2);
+                Effect.loadDarts(Darts.sprites, Effect.DART_LEVEL_2);
                 break label58;
             case QuestAction.START_KILL_FLOWER_DEMONS:
                 QuestState.current = Quest.KILL_FLOWER_DEMONS;
@@ -1486,24 +1434,18 @@ public final class b extends Canvas implements Runnable {
     private static void releaseMapResources() {
         npcSprites = null;
         System.gc();
-        motorbikeFrames = null;
-        itemCrate = null;
+        Motorbikes.sprites = null;
+        Crates.sprite = null;
         boss0Sprites = null;
         System.gc();
         boss1Sprites = null;
         System.gc();
         Monsters.sprites = null;
         System.gc();
-        C();
+        Ninjas.releaseSprites();
         classmateHeads = null;
         npcDog = null;
         Projectiles.sprites = null;
-        System.gc();
-    }
-
-    private static void C() {
-        ninjaLegs = null;
-        ninjaBodies = null;
         System.gc();
     }
 
@@ -1520,9 +1462,9 @@ public final class b extends Canvas implements Runnable {
             }
         }
 
-        for(var0 = 0; var0 < cp; ++var0) {
-            if (cE[var0] != 5 && cv[var0] == go && a(cu[var0] - gn) < 40) {
-                gz = cu[var0] > gn ? 1 : -1;
+        for(var0 = 0; var0 < Ninjas.count; ++var0) {
+            if (Ninjas.state[var0] != Ninjas.STATE_DEAD && Ninjas.y[var0] == go && a(Ninjas.x[var0] - gn) < 40) {
+                gz = Ninjas.x[var0] > gn ? 1 : -1;
                 gr = 5;
                 ih = 0;
                 gA = 0;
@@ -1742,32 +1684,32 @@ public final class b extends Canvas implements Runnable {
         FloatingText.spawn("-" + var0, 0, gn, go - gu, 0, -2);
     }
 
-    private static boolean a(int var0, int var1, int var2) {
-        int[] var10000 = cr;
+    private static boolean damageNinja(int var0, int var1, int var2) {
+        int[] var10000 = Ninjas.hp;
         var10000[var0] -= var1;
-        if (cE[var0] != 1 && cE[var0] != 5) {
-            if (cr[var0] <= 0) {
-                cr[var0] = 0;
-                cH[var0] = var2;
-                cy[var0] = 0;
-                cz[var0] = 0;
-                cA[var0] = -(var2 << 3);
-                cB[var0] = -6;
-                cF[var0] = 0;
-                cq[var0] = 0;
-                cE[var0] = 1;
-                gainExp(NinjaStats.exp[cD[var0]]);
-                MoneyDrops.spawn(cu[var0], cv[var0], -(cH[var0] << 2), -4, NinjaStats.money[cD[var0]] + tick % 10);
+        if (Ninjas.state[var0] != Ninjas.STATE_KNOCKED_OUT && Ninjas.state[var0] != Ninjas.STATE_DEAD) {
+            if (Ninjas.hp[var0] <= 0) {
+                Ninjas.hp[var0] = 0;
+                Ninjas.direction[var0] = var2;
+                Ninjas.vx[var0] = 0;
+                Ninjas.vy[var0] = 0;
+                Ninjas.bodyVx[var0] = -(var2 << 3);
+                Ninjas.bodyVy[var0] = -6;
+                Ninjas.timer[var0] = 0;
+                Ninjas.healthBarTimer[var0] = 0;
+                Ninjas.state[var0] = Ninjas.STATE_KNOCKED_OUT;
+                gainExp(NinjaStats.exp[Ninjas.type[var0]]);
+                MoneyDrops.spawn(Ninjas.x[var0], Ninjas.y[var0], -(Ninjas.direction[var0] << 2), -4, NinjaStats.money[Ninjas.type[var0]] + tick % 10);
                 if (tick % 20 > 5) {
-                    PotionDrops.spawn(cu[var0], cv[var0], -(cH[var0] << 3), -5, NinjaStats.damage[cD[var0]] << 2, (tick + 1) % 2);
+                    PotionDrops.spawn(Ninjas.x[var0], Ninjas.y[var0], -(Ninjas.direction[var0] << 3), -5, NinjaStats.damage[Ninjas.type[var0]] << 2, (tick + 1) % 2);
                 }
 
                 return true;
             } else {
-                cF[var0] = 0;
-                cH[var0] = var2;
-                cq[var0] = 100;
-                cE[var0] = 6;
+                Ninjas.timer[var0] = 0;
+                Ninjas.direction[var0] = var2;
+                Ninjas.healthBarTimer[var0] = 100;
+                Ninjas.state[var0] = Ninjas.STATE_HURT;
                 return false;
             }
         } else {
@@ -1840,156 +1782,11 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    public static final void c(int var0) {
-        ii = 0;
-        int var1 = Player.motorbike == -1 ? 0 : 1;
-        if ((var0 == 0 || var0 == 1 || var0 == 7 || var0 == 5 || var0 == 18 || var0 >= 94) && var1 == 1) {
-            ii = 1;
-            F();
-            b(0, Player.x, Player.y);
-            Player.motorbike = 0;
-            im[Player.motorbike] = Player.facing;
-        }
-
-        if (var0 == 2) {
-            d(var1, 18, 12);
-        }
-
-        if (var0 == 3) {
-            d(var1, 2, 9);
-        }
-
-        if (var0 == 4) {
-            d(var1, 3, 6);
-        }
-
-        if (var0 == 6) {
-            d(var1, 12, 9);
-        }
-
-        if (var0 == 8) {
-            d(var1, 3, 12);
-        }
-
-        if (var0 == 9) {
-            d(var1, 2, 11);
-        }
-
-        if (var0 == 10) {
-            d(var1, 3, 12);
-        }
-
-        if (var0 == 11) {
-            d(var1, 5, 6);
-        }
-
-        if (var0 == 12) {
-            d(var1, 4, 8);
-        }
-
-        if (var0 == 13) {
-            d(var1, 16, 11);
-        }
-
-        if (var0 == 14) {
-            d(var1, 18, 7);
-        }
-
-        if (var0 == 15) {
-            d(var1, 1, 11);
-        }
-
-        if (var0 == 16) {
-            d(var1, 7, 11);
-        }
-
-        if (var0 == 17) {
-            d(var1, 14, 12);
-        }
-
-    }
-
-    private static void F() {
-        try {
-            motorbikeFrames = Effect.ensureMotorbike(motorbikeFrames);
-        } catch (Exception var1) {
-        }
-
-        ik = new int[ii];
-        il = new int[ii];
-        im = new int[ii];
-        in = new int[ii];
-        io = new int[ii];
-        ip = new int[ii];
-    }
-
-    private static void b(int var0, int var1, int var2) {
-        ik[var0] = var1 * GameMap.TILE_SIZE + 12;
-        il[var0] = var2 * GameMap.TILE_SIZE;
-        in[var0] = 0;
-        im[var0] = 1;
-    }
-
     public static void g() {
         try {
             itemScroll = Item.loadScroll();
         } catch (Exception var0) {
         }
-    }
-
-    public static final void d(int var0) {
-        iq = 0;
-        if (var0 == 1) {
-            iq = 2;
-            initCrates();
-            c(0, 21, 9);
-            c(1, 13, 8);
-        }
-
-        if (var0 == 11) {
-            iq = 2;
-            initCrates();
-            c(0, 33, 7);
-            c(1, 44, 10);
-        }
-
-        if (var0 == 5) {
-            iq = 2;
-            initCrates();
-            c(0, 5, 46);
-            c(1, 15, 46);
-        }
-
-        if (var0 == 97) {
-            iq = 4;
-            initCrates();
-            c(0, 3, 6);
-            c(1, 7, 4);
-            c(2, 12, 3);
-            c(3, 22, 6);
-        }
-
-    }
-
-    private static void initCrates() {
-        try {
-            itemCrate = Item.ensureCrate(itemCrate);
-        } catch (Exception var0) {
-        }
-
-        is = new int[iq];
-        it = new int[iq];
-        iu = new int[iq];
-        iv = new int[iq];
-        iw = new int[iq];
-        ix = new int[iq];
-        iy = new int[iq];
-    }
-
-    private static void c(int var0, int var1, int var2) {
-        is[var0] = var1 * GameMap.TILE_SIZE + 12;
-        it[var0] = var2 * GameMap.TILE_SIZE + 24;
-        iu[var0] = 1;
     }
 
     public static final void setupViewport() {
@@ -2155,28 +1952,6 @@ public final class b extends Canvas implements Runnable {
             dq = 1;
             dr = 252;
             ds = 708;
-        }
-
-    }
-
-    public static final void m() {
-        int var0;
-        if (dartFrames == null) {
-            dartFrames = Effect.createDartFrames();
-            Effect.loadDarts(dartFrames, Skills.dartsLevel2 ? Effect.DART_LEVEL_2 : Effect.DART_LEVEL_1);
-        }
-
-        cV = 10;
-        cW = new int[10];
-        cX = new int[cV];
-        cY = new int[cV];
-        cZ = new int[cV];
-        da = new int[cV];
-        dc = new boolean[cV];
-        db = new int[cV];
-
-        for(var0 = 0; var0 < cV; ++var0) {
-            cY[var0] = -1;
         }
 
     }
@@ -2394,146 +2169,6 @@ public final class b extends Canvas implements Runnable {
         }
 
         (new Thread(Midlet.instance)).start();
-    }
-
-    public static void h(int var0) {
-        cp = 0;
-        if (var0 == 9) {
-            cp = 6;
-            dt = new boolean[]{false, false, true, false, false, false, false};
-            L();
-            b(0, 10, 12, 9, 12, 2);
-            b(1, 7, 8, 6, 8, 2);
-            b(2, 30, 8, 27, 33, 2);
-            b(3, 29, 12, 27, 33, 2);
-            b(4, 45, 5, 42, 50, 2);
-            b(5, 64, 9, 62, 66, 2);
-        }
-
-        if (var0 == 10) {
-            cp = 12;
-            dt = new boolean[]{true, false, true, false, false, false, false};
-            L();
-            b(0, 5, 8, 4, 6, 2);
-            b(1, 6, 12, 5, 9, 0);
-            b(2, 16, 12, 9, 21, 2);
-            b(3, 28, 15, 26, 29, 0);
-            b(4, 25, 15, 22, 27, 2);
-            b(5, 16, 25, 14, 17, 0);
-            b(6, 4, 29, 2, 6, 0);
-            b(7, 8, 38, 2, 28, 2);
-            b(8, 14, 38, 2, 28, 2);
-            b(9, 20, 38, 2, 28, 2);
-            b(10, 31, 30, 28, 37, 2);
-            b(11, 33, 30, 28, 37, 0);
-        }
-
-        if (var0 == 11) {
-            cp = 8;
-            dt = new boolean[]{true, true, true, false, false, false, false};
-            L();
-            b(0, 6, 11, 3, 7, 1);
-            b(1, 19, 12, 18, 20, 0);
-            b(2, 33, 8, 28, 36, 2);
-            b(3, 53, 11, 53, 54, 1);
-            b(5, 54, 11, 53, 54, 0);
-            b(4, 68, 12, 62, 79, 2);
-            b(6, 71, 12, 70, 72, 0);
-            b(7, 72, 8, 70, 73, 1);
-        }
-
-        if (var0 == 16) {
-            cp = 4;
-            dt = new boolean[]{false, false, false, true, false, false, false};
-            L();
-            b(0, 5, 11, 3, 10, 3);
-            b(1, 26, 12, 24, 29, 3);
-            b(2, 47, 10, 30, 55, 3);
-            b(3, 60, 11, 56, 64, 3);
-        }
-
-        if (var0 == 17) {
-            cp = 8;
-            dt = new boolean[]{false, false, false, true, true, false, false};
-            L();
-            b(0, 11, 8, 9, 13, 3);
-            b(1, 20, 6, 18, 21, 4);
-            b(2, 20, 11, 18, 21, 3);
-            b(3, 26, 3, 24, 29, 3);
-            b(4, 26, 8, 24, 29, 4);
-            b(5, 26, 13, 24, 29, 4);
-            b(6, 33, 6, 32, 35, 3);
-            b(7, 33, 10, 32, 35, 4);
-        }
-
-        if (var0 == 18) {
-            cp = 8;
-            dt = new boolean[]{false, false, false, false, true, true, true};
-            L();
-            b(0, 2, 8, 1, 4, 5);
-            b(1, 2, 12, 1, 5, 6);
-            b(2, 18, 12, 12, 23, 6);
-            b(3, 18, 8, 15, 21, 5);
-            b(4, 42, 9, 38, 45, 4);
-            b(5, 42, 13, 34, 67, 6);
-            b(6, 62, 13, 34, 67, 6);
-            b(7, 60, 9, 57, 64, 4);
-        }
-
-    }
-
-    private static void L() {
-        boolean var0 = false;
-        if (ninjaLegs == null) {
-            try {
-                ninjaLegs = Mob.loadNinjaLegs();
-                ninjaBodies = Mob.loadNinjaBodies(dt);
-            } catch (Exception var2) {
-            }
-        }
-
-        cs = new int[cp];
-        ct = new int[cp];
-        cu = new int[cp];
-        cv = new int[cp];
-        cw = new int[cp];
-        cx = new int[cp];
-        cD = new int[cp];
-        cE = new int[cp];
-        cF = new int[cp];
-        cG = new int[cp];
-        cH = new int[cp];
-        cI = new int[cp];
-        cJ = new int[cp];
-        cC = new int[cp];
-        cK = new int[cp];
-        cL = new int[cp];
-        cy = new int[cp];
-        cz = new int[cp];
-        cA = new int[cp];
-        cB = new int[cp];
-        cr = new int[cp];
-        cq = new int[cp];
-    }
-
-    private static void b(int var0, int var1, int var2, int var3, int var4, int var5) {
-        cs[var0] = var1 * 24 + 12;
-        ct[var0] = var2 * 24;
-        cu[var0] = cs[var0];
-        cv[var0] = ct[var0];
-        cw[var0] = cu[var0];
-        cx[var0] = cv[var0] - 9;
-        cD[var0] = var5;
-        cE[var0] = 3;
-        cF[var0] = var0 << 1;
-        cG[var0] = 0;
-        cH[var0] = 1;
-        cI[var0] = 0;
-        cJ[var0] = 0;
-        cC[var0] = 0;
-        cK[var0] = var3 * 24 + 12;
-        cL[var0] = var4 * 24 + 12;
-        cr[var0] = NinjaStats.maxHp[cD[var0]];
     }
 
     public static void i(int var0) {
@@ -3089,18 +2724,6 @@ public final class b extends Canvas implements Runnable {
 
     }
 
-    private static void d(int var0, int var1, int var2) {
-        ii = var0 + 1;
-        F();
-        b(0, var1, var2);
-        if (var0 == 1) {
-            b(1, Player.x, Player.y);
-            Player.motorbike = 1;
-            im[Player.motorbike] = Player.facing;
-        }
-
-    }
-
     private static void setGuideMarker(int var0, int var1, int var2, int var3) {
         guideMarkerMap = var0;
         guideMarkerX = var1;
@@ -3150,26 +2773,6 @@ public final class b extends Canvas implements Runnable {
         Dialogue.visible = true;
         Dialogue.shownChars = 0;
         Dialogue.shownLines = 0;
-    }
-
-    private static void a(int var0, int var1, int var2, int var3, boolean var4) {
-        int var5 = -1;
-
-        for(int var6 = 0; var6 < cV; ++var6) {
-            if (cY[var6] == -1) {
-                var5 = var6;
-                break;
-            }
-        }
-
-        if (var5 != -1) {
-            cY[var5] = 1;
-            cW[var5] = var0;
-            cX[var5] = var1;
-            da[var5] = var2;
-            db[var5] = var3;
-            dc[var5] = var4;
-        }
     }
 
     private static void startMapEvent(int var0) {
@@ -3274,7 +2877,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 if (Player.crate != -1) {
-                    if (a(Player.x - is[Player.crate]) >= 20) {
+                    if (a(Player.x - Crates.x[Player.crate]) >= 20) {
                         Player.crate = -1;
                         if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
                             Player.action = PlayerAction.STAND;
@@ -3377,13 +2980,13 @@ public final class b extends Canvas implements Runnable {
                     Dust.spawn(-1, Player.x - -8, Player.y);
                     Dust.spawn(1, Player.x - 8, Player.y);
                     if (Skills.motorbikeLicense) {
-                        for(var0 = 0; var0 < ii; ++var0) {
-                            if (Player.y == il[var0] && a(Player.x - ik[var0]) < 16) {
-                                Player.x = ik[var0];
+                        for(var0 = 0; var0 < Motorbikes.count; ++var0) {
+                            if (Player.y == Motorbikes.y[var0] && a(Player.x - Motorbikes.x[var0]) < 16) {
+                                Player.x = Motorbikes.x[var0];
                                 Player.action = PlayerAction.MOTORBIKE_STAND;
                                 Player.motorbike = var0;
-                                im[var0] = Player.facing;
-                                in[var0] = 0;
+                                Motorbikes.facing[var0] = Player.facing;
+                                Motorbikes.frame[var0] = 0;
                             }
                         }
                     }
@@ -3474,7 +3077,7 @@ public final class b extends Canvas implements Runnable {
                         Player.actionTimer = 0;
                     }
 
-                    if (Player.crate != -1 && a(Player.x - is[Player.crate]) >= 20) {
+                    if (Player.crate != -1 && a(Player.x - Crates.x[Player.crate]) >= 20) {
                         Player.crate = -1;
                         if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
                             Player.action = PlayerAction.STAND;
@@ -3995,8 +3598,8 @@ public final class b extends Canvas implements Runnable {
                     Player.x += Player.vx;
                 }
 
-                ik[Player.motorbike] = Player.x;
-                il[Player.motorbike] = Player.y;
+                Motorbikes.x[Player.motorbike] = Player.x;
+                Motorbikes.y[Player.motorbike] = Player.y;
                 if (Player.vx > 0) {
                     --Player.vx;
                 } else if (Player.vx < 0) {
@@ -4007,7 +3610,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 if (Player.crate != -1) {
-                    if (a(Player.x - is[Player.crate]) >= 20) {
+                    if (a(Player.x - Crates.x[Player.crate]) >= 20) {
                         Player.crate = -1;
                         if (GameMap.hasFlag(Player.x, Player.y, TileFlags.SOLID)) {
                             Player.action = PlayerAction.MOTORBIKE_STAND;
@@ -4079,10 +3682,10 @@ public final class b extends Canvas implements Runnable {
                         WaterSplash.spawn(Player.x, H(Player.y) + 8);
                     }
 
-                    ik[Player.motorbike] = Player.x;
-                    il[Player.motorbike] = Player.y;
+                    Motorbikes.x[Player.motorbike] = Player.x;
+                    Motorbikes.y[Player.motorbike] = Player.y;
                     if (GameMap.hasFlag(Player.x, Player.y, TileFlags.DEEP_WATER)) {
-                        io[Player.motorbike] = 1;
+                        Motorbikes.falling[Player.motorbike] = 1;
                         Player.motorbike = -1;
                         Player.action = PlayerAction.SINK;
                     }
@@ -4104,8 +3707,8 @@ public final class b extends Canvas implements Runnable {
 
                 Player.x += Player.vx;
                 Player.y += Player.vy;
-                ik[Player.motorbike] = Player.x;
-                il[Player.motorbike] = Player.y;
+                Motorbikes.x[Player.motorbike] = Player.x;
+                Motorbikes.y[Player.motorbike] = Player.y;
                 if (Player.vx > 0) {
                     --Player.vx;
                 }
@@ -4290,13 +3893,13 @@ public final class b extends Canvas implements Runnable {
             hudDirty = true;
         }
 
-        for(int var0 = 0; var0 < iq; ++var0) {
-            if (a(Player.x - is[var0]) < 20 && it[var0] > Player.y && it[var0] - 24 < Player.y) {
+        for(int var0 = 0; var0 < Crates.count; ++var0) {
+            if (a(Player.x - Crates.x[var0]) < 20 && Crates.y[var0] > Player.y && Crates.y[var0] - 24 < Player.y) {
                 Player.vx = 0;
-                if (Player.x < is[var0]) {
-                    Player.x = is[var0] - 20;
+                if (Player.x < Crates.x[var0]) {
+                    Player.x = Crates.x[var0] - 20;
                 } else {
-                    Player.x = is[var0] + 20;
+                    Player.x = Crates.x[var0] + 20;
                 }
 
                 Player.action = PlayerAction.SINK;
@@ -4612,8 +4215,8 @@ public final class b extends Canvas implements Runnable {
                             System.gc();
                             npcSprites = null;
                             System.gc();
-                            motorbikeFrames = null;
-                            itemCrate = null;
+                            Motorbikes.sprites = null;
+                            Crates.sprite = null;
                             MoneyDrops.sprites = null;
                             boss0Sprites = null;
                             System.gc();
@@ -4621,12 +4224,12 @@ public final class b extends Canvas implements Runnable {
                             System.gc();
                             Monsters.sprites = null;
                             System.gc();
-                            C();
+                            Ninjas.releaseSprites();
                             classmateHeads = null;
                             npcDog = null;
                             Projectiles.sprites = null;
                             Dust.sprites = null;
-                            dartFrames = null;
+                            Darts.sprites = null;
                             Aura.sprites = null;
                             Blood.sprites = null;
                             WaterSplash.sprites = null;
@@ -4924,84 +4527,84 @@ public final class b extends Canvas implements Runnable {
         }
     }
 
-    private static void aa() {
-        for(int var0 = 0; var0 < cp; ++var0) {
+    private static void updateNinjas() {
+        for(int var0 = 0; var0 < Ninjas.count; ++var0) {
             int var10002;
-            if (cq[var0] > 0) {
-                var10002 = cq[var0]--;
+            if (Ninjas.healthBarTimer[var0] > 0) {
+                var10002 = Ninjas.healthBarTimer[var0]--;
             }
 
             int[] var10000;
             label143:
-            switch (cE[var0]) {
-                case 1:
-                    cJ[var0] = 1;
-                    var10002 = cF[var0]++;
-                    var10000 = cu;
-                    var10000[var0] += cy[var0];
-                    var10000 = cv;
-                    var10000[var0] += cz[var0];
-                    var10000 = cw;
-                    var10000[var0] += cA[var0];
-                    var10000 = cx;
-                    var10000[var0] += cB[var0];
-                    if (cF[var0] > 14) {
-                        if (cy[var0] > 1) {
-                            var10002 = cy[var0]--;
-                        } else if (cy[var0] < -1) {
-                            var10002 = cy[var0]++;
+            switch (Ninjas.state[var0]) {
+                case Ninjas.STATE_KNOCKED_OUT:
+                    Ninjas.bodyFrame[var0] = 1;
+                    var10002 = Ninjas.timer[var0]++;
+                    var10000 = Ninjas.x;
+                    var10000[var0] += Ninjas.vx[var0];
+                    var10000 = Ninjas.y;
+                    var10000[var0] += Ninjas.vy[var0];
+                    var10000 = Ninjas.bodyX;
+                    var10000[var0] += Ninjas.bodyVx[var0];
+                    var10000 = Ninjas.bodyY;
+                    var10000[var0] += Ninjas.bodyVy[var0];
+                    if (Ninjas.timer[var0] > 14) {
+                        if (Ninjas.vx[var0] > 1) {
+                            var10002 = Ninjas.vx[var0]--;
+                        } else if (Ninjas.vx[var0] < -1) {
+                            var10002 = Ninjas.vx[var0]++;
                         }
 
-                        var10002 = cz[var0]++;
+                        var10002 = Ninjas.vy[var0]++;
                     }
 
-                    if (cA[var0] > 1) {
-                        var10002 = cA[var0]--;
-                    } else if (cA[var0] < -1) {
-                        var10002 = cA[var0]++;
+                    if (Ninjas.bodyVx[var0] > 1) {
+                        var10002 = Ninjas.bodyVx[var0]--;
+                    } else if (Ninjas.bodyVx[var0] < -1) {
+                        var10002 = Ninjas.bodyVx[var0]++;
                     }
 
-                    var10002 = cB[var0]++;
-                    if (cv[var0] <= cameraY + Viewport.viewHeight + 32 && cv[var0] < GameMap.pixelHeight) {
+                    var10002 = Ninjas.bodyVy[var0]++;
+                    if (Ninjas.y[var0] <= cameraY + Viewport.viewHeight + 32 && Ninjas.y[var0] < GameMap.pixelHeight) {
                         continue;
                     }
 
-                    cF[var0] = 0;
-                    cG[var0] = 0;
-                    cE[var0] = 5;
+                    Ninjas.timer[var0] = 0;
+                    Ninjas.targetX[var0] = 0;
+                    Ninjas.state[var0] = Ninjas.STATE_DEAD;
                     break;
-                case 2:
+                case Ninjas.STATE_WALK:
                     if (tick % 12 > 7) {
-                        cC[var0] = 1;
-                        cI[var0] = 1;
+                        Ninjas.bob[var0] = 1;
+                        Ninjas.legsFrame[var0] = 1;
                         if (tick % 12 < 10) {
-                            if (a(cu[var0] - cG[var0]) < 4) {
-                                cF[var0] = cG[var0] = 0;
-                                cE[var0] = 3;
+                            if (a(Ninjas.x[var0] - Ninjas.targetX[var0]) < 4) {
+                                Ninjas.timer[var0] = Ninjas.targetX[var0] = 0;
+                                Ninjas.state[var0] = Ninjas.STATE_IDLE;
                                 break;
                             }
 
-                            var10000 = cu;
-                            var10000[var0] += cy[var0];
+                            var10000 = Ninjas.x;
+                            var10000[var0] += Ninjas.vx[var0];
                         }
 
-                        w(var0);
+                        ninjaReactToPlayer(var0);
                     } else {
-                        cI[var0] = 0;
-                        cC[var0] = 0;
+                        Ninjas.legsFrame[var0] = 0;
+                        Ninjas.bob[var0] = 0;
                     }
                     break;
-                case 3:
+                case Ninjas.STATE_IDLE:
                     if ((tick + var0) % 10 > 5) {
-                        cC[var0] = 1;
+                        Ninjas.bob[var0] = 1;
                     } else {
-                        cC[var0] = 0;
+                        Ninjas.bob[var0] = 0;
                     }
 
-                    var10002 = cF[var0]++;
-                    cI[var0] = 0;
-                    cJ[var0] = 0;
-                    if (cF[var0] > 50) {
+                    var10002 = Ninjas.timer[var0]++;
+                    Ninjas.legsFrame[var0] = 0;
+                    Ninjas.bodyFrame[var0] = 0;
+                    if (Ninjas.timer[var0] > 50) {
                         int var1;
                         if ((var1 = (tick - var0) % (var0 + 80) - 40) > 0) {
                             var1 += 20;
@@ -5009,127 +4612,127 @@ public final class b extends Canvas implements Runnable {
                             var1 -= 20;
                         }
 
-                        cG[var0] = cu[var0] + var1;
-                        cH[var0] = var1 > 0 ? 1 : -1;
+                        Ninjas.targetX[var0] = Ninjas.x[var0] + var1;
+                        Ninjas.direction[var0] = var1 > 0 ? 1 : -1;
                         if (tick % 4 > 1) {
-                            cE[var0] = 2;
-                            cy[var0] = cH[var0] << 1;
+                            Ninjas.state[var0] = Ninjas.STATE_WALK;
+                            Ninjas.vx[var0] = Ninjas.direction[var0] << 1;
                         } else {
-                            cE[var0] = 7;
-                            cy[var0] = cH[var0] << 2;
+                            Ninjas.state[var0] = Ninjas.STATE_DASH;
+                            Ninjas.vx[var0] = Ninjas.direction[var0] << 2;
                         }
 
-                        if (cG[var0] < cK[var0]) {
-                            cG[var0] = cK[var0];
+                        if (Ninjas.targetX[var0] < Ninjas.minX[var0]) {
+                            Ninjas.targetX[var0] = Ninjas.minX[var0];
                         }
 
-                        if (cG[var0] > cL[var0]) {
-                            cG[var0] = cL[var0];
+                        if (Ninjas.targetX[var0] > Ninjas.maxX[var0]) {
+                            Ninjas.targetX[var0] = Ninjas.maxX[var0];
                         }
                     }
 
                     if (tick % 30 == 28) {
-                        w(var0);
-                        v(var0);
+                        ninjaReactToPlayer(var0);
+                        ninjaMeleeIfPlayerClose(var0);
                     }
                     break;
-                case 4:
-                    var10002 = cF[var0]++;
-                    if (cF[var0] < 3) {
-                        cC[var0] = 0;
-                        cI[var0] = 0;
-                        cJ[var0] = 0;
-                    } else if (cF[var0] < 14) {
-                        cC[var0] = 1;
-                        cI[var0] = 1;
-                        cJ[var0] = 1;
+                case Ninjas.STATE_ATTACK:
+                    var10002 = Ninjas.timer[var0]++;
+                    if (Ninjas.timer[var0] < 3) {
+                        Ninjas.bob[var0] = 0;
+                        Ninjas.legsFrame[var0] = 0;
+                        Ninjas.bodyFrame[var0] = 0;
+                    } else if (Ninjas.timer[var0] < 14) {
+                        Ninjas.bob[var0] = 1;
+                        Ninjas.legsFrame[var0] = 1;
+                        Ninjas.bodyFrame[var0] = 1;
                     } else {
-                        cE[var0] = 3;
-                        cF[var0] = 1;
+                        Ninjas.state[var0] = Ninjas.STATE_IDLE;
+                        Ninjas.timer[var0] = 1;
                     }
 
-                    if (cF[var0] == 3) {
-                        switch (cD[var0]) {
+                    if (Ninjas.timer[var0] == 3) {
+                        switch (Ninjas.type[var0]) {
                             case 0:
                             case 4:
-                                Projectiles.spawn(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] * 12, NinjaStats.damage[cD[var0]], 0);
+                                Projectiles.spawn(Ninjas.x[var0] + (Ninjas.direction[var0] << 3), Ninjas.y[var0] - 15, Ninjas.direction[var0] * 12, NinjaStats.damage[Ninjas.type[var0]], 0);
                                 break label143;
                             case 1:
                             case 5:
-                                Projectiles.spawn(cu[var0] + (cH[var0] << 3), cv[var0] - 15, cH[var0] << 3, NinjaStats.damage[cD[var0]], 1);
+                                Projectiles.spawn(Ninjas.x[var0] + (Ninjas.direction[var0] << 3), Ninjas.y[var0] - 15, Ninjas.direction[var0] << 3, NinjaStats.damage[Ninjas.type[var0]], 1);
                                 break label143;
                             case 2:
                             case 3:
                             case 6:
-                                if (a(Player.y - cv[var0]) < 5 && a(Player.x - cu[var0]) < 30) {
-                                    damagePlayer(NinjaStats.damage[cD[var0]], cH[var0]);
+                                if (a(Player.y - Ninjas.y[var0]) < 5 && a(Player.x - Ninjas.x[var0]) < 30) {
+                                    damagePlayer(NinjaStats.damage[Ninjas.type[var0]], Ninjas.direction[var0]);
                                 }
                         }
                     }
                     break;
-                case 5:
-                    var10002 = cF[var0]++;
-                    if (cF[var0] > 550 + var0 * 5) {
-                        cu[var0] = cs[var0];
-                        cv[var0] = ct[var0];
-                        cF[var0] = 0;
-                        cE[var0] = 3;
-                        cr[var0] = NinjaStats.maxHp[cD[var0]];
+                case Ninjas.STATE_DEAD:
+                    var10002 = Ninjas.timer[var0]++;
+                    if (Ninjas.timer[var0] > 550 + var0 * 5) {
+                        Ninjas.x[var0] = Ninjas.spawnX[var0];
+                        Ninjas.y[var0] = Ninjas.spawnY[var0];
+                        Ninjas.timer[var0] = 0;
+                        Ninjas.state[var0] = Ninjas.STATE_IDLE;
+                        Ninjas.hp[var0] = NinjaStats.maxHp[Ninjas.type[var0]];
                     }
                     break;
-                case 6:
+                case Ninjas.STATE_HURT:
                     if ((tick + var0) % 10 > 5) {
-                        cC[var0] = 1;
+                        Ninjas.bob[var0] = 1;
                     } else {
-                        cC[var0] = 0;
+                        Ninjas.bob[var0] = 0;
                     }
 
-                    cI[var0] = 0;
-                    cJ[var0] = 0;
-                    var10002 = cF[var0]++;
-                    if (cF[var0] >= 5) {
-                        cG[var0] = Player.x;
-                        if (cu[var0] < Player.x) {
-                            var10000 = cG;
+                    Ninjas.legsFrame[var0] = 0;
+                    Ninjas.bodyFrame[var0] = 0;
+                    var10002 = Ninjas.timer[var0]++;
+                    if (Ninjas.timer[var0] >= 5) {
+                        Ninjas.targetX[var0] = Player.x;
+                        if (Ninjas.x[var0] < Player.x) {
+                            var10000 = Ninjas.targetX;
                             var10000[var0] -= 80;
                         } else {
-                            var10000 = cG;
+                            var10000 = Ninjas.targetX;
                             var10000[var0] += 80;
                         }
 
-                        cF[var0] = 0;
-                        cH[var0] = cG[var0] < Player.x ? -1 : 1;
-                        cE[var0] = 7;
-                        cy[var0] = cH[var0] << 3;
-                        if (cG[var0] < cK[var0]) {
-                            cG[var0] = cK[var0];
+                        Ninjas.timer[var0] = 0;
+                        Ninjas.direction[var0] = Ninjas.targetX[var0] < Player.x ? -1 : 1;
+                        Ninjas.state[var0] = Ninjas.STATE_DASH;
+                        Ninjas.vx[var0] = Ninjas.direction[var0] << 3;
+                        if (Ninjas.targetX[var0] < Ninjas.minX[var0]) {
+                            Ninjas.targetX[var0] = Ninjas.minX[var0];
                         }
 
-                        if (cG[var0] > cL[var0]) {
-                            cG[var0] = cL[var0];
+                        if (Ninjas.targetX[var0] > Ninjas.maxX[var0]) {
+                            Ninjas.targetX[var0] = Ninjas.maxX[var0];
                         }
                     }
                     break;
-                case 7:
-                    if (a(cu[var0] - cG[var0]) < 12) {
-                        cF[var0] = cG[var0] = 0;
-                        cE[var0] = 3;
-                        v(var0);
+                case Ninjas.STATE_DASH:
+                    if (a(Ninjas.x[var0] - Ninjas.targetX[var0]) < 12) {
+                        Ninjas.timer[var0] = Ninjas.targetX[var0] = 0;
+                        Ninjas.state[var0] = Ninjas.STATE_IDLE;
+                        ninjaMeleeIfPlayerClose(var0);
                     } else {
-                        var10000 = cu;
-                        var10000[var0] += cy[var0];
+                        var10000 = Ninjas.x;
+                        var10000[var0] += Ninjas.vx[var0];
                         if (tick % 2 == 1) {
-                            cC[var0] = 1;
-                            cI[var0] = 3;
+                            Ninjas.bob[var0] = 1;
+                            Ninjas.legsFrame[var0] = 3;
                         } else {
-                            cI[var0] = 2;
-                            cC[var0] = 0;
+                            Ninjas.legsFrame[var0] = 2;
+                            Ninjas.bob[var0] = 0;
                         }
                     }
             }
 
-            cw[var0] = cu[var0];
-            cx[var0] = cv[var0] - 9 + cC[var0] + NinjaStats.bodyOffsetY[cD[var0]][cJ[var0]];
+            Ninjas.bodyX[var0] = Ninjas.x[var0];
+            Ninjas.bodyY[var0] = Ninjas.y[var0] - 9 + Ninjas.bob[var0] + NinjaStats.bodyOffsetY[Ninjas.type[var0]][Ninjas.bodyFrame[var0]];
         }
 
     }
@@ -5263,7 +4866,7 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     if (hv % 5 == 0) {
-                        a(hp + (hs << 3), hq - 20, hs << 3, -var0 + 2, false);
+                        Darts.spawn(hp + (hs << 3), hq - 20, hs << 3, -var0 + 2, false);
                     }
                     break;
                 case 23:
@@ -5475,20 +5078,20 @@ public final class b extends Canvas implements Runnable {
 
                     var1 = var6;
 
-                    for(var2 = 0; var2 < iq; ++var2) {
-                        if (cameraX <= is[var2] + 12 && cameraX + Viewport.viewWidth >= is[var2] - 12 && cameraY <= it[var2] && cameraY + Viewport.viewHeight >= it[var2] - 24) {
-                            var1.drawImage(itemCrate, is[var2], it[var2], 33);
+                    for(var2 = 0; var2 < Crates.count; ++var2) {
+                        if (cameraX <= Crates.x[var2] + 12 && cameraX + Viewport.viewWidth >= Crates.x[var2] - 12 && cameraY <= Crates.y[var2] && cameraY + Viewport.viewHeight >= Crates.y[var2] - 24) {
+                            var1.drawImage(Crates.sprite, Crates.x[var2], Crates.y[var2], 33);
                         }
                     }
 
                     var1 = var6;
 
-                    for(var2 = 0; var2 < ii; ++var2) {
-                        if (cameraX <= ik[var2] + 12 && cameraX + Viewport.viewWidth >= ik[var2] - 12 && cameraY <= il[var2] && cameraY + Viewport.viewHeight >= il[var2] - 24) {
-                            if (im[var2] == 1) {
-                                var1.drawImage(motorbikeFrames[in[var2]], ik[var2], il[var2], 33);
+                    for(var2 = 0; var2 < Motorbikes.count; ++var2) {
+                        if (cameraX <= Motorbikes.x[var2] + 12 && cameraX + Viewport.viewWidth >= Motorbikes.x[var2] - 12 && cameraY <= Motorbikes.y[var2] && cameraY + Viewport.viewHeight >= Motorbikes.y[var2] - 24) {
+                            if (Motorbikes.facing[var2] == 1) {
+                                var1.drawImage(Motorbikes.sprites[Motorbikes.frame[var2]], Motorbikes.x[var2], Motorbikes.y[var2], 33);
                             } else {
-                                var1.drawRegion(motorbikeFrames[in[var2]], 0, 0, motorbikeFrames[in[var2]].getWidth(), motorbikeFrames[in[var2]].getHeight(), 2, ik[var2], il[var2], 33);
+                                var1.drawRegion(Motorbikes.sprites[Motorbikes.frame[var2]], 0, 0, Motorbikes.sprites[Motorbikes.frame[var2]].getWidth(), Motorbikes.sprites[Motorbikes.frame[var2]].getHeight(), 2, Motorbikes.x[var2], Motorbikes.y[var2], 33);
                             }
                         }
                     }
@@ -5581,24 +5184,24 @@ public final class b extends Canvas implements Runnable {
 
                     var1 = var6;
 
-                    for(var2 = 0; var2 < cp; ++var2) {
-                        if (cE[var2] != 5 && cu[var2] + 15 >= cameraX && cu[var2] - 15 <= cameraX + Viewport.viewWidth && cv[var2] >= cameraY && cv[var2] - 30 <= cameraY + Viewport.viewHeight) {
-                            if (cH[var2] == -1) {
-                                var1.drawImage(ninjaLegs[cI[var2]], cu[var2] + NinjaStats.legsOffsetX[cD[var2]], cv[var2], 33);
-                                var1.drawImage(ninjaBodies[cD[var2]][cJ[var2]], cw[var2] + NinjaStats.bodyOffsetX[cD[var2]][cJ[var2]], cx[var2], 33);
+                    for(var2 = 0; var2 < Ninjas.count; ++var2) {
+                        if (Ninjas.state[var2] != Ninjas.STATE_DEAD && Ninjas.x[var2] + 15 >= cameraX && Ninjas.x[var2] - 15 <= cameraX + Viewport.viewWidth && Ninjas.y[var2] >= cameraY && Ninjas.y[var2] - 30 <= cameraY + Viewport.viewHeight) {
+                            if (Ninjas.direction[var2] == -1) {
+                                var1.drawImage(Ninjas.legSprites[Ninjas.legsFrame[var2]], Ninjas.x[var2] + NinjaStats.legsOffsetX[Ninjas.type[var2]], Ninjas.y[var2], 33);
+                                var1.drawImage(Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], Ninjas.bodyX[var2] + NinjaStats.bodyOffsetX[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], Ninjas.bodyY[var2], 33);
                             } else {
-                                var1.drawRegion(ninjaLegs[cI[var2]], 0, 0, ninjaLegs[cI[var2]].getWidth(), ninjaLegs[cI[var2]].getHeight(), 2, cu[var2] - NinjaStats.legsOffsetX[cD[var2]], cv[var2], 33);
-                                var1.drawRegion(ninjaBodies[cD[var2]][cJ[var2]], 0, 0, ninjaBodies[cD[var2]][cJ[var2]].getWidth(), ninjaBodies[cD[var2]][cJ[var2]].getHeight(), 2, cw[var2] - NinjaStats.bodyOffsetX[cD[var2]][cJ[var2]], cx[var2], 33);
+                                var1.drawRegion(Ninjas.legSprites[Ninjas.legsFrame[var2]], 0, 0, Ninjas.legSprites[Ninjas.legsFrame[var2]].getWidth(), Ninjas.legSprites[Ninjas.legsFrame[var2]].getHeight(), 2, Ninjas.x[var2] - NinjaStats.legsOffsetX[Ninjas.type[var2]], Ninjas.y[var2], 33);
+                                var1.drawRegion(Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], 0, 0, Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]].getWidth(), Ninjas.bodySprites[Ninjas.type[var2]][Ninjas.bodyFrame[var2]].getHeight(), 2, Ninjas.bodyX[var2] - NinjaStats.bodyOffsetX[Ninjas.type[var2]][Ninjas.bodyFrame[var2]], Ninjas.bodyY[var2], 33);
                             }
 
-                            if (cq[var2] != 0) {
+                            if (Ninjas.healthBarTimer[var2] != 0) {
                                 var1.setColor(13073);
-                                var1.drawRect(cu[var2] - 13, cv[var2] - 40, 26, 4);
-                                var3 = cr[var2] * 24 / NinjaStats.maxHp[cD[var2]];
+                                var1.drawRect(Ninjas.x[var2] - 13, Ninjas.y[var2] - 40, 26, 4);
+                                var3 = Ninjas.hp[var2] * 24 / NinjaStats.maxHp[Ninjas.type[var2]];
                                 var1.setColor(15597568);
-                                var1.fillRect(cu[var2] - 12, cv[var2] - 39, var3, 3);
+                                var1.fillRect(Ninjas.x[var2] - 12, Ninjas.y[var2] - 39, var3, 3);
                                 var1.setColor(4456482);
-                                var1.fillRect(cu[var2] - 12 + var3, cv[var2] - 39, 24 - var3 + 1, 3);
+                                var1.fillRect(Ninjas.x[var2] - 12 + var3, Ninjas.y[var2] - 39, 24 - var3 + 1, 3);
                             }
                         }
                     }
@@ -5681,9 +5284,9 @@ public final class b extends Canvas implements Runnable {
                 Projectiles.draw(var6);
                 var1 = var6;
 
-                for(var2 = 0; var2 < cV; ++var2) {
-                    if (cY[var2] != -1) {
-                        var1.drawImage(dartFrames[cZ[var2]], cW[var2], cX[var2], 3);
+                for(var2 = 0; var2 < Darts.count; ++var2) {
+                    if (Darts.state[var2] != Darts.STATE_FREE) {
+                        var1.drawImage(Darts.sprites[Darts.frame[var2]], Darts.x[var2], Darts.y[var2], 3);
                     }
                 }
 
@@ -6297,14 +5900,14 @@ public final class b extends Canvas implements Runnable {
                                     label2585: {
                                         if (Input.held[Input.KEY_UP]) {
                                             if (Skills.motorbikeLicense) {
-                                                for(var13 = 0; var13 < ii; ++var13) {
-                                                    if (Player.y == il[var13] && a(Player.x - ik[var13]) < 20) {
-                                                        Player.x = ik[var13];
+                                                for(var13 = 0; var13 < Motorbikes.count; ++var13) {
+                                                    if (Player.y == Motorbikes.y[var13] && a(Player.x - Motorbikes.x[var13]) < 20) {
+                                                        Player.x = Motorbikes.x[var13];
                                                         Player.action = PlayerAction.MOTORBIKE_STAND;
                                                         Input.clearHeld();
                                                         Player.motorbike = var13;
-                                                        im[var13] = Player.facing;
-                                                        in[var13] = 0;
+                                                        Motorbikes.facing[var13] = Player.facing;
+                                                        Motorbikes.frame[var13] = 0;
                                                         break label2585;
                                                     }
                                                 }
@@ -6534,7 +6137,7 @@ public final class b extends Canvas implements Runnable {
                                 } else if (Input.held[Input.KEY_LEFT]) {
                                     if (Player.facing == 1) {
                                         Player.facing = -1;
-                                        im[Player.motorbike] = -1;
+                                        Motorbikes.facing[Player.motorbike] = -1;
                                     } else {
                                         Player.actionTimer = 1;
                                         Player.action = PlayerAction.MOTORBIKE_RIDE;
@@ -6544,7 +6147,7 @@ public final class b extends Canvas implements Runnable {
                                 } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (Player.facing == -1) {
                                         Player.facing = 1;
-                                        im[Player.motorbike] = 1;
+                                        Motorbikes.facing[Player.motorbike] = 1;
                                     } else {
                                         Player.action = PlayerAction.MOTORBIKE_RIDE;
                                         Player.actionTimer = 10;
@@ -6563,14 +6166,14 @@ public final class b extends Canvas implements Runnable {
                                 } else if (Input.held[Input.KEY_LEFT]) {
                                     if (Player.facing == 1) {
                                         Player.facing = -1;
-                                        im[Player.motorbike] = -1;
+                                        Motorbikes.facing[Player.motorbike] = -1;
                                     } else {
                                         Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (Player.facing == -1) {
                                         Player.facing = 1;
-                                        im[Player.motorbike] = 1;
+                                        Motorbikes.facing[Player.motorbike] = 1;
                                     } else {
                                         Player.vx = Player.motorbikeSpeed;
                                     }
@@ -6579,14 +6182,14 @@ public final class b extends Canvas implements Runnable {
                                 if (Input.held[Input.KEY_LEFT]) {
                                     if (Player.facing == 1) {
                                         Player.facing = -1;
-                                        im[Player.motorbike] = -1;
+                                        Motorbikes.facing[Player.motorbike] = -1;
                                     } else {
                                         Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (Player.facing == -1) {
                                         Player.facing = 1;
-                                        im[Player.motorbike] = 1;
+                                        Motorbikes.facing[Player.motorbike] = 1;
                                     } else {
                                         Player.vx = Player.motorbikeSpeed;
                                     }
@@ -6595,14 +6198,14 @@ public final class b extends Canvas implements Runnable {
                                 if (Input.held[Input.KEY_LEFT]) {
                                     if (Player.facing == 1) {
                                         Player.facing = -1;
-                                        im[Player.motorbike] = -1;
+                                        Motorbikes.facing[Player.motorbike] = -1;
                                     } else {
                                         Player.vx = -Player.motorbikeSpeed;
                                     }
                                 } else if (Input.held[Input.KEY_RIGHT]) {
                                     if (Player.facing == -1) {
                                         Player.facing = 1;
-                                        im[Player.motorbike] = 1;
+                                        Motorbikes.facing[Player.motorbike] = 1;
                                     } else {
                                         Player.vx = Player.motorbikeSpeed;
                                     }
@@ -6732,102 +6335,102 @@ public final class b extends Canvas implements Runnable {
                     }
 
                     int[] var10000;
-                    for(var13 = 0; var13 < iq; ++var13) {
-                        switch (iu[var13]) {
-                            case 2:
-                                var10000 = is;
-                                var10000[var13] += iv[var13];
-                                if (iv[var13] > 0) {
-                                    var10002 = iv[var13]--;
-                                } else if (iv[var13] < 0) {
-                                    var10002 = iv[var13]++;
+                    for(var13 = 0; var13 < Crates.count; ++var13) {
+                        switch (Crates.state[var13]) {
+                            case Crates.STATE_SLIDING:
+                                var10000 = Crates.x;
+                                var10000[var13] += Crates.vx[var13];
+                                if (Crates.vx[var13] > 0) {
+                                    var10002 = Crates.vx[var13]--;
+                                } else if (Crates.vx[var13] < 0) {
+                                    var10002 = Crates.vx[var13]++;
                                 } else {
-                                    iu[var13] = 1;
+                                    Crates.state[var13] = Crates.STATE_RESTING;
                                 }
 
-                                if (!GameMap.hasFlag(is[var13] - 12, it[var13] + 1, TileFlags.SOLID) && !GameMap.hasFlag(is[var13] + 12, it[var13] + 1, TileFlags.SOLID)) {
-                                    iu[var13] = 4;
-                                    iw[var13] = 2;
+                                if (!GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13] + 1, TileFlags.SOLID) && !GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13] + 1, TileFlags.SOLID)) {
+                                    Crates.state[var13] = Crates.STATE_FALLING;
+                                    Crates.vy[var13] = 2;
                                 }
 
-                                if (GameMap.hasFlag(is[var13] + 12, it[var13] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13] - 2, TileFlags.WALL_RIGHT_SIDE)) {
-                                    is[var13] = I(is[var13]) + 12;
+                                if (GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13] - 2, TileFlags.WALL_RIGHT_SIDE)) {
+                                    Crates.x[var13] = I(Crates.x[var13]) + 12;
                                 }
                                 break;
-                            case 4:
-                                var10000 = it;
-                                var10000[var13] += iw[var13];
-                                if (iw[var13] < 20) {
-                                    var10002 = iw[var13]++;
+                            case Crates.STATE_FALLING:
+                                var10000 = Crates.y;
+                                var10000[var13] += Crates.vy[var13];
+                                if (Crates.vy[var13] < 20) {
+                                    var10002 = Crates.vy[var13]++;
                                 }
 
-                                if (!GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.SOLID) && !GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.SOLID)) {
-                                    if (GameMap.hasFlag(is[var13], it[var13] - GameMap.TILE_SIZE, TileFlags.WATER)) {
-                                        it[var13] = H(it[var13]) + 1;
-                                        WaterSplash.spawn(is[var13], it[var13] - 13);
-                                        WaterSplash.spawn(is[var13] + 1, it[var13] - 10);
-                                        iw[var13] = 1;
-                                        ix[var13] = -1;
-                                        iy[var13] = 1;
-                                        iu[var13] = 11;
+                                if (!GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13], TileFlags.SOLID) && !GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13], TileFlags.SOLID)) {
+                                    if (GameMap.hasFlag(Crates.x[var13], Crates.y[var13] - GameMap.TILE_SIZE, TileFlags.WATER)) {
+                                        Crates.y[var13] = H(Crates.y[var13]) + 1;
+                                        WaterSplash.spawn(Crates.x[var13], Crates.y[var13] - 13);
+                                        WaterSplash.spawn(Crates.x[var13] + 1, Crates.y[var13] - 10);
+                                        Crates.vy[var13] = 1;
+                                        Crates.bobDirection[var13] = -1;
+                                        Crates.driftVx[var13] = 1;
+                                        Crates.state[var13] = Crates.STATE_FLOATING;
                                     }
                                     break;
                                 }
 
-                                it[var13] = H(it[var13]);
-                                iw[var13] = 0;
-                                iu[var13] = 1;
+                                Crates.y[var13] = H(Crates.y[var13]);
+                                Crates.vy[var13] = 0;
+                                Crates.state[var13] = Crates.STATE_RESTING;
                                 break;
-                            case 11:
+                            case Crates.STATE_FLOATING:
                                 if (tick % 2 == 0) {
-                                    var10000 = it;
-                                    var10000[var13] += ix[var13];
-                                    var10000 = iw;
-                                    var10000[var13] += ix[var13];
-                                    if (iw[var13] >= 1) {
-                                        ix[var13] = -1;
+                                    var10000 = Crates.y;
+                                    var10000[var13] += Crates.bobDirection[var13];
+                                    var10000 = Crates.vy;
+                                    var10000[var13] += Crates.bobDirection[var13];
+                                    if (Crates.vy[var13] >= 1) {
+                                        Crates.bobDirection[var13] = -1;
                                     }
 
-                                    if (iw[var13] <= -1) {
-                                        ix[var13] = 1;
+                                    if (Crates.vy[var13] <= -1) {
+                                        Crates.bobDirection[var13] = 1;
                                     }
 
-                                    var10000 = is;
-                                    var10000[var13] += iy[var13];
+                                    var10000 = Crates.x;
+                                    var10000[var13] += Crates.driftVx[var13];
                                     if (var13 == Player.crate) {
-                                        Player.y = it[Player.crate] - 24;
-                                        Player.x += iy[var13];
+                                        Player.y = Crates.y[Player.crate] - 24;
+                                        Player.x += Crates.driftVx[var13];
                                     }
 
-                                    if (GameMap.hasFlag(is[var13] + 12, it[var13], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(is[var13] - 12, it[var13], TileFlags.WALL_RIGHT_SIDE)) {
-                                        iy[var13] = -iy[var13];
+                                    if (GameMap.hasFlag(Crates.x[var13] + 12, Crates.y[var13], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(Crates.x[var13] - 12, Crates.y[var13], TileFlags.WALL_RIGHT_SIDE)) {
+                                        Crates.driftVx[var13] = -Crates.driftVx[var13];
                                     }
                                 }
                         }
                     }
 
-                    for(var13 = 0; var13 < ii; ++var13) {
+                    for(var13 = 0; var13 < Motorbikes.count; ++var13) {
                         if (var13 == Player.motorbike) {
                             if (Player.actionTimer > 1) {
-                                in[var13] = 2;
+                                Motorbikes.frame[var13] = 2;
                             } else if (tick % 8 > 3) {
-                                in[var13] = 1;
+                                Motorbikes.frame[var13] = 1;
                             } else {
-                                in[var13] = 0;
+                                Motorbikes.frame[var13] = 0;
                             }
                         }
 
-                        if (io[var13] == 1) {
-                            var10000 = il;
-                            var10000[var13] += ip[var13];
-                            if (ip[var13] < 20) {
-                                var10002 = ip[var13]++;
+                        if (Motorbikes.falling[var13] == 1) {
+                            var10000 = Motorbikes.y;
+                            var10000[var13] += Motorbikes.vy[var13];
+                            if (Motorbikes.vy[var13] < 20) {
+                                var10002 = Motorbikes.vy[var13]++;
                             }
 
-                            if (il[var13] >= GameMap.pixelHeight || GameMap.hasFlag(ik[var13], il[var13], TileFlags.SOLID)) {
-                                ip[var13] = 0;
-                                io[var13] = 0;
-                                il[var13] = H(il[var13]);
+                            if (Motorbikes.y[var13] >= GameMap.pixelHeight || GameMap.hasFlag(Motorbikes.x[var13], Motorbikes.y[var13], TileFlags.SOLID)) {
+                                Motorbikes.vy[var13] = 0;
+                                Motorbikes.falling[var13] = 0;
+                                Motorbikes.y[var13] = H(Motorbikes.y[var13]);
                             }
                         }
                     }
@@ -6838,42 +6441,42 @@ public final class b extends Canvas implements Runnable {
                     Blood.update();
 
                     int var5;
-                    for(var13 = 0; var13 < cV; ++var13) {
-                        if (cY[var13] == 1) {
-                            var10000 = cW;
-                            var10000[var13] += da[var13];
-                            var10000 = cX;
-                            var10000[var13] += db[var13];
-                            if (cW[var13] >= cameraX && cW[var13] <= cameraX + Viewport.viewWidth && cX[var13] >= cameraY && cX[var13] <= cameraY + Viewport.viewHeight) {
-                                if (da[var13] > 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
-                                    cY[var13] = 2;
-                                    cW[var13] = I(cW[var13]);
-                                } else if (da[var13] < 0 && (GameMap.flagsAtPixel(cW[var13], cX[var13]) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
-                                    cY[var13] = 2;
-                                    cW[var13] = I(cW[var13]) + GameMap.TILE_SIZE;
+                    for(var13 = 0; var13 < Darts.count; ++var13) {
+                        if (Darts.state[var13] == Darts.STATE_FLYING) {
+                            var10000 = Darts.x;
+                            var10000[var13] += Darts.vx[var13];
+                            var10000 = Darts.y;
+                            var10000[var13] += Darts.vy[var13];
+                            if (Darts.x[var13] >= cameraX && Darts.x[var13] <= cameraX + Viewport.viewWidth && Darts.y[var13] >= cameraY && Darts.y[var13] <= cameraY + Viewport.viewHeight) {
+                                if (Darts.vx[var13] > 0 && (GameMap.flagsAtPixel(Darts.x[var13], Darts.y[var13]) & TileFlags.WALL_LEFT_SIDE) == TileFlags.WALL_LEFT_SIDE) {
+                                    Darts.state[var13] = Darts.STATE_STUCK;
+                                    Darts.x[var13] = I(Darts.x[var13]);
+                                } else if (Darts.vx[var13] < 0 && (GameMap.flagsAtPixel(Darts.x[var13], Darts.y[var13]) & TileFlags.WALL_RIGHT_SIDE) == TileFlags.WALL_RIGHT_SIDE) {
+                                    Darts.state[var13] = Darts.STATE_STUCK;
+                                    Darts.x[var13] = I(Darts.x[var13]) + GameMap.TILE_SIZE;
                                 }
 
-                                var10002 = cZ[var13]++;
-                                if (cZ[var13] > 1) {
-                                    cZ[var13] = 0;
+                                var10002 = Darts.frame[var13]++;
+                                if (Darts.frame[var13] > 1) {
+                                    Darts.frame[var13] = 0;
                                 }
 
-                                if (da[var13] != 0) {
+                                if (Darts.vx[var13] != 0) {
                                     for(var4 = 0; var4 < Monsters.count; ++var4) {
-                                        if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[var4] != Monsters.STATE_KNOCKED_OUT && a(Monsters.x[var4] - cW[var13]) < Monsters.width[var4] && a(Monsters.y[var4] - (Monsters.height[var4] >> 1) - cX[var13]) < Monsters.height[var4]) {
+                                        if (Monsters.state[var4] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[var4] != Monsters.STATE_KNOCKED_OUT && a(Monsters.x[var4] - Darts.x[var13]) < Monsters.width[var4] && a(Monsters.y[var4] - (Monsters.height[var4] >> 1) - Darts.y[var13]) < Monsters.height[var4]) {
                                             boolean var14;
                                             label2807: {
-                                                var5 = dc[var13] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
+                                                var5 = Darts.powered[var13] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
                                                 if (Monsters.state[var4] == Monsters.STATE_ACTIVE || Monsters.state[var4] == Monsters.STATE_RESTING || Monsters.state[var4] == Monsters.STATE_ATTACKING) {
-                                                    if (Monsters.type[var4] == Monsters.TYPE_WIND_NINJA && da[var13] * Monsters.direction[var4] < 0) {
+                                                    if (Monsters.type[var4] == Monsters.TYPE_WIND_NINJA && Darts.vx[var13] * Monsters.direction[var4] < 0) {
                                                         Monsters.state[var4] = Monsters.STATE_ATTACKING;
                                                         Monsters.timer[var4] = 4;
-                                                        da[var13] = -da[var13];
-                                                        db[var13] = -db[var13];
-                                                        var10000 = cW;
-                                                        var10000[var13] += da[var13];
-                                                        var10000 = cX;
-                                                        var10000[var13] += db[var13];
+                                                        Darts.vx[var13] = -Darts.vx[var13];
+                                                        Darts.vy[var13] = -Darts.vy[var13];
+                                                        var10000 = Darts.x;
+                                                        var10000[var13] += Darts.vx[var13];
+                                                        var10000 = Darts.y;
+                                                        var10000[var13] += Darts.vy[var13];
                                                         var14 = true;
                                                         break label2807;
                                                     }
@@ -6883,7 +6486,7 @@ public final class b extends Canvas implements Runnable {
                                                     if (Monsters.hp[var4] <= 0) {
                                                         Monsters.hp[var4] = 0;
                                                         Monsters.timer[var4] = -5;
-                                                        Monsters.aux1[var4] = da[var13];
+                                                        Monsters.aux1[var4] = Darts.vx[var13];
                                                         Monsters.aux2[var4] = 0;
                                                         Monsters.healthBarTimer[var4] = 0;
                                                         Monsters.state[var4] = Monsters.STATE_KNOCKED_OUT;
@@ -6893,10 +6496,10 @@ public final class b extends Canvas implements Runnable {
                                                     }
 
                                                     Monsters.timer[var4] = 0;
-                                                    Monsters.direction[var4] = da[var13] < 0 ? 1 : -1;
+                                                    Monsters.direction[var4] = Darts.vx[var13] < 0 ? 1 : -1;
                                                     Monsters.state[var4] = Monsters.STATE_HURT;
                                                     Monsters.frame[var4] = 3;
-                                                    cY[var13] = -1;
+                                                    Darts.state[var13] = Darts.STATE_FREE;
                                                 }
 
                                                 var14 = false;
@@ -6910,69 +6513,69 @@ public final class b extends Canvas implements Runnable {
                                         }
                                     }
 
-                                    for(var4 = 0; var4 < cp; ++var4) {
-                                        if (cE[var4] != 5 && cE[var4] != 1 && a(cu[var4] - cW[var13]) < 20 && a(cv[var4] - 15 - cX[var13]) < 20) {
-                                            if (dc[var13]) {
-                                                a(var4, PlayerStats.dartDamage << 1, cH[var13]);
-                                                Blood.spawn(cu[var4], cv[var4] - 15, cH[var4]);
-                                                FloatingText.spawn("-" + (PlayerStats.dartDamage << 1), 0, cu[var4], cv[var4] - 32, 0, -2);
-                                                cY[var13] = -1;
+                                    for(var4 = 0; var4 < Ninjas.count; ++var4) {
+                                        if (Ninjas.state[var4] != Ninjas.STATE_DEAD && Ninjas.state[var4] != Ninjas.STATE_KNOCKED_OUT && a(Ninjas.x[var4] - Darts.x[var13]) < 20 && a(Ninjas.y[var4] - 15 - Darts.y[var13]) < 20) {
+                                            if (Darts.powered[var13]) {
+                                                damageNinja(var4, PlayerStats.dartDamage << 1, Ninjas.direction[var13]);
+                                                Blood.spawn(Ninjas.x[var4], Ninjas.y[var4] - 15, Ninjas.direction[var4]);
+                                                FloatingText.spawn("-" + (PlayerStats.dartDamage << 1), 0, Ninjas.x[var4], Ninjas.y[var4] - 32, 0, -2);
+                                                Darts.state[var13] = Darts.STATE_FREE;
                                             } else {
-                                                cE[var4] = 4;
-                                                cF[var4] = 0;
-                                                cG[var4] = 0;
-                                                cH[var4] = da[var13] > 0 ? -1 : 1;
-                                                da[var13] = -da[var13];
+                                                Ninjas.state[var4] = Ninjas.STATE_ATTACK;
+                                                Ninjas.timer[var4] = 0;
+                                                Ninjas.targetX[var4] = 0;
+                                                Ninjas.direction[var4] = Darts.vx[var13] > 0 ? -1 : 1;
+                                                Darts.vx[var13] = -Darts.vx[var13];
                                             }
                                             break;
                                         }
                                     }
 
-                                    if (!dc[var13] && a(Player.x - cW[var13]) < Player.halfWidth && a(Player.y - Player.halfHeight - cX[var13]) < Player.halfHeight) {
+                                    if (!Darts.powered[var13] && a(Player.x - Darts.x[var13]) < Player.halfWidth && a(Player.y - Player.halfHeight - Darts.y[var13]) < Player.halfHeight) {
                                         if (Player.action == PlayerAction.ATTACK && Player.weapon == 0) {
-                                            da[var13] = -da[var13];
-                                            db[var13] = -3;
+                                            Darts.vx[var13] = -Darts.vx[var13];
+                                            Darts.vy[var13] = -3;
                                         } else {
                                             damagePlayer(PlayerStats.dartDamage, -Player.facing);
-                                            cY[var13] = -1;
+                                            Darts.state[var13] = Darts.STATE_FREE;
                                         }
                                         break;
                                     }
 
-                                    if (gN && a(gP - cW[var13]) < gV >> 1 && a(gQ - (gW >> 1) - cX[var13]) < gW >> 1) {
+                                    if (gN && a(gP - Darts.x[var13]) < gV >> 1 && a(gQ - (gW >> 1) - Darts.y[var13]) < gW >> 1) {
                                         c(PlayerStats.dartDamage, -gT);
-                                        Blood.spawn(cW[var13], cX[var13], gT);
+                                        Blood.spawn(Darts.x[var13], Darts.y[var13], gT);
                                         FloatingText.spawn("-" + PlayerStats.dartDamage, 0, gP, gQ - gW, 0, -2);
-                                        cY[var13] = -1;
+                                        Darts.state[var13] = Darts.STATE_FREE;
                                     }
 
-                                    if (hJ && a(hP - cW[var13]) < hO >> 1 && a(hQ - (hL >> 1) - cX[var13]) < hL >> 1) {
-                                        da[var13] = -da[var13];
-                                        db[var13] = -1;
+                                    if (hJ && a(hP - Darts.x[var13]) < hO >> 1 && a(hQ - (hL >> 1) - Darts.y[var13]) < hL >> 1) {
+                                        Darts.vx[var13] = -Darts.vx[var13];
+                                        Darts.vy[var13] = -1;
                                     }
 
-                                    if (hc && a(dz[0] - cW[var13]) < 12 && a(dA[0] - 16 - cX[var13]) < 32) {
-                                        if (dD[0] == 5 && da[var13] * dJ[0] < 0) {
-                                            da[var13] = -da[var13];
-                                        } else if (dD[0] == 1 && da[var13] * dJ[0] < 0) {
-                                            da[var13] = -da[var13];
+                                    if (hc && a(dz[0] - Darts.x[var13]) < 12 && a(dA[0] - 16 - Darts.y[var13]) < 32) {
+                                        if (dD[0] == 5 && Darts.vx[var13] * dJ[0] < 0) {
+                                            Darts.vx[var13] = -Darts.vx[var13];
+                                        } else if (dD[0] == 1 && Darts.vx[var13] * dJ[0] < 0) {
+                                            Darts.vx[var13] = -Darts.vx[var13];
                                             dE[0] = dF[0] = 0;
                                             dD[0] = 5;
                                         } else {
                                             d(PlayerStats.dartDamage, -dJ[0]);
-                                            cY[var13] = -1;
+                                            Darts.state[var13] = Darts.STATE_FREE;
                                         }
                                     }
                                 }
                             } else {
-                                cY[var13] = -1;
+                                Darts.state[var13] = Darts.STATE_FREE;
                             }
-                        } else if (cY[var13] > 1) {
-                            var10002 = cY[var13]++;
-                            if (cY[var13] >= 10) {
-                                cY[var13] = 1;
-                                db[var13] = 12;
-                                da[var13] = 0;
+                        } else if (Darts.state[var13] > Darts.STATE_FLYING) {
+                            var10002 = Darts.state[var13]++;
+                            if (Darts.state[var13] >= 10) {
+                                Darts.state[var13] = Darts.STATE_FLYING;
+                                Darts.vy[var13] = 12;
+                                Darts.vx[var13] = 0;
                             }
                         }
                     }
@@ -7071,7 +6674,7 @@ public final class b extends Canvas implements Runnable {
                                     }
 
                                     if (Player.crate != -1) {
-                                        if (a(gn - is[Player.crate]) >= 20) {
+                                        if (a(gn - Crates.x[Player.crate]) >= 20) {
                                             Player.crate = -1;
                                             if (GameMap.hasFlag(gn, go, TileFlags.SOLID)) {
                                                 gr = 1;
@@ -7297,7 +6900,7 @@ public final class b extends Canvas implements Runnable {
                 }
 
                 ak();
-                aa();
+                updateNinjas();
                 if (gN) {
                     if (hb > 0) {
                         --hb;
@@ -7912,7 +7515,7 @@ public final class b extends Canvas implements Runnable {
                                         break label2824;
                                     case 6:
                                         dG[0] = 15;
-                                        a(dz[0] + (dJ[0] << 3), dA[0] - 12, dJ[0] << 3, 0, false);
+                                        Darts.spawn(dz[0] + (dJ[0] << 3), dA[0] - 12, dJ[0] << 3, 0, false);
                                         break label2824;
                                     case 7:
                                         dG[0] = 16;
