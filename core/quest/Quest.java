@@ -54,7 +54,7 @@ public final class Quest {
     /** Giá trị trong {@link #TARGET_MONSTER}: nhiệm vụ không đếm quái. */
     public static final int NO_MONSTER = 100;
 
-    /** Loại quái cần giết (chỉ số vào bảng tên quái b.al), hoặc {@link #NO_MONSTER}. */
+    /** Loại quái cần giết (chỉ số vào bảng tên quái GameText.monsterNames), hoặc {@link #NO_MONSTER}. */
     public static final int[] TARGET_MONSTER = new int[]{1, 7, 100, 100, 6, 100, 100, 13, 100, 15, 100, 100, 18, 17, 10, 100, 100, 100};
 
     /**

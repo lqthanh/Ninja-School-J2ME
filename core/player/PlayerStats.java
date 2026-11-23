@@ -6,7 +6,7 @@ package core.player;
  * Tên field gốc trong b.java (trước khi deobfuscate):
  *  level=N, exp=O, hp=H, maxHp=I, mp=J, maxMp=K, attack=F, dartDamage=G
  *
- * Thứ tự ghi/đọc trong save "ninjasave" vẫn do b.a()/b.b() quản lý,
+ * Thứ tự ghi/đọc trong save "ninjasave" vẫn do b.saveGame()/b.loadGame() quản lý,
  * không được đổi thứ tự để giữ tương thích với save cũ.
  */
 public final class PlayerStats {
@@ -155,8 +155,8 @@ public final class PlayerStats {
     /**
      * Sát thương một nhát kiếm.
      *
-     * @param seed        số ngẫu nhiên/bộ đếm frame (b.x)
-     * @param weaponLevel cấp kiếm đã mua (b.y)
+     * @param seed        số ngẫu nhiên/bộ đếm frame (b.tick)
+     * @param weaponLevel cấp kiếm đã mua (Inventory.swordLevel)
      */
     public static int rollMeleeDamage(int seed, int weaponLevel) {
         int damage = attack + seed % (attack >> 1);

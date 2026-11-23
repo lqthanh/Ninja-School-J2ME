@@ -7,7 +7,7 @@ import java.io.InputStream;
  *
  * Định dạng: width * height byte, mỗi byte là mã tile của một ô, xếp theo hàng
  * từ trên xuống, trái sang phải. Mã tile = chỉ số ảnh trong tileset + 1, 0 = ô trống.
- * File không lưu kích thước; width/height của từng map nằm trong code (b.q).
+ * File không lưu kích thước; width/height của từng map nằm trong code (MapConfig).
  */
 public final class MapFile {
     private MapFile() {

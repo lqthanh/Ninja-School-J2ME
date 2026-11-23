@@ -16,7 +16,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 
 public class Midlet extends MIDlet implements Runnable {
-    static b b;
+    static b canvas;
     static Midlet instance;
     private static boolean needsDefaultsInit = true;
     public static int nextGameState;
@@ -27,18 +27,18 @@ public class Midlet extends MIDlet implements Runnable {
 
     public Midlet() {
         instance = this;
-        Display.getDisplay(this).setCurrent(b);
-        b.s();
+        Display.getDisplay(this).setCurrent(canvas);
+        b.start();
     }
 
     public void run() {
         try {
             Thread.sleep(200L);
             Thread.yield();
-            b.tick = b.a((int) System.currentTimeMillis() % 1000);
+            b.tick = b.abs((int) System.currentTimeMillis() % 1000);
             b.loadingTarget = 30;
             Thread.yield();
-            b.m(b.mapId);
+            b.applyMapStory(b.mapId);
             b.loadMap(b.mapId);
             b.setupHouses(b.mapId);
             b.setupSigns(b.mapId);
@@ -61,7 +61,7 @@ public class Midlet extends MIDlet implements Runnable {
             Toniku.setup(b.mapId);
             b.loadingTarget = 75;
             MoneyDrops.init();
-            b.g();
+            b.loadScrollIcon();
             PotionDrops.init();
             b.loadingTarget = 78;
             Thread.yield();
@@ -80,7 +80,7 @@ public class Midlet extends MIDlet implements Runnable {
             ArcProjectiles.init();
             Aura.init();
             b.loadingTarget = 87;
-            b.e();
+            b.loadArrowIcons();
             b.setupViewport();
             b.setupHud();
             b.loadingTarget = 95;
@@ -93,7 +93,7 @@ public class Midlet extends MIDlet implements Runnable {
             b.hudDirty = true;
             b.leftSoftKeyLabel = "Menu";
             b.rightSoftKeyLabel = " ";
-            b.U = false;
+            b.prologueNoRespawn = false;
             b.onMapEntered(b.mapId);
             b.loadingTarget = 100;
             if (needsDefaultsInit) {
@@ -115,10 +115,10 @@ public class Midlet extends MIDlet implements Runnable {
             Input.clearPressed();
             Input.clearHeld();
             if (Save.pendingLoad) {
-                b.b();
+                b.loadGame();
                 Save.pendingLoad = false;
             } else if (Save.pendingSave) {
-                b.a();
+                b.saveGame();
                 Save.pendingSave = false;
             }
 
@@ -148,12 +148,12 @@ public class Midlet extends MIDlet implements Runnable {
     protected void pauseApp() {
     }
 
-    protected void destroyApp(boolean var1) {
+    protected void destroyApp(boolean unconditional) {
         Sound.stopAndRelease();
     }
 
     public final void shutdownApp() {
-        b.b = false;
+        b.running = false;
         System.gc();
         this.notifyDestroyed();
     }

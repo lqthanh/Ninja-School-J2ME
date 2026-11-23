@@ -9,7 +9,7 @@ import assets.MapFile;
  *  width=iM, height=iN, pixelWidth=iO, pixelHeight=iP,
  *  tiles=iQ, flags=iR, usedTiles=iS, TILE_SIZE=je
  *
- * Kích thước map và vị trí xuất phát của từng màn vẫn được đặt trong b.q(int).
+ * Kích thước map và vị trí xuất phát của từng màn được đặt trong {@link MapConfig}.
  */
 public final class GameMap {
     /** Kích thước một ô (pixel). */

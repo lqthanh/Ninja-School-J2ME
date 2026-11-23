@@ -6,7 +6,7 @@ import javax.microedition.lcdui.Image;
  * Hình ảnh quái vật (assets/mob/).
  *
  *  - monster{type}_{dir}_{frame}.png (gốc: m{type}{dir}{frame}.png)
- *      Quái thường, type 0..19 (theo danh sách tên quái trong b.al),
+ *      Quái thường, type 0..19 (theo danh sách tên quái trong GameText.monsterNames),
  *      dir 0 = hướng phải, 1 = hướng trái; frame 0..3.
  *      Một số quái thiếu file: hướng trái dùng lại hướng phải, frame 2 dùng lại frame 1.
  *  - ninja{type}_{frame}.png (gốc: y{type}{frame}.png) : thân ninja địch, 7 loại x 2 frame
