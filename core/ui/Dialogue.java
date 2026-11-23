@@ -20,7 +20,7 @@ public final class Dialogue {
     public static int shownLines;
     /** Số ký tự đã hiện của dòng đang gõ. */
     public static int shownChars;
-    /** Hành động chạy khi đọc hết lời thoại (b.onDialogueFinished). */
+    /** Hành động chạy khi đọc hết lời thoại (GameCanvas.onDialogueFinished). */
     public static int finishAction;
     /** Vị trí người nói (pixel trên map), mũi tên của bong bóng chỉ vào đây. */
     public static int speakerX;

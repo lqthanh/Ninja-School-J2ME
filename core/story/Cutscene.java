@@ -4,7 +4,7 @@ package core.story;
  * Kịch bản cutscene. Mỗi cutscene là một dãy lệnh; lệnh thứ i có mã {@link #commands},
  * tham số {@link #args} và được chạy khi bộ đếm frame của cutscene đạt
  * {@link #triggerFrames} (bộ đếm không reset giữa các lệnh, nên các giá trị tăng dần).
- * Trình thông dịch là {@code b.updateCutscene()}.
+ * Trình thông dịch là {@code GameCanvas.updateCutscene()}.
  */
 public final class Cutscene {
     // =====================================================================================
@@ -43,7 +43,7 @@ public final class Cutscene {
     public static final int CMD_CLASSMATE_SCENE = 16;
     /** Chuyển sang map arg, xuất hiện ở lối ra bên phải. */
     public static final int CMD_CHANGE_MAP = 17;
-    /** Đặt mũi tên chỉ NPC tiếp theo (b.setNextNpcMarker(arg)). */
+    /** Đặt mũi tên chỉ NPC tiếp theo (GameCanvas.setNextNpcMarker(arg)). */
     public static final int CMD_NEXT_NPC_MARKER = 18;
     /** Cô gái đi theo nhân vật. */
     public static final int CMD_GIRL_FOLLOW = 19;

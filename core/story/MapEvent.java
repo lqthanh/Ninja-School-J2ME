@@ -2,7 +2,7 @@ package core.story;
 
 /**
  * Sự kiện của map: dãy bước chờ điều kiện rồi phát cutscene. Mỗi map có sự kiện dùng
- * chỉ số b.mapEventId; trình chạy là {@code b.updateMapEvent()}.
+ * chỉ số GameCanvas.mapEventId; trình chạy là {@code GameCanvas.updateMapEvent()}.
  */
 public final class MapEvent {
     /** Chờ nhân vật đi qua x = {@link #paramX}. */

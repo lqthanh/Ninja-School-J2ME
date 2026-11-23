@@ -241,7 +241,7 @@ public final class DialogueText {
     // =====================================================================================
     // #region Cutscene
 
-    /** Lời thoại trong cutscene (chỉ số lấy từ kịch bản b.cutsceneScripts). */
+    /** Lời thoại trong cutscene (chỉ số lấy từ kịch bản {@link core.story.Cutscene#args}). */
     public static final String[][] cutsceneLines = new String[][]{{"Rừng trúc đây rồi!",
                 "Hôm nay ta phải hạ được con quái vật đó!",
                 "Nó chắc quanh quẩn đây thôi!"},

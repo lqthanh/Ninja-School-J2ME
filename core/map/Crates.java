@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Image;
  * Thùng gỗ đẩy được (map 1, 5, 11, 97). Nhân vật đẩy hoặc chém thùng để trượt đi,
  * đứng lên thùng để nhảy cao hơn ({@link core.player.Player#crate}). Thùng rơi khỏi mép
  * thì rơi xuống; rơi xuống nước thì nổi bập bềnh và trôi.
- * Cập nhật nằm trong b.run().
+ * Cập nhật nằm trong GameCanvas.run().
  */
 public final class Crates {
     /** Đứng yên. */

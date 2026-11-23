@@ -5,7 +5,7 @@ import assets.MapFile;
 /**
  * Map đang chơi: lưới tile và cờ thuộc tính của từng ô.
  *
- * Tên field gốc trong b.java:
+ * Tên field gốc trong b.java (nay là GameCanvas.java):
  *  width=iM, height=iN, pixelWidth=iO, pixelHeight=iP,
  *  tiles=iQ, flags=iR, usedTiles=iS, TILE_SIZE=je
  *

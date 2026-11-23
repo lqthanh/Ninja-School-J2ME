@@ -2,7 +2,7 @@ package core.player;
 
 /**
  * Trạng thái của nhân vật chính: vị trí, vận tốc, hành động, hộp va chạm...
- * Chỉ số (HP, MP, cấp...) nằm ở {@link PlayerStats}. Cập nhật ở b.updatePlayer().
+ * Chỉ số (HP, MP, cấp...) nằm ở {@link PlayerStats}. Cập nhật ở GameCanvas.updatePlayer().
  */
 public final class Player {
     /** Vị trí chân (pixel trên map). */
@@ -25,7 +25,7 @@ public final class Player {
 
     /** Vũ khí đang dùng: 0 kiếm, 1 phi tiêu. */
     public static int weapon;
-    /** Hiệu ứng chém đang vẽ (chỉ số trong b.slashEffects), -1 nếu không có. */
+    /** Hiệu ứng chém đang vẽ (chỉ số trong GameCanvas.slashEffects), -1 nếu không có. */
     public static int slashEffect;
     /** Bước của chuỗi đòn đánh. */
     public static int comboStep;

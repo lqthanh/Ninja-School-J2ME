@@ -4,7 +4,7 @@ package core.render;
  * Kích thước màn hình và vùng vẽ bản đồ (view).
  *
  * View là phần màn hình dành cho thế giới game; phần còn lại phía dưới là bảng HUD
- * (xem {@code b.setupViewport()}).
+ * (xem {@code GameCanvas.setupViewport()}).
  */
 public final class Viewport {
     public static int screenWidth;

@@ -2,7 +2,7 @@ package core.app;
 
 /**
  * Các màn hình / trạng thái chính của game ({@link #current}).
- * Mỗi frame, b.run() cập nhật và b.paint() vẽ theo trạng thái hiện tại.
+ * Mỗi frame, GameCanvas.run() cập nhật và GameCanvas.paint() vẽ theo trạng thái hiện tại.
  */
 public final class GameState {
     /** Đang chơi: cập nhật nhân vật, quái, map và vẽ HUD. */

@@ -10,7 +10,7 @@ import javax.microedition.lcdui.Image;
  * Quái thuộc một nhóm ({@link #group}); mỗi nhóm có bộ ảnh riêng ({@link #groupSpriteSets})
  * và danh sách điểm xuất hiện ({@link #spawnX}, {@link #spawnY}). Khi bị hạ, quái chờ
  * {@link #respawnDelay} frame rồi hồi sinh ở một điểm trống ngẫu nhiên của nhóm.
- * Bảng quái theo map nằm ở {@link MonsterSpawns}; AI nằm ở b.updateMonsters().
+ * Bảng quái theo map nằm ở {@link MonsterSpawns}; AI nằm ở GameCanvas.updateMonsters().
  */
 public final class Monsters {
     public static final int FREE = -1;
@@ -57,7 +57,7 @@ public final class Monsters {
     public static final int STATE_HURT = 6;
     /** Không dùng. */
     public static final int STATE_UNUSED_7 = 7;
-    /** Không hồi sinh nữa (bị hạ trong đoạn mở đầu, b.prologueNoRespawn). */
+    /** Không hồi sinh nữa (bị hạ trong đoạn mở đầu, GameCanvas.prologueNoRespawn). */
     public static final int STATE_GONE = 8;
     /** Bị hất tung lên (đòn chém hất), rơi về điểm xuất hiện. */
     public static final int STATE_LAUNCHED = 9;

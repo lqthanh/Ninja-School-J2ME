@@ -2,7 +2,7 @@ package core.quest;
 
 /**
  * Hành động chạy khi đọc hết một đoạn hội thoại (Dialogue.finishAction, xử lý ở
- * b.onDialogueFinished): giao nhiệm vụ (START_*), trao thưởng (REWARD_*) ...
+ * GameCanvas.onDialogueFinished): giao nhiệm vụ (START_*), trao thưởng (REWARD_*) ...
  * Dialogue.NO_ACTION (-1), {@link #TALK} và {@link #QUEST_BUSY} không làm gì.
  */
 public final class QuestAction {

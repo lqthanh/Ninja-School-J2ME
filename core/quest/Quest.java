@@ -5,7 +5,7 @@ package core.quest;
  *
  * Nhiệm vụ do các thầy cô ở trường (map 0) giao theo chuỗi, thưởng là kỹ năng ({@link Skills})
  * hoặc mốc cốt truyện ({@link Story}). Điều kiện giao/nhận thưởng nằm trong code hội thoại NPC
- * (b.run, "Giao tiếp"), hành động khi đóng hội thoại nằm ở b.onDialogueFinished ({@link QuestAction}).
+ * (GameCanvas.run, "Giao tiếp"), hành động khi đóng hội thoại nằm ở GameCanvas.onDialogueFinished ({@link QuestAction}).
  *
  * Chỉ nhiệm vụ "giết N con quái" dùng {@link #TARGET_MONSTER}/{@link #TARGET_COUNT}; các nhiệm vụ
  * khác hoàn thành qua bí kíp ({@link QuestState#itemFound}), cờ sự kiện hoặc cutscene.

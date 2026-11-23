@@ -16,7 +16,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 
 public class Midlet extends MIDlet implements Runnable {
-    static b canvas;
+    static GameCanvas canvas;
     static Midlet instance;
     private static boolean needsDefaultsInit = true;
     public static int nextGameState;
@@ -28,74 +28,74 @@ public class Midlet extends MIDlet implements Runnable {
     public Midlet() {
         instance = this;
         Display.getDisplay(this).setCurrent(canvas);
-        b.start();
+        GameCanvas.start();
     }
 
     public void run() {
         try {
             Thread.sleep(200L);
             Thread.yield();
-            b.tick = b.abs((int) System.currentTimeMillis() % 1000);
-            b.loadingTarget = 30;
+            GameCanvas.tick = GameCanvas.abs((int) System.currentTimeMillis() % 1000);
+            GameCanvas.loadingTarget = 30;
             Thread.yield();
-            b.applyMapStory(b.mapId);
-            b.loadMap(b.mapId);
-            b.setupHouses(b.mapId);
-            b.setupSigns(b.mapId);
-            b.loadingTarget = 50;
+            GameCanvas.applyMapStory(GameCanvas.mapId);
+            GameCanvas.loadMap(GameCanvas.mapId);
+            GameCanvas.setupHouses(GameCanvas.mapId);
+            GameCanvas.setupSigns(GameCanvas.mapId);
+            GameCanvas.loadingTarget = 50;
             Thread.yield();
-            b.setupNpcs(b.mapId);
-            b.loadHeroSprites();
-            Girl.setup(b.mapId);
-            Classmates.setup(b.mapId);
-            Dog.setup(b.mapId);
-            b.loadingTarget = 65;
+            GameCanvas.setupNpcs(GameCanvas.mapId);
+            GameCanvas.loadHeroSprites();
+            Girl.setup(GameCanvas.mapId);
+            Classmates.setup(GameCanvas.mapId);
+            Dog.setup(GameCanvas.mapId);
+            GameCanvas.loadingTarget = 65;
             Thread.yield();
-            MonsterSpawns.setup(b.mapId);
-            b.loadingTarget = 70;
+            MonsterSpawns.setup(GameCanvas.mapId);
+            GameCanvas.loadingTarget = 70;
             Thread.yield();
-            Ninjas.setup(b.mapId);
-            BoarBoss.setup(b.mapId);
-            RiverMonster.setup(b.mapId);
-            FinalBoss.setup(b.mapId);
-            Toniku.setup(b.mapId);
-            b.loadingTarget = 75;
+            Ninjas.setup(GameCanvas.mapId);
+            BoarBoss.setup(GameCanvas.mapId);
+            RiverMonster.setup(GameCanvas.mapId);
+            FinalBoss.setup(GameCanvas.mapId);
+            Toniku.setup(GameCanvas.mapId);
+            GameCanvas.loadingTarget = 75;
             MoneyDrops.init();
-            b.loadScrollIcon();
+            GameCanvas.loadScrollIcon();
             PotionDrops.init();
-            b.loadingTarget = 78;
+            GameCanvas.loadingTarget = 78;
             Thread.yield();
-            Crates.setup(b.mapId);
-            Motorbikes.setup(b.mapId);
-            b.loadingTarget = 80;
+            Crates.setup(GameCanvas.mapId);
+            Motorbikes.setup(GameCanvas.mapId);
+            GameCanvas.loadingTarget = 80;
             Dust.init();
             WaterSplash.init();
-            b.loadingTarget = 82;
+            GameCanvas.loadingTarget = 82;
             Thread.yield();
             Blood.init();
             FloatingText.init();
             Darts.init();
-            b.loadingTarget = 85;
-            Projectiles.init(b.mapId);
+            GameCanvas.loadingTarget = 85;
+            Projectiles.init(GameCanvas.mapId);
             ArcProjectiles.init();
             Aura.init();
-            b.loadingTarget = 87;
-            b.loadArrowIcons();
-            b.setupViewport();
-            b.setupHud();
-            b.loadingTarget = 95;
+            GameCanvas.loadingTarget = 87;
+            GameCanvas.loadArrowIcons();
+            GameCanvas.setupViewport();
+            GameCanvas.setupHud();
+            GameCanvas.loadingTarget = 95;
             Thread.yield();
-            Sky.setup(Save.backgroundIndex, b.mapId, Viewport.viewWidth, Viewport.viewHeight, Settings.lowGraphics);
-            if (b.mapId < 19) {
-                WorldMap.visited[b.mapId] = true;
+            Sky.setup(Save.backgroundIndex, GameCanvas.mapId, Viewport.viewWidth, Viewport.viewHeight, Settings.lowGraphics);
+            if (GameCanvas.mapId < 19) {
+                WorldMap.visited[GameCanvas.mapId] = true;
             }
 
-            b.hudDirty = true;
-            b.leftSoftKeyLabel = "Menu";
-            b.rightSoftKeyLabel = " ";
-            b.prologueNoRespawn = false;
-            b.onMapEntered(b.mapId);
-            b.loadingTarget = 100;
+            GameCanvas.hudDirty = true;
+            GameCanvas.leftSoftKeyLabel = "Menu";
+            GameCanvas.rightSoftKeyLabel = " ";
+            GameCanvas.prologueNoRespawn = false;
+            GameCanvas.onMapEntered(GameCanvas.mapId);
+            GameCanvas.loadingTarget = 100;
             if (needsDefaultsInit) {
                 needsDefaultsInit = false;
                 PlayerStats.initDefaults();
@@ -115,14 +115,14 @@ public class Midlet extends MIDlet implements Runnable {
             Input.clearPressed();
             Input.clearHeld();
             if (Save.pendingLoad) {
-                b.loadGame();
+                GameCanvas.loadGame();
                 Save.pendingLoad = false;
             } else if (Save.pendingSave) {
-                b.saveGame();
+                GameCanvas.saveGame();
                 Save.pendingSave = false;
             }
 
-            Sound.loadTrack(Sound.trackForMap(b.mapId));
+            Sound.loadTrack(Sound.trackForMap(GameCanvas.mapId));
 
             if (!Sound.isDisabled()) {
                 Sound.start();
@@ -132,7 +132,7 @@ public class Midlet extends MIDlet implements Runnable {
             instance.shutdownApp();
         }
 
-        while (b.loadingProgress < 90) {
+        while (GameCanvas.loadingProgress < 90) {
             Thread.yield();
         }
 
@@ -153,7 +153,7 @@ public class Midlet extends MIDlet implements Runnable {
     }
 
     public final void shutdownApp() {
-        b.running = false;
+        GameCanvas.running = false;
         System.gc();
         this.notifyDestroyed();
     }

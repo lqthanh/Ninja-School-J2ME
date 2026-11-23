@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Image;
  * Phi tiêu nhân vật ném ra (tối đa {@link #CAPACITY} cái cùng lúc). Phi tiêu bay thẳng,
  * cắm vào tường ({@link #STATE_STUCK}) khoảng 8 frame rồi rơi xuống. Phi tiêu mạnh
  * ({@link #powered}) gây gấp đôi sát thương và xuyên qua ninja địch.
- * Cập nhật và va chạm nằm trong b.run().
+ * Cập nhật và va chạm nằm trong GameCanvas.run().
  */
 public final class Darts {
     public static final int CAPACITY = 10;

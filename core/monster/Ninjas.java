@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Image;
  * trong các mảng song song bên dưới. Ninja đi tuần trong đoạn [{@link #minX}, {@link #maxX}],
  * thấy nhân vật thì lao tới và tấn công: loại 0/4 ném phi tiêu, 1/5 ném đạn lửa, 2/3/6 chém gần.
  * Ảnh gồm chân ({@link #legSprites}) và thân ({@link #bodySprites}) vẽ riêng; khi bị hạ, thân văng
- * ra khỏi chân. AI nằm ở b.updateNinjas().
+ * ra khỏi chân. AI nằm ở GameCanvas.updateNinjas().
  */
 public final class Ninjas {
     // =====================================================================================

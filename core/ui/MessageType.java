@@ -1,7 +1,7 @@
 package core.ui;
 
 /**
- * Loại hộp thoại thông báo (b.showMessage). Loại quyết định nội dung mặc định,
+ * Loại hộp thoại thông báo ({@link MessageBox#show}). Loại quyết định nội dung mặc định,
  * nhãn 2 phím mềm và màn hình quay về khi đóng hộp thoại.
  */
 public final class MessageType {

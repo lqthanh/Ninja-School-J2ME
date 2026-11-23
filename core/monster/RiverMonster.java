@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Image;
  * Boss thủy quái ở map 97. Gồm thân (ảnh 0) và ba phần (ảnh 1, 2, 3) vẽ lệch theo
  * part*Offset; các độ lệch này thay đổi theo nhịp để tạo chuyển động. Bơi qua lại trong
  * [{@link #minX}, {@link #maxX}], nhô lên bắn đạn, lặn xuống rồi trồi lên cạnh nhân vật.
- * AI nằm trong b.run().
+ * AI nằm trong GameCanvas.run().
  */
 public final class RiverMonster {
     /** Bị hạ: chìm dần trong 50 frame rồi sang {@link #STATE_SUNK}. */
