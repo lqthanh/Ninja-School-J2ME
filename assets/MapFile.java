@@ -14,7 +14,7 @@ public final class MapFile {
     }
 
     public static byte[] load(int mapId, int tileCount) throws Exception {
-        InputStream stream = MapFile.class.getResourceAsStream(Enum.PATH_MAP + "map" + mapId + Enum.EXTENSION_MAP);
+        InputStream stream = "".getClass().getResourceAsStream(Enum.PATH_MAP + "map" + mapId + Enum.EXTENSION_MAP);
         try {
             byte[] tiles = new byte[tileCount];
             for (int i = 0; i < tileCount; i++) {

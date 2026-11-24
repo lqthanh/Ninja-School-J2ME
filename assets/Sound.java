@@ -28,7 +28,7 @@ public final class Sound {
         stopAndRelease();
 
         try {
-            InputStream stream = Sound.class.getResourceAsStream(Enum.PATH_SOUND + trackId + Enum.EXTENSION_MIME);
+            InputStream stream = "".getClass().getResourceAsStream(Enum.PATH_SOUND + trackId + Enum.EXTENSION_MIME);
             if (stream == null) {
                 unsupported = true;
                 disabled = true;

@@ -21,7 +21,18 @@ public final class FontGraph {
     private static Image regularFont;
     private static Image boldFont;
 
-    static {
+    private FontGraph() {
+    }
+
+    /**
+     * Nạp ảnh font. Gọi từ constructor của Midlet (không gọi trong khối static): một số
+     * emulator chưa cho đọc tài nguyên trong jar khi lớp MIDlet còn đang khởi tạo.
+     */
+    public static void init() {
+        if (boldFont != null) {
+            return;
+        }
+
         try {
             smallFonts = new Image[3];
             for (int i = 0; i < 3; i++) {
@@ -39,12 +50,6 @@ public final class FontGraph {
             boldFont = Image.createImage(Enum.PATH_FONT + "fb" + Enum.EXTENSION_PNG);
         } catch (Exception ex) {
         }
-    }
-
-    private FontGraph() {
-    }
-
-    public static void init() {
     }
 
     public static void drawBold(Graphics g, String text, int x, int y, int align) {
@@ -114,7 +119,7 @@ public final class FontGraph {
     }
 
     public static String[] wrapBoldText(String text, int maxWidth) {
-        Vector<String> lines = new Vector<>();
+        Vector lines = new Vector();
         int length;
         if ((length = text.length()) <= 1) {
             return new String[]{text};
@@ -166,7 +171,7 @@ public final class FontGraph {
             String[] result = new String[lines.size()];
 
             for (int i = 0; i < lines.size(); ++i) {
-                result[i] = lines.elementAt(i);
+                result[i] = (String) lines.elementAt(i);
             }
 
             return result;
@@ -174,7 +179,7 @@ public final class FontGraph {
     }
 
     public static String[] wrapRegularText(String text, int maxWidth) {
-        Vector<String> lines = new Vector<>();
+        Vector lines = new Vector();
         int length = text.length();
         String currentLine = "";
         int lineStart = 0;
@@ -218,7 +223,7 @@ public final class FontGraph {
         String[] result = new String[lines.size()];
 
         for (int i = 0; i < lines.size(); ++i) {
-            result[i] = lines.elementAt(i);
+            result[i] = (String) lines.elementAt(i);
         }
 
         return result;

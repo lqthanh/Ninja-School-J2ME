@@ -21,12 +21,9 @@ public class Midlet extends MIDlet implements Runnable {
     private static boolean needsDefaultsInit = true;
     public static int nextGameState;
 
-    static {
-        FontGraph.init();
-    }
-
     public Midlet() {
         instance = this;
+        FontGraph.init();
         Display.getDisplay(this).setCurrent(canvas);
         GameCanvas.start();
     }
