@@ -26,7 +26,7 @@ public final class Classmates {
     public static final int STATE_JUMP = 3;
     /** Toniku: rơi xuống. */
     public static final int STATE_FALL = 4;
-    /** Chém liên hoàn ({@link #target} là bước của chuỗi đòn). */
+    /** Chém liên hoàn ({@link #target} là bước của chuỗi đòn, Player.COMBO_*). */
     public static final int STATE_ATTACK = 5;
     /** Toniku: rơi khỏi đáy map. */
     public static final int STATE_FELL_OFF_MAP = 6;
@@ -49,7 +49,7 @@ public final class Classmates {
     public static int[] state;
     /** Bộ đếm khung hình. */
     public static int[] animTimer;
-    /** Điểm đến khi đi, bộ đếm chờ khi đứng, hoặc bước của chuỗi đòn khi chém. */
+    /** Điểm đến khi đi, bộ đếm chờ khi đứng, bước của chuỗi đòn (Player.COMBO_*) khi chém, bộ đếm khi Toniku ném/lao chém. */
     public static int[] target;
     /** Tư thế (chỉ số trong {@link core.player.Poses#classmatePoses}). */
     public static int[] pose;

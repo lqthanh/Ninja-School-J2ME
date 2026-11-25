@@ -937,7 +937,7 @@ public final class GameCanvas extends Canvas implements Runnable {
     }
 
     private static void ninjaMeleeIfPlayerClose(int i) {
-        if (abs(Player.y - Ninjas.y[i]) <= 24 && abs(Ninjas.x[i] + (Ninjas.direction[i] << 3) - Player.x) < 25 && (Ninjas.type[i] == 6 || Ninjas.type[i] == 2 || Ninjas.type[i] == 3)) {
+        if (abs(Player.y - Ninjas.y[i]) <= 24 && abs(Ninjas.x[i] + (Ninjas.direction[i] << 3) - Player.x) < 25 && (Ninjas.type[i] == Ninjas.TYPE_RED_SWORDSMAN || Ninjas.type[i] == Ninjas.TYPE_SWORDSMAN || Ninjas.type[i] == Ninjas.TYPE_RED_SPEARMAN)) {
             Ninjas.targetX[i] = Ninjas.timer[i] = 0;
             Ninjas.state[i] = Ninjas.STATE_ATTACK;
         }
@@ -948,17 +948,17 @@ public final class GameCanvas extends Canvas implements Runnable {
         if (!Player.hidden) {
             if (abs(Ninjas.x[i] - Player.x) < 100 && abs(Ninjas.y[i] - Player.y) < 20) {
                 switch (Ninjas.type[i]) {
-                    case 0:
-                    case 1:
-                    case 4:
-                    case 5:
+                    case Ninjas.TYPE_ARCHER:
+                    case Ninjas.TYPE_KUNAI_THROWER:
+                    case Ninjas.TYPE_RED_ARCHER:
+                    case Ninjas.TYPE_RED_KUNAI_THROWER:
                         Ninjas.direction[i] = Ninjas.x[i] < Player.x ? 1 : -1;
                         Ninjas.targetX[i] = Ninjas.timer[i] = 0;
                         Ninjas.state[i] = Ninjas.STATE_ATTACK;
                         break;
-                    case 2:
-                    case 3:
-                    case 6:
+                    case Ninjas.TYPE_SWORDSMAN:
+                    case Ninjas.TYPE_RED_SPEARMAN:
+                    case Ninjas.TYPE_RED_SWORDSMAN:
                         Ninjas.targetX[i] = Player.x;
                         if (Ninjas.x[i] < Player.x) {
                             Ninjas.targetX[i] -= 10;
@@ -1004,7 +1004,6 @@ public final class GameCanvas extends Canvas implements Runnable {
     }
 
     private static void onDialogueFinished() {
-        label58:
         switch (Dialogue.finishAction) {
             case QuestAction.START_KILL_SNAILS:
                 QuestState.current = Quest.KILL_SNAILS;
@@ -1171,7 +1170,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                 QuestState.progress = 0;
                 Notice.show("đã học phi tiêu cấp 2");
                 Effect.loadDarts(Darts.sprites, Effect.DART_LEVEL_2);
-                break label58;
+                break;
             case QuestAction.START_KILL_FLOWER_DEMONS:
                 QuestState.current = Quest.KILL_FLOWER_DEMONS;
                 QuestState.progress = 0;
@@ -1909,30 +1908,30 @@ public final class GameCanvas extends Canvas implements Runnable {
 
     private static void classmateHitMonster(int i) {
         int damage = PlayerStats.attack;
-        int m = Classmates.targetMonster[i];
+        int monster = Classmates.targetMonster[i];
         int direction = -Classmates.facing[i];
         boolean killed = false;
-        if (Monsters.state[m] == Monsters.STATE_ACTIVE || Monsters.state[m] == Monsters.STATE_RESTING || Monsters.state[m] == Monsters.STATE_ATTACKING) {
-            Monsters.hp[m] -= damage;
-            if (Monsters.hp[m] <= 0) {
-                Monsters.hp[m] = 0;
-                Monsters.timer[m] = -5;
-                Monsters.aux1[m] = -(direction << 3);
-                Monsters.aux2[m] = 0;
-                Monsters.healthBarTimer[m] = 0;
-                Monsters.state[m] = Monsters.STATE_KNOCKED_OUT;
+        if (Monsters.state[monster] == Monsters.STATE_ACTIVE || Monsters.state[monster] == Monsters.STATE_RESTING || Monsters.state[monster] == Monsters.STATE_ATTACKING) {
+            Monsters.hp[monster] -= damage;
+            if (Monsters.hp[monster] <= 0) {
+                Monsters.hp[monster] = 0;
+                Monsters.timer[monster] = -5;
+                Monsters.aux1[monster] = -(direction << 3);
+                Monsters.aux2[monster] = 0;
+                Monsters.healthBarTimer[monster] = 0;
+                Monsters.state[monster] = Monsters.STATE_KNOCKED_OUT;
                 killed = true;
             } else {
-                Monsters.timer[m] = 0;
-                Monsters.direction[m] = direction;
-                Monsters.state[m] = Monsters.STATE_HURT;
-                Monsters.frame[m] = 3;
+                Monsters.timer[monster] = 0;
+                Monsters.direction[monster] = direction;
+                Monsters.state[monster] = Monsters.STATE_HURT;
+                Monsters.frame[monster] = 3;
             }
         }
 
         if (!killed) {
-            Blood.spawn(Monsters.x[m], Monsters.y[m] - (Monsters.height[m] >> 1), Monsters.direction[m]);
-            FloatingText.spawn("-" + damage, 0, Monsters.x[m], Monsters.y[m] - Monsters.height[m], 0, -2);
+            Blood.spawn(Monsters.x[monster], Monsters.y[monster] - (Monsters.height[monster] >> 1), Monsters.direction[monster]);
+            FloatingText.spawn("-" + damage, 0, Monsters.x[monster], Monsters.y[monster] - Monsters.height[monster], 0, -2);
         }
     }
 
@@ -2276,7 +2275,6 @@ public final class GameCanvas extends Canvas implements Runnable {
         }
 
         int i;
-        label788:
         switch (Player.action) {
             case PlayerAction.STAND:
                 if (++Player.actionTimer > 30) {
@@ -2306,22 +2304,15 @@ public final class GameCanvas extends Canvas implements Runnable {
                     Player.nearGirl = true;
                 }
 
-                i = 0;
-
-                while(true) {
-                    if (i >= Npcs.count) {
-                        break label788;
-                    }
-
+                for (i = 0; i < Npcs.count; ++i) {
                     if (Player.y == Npcs.y[i] && abs(Player.x - Npcs.x[i]) < 30 && Player.nearNpc == -1) {
                         rightSoftKeyLabel = "Giao tiếp";
                         hudDirty = true;
                         Player.nearNpc = i;
-                        break label788;
+                        break;
                     }
-
-                    ++i;
                 }
+                break;
             case PlayerAction.RUN:
                 if (++Player.actionTimer >= 10) {
                     Player.actionTimer = 0;
@@ -2625,81 +2616,82 @@ public final class GameCanvas extends Canvas implements Runnable {
                     pushCrates();
                 }
 
-                label728:
                 switch (Player.comboStep) {
-                    case 0:
+                    case Player.COMBO_FIRST_SLASH:
                         switch (Player.actionTimer) {
                             case 1:
                             case 2:
                             case 3:
                                 Player.slashEffect = -1;
                                 Player.pose = 13;
-                                break label728;
+                                break;
                             case 4:
                                 Player.slashEffect = 0;
                                 Player.pose = 14;
-                                break label728;
+                                break;
                             case 5:
                                 Player.slashEffect = 1;
                                 Player.pose = 15;
-                                break label728;
+                                break;
                             case 6:
                                 Player.slashEffect = 1;
                                 Player.pose = 15;
                                 playerSwordHit();
-                                break label728;
+                                break;
                             case 7:
                                 Player.slashEffect = 2;
                                 Player.pose = 16;
-                                break label728;
+                                break;
                             case 8:
                                 Player.slashEffect = 2;
                                 Player.pose = 16;
                                 if (Player.comboQueued) {
                                     Player.comboQueued = false;
-                                    Player.comboStep = 2;
+                                    Player.comboStep = Player.COMBO_SECOND_SLASH;
                                 } else {
-                                    Player.comboStep = 1;
+                                    Player.comboStep = Player.COMBO_FIRST_SLASH_END;
                                 }
 
                                 Player.actionTimer = 1;
                             default:
-                                break label728;
+                                break;
                         }
-                    case 1:
+                        break;
+                    case Player.COMBO_FIRST_SLASH_END:
                         switch (Player.actionTimer) {
                             case 1:
                                 Player.slashEffect = 1;
                                 Player.pose = 15;
-                                break label728;
+                                break;
                             case 2:
                                 Player.slashEffect = 1;
                                 Player.pose = 15;
-                                Player.comboStep = 10;
+                                Player.comboStep = Player.COMBO_RECOVER;
                             default:
-                                break label728;
+                                break;
                         }
-                    case 2:
+                        break;
+                    case Player.COMBO_SECOND_SLASH:
                         switch (Player.actionTimer) {
                             case 1:
                             case 2:
                             case 3:
                                 Player.slashEffect = 3;
                                 Player.pose = 17;
-                                break label728;
+                                break;
                             case 4:
                                 Player.slashEffect = 4;
                                 Player.pose = 18;
-                                break label728;
+                                break;
                             case 5:
                                 Player.slashEffect = 5;
                                 Player.pose = 19;
-                                break label728;
+                                break;
                             case 6:
                                 Player.slashEffect = 6;
                                 Player.pose = 20;
                                 playerSwordHit();
-                                break label728;
+                                break;
                             case 7:
                                 Player.slashEffect = 6;
                                 Player.pose = 20;
@@ -2707,21 +2699,22 @@ public final class GameCanvas extends Canvas implements Runnable {
                                     if (Player.vy == 0 && Player.launchHit) {
                                         Player.actionTimer = 0;
                                         Player.comboQueued = false;
-                                        Player.comboStep = 9;
+                                        Player.comboStep = Player.COMBO_LAUNCH_SLASH;
                                     } else {
                                         Player.comboQueued = false;
-                                        Player.comboStep = 3;
+                                        Player.comboStep = Player.COMBO_THIRD_SLASH;
                                         ++Player.comboCount;
                                     }
                                 } else {
-                                    Player.comboStep = 10;
+                                    Player.comboStep = Player.COMBO_RECOVER;
                                 }
 
                                 Player.actionTimer = 1;
                             default:
-                                break label728;
+                                break;
                         }
-                    case 3:
+                        break;
+                    case Player.COMBO_THIRD_SLASH:
                         switch (Player.actionTimer) {
                             case 1:
                                 Player.slashEffect = 1;
@@ -2740,32 +2733,26 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 Player.pose = 16;
                                 if (Player.comboQueued) {
                                     Player.comboQueued = false;
-                                    Player.comboStep = 2;
+                                    Player.comboStep = Player.COMBO_SECOND_SLASH;
                                 } else {
-                                    Player.comboStep = 1;
+                                    Player.comboStep = Player.COMBO_FIRST_SLASH_END;
                                 }
 
                                 Player.actionTimer = 1;
                         }
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    default:
                         break;
-                    case 9:
+                    case Player.COMBO_LAUNCH_SLASH:
                         switch (Player.actionTimer) {
                             case 1:
                             case 2:
                             case 3:
                                 Player.slashEffect = -1;
                                 Player.pose = 13;
-                                break label728;
+                                break;
                             case 4:
                                 Player.slashEffect = 0;
                                 Player.pose = 14;
-                                break label728;
+                                break;
                             case 5:
                             case 6:
                                 Player.slashEffect = 9;
@@ -2779,12 +2766,12 @@ public final class GameCanvas extends Canvas implements Runnable {
                                     Monsters.timer[i] = -8;
                                     shakeCameraIfTransformed();
                                 }
-                                break label728;
+                                break;
                             case 7:
                             case 8:
                                 Player.slashEffect = 10;
                                 Player.pose = 16;
-                                break label728;
+                                break;
                             case 9:
                                 Player.slashEffect = -1;
                                 Player.pose = 16;
@@ -2795,12 +2782,13 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 } else {
                                     Player.actionTimer = 0;
                                     Player.actionTimer2 = 0;
-                                    Player.comboStep = 10;
+                                    Player.comboStep = Player.COMBO_RECOVER;
                                 }
                             default:
-                                break label728;
+                                break;
                         }
-                    case 10:
+                        break;
+                    case Player.COMBO_RECOVER:
                         switch (Player.actionTimer) {
                             case 1:
                                 Player.slashEffect = 2;
@@ -2827,6 +2815,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 Player.comboCount = 0;
                                 Player.actionTimer2 = 0;
                         }
+                        break;
                 }
 
                 if (Player.weapon == 1) {
@@ -3861,7 +3850,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                 case Classmates.STATE_ATTACK:
                     Classmates.animTimer[i]++;
                     switch (Classmates.target[i]) {
-                        case 0:
+                        case Player.COMBO_FIRST_SLASH:
                             switch (Classmates.animTimer[i]) {
                                 case 1:
                                 case 2:
@@ -3889,12 +3878,12 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 case 8:
                                     Classmates.slashEffect[i] = 2;
                                     Classmates.pose[i] = 16;
-                                    Classmates.target[i] = 2;
+                                    Classmates.target[i] = Player.COMBO_SECOND_SLASH;
                                     Classmates.animTimer[i] = 1;
                                 default:
                                     continue;
                             }
-                        case 1:
+                        case Player.COMBO_FIRST_SLASH_END:
                             switch (Classmates.animTimer[i]) {
                                 case 1:
                                     Classmates.slashEffect[i] = 1;
@@ -3903,11 +3892,11 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 case 2:
                                     Classmates.slashEffect[i] = 1;
                                     Classmates.pose[i] = 15;
-                                    Classmates.target[i] = 10;
+                                    Classmates.target[i] = Player.COMBO_RECOVER;
                                 default:
                                     continue;
                             }
-                        case 2:
+                        case Player.COMBO_SECOND_SLASH:
                             switch (Classmates.animTimer[i]) {
                                 case 1:
                                 case 2:
@@ -3931,12 +3920,12 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 case 7:
                                     Classmates.slashEffect[i] = 6;
                                     Classmates.pose[i] = 20;
-                                    Classmates.target[i] = 3;
+                                    Classmates.target[i] = Player.COMBO_THIRD_SLASH;
                                     Classmates.animTimer[i] = 1;
                                 default:
                                     continue;
                             }
-                        case 3:
+                        case Player.COMBO_THIRD_SLASH:
                             switch (Classmates.animTimer[i]) {
                                 case 1:
                                     Classmates.slashEffect[i] = 1;
@@ -3953,18 +3942,12 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 case 4:
                                     Classmates.slashEffect[i] = 2;
                                     Classmates.pose[i] = 16;
-                                    Classmates.target[i] = 1;
+                                    Classmates.target[i] = Player.COMBO_FIRST_SLASH_END;
                                     Classmates.animTimer[i] = 1;
                             }
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                        case 9:
                         default:
                             break;
-                        case 10:
+                        case Player.COMBO_RECOVER:
                             switch (Classmates.animTimer[i]) {
                                 case 1:
                                     Classmates.slashEffect[i] = 2;
@@ -4011,7 +3994,6 @@ public final class GameCanvas extends Canvas implements Runnable {
                 Ninjas.healthBarTimer[i]--;
             }
 
-            label143:
             switch (Ninjas.state[i]) {
                 case Ninjas.STATE_KNOCKED_OUT:
                     Ninjas.bodyFrame[i] = 1;
@@ -4124,17 +4106,17 @@ public final class GameCanvas extends Canvas implements Runnable {
 
                     if (Ninjas.timer[i] == 3) {
                         switch (Ninjas.type[i]) {
-                            case 0:
-                            case 4:
-                                Projectiles.spawn(Ninjas.x[i] + (Ninjas.direction[i] << 3), Ninjas.y[i] - 15, Ninjas.direction[i] * 12, NinjaStats.damage[Ninjas.type[i]], 0);
-                                break label143;
-                            case 1:
-                            case 5:
-                                Projectiles.spawn(Ninjas.x[i] + (Ninjas.direction[i] << 3), Ninjas.y[i] - 15, Ninjas.direction[i] << 3, NinjaStats.damage[Ninjas.type[i]], 1);
-                                break label143;
-                            case 2:
-                            case 3:
-                            case 6:
+                            case Ninjas.TYPE_ARCHER:
+                            case Ninjas.TYPE_RED_ARCHER:
+                                Projectiles.spawn(Ninjas.x[i] + (Ninjas.direction[i] << 3), Ninjas.y[i] - 15, Ninjas.direction[i] * 12, NinjaStats.damage[Ninjas.type[i]], Projectiles.TYPE_ARROW);
+                                break;
+                            case Ninjas.TYPE_KUNAI_THROWER:
+                            case Ninjas.TYPE_RED_KUNAI_THROWER:
+                                Projectiles.spawn(Ninjas.x[i] + (Ninjas.direction[i] << 3), Ninjas.y[i] - 15, Ninjas.direction[i] << 3, NinjaStats.damage[Ninjas.type[i]], Projectiles.TYPE_KUNAI);
+                                break;
+                            case Ninjas.TYPE_SWORDSMAN:
+                            case Ninjas.TYPE_RED_SPEARMAN:
+                            case Ninjas.TYPE_RED_SWORDSMAN:
                                 if (abs(Player.y - Ninjas.y[i]) < 5 && abs(Player.x - Ninjas.x[i]) < 30) {
                                     damagePlayer(NinjaStats.damage[Ninjas.type[i]], Ninjas.direction[i]);
                                 }
@@ -4305,9 +4287,9 @@ public final class GameCanvas extends Canvas implements Runnable {
                 case FinalBoss.STATE_DYING:
                     ++FinalBoss.timer;
 
-                    for(int p = 0; p < FinalBoss.partBaseY.length; ++p) {
-                        FinalBoss.partBaseY[p] += abs(p - 3) + 2;
-                        FinalBoss.partBaseX[p] += p - 3 << 1;
+                    for(int part = 0; part < FinalBoss.partBaseY.length; ++part) {
+                        FinalBoss.partBaseY[part] += abs(part - 3) + 2;
+                        FinalBoss.partBaseX[part] += part - 3 << 1;
                     }
 
                     if (FinalBoss.timer >= 50) {
@@ -4341,7 +4323,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                     FinalBoss.poseX = FinalBoss.attackPoseX[frame];
                     FinalBoss.poseY = FinalBoss.attackPoseY[frame];
                     if (FinalBoss.timer > 20 && FinalBoss.timer % 10 == 0) {
-                        Projectiles.spawn(FinalBoss.x + (FinalBoss.direction << 3), FinalBoss.y - 24, FinalBoss.direction << 3, FinalBoss.damage, 3);
+                        Projectiles.spawn(FinalBoss.x + (FinalBoss.direction << 3), FinalBoss.y - 24, FinalBoss.direction << 3, FinalBoss.damage, Projectiles.TYPE_FIREBALL);
                     }
 
                     if (FinalBoss.timer == 100) {
@@ -4366,14 +4348,14 @@ public final class GameCanvas extends Canvas implements Runnable {
                     }
             }
 
-            for(int p = 0; p < 6; ++p) {
+            for(int part = 0; part < 6; ++part) {
                 if (FinalBoss.direction == 1) {
-                    FinalBoss.partX[p] = FinalBoss.x + FinalBoss.partBaseX[p] + FinalBoss.poseX[p];
+                    FinalBoss.partX[part] = FinalBoss.x + FinalBoss.partBaseX[part] + FinalBoss.poseX[part];
                 } else {
-                    FinalBoss.partX[p] = FinalBoss.x - FinalBoss.partBaseX[p] - FinalBoss.poseX[p];
+                    FinalBoss.partX[part] = FinalBoss.x - FinalBoss.partBaseX[part] - FinalBoss.poseX[part];
                 }
 
-                FinalBoss.partY[p] = FinalBoss.y + FinalBoss.partBaseY[p] + FinalBoss.poseY[p];
+                FinalBoss.partY[part] = FinalBoss.y + FinalBoss.partBaseY[part] + FinalBoss.poseY[part];
             }
 
         }
@@ -4933,790 +4915,7 @@ public final class GameCanvas extends Canvas implements Runnable {
 
                         hudDirty = true;
                     } else {
-                        label2614: {
-                            if (Input.pressed[Input.KEY_SOFT_LEFT]) {
-                                tilesetImage = null;
-                                GameMenu.open();
-                                GameState.current = GameState.GAME_MENU;
-                                Input.clearHeld();
-                                Input.clearPressed();
-                            } else if (Input.pressed[Input.KEY_NUM0]) {
-                                if (Player.weapon == 0) {
-                                    if (Skills.darts) {
-                                        Player.weapon = 1;
-                                    }
-                                } else {
-                                    Player.weapon = 0;
-                                }
-
-                                hudDirty = true;
-                                Input.pressed[Input.KEY_NUM0] = false;
-                            } else if (Input.pressed[Input.KEY_RIGHT]) {
-                                Player.sprintBonus = 2;
-                                Input.pressed[Input.KEY_RIGHT] = false;
-                            } else if (Input.pressed[Input.KEY_LEFT]) {
-                                Player.sprintBonus = -2;
-                                Input.pressed[Input.KEY_LEFT] = false;
-                            } else {
-                                if (Input.pressed[Input.KEY_NUM9]) {
-                                    if (Skills.hide) {
-                                        Player.hidden = !Player.hidden;
-                                    }
-
-                                    Input.pressed[Input.KEY_NUM9] = false;
-                                    break label2614;
-                                }
-
-                                if (Input.pressed[Input.KEY_NUM7]) {
-                                    if (Player.action == PlayerAction.STAND && Skills.transform) {
-                                        Player.action = PlayerAction.TRANSFORM;
-                                        Player.actionTimer = 0;
-                                    }
-
-                                    Input.pressed[Input.KEY_NUM7] = false;
-                                } else if (Input.pressed[Input.KEY_STAR]) {
-                                    Input.pressed[Input.KEY_STAR] = false;
-                                    if (!PlayerStats.isHpFull()) {
-                                        for(i = 0; i < 3; ++i) {
-                                            if (Inventory.potionCounts[i] > 0) {
-                                                Inventory.potionCounts[i]--;
-                                                PlayerStats.restoreHp(Inventory.potionRestoreAmounts[i]);
-
-                                                hudDirty = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                } else if (Input.pressed[Input.KEY_POUND]) {
-                                    Input.pressed[Input.KEY_POUND] = false;
-                                    if (!PlayerStats.isMpFull()) {
-                                        for(i = 3; i < 6; ++i) {
-                                            if (Inventory.potionCounts[i] > 0) {
-                                                Inventory.potionCounts[i]--;
-                                                PlayerStats.restoreMp(Inventory.potionRestoreAmounts[i]);
-
-                                                hudDirty = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (Player.action == PlayerAction.STAND) {
-                                if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
-                                    Input.clearPressed();
-                                    if (rightSoftKeyLabel.equals("Giao tiếp")) {
-                                        j = Player.nearNpc;
-                                        switch (Npcs.types[j]) {
-                                            case 0:
-                                                if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (!Skills.lightness) {
-                                                    setNextNpcMarker(2);
-                                                    startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else {
-                                                    if (Skills.hide && !Story.gameCompleted) {
-                                                        if (QuestState.current == Quest.RESCUE_SAKURA) {
-                                                            if (Story.sakuraFound) {
-                                                                startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                        } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                        break;
-                                                    }
-
-                                                    startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-                                                break;
-                                            case 1:
-                                                if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (!Skills.lightness) {
-                                                    if (QuestState.current == Quest.KILL_SNAILS) {
-                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
-                                                            startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            pendingMarkerMap = 0;
-                                                            pendingMarkerNpc = 4;
-                                                            pendingMarkerX = 1044;
-                                                            pendingMarkerY = 240;
-                                                            startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else if (!Story.goldenBatQuestDone && Skills.transform) {
-                                                    if (PlayerStats.level < 10) {
-                                                        startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
-                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
-                                                            startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            setNextNpcMarker(2);
-                                                            startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else if (Story.girlOutingDone && !Skills.tripleJump) {
-                                                    if (PlayerStats.level < 12) {
-                                                        startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else if (QuestState.current == Quest.AIR_HITS) {
-                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
-                                                            startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            setNextNpcMarker(4);
-                                                            startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else {
-                                                    if (!Skills.sprint && Skills.dartsLevel2) {
-                                                        if (PlayerStats.level < 15) {
-                                                            startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else if (QuestState.current == Quest.KILL_SCORPIONS) {
-                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
-                                                                startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                setNextNpcMarker(3);
-                                                                startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                        } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                        break;
-                                                    }
-
-                                                    startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-                                                break;
-                                            case 2:
-                                                if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (!Skills.lightness) {
-                                                    setNextNpcMarker(1);
-                                                    startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (Skills.burrow && !Skills.motorbikeLicense) {
-                                                    if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
-                                                        startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
-                                                    if (QuestState.current == Quest.FIGHT_TONIKU) {
-                                                        if (Story.tonikuDefeated) {
-                                                            setNextNpcMarker(2);
-                                                            startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else {
-                                                    if (Story.tonikuQuestDone && !Story.girlWaiting) {
-                                                        if (QuestState.current == Quest.KILL_NATIVES) {
-                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
-                                                                startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                setNextNpcMarker(3);
-                                                                startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                        } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                        break;
-                                                    }
-
-                                                    startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-                                                break;
-                                            case 3:
-                                                if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else {
-                                                    if (Skills.lightness && Skills.darts) {
-                                                        if (!Skills.burrow) {
-                                                            if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
-                                                                if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                                } else {
-                                                                    setNextNpcMarker(2);
-                                                                    startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, Npcs.x[j], Npcs.y[j] - 40);
-                                                                }
-                                                            } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                            break;
-                                                        }
-
-                                                        if (!Skills.dive && Skills.doubleStrength) {
-                                                            if (QuestState.current == Quest.KILL_WILD_BOAR) {
-                                                                if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                                } else {
-                                                                    setNextNpcMarker(4);
-                                                                    startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, Npcs.x[j], Npcs.y[j] - 40);
-                                                                }
-                                                            } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                            break;
-                                                        }
-
-                                                        if (!Skills.standOnWater && Skills.sprint) {
-                                                            if (PlayerStats.level < 16) {
-                                                                startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
-                                                                if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
-                                                                    startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                                } else {
-                                                                    setNextNpcMarker(3);
-                                                                    startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, Npcs.x[j], Npcs.y[j] - 40);
-                                                                }
-                                                            } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                            break;
-                                                        }
-
-                                                        if (!Skills.hide && Skills.standOnWater) {
-                                                            if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
-                                                                if (!QuestState.itemFound) {
-                                                                    startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                                } else {
-                                                                    setNextNpcMarker(0);
-                                                                    startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, Npcs.x[j], Npcs.y[j] - 40);
-                                                                }
-                                                            } else if (QuestState.current == Quest.NONE) {
-                                                                startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                            break;
-                                                        }
-
-                                                        startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        break;
-                                                    }
-
-                                                    startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-                                                break;
-                                            case 4:
-                                                if (Story.sakuraEscorting) {
-                                                    startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (mapId == 99) {
-                                                    startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (!Skills.lightness) {
-                                                    startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                } else if (!Skills.darts) {
-                                                    if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
-                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
-                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            setNextNpcMarker(3);
-                                                            startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
-                                                    if (QuestState.current == Quest.KILL_BEES) {
-                                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
-                                                            startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            setNextNpcMarker(3);
-                                                            startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else if (Skills.dive && !Skills.transform) {
-                                                    if (PlayerStats.level < 8) {
-                                                        startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else if (QuestState.current == Quest.CROSS_RIVER) {
-                                                        if (!QuestState.itemFound) {
-                                                            startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            setNextNpcMarker(1);
-                                                            startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                    } else if (QuestState.current == Quest.NONE) {
-                                                        startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, Npcs.x[j], Npcs.y[j] - 40);
-                                                    } else {
-                                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-                                                } else {
-                                                    if (!Skills.dartsLevel2 && Skills.tripleJump) {
-                                                        if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
-                                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
-                                                                startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                            } else {
-                                                                setNextNpcMarker(1);
-                                                                startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, Npcs.x[j], Npcs.y[j] - 40);
-                                                            }
-                                                        } else if (QuestState.current == Quest.NONE) {
-                                                            startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, Npcs.x[j], Npcs.y[j] - 40);
-                                                        } else {
-                                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
-                                                        }
-                                                        break;
-                                                    }
-
-                                                    startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-                                                break;
-                                            case 5:
-                                                if (mapId == 0) {
-                                                    if (j == 5) {
-                                                        startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                    }
-
-                                                    if (j == 6) {
-                                                        openShop(ShopScreen.MODE_MONEY);
-                                                    }
-                                                }
-
-                                                if (mapId == 2 && j == 0) {
-                                                    openShop(ShopScreen.MODE_SMS);
-                                                }
-
-                                                if (mapId == 1 && j == 0) {
-                                                    startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-
-                                                if (mapId == 5 && j == 0) {
-                                                    startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-
-                                                if (mapId == 6 && j == 0) {
-                                                    startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
-                                                }
-                                        }
-
-                                        if (mapId == guideMarkerMap && j == guideMarkerNpc) {
-                                            guideMarkerMap = -1;
-                                        }
-                                    } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
-                                        Input.clearPressed();
-                                        Classmates.facing[Player.nearClassmate] = -Player.facing;
-                                        startDialogue(Classmates.lines[Player.nearClassmate], QuestAction.TALK, Classmates.x[Player.nearClassmate], Classmates.y[Player.nearClassmate] - 44);
-                                    } else if (rightSoftKeyLabel.equals("Nói chuyện") && Player.nearGirl) {
-                                        if (Girl.following) {
-                                            startDialogue(DialogueText.girlLines[0], QuestAction.TALK, Girl.x, Girl.y - 44);
-                                        } else if (Story.girlOutingDone) {
-                                            startDialogue(DialogueText.girlLines[2], QuestAction.TALK, Girl.x, Girl.y - 44);
-                                            Girl.following = true;
-                                        } else if (Story.girlWaiting) {
-                                            startDialogue(DialogueText.girlLines[3], QuestAction.START_GIRL_OUTING, Girl.x, Girl.y - 44);
-                                            Story.girlWaiting = false;
-                                        } else {
-                                            startDialogue(DialogueText.girlLines[1], QuestAction.TALK, Girl.x, Girl.y - 44);
-                                        }
-                                    }
-                                } else {
-                                    label2585: {
-                                        if (Input.held[Input.KEY_UP]) {
-                                            if (Skills.motorbikeLicense) {
-                                                for(i = 0; i < Motorbikes.count; ++i) {
-                                                    if (Player.y == Motorbikes.y[i] && abs(Player.x - Motorbikes.x[i]) < 20) {
-                                                        Player.x = Motorbikes.x[i];
-                                                        Player.action = PlayerAction.MOTORBIKE_STAND;
-                                                        Input.clearHeld();
-                                                        Player.motorbike = i;
-                                                        Motorbikes.facing[i] = Player.facing;
-                                                        Motorbikes.frame[i] = 0;
-                                                        break label2585;
-                                                    }
-                                                }
-                                            }
-
-                                            if (Skills.lightness) {
-                                                Player.vy = -10;
-                                            } else {
-                                                Player.vy = -8;
-                                            }
-
-                                            Player.action = PlayerAction.JUMP;
-                                            Player.crate = -1;
-                                            Player.actionTimer = 0;
-                                            Player.nearNpc = -1;
-                                            Player.nearClassmate = -1;
-                                            rightSoftKeyLabel = " ";
-                                            hudDirty = true;
-                                        } else if (Input.held[Input.KEY_LEFT]) {
-                                            if (Player.facing == 1) {
-                                                Player.facing = -1;
-                                            } else {
-                                                Player.action = PlayerAction.RUN;
-                                                Player.vx = -Player.moveSpeed;
-                                            }
-
-                                            Player.nearNpc = -1;
-                                            Player.nearClassmate = -1;
-                                            rightSoftKeyLabel = " ";
-                                            hudDirty = true;
-                                        } else if (Input.held[Input.KEY_RIGHT]) {
-                                            if (Player.facing == -1) {
-                                                Player.facing = 1;
-                                            } else {
-                                                Player.action = PlayerAction.RUN;
-                                                Player.vx = Player.moveSpeed;
-                                            }
-
-                                            Player.nearClassmate = -1;
-                                            Player.nearNpc = -1;
-                                            rightSoftKeyLabel = " ";
-                                            hudDirty = true;
-                                        } else if (Input.held[Input.KEY_DOWN]) {
-                                            Player.actionTimer = 0;
-                                            Player.actionTimer2 = 0;
-                                            Player.action = PlayerAction.CROUCH;
-                                        } else if (Input.held[Input.KEY_NUM1]) {
-                                            if (Skills.lightness) {
-                                                Player.vy = -10;
-                                            } else {
-                                                Player.vy = -8;
-                                            }
-
-                                            Player.facing = -1;
-                                            Player.vx = -4;
-                                            Player.action = PlayerAction.JUMP;
-                                            Player.crate = -1;
-                                            Player.actionTimer = 0;
-                                            Player.nearNpc = -1;
-                                            Player.nearClassmate = -1;
-                                            rightSoftKeyLabel = " ";
-                                            hudDirty = true;
-                                        } else if (Input.held[Input.KEY_NUM3]) {
-                                            if (Skills.lightness) {
-                                                Player.vy = -10;
-                                            } else {
-                                                Player.vy = -8;
-                                            }
-
-                                            Player.facing = 1;
-                                            Player.vx = 4;
-                                            Player.action = PlayerAction.JUMP;
-                                            Player.crate = -1;
-                                            Player.actionTimer = 0;
-                                            Player.nearNpc = -1;
-                                            Player.nearClassmate = -1;
-                                            rightSoftKeyLabel = " ";
-                                            hudDirty = true;
-                                        }
-
-                                        if (Input.pressed[Input.KEY_FIRE]) {
-                                            Player.action = PlayerAction.ATTACK;
-                                            Player.comboStep = 0;
-                                            Player.actionTimer = 0;
-                                            Player.vy = 0;
-                                            Input.pressed[Input.KEY_FIRE] = false;
-                                            Player.nearNpc = -1;
-                                            Player.nearClassmate = -1;
-                                            rightSoftKeyLabel = " ";
-                                            hudDirty = true;
-                                        }
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.RUN) {
-                                if (Input.held[Input.KEY_UP]) {
-                                    Player.crate = -1;
-                                    if (Skills.lightness) {
-                                        Player.vy = -10;
-                                    } else {
-                                        Player.vy = -8;
-                                    }
-
-                                    Player.action = PlayerAction.JUMP;
-                                    Player.actionTimer = 0;
-                                } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.vx = -Player.moveSpeed + Player.sprintBonus;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.vx = Player.moveSpeed + Player.sprintBonus;
-                                    }
-                                }
-
-                                if (Input.pressed[Input.KEY_FIRE]) {
-                                    Player.action = PlayerAction.ATTACK;
-                                    Player.comboStep = 0;
-                                    Player.actionTimer = 0;
-                                    Player.vy = 0;
-                                    Input.pressed[Input.KEY_FIRE] = false;
-                                }
-                            } else if (Player.action == PlayerAction.RUN_ON_WATER) {
-                                if (Input.held[Input.KEY_UP]) {
-                                    if (Skills.lightness) {
-                                        Player.vy = -10;
-                                    } else {
-                                        Player.vy = -8;
-                                    }
-
-                                    Player.action = PlayerAction.JUMP;
-                                    Player.actionTimer = 0;
-                                } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.vx = -Player.runOnWaterSpeed + Player.sprintBonus;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.vx = Player.runOnWaterSpeed + Player.sprintBonus;
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.JUMP) {
-                                if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.vx = -Player.moveSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.vx = Player.moveSpeed;
-                                    }
-                                }
-
-                                if (Input.pressed[Input.KEY_FIRE]) {
-                                    Player.action = PlayerAction.ATTACK;
-                                    Player.comboStep = 0;
-                                    Player.actionTimer = 0;
-                                    Input.pressed[Input.KEY_FIRE] = false;
-                                }
-
-                                if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && Player.vy > -4 && (Player.actionTimer == 0 && Skills.doubleJump || Player.actionTimer == 1 && Skills.tripleJump)) {
-                                    ++Player.actionTimer;
-                                    Player.vy = -7;
-                                    PlayerStats.drainMp(3);
-
-                                    hudDirty = true;
-                                    Dust.spawn(-1, Player.x - -8, Player.y);
-                                    Dust.spawn(1, Player.x - 8, Player.y);
-                                    WaterSplash.spawn(Player.x, Player.y);
-                                }
-                            } else if (Player.action == PlayerAction.FALL) {
-                                if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.vx = -Player.moveSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.vx = Player.moveSpeed;
-                                    }
-                                }
-
-                                if (Input.pressed[Input.KEY_FIRE] && Player.vy > 4) {
-                                    Player.action = PlayerAction.ATTACK;
-                                    Player.actionTimer = 0;
-                                    Player.comboStep = 0;
-                                    Input.pressed[Input.KEY_FIRE] = false;
-                                }
-                            } else if (Player.action == PlayerAction.ATTACK) {
-                                if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.vx = -Player.moveSpeed + 2;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.vx = Player.moveSpeed - 2;
-                                    }
-                                }
-
-                                if (Input.pressed[Input.KEY_FIRE]) {
-                                    Player.comboQueued = true;
-                                    Input.pressed[Input.KEY_FIRE] = false;
-                                }
-                            } else if (Player.action == PlayerAction.MOTORBIKE_STAND) {
-                                if (Input.held[Input.KEY_UP]) {
-                                    Player.vy = -10;
-                                    Player.action = PlayerAction.MOTORBIKE_JUMP;
-                                    Player.actionTimer = 10;
-                                    Player.crate = -1;
-                                } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                        Motorbikes.facing[Player.motorbike] = -1;
-                                    } else {
-                                        Player.actionTimer = 1;
-                                        Player.action = PlayerAction.MOTORBIKE_RIDE;
-                                        Player.actionTimer = 10;
-                                        Player.vx = -Player.motorbikeSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                        Motorbikes.facing[Player.motorbike] = 1;
-                                    } else {
-                                        Player.action = PlayerAction.MOTORBIKE_RIDE;
-                                        Player.actionTimer = 10;
-                                        Player.vx = Player.motorbikeSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_DOWN]) {
-                                    Player.action = PlayerAction.STAND;
-                                    Player.motorbike = -1;
-                                }
-                            } else if (Player.action == PlayerAction.MOTORBIKE_RIDE) {
-                                if (Input.held[Input.KEY_UP]) {
-                                    Player.vy = -10;
-                                    Player.action = PlayerAction.MOTORBIKE_JUMP;
-                                    Player.crate = -1;
-                                    Player.actionTimer = 10;
-                                } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                        Motorbikes.facing[Player.motorbike] = -1;
-                                    } else {
-                                        Player.vx = -Player.motorbikeSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                        Motorbikes.facing[Player.motorbike] = 1;
-                                    } else {
-                                        Player.vx = Player.motorbikeSpeed;
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.MOTORBIKE_JUMP) {
-                                if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                        Motorbikes.facing[Player.motorbike] = -1;
-                                    } else {
-                                        Player.vx = -Player.motorbikeSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                        Motorbikes.facing[Player.motorbike] = 1;
-                                    } else {
-                                        Player.vx = Player.motorbikeSpeed;
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.MOTORBIKE_FALL) {
-                                if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                        Motorbikes.facing[Player.motorbike] = -1;
-                                    } else {
-                                        Player.vx = -Player.motorbikeSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                        Motorbikes.facing[Player.motorbike] = 1;
-                                    } else {
-                                        Player.vx = Player.motorbikeSpeed;
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.UNDERWATER_STAND) {
-                                if (Input.held[Input.KEY_UP]) {
-                                    Player.vy = -10;
-                                    Player.action = PlayerAction.JUMP;
-                                    Player.slashEffect = -1;
-                                    Player.actionTimer = 0;
-                                } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.action = PlayerAction.UNDERWATER_WALK;
-                                        Player.vx = -Player.underwaterSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.action = PlayerAction.UNDERWATER_WALK;
-                                        Player.vx = Player.underwaterSpeed;
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.UNDERWATER_WALK) {
-                                if (Input.held[Input.KEY_UP]) {
-                                    Player.vy = -10;
-                                    Player.action = PlayerAction.JUMP;
-                                    Player.slashEffect = -1;
-                                    Player.actionTimer = 0;
-                                } else if (Input.held[Input.KEY_LEFT]) {
-                                    if (Player.facing == 1) {
-                                        Player.facing = -1;
-                                    } else {
-                                        Player.vx = -Player.underwaterSpeed;
-                                    }
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    if (Player.facing == -1) {
-                                        Player.facing = 1;
-                                    } else {
-                                        Player.vx = Player.underwaterSpeed;
-                                    }
-                                }
-                            } else if (Player.action == PlayerAction.SINK) {
-                                if (Input.held[Input.KEY_UP] && Skills.runOnWater) {
-                                    Player.vy = -10;
-                                    Player.action = PlayerAction.JUMP;
-                                    Player.slashEffect = -1;
-                                    Player.actionTimer = 0;
-                                }
-                            } else if (Player.action == PlayerAction.BURROWED) {
-                                if (Input.held[Input.KEY_LEFT]) {
-                                    Player.facing = -1;
-                                } else if (Input.held[Input.KEY_RIGHT]) {
-                                    Player.facing = 1;
-                                } else if (Input.held[Input.KEY_UP]) {
-                                    Player.action = PlayerAction.BURROW_EXIT;
-                                }
-                            }
-                        }
+                        handlePlayingInput();
                     }
 
                     if (cameraX != cameraTargetX || cameraY != cameraTargetY) {
@@ -5905,8 +5104,9 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 if (Darts.vx[i] != 0) {
                                     for(j = 0; j < Monsters.count; ++j) {
                                         if (Monsters.state[j] != Monsters.STATE_RESPAWN_WAIT && Monsters.state[j] != Monsters.STATE_KNOCKED_OUT && abs(Monsters.x[j] - Darts.x[i]) < Monsters.width[j] && abs(Monsters.y[j] - (Monsters.height[j] >> 1) - Darts.y[i]) < Monsters.height[j]) {
-                                            boolean killed;
-                                            label2807: {
+                                            // true: phi tiêu bị ninja gió đỡ bật lại hoặc quái chết, không hiện máu và số sát thương.
+                                            boolean skipHitEffect;
+                                            applyDartHit: {
                                                 damage = Darts.powered[i] ? PlayerStats.dartDamage << 1 : PlayerStats.dartDamage;
                                                 if (Monsters.state[j] == Monsters.STATE_ACTIVE || Monsters.state[j] == Monsters.STATE_RESTING || Monsters.state[j] == Monsters.STATE_ATTACKING) {
                                                     if (Monsters.type[j] == Monsters.TYPE_WIND_NINJA && Darts.vx[i] * Monsters.direction[j] < 0) {
@@ -5916,8 +5116,8 @@ public final class GameCanvas extends Canvas implements Runnable {
                                                         Darts.vy[i] = -Darts.vy[i];
                                                         Darts.x[i] += Darts.vx[i];
                                                         Darts.y[i] += Darts.vy[i];
-                                                        killed = true;
-                                                        break label2807;
+                                                        skipHitEffect = true;
+                                                        break applyDartHit;
                                                     }
 
                                                     Monsters.hp[j] -= damage;
@@ -5929,8 +5129,8 @@ public final class GameCanvas extends Canvas implements Runnable {
                                                         Monsters.healthBarTimer[j] = 0;
                                                         Monsters.state[j] = Monsters.STATE_KNOCKED_OUT;
                                                         onMonsterKilled(j);
-                                                        killed = true;
-                                                        break label2807;
+                                                        skipHitEffect = true;
+                                                        break applyDartHit;
                                                     }
 
                                                     Monsters.timer[j] = 0;
@@ -5940,10 +5140,10 @@ public final class GameCanvas extends Canvas implements Runnable {
                                                     Darts.state[i] = Darts.STATE_FREE;
                                                 }
 
-                                                killed = false;
+                                                skipHitEffect = false;
                                             }
 
-                                            if (!killed) {
+                                            if (!skipHitEffect) {
                                                 Blood.spawn(Monsters.x[j], Monsters.y[j] - (Monsters.height[j] >> 1), Monsters.direction[j]);
                                                 FloatingText.spawn("-" + damage, 0, Monsters.x[j], Monsters.y[j] - Monsters.height[j], 0, -2);
                                             }
@@ -6394,8 +5594,6 @@ public final class GameCanvas extends Canvas implements Runnable {
                                     BoarBoss.frame = 1;
                                 }
                             }
-                        case 3:
-                        case 4:
                         default:
                             break;
                         case BoarBoss.STATE_CHARGE:
@@ -6500,9 +5698,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                                 RiverMonster.state = RiverMonster.STATE_DIVE;
                                 RiverMonster.timer = 0;
                             }
-                        case 3:
                         case RiverMonster.STATE_SUNK:
-                        case 6:
                         default:
                             break;
                         case RiverMonster.STATE_ATTACK:
@@ -6523,7 +5719,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                             }
 
                             if (RiverMonster.timer > 20 && RiverMonster.timer < 50 && phase == 0) {
-                                Projectiles.spawn(RiverMonster.x + RiverMonster.direction * 20, RiverMonster.y - 29, RiverMonster.direction << 3, RiverMonster.damage, 2);
+                                Projectiles.spawn(RiverMonster.x + RiverMonster.direction * 20, RiverMonster.y - 29, RiverMonster.direction << 3, RiverMonster.damage, Projectiles.TYPE_ENERGY_BALL);
                             }
 
                             if (RiverMonster.timer > 45 && RiverMonster.timer < 50) {
@@ -6588,458 +5784,7 @@ public final class GameCanvas extends Canvas implements Runnable {
 
                 updateFinalBoss();
                 if (Toniku.active) {
-                    label2824: {
-                        int phase = tick % 50;
-                        int distance = abs(Classmates.x[0] - Player.x);
-                        switch (Classmates.state[0]) {
-                            case Classmates.STATE_TONIKU_WAITING:
-                                Classmates.animTimer[0]++;
-                                if (Classmates.animTimer[0] > 30) {
-                                    Classmates.animTimer[0] = 0;
-                                }
-
-                                if (Classmates.animTimer[0] % 18 < 6) {
-                                    Classmates.pose[0] = 0;
-                                } else {
-                                    Classmates.pose[0] = 1;
-                                }
-
-                                if (Classmates.gathering) {
-                                    Toniku.healthBarVisible = false;
-                                    Classmates.target[0] = Classmates.gatherX;
-                                    Classmates.facing[0] = Classmates.gatherX > Classmates.x[0] ? 1 : -1;
-                                    Classmates.vx[0] = Classmates.facing[0] << 2;
-                                    Classmates.vx[0] = Classmates.facing[0] > 0 ? Classmates.vx[0] : Classmates.vx[0];
-                                    Classmates.state[0] = Classmates.STATE_WALK;
-                                    break label2824;
-                                }
-
-                                if (distance >= 40 || Player.action != PlayerAction.ATTACK) {
-                                    break label2824;
-                                }
-
-                                Toniku.healthBarVisible = true;
-                                Classmates.state[0] = Classmates.STATE_JUMP;
-                                Classmates.facing[0] = -Player.facing;
-                                if (phase > 35) {
-                                    Classmates.vx[0] = Player.facing * 5;
-                                    Classmates.vy[0] = -9;
-                                } else {
-                                    Classmates.vx[0] = -Player.facing * 6;
-                                    Classmates.vy[0] = -9;
-                                }
-
-                                if (Classmates.x[0] < Classmates.minX[0] + 40) {
-                                    Classmates.vx[0] = 10;
-                                    Classmates.facing[0] = -1;
-                                } else if (Classmates.x[0] > Classmates.maxX[0] - 40) {
-                                    Classmates.vx[0] = -10;
-                                    Classmates.facing[0] = 1;
-                                }
-                                break;
-                            case Classmates.STATE_IDLE:
-                                Classmates.animTimer[0]++;
-                                if (Classmates.animTimer[0] > 30) {
-                                    Classmates.animTimer[0] = 0;
-                                }
-
-                                if (Classmates.animTimer[0] % 18 < 6) {
-                                    Classmates.pose[0] = 0;
-                                } else {
-                                    Classmates.pose[0] = 1;
-                                }
-
-                                if (Toniku.pacified) {
-                                    Classmates.state[0] = Classmates.STATE_TONIKU_WAITING;
-                                    Classmates.animTimer[0] = Classmates.target[0] = 0;
-                                }
-
-                                if (distance < 40 && Player.action == PlayerAction.ATTACK && Player.facing != Classmates.facing[0]) {
-                                    Classmates.state[0] = Classmates.STATE_JUMP;
-                                    Classmates.facing[0] = -Player.facing;
-                                    if (phase > 35) {
-                                        Classmates.vx[0] = Player.facing * 5;
-                                        Classmates.vy[0] = -9;
-                                    } else {
-                                        Classmates.vx[0] = -Player.facing * 6;
-                                        Classmates.vy[0] = -9;
-                                    }
-
-                                    if (Classmates.x[0] < Classmates.minX[0] + 40) {
-                                        Classmates.vx[0] = 10;
-                                        Classmates.facing[0] = -1;
-                                    } else if (Classmates.x[0] > Classmates.maxX[0] - 40) {
-                                        Classmates.vx[0] = -10;
-                                        Classmates.facing[0] = 1;
-                                    }
-
-                                    Classmates.animTimer[0] = Classmates.target[0] = 0;
-                                } else if (distance < 40 && phase < 10) {
-                                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
-                                    Classmates.state[0] = Classmates.STATE_ATTACK;
-                                    Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
-                                } else if (distance < 100 && distance > 40 && phase < 1) {
-                                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
-                                    Classmates.state[0] = Classmates.STATE_DASH_ATTACK;
-                                    Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
-                                    Classmates.vx[0] = (abs(Classmates.x[0] - Player.x) >> 3) * Classmates.facing[0];
-                                } else if (distance > 100 && distance < 160 && phase < 30) {
-                                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
-                                    Classmates.state[0] = Classmates.STATE_THROW_DART;
-                                    Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
-                                } else if (distance >= 20 && phase != 42) {
-                                    if (distance > 160) {
-                                        Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
-                                        Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 7);
-                                        if (Classmates.target[0] < Classmates.minX[0]) {
-                                            Classmates.target[0] = Classmates.minX[0];
-                                        } else if (Classmates.target[0] > Classmates.maxX[0]) {
-                                            Classmates.target[0] = Classmates.maxX[0];
-                                        }
-
-                                        Classmates.animTimer[0] = 0;
-                                        Classmates.state[0] = Classmates.STATE_WALK;
-                                        Classmates.vx[0] = Classmates.facing[0] << 2;
-                                    }
-                                } else {
-                                    Classmates.facing[0] = -Player.facing;
-                                    Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 6);
-                                    if (Classmates.target[0] < Classmates.minX[0] || Classmates.target[0] > Classmates.maxX[0]) {
-                                        Classmates.facing[0] = -Classmates.facing[0];
-                                        Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 6);
-                                    }
-
-                                    Classmates.animTimer[0] = 0;
-                                    Classmates.state[0] = Classmates.STATE_WALK;
-                                    Classmates.vx[0] = Classmates.facing[0] << 3;
-                                }
-                                break label2824;
-                            case Classmates.STATE_WALK:
-                                Classmates.animTimer[0]++;
-                                if (Classmates.animTimer[0] >= 10) {
-                                    Classmates.animTimer[0] = 0;
-                                }
-
-                                Classmates.pose[0] = (Classmates.animTimer[0] >> 1) + 2;
-                                Classmates.x[0] += Classmates.vx[0];
-                                if (!Classmates.gathering && (Classmates.facing[0] > 0 && Classmates.x[0] > Classmates.target[0] || Classmates.facing[0] < 0 && Classmates.x[0] < Classmates.target[0])) {
-                                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
-                                    Classmates.target[0] = Classmates.animTimer[0] = 0;
-                                    Classmates.state[0] = Classmates.STATE_IDLE;
-                                }
-                                break label2824;
-                            case Classmates.STATE_JUMP:
-                            case Classmates.STATE_KNOCKBACK:
-                                Classmates.x[0] += Classmates.vx[0];
-                                if (Classmates.x[0] < Classmates.minX[0]) {
-                                    Classmates.x[0] = Classmates.minX[0];
-                                }
-
-                                if (Classmates.x[0] > Classmates.maxX[0]) {
-                                    Classmates.x[0] = Classmates.maxX[0];
-                                }
-
-                                Classmates.y[0] += Classmates.vy[0];
-                                Classmates.pose[0] = 23;
-                                if (Classmates.vx[0] > 0) {
-                                    Classmates.vx[0]--;
-                                }
-
-                                Classmates.vy[0]++;
-                                if (Classmates.vy[0] == 0) {
-                                    Classmates.state[0] = Classmates.STATE_FALL;
-                                    Classmates.animTimer[0] = 0;
-                                    Classmates.vy[0] = 1;
-                                }
-                                break label2824;
-                            case Classmates.STATE_FALL:
-                                Classmates.x[0] += Classmates.vx[0];
-                                if (Classmates.x[0] < Classmates.minX[0]) {
-                                    Classmates.x[0] = Classmates.minX[0];
-                                }
-
-                                if (Classmates.x[0] > Classmates.maxX[0]) {
-                                    Classmates.x[0] = Classmates.maxX[0];
-                                }
-
-                                Classmates.y[0] += Classmates.vy[0];
-                                Classmates.pose[0] = 7;
-                                if (Classmates.vy[0] < 18) {
-                                    Classmates.vy[0]++;
-                                }
-
-                                if (Classmates.vx[0] > 0) {
-                                    Classmates.vx[0]--;
-                                }
-
-                                Classmates.pose[0] = 7;
-                                if (Classmates.y[0] >= GameMap.pixelHeight) {
-                                    Classmates.state[0] = Classmates.STATE_FELL_OFF_MAP;
-                                } else if ((GameMap.flagsAtPixel(Classmates.x[0], Classmates.y[0]) & TileFlags.SOLID) == TileFlags.SOLID) {
-                                    Classmates.state[0] = Classmates.STATE_IDLE;
-                                    Classmates.animTimer[0] = Classmates.target[0] = 0;
-                                    Classmates.vx[0] = Classmates.vy[0] = 0;
-                                    Classmates.y[0] = alignToTileX(Classmates.y[0]);
-                                    Dust.spawn(-1, Classmates.x[0] - -8, Classmates.y[0]);
-                                    Dust.spawn(1, Classmates.x[0] - 8, Classmates.y[0]);
-                                    if (abs(Classmates.x[0] - Player.x) < 40 && phase < 25) {
-                                        Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
-                                        Classmates.state[0] = Classmates.STATE_ATTACK;
-                                        Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
-                                    }
-
-                                    if (distance < 40) {
-                                        Classmates.facing[0] = Player.facing;
-                                        Classmates.target[0] = Classmates.x[0] + Classmates.facing[0] * 110;
-                                        if (Classmates.target[0] < Classmates.minX[0] || Classmates.target[0] > Classmates.maxX[0]) {
-                                            Classmates.facing[0] = -Classmates.facing[0];
-                                            Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 6);
-                                        }
-
-                                        Classmates.animTimer[0] = 0;
-                                        Classmates.state[0] = Classmates.STATE_WALK;
-                                        Classmates.vx[0] = Classmates.facing[0] * 10;
-                                    }
-                                }
-                                break label2824;
-                            case Classmates.STATE_ATTACK:
-                                Classmates.animTimer[0]++;
-                                switch (Classmates.target[0]) {
-                                    case 0:
-                                        switch (Classmates.animTimer[0]) {
-                                            case 1:
-                                            case 2:
-                                            case 3:
-                                                Classmates.slashEffect[0] = -1;
-                                                Classmates.pose[0] = 13;
-                                                break label2824;
-                                            case 4:
-                                                Classmates.slashEffect[0] = 0;
-                                                Classmates.pose[0] = 14;
-                                                break label2824;
-                                            case 5:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                break label2824;
-                                            case 6:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                tonikuSlashPlayer(0);
-                                                break label2824;
-                                            case 7:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                break label2824;
-                                            case 8:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                Classmates.target[0] = 2;
-                                                Classmates.animTimer[0] = 1;
-                                            default:
-                                                break label2824;
-                                        }
-                                    case 1:
-                                        switch (Classmates.animTimer[0]) {
-                                            case 1:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                break label2824;
-                                            case 2:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                Classmates.target[0] = 10;
-                                            default:
-                                                break label2824;
-                                        }
-                                    case 2:
-                                        switch (Classmates.animTimer[0]) {
-                                            case 1:
-                                            case 2:
-                                            case 3:
-                                                Classmates.slashEffect[0] = 3;
-                                                Classmates.pose[0] = 17;
-                                                break label2824;
-                                            case 4:
-                                                Classmates.slashEffect[0] = 4;
-                                                Classmates.pose[0] = 18;
-                                                break label2824;
-                                            case 5:
-                                                Classmates.slashEffect[0] = 5;
-                                                Classmates.pose[0] = 19;
-                                                break label2824;
-                                            case 6:
-                                                Classmates.slashEffect[0] = 6;
-                                                Classmates.pose[0] = 20;
-                                                tonikuSlashPlayer(0);
-                                                break label2824;
-                                            case 7:
-                                                Classmates.slashEffect[0] = 6;
-                                                Classmates.pose[0] = 20;
-                                                Classmates.target[0] = 3;
-                                                Classmates.animTimer[0] = 1;
-                                            default:
-                                                break label2824;
-                                        }
-                                    case 3:
-                                        switch (Classmates.animTimer[0]) {
-                                            case 1:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                break label2824;
-                                            case 2:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                break label2824;
-                                            case 3:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                break label2824;
-                                            case 4:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                Classmates.target[0] = 1;
-                                                Classmates.animTimer[0] = 1;
-                                        }
-                                    case 4:
-                                    case 5:
-                                    case 6:
-                                    case 7:
-                                    case 8:
-                                    case 9:
-                                    default:
-                                        break label2824;
-                                    case 10:
-                                        switch (Classmates.animTimer[0]) {
-                                            case 1:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                break label2824;
-                                            case 2:
-                                                Classmates.slashEffect[0] = 0;
-                                                Classmates.pose[0] = 14;
-                                                break label2824;
-                                            case 3:
-                                            case 4:
-                                                Classmates.pose[0] = 13;
-                                                Classmates.slashEffect[0] = -1;
-                                                break label2824;
-                                            case 5:
-                                                Classmates.pose[0] = 13;
-                                                Classmates.slashEffect[0] = -1;
-                                                Classmates.state[0] = Classmates.STATE_IDLE;
-                                                Classmates.target[0] = 120;
-                                                Classmates.animTimer[0] = 0;
-                                            default:
-                                                break label2824;
-                                        }
-                                }
-                            case Classmates.STATE_THROW_DART:
-                                Classmates.animTimer[0]++;
-                                switch (Classmates.animTimer[0]) {
-                                    case 1:
-                                    case 2:
-                                    case 3:
-                                        Classmates.pose[0] = 13;
-                                        break label2824;
-                                    case 4:
-                                        Classmates.pose[0] = 14;
-                                        break label2824;
-                                    case 5:
-                                        Classmates.pose[0] = 15;
-                                        break label2824;
-                                    case 6:
-                                        Classmates.pose[0] = 15;
-                                        Darts.spawn(Classmates.x[0] + (Classmates.facing[0] << 3), Classmates.y[0] - 12, Classmates.facing[0] << 3, 0, false);
-                                        break label2824;
-                                    case 7:
-                                        Classmates.pose[0] = 16;
-                                        break label2824;
-                                    case 8:
-                                        Classmates.pose[0] = 16;
-                                        Classmates.target[0] = 2;
-                                        break label2824;
-                                    case 9:
-                                        Classmates.animTimer[0] = 0;
-                                        Classmates.state[0] = Classmates.STATE_IDLE;
-                                    default:
-                                        break label2824;
-                                }
-                            case Classmates.STATE_DASH_ATTACK:
-                                Classmates.target[0]++;
-                                if (Classmates.target[0] < 7) {
-                                    Classmates.animTimer[0]++;
-                                    if (Classmates.animTimer[0] >= 10) {
-                                        Classmates.animTimer[0] = 0;
-                                    }
-
-                                    Classmates.pose[0] = (Classmates.animTimer[0] >> 1) + 2;
-                                    Classmates.x[0] += Classmates.vx[0];
-                                    if (abs(Classmates.x[0] - Player.x) < 30) {
-                                        if (Player.action == PlayerAction.ATTACK && Player.facing != Classmates.facing[0]) {
-                                            Classmates.state[0] = Classmates.STATE_JUMP;
-                                            Classmates.facing[0] = -Player.facing;
-                                            Classmates.vx[0] = Player.facing << 1;
-                                            if (Classmates.x[0] < Classmates.minX[0] + 30) {
-                                                Classmates.vx[0] = 6;
-                                                Classmates.facing[0] = -1;
-                                            } else if (Classmates.x[0] > Classmates.maxX[0] - 30) {
-                                                Classmates.vx[0] = -6;
-                                                Classmates.facing[0] = 1;
-                                            }
-
-                                            Classmates.vy[0] = -9;
-                                            break;
-                                        } else {
-                                            Classmates.target[0] = 6;
-                                        }
-                                    }
-                                } else if (Classmates.target[0] != 7) {
-                                    if (Classmates.target[0] >= 15) {
-                                        Classmates.slashEffect[0] = -1;
-                                        Classmates.state[0] = Classmates.STATE_IDLE;
-                                        break;
-                                    } else {
-                                        Classmates.animTimer[0]++;
-                                        switch (Classmates.animTimer[0]) {
-                                            case 1:
-                                            case 2:
-                                            case 3:
-                                                Classmates.slashEffect[0] = -1;
-                                                Classmates.pose[0] = 13;
-                                                break label2824;
-                                            case 4:
-                                                Classmates.slashEffect[0] = 0;
-                                                Classmates.pose[0] = 14;
-                                                break label2824;
-                                            case 5:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                break label2824;
-                                            case 6:
-                                                Classmates.slashEffect[0] = 1;
-                                                Classmates.pose[0] = 15;
-                                                tonikuSlashPlayer(0);
-                                                break label2824;
-                                            case 7:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                break label2824;
-                                            case 8:
-                                                Classmates.slashEffect[0] = 2;
-                                                Classmates.pose[0] = 16;
-                                                Classmates.target[0] = 2;
-                                                Classmates.animTimer[0] = 1;
-                                        }
-                                    }
-                                } else {
-                                    Classmates.animTimer[0] = 0;
-                                }
-                            default:
-                                break label2824;
-                        }
-
-                        Classmates.animTimer[0] = Classmates.target[0] = 0;
-                    }
+                    updateTonikuFight();
                 }
 
                 if (MoneyDrops.update(Player.x, Player.y, Player.height)) {
@@ -7094,59 +5839,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                     }
 
                     if (Input.pressed[Input.KEY_FIRE]) {
-                        label2172: {
-                            Input.clearPressed();
-                            if (mainMenuIndex == 0) {
-                                titleImage = null;
-                                releaseMapResources();
-                                Save.pendingSave = true;
-                                PlayTime.start();
-                                changeMap(99);
-                            } else if (mainMenuIndex == 1) {
-                                if (!Save.isSaved()) {
-                                    break label2172;
-                                }
-
-                                titleImage = null;
-                                releaseMapResources();
-                                int[] saveData;
-                                PlayTime.savedSeconds = (saveData = bytesToInts(Save.loadRecord("ninjasave")))[0];
-                                mapId = saveData[1];
-                                tick = saveData[2];
-                                Story.prologueActive = saveData[3] == 1;
-                                Inventory.money = saveData[4];
-                                Classmates.stayPut = saveData[5] == 1;
-                                Story.riverMonsterDefeated = saveData[6] == 1;
-                                Story.tonikuDefeated = saveData[7] == 1;
-                                Story.sakuraFound = saveData[8] == 1;
-                                Girl.following = saveData[9] == 1;
-                                Girl.unusedSaveSlot = saveData[10];
-                                Girl.mapId = saveData[11];
-                                Player.motorbike = saveData[12];
-                                Inventory.swordLevel = saveData[13];
-                                Skills.dartsLevel2 = saveData[14] == 1;
-                                Save.pendingLoad = true;
-                                PlayTime.start();
-                                changeMap(mapId);
-                            } else if (mainMenuIndex == 2) {
-                                titleImage = null;
-                                releaseMapResources();
-                                GameState.current = GameState.LOADING;
-                                resetLoadingProgress();
-                                Midlet.nextGameState = GameState.TUTORIAL;
-                                mapId = 101;
-                                (new Thread(Midlet.instance)).start();
-                            } else if (mainMenuIndex == 3) {
-                                try {
-                                    Midlet.instance.platformRequest("http://wap.teamobi.com/");
-                                } catch (Exception e) {
-                                }
-                            } else if (mainMenuIndex == 4) {
-                                Midlet.instance.notifyDestroyed();
-                            }
-
-                            Input.pressed[Input.KEY_FIRE] = false;
-                        }
+                        selectMainMenuItem();
                     }
 
                     if (cameraX == 0) {
@@ -7310,6 +6003,1295 @@ public final class GameCanvas extends Canvas implements Runnable {
 
         saveGame();
         Midlet.instance.notifyDestroyed();
+    }
+
+    /** Xử lý phím khi đang chơi và không có hộp thoại. */
+    private static void handlePlayingInput() {
+        int i;
+        int j;
+        if (Input.pressed[Input.KEY_SOFT_LEFT]) {
+            tilesetImage = null;
+            GameMenu.open();
+            GameState.current = GameState.GAME_MENU;
+            Input.clearHeld();
+            Input.clearPressed();
+        } else if (Input.pressed[Input.KEY_NUM0]) {
+            if (Player.weapon == 0) {
+                if (Skills.darts) {
+                    Player.weapon = 1;
+                }
+            } else {
+                Player.weapon = 0;
+            }
+
+            hudDirty = true;
+            Input.pressed[Input.KEY_NUM0] = false;
+        } else if (Input.pressed[Input.KEY_RIGHT]) {
+            Player.sprintBonus = 2;
+            Input.pressed[Input.KEY_RIGHT] = false;
+        } else if (Input.pressed[Input.KEY_LEFT]) {
+            Player.sprintBonus = -2;
+            Input.pressed[Input.KEY_LEFT] = false;
+        } else {
+            if (Input.pressed[Input.KEY_NUM9]) {
+                if (Skills.hide) {
+                    Player.hidden = !Player.hidden;
+                }
+
+                Input.pressed[Input.KEY_NUM9] = false;
+                return;
+            }
+
+            if (Input.pressed[Input.KEY_NUM7]) {
+                if (Player.action == PlayerAction.STAND && Skills.transform) {
+                    Player.action = PlayerAction.TRANSFORM;
+                    Player.actionTimer = 0;
+                }
+
+                Input.pressed[Input.KEY_NUM7] = false;
+            } else if (Input.pressed[Input.KEY_STAR]) {
+                Input.pressed[Input.KEY_STAR] = false;
+                if (!PlayerStats.isHpFull()) {
+                    for(i = 0; i < 3; ++i) {
+                        if (Inventory.potionCounts[i] > 0) {
+                            Inventory.potionCounts[i]--;
+                            PlayerStats.restoreHp(Inventory.potionRestoreAmounts[i]);
+
+                            hudDirty = true;
+                            break;
+                        }
+                    }
+                }
+            } else if (Input.pressed[Input.KEY_POUND]) {
+                Input.pressed[Input.KEY_POUND] = false;
+                if (!PlayerStats.isMpFull()) {
+                    for(i = 3; i < 6; ++i) {
+                        if (Inventory.potionCounts[i] > 0) {
+                            Inventory.potionCounts[i]--;
+                            PlayerStats.restoreMp(Inventory.potionRestoreAmounts[i]);
+
+                            hudDirty = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (Player.action == PlayerAction.STAND) {
+            if (Input.pressed[Input.KEY_SOFT_RIGHT]) {
+                Input.clearPressed();
+                if (rightSoftKeyLabel.equals("Giao tiếp")) {
+                    j = Player.nearNpc;
+                    switch (Npcs.types[j]) {
+                        case Npcs.TYPE_PRINCIPAL:
+                            if (Story.sakuraEscorting) {
+                                startDialogue(DialogueText.idleLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (!Skills.lightness) {
+                                setNextNpcMarker(Npcs.TYPE_TAKANASHI);
+                                startDialogue(DialogueText.questGiveLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else {
+                                if (Skills.hide && !Story.gameCompleted) {
+                                    if (QuestState.current == Quest.RESCUE_SAKURA) {
+                                        if (Story.sakuraFound) {
+                                            startDialogue(DialogueText.questRewardLines[14], QuestAction.COMPLETE_RESCUE_SAKURA, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            startDialogue(DialogueText.questReminderLines[14], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                    } else if (QuestState.current == Quest.NONE) {
+                                        startDialogue(DialogueText.questGiveLines[22], QuestAction.START_RESCUE_SAKURA, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                    break;
+                                }
+
+                                startDialogue(DialogueText.idleLines[1], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+                            break;
+                        case Npcs.TYPE_AYUMI:
+                            if (Story.sakuraEscorting) {
+                                startDialogue(DialogueText.idleLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (!Skills.lightness) {
+                                if (QuestState.current == Quest.KILL_SNAILS) {
+                                    if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SNAILS]) {
+                                        startDialogue(DialogueText.questReminderLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        pendingMarkerMap = 0;
+                                        pendingMarkerNpc = 4;
+                                        pendingMarkerX = 1044;
+                                        pendingMarkerY = 240;
+                                        startDialogue(DialogueText.questRewardLines[0], QuestAction.REWARD_LIGHTNESS, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[1], QuestAction.START_KILL_SNAILS, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else if (!Story.goldenBatQuestDone && Skills.transform) {
+                                if (PlayerStats.level < 10) {
+                                    startDialogue(DialogueText.levelRequired10, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                } else if (QuestState.current == Quest.KILL_GOLDEN_BATS) {
+                                    if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_GOLDEN_BATS]) {
+                                        startDialogue(DialogueText.questReminderLines[6], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        setNextNpcMarker(Npcs.TYPE_TAKANASHI);
+                                        startDialogue(DialogueText.questRewardLines[6], QuestAction.REWARD_MONEY, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[14], QuestAction.START_KILL_GOLDEN_BATS, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else if (Story.girlOutingDone && !Skills.tripleJump) {
+                                if (PlayerStats.level < 12) {
+                                    startDialogue(DialogueText.levelRequired12, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                } else if (QuestState.current == Quest.AIR_HITS) {
+                                    if (QuestState.progress < Quest.TARGET_COUNT[Quest.AIR_HITS]) {
+                                        startDialogue(DialogueText.questReminderLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        setNextNpcMarker(Npcs.TYPE_SHURIKEN_TEACHER);
+                                        startDialogue(DialogueText.questRewardLines[9], QuestAction.REWARD_TRIPLE_JUMP, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[17], QuestAction.START_AIR_HITS, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else {
+                                if (!Skills.sprint && Skills.dartsLevel2) {
+                                    if (PlayerStats.level < 15) {
+                                        startDialogue(DialogueText.levelRequired15, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else if (QuestState.current == Quest.KILL_SCORPIONS) {
+                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_SCORPIONS]) {
+                                            startDialogue(DialogueText.questReminderLines[11], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            setNextNpcMarker(Npcs.TYPE_JUTSU_TEACHER);
+                                            startDialogue(DialogueText.questRewardLines[11], QuestAction.REWARD_SPRINT, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                    } else if (QuestState.current == Quest.NONE) {
+                                        startDialogue(DialogueText.questGiveLines[19], QuestAction.START_KILL_SCORPIONS, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                    break;
+                                }
+
+                                startDialogue(DialogueText.idleLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+                            break;
+                        case Npcs.TYPE_TAKANASHI:
+                            if (Story.sakuraEscorting) {
+                                startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (!Skills.lightness) {
+                                setNextNpcMarker(Npcs.TYPE_AYUMI);
+                                startDialogue(DialogueText.questGiveLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (Skills.burrow && !Skills.motorbikeLicense) {
+                                if (QuestState.current == Quest.ESCORT_AYUMI_SISTER) {
+                                    startDialogue(DialogueText.questGiveLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[10], QuestAction.START_ESCORT_AYUMI_SISTER, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else if (Story.goldenBatQuestDone && !Story.tonikuQuestDone) {
+                                if (QuestState.current == Quest.FIGHT_TONIKU) {
+                                    if (Story.tonikuDefeated) {
+                                        setNextNpcMarker(Npcs.TYPE_TAKANASHI);
+                                        startDialogue(DialogueText.questRewardLines[7], QuestAction.COMPLETE_FIGHT_TONIKU, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        startDialogue(DialogueText.questReminderLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[15], QuestAction.START_FIGHT_TONIKU, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else {
+                                if (Story.tonikuQuestDone && !Story.girlWaiting) {
+                                    if (QuestState.current == Quest.KILL_NATIVES) {
+                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_NATIVES]) {
+                                            startDialogue(DialogueText.questReminderLines[8], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            setNextNpcMarker(Npcs.TYPE_JUTSU_TEACHER);
+                                            startDialogue(DialogueText.questRewardLines[8], QuestAction.REWARD_MEET_GIRL, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                    } else if (QuestState.current == Quest.NONE) {
+                                        startDialogue(DialogueText.questGiveLines[16], QuestAction.START_KILL_NATIVES, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                    break;
+                                }
+
+                                startDialogue(DialogueText.idleLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+                            break;
+                        case Npcs.TYPE_JUTSU_TEACHER:
+                            if (Story.sakuraEscorting) {
+                                startDialogue(DialogueText.idleLines[9], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else {
+                                if (Skills.lightness && Skills.darts) {
+                                    if (!Skills.burrow) {
+                                        if (QuestState.current == Quest.FIND_BURROW_SCROLL) {
+                                            if (!QuestState.itemFound) {
+                                                startDialogue(DialogueText.questReminderLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                            } else {
+                                                setNextNpcMarker(Npcs.TYPE_TAKANASHI);
+                                                startDialogue(DialogueText.questRewardLines[2], QuestAction.REWARD_BURROW, Npcs.x[j], Npcs.y[j] - 40);
+                                            }
+                                        } else if (QuestState.current == Quest.NONE) {
+                                            startDialogue(DialogueText.questGiveLines[8], QuestAction.START_FIND_BURROW_SCROLL, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                        break;
+                                    }
+
+                                    if (!Skills.dive && Skills.doubleStrength) {
+                                        if (QuestState.current == Quest.KILL_WILD_BOAR) {
+                                            if (!QuestState.itemFound) {
+                                                startDialogue(DialogueText.questReminderLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                            } else {
+                                                setNextNpcMarker(Npcs.TYPE_SHURIKEN_TEACHER);
+                                                startDialogue(DialogueText.questRewardLines[4], QuestAction.REWARD_WATER_SKILLS, Npcs.x[j], Npcs.y[j] - 40);
+                                            }
+                                        } else if (QuestState.current == Quest.NONE) {
+                                            startDialogue(DialogueText.questGiveLines[12], QuestAction.START_KILL_WILD_BOAR, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                        break;
+                                    }
+
+                                    if (!Skills.standOnWater && Skills.sprint) {
+                                        if (PlayerStats.level < 16) {
+                                            startDialogue(DialogueText.levelRequired16, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else if (QuestState.current == Quest.KILL_RED_TIGER_FISH) {
+                                            if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_RED_TIGER_FISH]) {
+                                                startDialogue(DialogueText.questReminderLines[12], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                            } else {
+                                                setNextNpcMarker(Npcs.TYPE_JUTSU_TEACHER);
+                                                startDialogue(DialogueText.questRewardLines[12], QuestAction.REWARD_STAND_ON_WATER, Npcs.x[j], Npcs.y[j] - 40);
+                                            }
+                                        } else if (QuestState.current == Quest.NONE) {
+                                            startDialogue(DialogueText.questGiveLines[20], QuestAction.START_KILL_RED_TIGER_FISH, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                        break;
+                                    }
+
+                                    if (!Skills.hide && Skills.standOnWater) {
+                                        if (QuestState.current == Quest.FIND_HIDE_SCROLL) {
+                                            if (!QuestState.itemFound) {
+                                                startDialogue(DialogueText.questReminderLines[13], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                            } else {
+                                                setNextNpcMarker(Npcs.TYPE_PRINCIPAL);
+                                                startDialogue(DialogueText.questRewardLines[13], QuestAction.REWARD_HIDE, Npcs.x[j], Npcs.y[j] - 40);
+                                            }
+                                        } else if (QuestState.current == Quest.NONE) {
+                                            startDialogue(DialogueText.questGiveLines[21], QuestAction.START_FIND_HIDE_SCROLL, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                        break;
+                                    }
+
+                                    startDialogue(DialogueText.idleLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    break;
+                                }
+
+                                startDialogue(DialogueText.questGiveLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+                            break;
+                        case Npcs.TYPE_SHURIKEN_TEACHER:
+                            if (Story.sakuraEscorting) {
+                                startDialogue(DialogueText.idleLines[8], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (mapId == 99) {
+                                startDialogue(DialogueText.questGiveLines[7], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (!Skills.lightness) {
+                                startDialogue(DialogueText.questGiveLines[4], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            } else if (!Skills.darts) {
+                                if (QuestState.current == Quest.KNOCK_DOWN_SCARECROWS) {
+                                    if (QuestState.progress < Quest.TARGET_COUNT[Quest.KNOCK_DOWN_SCARECROWS]) {
+                                        startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        setNextNpcMarker(Npcs.TYPE_JUTSU_TEACHER);
+                                        startDialogue(DialogueText.questRewardLines[1], QuestAction.REWARD_DARTS, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[6], QuestAction.START_KNOCK_DOWN_SCARECROWS, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else if (Skills.motorbikeLicense && !Skills.doubleStrength) {
+                                if (QuestState.current == Quest.KILL_BEES) {
+                                    if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_BEES]) {
+                                        startDialogue(DialogueText.questReminderLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        setNextNpcMarker(Npcs.TYPE_JUTSU_TEACHER);
+                                        startDialogue(DialogueText.questRewardLines[3], QuestAction.REWARD_DOUBLE_STRENGTH, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[11], QuestAction.START_KILL_BEES, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else if (Skills.dive && !Skills.transform) {
+                                if (PlayerStats.level < 8) {
+                                    startDialogue(DialogueText.levelRequired8, Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                } else if (QuestState.current == Quest.CROSS_RIVER) {
+                                    if (!QuestState.itemFound) {
+                                        startDialogue(DialogueText.questReminderLines[5], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        setNextNpcMarker(Npcs.TYPE_AYUMI);
+                                        startDialogue(DialogueText.questRewardLines[5], QuestAction.REWARD_TRANSFORM, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                } else if (QuestState.current == Quest.NONE) {
+                                    startDialogue(DialogueText.questGiveLines[13], QuestAction.START_CROSS_RIVER, Npcs.x[j], Npcs.y[j] - 40);
+                                } else {
+                                    startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+                            } else {
+                                if (!Skills.dartsLevel2 && Skills.tripleJump) {
+                                    if (QuestState.current == Quest.KILL_FLOWER_DEMONS) {
+                                        if (QuestState.progress < Quest.TARGET_COUNT[Quest.KILL_FLOWER_DEMONS]) {
+                                            startDialogue(DialogueText.questReminderLines[10], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                        } else {
+                                            setNextNpcMarker(Npcs.TYPE_AYUMI);
+                                            startDialogue(DialogueText.questRewardLines[10], QuestAction.REWARD_DARTS_LEVEL_2, Npcs.x[j], Npcs.y[j] - 40);
+                                        }
+                                    } else if (QuestState.current == Quest.NONE) {
+                                        startDialogue(DialogueText.questGiveLines[18], QuestAction.START_KILL_FLOWER_DEMONS, Npcs.x[j], Npcs.y[j] - 40);
+                                    } else {
+                                        startDialogue(DialogueText.questUnfinishedLines, QuestAction.QUEST_BUSY, Npcs.x[j], Npcs.y[j] - 40);
+                                    }
+                                    break;
+                                }
+
+                                startDialogue(DialogueText.idleLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+                            break;
+                        case Npcs.TYPE_GUARD:
+                            if (mapId == 0) {
+                                if (j == 5) {
+                                    startDialogue(DialogueText.guardLines[0], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                                }
+
+                                if (j == 6) {
+                                    openShop(ShopScreen.MODE_MONEY);
+                                }
+                            }
+
+                            if (mapId == 2 && j == 0) {
+                                openShop(ShopScreen.MODE_SMS);
+                            }
+
+                            if (mapId == 1 && j == 0) {
+                                startDialogue(DialogueText.guardLines[1], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+
+                            if (mapId == 5 && j == 0) {
+                                startDialogue(DialogueText.guardLines[2], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+
+                            if (mapId == 6 && j == 0) {
+                                startDialogue(DialogueText.guardLines[3], Dialogue.NO_ACTION, Npcs.x[j], Npcs.y[j] - 40);
+                            }
+                    }
+
+                    if (mapId == guideMarkerMap && j == guideMarkerNpc) {
+                        guideMarkerMap = -1;
+                    }
+                } else if (rightSoftKeyLabel.equals("Trò chuyện")) {
+                    Input.clearPressed();
+                    Classmates.facing[Player.nearClassmate] = -Player.facing;
+                    startDialogue(Classmates.lines[Player.nearClassmate], QuestAction.TALK, Classmates.x[Player.nearClassmate], Classmates.y[Player.nearClassmate] - 44);
+                } else if (rightSoftKeyLabel.equals("Nói chuyện") && Player.nearGirl) {
+                    if (Girl.following) {
+                        startDialogue(DialogueText.girlLines[0], QuestAction.TALK, Girl.x, Girl.y - 44);
+                    } else if (Story.girlOutingDone) {
+                        startDialogue(DialogueText.girlLines[2], QuestAction.TALK, Girl.x, Girl.y - 44);
+                        Girl.following = true;
+                    } else if (Story.girlWaiting) {
+                        startDialogue(DialogueText.girlLines[3], QuestAction.START_GIRL_OUTING, Girl.x, Girl.y - 44);
+                        Story.girlWaiting = false;
+                    } else {
+                        startDialogue(DialogueText.girlLines[1], QuestAction.TALK, Girl.x, Girl.y - 44);
+                    }
+                }
+            } else {
+                if (Input.held[Input.KEY_UP]) {
+                    if (Skills.motorbikeLicense) {
+                        for(i = 0; i < Motorbikes.count; ++i) {
+                            if (Player.y == Motorbikes.y[i] && abs(Player.x - Motorbikes.x[i]) < 20) {
+                                Player.x = Motorbikes.x[i];
+                                Player.action = PlayerAction.MOTORBIKE_STAND;
+                                Input.clearHeld();
+                                Player.motorbike = i;
+                                Motorbikes.facing[i] = Player.facing;
+                                Motorbikes.frame[i] = 0;
+                                return;
+                            }
+                        }
+                    }
+
+                    if (Skills.lightness) {
+                        Player.vy = -10;
+                    } else {
+                        Player.vy = -8;
+                    }
+
+                    Player.action = PlayerAction.JUMP;
+                    Player.crate = -1;
+                    Player.actionTimer = 0;
+                    Player.nearNpc = -1;
+                    Player.nearClassmate = -1;
+                    rightSoftKeyLabel = " ";
+                    hudDirty = true;
+                } else if (Input.held[Input.KEY_LEFT]) {
+                    if (Player.facing == 1) {
+                        Player.facing = -1;
+                    } else {
+                        Player.action = PlayerAction.RUN;
+                        Player.vx = -Player.moveSpeed;
+                    }
+
+                    Player.nearNpc = -1;
+                    Player.nearClassmate = -1;
+                    rightSoftKeyLabel = " ";
+                    hudDirty = true;
+                } else if (Input.held[Input.KEY_RIGHT]) {
+                    if (Player.facing == -1) {
+                        Player.facing = 1;
+                    } else {
+                        Player.action = PlayerAction.RUN;
+                        Player.vx = Player.moveSpeed;
+                    }
+
+                    Player.nearClassmate = -1;
+                    Player.nearNpc = -1;
+                    rightSoftKeyLabel = " ";
+                    hudDirty = true;
+                } else if (Input.held[Input.KEY_DOWN]) {
+                    Player.actionTimer = 0;
+                    Player.actionTimer2 = 0;
+                    Player.action = PlayerAction.CROUCH;
+                } else if (Input.held[Input.KEY_NUM1]) {
+                    if (Skills.lightness) {
+                        Player.vy = -10;
+                    } else {
+                        Player.vy = -8;
+                    }
+
+                    Player.facing = -1;
+                    Player.vx = -4;
+                    Player.action = PlayerAction.JUMP;
+                    Player.crate = -1;
+                    Player.actionTimer = 0;
+                    Player.nearNpc = -1;
+                    Player.nearClassmate = -1;
+                    rightSoftKeyLabel = " ";
+                    hudDirty = true;
+                } else if (Input.held[Input.KEY_NUM3]) {
+                    if (Skills.lightness) {
+                        Player.vy = -10;
+                    } else {
+                        Player.vy = -8;
+                    }
+
+                    Player.facing = 1;
+                    Player.vx = 4;
+                    Player.action = PlayerAction.JUMP;
+                    Player.crate = -1;
+                    Player.actionTimer = 0;
+                    Player.nearNpc = -1;
+                    Player.nearClassmate = -1;
+                    rightSoftKeyLabel = " ";
+                    hudDirty = true;
+                }
+
+                if (Input.pressed[Input.KEY_FIRE]) {
+                    Player.action = PlayerAction.ATTACK;
+                    Player.comboStep = Player.COMBO_FIRST_SLASH;
+                    Player.actionTimer = 0;
+                    Player.vy = 0;
+                    Input.pressed[Input.KEY_FIRE] = false;
+                    Player.nearNpc = -1;
+                    Player.nearClassmate = -1;
+                    rightSoftKeyLabel = " ";
+                    hudDirty = true;
+                }
+            }
+        } else if (Player.action == PlayerAction.RUN) {
+            if (Input.held[Input.KEY_UP]) {
+                Player.crate = -1;
+                if (Skills.lightness) {
+                    Player.vy = -10;
+                } else {
+                    Player.vy = -8;
+                }
+
+                Player.action = PlayerAction.JUMP;
+                Player.actionTimer = 0;
+            } else if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.vx = -Player.moveSpeed + Player.sprintBonus;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.vx = Player.moveSpeed + Player.sprintBonus;
+                }
+            }
+
+            if (Input.pressed[Input.KEY_FIRE]) {
+                Player.action = PlayerAction.ATTACK;
+                Player.comboStep = Player.COMBO_FIRST_SLASH;
+                Player.actionTimer = 0;
+                Player.vy = 0;
+                Input.pressed[Input.KEY_FIRE] = false;
+            }
+        } else if (Player.action == PlayerAction.RUN_ON_WATER) {
+            if (Input.held[Input.KEY_UP]) {
+                if (Skills.lightness) {
+                    Player.vy = -10;
+                } else {
+                    Player.vy = -8;
+                }
+
+                Player.action = PlayerAction.JUMP;
+                Player.actionTimer = 0;
+            } else if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.vx = -Player.runOnWaterSpeed + Player.sprintBonus;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.vx = Player.runOnWaterSpeed + Player.sprintBonus;
+                }
+            }
+        } else if (Player.action == PlayerAction.JUMP) {
+            if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.vx = -Player.moveSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.vx = Player.moveSpeed;
+                }
+            }
+
+            if (Input.pressed[Input.KEY_FIRE]) {
+                Player.action = PlayerAction.ATTACK;
+                Player.comboStep = Player.COMBO_FIRST_SLASH;
+                Player.actionTimer = 0;
+                Input.pressed[Input.KEY_FIRE] = false;
+            }
+
+            if (Input.held[Input.KEY_UP] && PlayerStats.hasMp() && Player.vy > -4 && (Player.actionTimer == 0 && Skills.doubleJump || Player.actionTimer == 1 && Skills.tripleJump)) {
+                ++Player.actionTimer;
+                Player.vy = -7;
+                PlayerStats.drainMp(3);
+
+                hudDirty = true;
+                Dust.spawn(-1, Player.x - -8, Player.y);
+                Dust.spawn(1, Player.x - 8, Player.y);
+                WaterSplash.spawn(Player.x, Player.y);
+            }
+        } else if (Player.action == PlayerAction.FALL) {
+            if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.vx = -Player.moveSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.vx = Player.moveSpeed;
+                }
+            }
+
+            if (Input.pressed[Input.KEY_FIRE] && Player.vy > 4) {
+                Player.action = PlayerAction.ATTACK;
+                Player.actionTimer = 0;
+                Player.comboStep = Player.COMBO_FIRST_SLASH;
+                Input.pressed[Input.KEY_FIRE] = false;
+            }
+        } else if (Player.action == PlayerAction.ATTACK) {
+            if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.vx = -Player.moveSpeed + 2;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.vx = Player.moveSpeed - 2;
+                }
+            }
+
+            if (Input.pressed[Input.KEY_FIRE]) {
+                Player.comboQueued = true;
+                Input.pressed[Input.KEY_FIRE] = false;
+            }
+        } else if (Player.action == PlayerAction.MOTORBIKE_STAND) {
+            if (Input.held[Input.KEY_UP]) {
+                Player.vy = -10;
+                Player.action = PlayerAction.MOTORBIKE_JUMP;
+                Player.actionTimer = 10;
+                Player.crate = -1;
+            } else if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                    Motorbikes.facing[Player.motorbike] = -1;
+                } else {
+                    Player.actionTimer = 1;
+                    Player.action = PlayerAction.MOTORBIKE_RIDE;
+                    Player.actionTimer = 10;
+                    Player.vx = -Player.motorbikeSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                    Motorbikes.facing[Player.motorbike] = 1;
+                } else {
+                    Player.action = PlayerAction.MOTORBIKE_RIDE;
+                    Player.actionTimer = 10;
+                    Player.vx = Player.motorbikeSpeed;
+                }
+            } else if (Input.held[Input.KEY_DOWN]) {
+                Player.action = PlayerAction.STAND;
+                Player.motorbike = -1;
+            }
+        } else if (Player.action == PlayerAction.MOTORBIKE_RIDE) {
+            if (Input.held[Input.KEY_UP]) {
+                Player.vy = -10;
+                Player.action = PlayerAction.MOTORBIKE_JUMP;
+                Player.crate = -1;
+                Player.actionTimer = 10;
+            } else if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                    Motorbikes.facing[Player.motorbike] = -1;
+                } else {
+                    Player.vx = -Player.motorbikeSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                    Motorbikes.facing[Player.motorbike] = 1;
+                } else {
+                    Player.vx = Player.motorbikeSpeed;
+                }
+            }
+        } else if (Player.action == PlayerAction.MOTORBIKE_JUMP) {
+            if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                    Motorbikes.facing[Player.motorbike] = -1;
+                } else {
+                    Player.vx = -Player.motorbikeSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                    Motorbikes.facing[Player.motorbike] = 1;
+                } else {
+                    Player.vx = Player.motorbikeSpeed;
+                }
+            }
+        } else if (Player.action == PlayerAction.MOTORBIKE_FALL) {
+            if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                    Motorbikes.facing[Player.motorbike] = -1;
+                } else {
+                    Player.vx = -Player.motorbikeSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                    Motorbikes.facing[Player.motorbike] = 1;
+                } else {
+                    Player.vx = Player.motorbikeSpeed;
+                }
+            }
+        } else if (Player.action == PlayerAction.UNDERWATER_STAND) {
+            if (Input.held[Input.KEY_UP]) {
+                Player.vy = -10;
+                Player.action = PlayerAction.JUMP;
+                Player.slashEffect = -1;
+                Player.actionTimer = 0;
+            } else if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.action = PlayerAction.UNDERWATER_WALK;
+                    Player.vx = -Player.underwaterSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.action = PlayerAction.UNDERWATER_WALK;
+                    Player.vx = Player.underwaterSpeed;
+                }
+            }
+        } else if (Player.action == PlayerAction.UNDERWATER_WALK) {
+            if (Input.held[Input.KEY_UP]) {
+                Player.vy = -10;
+                Player.action = PlayerAction.JUMP;
+                Player.slashEffect = -1;
+                Player.actionTimer = 0;
+            } else if (Input.held[Input.KEY_LEFT]) {
+                if (Player.facing == 1) {
+                    Player.facing = -1;
+                } else {
+                    Player.vx = -Player.underwaterSpeed;
+                }
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                if (Player.facing == -1) {
+                    Player.facing = 1;
+                } else {
+                    Player.vx = Player.underwaterSpeed;
+                }
+            }
+        } else if (Player.action == PlayerAction.SINK) {
+            if (Input.held[Input.KEY_UP] && Skills.runOnWater) {
+                Player.vy = -10;
+                Player.action = PlayerAction.JUMP;
+                Player.slashEffect = -1;
+                Player.actionTimer = 0;
+            }
+        } else if (Player.action == PlayerAction.BURROWED) {
+            if (Input.held[Input.KEY_LEFT]) {
+                Player.facing = -1;
+            } else if (Input.held[Input.KEY_RIGHT]) {
+                Player.facing = 1;
+            } else if (Input.held[Input.KEY_UP]) {
+                Player.action = PlayerAction.BURROW_EXIT;
+            }
+        }
+    }
+
+    /** Chọn mục đang trỏ ở menu chính (khi nhấn phím giữa). */
+    private static void selectMainMenuItem() {
+        Input.clearPressed();
+        if (mainMenuIndex == 0) {
+            titleImage = null;
+            releaseMapResources();
+            Save.pendingSave = true;
+            PlayTime.start();
+            changeMap(99);
+        } else if (mainMenuIndex == 1) {
+            if (!Save.isSaved()) {
+                return;
+            }
+
+            titleImage = null;
+            releaseMapResources();
+            int[] saveData;
+            PlayTime.savedSeconds = (saveData = bytesToInts(Save.loadRecord("ninjasave")))[0];
+            mapId = saveData[1];
+            tick = saveData[2];
+            Story.prologueActive = saveData[3] == 1;
+            Inventory.money = saveData[4];
+            Classmates.stayPut = saveData[5] == 1;
+            Story.riverMonsterDefeated = saveData[6] == 1;
+            Story.tonikuDefeated = saveData[7] == 1;
+            Story.sakuraFound = saveData[8] == 1;
+            Girl.following = saveData[9] == 1;
+            Girl.unusedSaveSlot = saveData[10];
+            Girl.mapId = saveData[11];
+            Player.motorbike = saveData[12];
+            Inventory.swordLevel = saveData[13];
+            Skills.dartsLevel2 = saveData[14] == 1;
+            Save.pendingLoad = true;
+            PlayTime.start();
+            changeMap(mapId);
+        } else if (mainMenuIndex == 2) {
+            titleImage = null;
+            releaseMapResources();
+            GameState.current = GameState.LOADING;
+            resetLoadingProgress();
+            Midlet.nextGameState = GameState.TUTORIAL;
+            mapId = 101;
+            (new Thread(Midlet.instance)).start();
+        } else if (mainMenuIndex == 3) {
+            try {
+                Midlet.instance.platformRequest("http://wap.teamobi.com/");
+            } catch (Exception e) {
+            }
+        } else if (mainMenuIndex == 4) {
+            Midlet.instance.notifyDestroyed();
+        }
+
+        Input.pressed[Input.KEY_FIRE] = false;
+    }
+
+    /** AI của Toniku (bạn học số 0) khi đấu với nhân vật. */
+    private static void updateTonikuFight() {
+        int phase = tick % 50;
+        int distance = abs(Classmates.x[0] - Player.x);
+        switch (Classmates.state[0]) {
+            case Classmates.STATE_TONIKU_WAITING:
+                Classmates.animTimer[0]++;
+                if (Classmates.animTimer[0] > 30) {
+                    Classmates.animTimer[0] = 0;
+                }
+
+                if (Classmates.animTimer[0] % 18 < 6) {
+                    Classmates.pose[0] = 0;
+                } else {
+                    Classmates.pose[0] = 1;
+                }
+
+                if (Classmates.gathering) {
+                    Toniku.healthBarVisible = false;
+                    Classmates.target[0] = Classmates.gatherX;
+                    Classmates.facing[0] = Classmates.gatherX > Classmates.x[0] ? 1 : -1;
+                    Classmates.vx[0] = Classmates.facing[0] << 2;
+                    Classmates.vx[0] = Classmates.facing[0] > 0 ? Classmates.vx[0] : Classmates.vx[0];
+                    Classmates.state[0] = Classmates.STATE_WALK;
+                    return;
+                }
+
+                if (distance >= 40 || Player.action != PlayerAction.ATTACK) {
+                    return;
+                }
+
+                Toniku.healthBarVisible = true;
+                Classmates.state[0] = Classmates.STATE_JUMP;
+                Classmates.facing[0] = -Player.facing;
+                if (phase > 35) {
+                    Classmates.vx[0] = Player.facing * 5;
+                    Classmates.vy[0] = -9;
+                } else {
+                    Classmates.vx[0] = -Player.facing * 6;
+                    Classmates.vy[0] = -9;
+                }
+
+                if (Classmates.x[0] < Classmates.minX[0] + 40) {
+                    Classmates.vx[0] = 10;
+                    Classmates.facing[0] = -1;
+                } else if (Classmates.x[0] > Classmates.maxX[0] - 40) {
+                    Classmates.vx[0] = -10;
+                    Classmates.facing[0] = 1;
+                }
+                break;
+            case Classmates.STATE_IDLE:
+                Classmates.animTimer[0]++;
+                if (Classmates.animTimer[0] > 30) {
+                    Classmates.animTimer[0] = 0;
+                }
+
+                if (Classmates.animTimer[0] % 18 < 6) {
+                    Classmates.pose[0] = 0;
+                } else {
+                    Classmates.pose[0] = 1;
+                }
+
+                if (Toniku.pacified) {
+                    Classmates.state[0] = Classmates.STATE_TONIKU_WAITING;
+                    Classmates.animTimer[0] = Classmates.target[0] = 0;
+                }
+
+                if (distance < 40 && Player.action == PlayerAction.ATTACK && Player.facing != Classmates.facing[0]) {
+                    Classmates.state[0] = Classmates.STATE_JUMP;
+                    Classmates.facing[0] = -Player.facing;
+                    if (phase > 35) {
+                        Classmates.vx[0] = Player.facing * 5;
+                        Classmates.vy[0] = -9;
+                    } else {
+                        Classmates.vx[0] = -Player.facing * 6;
+                        Classmates.vy[0] = -9;
+                    }
+
+                    if (Classmates.x[0] < Classmates.minX[0] + 40) {
+                        Classmates.vx[0] = 10;
+                        Classmates.facing[0] = -1;
+                    } else if (Classmates.x[0] > Classmates.maxX[0] - 40) {
+                        Classmates.vx[0] = -10;
+                        Classmates.facing[0] = 1;
+                    }
+
+                    Classmates.animTimer[0] = Classmates.target[0] = 0;
+                } else if (distance < 40 && phase < 10) {
+                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
+                    Classmates.state[0] = Classmates.STATE_ATTACK;
+                    Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
+                } else if (distance < 100 && distance > 40 && phase < 1) {
+                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
+                    Classmates.state[0] = Classmates.STATE_DASH_ATTACK;
+                    Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
+                    Classmates.vx[0] = (abs(Classmates.x[0] - Player.x) >> 3) * Classmates.facing[0];
+                } else if (distance > 100 && distance < 160 && phase < 30) {
+                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
+                    Classmates.state[0] = Classmates.STATE_THROW_DART;
+                    Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
+                } else if (distance >= 20 && phase != 42) {
+                    if (distance > 160) {
+                        Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
+                        Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 7);
+                        if (Classmates.target[0] < Classmates.minX[0]) {
+                            Classmates.target[0] = Classmates.minX[0];
+                        } else if (Classmates.target[0] > Classmates.maxX[0]) {
+                            Classmates.target[0] = Classmates.maxX[0];
+                        }
+
+                        Classmates.animTimer[0] = 0;
+                        Classmates.state[0] = Classmates.STATE_WALK;
+                        Classmates.vx[0] = Classmates.facing[0] << 2;
+                    }
+                } else {
+                    Classmates.facing[0] = -Player.facing;
+                    Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 6);
+                    if (Classmates.target[0] < Classmates.minX[0] || Classmates.target[0] > Classmates.maxX[0]) {
+                        Classmates.facing[0] = -Classmates.facing[0];
+                        Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 6);
+                    }
+
+                    Classmates.animTimer[0] = 0;
+                    Classmates.state[0] = Classmates.STATE_WALK;
+                    Classmates.vx[0] = Classmates.facing[0] << 3;
+                }
+                return;
+            case Classmates.STATE_WALK:
+                Classmates.animTimer[0]++;
+                if (Classmates.animTimer[0] >= 10) {
+                    Classmates.animTimer[0] = 0;
+                }
+
+                Classmates.pose[0] = (Classmates.animTimer[0] >> 1) + 2;
+                Classmates.x[0] += Classmates.vx[0];
+                if (!Classmates.gathering && (Classmates.facing[0] > 0 && Classmates.x[0] > Classmates.target[0] || Classmates.facing[0] < 0 && Classmates.x[0] < Classmates.target[0])) {
+                    Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
+                    Classmates.target[0] = Classmates.animTimer[0] = 0;
+                    Classmates.state[0] = Classmates.STATE_IDLE;
+                }
+                return;
+            case Classmates.STATE_JUMP:
+            case Classmates.STATE_KNOCKBACK:
+                Classmates.x[0] += Classmates.vx[0];
+                if (Classmates.x[0] < Classmates.minX[0]) {
+                    Classmates.x[0] = Classmates.minX[0];
+                }
+
+                if (Classmates.x[0] > Classmates.maxX[0]) {
+                    Classmates.x[0] = Classmates.maxX[0];
+                }
+
+                Classmates.y[0] += Classmates.vy[0];
+                Classmates.pose[0] = 23;
+                if (Classmates.vx[0] > 0) {
+                    Classmates.vx[0]--;
+                }
+
+                Classmates.vy[0]++;
+                if (Classmates.vy[0] == 0) {
+                    Classmates.state[0] = Classmates.STATE_FALL;
+                    Classmates.animTimer[0] = 0;
+                    Classmates.vy[0] = 1;
+                }
+                return;
+            case Classmates.STATE_FALL:
+                Classmates.x[0] += Classmates.vx[0];
+                if (Classmates.x[0] < Classmates.minX[0]) {
+                    Classmates.x[0] = Classmates.minX[0];
+                }
+
+                if (Classmates.x[0] > Classmates.maxX[0]) {
+                    Classmates.x[0] = Classmates.maxX[0];
+                }
+
+                Classmates.y[0] += Classmates.vy[0];
+                Classmates.pose[0] = 7;
+                if (Classmates.vy[0] < 18) {
+                    Classmates.vy[0]++;
+                }
+
+                if (Classmates.vx[0] > 0) {
+                    Classmates.vx[0]--;
+                }
+
+                Classmates.pose[0] = 7;
+                if (Classmates.y[0] >= GameMap.pixelHeight) {
+                    Classmates.state[0] = Classmates.STATE_FELL_OFF_MAP;
+                } else if ((GameMap.flagsAtPixel(Classmates.x[0], Classmates.y[0]) & TileFlags.SOLID) == TileFlags.SOLID) {
+                    Classmates.state[0] = Classmates.STATE_IDLE;
+                    Classmates.animTimer[0] = Classmates.target[0] = 0;
+                    Classmates.vx[0] = Classmates.vy[0] = 0;
+                    Classmates.y[0] = alignToTileX(Classmates.y[0]);
+                    Dust.spawn(-1, Classmates.x[0] - -8, Classmates.y[0]);
+                    Dust.spawn(1, Classmates.x[0] - 8, Classmates.y[0]);
+                    if (abs(Classmates.x[0] - Player.x) < 40 && phase < 25) {
+                        Classmates.facing[0] = Player.x > Classmates.x[0] ? 1 : -1;
+                        Classmates.state[0] = Classmates.STATE_ATTACK;
+                        Classmates.animTimer[0] = Classmates.target[0] = Classmates.targetMonster[0] = 0;
+                    }
+
+                    if (distance < 40) {
+                        Classmates.facing[0] = Player.facing;
+                        Classmates.target[0] = Classmates.x[0] + Classmates.facing[0] * 110;
+                        if (Classmates.target[0] < Classmates.minX[0] || Classmates.target[0] > Classmates.maxX[0]) {
+                            Classmates.facing[0] = -Classmates.facing[0];
+                            Classmates.target[0] = Classmates.x[0] + (Classmates.facing[0] << 6);
+                        }
+
+                        Classmates.animTimer[0] = 0;
+                        Classmates.state[0] = Classmates.STATE_WALK;
+                        Classmates.vx[0] = Classmates.facing[0] * 10;
+                    }
+                }
+                return;
+            case Classmates.STATE_ATTACK:
+                Classmates.animTimer[0]++;
+                switch (Classmates.target[0]) {
+                    case Player.COMBO_FIRST_SLASH:
+                        switch (Classmates.animTimer[0]) {
+                            case 1:
+                            case 2:
+                            case 3:
+                                Classmates.slashEffect[0] = -1;
+                                Classmates.pose[0] = 13;
+                                return;
+                            case 4:
+                                Classmates.slashEffect[0] = 0;
+                                Classmates.pose[0] = 14;
+                                return;
+                            case 5:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                return;
+                            case 6:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                tonikuSlashPlayer(0);
+                                return;
+                            case 7:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                return;
+                            case 8:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                Classmates.target[0] = Player.COMBO_SECOND_SLASH;
+                                Classmates.animTimer[0] = 1;
+                            default:
+                                return;
+                        }
+                    case Player.COMBO_FIRST_SLASH_END:
+                        switch (Classmates.animTimer[0]) {
+                            case 1:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                return;
+                            case 2:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                Classmates.target[0] = Player.COMBO_RECOVER;
+                            default:
+                                return;
+                        }
+                    case Player.COMBO_SECOND_SLASH:
+                        switch (Classmates.animTimer[0]) {
+                            case 1:
+                            case 2:
+                            case 3:
+                                Classmates.slashEffect[0] = 3;
+                                Classmates.pose[0] = 17;
+                                return;
+                            case 4:
+                                Classmates.slashEffect[0] = 4;
+                                Classmates.pose[0] = 18;
+                                return;
+                            case 5:
+                                Classmates.slashEffect[0] = 5;
+                                Classmates.pose[0] = 19;
+                                return;
+                            case 6:
+                                Classmates.slashEffect[0] = 6;
+                                Classmates.pose[0] = 20;
+                                tonikuSlashPlayer(0);
+                                return;
+                            case 7:
+                                Classmates.slashEffect[0] = 6;
+                                Classmates.pose[0] = 20;
+                                Classmates.target[0] = Player.COMBO_THIRD_SLASH;
+                                Classmates.animTimer[0] = 1;
+                            default:
+                                return;
+                        }
+                    case Player.COMBO_THIRD_SLASH:
+                        switch (Classmates.animTimer[0]) {
+                            case 1:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                return;
+                            case 2:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                return;
+                            case 3:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                return;
+                            case 4:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                Classmates.target[0] = Player.COMBO_FIRST_SLASH_END;
+                                Classmates.animTimer[0] = 1;
+                        }
+                    default:
+                        return;
+                    case Player.COMBO_RECOVER:
+                        switch (Classmates.animTimer[0]) {
+                            case 1:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                return;
+                            case 2:
+                                Classmates.slashEffect[0] = 0;
+                                Classmates.pose[0] = 14;
+                                return;
+                            case 3:
+                            case 4:
+                                Classmates.pose[0] = 13;
+                                Classmates.slashEffect[0] = -1;
+                                return;
+                            case 5:
+                                Classmates.pose[0] = 13;
+                                Classmates.slashEffect[0] = -1;
+                                Classmates.state[0] = Classmates.STATE_IDLE;
+                                Classmates.target[0] = 120;
+                                Classmates.animTimer[0] = 0;
+                            default:
+                                return;
+                        }
+                }
+            case Classmates.STATE_THROW_DART:
+                Classmates.animTimer[0]++;
+                switch (Classmates.animTimer[0]) {
+                    case 1:
+                    case 2:
+                    case 3:
+                        Classmates.pose[0] = 13;
+                        return;
+                    case 4:
+                        Classmates.pose[0] = 14;
+                        return;
+                    case 5:
+                        Classmates.pose[0] = 15;
+                        return;
+                    case 6:
+                        Classmates.pose[0] = 15;
+                        Darts.spawn(Classmates.x[0] + (Classmates.facing[0] << 3), Classmates.y[0] - 12, Classmates.facing[0] << 3, 0, false);
+                        return;
+                    case 7:
+                        Classmates.pose[0] = 16;
+                        return;
+                    case 8:
+                        Classmates.pose[0] = 16;
+                        Classmates.target[0] = 2;
+                        return;
+                    case 9:
+                        Classmates.animTimer[0] = 0;
+                        Classmates.state[0] = Classmates.STATE_IDLE;
+                    default:
+                        return;
+                }
+            case Classmates.STATE_DASH_ATTACK:
+                Classmates.target[0]++;
+                if (Classmates.target[0] < 7) {
+                    Classmates.animTimer[0]++;
+                    if (Classmates.animTimer[0] >= 10) {
+                        Classmates.animTimer[0] = 0;
+                    }
+
+                    Classmates.pose[0] = (Classmates.animTimer[0] >> 1) + 2;
+                    Classmates.x[0] += Classmates.vx[0];
+                    if (abs(Classmates.x[0] - Player.x) < 30) {
+                        if (Player.action == PlayerAction.ATTACK && Player.facing != Classmates.facing[0]) {
+                            Classmates.state[0] = Classmates.STATE_JUMP;
+                            Classmates.facing[0] = -Player.facing;
+                            Classmates.vx[0] = Player.facing << 1;
+                            if (Classmates.x[0] < Classmates.minX[0] + 30) {
+                                Classmates.vx[0] = 6;
+                                Classmates.facing[0] = -1;
+                            } else if (Classmates.x[0] > Classmates.maxX[0] - 30) {
+                                Classmates.vx[0] = -6;
+                                Classmates.facing[0] = 1;
+                            }
+
+                            Classmates.vy[0] = -9;
+                            break;
+                        } else {
+                            Classmates.target[0] = 6;
+                        }
+                    }
+                } else if (Classmates.target[0] != 7) {
+                    if (Classmates.target[0] >= 15) {
+                        Classmates.slashEffect[0] = -1;
+                        Classmates.state[0] = Classmates.STATE_IDLE;
+                        break;
+                    } else {
+                        Classmates.animTimer[0]++;
+                        switch (Classmates.animTimer[0]) {
+                            case 1:
+                            case 2:
+                            case 3:
+                                Classmates.slashEffect[0] = -1;
+                                Classmates.pose[0] = 13;
+                                return;
+                            case 4:
+                                Classmates.slashEffect[0] = 0;
+                                Classmates.pose[0] = 14;
+                                return;
+                            case 5:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                return;
+                            case 6:
+                                Classmates.slashEffect[0] = 1;
+                                Classmates.pose[0] = 15;
+                                tonikuSlashPlayer(0);
+                                return;
+                            case 7:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                return;
+                            case 8:
+                                Classmates.slashEffect[0] = 2;
+                                Classmates.pose[0] = 16;
+                                Classmates.target[0] = 2;
+                                Classmates.animTimer[0] = 1;
+                        }
+                    }
+                } else {
+                    Classmates.animTimer[0] = 0;
+                }
+            default:
+                return;
+        }
+
+        Classmates.animTimer[0] = Classmates.target[0] = 0;
     }
 
     private static void ensureMapImages() {
@@ -8236,7 +8218,7 @@ public final class GameCanvas extends Canvas implements Runnable {
                             Monsters.timer[i]++;
                             Monsters.frame[i] = 3;
                             if (Monsters.timer[i] == 3) {
-                                Projectiles.spawn(Monsters.x[i] + (Monsters.direction[i] << 3), Monsters.y[i] - 12, Monsters.direction[i] << 3, Monsters.damage[i], 2);
+                                Projectiles.spawn(Monsters.x[i] + (Monsters.direction[i] << 3), Monsters.y[i] - 12, Monsters.direction[i] << 3, Monsters.damage[i], Projectiles.TYPE_ENERGY_BALL);
                             } else if (Monsters.timer[i] == 6) {
                                 Monsters.state[i] = Monsters.STATE_RESTING;
                                 Monsters.timer[i] = 0;
@@ -8736,6 +8718,10 @@ public final class GameCanvas extends Canvas implements Runnable {
         InventoryScreen.draw(g, PotionDrops.sprites);
     }
 
+    /**
+     * Đặt mũi tên chỉ đường tới NPC thứ {@code npc} trên map hiện tại. Gọi ở Trường (map 0),
+     * nơi NPC thứ i có loại i nên truyền thẳng {@code Npcs.TYPE_*}.
+     */
     private static void setNextNpcMarker(int npc) {
         pendingMarkerMap = mapId;
         pendingMarkerNpc = npc;

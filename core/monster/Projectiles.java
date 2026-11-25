@@ -16,6 +16,15 @@ public final class Projectiles {
     /** Loại đạn 0..2 chém bật lại được. */
     public static final int DEFLECTABLE_TYPES = 3;
 
+    /** Loại đạn ({@link #type}), cũng là chỉ số ảnh trong Effect: mũi tên. */
+    public static final int TYPE_ARROW = 0;
+    /** Kunai. */
+    public static final int TYPE_KUNAI = 1;
+    /** Cầu năng lượng tím (quỷ hoa, thủy quái). */
+    public static final int TYPE_ENERGY_BALL = 2;
+    /** Cầu lửa (boss cuối), không chém bật lại được. */
+    public static final int TYPE_FIREBALL = 3;
+
     /** Ảnh theo loại và hướng (Effect.PROJECTILE_DIR_*). */
     public static Image[][] sprites;
     public static int count;

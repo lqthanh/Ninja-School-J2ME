@@ -5,6 +5,28 @@ package core.player;
  * Chỉ số (HP, MP, cấp...) nằm ở {@link PlayerStats}. Cập nhật ở GameCanvas.updatePlayer().
  */
 public final class Player {
+    // =====================================================================================
+    // #region Bước của chuỗi đòn kiếm ({@link #comboStep})
+
+    /** Nhát chém thứ nhất; nhấn đánh tiếp thì sang {@link #COMBO_SECOND_SLASH}, không thì {@link #COMBO_FIRST_SLASH_END}. */
+    public static final int COMBO_FIRST_SLASH = 0;
+    /** Giữ thế sau nhát thứ nhất 2 frame rồi sang {@link #COMBO_RECOVER}. */
+    public static final int COMBO_FIRST_SLASH_END = 1;
+    /**
+     * Nhát chém thứ hai. Nhấn đánh tiếp (tối đa 2 lần nối): đang đứng đất và đòn trước hất trúng quái
+     * thì sang {@link #COMBO_LAUNCH_SLASH}, còn lại sang {@link #COMBO_THIRD_SLASH}.
+     */
+    public static final int COMBO_SECOND_SLASH = 2;
+    /** Nhát chém thứ ba (vung ngược); nhấn đánh tiếp thì quay lại {@link #COMBO_SECOND_SLASH}. */
+    public static final int COMBO_THIRD_SLASH = 3;
+    /** Chém hất quái lên không; trúng thì nhân vật nhảy theo, trượt thì sang {@link #COMBO_RECOVER}. */
+    public static final int COMBO_LAUNCH_SLASH = 9;
+    /** Thu kiếm, xong thì về đứng hoặc rơi. */
+    public static final int COMBO_RECOVER = 10;
+
+    // #endregion
+    // =====================================================================================
+
     /** Vị trí chân (pixel trên map). */
     public static int x;
     public static int y;
@@ -27,7 +49,7 @@ public final class Player {
     public static int weapon;
     /** Hiệu ứng chém đang vẽ (chỉ số trong GameCanvas.slashEffects), -1 nếu không có. */
     public static int slashEffect;
-    /** Bước của chuỗi đòn đánh. */
+    /** Bước của chuỗi đòn đánh (COMBO_*). */
     public static int comboStep;
     /** Số đòn đã nối trong chuỗi. */
     public static int comboCount;

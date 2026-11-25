@@ -11,8 +11,27 @@ import javax.microedition.lcdui.Image;
  * Lời thoại theo NPC nằm trong GameCanvas.run() (xử lý phím nói chuyện).
  */
 public final class Npcs {
+    // =====================================================================================
+    // #region Loại NPC ({@link #types}, cũng là số hiệu ảnh npc{id}_*.png)
+
+    /** Thầy hiệu trưởng. */
+    public static final int TYPE_PRINCIPAL = 0;
+    /** Cô Kagome Ayumi, giảng viên bộ môn Khí (khinh công). */
+    public static final int TYPE_AYUMI = 1;
+    /** Thầy Takanashi, giáo viên chủ nhiệm. */
+    public static final int TYPE_TAKANASHI = 2;
+    /** Thầy dạy Thuật (phép biến hình, độn thổ...). */
+    public static final int TYPE_JUTSU_TEACHER = 3;
+    /** Thầy dạy dùng shuriken. */
+    public static final int TYPE_SHURIKEN_TEACHER = 4;
+    /** Lính gác ({@link core.text.DialogueText#guardLines}). */
+    public static final int TYPE_GUARD = 5;
+
+    // #endregion
+    // =====================================================================================
+
     public static int count;
-    /** Loại NPC (chỉ số trong {@link #sprites}). */
+    /** Loại NPC (TYPE_*, chỉ số trong {@link #sprites}). */
     public static int[] types;
     /** Vị trí chân (pixel). */
     public static int[] x;
@@ -32,106 +51,106 @@ public final class Npcs {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 0);
-                Npc.loadSprite(sprites, 1);
-                Npc.loadSprite(sprites, 2);
-                Npc.loadSprite(sprites, 3);
-                Npc.loadSprite(sprites, 4);
-                Npc.loadSprite(sprites, 5);
+                Npc.loadSprite(sprites, TYPE_PRINCIPAL);
+                Npc.loadSprite(sprites, TYPE_AYUMI);
+                Npc.loadSprite(sprites, TYPE_TAKANASHI);
+                Npc.loadSprite(sprites, TYPE_JUTSU_TEACHER);
+                Npc.loadSprite(sprites, TYPE_SHURIKEN_TEACHER);
+                Npc.loadSprite(sprites, TYPE_GUARD);
             } catch (Exception e) {
             }
 
             count = 7;
             alloc();
-            place(0, 0, 34, 13);
-            place(1, 1, 43, 17);
-            place(2, 2, 50, 17);
-            place(3, 3, 57, 12);
-            place(4, 4, 43, 12);
-            place(5, 5, 77, 15);
-            place(6, 5, 25, 17);
+            place(0, TYPE_PRINCIPAL, 34, 13);
+            place(1, TYPE_AYUMI, 43, 17);
+            place(2, TYPE_TAKANASHI, 50, 17);
+            place(3, TYPE_JUTSU_TEACHER, 57, 12);
+            place(4, TYPE_SHURIKEN_TEACHER, 43, 12);
+            place(5, TYPE_GUARD, 77, 15);
+            place(6, TYPE_GUARD, 25, 17);
         }
 
         if (map == 1) {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 5);
+                Npc.loadSprite(sprites, TYPE_GUARD);
             } catch (Exception e) {
             }
 
             count = 1;
             alloc();
-            place(0, 5, 54, 9);
+            place(0, TYPE_GUARD, 54, 9);
         }
 
         if (map == 2) {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 5);
+                Npc.loadSprite(sprites, TYPE_GUARD);
             } catch (Exception e) {
             }
 
             count = 1;
             alloc();
-            place(0, 5, 23, 12);
+            place(0, TYPE_GUARD, 23, 12);
         }
 
         if (map == 5) {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 5);
+                Npc.loadSprite(sprites, TYPE_GUARD);
             } catch (Exception e) {
             }
 
             count = 1;
             alloc();
-            place(0, 5, 12, 5);
+            place(0, TYPE_GUARD, 12, 5);
         }
 
         if (map == 6) {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 5);
+                Npc.loadSprite(sprites, TYPE_GUARD);
             } catch (Exception e) {
             }
 
             count = 1;
             alloc();
-            place(0, 5, 14, 9);
+            place(0, TYPE_GUARD, 14, 9);
         }
 
         if (map == 99 || map == 101) {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 4);
+                Npc.loadSprite(sprites, TYPE_SHURIKEN_TEACHER);
             } catch (Exception e) {
             }
 
             count = 1;
             alloc();
-            place(0, 4, 3, 12);
+            place(0, TYPE_SHURIKEN_TEACHER, 3, 12);
         }
 
         if (map == 94) {
             sprites = Npc.createSpriteTable();
 
             try {
-                Npc.loadSprite(sprites, 0);
-                Npc.loadSprite(sprites, 4);
-                Npc.loadSprite(sprites, 2);
+                Npc.loadSprite(sprites, TYPE_PRINCIPAL);
+                Npc.loadSprite(sprites, TYPE_SHURIKEN_TEACHER);
+                Npc.loadSprite(sprites, TYPE_TAKANASHI);
             } catch (Exception e) {
             }
 
             count = 3;
             alloc();
-            place(0, 4, 2, 10);
-            place(1, 0, 3, 10);
-            place(2, 2, 4, 10);
+            place(0, TYPE_SHURIKEN_TEACHER, 2, 10);
+            place(1, TYPE_PRINCIPAL, 3, 10);
+            place(2, TYPE_TAKANASHI, 4, 10);
         }
 
     }
