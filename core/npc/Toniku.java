@@ -5,7 +5,7 @@ import core.quest.Story;
 /**
  * Trận đấu với Toniku ở map 96. Toniku dùng ô 0 của các mảng trong {@link Classmates}
  * (vị trí, trạng thái, tư thế...); các field ở đây là máu và sát thương riêng của trận đấu.
- * AI nằm trong GameCanvas.run().
+ * AI: {@link ClassmateAI#updateTonikuFight()}.
  */
 public final class Toniku {
     /** Đang có trận đấu Toniku trên map. */

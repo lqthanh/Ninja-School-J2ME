@@ -6,12 +6,12 @@ import javax.microedition.lcdui.Graphics;
 
 /** Biển chữ vẽ trên map (tên phòng, tên địa điểm...). Vị trí là tâm-dưới của chữ (pixel). */
 public final class Signs {
-    public static int count;
-    public static String[] texts;
+    private static int count;
+    private static String[] texts;
     /** Mép trái của chữ (đã trừ nửa chiều rộng). */
-    public static int[] x;
-    public static int[] y;
-    public static int[] width;
+    private static int[] x;
+    private static int[] y;
+    private static int[] width;
 
     private Signs() {
     }

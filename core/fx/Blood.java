@@ -14,13 +14,13 @@ public final class Blood {
     public static final int LIFETIME = 6;
 
     public static Image[] sprites;
-    public static int[] x;
-    public static int[] y;
+    private static int[] x;
+    private static int[] y;
     /** Tuổi theo frame, {@link #FREE} nếu ô trống. */
-    public static int[] timer;
-    public static int[] frame;
+    private static int[] timer;
+    private static int[] frame;
     /** Hướng bắn: 1 = sang phải, còn lại = sang trái (ảnh lật ngang). */
-    public static int[] direction;
+    private static int[] direction;
 
     private Blood() {
     }

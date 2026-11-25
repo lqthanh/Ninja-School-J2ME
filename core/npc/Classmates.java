@@ -11,7 +11,7 @@ import javax.microedition.lcdui.Image;
  * nhân vật, chỉ khác ảnh đầu ({@link #skin}).
  *
  * Trận đấu Toniku (map 96) dùng ô 0 của các mảng này làm Toniku (xem {@link Toniku}); khi đó
- * {@link #count} bằng 0 nên vòng cập nhật bạn học bỏ qua ô này. Cập nhật: GameCanvas.updateClassmates().
+ * {@link #count} bằng 0 nên vòng cập nhật bạn học bỏ qua ô này. Cập nhật: {@link ClassmateAI#update()}.
  */
 public final class Classmates {
     // =====================================================================================

@@ -1,9 +1,15 @@
 package core.ui;
 
 import assets.FontGraph;
+import core.app.GameState;
+import core.app.MapLoader;
 import core.input.Input;
 import core.item.Inventory;
+import core.map.GameMap;
+import core.player.Player;
+import core.render.TileRenderer;
 import core.render.Viewport;
+import core.save.Save;
 import javax.microedition.lcdui.Graphics;
 
 /** Hộp thông báo (trạng thái GameState.MESSAGE), loại hộp xem {@link MessageType}. */
@@ -17,18 +23,18 @@ public final class MessageBox {
     public static final int INPUT_DELAY_FRAMES = 10;
 
     public static int type;
-    public static String[] lines;
-    public static String leftLabel;
-    public static String rightLabel;
+    private static String[] lines;
+    private static String leftLabel;
+    private static String rightLabel;
     /** Toạ độ y của dòng chữ đầu tiên. */
     public static int y;
-    public static int inputDelay;
+    private static int inputDelay;
 
     private MessageBox() {
     }
 
     /** Chuẩn bị mở hộp: đặt lại thời gian chờ phím và nạp ảnh khung. */
-    public static void prepare() {
+    private static void prepare() {
         inputDelay = 0;
         UiFrame.loadCorners();
     }
@@ -107,5 +113,37 @@ public final class MessageBox {
         }
 
         UiFrame.drawCorners(g, y);
+    }
+
+    /** Phím mềm trái trên hộp thông báo. */
+    public static void onConfirmed() {
+        switch (type) {
+            case MessageType.TRAVEL_NOT_VISITED:
+            case MessageType.TRAVEL_ALREADY_HERE:
+            case MessageType.NOT_ENOUGH_MONEY:
+                GameState.current = GameState.WORLD_MAP;
+                break;
+            case MessageType.TRAVEL_CONFIRM:
+                // Có đúng bằng giá là đủ (bản gốc dùng >= nên bằng giá vẫn bị báo không đủ tiền).
+                if (WorldMap.travelCost > Inventory.money) {
+                    show(MessageType.NOT_ENOUGH_MONEY);
+                } else {
+                    Inventory.money -= WorldMap.travelCost;
+                    WorldMap.close();
+                    UiFrame.release();
+                    TileRenderer.ensureMapImages();
+                    MapLoader.releaseSprites();
+                    Player.checkpointX = Player.x = WorldMap.spawnTileX[WorldMap.selected] * GameMap.TILE_SIZE;
+                    Player.checkpointY = Player.y = WorldMap.spawnTileY[WorldMap.selected] * GameMap.TILE_SIZE;
+                    Save.pendingSave = true;
+                    MapLoader.change(WorldMap.selected);
+                }
+                break;
+            case MessageType.GAME_NOTICE:
+            case MessageType.LEVEL_UP:
+                UiFrame.release();
+                GameState.current = GameState.PLAYING;
+                break;
+        }
     }
 }

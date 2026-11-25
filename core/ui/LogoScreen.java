@@ -14,10 +14,10 @@ public final class LogoScreen {
     /** Kết thúc logo sau frame này. */
     public static final int END_TICK = 51;
 
-    public static Image image;
-    public static int tick;
+    private static Image image;
+    private static int tick;
     /** Khung hình logo đang hiện. */
-    public static int frame;
+    private static int frame;
 
     private LogoScreen() {
     }

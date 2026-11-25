@@ -21,14 +21,14 @@ public final class GameMenu {
     public static final int RESULT_CLOSE = -2;
     // Các giá trị >= 0 là mục vừa được chọn (ITEM_*).
 
-    public static String[] items = new String[]{"Sử dụng item",
+    private static String[] items = new String[]{"Sử dụng item",
             "Xem bản đồ",
             "Lưu và thoát",
             "Nhạc"};
-    public static int selection;
-    public static int y;
+    private static int selection;
+    private static int y;
     /** Đếm frame, làm con trỏ (biểu tượng kiếm) rung nhẹ. */
-    public static int tick;
+    private static int tick;
 
     private GameMenu() {
     }

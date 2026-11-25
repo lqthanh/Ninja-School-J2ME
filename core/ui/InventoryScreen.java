@@ -5,6 +5,7 @@ import assets.Item;
 import core.app.GameState;
 import core.input.Input;
 import core.item.Inventory;
+import core.item.PotionDrops;
 import core.player.PlayerStats;
 import core.render.Viewport;
 import javax.microedition.lcdui.Graphics;
@@ -13,12 +14,12 @@ import javax.microedition.lcdui.Image;
 /** Túi đồ (trạng thái GameState.INVENTORY): chọn bình thuốc để dùng. */
 public final class InventoryScreen {
     /** Màu viền ô đang chọn, nháy sáng dần rồi tối dần sau khi dùng một bình. */
-    public static int[] blinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
+    private static int[] blinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
 
-    public static int x;
-    public static int y;
-    public static int cursor;
-    public static int blink;
+    private static int x;
+    private static int y;
+    private static int cursor;
+    private static int blink;
 
     private InventoryScreen() {
     }
@@ -71,7 +72,7 @@ public final class InventoryScreen {
     }
 
     /** Vẽ hộp túi đồ (HUD phía sau do b vẽ trước). */
-    public static void draw(Graphics g, Image[] potionImages) {
+    private static void draw(Graphics g, Image[] potionImages) {
         g.setClip(0, 0, Viewport.screenWidth, Viewport.screenHeight);
         UiFrame.drawPanel(g, y, "Sử dụng", "Quay lại");
         FontGraph.drawBold(g, "Sử dụng Item", Viewport.viewCenterX, y - 8, 2);
@@ -95,5 +96,12 @@ public final class InventoryScreen {
             g.drawRegion(potionImages[Item.POTION_HP], 0, i * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, x + i * 20, y + 20, 3);
             g.drawRegion(potionImages[Item.POTION_MP], 0, i * Item.FRAME_HEIGHT, Item.POTION_WIDTH, Item.FRAME_HEIGHT, 0, x + 60 + i * 20, y + 20, 3);
         }
+    }
+
+    public static void drawWithHud(Graphics g) {
+        g.translate(-g.getTranslateX(), -g.getTranslateY());
+        Hud.drawPanel(g);
+        Hud.drawOverlay(g);
+        draw(g, PotionDrops.sprites);
     }
 }

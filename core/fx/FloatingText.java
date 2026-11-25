@@ -10,15 +10,15 @@ public final class FloatingText {
     /** Số frame tối đa (tính theo quãng đường đã bay) trước khi biến mất. */
     public static final int LIFETIME = 30;
 
-    public static String[] text;
+    private static String[] text;
     /** Màu chữ, truyền cho FontGraph.drawSmall. */
-    public static int[] color;
-    public static int[] x;
-    public static int[] y;
-    public static int[] vx;
-    public static int[] vy;
+    private static int[] color;
+    private static int[] x;
+    private static int[] y;
+    private static int[] vx;
+    private static int[] vy;
     /** Tuổi (cộng |vy| mỗi frame), {@link #FREE} nếu ô trống. */
-    public static int[] age;
+    private static int[] age;
 
     private FloatingText() {
     }

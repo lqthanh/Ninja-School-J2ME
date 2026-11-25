@@ -13,11 +13,11 @@ public final class WaterSplash {
     public static final int FRAME_COUNT = 3;
 
     public static Image[] sprites;
-    public static int[] x;
-    public static int[] y;
+    private static int[] x;
+    private static int[] y;
     /** Bộ đếm khung hình (tăng mỗi 2 frame), {@link #FREE} nếu ô trống. */
-    public static int[] timer;
-    public static int[] frame;
+    private static int[] timer;
+    private static int[] frame;
 
     private WaterSplash() {
     }

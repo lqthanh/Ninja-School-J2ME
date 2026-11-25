@@ -22,6 +22,7 @@ public final class Story {
     public static boolean sakuraEscorting;
     /** Đã đưa Sakura về trường: hoàn thành game. */
     public static boolean gameCompleted;
+    public static boolean prologueNoRespawn;
 
     private Story() {
     }

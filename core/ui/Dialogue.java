@@ -1,5 +1,12 @@
 package core.ui;
 
+import assets.FontGraph;
+import core.app.GameState;
+import core.app.Settings;
+import core.render.Camera;
+import core.render.Viewport;
+import javax.microedition.lcdui.Graphics;
+
 /**
  * Bong bóng lời thoại của nhân vật/NPC.
  *
@@ -11,22 +18,22 @@ package core.ui;
 public final class Dialogue {
     /** Không có hành động khi đóng lời thoại. */
     public static final int NO_ACTION = -1;
-
     public static boolean visible;
-    public static String[][] pages;
-    public static int pageCount;
-    public static int page;
+    private static String[][] pages;
+    private static int pageCount;
+    private static int page;
     /** Số dòng đã hiện đủ của trang hiện tại. */
-    public static int shownLines;
+    private static int shownLines;
     /** Số ký tự đã hiện của dòng đang gõ. */
-    public static int shownChars;
-    /** Hành động chạy khi đọc hết lời thoại (GameCanvas.onDialogueFinished). */
+    private static int shownChars;
+    /** Hành động chạy khi đọc hết lời thoại ({@link core.quest.QuestAction#onDialogueFinished}). */
     public static int finishAction;
     /** Vị trí người nói (pixel trên map), mũi tên của bong bóng chỉ vào đây. */
-    public static int speakerX;
-    public static int speakerY;
-    public static int boxX;
-    public static int boxWidth;
+    private static int speakerX;
+    private static int speakerY;
+    private static int boxX;
+    private static int boxWidth;
+    private static int boxLines;
 
     private Dialogue() {
     }
@@ -54,5 +61,78 @@ public final class Dialogue {
             shownChars = 0;
             ++shownLines;
         }
+    }
+
+    public static void draw(Graphics g) {
+        g.translate(-g.getTranslateX(), -g.getTranslateY());
+        g.setClip(-1, -1, Viewport.screenWidth + 2, Viewport.screenHeight + 2);
+        boxLines = pages[page].length;
+        int boxY = Dialogue.speakerY - Camera.y - (boxLines << 4);
+        boolean boxBelowSpeaker = true;
+        if (boxY < 10) {
+            boxBelowSpeaker = false;
+            boxY = 10;
+        }
+
+        g.setColor(16777215);
+        if (Settings.lowGraphics) {
+            g.fillRect(boxX, boxY - 5, boxWidth, (boxLines << 4) + 7);
+        } else {
+            g.fillRoundRect(boxX, boxY - 5, boxWidth, (boxLines << 4) + 7, 10, 10);
+        }
+
+        g.setColor(17408);
+        if (Settings.lowGraphics) {
+            g.drawRect(boxX - 1, boxY - 5, boxWidth + 1, (boxLines << 4) + 7);
+        } else {
+            g.drawRoundRect(boxX - 1, boxY - 5, boxWidth + 1, (boxLines << 4) + 7, 10, 10);
+        }
+
+        for(int line = 0; line < shownLines; ++line) {
+            FontGraph.drawRegular(g, pages[page][line], boxX + (boxWidth >> 1), boxY + (line << 4), 2);
+        }
+
+        if (shownLines < pages[page].length) {
+            FontGraph.drawRegular(g, pages[page][shownLines].substring(0, shownChars), boxX + (boxWidth >> 1), boxY + (shownLines << 4), 2);
+        }
+
+        g.setColor(0);
+        g.fillRect(0, Hud.y + 33, Hud.width, 15);
+        if (boxBelowSpeaker && Dialogue.speakerX > Camera.x + 10 && Dialogue.speakerX < Camera.x + Viewport.viewWidth - 10) {
+            g.drawImage(Hud.markerIcon, Dialogue.speakerX - Camera.x, Dialogue.speakerY - Camera.y + 2, 17);
+        }
+
+        if (GameState.tick % 10 < 8) {
+            FontGraph.drawBold(g, "Tiếp tục", Viewport.viewCenterX, Viewport.screenHeight - 13, 2);
+        }
+
+    }
+
+    public static void open(String[] lines, int finishAction, int speakerX, int speakerY) {
+        Dialogue.finishAction = finishAction;
+        Dialogue.speakerX = speakerX;
+        Dialogue.speakerY = speakerY;
+        pageCount = lines.length;
+        page = 0;
+        pages = new String[pageCount][];
+        if ((boxWidth = Viewport.viewWidth >> 1) < 120) {
+            boxWidth = 120;
+        }
+
+        for(int i = 0; i < pageCount; ++i) {
+            pages[i] = FontGraph.wrapRegularText(lines[i], boxWidth - 20);
+        }
+
+        if ((boxX = Dialogue.speakerX - (boxWidth >> 1) - Camera.x) < 2) {
+            boxX = 2;
+        }
+
+        if (boxX + boxWidth > Viewport.viewWidth - 2) {
+            boxX = Viewport.viewWidth - 2 - boxWidth;
+        }
+
+        visible = true;
+        shownChars = 0;
+        shownLines = 0;
     }
 }

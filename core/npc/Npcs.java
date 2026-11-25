@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Image;
 
 /**
  * NPC đứng yên (thầy cô, dân làng...) mà nhân vật nói chuyện để nhận nhiệm vụ.
- * Lời thoại theo NPC nằm trong GameCanvas.run() (xử lý phím nói chuyện).
+ * Lời thoại theo NPC nằm trong PlayerInput.update() (xử lý phím nói chuyện).
  */
 public final class Npcs {
     // =====================================================================================
@@ -37,7 +37,7 @@ public final class Npcs {
     public static int[] x;
     public static int[] y;
     /** Độ cao của thân so với chân, theo loại. */
-    public static int[] bodyOffsetY = new int[]{7, 6, 6, 5, 2, 4};
+    private static int[] bodyOffsetY = new int[]{7, 6, 6, 5, 2, 4};
     /** Ảnh theo loại và phần (Npc.PART_LEGS / PART_BODY). */
     public static Image[][] sprites;
 

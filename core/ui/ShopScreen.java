@@ -5,8 +5,11 @@ import assets.Ui;
 import core.app.GameState;
 import core.input.Input;
 import core.item.Inventory;
+import core.item.PotionDrops;
 import core.item.ShopCatalog;
 import core.player.PlayerStats;
+import core.render.HeroSprites;
+import core.render.TileRenderer;
 import core.render.Viewport;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
@@ -30,20 +33,20 @@ public final class ShopScreen {
     /** Vừa mua kiếm mới ({@link Inventory#swordLevel} đã đổi); b cần nạp lại ảnh vũ khí. */
     public static final int RESULT_SWORD_PURCHASED = 2;
 
-    public static int[] blinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
+    private static int[] blinkColors = new int[]{12281360, 13859359, 15439166, 16693877, 16765346, 16777215, 16765346, 16693877, 15439166, 13859359, 12281360};
 
-    public static int mode;
-    public static int x;
-    public static int y;
-    public static int row;
-    public static int cursor;
-    public static int blink;
-    public static Image[] swordIcons;
+    private static int mode;
+    private static int x;
+    private static int y;
+    private static int row;
+    private static int cursor;
+    private static int blink;
+    private static Image[] swordIcons;
 
     private ShopScreen() {
     }
 
-    public static void open(int shopMode) {
+    private static void open(int shopMode) {
         y = Viewport.viewCenterY - 40;
         x = Viewport.viewCenterX - 50;
         swordIcons = new Image[Ui.SWORD_LEVEL_COUNT];
@@ -61,14 +64,14 @@ public final class ShopScreen {
     }
 
     /** Mở hộp thông báo của cửa hàng; đóng hộp sẽ quay lại cửa hàng. */
-    public static void showNotice(String text) {
+    private static void showNotice(String text) {
         MessageBox.show(MessageType.SHOP_NOTICE);
         MessageBox.setText(text);
         MessageBox.y = y;
         GameState.current = GameState.MESSAGE;
     }
 
-    public static void showPurchaseFailed() {
+    private static void showPurchaseFailed() {
         showNotice("Không thể mua. Xin hãy thử lại sau.");
     }
 
@@ -191,12 +194,12 @@ public final class ShopScreen {
     }
 
     /** Thông báo đã mua kiếm mới (gọi sau khi b nạp lại ảnh vũ khí). */
-    public static void showSwordPurchased() {
+    private static void showSwordPurchased() {
         showNotice("Xin chúc mừng. Bạn đã có vũ khí mới: " + ShopCatalog.itemNames[row][cursor] + "!");
     }
 
     /** Vẽ hộp cửa hàng (HUD phía sau do b vẽ trước). */
-    public static void draw(Graphics g, Image[] potionImages) {
+    private static void draw(Graphics g, Image[] potionImages) {
         g.setClip(0, 0, Viewport.screenWidth, Viewport.screenHeight);
         UiFrame.drawPanel(g, y, "Mua", "Quay lại");
         if (mode == MODE_MONEY) {
@@ -229,5 +232,24 @@ public final class ShopScreen {
         }
 
         UiFrame.drawCorners(g, y);
+    }
+
+    public static void enter(int mode) {
+        TileRenderer.tilesetImage = null;
+        open(mode);
+        GameState.current = GameState.SHOP;
+    }
+
+    public static void drawWithHud(Graphics g) {
+        g.translate(-g.getTranslateX(), -g.getTranslateY());
+        Hud.drawPanel(g);
+        Hud.drawOverlay(g);
+        draw(g, PotionDrops.sprites);
+    }
+
+    public static void onSwordPurchased() {
+        HeroSprites.reloadSlashEffects();
+        Hud.loadIcons();
+        showSwordPurchased();
     }
 }

@@ -31,7 +31,8 @@ public final class GameMap {
     /** Cờ {@link TileFlags} của từng ô. */
     public static int[] flags;
     /** Mã tile có xuất hiện trong map (index = mã - 1). */
-    public static boolean[] usedTiles;
+    private static boolean[] usedTiles;
+    public static int id;
 
     private GameMap() {
     }
@@ -85,4 +86,12 @@ public final class GameMap {
 
     // #endregion
     // =====================================================================================
+
+    public static int alignToTileY(int value) {
+        return value / TILE_SIZE * TILE_SIZE;
+    }
+
+    public static int alignToTileX(int value) {
+        return value / TILE_SIZE * TILE_SIZE;
+    }
 }

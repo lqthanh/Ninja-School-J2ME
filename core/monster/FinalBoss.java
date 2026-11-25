@@ -9,7 +9,7 @@ import javax.microedition.lcdui.Image;
  * Boss cuối ở map 95 (giải cứu Sakura). Thân gồm 6 phần vẽ riêng: phần i nằm ở
  * ({@link #x} + {@link #partBaseX}[i] + {@link #poseX}[i], {@link #y} + {@link #partBaseY}[i] + {@link #poseY}[i]),
  * lật theo {@link #direction}. Bảng tư thế idle/attack/walk cho độ lệch của từng phần.
- * Khi bị hạ, các phần văng ra xa nhau. AI: GameCanvas.updateFinalBoss().
+ * Khi bị hạ, các phần văng ra xa nhau. AI: {@link BossAI#updateFinalBoss()}.
  */
 public final class FinalBoss {
     /** Chờ cảnh diễn bắt đầu trận đấu. */

@@ -53,7 +53,7 @@ public final class Leveling {
         PlayerStats.mp = PlayerStats.maxMp;
     }
 
-    public static boolean isMaxLevel() {
+    private static boolean isMaxLevel() {
         return PlayerStats.level >= LevelTable.MAX_LEVEL;
     }
 

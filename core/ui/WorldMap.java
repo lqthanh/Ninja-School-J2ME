@@ -29,7 +29,7 @@ public final class WorldMap {
     public static final int RESULT_NONE = 0;
     public static final int RESULT_CLOSE = 1;
 
-    public static String[] names = new String[]{"Trường Hirosaki",
+    private static String[] names = new String[]{"Trường Hirosaki",
             "Khu luyện tập",
             "Làng Kenshin",
             "Rừng đào Sakura",
@@ -49,49 +49,49 @@ public final class WorldMap {
             "Lối vào Orochi",
             "Ngôi đền Orochi"};
     /** Chi phí đi qua mỗi vùng; giá chuyển = 2/3 tổng chi phí các vùng nằm giữa (tính cả 2 đầu). */
-    public static int[] travelCosts = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
+    private static int[] travelCosts = new int[]{50, 60, 70, 80, 90, 70, 100, 120, 150, 180, 220, 250, 300, 320, 350, 370, 390, 420, 450};
     /** Vùng đã từng đi bộ đến (chỉ số = mã map). */
     public static boolean[] visited = new boolean[AREA_COUNT];
     /** Vị trí biểu tượng mỗi vùng trên ảnh bản đồ. */
-    public static int[] iconX = new int[]{49, 31, 98, 112, 106, 42, 75, 84, 37, 39, 80, 117, 157, 201, 208, 170, 186, 219, 161};
-    public static int[] iconY = new int[]{35, 65, 38, 75, 98, 97, 95, 128, 142, 185, 212, 189, 189, 204, 156, 142, 96, 59, 39};
+    private static int[] iconX = new int[]{49, 31, 98, 112, 106, 42, 75, 84, 37, 39, 80, 117, 157, 201, 208, 170, 186, 219, 161};
+    private static int[] iconY = new int[]{35, 65, 38, 75, 98, 97, 95, 128, 142, 185, 212, 189, 189, 204, 156, 142, 96, 59, 39};
     /** Ô xuất hiện của nhân vật khi chuyển đến vùng (theo ô 24px). */
     public static int[] spawnTileX = new int[]{62, 52, 17, 4, 8, 12, 14, 5, 1, 2, 3, 2, 2, 2, 2, 1, 2, 3, 1};
     public static int[] spawnTileY = new int[]{17, 9, 12, 9, 10, 5, 9, 7, 12, 11, 4, 11, 8, 9, 7, 6, 11, 16, 8};
 
-    public static Image image;
-    public static Image crossIcon;
+    private static Image image;
+    private static Image crossIcon;
 
     /** Vùng người chơi đang đứng. */
-    public static int current;
+    private static int current;
     /** Vùng con trỏ đang chọn, {@link #NO_SELECTION} nếu không trỏ vào vùng nào. */
     public static int selected;
     /** Nhãn phím mềm trái: "Chuyển đến" khi đang chọn một vùng. */
-    public static String actionLabel = "Chuyển đến";
+    private static String actionLabel = "Chuyển đến";
     /** Giá chuyển đến vùng đang chọn, tính lúc mở hộp xác nhận. */
     public static int travelCost;
 
-    public static int cursorX;
-    public static int cursorY;
-    public static int tick;
+    private static int cursorX;
+    private static int cursorY;
+    private static int tick;
 
-    public static int scrollX;
-    public static int scrollY;
-    public static int scrollTargetX;
-    public static int scrollTargetY;
-    public static int scrollMaxX;
-    public static int scrollMaxY;
+    private static int scrollX;
+    private static int scrollY;
+    private static int scrollTargetX;
+    private static int scrollTargetY;
+    private static int scrollMaxX;
+    private static int scrollMaxY;
     /** Cuộn mượt: mỗi frame tiến 2/16 khoảng cách còn lại, phần lẻ được cộng dồn. */
-    public static int scrollStepX;
-    public static int scrollStepY;
-    public static int scrollFracX;
-    public static int scrollFracY;
+    private static int scrollStepX;
+    private static int scrollStepY;
+    private static int scrollFracX;
+    private static int scrollFracY;
 
     private WorldMap() {
     }
 
     /** Vùng trên bản đồ thế giới ứng với map {@code mapId} (map phụ quy về vùng chứa nó). */
-    public static int areaOfMap(int mapId) {
+    private static int areaOfMap(int mapId) {
         switch (mapId) {
             case 95:
                 return 18;
@@ -133,7 +133,7 @@ public final class WorldMap {
     }
 
     /** Chọn vùng có biểu tượng gần con trỏ. */
-    public static void updateSelection() {
+    private static void updateSelection() {
         selected = NO_SELECTION;
         actionLabel = "";
 

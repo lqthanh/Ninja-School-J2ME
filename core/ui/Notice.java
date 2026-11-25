@@ -10,8 +10,8 @@ public final class Notice {
     public static final int DURATION = 150;
 
     public static boolean visible;
-    public static int timer;
-    public static String text;
+    private static int timer;
+    private static String text;
 
     private Notice() {
     }

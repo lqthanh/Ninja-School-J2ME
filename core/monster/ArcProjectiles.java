@@ -19,14 +19,14 @@ public final class ArcProjectiles {
      */
     public static final int HIT = -1;
 
-    public static Image sprite;
-    public static int count;
-    public static int[] x;
-    public static int[] y;
-    public static int[] state;
-    public static int[] vx;
-    public static int[] vy;
-    public static int[] damage;
+    private static Image sprite;
+    private static int count;
+    private static int[] x;
+    private static int[] y;
+    private static int[] state;
+    private static int[] vx;
+    private static int[] vy;
+    private static int[] damage;
 
     public static int hitDamage;
     public static int hitDirection;

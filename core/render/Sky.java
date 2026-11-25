@@ -21,23 +21,23 @@ public final class Sky {
     public static final int CLOUD_COUNT = 2;
 
     /** Có vẽ 4 lớp cảnh parallax (false: chỉ tô màu trời, mặt trời, mây). */
-    public static boolean parallaxVisible;
-    public static int skyColor;
+    private static boolean parallaxVisible;
+    private static int skyColor;
     /** Chiều cao vùng tô màu trời khi có lớp cảnh. */
-    public static int skyHeight;
-    public static Image[] layers;
-    public static Image cloud;
-    public static Image sun;
-    public static int layer0Y;
-    public static int layer1Y;
-    public static int layer2Y;
-    public static int layer3Y;
+    private static int skyHeight;
+    private static Image[] layers;
+    private static Image cloud;
+    private static Image sun;
+    private static int layer0Y;
+    private static int layer1Y;
+    private static int layer2Y;
+    private static int layer3Y;
     /** Tâm mặt trời. */
-    public static int sunX;
-    public static int sunY;
+    private static int sunX;
+    private static int sunY;
     /** Tâm từng đám mây. */
-    public static int[] cloudX;
-    public static int[] cloudY;
+    private static int[] cloudX;
+    private static int[] cloudY;
 
     private Sky() {
     }

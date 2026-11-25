@@ -32,6 +32,9 @@ public final class GameState {
 
     /** Trạng thái hiện tại, một trong các hằng số ở trên. */
     public static int current;
+    /** Trạng thái chuyển tới khi màn hình tải xong. */
+    public static int next;
+    public static int tick;
 
     private GameState() {
     }

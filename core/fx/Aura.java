@@ -10,10 +10,10 @@ public final class Aura {
     public static final int DURATION = 30;
 
     public static Image[] sprites;
-    public static int x;
-    public static int y;
+    private static int x;
+    private static int y;
     /** Đếm frame từ 1, 0 = không hiển thị. */
-    public static int timer;
+    private static int timer;
 
     private Aura() {
     }

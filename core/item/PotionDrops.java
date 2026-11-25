@@ -18,19 +18,19 @@ public final class PotionDrops {
 
     /** Ảnh bình theo loại (Item.POTION_HP / POTION_MP), mỗi ảnh 3 cỡ; dùng chung với cửa hàng. */
     public static Image[] sprites;
-    public static int count;
-    public static int[] x;
-    public static int[] y;
-    public static int[] vx;
-    public static int[] vy;
+    private static int count;
+    private static int[] x;
+    private static int[] y;
+    private static int[] vx;
+    private static int[] vy;
     /** Tuổi theo frame (bắt đầu từ 1), {@link #FREE} nếu ô trống. */
-    public static int[] age;
+    private static int[] age;
     /** Loại: Item.POTION_HP hoặc Item.POTION_MP. */
-    public static int[] kind;
+    private static int[] kind;
     /** Cỡ bình (0 nhỏ, 1 vừa, 2 to) theo lượng hồi: < 100, < 200, còn lại. */
-    public static int[] size;
+    private static int[] size;
     /** Lượng HP/MP hồi. */
-    public static int[] amount;
+    private static int[] amount;
 
     private PotionDrops() {
     }

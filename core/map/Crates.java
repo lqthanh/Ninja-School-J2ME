@@ -1,13 +1,16 @@
 package core.map;
 
 import assets.Item;
+import core.app.GameState;
+import core.fx.WaterSplash;
+import core.player.Player;
 import javax.microedition.lcdui.Image;
 
 /**
  * Thùng gỗ đẩy được (map 1, 5, 11, 97). Nhân vật đẩy hoặc chém thùng để trượt đi,
  * đứng lên thùng để nhảy cao hơn ({@link core.player.Player#crate}). Thùng rơi khỏi mép
  * thì rơi xuống; rơi xuống nước thì nổi bập bềnh và trôi.
- * Cập nhật nằm trong GameCanvas.run().
+ * Cập nhật: {@link #update()}.
  */
 public final class Crates {
     /** Đứng yên. */
@@ -92,4 +95,76 @@ public final class Crates {
         state[i] = STATE_RESTING;
     }
 
+    /** Thùng gỗ: trượt, rơi, nổi trên nước. */
+    public static void update() {
+        int i;
+        for(i = 0; i < count; ++i) {
+            switch (state[i]) {
+                case STATE_SLIDING:
+                    x[i] += vx[i];
+                    if (vx[i] > 0) {
+                        vx[i]--;
+                    } else if (vx[i] < 0) {
+                        vx[i]++;
+                    } else {
+                        state[i] = STATE_RESTING;
+                    }
+
+                    if (!GameMap.hasFlag(x[i] - 12, y[i] + 1, TileFlags.SOLID) && !GameMap.hasFlag(x[i] + 12, y[i] + 1, TileFlags.SOLID)) {
+                        state[i] = STATE_FALLING;
+                        vy[i] = 2;
+                    }
+
+                    if (GameMap.hasFlag(x[i] + 12, y[i] - 2, TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(x[i] - 12, y[i] - 2, TileFlags.WALL_RIGHT_SIDE)) {
+                        x[i] = GameMap.alignToTileX(x[i]) + 12;
+                    }
+                    break;
+                case STATE_FALLING:
+                    y[i] += vy[i];
+                    if (vy[i] < 20) {
+                        vy[i]++;
+                    }
+
+                    if (!GameMap.hasFlag(x[i] + 12, y[i], TileFlags.SOLID) && !GameMap.hasFlag(x[i] - 12, y[i], TileFlags.SOLID)) {
+                        if (GameMap.hasFlag(x[i], y[i] - GameMap.TILE_SIZE, TileFlags.WATER)) {
+                            y[i] = GameMap.alignToTileY(y[i]) + 1;
+                            WaterSplash.spawn(x[i], y[i] - 13);
+                            WaterSplash.spawn(x[i] + 1, y[i] - 10);
+                            vy[i] = 1;
+                            bobDirection[i] = -1;
+                            driftVx[i] = 1;
+                            state[i] = STATE_FLOATING;
+                        }
+                        break;
+                    }
+
+                    y[i] = GameMap.alignToTileY(y[i]);
+                    vy[i] = 0;
+                    state[i] = STATE_RESTING;
+                    break;
+                case STATE_FLOATING:
+                    if (GameState.tick % 2 == 0) {
+                        y[i] += bobDirection[i];
+                        vy[i] += bobDirection[i];
+                        if (vy[i] >= 1) {
+                            bobDirection[i] = -1;
+                        }
+
+                        if (vy[i] <= -1) {
+                            bobDirection[i] = 1;
+                        }
+
+                        x[i] += driftVx[i];
+                        if (i == Player.crate) {
+                            Player.y = y[Player.crate] - 24;
+                            Player.x += driftVx[i];
+                        }
+
+                        if (GameMap.hasFlag(x[i] + 12, y[i], TileFlags.WALL_LEFT_SIDE) || GameMap.hasFlag(x[i] - 12, y[i], TileFlags.WALL_RIGHT_SIDE)) {
+                            driftVx[i] = -driftVx[i];
+                        }
+                    }
+            }
+        }
+    }
 }

@@ -3,7 +3,7 @@ package core.map;
 import assets.Tile;
 import javax.microedition.lcdui.Image;
 
-/** Nhà ở làng (vẽ kiểu parallax trong GameCanvas.paint()). */
+/** Nhà ở làng (vẽ kiểu parallax trong WorldRenderer.draw()). */
 public final class Houses {
     public static int count;
     /** Loại nhà (chỉ số trong {@link #images}). */

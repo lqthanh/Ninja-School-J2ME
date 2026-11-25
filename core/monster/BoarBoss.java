@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Image;
 /**
  * Boss lợn rừng ở rừng trúc (map 4 và 5). Đi qua lại, thấy nhân vật thì lao tới húc;
  * khi còn dưới nửa máu thì đi và lao nhanh hơn. Bị hạ thì văng lên rồi rơi khỏi màn hình.
- * AI nằm trong GameCanvas.run(); trúng đòn: GameCanvas.damageBoarBoss().
+ * AI: {@link BossAI#updateBoarBoss()}; trúng đòn: Combat.damageBoarBoss().
  */
 public final class BoarBoss {
     /** Không có boss (map khác). */

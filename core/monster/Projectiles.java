@@ -27,13 +27,13 @@ public final class Projectiles {
 
     /** Ảnh theo loại và hướng (Effect.PROJECTILE_DIR_*). */
     public static Image[][] sprites;
-    public static int count;
-    public static int[] x;
-    public static int[] y;
-    public static int[] state;
-    public static int[] vx;
-    public static int[] damage;
-    public static int[] type;
+    private static int count;
+    private static int[] x;
+    private static int[] y;
+    private static int[] state;
+    private static int[] vx;
+    private static int[] damage;
+    private static int[] type;
 
     /** Kết quả lần va chạm gần nhất của {@link #update}. */
     public static int hitDamage;

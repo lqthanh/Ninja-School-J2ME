@@ -5,7 +5,7 @@ public final class PlayTime {
     /** Số giây đã chơi tính đến lần cập nhật gần nhất. */
     public static int savedSeconds;
     /** Thời điểm (ms) của lần cập nhật gần nhất; 0 nếu chưa bắt đầu chơi. */
-    public static long sessionStartMs;
+    private static long sessionStartMs;
 
     private PlayTime() {
     }

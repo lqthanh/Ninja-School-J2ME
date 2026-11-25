@@ -1,6 +1,7 @@
 package core.npc;
 
 import assets.Npc;
+import core.app.GameState;
 import javax.microedition.lcdui.Image;
 
 /** Con chó chạy qua lại ở map 0 (trường). */
@@ -10,8 +11,8 @@ public final class Dog {
     public static int y;
     /** Vận tốc ngang (1 hoặc -1), đổi chiều khi chạm {@link #minX}/{@link #maxX}. */
     public static int vx;
-    public static int minX;
-    public static int maxX;
+    private static int minX;
+    private static int maxX;
     public static Image[] sprites;
 
     private Dog() {
@@ -30,5 +31,13 @@ public final class Dog {
             maxX = 708;
         }
 
+    }
+
+    /** Con chó đi qua lại. */
+    public static void update() {
+        if (GameState.tick % 2 == 0 && ((x += vx) > maxX || x < minX)) {
+            vx = -vx;
+            x += vx;
+        }
     }
 }

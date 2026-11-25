@@ -18,10 +18,10 @@ public final class Dust {
 
     /** Ảnh bụi theo ô (hướng) và khung hình. */
     public static Image[][] sprites;
-    public static int[] x;
-    public static int[] y;
+    private static int[] x;
+    private static int[] y;
     /** Khung hình hiện tại, {@link #FREE} nếu ô trống. */
-    public static int[] frame;
+    private static int[] frame;
 
     private Dust() {
     }

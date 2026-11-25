@@ -9,7 +9,7 @@ import javax.microedition.lcdui.Image;
  * thấy nhân vật thì tấn công: cung thủ và ninja ném kunai bắn từ xa, kiếm sĩ và ninja cầm giáo
  * lao tới chém gần.
  * Ảnh gồm chân ({@link #legSprites}) và thân ({@link #bodySprites}) vẽ riêng; khi bị hạ, thân văng
- * ra khỏi chân. AI nằm ở GameCanvas.updateNinjas().
+ * ra khỏi chân. AI: {@link NinjaAI#update()}.
  */
 public final class Ninjas {
     // =====================================================================================
@@ -91,7 +91,7 @@ public final class Ninjas {
     public static int[] maxX;
 
     /** Loại ninja có mặt trên map, để chỉ nạp ảnh cần dùng. */
-    public static boolean[] typesUsed;
+    private static boolean[] typesUsed;
     /** Ảnh chân (chung cho mọi loại) và ảnh thân theo loại và khung hình. */
     public static Image[] legSprites;
     public static Image[][] bodySprites;

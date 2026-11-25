@@ -1,30 +1,30 @@
 import assets.*;
 import core.app.*;
 import core.fx.*;
+import core.input.*;
 import core.item.*;
 import core.map.*;
 import core.monster.*;
 import core.npc.*;
-import core.input.*;
 import core.player.*;
 import core.quest.*;
 import core.render.*;
 import core.save.*;
+import core.story.*;
 import core.ui.*;
+import core.util.*;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 
 public class Midlet extends MIDlet implements Runnable {
-    static GameCanvas canvas;
-    static Midlet instance;
     private static boolean needsDefaultsInit = true;
-    public static int nextGameState;
 
     public Midlet() {
-        instance = this;
+        App.midlet = this;
+        App.loader = this;
         FontGraph.init();
-        Display.getDisplay(this).setCurrent(canvas);
+        Display.getDisplay(this).setCurrent(App.canvas);
         GameCanvas.start();
     }
 
@@ -32,67 +32,67 @@ public class Midlet extends MIDlet implements Runnable {
         try {
             Thread.sleep(200L);
             Thread.yield();
-            GameCanvas.tick = GameCanvas.abs((int) System.currentTimeMillis() % 1000);
-            GameCanvas.loadingTarget = 30;
+            GameState.tick = MathUtil.abs((int) System.currentTimeMillis() % 1000);
+            LoadingScreen.target = 30;
             Thread.yield();
-            GameCanvas.applyMapStory(GameCanvas.mapId);
-            GameCanvas.loadMap(GameCanvas.mapId);
-            Houses.setup(GameCanvas.mapId);
-            Signs.setup(GameCanvas.mapId);
-            GameCanvas.loadingTarget = 50;
+            MapStory.apply(GameMap.id);
+            TileRenderer.loadMap(GameMap.id);
+            Houses.setup(GameMap.id);
+            Signs.setup(GameMap.id);
+            LoadingScreen.target = 50;
             Thread.yield();
-            Npcs.setup(GameCanvas.mapId);
-            GameCanvas.loadHeroSprites();
-            Girl.setup(GameCanvas.mapId);
-            Classmates.setup(GameCanvas.mapId);
-            Dog.setup(GameCanvas.mapId);
-            GameCanvas.loadingTarget = 65;
+            Npcs.setup(GameMap.id);
+            HeroSprites.load();
+            Girl.setup(GameMap.id);
+            Classmates.setup(GameMap.id);
+            Dog.setup(GameMap.id);
+            LoadingScreen.target = 65;
             Thread.yield();
-            MonsterSpawns.setup(GameCanvas.mapId);
-            GameCanvas.loadingTarget = 70;
+            MonsterSpawns.setup(GameMap.id);
+            LoadingScreen.target = 70;
             Thread.yield();
-            Ninjas.setup(GameCanvas.mapId);
-            BoarBoss.setup(GameCanvas.mapId);
-            RiverMonster.setup(GameCanvas.mapId);
-            FinalBoss.setup(GameCanvas.mapId);
-            Toniku.setup(GameCanvas.mapId);
-            GameCanvas.loadingTarget = 75;
+            Ninjas.setup(GameMap.id);
+            BoarBoss.setup(GameMap.id);
+            RiverMonster.setup(GameMap.id);
+            FinalBoss.setup(GameMap.id);
+            Toniku.setup(GameMap.id);
+            LoadingScreen.target = 75;
             MoneyDrops.init();
-            GameCanvas.loadScrollIcon();
+            QuestItem.loadIcon();
             PotionDrops.init();
-            GameCanvas.loadingTarget = 78;
+            LoadingScreen.target = 78;
             Thread.yield();
-            Crates.setup(GameCanvas.mapId);
-            Motorbikes.setup(GameCanvas.mapId);
-            GameCanvas.loadingTarget = 80;
+            Crates.setup(GameMap.id);
+            Motorbikes.setup(GameMap.id);
+            LoadingScreen.target = 80;
             Dust.init();
             WaterSplash.init();
-            GameCanvas.loadingTarget = 82;
+            LoadingScreen.target = 82;
             Thread.yield();
             Blood.init();
             FloatingText.init();
             Darts.init();
-            GameCanvas.loadingTarget = 85;
-            Projectiles.init(GameCanvas.mapId);
+            LoadingScreen.target = 85;
+            Projectiles.init(GameMap.id);
             ArcProjectiles.init();
             Aura.init();
-            GameCanvas.loadingTarget = 87;
-            GameCanvas.loadArrowIcons();
-            GameCanvas.setupViewport();
-            GameCanvas.setupHud();
-            GameCanvas.loadingTarget = 95;
+            LoadingScreen.target = 87;
+            Hud.loadArrowIcons();
+            Viewport.setup();
+            Hud.setup();
+            LoadingScreen.target = 95;
             Thread.yield();
-            Sky.setup(Save.backgroundIndex, GameCanvas.mapId, Viewport.viewWidth, Viewport.viewHeight, Settings.lowGraphics);
-            if (GameCanvas.mapId < 19) {
-                WorldMap.visited[GameCanvas.mapId] = true;
+            Sky.setup(Save.backgroundIndex, GameMap.id, Viewport.viewWidth, Viewport.viewHeight, Settings.lowGraphics);
+            if (GameMap.id < 19) {
+                WorldMap.visited[GameMap.id] = true;
             }
 
-            GameCanvas.hudDirty = true;
-            GameCanvas.leftSoftKeyLabel = "Menu";
-            GameCanvas.rightSoftKeyLabel = " ";
-            GameCanvas.prologueNoRespawn = false;
-            GameCanvas.onMapEntered(GameCanvas.mapId);
-            GameCanvas.loadingTarget = 100;
+            Hud.dirty = true;
+            Hud.leftSoftKeyLabel = "Menu";
+            Hud.rightSoftKeyLabel = " ";
+            Story.prologueNoRespawn = false;
+            MapStory.onEnter(GameMap.id);
+            LoadingScreen.target = 100;
             if (needsDefaultsInit) {
                 needsDefaultsInit = false;
                 PlayerStats.initDefaults();
@@ -112,28 +112,28 @@ public class Midlet extends MIDlet implements Runnable {
             Input.clearPressed();
             Input.clearHeld();
             if (Save.pendingLoad) {
-                GameCanvas.loadGame();
+                SaveGame.load();
                 Save.pendingLoad = false;
             } else if (Save.pendingSave) {
-                GameCanvas.saveGame();
+                SaveGame.save();
                 Save.pendingSave = false;
             }
 
-            Sound.loadTrack(Sound.trackForMap(GameCanvas.mapId));
+            Sound.loadTrack(Sound.trackForMap(GameMap.id));
 
             if (!Sound.isDisabled()) {
                 Sound.start();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            instance.shutdownApp();
+            App.shutdown();
         }
 
-        while (GameCanvas.loadingProgress < 90) {
+        while (LoadingScreen.progress < 90) {
             Thread.yield();
         }
 
-        GameState.current = nextGameState;
+        GameState.current = GameState.next;
     }
 
     // =====================================================================================
@@ -147,12 +147,6 @@ public class Midlet extends MIDlet implements Runnable {
 
     protected void destroyApp(boolean unconditional) {
         Sound.stopAndRelease();
-    }
-
-    public final void shutdownApp() {
-        GameCanvas.running = false;
-        System.gc();
-        this.notifyDestroyed();
     }
 
     // #endregion

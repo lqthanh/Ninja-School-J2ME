@@ -18,7 +18,7 @@ public final class SetupPrompt {
     public static final int STEP_GRAPHICS = 1;
 
     public static Image image;
-    public static int step;
+    private static int step;
     /** Đã trả lời xong cả 2 câu; frame sau b chuyển sang màn hình chính. */
     public static boolean done;
 

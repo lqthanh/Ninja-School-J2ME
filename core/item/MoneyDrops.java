@@ -19,18 +19,18 @@ public final class MoneyDrops {
 
     /** Ảnh theo loại (Item.MONEY_*). */
     public static Image[] sprites;
-    public static int count;
-    public static int[] x;
-    public static int[] y;
-    public static int[] vx;
-    public static int[] vy;
+    private static int count;
+    private static int[] x;
+    private static int[] y;
+    private static int[] vx;
+    private static int[] vy;
     /** Tuổi theo frame (bắt đầu từ 1), {@link #FREE} nếu ô trống. */
-    public static int[] age;
+    private static int[] age;
     /** Khung hình xoay. */
-    public static int[] frame;
-    public static int[] value;
+    private static int[] frame;
+    private static int[] value;
     /** Loại (Item.MONEY_*) theo giá trị: vàng < 160, ngọc xanh < 600, ngọc đỏ. */
-    public static int[] type;
+    private static int[] type;
 
     private MoneyDrops() {
     }

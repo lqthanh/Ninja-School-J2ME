@@ -1,7 +1,9 @@
 package core.player;
 
 import assets.Effect;
+import core.app.GameState;
 import core.map.GameMap;
+import core.map.TileFlags;
 import javax.microedition.lcdui.Image;
 
 /**
@@ -131,5 +133,34 @@ public final class Motorbikes {
         y[i] = tileY * GameMap.TILE_SIZE;
         frame[i] = 0;
         facing[i] = 1;
+    }
+
+    /** Xe máy: khung hình của xe đang chở nhân vật, xe đang rơi thì rơi tới khi chạm đất. */
+    public static void update() {
+        int i;
+        for(i = 0; i < count; ++i) {
+            if (i == Player.motorbike) {
+                if (Player.actionTimer > 1) {
+                    frame[i] = 2;
+                } else if (GameState.tick % 8 > 3) {
+                    frame[i] = 1;
+                } else {
+                    frame[i] = 0;
+                }
+            }
+
+            if (falling[i] == 1) {
+                y[i] += vy[i];
+                if (vy[i] < 20) {
+                    vy[i]++;
+                }
+
+                if (y[i] >= GameMap.pixelHeight || GameMap.hasFlag(x[i], y[i], TileFlags.SOLID)) {
+                    vy[i] = 0;
+                    falling[i] = 0;
+                    y[i] = GameMap.alignToTileY(y[i]);
+                }
+            }
+        }
     }
 }
